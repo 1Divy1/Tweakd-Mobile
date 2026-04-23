@@ -33,7 +33,6 @@ class SupabaseAuthDataSource {
       
       // Check if the device supports the manual sign-in method (popup)
       if (googleSignIn.supportsAuthenticate()) {
-        print("Supports authenticate");
         try {
           // Open the Google OAuth popup
           googleUser = await googleSignIn.authenticate();
