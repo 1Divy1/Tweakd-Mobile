@@ -1,0 +1,26 @@
+import 'package:car_social_media_app/features/authentication/presentation/pages/onboarding_page.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../features/authentication/presentation/pages/signup_page.dart';
+import '../../features/authentication/presentation/pages/splash_page.dart';
+
+final appRouter = GoRouter(
+  initialLocation: '/',
+  routes: [
+    GoRoute(
+      path: '/', 
+      builder: (context, state) => const SplashPage()
+    ),
+    GoRoute(path: '/signup', builder: (context, state) => const SignUpPage()),
+    GoRoute(
+      path: '/onboarding',
+      builder: (context, state) => const OnboardingPage(),
+    ),
+    // TODO: Implement a real FeedPage
+    GoRoute(
+      path: '/feed',
+      builder: (context, state) => Scaffold(body: Center(child: Text('Feed Page'))),
+    ),
+  ],
+);
