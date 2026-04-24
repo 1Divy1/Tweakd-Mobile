@@ -1,9 +1,9 @@
 import 'package:car_social_media_app/features/authentication/presentation/bloc/bloc.dart';
-import 'package:car_social_media_app/features/authentication/presentation/bloc/event.dart';
 import 'package:car_social_media_app/features/authentication/presentation/widgets/social_button_signin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 import '../bloc/state.dart';
 
@@ -35,18 +35,22 @@ class _SignUpPageState extends State<SignUpPage> {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Please log in to continue.')),
               );
-            } else if (state is AuthLoading) {
+            } 
+            else if (state is AuthLoading) {
               ScaffoldMessenger.of(
                 context,
               ).showSnackBar(const SnackBar(content: Text('Logging in...')));
-            } else if (state is AuthError) {
+            } 
+            else if (state is AuthError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Error: ${state.message}')),
               );
-            } else if (state is Authenticated) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Welcome, ${state.user.name}!')),
-              );
+            } 
+            else if (state is Authenticated) {
+              // TODO: Create FeedPage and add it to the router
+            }
+            else if (state is AuthenticatedRequiresOnboarding) {
+              context.go('/onboarding');
             }
           },
           builder: (context, state) {
@@ -56,7 +60,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 children: [
                   const SizedBox(height: 24),
                   const Text(
-                    'SmartNest',
+                    'Cargram',
                     style: TextStyle(
                       color: accentBlue,
                       fontSize: 46,
@@ -79,7 +83,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       children: [
                         const Center(
                           child: Text(
-                            'Welcome to\nSmartNest login now!',
+                            'Welcome to\nCargram login now!',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black87,

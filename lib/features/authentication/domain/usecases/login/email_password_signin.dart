@@ -3,7 +3,7 @@ import 'package:car_social_media_app/features/authentication/domain/entities/use
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../../core/error/failures.dart';
+import '../../../../../core/error/base_failures.dart';
 import '../../repositories/auth_repository.dart';
 
 class LoginParams {

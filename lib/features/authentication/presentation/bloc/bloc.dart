@@ -1,39 +1,95 @@
 import 'dart:async';
 
+import 'package:car_social_media_app/features/authentication/domain/usecases/auth/check_auth_status.dart';
 import 'package:car_social_media_app/features/authentication/presentation/bloc/event.dart';
 import 'package:car_social_media_app/features/authentication/presentation/bloc/state.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/usecases/usecase.dart';
+import '../../domain/usecases/auth/update_username.dart';
 import '../../domain/usecases/login/email_password_signin.dart';
 import '../../domain/usecases/login/google_signin.dart';
+import '../utils/auth_error_mapper.dart';
 
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final EmailPasswordSignIn _loginUser;
-  final GoogleSignIn _googleSignIn;
+  final CheckAuthStatusUseCase checkAuthStatus;
+  final EmailPasswordSignIn loginUser;
+  final GoogleSignIn googleSignIn;
+  final UpdateUsernameUseCase updateUsername;
 
-  AuthBloc(this._loginUser, this._googleSignIn) : super(AuthInitial()) {
-    // TODO: implement CheckAuthentication event handler
-
+  AuthBloc({
+    required this.checkAuthStatus,
+    required this.loginUser,
+    required this.googleSignIn,
+    required this.updateUsername,
+  }) : super(AuthInitial()) {
+    on<CheckAuthStatus>(_onCheckAuthStatus);
+    on<SubmitUsername>(_onSubmitUsername);
     on<EmailPasswordLoginSubmitted>(_onLoginSubmitted);
     on<GoogleLoginRequested>(_onGoogleLoginRequested);
   }
 
-  Future<void> _onLoginSubmitted(EmailPasswordLoginSubmitted event, Emitter<AuthState> emit) async {
-    emit(AuthLoading());
-    
-    final params = LoginParams(
-      email: event.email,
-      password: event.password,
-    );
+  Future<void> _onCheckAuthStatus(
+    CheckAuthStatus event,
+    Emitter<AuthState> emit,
+  ) async {
+    print("Event received: CheckAuthStatus");
 
-    final result = await _loginUser(params);
+    final result = await checkAuthStatus(NoParams());
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
+      (failure) {
+        print("Auth check failed: ${failure.message}");
+        emit(AuthInitial());
+      },
+      (user) {
+        if (user.requiresOnboarding) {
+          emit(AuthenticatedRequiresOnboarding(user));
+        } else {
+          emit(Authenticated(user));
+        }
+      },
+    );
+  }
+
+  Future<void> _onSubmitUsername(
+    SubmitUsername event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthLoading());
+
+    final result = await updateUsername(
+      UsernameParams(username: event.username),
+    );
+
+    result.fold(
+      (failure) => emit(AuthError(AuthErrorMapper.getMessage(failure))),
+      (_) async {
+        final userResult = await checkAuthStatus(NoParams());
+
+        userResult.fold(
+          (failure) => emit(AuthError(AuthErrorMapper.getMessage(failure))),
+          (user) => emit(Authenticated(user)),
+        );
+      },
+    );
+  }
+
+  Future<void> _onLoginSubmitted(
+    EmailPasswordLoginSubmitted event,
+    Emitter<AuthState> emit,
+  ) async {
+    print("Event received: EmailPasswordLoginSubmitted");
+    emit(AuthLoading());
+
+    final params = LoginParams(email: event.email, password: event.password);
+
+    final result = await loginUser(params);
+
+    result.fold(
+      (failure) => emit(AuthError(AuthErrorMapper.getMessage(failure))),
       (user) => emit(Authenticated(user)),
     );
   }
@@ -43,16 +99,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(AuthLoading());
+    print("Event received: GoogleLoginRequested");
 
-    final result = await _googleSignIn(NoParams());
-    result.fold(
-      (failure) => emit(AuthError(failure.message)),
-      (user) {
-        debugPrint(
-          'Google sign-in success: id=${user.id}, name=${user.name}, email=${user.email}, photo=${user.profilePictureUrl}',
-        );
+    final result = await googleSignIn(NoParams());
+
+    result.fold((failure) => emit(AuthError(AuthErrorMapper.getMessage(failure))), (user) {
+      if (user.requiresOnboarding) {
+        emit(AuthenticatedRequiresOnboarding(user));
+      } else {
         emit(Authenticated(user));
-      },
-    );
+      }
+    });
   }
 }

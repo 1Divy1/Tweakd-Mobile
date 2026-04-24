@@ -1,5 +1,6 @@
 import 'package:car_social_media_app/config/routes/app_router.dart';
 import 'package:car_social_media_app/core/di/injection.dart';
+import 'package:car_social_media_app/core/storage/secure_local_storage.dart';
 import 'package:car_social_media_app/features/authentication/presentation/bloc/bloc.dart';
 import 'package:car_social_media_app/features/authentication/presentation/bloc/event.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,9 @@ void main() async {
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,
     anonKey: dotenv.env['SUPABASE_PUBLISHABLE_KEY']!,
+    authOptions: FlutterAuthClientOptions(
+      localStorage: SecureLocalStorage(),
+    ),
   );
 
   // Initialize dependency injection
@@ -34,10 +38,8 @@ class CarSocialMediaApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-
-        // Make AuthBloc globally available and immediately trigger authentication check at startup
         BlocProvider<AuthBloc>(
-          create: (context) => getIt<AuthBloc>(),
+          create: (context) => getIt<AuthBloc>()..add(CheckAuthStatus()),
         ),
       ],
       child: MaterialApp.router(

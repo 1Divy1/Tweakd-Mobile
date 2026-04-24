@@ -19,6 +19,10 @@ import '../../features/authentication/data/repositories/auth_repository_impl.dar
     as _i317;
 import '../../features/authentication/domain/repositories/auth_repository.dart'
     as _i742;
+import '../../features/authentication/domain/usecases/auth/check_auth_status.dart'
+    as _i192;
+import '../../features/authentication/domain/usecases/auth/update_username.dart'
+    as _i634;
 import '../../features/authentication/domain/usecases/login/email_password_signin.dart'
     as _i263;
 import '../../features/authentication/domain/usecases/login/google_signin.dart'
@@ -41,6 +45,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i742.AuthRepository>(
       () => _i317.AuthRepositoryImpl(gh<_i981.SupabaseAuthDataSource>()),
     );
+    gh.lazySingleton<_i192.CheckAuthStatusUseCase>(
+      () => _i192.CheckAuthStatusUseCase(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i634.UpdateUsernameUseCase>(
+      () => _i634.UpdateUsernameUseCase(gh<_i742.AuthRepository>()),
+    );
     gh.lazySingleton<_i263.EmailPasswordSignIn>(
       () => _i263.EmailPasswordSignIn(gh<_i742.AuthRepository>()),
     );
@@ -49,8 +59,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i636.AuthBloc>(
       () => _i636.AuthBloc(
-        gh<_i263.EmailPasswordSignIn>(),
-        gh<_i920.GoogleSignIn>(),
+        checkAuthStatus: gh<_i192.CheckAuthStatusUseCase>(),
+        loginUser: gh<_i263.EmailPasswordSignIn>(),
+        googleSignIn: gh<_i920.GoogleSignIn>(),
+        updateUsername: gh<_i634.UpdateUsernameUseCase>(),
       ),
     );
     return this;
