@@ -48,6 +48,7 @@ class UserModel {
       name: name,
       email: email,
       profilePictureUrl: profilePictureUrl,
+      username: username,
     );
   }
 }
