@@ -12,7 +12,7 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is AuthInitial || state is AuthError) {
+        if (state is AuthInitial) {
           print("State is ${state.toString()}; navigating to signup");
           context.go('/signup');
         } 
@@ -22,7 +22,7 @@ class SplashPage extends StatelessWidget {
         } 
         else if (state is Authenticated) {
           print("State is ${state.toString()}; navigating to feed");
-          context.go('/feed');
+          context.go('/profile');
         }
       },
       child: const Scaffold(

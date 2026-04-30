@@ -1,6 +1,7 @@
 import 'package:car_social_media_app/features/authentication/presentation/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../bloc/event.dart';
 import '../bloc/state.dart';
@@ -29,7 +30,16 @@ class _OnboardingPageState extends State<OnboardingPage> {
       backgroundColor: const Color(0xFFF9F8F6),
       body: SafeArea(
         child: BlocConsumer<AuthBloc, AuthState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state is Authenticated) {
+              context.go('/profile');
+            }
+            else if (state is AuthError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.message)),
+              );
+            }
+          },
           builder: (context, state) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
@@ -192,34 +202,36 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   const Spacer(),
                   SizedBox(
                     width: double.infinity,
-                    child: TextButton(
-                      onPressed: () => context.read<AuthBloc>().add(
-                        SubmitUsername(_usernameController.text.trim()),
-                      ),
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'CONTINUE TO GARAGE',
-                            style: TextStyle(
-                              color: _primaryColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 1.8,
+                    child: state is AuthLoading
+                        ? CircularProgressIndicator()
+                        : TextButton(
+                            onPressed: () => context.read<AuthBloc>().add(
+                              SubmitUsername(_usernameController.text.trim()),
+                            ),
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                            ),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Continue to garage',
+                                  style: TextStyle(
+                                    color: _primaryColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 1.8,
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  color: _primaryColor,
+                                  size: 22,
+                                ),
+                              ],
                             ),
                           ),
-                          SizedBox(width: 10),
-                          Icon(
-                            Icons.arrow_forward,
-                            color: _primaryColor,
-                            size: 22,
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
                   Center(
                     child: TextButton(
