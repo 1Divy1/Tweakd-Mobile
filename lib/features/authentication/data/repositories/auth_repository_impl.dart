@@ -1,6 +1,7 @@
 import 'package:car_social_media_app/features/authentication/data/datasources/supabase_auth_data_source.dart';
 import 'package:car_social_media_app/features/authentication/domain/repositories/auth_repository.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/base_exceptions.dart';
@@ -28,6 +29,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(ServerFailure(e.message));
     }
     catch (e) {
+      debugPrint("Unexpected error in checkAuthStatus: $e");
       return const Left(UnknownFailure('An unexpected error occurred.'));
     }
   }
@@ -50,10 +52,10 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> googleSignIn() async {
+  Future<Either<Failure, void>> googleSignIn() async {
     try {
-      final userModel = await supabaseDataSource.googleSignIn();
-      return Right(userModel.toEntity());
+      await supabaseDataSource.googleSignIn();
+      return Right(null);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {
