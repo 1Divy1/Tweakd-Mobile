@@ -4,23 +4,23 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/authentication/presentation/pages/signup_page.dart';
 import '../../features/authentication/presentation/pages/splash_page.dart';
+import '../../features/profile/presentation/pages/profile_page.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
   routes: [
-    GoRoute(
-      path: '/', 
-      builder: (context, state) => const SplashPage()
-    ),
+    GoRoute(path: '/', builder: (context, state) => const SplashPage()),
     GoRoute(path: '/signup', builder: (context, state) => const SignUpPage()),
     GoRoute(
       path: '/onboarding',
       builder: (context, state) => const OnboardingPage(),
     ),
+    GoRoute(path: '/profile', builder: (context, state) => const ProfilePage()),
     // TODO: Implement a real FeedPage
     GoRoute(
       path: '/feed',
-      builder: (context, state) => Scaffold(body: Center(child: Text('Feed Page'))),
+      builder: (context, state) =>
+          Scaffold(body: Center(child: Text('Feed Page'))),
     ),
   ],
 );

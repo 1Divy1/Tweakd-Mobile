@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:car_social_media_app/features/authentication/domain/usecases/auth/check_auth_status.dart';
 import 'package:car_social_media_app/features/authentication/presentation/bloc/event.dart';
 import 'package:car_social_media_app/features/authentication/presentation/bloc/state.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -54,26 +55,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
+  // TODO: check what's going on here
   Future<void> _onSubmitUsername(
     SubmitUsername event,
     Emitter<AuthState> emit,
   ) async {
     emit(AuthLoading());
 
-    final result = await updateUsername(
+    final updateResult = await updateUsername(
       UsernameParams(username: event.username),
     );
+    if (updateResult.isLeft()) {
+      updateResult.leftMap(
+        (f) => emit(AuthError(AuthErrorMapper.getMessage(f))),
+      );
+      return;
+    }
 
-    result.fold(
+    final userResult = await checkAuthStatus(NoParams());
+    userResult.fold(
       (failure) => emit(AuthError(AuthErrorMapper.getMessage(failure))),
-      (_) async {
-        final userResult = await checkAuthStatus(NoParams());
-
-        userResult.fold(
-          (failure) => emit(AuthError(AuthErrorMapper.getMessage(failure))),
-          (user) => emit(Authenticated(user)),
-        );
-      },
+      (user) => emit(Authenticated(user)),
     );
   }
 
@@ -99,16 +101,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(AuthLoading());
-    print("Event received: GoogleLoginRequested");
+    debugPrint("Event received: GoogleLoginRequested");
 
     final result = await googleSignIn(NoParams());
+    debugPrint("googleSignIn usecase result: $result");
 
-    result.fold((failure) => emit(AuthError(AuthErrorMapper.getMessage(failure))), (user) {
-      if (user.requiresOnboarding) {
-        emit(AuthenticatedRequiresOnboarding(user));
-      } else {
-        emit(Authenticated(user));
-      }
-    });
+    result.fold(
+      (failure) => emit(AuthError(AuthErrorMapper.getMessage(failure))),
+      (user) {
+        if (user.requiresOnboarding) {
+          emit(AuthenticatedRequiresOnboarding(user));
+        } else {
+          emit(Authenticated(user));
+        }
+      },
+    );
   }
 }

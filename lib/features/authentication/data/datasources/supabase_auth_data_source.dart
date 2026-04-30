@@ -82,7 +82,7 @@ class SupabaseAuthDataSource {
   }
 
   // OAuth Sign-In Methods
-  Future<UserModel> googleSignIn() async {
+  Future<void> googleSignIn() async {
     final webClientId = dotenv.env['GOOGLE_WEB_CLIENT_ID']!;
     final iosClientId = dotenv.env['GOOGLE_IOS_CLIENT_ID']!;
     final scopes = ['email', 'profile'];
@@ -126,13 +126,10 @@ class SupabaseAuthDataSource {
     }
 
     // Establishing auth connection between Supabase and the app
-    final authResponse = await supabaseClient.auth.signInWithIdToken(
+    await supabaseClient.auth.signInWithIdToken(
       provider: OAuthProvider.google,
       idToken: idToken,
       accessToken: authorization.accessToken,
     );
-
-    // Extract user information from the Supabase auth response and return it as a UserModel
-    return UserModel.fromSupabase(authResponse.user!);
   }
 }
