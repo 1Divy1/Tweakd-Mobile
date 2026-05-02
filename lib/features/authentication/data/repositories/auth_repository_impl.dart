@@ -1,3 +1,4 @@
+import 'package:car_social_media_app/features/authentication/data/datasources/auth_api_data_source.dart';
 import 'package:car_social_media_app/features/authentication/data/datasources/supabase_auth_data_source.dart';
 import 'package:car_social_media_app/features/authentication/domain/repositories/auth_repository.dart';
 import 'package:dartz/dartz.dart';
@@ -14,8 +15,9 @@ import '../../domain/usecases/login/email_password_signin.dart';
 @LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
   final SupabaseAuthDataSource supabaseDataSource;
+  final AuthApiDataSource authApiDataSource;
 
-  AuthRepositoryImpl(this.supabaseDataSource);
+  AuthRepositoryImpl(this.supabaseDataSource, this.authApiDataSource);
 
   @override
   Future<Either<Failure, UserEntity>> checkAuthStatus() async {
@@ -52,10 +54,12 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> googleSignIn() async {
+  Future<Either<Failure, UserEntity>> googleSignIn() async {
     try {
-      await supabaseDataSource.googleSignIn();
-      return Right(null);
+      final user = await supabaseDataSource.googleSignIn();
+      return Right(user.toEntity());
+    } on NoActiveSessionException catch (e) {
+      return Left(UnauthenticatedFailure(e.message));
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {
@@ -64,19 +68,24 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> updateUsername(String username) async {
+  Future<Either<Failure, UserEntity>> updateUsername(String username) async {
     try {
-      await supabaseDataSource.updateUsername(username);
-      return const Right(null);
-    } on DuplicateDataException {
-      return const Left(UsernameTakenFailure());
-    } on NoActiveSessionException catch (e) {
-      return Left(UnauthenticatedFailure(e.message));
-    }
-    on ServerException catch (e) {
+      final user = await authApiDataSource.submitUsername(username);
+      return Right(user.toEntity());
+    } on ConflictException catch (e) {
+      if (e.errorCode == 'USERNAME_TAKEN') {
+        return const Left(UsernameTakenFailure());
+      }
       return Left(ServerFailure(e.message));
-    }
-    catch (e) {
+    } on UnauthenticatedException catch (e) {
+      return Left(UnauthenticatedFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ApiException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
       return const Left(UnknownFailure('An unexpected error occurred.'));
     }
   }

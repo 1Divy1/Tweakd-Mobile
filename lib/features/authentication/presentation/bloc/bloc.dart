@@ -36,13 +36,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     CheckAuthStatus event,
     Emitter<AuthState> emit,
   ) async {
-    print("Event received: CheckAuthStatus");
 
     final result = await checkAuthStatus(NoParams());
 
     result.fold(
       (failure) {
-        print("Auth check failed: ${failure.message}");
         emit(AuthInitial());
       },
       (user) {
@@ -55,25 +53,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  // TODO: check what's going on here
   Future<void> _onSubmitUsername(
     SubmitUsername event,
     Emitter<AuthState> emit,
   ) async {
     emit(AuthLoading());
 
-    final updateResult = await updateUsername(
+    final result = await updateUsername(
       UsernameParams(username: event.username),
     );
-    if (updateResult.isLeft()) {
-      updateResult.leftMap(
-        (f) => emit(AuthError(AuthErrorMapper.getMessage(f))),
-      );
-      return;
-    }
 
-    final userResult = await checkAuthStatus(NoParams());
-    userResult.fold(
+    result.fold(
       (failure) => emit(AuthError(AuthErrorMapper.getMessage(failure))),
       (user) => emit(Authenticated(user)),
     );

@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../../core/error/base_failures.dart';
 import '../../../../../core/usecases/usecase.dart';
+import '../../entities/user.dart';
 import '../../repositories/auth_repository.dart';
 
 class UsernameParams {
@@ -11,12 +12,12 @@ class UsernameParams {
 }
 
 @lazySingleton
-class UpdateUsernameUseCase implements UseCase<void, UsernameParams> {
+class UpdateUsernameUseCase implements UseCase<UserEntity, UsernameParams> {
   final AuthRepository repository;
   UpdateUsernameUseCase(this.repository);
 
   @override
-  Future<Either<Failure, void>> call(UsernameParams params) {
+  Future<Either<Failure, UserEntity>> call(UsernameParams params) {
     return repository.updateUsername(params.username);
   }
 }

@@ -1,17 +1,9 @@
 class UserEntity {
   final String id;
-  final String name;
-  final String email;
-  final String? profilePictureUrl;
-  final String? username;
+  final bool requiresOnboarding;
 
   const UserEntity({
     required this.id,
-    required this.name,
-    required this.email,
-    this.profilePictureUrl,
-    this.username,
+    required this.requiresOnboarding,
   });
-
-  bool get requiresOnboarding => username == null || username!.isEmpty;
 }
