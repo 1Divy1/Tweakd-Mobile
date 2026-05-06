@@ -8,3 +8,22 @@ abstract class ProfileEvent extends Equatable {
 }
 
 class FetchUserProfileData extends ProfileEvent {}
+
+class FetchProfileByUsername extends ProfileEvent {
+  final String username;
+
+  const FetchProfileByUsername(this.username);
+
+  @override
+  List<Object?> get props => [username];
+}
+
+class SubmitOnboarding extends ProfileEvent {
+  final String username;
+  final String? bio;
+
+  const SubmitOnboarding({required this.username, this.bio});
+
+  @override
+  List<Object?> get props => [username, bio];
+}

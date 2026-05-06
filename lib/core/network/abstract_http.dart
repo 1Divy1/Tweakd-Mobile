@@ -1,8 +1,11 @@
+import 'package:dio/dio.dart';
+
 abstract class AbstractHTTP {
   Future<dynamic> get(
     String path, {
     Map<String, dynamic>? queryParameters,
     Map<String, String>? headers,
+    CancelToken? cancelToken,
   });
 
   Future<dynamic> post(
@@ -10,6 +13,7 @@ abstract class AbstractHTTP {
     Object? body,
     Map<String, dynamic>? queryParameters,
     Map<String, String>? headers,
+    CancelToken? cancelToken,
   });
 
   Future<dynamic> put(
@@ -17,6 +21,7 @@ abstract class AbstractHTTP {
     Object? body,
     Map<String, dynamic>? queryParameters,
     Map<String, String>? headers,
+    CancelToken? cancelToken,
   });
 
   Future<dynamic> patch(
@@ -24,6 +29,7 @@ abstract class AbstractHTTP {
     Object? body,
     Map<String, dynamic>? queryParameters,
     Map<String, String>? headers,
+    CancelToken? cancelToken,
   });
 
   Future<dynamic> delete(
@@ -31,5 +37,6 @@ abstract class AbstractHTTP {
     Object? body,
     Map<String, dynamic>? queryParameters,
     Map<String, String>? headers,
+    CancelToken? cancelToken,
   });
 }

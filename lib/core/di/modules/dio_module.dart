@@ -13,7 +13,7 @@ abstract class DioModule {
     final host = dotenv.env['API_BASE_URL'] ?? '';
     final dio = Dio(
       BaseOptions(
-        baseUrl: '$host/public/api/v1',
+        baseUrl: '$host/api/v1',
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 10),
         headers: {

@@ -8,5 +8,4 @@ abstract class AuthRepository {
   Future<Either<Failure, UserEntity>> checkAuthStatus();
   Future<Either<Failure, UserEntity>> emailPasswordSignIn(LoginParams params);
   Future<Either<Failure, UserEntity>> googleSignIn();
-  Future<Either<Failure, UserEntity>> updateUsername(String username);
 }

@@ -14,8 +14,6 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:supabase_flutter/supabase_flutter.dart' as _i454;
 
-import '../../features/authentication/data/datasources/auth_api_data_source.dart'
-    as _i843;
 import '../../features/authentication/data/datasources/supabase_auth_data_source.dart'
     as _i981;
 import '../../features/authentication/data/repositories/auth_repository_impl.dart'
@@ -24,8 +22,6 @@ import '../../features/authentication/domain/repositories/auth_repository.dart'
     as _i742;
 import '../../features/authentication/domain/usecases/auth/check_auth_status.dart'
     as _i192;
-import '../../features/authentication/domain/usecases/auth/update_username.dart'
-    as _i634;
 import '../../features/authentication/domain/usecases/login/email_password_signin.dart'
     as _i263;
 import '../../features/authentication/domain/usecases/login/google_signin.dart'
@@ -39,7 +35,19 @@ import '../../features/profile/domain/repositories/profile_repository.dart'
     as _i894;
 import '../../features/profile/domain/usecases/get_current_user_profile.dart'
     as _i424;
+import '../../features/profile/domain/usecases/get_profile_by_username.dart'
+    as _i320;
+import '../../features/profile/domain/usecases/submit_onboarding.dart'
+    as _i1055;
 import '../../features/profile/presentation/bloc/bloc.dart' as _i180;
+import '../../features/search/data/datasource/search_api_data_source.dart'
+    as _i592;
+import '../../features/search/data/repositories/search_repository_impl.dart'
+    as _i1017;
+import '../../features/search/domain/repositories/search_repository.dart'
+    as _i357;
+import '../../features/search/domain/usecases/search_users.dart' as _i14;
+import '../../features/search/presentation/bloc/bloc.dart' as _i462;
 import '../network/abstract_http.dart' as _i311;
 import '../network/dio_http_client.dart' as _i554;
 import 'modules/dio_module.dart' as _i983;
@@ -64,23 +72,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i311.AbstractHTTP>(
       () => _i554.DioHttpClient(gh<_i361.Dio>()),
     );
-    gh.lazySingleton<_i843.AuthApiDataSource>(
-      () => _i843.AuthApiDataSource(gh<_i311.AbstractHTTP>()),
+    gh.lazySingleton<_i742.AuthRepository>(
+      () => _i317.AuthRepositoryImpl(gh<_i981.SupabaseAuthDataSource>()),
     );
     gh.lazySingleton<_i77.ProfileApiDataSource>(
       () => _i77.ProfileApiDataSource(gh<_i311.AbstractHTTP>()),
     );
-    gh.lazySingleton<_i742.AuthRepository>(
-      () => _i317.AuthRepositoryImpl(
-        gh<_i981.SupabaseAuthDataSource>(),
-        gh<_i843.AuthApiDataSource>(),
-      ),
+    gh.lazySingleton<_i592.SearchApiDataSource>(
+      () => _i592.SearchApiDataSource(gh<_i311.AbstractHTTP>()),
     );
     gh.lazySingleton<_i192.CheckAuthStatusUseCase>(
       () => _i192.CheckAuthStatusUseCase(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i634.UpdateUsernameUseCase>(
-      () => _i634.UpdateUsernameUseCase(gh<_i742.AuthRepository>()),
     );
     gh.lazySingleton<_i263.EmailPasswordSignIn>(
       () => _i263.EmailPasswordSignIn(gh<_i742.AuthRepository>()),
@@ -88,24 +90,40 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i920.GoogleSignIn>(
       () => _i920.GoogleSignIn(gh<_i742.AuthRepository>()),
     );
+    gh.lazySingleton<_i357.SearchRepository>(
+      () => _i1017.SearchRepositoryImpl(gh<_i592.SearchApiDataSource>()),
+    );
     gh.lazySingleton<_i894.ProfileRepository>(
       () => _i334.ProfileRepositoryImpl(gh<_i77.ProfileApiDataSource>()),
+    );
+    gh.lazySingleton<_i14.SearchUsersUseCase>(
+      () => _i14.SearchUsersUseCase(gh<_i357.SearchRepository>()),
     );
     gh.factory<_i636.AuthBloc>(
       () => _i636.AuthBloc(
         checkAuthStatus: gh<_i192.CheckAuthStatusUseCase>(),
         loginUser: gh<_i263.EmailPasswordSignIn>(),
         googleSignIn: gh<_i920.GoogleSignIn>(),
-        updateUsername: gh<_i634.UpdateUsernameUseCase>(),
       ),
     );
     gh.lazySingleton<_i424.GetCurrentUserProfileUseCase>(
       () => _i424.GetCurrentUserProfileUseCase(gh<_i894.ProfileRepository>()),
     );
+    gh.lazySingleton<_i320.GetProfileByUsernameUseCase>(
+      () => _i320.GetProfileByUsernameUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i1055.SubmitOnboardingUseCase>(
+      () => _i1055.SubmitOnboardingUseCase(gh<_i894.ProfileRepository>()),
+    );
     gh.factory<_i180.ProfileBloc>(
       () => _i180.ProfileBloc(
         getCurrentUserProfile: gh<_i424.GetCurrentUserProfileUseCase>(),
+        getProfileByUsername: gh<_i320.GetProfileByUsernameUseCase>(),
+        submitOnboarding: gh<_i1055.SubmitOnboardingUseCase>(),
       ),
+    );
+    gh.factory<_i462.SearchBloc>(
+      () => _i462.SearchBloc(searchUsers: gh<_i14.SearchUsersUseCase>()),
     );
     return this;
   }

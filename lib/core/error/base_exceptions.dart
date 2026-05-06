@@ -28,3 +28,5 @@ class ApiException implements Exception {
     this.message = 'An API error occurred.',
   });
 }
+
+class RequestCancelledException implements Exception {}

@@ -15,12 +15,14 @@ class DioHttpClient implements AbstractHTTP {
     String path, {
     Map<String, dynamic>? queryParameters,
     Map<String, String>? headers,
+    CancelToken? cancelToken,
   }) {
     return _request(
       () => dio.get(
         path,
         queryParameters: queryParameters,
         options: Options(headers: headers),
+        cancelToken: cancelToken,
       ),
     );
   }
@@ -31,6 +33,7 @@ class DioHttpClient implements AbstractHTTP {
     Object? body,
     Map<String, dynamic>? queryParameters,
     Map<String, String>? headers,
+    CancelToken? cancelToken,
   }) {
     return _request(
       () => dio.post(
@@ -38,6 +41,7 @@ class DioHttpClient implements AbstractHTTP {
         data: body,
         queryParameters: queryParameters,
         options: Options(headers: headers),
+        cancelToken: cancelToken,
       ),
     );
   }
@@ -48,6 +52,7 @@ class DioHttpClient implements AbstractHTTP {
     Object? body,
     Map<String, dynamic>? queryParameters,
     Map<String, String>? headers,
+    CancelToken? cancelToken,
   }) {
     return _request(
       () => dio.put(
@@ -55,6 +60,7 @@ class DioHttpClient implements AbstractHTTP {
         data: body,
         queryParameters: queryParameters,
         options: Options(headers: headers),
+        cancelToken: cancelToken,
       ),
     );
   }
@@ -65,6 +71,7 @@ class DioHttpClient implements AbstractHTTP {
     Object? body,
     Map<String, dynamic>? queryParameters,
     Map<String, String>? headers,
+    CancelToken? cancelToken,
   }) {
     return _request(
       () => dio.patch(
@@ -72,6 +79,7 @@ class DioHttpClient implements AbstractHTTP {
         data: body,
         queryParameters: queryParameters,
         options: Options(headers: headers),
+        cancelToken: cancelToken,
       ),
     );
   }
@@ -82,6 +90,7 @@ class DioHttpClient implements AbstractHTTP {
     Object? body,
     Map<String, dynamic>? queryParameters,
     Map<String, String>? headers,
+    CancelToken? cancelToken,
   }) {
     return _request(
       () => dio.delete(
@@ -89,6 +98,7 @@ class DioHttpClient implements AbstractHTTP {
         data: body,
         queryParameters: queryParameters,
         options: Options(headers: headers),
+        cancelToken: cancelToken,
       ),
     );
   }
@@ -103,6 +113,9 @@ class DioHttpClient implements AbstractHTTP {
   }
 
   Never _handleDioError(DioException e) {
+    if (e.type == DioExceptionType.cancel) {
+      throw RequestCancelledException();
+    }
     if (e.type == DioExceptionType.connectionError ||
         e.type == DioExceptionType.connectionTimeout ||
         e.type == DioExceptionType.receiveTimeout ||

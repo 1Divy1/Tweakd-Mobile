@@ -28,3 +28,23 @@ class ProfileError extends ProfileState {
   @override
   List<Object?> get props => [message];
 }
+
+class OnboardingSubmitting extends ProfileState {}
+
+class OnboardingSubmitted extends ProfileState {
+  final ProfileEntity profile;
+
+  const OnboardingSubmitted(this.profile);
+
+  @override
+  List<Object?> get props => [profile];
+}
+
+class OnboardingError extends ProfileState {
+  final String message;
+
+  const OnboardingError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}

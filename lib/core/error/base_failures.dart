@@ -20,3 +20,7 @@ class NetworkFailure extends Failure {
 class UnknownFailure extends Failure {
   const UnknownFailure(String message) : super(message: message);
 }
+
+class RequestCancelledFailure extends Failure {
+  const RequestCancelledFailure() : super(message: 'Request was cancelled.');
+}

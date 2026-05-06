@@ -8,7 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/usecases/usecase.dart';
-import '../../domain/usecases/auth/update_username.dart';
 import '../../domain/usecases/login/email_password_signin.dart';
 import '../../domain/usecases/login/google_signin.dart';
 import '../utils/auth_error_mapper.dart';
@@ -18,16 +17,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final CheckAuthStatusUseCase checkAuthStatus;
   final EmailPasswordSignIn loginUser;
   final GoogleSignIn googleSignIn;
-  final UpdateUsernameUseCase updateUsername;
 
   AuthBloc({
     required this.checkAuthStatus,
     required this.loginUser,
     required this.googleSignIn,
-    required this.updateUsername,
   }) : super(AuthInitial()) {
     on<CheckAuthStatus>(_onCheckAuthStatus);
-    on<SubmitUsername>(_onSubmitUsername);
     on<EmailPasswordLoginSubmitted>(_onLoginSubmitted);
     on<GoogleLoginRequested>(_onGoogleLoginRequested);
   }
@@ -50,22 +46,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(Authenticated(user));
         }
       },
-    );
-  }
-
-  Future<void> _onSubmitUsername(
-    SubmitUsername event,
-    Emitter<AuthState> emit,
-  ) async {
-    emit(AuthLoading());
-
-    final result = await updateUsername(
-      UsernameParams(username: event.username),
-    );
-
-    result.fold(
-      (failure) => emit(AuthError(AuthErrorMapper.getMessage(failure))),
-      (user) => emit(Authenticated(user)),
     );
   }
 

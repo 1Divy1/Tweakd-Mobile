@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/bloc.dart';
 import '../bloc/event.dart';
 import '../bloc/state.dart';
-import '../widgets/profile_data_view.dart';
+import '../widgets/my_profile/my_profile_data_view.dart';
 import '../widgets/profile_error_view.dart';
 import '../widgets/profile_loading_view.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class MyProfilePage extends StatelessWidget {
+  const MyProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class ProfilePage extends StatelessWidget {
               );
             }
             if (state is ProfileLoaded) {
-              return ProfileDataView(profile: state.profile);
+              return MyProfileDataView(profile: state.profile);
             }
             return const SizedBox.shrink();
           },
