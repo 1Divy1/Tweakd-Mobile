@@ -52,31 +52,15 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> googleSignIn() async {
+  Future<Either<Failure, UserEntity>> googleSignIn() async {
     try {
-      await supabaseDataSource.googleSignIn();
-      return Right(null);
+      final user = await supabaseDataSource.googleSignIn();
+      return Right(user.toEntity());
+    } on NoActiveSessionException catch (e) {
+      return Left(UnauthenticatedFailure(e.message));
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {
-      return const Left(UnknownFailure('An unexpected error occurred.'));
-    }
-  }
-
-  @override
-  Future<Either<Failure, void>> updateUsername(String username) async {
-    try {
-      await supabaseDataSource.updateUsername(username);
-      return const Right(null);
-    } on DuplicateDataException {
-      return const Left(UsernameTakenFailure());
-    } on NoActiveSessionException catch (e) {
-      return Left(UnauthenticatedFailure(e.message));
-    }
-    on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
-    }
-    catch (e) {
       return const Left(UnknownFailure('An unexpected error occurred.'));
     }
   }

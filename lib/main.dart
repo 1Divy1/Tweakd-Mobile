@@ -1,6 +1,7 @@
 import 'package:car_social_media_app/config/routes/app_router.dart';
 import 'package:car_social_media_app/core/di/injection.dart';
 import 'package:car_social_media_app/core/storage/secure_local_storage.dart';
+import 'package:car_social_media_app/core/theme/app_theme.dart';
 import 'package:car_social_media_app/features/authentication/presentation/bloc/bloc.dart';
 import 'package:car_social_media_app/features/authentication/presentation/bloc/event.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,8 @@ class CarSocialMediaApp extends StatelessWidget {
       child: MaterialApp.router(
         title: 'Cargram',
         debugShowCheckedModeBanner: false,
-        routerConfig: appRouter, 
+        theme: AppTheme.light(),
+        routerConfig: appRouter,
       ),
     );
   }

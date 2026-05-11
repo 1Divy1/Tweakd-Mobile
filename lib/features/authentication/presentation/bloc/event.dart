@@ -9,14 +9,6 @@ abstract class AuthEvent extends Equatable {
 
 class CheckAuthStatus extends AuthEvent {}
 
-class SubmitUsername extends AuthEvent {
-  final String username;
-  const SubmitUsername(this.username);
-
-  @override
-  List<Object?> get props => [username];
-}
-
 // OAuth Events
 class GoogleLoginRequested extends AuthEvent {}
 class AppleLoginRequested extends AuthEvent {}

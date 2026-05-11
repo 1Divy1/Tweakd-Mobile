@@ -13,15 +13,12 @@ class SplashPage extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthInitial) {
-          print("State is ${state.toString()}; navigating to signup");
           context.go('/signup');
         } 
         else if (state is AuthenticatedRequiresOnboarding) {
-          print("State is ${state.toString()}; navigating to onboarding");
           context.go('/onboarding');
         } 
         else if (state is Authenticated) {
-          print("State is ${state.toString()}; navigating to feed");
           context.go('/profile');
         }
       },
