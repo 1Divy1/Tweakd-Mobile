@@ -27,3 +27,4 @@ class SubmitOnboarding extends ProfileEvent {
   @override
   List<Object?> get props => [username, bio];
 }
+

@@ -49,11 +49,7 @@ class PublicProfileDataView extends StatelessWidget {
                   const SizedBox(height: 14),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: FollowButton(
-                      onPressed: () {
-                        // Follow logic to be implemented later.
-                      },
-                    ),
+                    child: FollowButton(username: profile.username),
                   ),
                   const SizedBox(height: 22),
                   const GarageSection(),

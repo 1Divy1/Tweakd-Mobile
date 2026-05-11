@@ -26,4 +26,21 @@ class ProfileEntity {
     required this.isBusiness,
     required this.requiresOnboarding,
   });
+
+  ProfileEntity copyWith({int? followersCount}) {
+    return ProfileEntity(
+      id: id,
+      role: role,
+      name: name,
+      username: username,
+      avatarUrl: avatarUrl,
+      bio: bio,
+      externalLink: externalLink,
+      followersCount: followersCount ?? this.followersCount,
+      followingCount: followingCount,
+      isVerified: isVerified,
+      isBusiness: isBusiness,
+      requiresOnboarding: requiresOnboarding,
+    );
+  }
 }

@@ -7,6 +7,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../core/di/injection.dart';
 import '../../features/authentication/presentation/pages/signup_page.dart';
 import '../../features/authentication/presentation/pages/splash_page.dart';
+import '../../features/follow/presentation/bloc/bloc.dart';
+import '../../features/follow/presentation/bloc/event.dart';
 import '../../features/profile/presentation/bloc/bloc.dart';
 import '../../features/profile/presentation/bloc/event.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
@@ -50,9 +52,17 @@ final appRouter = GoRouter(
       builder: (context, state) {
         final username = state.pathParameters['username'] ?? '';
 
-        return BlocProvider<ProfileBloc>(
-          create: (_) =>
-              getIt<ProfileBloc>()..add(FetchProfileByUsername(username)),
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<ProfileBloc>(
+              create: (_) =>
+                  getIt<ProfileBloc>()..add(FetchProfileByUsername(username)),
+            ),
+            BlocProvider<FollowStatusBloc>(
+              create: (_) =>
+                  getIt<FollowStatusBloc>()..add(LoadFollowStatus(username)),
+            ),
+          ],
           child: PublicProfilePage(username: username),
         );
       },
