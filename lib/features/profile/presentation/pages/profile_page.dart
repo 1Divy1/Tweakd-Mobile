@@ -1,15 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+import '../bloc/bloc.dart';
+import '../bloc/event.dart';
+import '../bloc/state.dart';
+import '../widgets/my_profile/my_profile_data_view.dart';
+import '../widgets/profile_error_view.dart';
+import '../widgets/profile_loading_view.dart';
 
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
+class MyProfilePage extends StatelessWidget {
+  const MyProfilePage({super.key});
 
-class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Column(children: [Text('Username: TODO')],),);
+    return Scaffold(
+      body: SafeArea(
+        child: BlocBuilder<ProfileBloc, ProfileState>(
+          builder: (context, state) {
+            if (state is ProfileLoading) {
+              return const ProfileLoadingView();
+            }
+            if (state is ProfileError) {
+              return ProfileErrorView(
+                message: state.message,
+                onRetry: () => context.read<ProfileBloc>().add(
+                  FetchUserProfileData(),
+                ),
+              );
+            }
+            if (state is ProfileLoaded) {
+              return MyProfileDataView(profile: state.profile);
+            }
+            return const SizedBox.shrink();
+          },
+        ),
+      ),
+    );
   }
 }
