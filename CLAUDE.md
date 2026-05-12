@@ -90,6 +90,57 @@ Hybrid: **Supabase handles identity** (sessions, OAuth tokens, JWT issuance), **
 - All endpoints require the JWT. The interceptor handles this — call sites never set `Authorization` manually.
 - JSON is **snake_case**. Models map snake_case JSON → camelCase Dart fields in `fromJson`.
 
+## Feature map
+
+Implemented features with their key files. Read these first before exploring sub-files.
+
+### authentication
+- Pages: `splash_page`, `login_page`, `signup_page`, `onboarding_page`
+- Entity: `UserEntity { id, requiresOnboarding }`
+- Use cases: `CheckAuthStatus`, `EmailPasswordSignIn`, `GoogleSignIn`
+- Data sources: `SupabaseAuthDataSource` (identity + `requires_onboarding` flag from Supabase `profiles` table), `AuthApiDataSource` (Spring backend)
+- Failures: `lib/features/authentication/domain/failures/auth_failures.dart`
+
+### profile
+- Pages: `profile_page` (own profile, editable), `public_profile_page` (read-only)
+- Entity: `ProfileEntity { id, role, name, username, avatarUrl, bio, externalLink, followersCount, followingCount, isVerified, isBusiness, requiresOnboarding }`
+- Use cases: `GetCurrentUserProfile`, `GetProfileByUsername`, `SubmitOnboarding`
+- Data source: `ProfileApiDataSource` — `GET /profile/me`, `GET /profile/{username}`
+- Widgets: `presentation/widgets/my_profile/` (own profile widgets), `presentation/widgets/public_profile/` (public widgets), `presentation/widgets/shared/` (reused by both)
+- Bloc: `ProfileBloc` — events: `FetchUserProfileData`, `FetchProfileByUsername`
+
+### follow
+- Bloc: `FollowStatusBloc` — events: `LoadFollowStatus(username)`, `ToggleFollow(username)`
+- Entity: `FollowStatusEntity { status: FollowStatus.notFollowing | pending | accepted }`; `FollowUserEntity { id, username, avatarUrl? }`
+- Use cases: `FollowUser`, `UnfollowUser`, `GetFollowStatus`, `GetFollowers`, `GetFollowing`, `GetPendingRequests`, `AcceptFollowRequest`, `RejectFollowRequest`
+- API endpoints (via `FollowApiDataSource`):
+  - `POST /follow/{username}` → follow
+  - `DELETE /follow/{username}` → unfollow
+  - `GET /follow/{username}/status` → follow status
+  - `GET /follow/requests` → pending requests
+  - `POST /follow/requests/{username}/accept`
+  - `DELETE /follow/requests/{username}` → reject
+  - `GET /follow/{username}/followers`
+  - `GET /follow/{username}/following`
+
+### search
+- Page: `search_page`
+- Entity: `SearchResultEntity { id, username, avatarUrl? }`
+- Use case: `SearchUsers`
+- Data source: `SearchApiDataSource` — `GET /search/users?query=...`
+- Bloc: `SearchBloc`
+
+### Routes (app_router.dart)
+| Path | Bloc provisioned | Notes |
+|------|-----------------|-------|
+| `/` | — | SplashPage |
+| `/signup` | — | SignUpPage |
+| `/onboarding` | ProfileBloc | OnboardingPage |
+| `/profile` | ProfileBloc (+ FetchUserProfileData) | Own profile |
+| `/users/:username` | ProfileBloc + FollowStatusBloc | Redirects to `/profile` if own user |
+| `/search` | SearchBloc | SearchPage |
+| `/feed` | — | Stub, not implemented |
+
 ## Conventions worth knowing
 
 - All paths in `lib/` use **relative imports within the same feature** and `package:car_social_media_app/...` across features (existing code mixes both — match the surrounding file).

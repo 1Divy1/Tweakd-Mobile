@@ -12,14 +12,21 @@ import '../datasource/profile_api_data_source.dart';
 @LazySingleton(as: ProfileRepository)
 class ProfileRepositoryImpl implements ProfileRepository {
   final ProfileApiDataSource profileApiDataSource;
+  ProfileEntity? _cachedProfile;
 
   ProfileRepositoryImpl(this.profileApiDataSource);
 
   @override
-  Future<Either<Failure, ProfileEntity>> getCurrentUserProfile() async {
+  Future<Either<Failure, ProfileEntity>> getCurrentUserProfile({bool forceRefresh = false}) async {
+    
+    // Return cached profile if available and not forcing refresh
+    if (!forceRefresh && _cachedProfile != null) {
+      return Right(_cachedProfile!);
+    }
     try {
       final profile = await profileApiDataSource.getCurrentUserProfile();
-      return Right(profile.toEntity());
+      _cachedProfile = profile.toEntity();
+      return Right(_cachedProfile!);
     } on UnauthenticatedException catch (e) {
       return Left(ServerFailure(e.message));
     } on NetworkException {
