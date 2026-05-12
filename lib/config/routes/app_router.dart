@@ -30,9 +30,11 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/profile',
-      builder: (context, state) => BlocProvider<ProfileBloc>(
-        create: (_) => getIt<ProfileBloc>()..add(FetchUserProfileData()),
-        child: const MyProfilePage(),
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: BlocProvider<ProfileBloc>(
+          create: (_) => getIt<ProfileBloc>()..add(FetchUserProfileData()),
+          child: const MyProfilePage(),
+        ),
       ),
     ),
     GoRoute(
@@ -69,16 +71,19 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/search',
-      builder: (context, state) => BlocProvider<SearchBloc>(
-        create: (_) => getIt<SearchBloc>(),
-        child: const SearchPage(),
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: BlocProvider<SearchBloc>(
+          create: (_) => getIt<SearchBloc>(),
+          child: const SearchPage(),
+        ),
       ),
     ),
     // TODO: Implement a real FeedPage
     GoRoute(
       path: '/feed',
-      builder: (context, state) =>
-          Scaffold(body: Center(child: Text('Feed Page'))),
+      pageBuilder: (context, state) => const NoTransitionPage(
+        child: Scaffold(body: Center(child: Text('Feed Page'))),
+      ),
     ),
   ],
 );

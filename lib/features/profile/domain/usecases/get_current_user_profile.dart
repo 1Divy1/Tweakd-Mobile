@@ -6,15 +6,21 @@ import '../../../../core/usecases/usecase.dart';
 import '../entities/profile.dart';
 import '../repositories/profile_repository.dart';
 
+class GetCurrentUserParams {
+  final bool fetchFromRemote;
+
+  const GetCurrentUserParams({this.fetchFromRemote = false});
+}
+
 @lazySingleton
 class GetCurrentUserProfileUseCase
-    implements UseCase<ProfileEntity, NoParams> {
+    implements UseCase<ProfileEntity, GetCurrentUserParams> {
   final ProfileRepository repository;
 
   GetCurrentUserProfileUseCase(this.repository);
 
   @override
-  Future<Either<Failure, ProfileEntity>> call(NoParams params) {
-    return repository.getCurrentUserProfile();
+  Future<Either<Failure, ProfileEntity>> call(GetCurrentUserParams params) {
+    return repository.getCurrentUserProfile(forceRefresh: params.fetchFromRemote);
   }
 }

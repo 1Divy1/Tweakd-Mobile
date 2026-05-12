@@ -33,7 +33,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ) async {
     emit(ProfileLoading());
 
-    final result = await getCurrentUserProfile(NoParams());
+    final result = await getCurrentUserProfile(GetCurrentUserParams(fetchFromRemote: event.fetchFromRemote));
 
     result.fold(
       (failure) => emit(ProfileError(ProfileErrorMapper.getMessage(failure))),
