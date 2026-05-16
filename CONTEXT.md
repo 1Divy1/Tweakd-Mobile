@@ -33,6 +33,8 @@ lib/
 │   │   ├── abstract_http.dart              # HTTP interface
 │   │   ├── auth_interceptor.dart           # Adds Bearer JWT to every request
 │   │   └── dio_http_client.dart            # AbstractHTTP impl, maps DioException → custom exceptions
+│   ├── services/
+│   │   └── car_image_service.dart          # Image compression & presigned-URL uploads (garage feature)
 │   ├── storage/secure_local_storage.dart   # FlutterSecureStorage, plugged into Supabase
 │   ├── theme/
 │   │   ├── app_colors.dart
@@ -46,7 +48,8 @@ lib/
     ├── authentication/
     ├── profile/
     ├── follow/
-    └── search/
+    ├── search/
+    └── garage/
 ```
 
 Each feature:
@@ -156,6 +159,7 @@ Each feature has its own `README.md` at `lib/features/<name>/README.md` with ful
 | profile | [lib/features/profile/README.md](lib/features/profile/README.md) |
 | follow | [lib/features/follow/README.md](lib/features/follow/README.md) |
 | search | [lib/features/search/README.md](lib/features/search/README.md) |
+| garage | [lib/features/garage/README.md](lib/features/garage/README.md) |
 
 ---
 
@@ -170,6 +174,9 @@ Each feature has its own `README.md` at `lib/features/<name>/README.md` with ful
 | `/users/:username` | `PublicProfilePage(username)` | Redirects to `/profile` if `state.extra` userId matches current user |
 | `/search` | `SearchPage` | `NoTransitionPage` (bottom nav) |
 | `/feed` | Stub `Scaffold` | `NoTransitionPage` (bottom nav); not implemented |
+| `/garage/cars/add` | `RegisterCarPage` | 6-step add-car wizard |
+| `/garage/cars/:carId` | `ChassisPage` | `state.extra` = `isOwner` bool |
+| `/garage/cars/:carId/modifications/add` | `LogModificationPage` | — |
 
 **Navigation**: bottom-nav tabs use `context.go()` (replaces stack, no back gesture). `NoTransitionPage` on all bottom-nav destinations eliminates slide animation. Routes navigated to via `context.push()` keep the default transition.
 
@@ -259,6 +266,9 @@ Uses `context.go()` and guards with `if (activeTab != tab)` to avoid redundant n
 | `cached_network_image` | ^3.4.1 | Network images |
 | `shimmer` | ^3.0.0 | Loading skeleton |
 | `flutter_svg` | ^2.2.4 | SVG rendering |
+| `flutter_image_compress` | ^2.4.0 | Image compression (webp) for uploads |
+| `image_picker` | ^1.1.2 | File picker for photos |
+| `uuid` | ^4.0.0 | UUID generation |
 | `hive` | ^2.2.3 | Local cache (not yet actively used) |
 
 ---

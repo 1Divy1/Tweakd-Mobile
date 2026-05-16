@@ -52,7 +52,7 @@ class PublicProfileDataView extends StatelessWidget {
                     child: FollowButton(username: profile.username),
                   ),
                   const SizedBox(height: 22),
-                  const GarageSection(),
+                  const GarageSection(isOwner: false),
                   const SizedBox(height: 24),
                 ],
               ),

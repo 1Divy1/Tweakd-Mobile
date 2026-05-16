@@ -53,7 +53,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     EmailPasswordLoginSubmitted event,
     Emitter<AuthState> emit,
   ) async {
-    print("Event received: EmailPasswordLoginSubmitted");
     emit(AuthLoading());
 
     final params = LoginParams(email: event.email, password: event.password);

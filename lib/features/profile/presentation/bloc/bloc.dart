@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/usecases/usecase.dart';
 import '../../domain/usecases/get_current_user_profile.dart';
 import '../../domain/usecases/get_profile_by_username.dart';
 import '../../domain/usecases/submit_onboarding.dart';
