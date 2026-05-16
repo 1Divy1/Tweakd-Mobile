@@ -56,7 +56,7 @@ class MyProfileDataView extends StatelessWidget {
                     following: profile.followingCount,
                   ),
                   const SizedBox(height: 22),
-                  const GarageSection(),
+                  const GarageSection(isOwner: true),
                   const SizedBox(height: 24),
                 ],
               ),

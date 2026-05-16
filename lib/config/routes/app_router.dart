@@ -9,6 +9,17 @@ import '../../features/authentication/presentation/pages/signup_page.dart';
 import '../../features/authentication/presentation/pages/splash_page.dart';
 import '../../features/follow/presentation/bloc/bloc.dart';
 import '../../features/follow/presentation/bloc/event.dart';
+import '../../features/garage/presentation/bloc/add_car/bloc.dart';
+import '../../features/garage/presentation/bloc/add_car/event.dart';
+import '../../features/garage/presentation/bloc/bloc.dart';
+import '../../features/garage/presentation/bloc/car_detail/bloc.dart';
+import '../../features/garage/presentation/bloc/car_detail/event.dart';
+import '../../features/garage/presentation/bloc/event.dart';
+import '../../features/garage/presentation/bloc/log_mod/bloc.dart';
+import '../../features/garage/presentation/bloc/log_mod/event.dart';
+import '../../features/garage/presentation/pages/chassis_page.dart';
+import '../../features/garage/presentation/pages/log_mod_page.dart';
+import '../../features/garage/presentation/pages/register_car_page.dart';
 import '../../features/profile/presentation/bloc/bloc.dart';
 import '../../features/profile/presentation/bloc/event.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
@@ -31,8 +42,15 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/profile',
       pageBuilder: (context, state) => NoTransitionPage(
-        child: BlocProvider<ProfileBloc>(
-          create: (_) => getIt<ProfileBloc>()..add(FetchUserProfileData()),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider<ProfileBloc>(
+              create: (_) => getIt<ProfileBloc>()..add(FetchUserProfileData()),
+            ),
+            BlocProvider<GarageBloc>(
+              create: (_) => getIt<GarageBloc>()..add(const LoadMyGarage()),
+            ),
+          ],
           child: const MyProfilePage(),
         ),
       ),
@@ -64,6 +82,10 @@ final appRouter = GoRouter(
               create: (_) =>
                   getIt<FollowStatusBloc>()..add(LoadFollowStatus(username)),
             ),
+            BlocProvider<GarageBloc>(
+              create: (_) =>
+                  getIt<GarageBloc>()..add(LoadGarageByUsername(username)),
+            ),
           ],
           child: PublicProfilePage(username: username),
         );
@@ -84,6 +106,40 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) => const NoTransitionPage(
         child: Scaffold(body: Center(child: Text('Feed Page'))),
       ),
+    ),
+    GoRoute(
+      path: '/garage/cars/add',
+      builder: (context, state) => BlocProvider<AddCarBloc>(
+        create: (_) =>
+            getIt<AddCarBloc>()..add(const LoadAddCarReferenceData()),
+        child: const RegisterCarPage(),
+      ),
+    ),
+    GoRoute(
+      path: '/garage/cars/:carId',
+      builder: (context, state) {
+        final carId = state.pathParameters['carId']!;
+        final isOwner = state.extra as bool? ?? false;
+
+        return BlocProvider<CarDetailBloc>(
+          create: (_) => getIt<CarDetailBloc>()..add(LoadCar(carId)),
+          child: ChassisPage(isOwner: isOwner),
+        );
+      },
+      routes: [
+        GoRoute(
+          path: 'modifications/add',
+          builder: (context, state) {
+            final carId = state.pathParameters['carId']!;
+
+            return BlocProvider<LogModBloc>(
+              create: (_) =>
+                  getIt<LogModBloc>()..add(const LoadModCategories()),
+              child: LogModificationPage(carId: carId),
+            );
+          },
+        ),
+      ],
     ),
   ],
 );
