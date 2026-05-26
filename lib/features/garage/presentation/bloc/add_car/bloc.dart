@@ -8,7 +8,13 @@ import '../../../../../core/usecases/usecase.dart';
 import '../../../domain/repositories/garage_repository.dart';
 import '../../../domain/usecases/add_car.dart';
 import '../../../domain/usecases/delete_car.dart';
+import '../../../domain/usecases/get_cover_upload_url.dart';
+import '../../../domain/usecases/get_gallery_upload_url.dart';
+import '../../../domain/usecases/get_modification_upload_urls.dart';
 import '../../../domain/usecases/get_reference_data.dart';
+import '../../../domain/usecases/patch_modification.dart';
+import '../../../domain/usecases/save_cover_url.dart';
+import '../../../domain/usecases/save_gallery_urls.dart';
 import '../../utils/garage_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
@@ -24,6 +30,12 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
   final GetModCategoriesUseCase getModCategories;
   final AddCarUseCase addCar;
   final DeleteCarUseCase deleteCar;
+  final GetCoverUploadUrlUseCase getCoverUploadUrl;
+  final SaveCoverUrlUseCase saveCoverUrl;
+  final GetGalleryUploadUrlUseCase getGalleryUploadUrl;
+  final SaveGalleryUrlsUseCase saveGalleryUrls;
+  final GetModificationUploadUrlsUseCase getModificationUploadUrls;
+  final PatchModificationUseCase patchModification;
   final CarImageService imageService;
 
   AddCarBloc({
@@ -36,6 +48,12 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
     required this.getModCategories,
     required this.addCar,
     required this.deleteCar,
+    required this.getCoverUploadUrl,
+    required this.saveCoverUrl,
+    required this.getGalleryUploadUrl,
+    required this.saveGalleryUrls,
+    required this.getModificationUploadUrls,
+    required this.patchModification,
     required this.imageService,
   }) : super(const AddCarInitial()) {
     on<LoadAddCarReferenceData>(_onLoadRefData);
@@ -111,17 +129,17 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
     };
     if (refData == null) return;
 
+    // ── Step 1: create car + mods (text data only) ───────────────────────────
     emit(AddCarSubmitting(refData: refData, statusLabel: 'Creating machine…'));
 
     final createResult = await addCar(
       CreateCarParams(
         car: event.car,
         modifications: event.mods.map((m) => m.request).toList(),
-        galleryCount: event.galleryFilePaths.length,
       ),
     );
 
-    final result = await createResult.fold(
+    final car = await createResult.fold(
       (failure) async {
         emit(AddCarError(
           message: GarageErrorMapper.getMessage(failure),
@@ -129,36 +147,88 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
         ));
         return null;
       },
-      (created) async => created,
+      (car) async => car,
     );
-    if (result == null) return;
+    if (car == null) return;
 
+    // ── Steps 2–4: upload media; roll back car on any failure ─────────────────
     emit(AddCarSubmitting(refData: refData, statusLabel: 'Uploading photos…'));
 
     try {
-      final uploads = <Future<void>>[
-        imageService.uploadToSignedUrl(
-            result.cover.uploadUrl, event.coverFilePath),
-      ];
+      // Cover image
+      final coverSlotResult =
+          await getCoverUploadUrl(GetCoverUploadUrlParams(carId: car.id));
+      final coverSlot = coverSlotResult.fold(
+        (f) => throw Exception(GarageErrorMapper.getMessage(f)),
+        (s) => s,
+      );
+      final coverBytes = await imageService.compressToWebp(event.coverFilePath);
+      await imageService.uploadToR2(coverSlot.uploadUrl, coverBytes);
+      await saveCoverUrl(
+          SaveCoverUrlParams(carId: car.id, finalUrl: coverSlot.finalUrl));
 
+      // Gallery
+      if (event.galleryFilePaths.isNotEmpty) {
+        final galleryFinalUrls = <String>[];
+        for (final filePath in event.galleryFilePaths) {
+          final slotResult = await getGalleryUploadUrl(
+              GetGalleryUploadUrlParams(carId: car.id));
+          final slot = slotResult.fold(
+            (f) => throw Exception(GarageErrorMapper.getMessage(f)),
+            (s) => s,
+          );
+          final bytes = await imageService.compressToWebp(filePath);
+          await imageService.uploadToR2(slot.uploadUrl, bytes);
+          galleryFinalUrls.add(slot.finalUrl);
+        }
+        await saveGalleryUrls(
+            SaveGalleryUrlsParams(carId: car.id, urls: galleryFinalUrls));
+      }
+
+      // Modification media
       for (var i = 0; i < event.mods.length; i++) {
-        final slots = result.modifications[i];
-        uploads.add(imageService.uploadToSignedUrl(
-            slots.before.uploadUrl, event.mods[i].beforeFilePath));
-        uploads.add(imageService.uploadToSignedUrl(
-            slots.after.uploadUrl, event.mods[i].afterFilePath));
+        final mod = event.mods[i];
+        final modId = car.modifications[i].id;
+
+        final files = <ModUploadRequest>[
+          if (mod.beforeFilePath != null)
+            const ModUploadRequest(phase: 'BEFORE', format: 'WEBP'),
+          if (mod.afterFilePath != null)
+            const ModUploadRequest(phase: 'AFTER', format: 'WEBP'),
+        ];
+        if (files.isEmpty) continue;
+
+        final uploadUrlsResult = await getModificationUploadUrls(
+          GetModificationUploadUrlsParams(
+              carId: car.id, modId: modId, files: files),
+        );
+        final uploads = uploadUrlsResult.fold(
+          (f) => throw Exception(GarageErrorMapper.getMessage(f)),
+          (r) => r.uploads,
+        );
+
+        await Future.wait(uploads.map((upload) async {
+          final filePath = upload.phase == 'before'
+              ? mod.beforeFilePath
+              : mod.afterFilePath;
+          if (filePath == null) return;
+          final bytes = await imageService.compressToWebp(filePath);
+          await imageService.uploadToR2(upload.uploadUrl, bytes);
+        }));
+
+        final addMedia = uploads
+            .map((u) => ModMediaInput(url: u.finalUrl, phase: u.phase))
+            .toList();
+        await patchModification(PatchModificationParams(
+          carId: car.id,
+          modId: modId,
+          params: ModPatchParams(addMedia: addMedia),
+        ));
       }
 
-      for (var i = 0; i < event.galleryFilePaths.length; i++) {
-        uploads.add(imageService.uploadToSignedUrl(
-            result.gallery[i].uploadUrl, event.galleryFilePaths[i]));
-      }
-
-      await Future.wait(uploads);
-      emit(AddCarSuccess(result.car));
+      emit(AddCarSuccess(car));
     } catch (_) {
-      // Roll back the orphaned car so the user can safely retry.
-      await deleteCar(DeleteCarParams(carId: result.car.id));
+      await deleteCar(DeleteCarParams(carId: car.id));
       emit(AddCarError(
         message: 'Photo upload failed. Please try again.',
         refData: refData,

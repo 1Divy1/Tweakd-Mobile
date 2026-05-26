@@ -2,8 +2,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/network/abstract_http.dart';
 import '../models/car_detail_model.dart';
-import '../models/car_image_model.dart';
-import '../models/create_car_response_model.dart';
+import '../models/car_modification_model.dart';
 import '../models/garage_model.dart';
 import '../models/reference_data_models.dart';
 
@@ -32,9 +31,12 @@ class GarageApiDataSource {
     return CarDetailModel.fromJson(data as Map<String, dynamic>);
   }
 
-  Future<CreateCarResponseModel> addCar(Map<String, dynamic> body) async {
+  Future<CarDetailModel> addCar(Map<String, dynamic> body) async {
     final data = await http.post('/garage/cars', body: body);
-    return CreateCarResponseModel.fromJson(data as Map<String, dynamic>);
+    final json = data as Map<String, dynamic>;
+    // The create endpoint wraps the car in a 'car' key
+    return CarDetailModel.fromJson(
+        json.containsKey('car') ? json['car'] as Map<String, dynamic> : json);
   }
 
   Future<CarDetailModel> updateCar(
@@ -47,48 +49,52 @@ class GarageApiDataSource {
     await http.delete('/garage/cars/$carId');
   }
 
+  // ── Cover image ───────────────────────────────────────────────────────────
+
+  Future<void> saveCoverUrl(String carId, String coverImageUrl) async {
+    await http.patch(
+      '/garage/cars/$carId/cover',
+      queryParameters: {'cover_image_url': coverImageUrl},
+    );
+  }
+
+  // ── Gallery ───────────────────────────────────────────────────────────────
+
+  Future<void> saveGalleryUrls(String carId, List<String> urls) async {
+    await http.patch(
+      '/garage/cars/$carId/gallery',
+      body: {'urls': urls},
+    );
+  }
+
   // ── Modifications ─────────────────────────────────────────────────────────
 
-  Future<AddModificationResponseModel> addModification(
+  Future<CarModificationModel> addModification(
     String carId,
     Map<String, dynamic> body,
   ) async {
     final data =
         await http.post('/garage/cars/$carId/modifications', body: body);
-    return AddModificationResponseModel.fromJson(data as Map<String, dynamic>);
+    final json = data as Map<String, dynamic>;
+    return CarModificationModel.fromJson(
+        json.containsKey('modification')
+            ? json['modification'] as Map<String, dynamic>
+            : json);
   }
 
-  Future<void> updateModification(
+  Future<CarModificationModel> patchModification(
     String carId,
     String modId,
     Map<String, dynamic> body,
   ) async {
-    await http.put('/garage/cars/$carId/modifications/$modId', body: body);
+    final data = await http.patch(
+        '/garage/cars/$carId/modifications/$modId',
+        body: body);
+    return CarModificationModel.fromJson(data as Map<String, dynamic>);
   }
 
   Future<void> deleteModification(String carId, String modId) async {
     await http.delete('/garage/cars/$carId/modifications/$modId');
-  }
-
-  // ── Gallery images ────────────────────────────────────────────────────────
-
-  Future<List<CarImageModel>> listCarImages(String carId) async {
-    final data = await http.get('/garage/cars/$carId/images');
-    return (data as List<dynamic>)
-        .map((e) => CarImageModel.fromJson(e as Map<String, dynamic>))
-        .toList();
-  }
-
-  Future<void> deleteCarImage(String carId, String imageId) async {
-    await http.delete('/garage/cars/$carId/images/$imageId');
-  }
-
-  Future<String> generateDownloadUrl(String storagePath) async {
-    final data = await http.post(
-      '/garage/storage/download-url',
-      body: {'storage_path': storagePath},
-    );
-    return (data as Map<String, dynamic>)['signed_url'] as String;
   }
 
   // ── Reference data ────────────────────────────────────────────────────────

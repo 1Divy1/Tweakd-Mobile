@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../domain/entities/car.dart';
-import '../../domain/entities/car_image.dart';
 import '../../domain/entities/car_modification.dart';
 import '../bloc/car_detail/bloc.dart';
 import '../bloc/car_detail/event.dart';
@@ -27,10 +26,8 @@ class ChassisPage extends StatelessWidget {
           backgroundColor: AppColors.bg,
           body: switch (state) {
             CarDetailLoading() => const _LoadingView(),
-            CarDetailLoaded(:final car, :final gallery, :final isDeleting) =>
-              _ChassisView(
+            CarDetailLoaded(:final car, :final isDeleting) => _ChassisView(
                 car: car,
-                gallery: gallery,
                 isOwner: isOwner,
                 isDeleting: isDeleting,
               ),
@@ -87,13 +84,11 @@ class _ErrorView extends StatelessWidget {
 
 class _ChassisView extends StatelessWidget {
   final CarEntity car;
-  final List<CarImageEntity> gallery;
   final bool isOwner;
   final bool isDeleting;
 
   const _ChassisView({
     required this.car,
-    required this.gallery,
     required this.isOwner,
     required this.isDeleting,
   });
@@ -120,11 +115,11 @@ class _ChassisView extends StatelessWidget {
                 _SpecGrid(car: car),
                 const SizedBox(height: 12),
                 _InfoTable(car: car),
-                if (gallery.isNotEmpty) ...[
+                if (car.galleryUrls.isNotEmpty) ...[
                   const SizedBox(height: 20),
                   _GallerySection(
                     carId: car.id,
-                    gallery: gallery,
+                    galleryUrls: car.galleryUrls,
                     isOwner: isOwner,
                   ),
                 ],
@@ -134,7 +129,10 @@ class _ChassisView extends StatelessWidget {
                 ],
                 if (car.modifications.isNotEmpty) ...[
                   const SizedBox(height: 20),
-                  _ModificationsList(carId: car.id, mods: car.modifications, isOwner: isOwner),
+                  _ModificationsList(
+                      carId: car.id,
+                      mods: car.modifications,
+                      isOwner: isOwner),
                 ],
                 const SizedBox(height: 32),
               ],
@@ -280,7 +278,7 @@ class _HeroImage extends StatelessWidget {
         AspectRatio(
           aspectRatio: 16 / 10,
           child: ResolvedImage(
-            storagePath: car.coverImagePath,
+            imageUrl: car.coverImageUrl,
             fit: BoxFit.cover,
           ),
         ),
@@ -537,20 +535,17 @@ class _InfoTable extends StatelessWidget {
 
 class _GallerySection extends StatelessWidget {
   final String carId;
-  final List<CarImageEntity> gallery;
+  final List<String> galleryUrls;
   final bool isOwner;
 
   const _GallerySection({
     required this.carId,
-    required this.gallery,
+    required this.galleryUrls,
     required this.isOwner,
   });
 
   @override
   Widget build(BuildContext context) {
-    final sorted = [...gallery]
-      ..sort((a, b) => a.displayOrder.compareTo(b.displayOrder));
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -569,7 +564,7 @@ class _GallerySection extends StatelessWidget {
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: sorted.length,
+            itemCount: galleryUrls.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 8,
@@ -577,13 +572,13 @@ class _GallerySection extends StatelessWidget {
               childAspectRatio: 16 / 10,
             ),
             itemBuilder: (context, i) {
-              final image = sorted[i];
+              final url = galleryUrls[i];
               return GestureDetector(
                 onLongPress: isOwner
-                    ? () => _confirmDelete(context, image.id)
+                    ? () => _confirmDelete(context, url)
                     : null,
                 child: ResolvedImage(
-                  storagePath: image.storagePath,
+                  imageUrl: url,
                   fit: BoxFit.cover,
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -595,7 +590,7 @@ class _GallerySection extends StatelessWidget {
     );
   }
 
-  void _confirmDelete(BuildContext context, String imageId) {
+  void _confirmDelete(BuildContext context, String imageUrl) {
     final bloc = context.read<CarDetailBloc>();
     showDialog<void>(
       context: context,
@@ -611,7 +606,7 @@ class _GallerySection extends StatelessWidget {
           TextButton(
             onPressed: () {
               Navigator.of(dialogCtx).pop();
-              bloc.add(DeleteGalleryImage(carId: carId, imageId: imageId));
+              bloc.add(DeleteGalleryImage(carId: carId, imageUrl: imageUrl));
             },
             child: const Text('Delete', style: TextStyle(color: Colors.red)),
           ),
@@ -663,7 +658,8 @@ class _ModificationsList extends StatelessWidget {
   final String carId;
   final List<CarModificationEntity> mods;
   final bool isOwner;
-  const _ModificationsList({required this.carId, required this.mods, required this.isOwner});
+  const _ModificationsList(
+      {required this.carId, required this.mods, required this.isOwner});
 
   @override
   Widget build(BuildContext context) {
@@ -691,7 +687,8 @@ class _ModificationsList extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          for (final mod in mods) _ModCard(carId: carId, mod: mod, isOwner: isOwner),
+          for (final mod in mods)
+            _ModCard(carId: carId, mod: mod, isOwner: isOwner),
         ],
       ),
     );
@@ -702,10 +699,14 @@ class _ModCard extends StatelessWidget {
   final String carId;
   final CarModificationEntity mod;
   final bool isOwner;
-  const _ModCard({required this.carId, required this.mod, required this.isOwner});
+  const _ModCard(
+      {required this.carId, required this.mod, required this.isOwner});
 
   @override
   Widget build(BuildContext context) {
+    final beforeMedia = mod.beforeMedia;
+    final afterMedia = mod.afterMedia;
+
     return GestureDetector(
       onLongPress: isOwner ? () => _showModMenu(context) : null,
       child: Container(
@@ -722,7 +723,8 @@ class _ModCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
                     color: AppColors.accentSoft,
                     borderRadius: BorderRadius.circular(4),
@@ -741,7 +743,8 @@ class _ModCard extends StatelessWidget {
                 if (isOwner)
                   GestureDetector(
                     onTap: () => _showModMenu(context),
-                    child: const Icon(Icons.more_horiz, color: AppColors.mute, size: 20),
+                    child: const Icon(Icons.more_horiz,
+                        color: AppColors.mute, size: 20),
                   ),
               ],
             ),
@@ -758,28 +761,27 @@ class _ModCard extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 mod.description!,
-                style: const TextStyle(
-                  color: AppColors.mute,
-                  fontSize: 13,
-                ),
+                style: const TextStyle(color: AppColors.mute, fontSize: 13),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
             ],
-            if (mod.beforeImagePath != null || mod.afterImagePath != null) ...[
+            if (beforeMedia.isNotEmpty || afterMedia.isNotEmpty) ...[
               const SizedBox(height: 10),
               Row(
                 children: [
-                  if (mod.beforeImagePath != null)
+                  if (beforeMedia.isNotEmpty)
                     Expanded(
-                        child: _ModImage(
-                            path: mod.beforeImagePath!, label: 'BEFORE')),
-                  if (mod.beforeImagePath != null && mod.afterImagePath != null)
+                      child: _ModImage(
+                          url: beforeMedia.first.url, label: 'BEFORE'),
+                    ),
+                  if (beforeMedia.isNotEmpty && afterMedia.isNotEmpty)
                     const SizedBox(width: 8),
-                  if (mod.afterImagePath != null)
+                  if (afterMedia.isNotEmpty)
                     Expanded(
-                        child:
-                            _ModImage(path: mod.afterImagePath!, label: 'AFTER')),
+                      child:
+                          _ModImage(url: afterMedia.first.url, label: 'AFTER'),
+                    ),
                 ],
               ),
             ],
@@ -815,11 +817,13 @@ class _ModCard extends StatelessWidget {
               leading: const Icon(Icons.delete_outline, color: Colors.red),
               title: const Text(
                 'Delete modification',
-                style: TextStyle(color: Colors.red, fontWeight: FontWeight.w600),
+                style:
+                    TextStyle(color: Colors.red, fontWeight: FontWeight.w600),
               ),
               onTap: () {
                 Navigator.of(context).pop();
-                bloc.add(DeleteModificationFromDetail(carId: carId, modId: mod.id));
+                bloc.add(DeleteModificationFromDetail(
+                    carId: carId, modId: mod.id));
               },
             ),
             const SizedBox(height: 8),
@@ -831,9 +835,9 @@ class _ModCard extends StatelessWidget {
 }
 
 class _ModImage extends StatelessWidget {
-  final String path;
+  final String url;
   final String label;
-  const _ModImage({required this.path, required this.label});
+  const _ModImage({required this.url, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -842,7 +846,7 @@ class _ModImage extends StatelessWidget {
         AspectRatio(
           aspectRatio: 16 / 9,
           child: ResolvedImage(
-            storagePath: path,
+            imageUrl: url,
             fit: BoxFit.cover,
             borderRadius: BorderRadius.circular(6),
           ),

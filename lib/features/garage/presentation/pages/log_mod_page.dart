@@ -195,8 +195,8 @@ class _LogModificationPageState extends State<LogModificationPage> {
     context.read<LogModBloc>().add(
           SubmitModification(
             carId: widget.carId,
-            beforeFilePath: _beforeFilePath!,
-            afterFilePath: _afterFilePath!,
+            beforeFilePath: _beforeFilePath,
+            afterFilePath: _afterFilePath,
             params: ModRequestParams(
               categoryId: _selectedCategory!.id,
               title: _titleCtrl.text.trim(),

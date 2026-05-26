@@ -4,10 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../domain/usecases/delete_car.dart';
-import '../../../domain/usecases/delete_car_image.dart';
 import '../../../domain/usecases/delete_modification.dart';
 import '../../../domain/usecases/get_car.dart';
-import '../../../domain/usecases/get_car_images.dart';
+import '../../../domain/usecases/save_gallery_urls.dart';
 import '../../utils/garage_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
@@ -15,16 +14,14 @@ import 'state.dart';
 @injectable
 class CarDetailBloc extends Bloc<CarDetailEvent, CarDetailState> {
   final GetCarUseCase getCarUseCase;
-  final GetCarImagesUseCase getCarImagesUseCase;
   final DeleteCarUseCase deleteCarUseCase;
-  final DeleteCarImageUseCase deleteCarImageUseCase;
+  final SaveGalleryUrlsUseCase saveGalleryUrlsUseCase;
   final DeleteModificationUseCase deleteModificationUseCase;
 
   CarDetailBloc({
     required this.getCarUseCase,
-    required this.getCarImagesUseCase,
     required this.deleteCarUseCase,
-    required this.deleteCarImageUseCase,
+    required this.saveGalleryUrlsUseCase,
     required this.deleteModificationUseCase,
   }) : super(const CarDetailLoading()) {
     on<LoadCar>(_onLoadCar);
@@ -35,17 +32,11 @@ class CarDetailBloc extends Bloc<CarDetailEvent, CarDetailState> {
 
   FutureOr<void> _onLoadCar(LoadCar event, Emitter<CarDetailState> emit) async {
     emit(const CarDetailLoading());
-    final carResult = await getCarUseCase(GetCarParams(carId: event.carId));
-
-    await carResult.fold(
-      (failure) async => emit(
-          CarDetailError(message: GarageErrorMapper.getMessage(failure))),
-      (car) async {
-        final galleryResult =
-            await getCarImagesUseCase(GetCarImagesParams(carId: event.carId));
-        final gallery = galleryResult.getOrElse(() => []);
-        emit(CarDetailLoaded(car: car, gallery: gallery));
-      },
+    final result = await getCarUseCase(GetCarParams(carId: event.carId));
+    result.fold(
+      (failure) =>
+          emit(CarDetailError(message: GarageErrorMapper.getMessage(failure))),
+      (car) => emit(CarDetailLoaded(car: car)),
     );
   }
 
@@ -74,16 +65,19 @@ class CarDetailBloc extends Bloc<CarDetailEvent, CarDetailState> {
     final current = state;
     if (current is! CarDetailLoaded) return;
 
-    final result = await deleteCarImageUseCase(
-      DeleteCarImageParams(carId: event.carId, imageId: event.imageId),
+    final updatedUrls = current.car.galleryUrls
+        .where((url) => url != event.imageUrl)
+        .toList();
+
+    final result = await saveGalleryUrlsUseCase(
+      SaveGalleryUrlsParams(carId: event.carId, urls: updatedUrls),
     );
     result.fold(
       (failure) =>
           emit(CarDetailError(message: GarageErrorMapper.getMessage(failure))),
       (_) {
-        final updated =
-            current.gallery.where((g) => g.id != event.imageId).toList();
-        emit(current.copyWith(gallery: updated));
+        final updatedCar = current.car.copyWith(galleryUrls: updatedUrls);
+        emit(current.copyWith(car: updatedCar));
       },
     );
   }

@@ -25,10 +25,8 @@ class CarEntity extends Equatable {
   final double? zeroToOneHundred;
   final String? chassisCode;
   final String? engineCode;
-
-  /// Canonical storage path (e.g. `car-photos/{owner}/{car}/cover.webp`).
-  /// Resolve to a signed URL via the image resolver before display.
-  final String coverImagePath;
+  final String? coverImageUrl;
+  final List<String> galleryUrls;
   final DateTime? createdAt;
   final CarStatusOptionEntity? status;
   final List<CarModificationEntity> modifications;
@@ -55,7 +53,8 @@ class CarEntity extends Equatable {
     this.zeroToOneHundred,
     this.chassisCode,
     this.engineCode,
-    required this.coverImagePath,
+    this.coverImageUrl,
+    this.galleryUrls = const [],
     this.createdAt,
     this.status,
     required this.modifications,
@@ -84,7 +83,8 @@ class CarEntity extends Equatable {
         zeroToOneHundred,
         chassisCode,
         engineCode,
-        coverImagePath,
+        coverImageUrl,
+        galleryUrls,
         createdAt,
         status,
         modifications,
@@ -112,7 +112,8 @@ class CarEntity extends Equatable {
     double? zeroToOneHundred,
     String? chassisCode,
     String? engineCode,
-    String? coverImagePath,
+    String? coverImageUrl,
+    List<String>? galleryUrls,
     DateTime? createdAt,
     CarStatusOptionEntity? status,
     List<CarModificationEntity>? modifications,
@@ -139,7 +140,8 @@ class CarEntity extends Equatable {
       zeroToOneHundred: zeroToOneHundred ?? this.zeroToOneHundred,
       chassisCode: chassisCode ?? this.chassisCode,
       engineCode: engineCode ?? this.engineCode,
-      coverImagePath: coverImagePath ?? this.coverImagePath,
+      coverImageUrl: coverImageUrl ?? this.coverImageUrl,
+      galleryUrls: galleryUrls ?? this.galleryUrls,
       createdAt: createdAt ?? this.createdAt,
       status: status ?? this.status,
       modifications: modifications ?? this.modifications,

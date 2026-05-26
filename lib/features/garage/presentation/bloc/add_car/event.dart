@@ -21,25 +21,25 @@ class AddCarBrandSelected extends AddCarEvent {
   List<Object?> get props => [brandId];
 }
 
-/// One modification collected in the wizard, with its local before/after image
-/// file paths (uploaded after the car is created).
+/// One modification collected in the wizard. Before and after file paths are
+/// optional — the user may provide either, both, or neither.
 class NewModInput extends Equatable {
   final ModRequestParams request;
-  final String beforeFilePath;
-  final String afterFilePath;
+  final String? beforeFilePath;
+  final String? afterFilePath;
 
   const NewModInput({
     required this.request,
-    required this.beforeFilePath,
-    required this.afterFilePath,
+    this.beforeFilePath,
+    this.afterFilePath,
   });
 
   @override
   List<Object?> get props => [request, beforeFilePath, afterFilePath];
 }
 
-/// Full single-shot submission: car specs, the local cover file, ordered
-/// gallery file paths, and the modifications with their local images.
+/// Full submission: car specs, local cover file, ordered gallery file paths,
+/// and modifications with their optional local before/after images.
 class SubmitNewCar extends AddCarEvent {
   final CarRequestParams car;
   final String coverFilePath;

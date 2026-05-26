@@ -24,7 +24,7 @@ class GarageCarCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _CarImage(imagePath: car.coverImagePath, status: car.status?.type),
+            _CarImage(imageUrl: car.coverImageUrl, status: car.status?.type),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               child: Text(
@@ -44,10 +44,10 @@ class GarageCarCard extends StatelessWidget {
 }
 
 class _CarImage extends StatelessWidget {
-  final String? imagePath;
+  final String? imageUrl;
   final String? status;
 
-  const _CarImage({this.imagePath, this.status});
+  const _CarImage({this.imageUrl, this.status});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class _CarImage extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          ResolvedImage(storagePath: imagePath, fit: BoxFit.cover),
+          ResolvedImage(imageUrl: imageUrl, fit: BoxFit.cover),
           if (status != null)
             Positioned(
               top: 10,
