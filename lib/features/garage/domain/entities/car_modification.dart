@@ -1,5 +1,20 @@
 import 'package:equatable/equatable.dart';
 
+class ModificationMediaEntity extends Equatable {
+  final String url;
+  final String type;  // 'image' or 'video'
+  final String phase; // 'before' or 'after'
+
+  const ModificationMediaEntity({
+    required this.url,
+    required this.type,
+    required this.phase,
+  });
+
+  @override
+  List<Object?> get props => [url, type, phase];
+}
+
 class CarModificationEntity extends Equatable {
   final String id;
   final String carId;
@@ -7,10 +22,7 @@ class CarModificationEntity extends Equatable {
   final String categoryName;
   final String title;
   final String? description;
-
-  /// Canonical storage paths. Resolve to signed URLs before display.
-  final String? beforeImagePath;
-  final String? afterImagePath;
+  final List<ModificationMediaEntity> media;
   final DateTime? installationDate;
   final double? price;
   final bool isPricePublic;
@@ -24,14 +36,19 @@ class CarModificationEntity extends Equatable {
     required this.categoryName,
     required this.title,
     this.description,
-    this.beforeImagePath,
-    this.afterImagePath,
+    this.media = const [],
     this.installationDate,
     this.price,
     required this.isPricePublic,
     this.mileageAtInstall,
     required this.createdAt,
   });
+
+  List<ModificationMediaEntity> get beforeMedia =>
+      media.where((m) => m.phase == 'before').toList();
+
+  List<ModificationMediaEntity> get afterMedia =>
+      media.where((m) => m.phase == 'after').toList();
 
   @override
   List<Object?> get props => [
@@ -41,8 +58,7 @@ class CarModificationEntity extends Equatable {
         categoryName,
         title,
         description,
-        beforeImagePath,
-        afterImagePath,
+        media,
         installationDate,
         price,
         isPricePublic,

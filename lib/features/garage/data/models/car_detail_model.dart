@@ -24,7 +24,8 @@ class CarDetailModel {
   final double? zeroToOneHundred;
   final String? chassisCode;
   final String? engineCode;
-  final String coverImagePath;
+  final String? coverImageUrl;
+  final List<String> galleryUrls;
   final DateTime? createdAt;
   final CarStatusOptionModel? status;
   final List<CarModificationModel> modifications;
@@ -51,7 +52,8 @@ class CarDetailModel {
     this.zeroToOneHundred,
     this.chassisCode,
     this.engineCode,
-    required this.coverImagePath,
+    this.coverImageUrl,
+    this.galleryUrls = const [],
     this.createdAt,
     this.status,
     required this.modifications,
@@ -80,10 +82,16 @@ class CarDetailModel {
       zeroToOneHundred: (json['zero_to_one_hundred'] as num?)?.toDouble(),
       chassisCode: json['chassis_code'] as String?,
       engineCode: json['engine_code'] as String?,
-      coverImagePath: json['cover_image_url'] as String,
-      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at'] as String) : null,
+      coverImageUrl: json['cover_image_url'] as String?,
+      galleryUrls: (json['gallery_urls'] as List<dynamic>? ?? [])
+          .map((e) => e as String)
+          .toList(),
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'] as String)
+          : null,
       status: json['status'] != null
-          ? CarStatusOptionModel.fromJson(json['status'] as Map<String, dynamic>)
+          ? CarStatusOptionModel.fromJson(
+              json['status'] as Map<String, dynamic>)
           : null,
       modifications: (json['modifications'] as List<dynamic>)
           .map((e) => CarModificationModel.fromJson(e as Map<String, dynamic>))
@@ -114,7 +122,8 @@ class CarDetailModel {
       zeroToOneHundred: zeroToOneHundred,
       chassisCode: chassisCode,
       engineCode: engineCode,
-      coverImagePath: coverImagePath,
+      coverImageUrl: coverImageUrl,
+      galleryUrls: galleryUrls,
       createdAt: createdAt,
       status: status?.toEntity(),
       modifications: modifications.map((m) => m.toEntity()).toList(),

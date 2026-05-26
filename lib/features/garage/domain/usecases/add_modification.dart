@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/base_failures.dart';
 import '../../../../core/usecases/usecase.dart';
-import '../entities/create_car_result.dart';
+import '../entities/car_modification.dart';
 import '../repositories/garage_repository.dart';
 
 class AddModificationParams {
@@ -14,13 +14,13 @@ class AddModificationParams {
 
 @lazySingleton
 class AddModificationUseCase
-    implements UseCase<AddModificationResult, AddModificationParams> {
+    implements UseCase<CarModificationEntity, AddModificationParams> {
   final GarageRepository repository;
 
   AddModificationUseCase(this.repository);
 
   @override
-  Future<Either<Failure, AddModificationResult>> call(
+  Future<Either<Failure, CarModificationEntity>> call(
       AddModificationParams params) {
     return repository.addModification(params.carId, params.request);
   }

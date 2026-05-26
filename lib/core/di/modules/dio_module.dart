@@ -14,8 +14,10 @@ abstract class DioModule {
     final dio = Dio(
       BaseOptions(
         baseUrl: '$host/api/v1',
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
+        // Render free-tier instances cold-start (~30-60s) after idling,
+        // so allow generous timeouts to ride out the first wake-up request.
+        connectTimeout: const Duration(seconds: 60),
+        receiveTimeout: const Duration(seconds: 60),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',

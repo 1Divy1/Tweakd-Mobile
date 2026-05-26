@@ -1,5 +1,31 @@
 import '../../domain/entities/car_modification.dart';
 
+class ModificationMediaItemModel {
+  final String url;
+  final String type;
+  final String phase;
+
+  const ModificationMediaItemModel({
+    required this.url,
+    required this.type,
+    required this.phase,
+  });
+
+  factory ModificationMediaItemModel.fromJson(Map<String, dynamic> json) {
+    return ModificationMediaItemModel(
+      url: json['url'] as String,
+      type: json['type'] as String,
+      phase: json['phase'] as String,
+    );
+  }
+
+  ModificationMediaEntity toEntity() => ModificationMediaEntity(
+        url: url,
+        type: type,
+        phase: phase,
+      );
+}
+
 class CarModificationModel {
   final String id;
   final String carId;
@@ -7,8 +33,7 @@ class CarModificationModel {
   final String categoryName;
   final String title;
   final String? description;
-  final String? beforeImagePath;
-  final String? afterImagePath;
+  final List<ModificationMediaItemModel> media;
   final DateTime? installationDate;
   final double? price;
   final bool isPricePublic;
@@ -22,8 +47,7 @@ class CarModificationModel {
     required this.categoryName,
     required this.title,
     this.description,
-    this.beforeImagePath,
-    this.afterImagePath,
+    this.media = const [],
     this.installationDate,
     this.price,
     required this.isPricePublic,
@@ -39,8 +63,10 @@ class CarModificationModel {
       categoryName: json['category_name'] as String,
       title: json['title'] as String,
       description: json['description'] as String?,
-      beforeImagePath: json['before_image_url'] as String?,
-      afterImagePath: json['after_image_url'] as String?,
+      media: (json['media'] as List<dynamic>? ?? [])
+          .map((e) =>
+              ModificationMediaItemModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       installationDate: json['installation_date'] != null
           ? DateTime.parse(json['installation_date'] as String)
           : null,
@@ -59,8 +85,7 @@ class CarModificationModel {
       categoryName: categoryName,
       title: title,
       description: description,
-      beforeImagePath: beforeImagePath,
-      afterImagePath: afterImagePath,
+      media: media.map((m) => m.toEntity()).toList(),
       installationDate: installationDate,
       price: price,
       isPricePublic: isPricePublic,

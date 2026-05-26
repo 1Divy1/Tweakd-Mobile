@@ -11,89 +11,107 @@ creating a car in one shot, logging modifications, and deleting cars/images.
 ```
 garage/
 ├── data/
-│   ├── datasources/garage_api_data_source.dart
+│   ├── datasources/
+│   │   ├── garage_api_data_source.dart      # backend CRUD + PATCH endpoints
+│   │   └── storage_api_data_source.dart     # presigned URL endpoints (/api/storage/...)
 │   ├── models/
 │   │   ├── car_detail_model.dart
-│   │   ├── car_image_model.dart
-│   │   ├── car_modification_model.dart
+│   │   ├── car_modification_model.dart      # + ModificationMediaItemModel
 │   │   ├── car_status_option_model.dart
 │   │   ├── car_summary_model.dart
-│   │   ├── create_car_response_model.dart   # + UploadSlot/GallerySlot/ModUploadSlots/AddModResponse
+│   │   ├── create_car_response_model.dart   # + AddModificationResponseModel
 │   │   ├── garage_model.dart
-│   │   └── reference_data_models.dart
+│   │   ├── reference_data_models.dart
+│   │   └── storage_models.dart              # UploadUrlResponseModel, ModUploadUrlsResponseModel
 │   └── repositories/garage_repository_impl.dart
 ├── domain/
 │   ├── entities/
-│   │   ├── car.dart                # CarEntity (+ copyWith)
-│   │   ├── car_image.dart          # CarImageEntity (gallery)
-│   │   ├── car_modification.dart
+│   │   ├── car.dart                # CarEntity (+ coverImageUrl, galleryUrls, copyWith)
+│   │   ├── car_modification.dart   # CarModificationEntity (+ media list, beforeMedia/afterMedia getters)
 │   │   ├── car_status_option.dart
-│   │   ├── car_summary.dart
-│   │   ├── create_car_result.dart  # UploadSlot/GallerySlot/ModUploadSlots/CreateCarResult/AddModificationResult
+│   │   ├── car_summary.dart        # coverImageUrl (direct public URL)
+│   │   ├── create_car_result.dart  # UploadUrlResult, ModUploadUrl, ModUploadUrlsResult
 │   │   ├── garage.dart
 │   │   └── reference_data.dart
 │   ├── failures/garage_failures.dart
-│   ├── repositories/garage_repository.dart   # + CarRequestParams/ModRequestParams/CreateCarParams
+│   ├── repositories/garage_repository.dart   # + storage methods, ModPatchParams, ModUploadRequest
 │   └── usecases/
-│       ├── add_car.dart                 # CreateCarParams -> CreateCarResult
-│       ├── add_modification.dart        # -> AddModificationResult
+│       ├── add_car.dart
+│       ├── add_modification.dart
 │       ├── delete_car.dart
-│       ├── delete_car_image.dart
 │       ├── delete_modification.dart
 │       ├── get_car.dart
-│       ├── get_car_images.dart
+│       ├── get_cover_upload_url.dart
+│       ├── get_gallery_upload_url.dart
 │       ├── get_garage_by_username.dart
+│       ├── get_modification_upload_urls.dart
 │       ├── get_my_garage.dart
 │       ├── get_reference_data.dart
-│       ├── resolve_image_url.dart       # storage path -> signed URL
+│       ├── patch_modification.dart
+│       ├── save_cover_url.dart
+│       ├── save_gallery_urls.dart
 │       └── update_car.dart
 └── presentation/
     ├── bloc/
     │   ├── bloc.dart, event.dart, state.dart      # GarageBloc (garage view + delete car)
-    │   ├── add_car/                                # AddCarBloc (single-shot create + uploads)
-    │   ├── car_detail/                             # CarDetailBloc (car + gallery + deletes)
-    │   └── log_mod/                                # LogModBloc (add mod + image uploads)
+    │   ├── add_car/                                # AddCarBloc (create + 3-step uploads)
+    │   ├── car_detail/                             # CarDetailBloc (car + gallery delete via PATCH)
+    │   └── log_mod/                                # LogModBloc (add mod + 4-step media upload)
     ├── pages/
     │   ├── register_car_page.dart   # 6-step add-car wizard
     │   ├── chassis_page.dart        # car detail (specs, gallery, build log)
     │   └── log_mod_page.dart        # add a modification to an existing car
     ├── utils/
-    │   ├── garage_error_mapper.dart
-    │   └── image_url_resolver.dart  # cached storagePath -> signed URL resolver
+    │   └── garage_error_mapper.dart
     └── widgets/
         ├── garage_car_card.dart
-        └── resolved_image.dart      # resolves + renders a storage path
+        └── resolved_image.dart      # CachedNetworkImage wrapper (no URL resolution needed)
 ```
 
-`CarImageService` (in `core/services/`) is shared infra: it compresses a picked
-image to webp and PUTs the bytes to a backend-issued presigned URL via a bare
-`Dio` (no app JWT — the Supabase upload token is embedded in the URL).
+`CarImageService` (in `core/services/`) compresses a picked image to webp and PUTs
+the bytes to a Cloudflare R2 presigned URL via a bare `Dio` (no JWT — auth is
+embedded in the presigned URL query parameters).
+
+`StorageApiDataSource` uses its own `Dio` instance pointed at `${API_BASE_URL}/api/storage`
+(with JWT interceptor) to request presigned upload URLs from the backend.
 
 ---
 
-## Backend contract (Spring Modulith `garage` module)
+## Backend contract
 
-All paths are relative to the Dio base URL `${API_BASE_URL}/api/v1`. JSON is
-**snake_case** (global Jackson `SNAKE_CASE`).
+All garage CRUD paths are relative to the Dio base URL `${API_BASE_URL}/api/v1`.
+Storage presigned URL paths are relative to `${API_BASE_URL}/api/storage`.
+JSON is **camelCase**.
 
-### Image model — IMPORTANT
+### Image storage — Cloudflare R2
 
-Image fields (`cover_image_url`, `before_image_url`, `after_image_url`,
-`storage_path`) are **canonical storage paths**, not URLs
-(`car-photos/{ownerId}/{carId}/...`). To display any image you must resolve the
-path to a short-lived signed URL via `POST /garage/storage/download-url`. This is
-done transparently by `ImageUrlResolver` (in-memory cached, 5h TTL) behind the
-`ResolvedImage` widget.
+Images are stored as **permanent public URLs** in Cloudflare R2. Every upload
+follows a three-step pattern:
 
-### Single-shot car creation
+1. **GET presigned URL** from backend (with JWT) → `{ uploadUrl, finalUrl, key }`
+2. **PUT file bytes** directly to R2 (NO JWT — auth is embedded in `uploadUrl`)
+3. **PATCH backend** with `finalUrl` to persist the URL in the DB
 
-`POST /garage/cars` body `{ car, modifications[], gallery_count }` →
-`{ car, cover: UploadSlot, modifications: [ModUploadSlots], gallery: [GallerySlot] }`.
-The backend creates all rows with deterministic storage paths and returns
-presigned upload URLs. The client (`AddCarBloc`) then PUTs every image's bytes to
-its slot; on **any** upload failure it rolls back via
-`DELETE /garage/cars/{carId}` (mods + gallery cascade). Slots map by order:
-`modifications[i]` ↔ submitted mod `i`; `gallery[i]` ↔ gallery file `i`.
+### CarDto shape (GET /garage/cars/{carId})
+
+```
+{
+  id, garageId, brandId, brandName, modelId, modelName, drivetrainId,
+  drivetrainName, colorId, colorName, colorCode, mileageUnitId, mileageUnitName,
+  year, horsepower, torque, weight, engineDisplacement, zeroToOneHundred,
+  chassisCode, engineCode,
+  coverImageUrl: String?,          // nullable until a cover is uploaded
+  galleryUrls: List<String>,       // ordered; empty if no gallery
+  createdAt, status,
+  modifications: [
+    {
+      id, carId, categoryId, categoryName, title, description,
+      media: [{ url, type, phase }],  // type: "image"|"video", phase: "before"|"after"
+      installationDate, price, isPricePublic, mileageAtInstall, createdAt
+    }
+  ]
+}
+```
 
 ### Endpoints
 
@@ -101,26 +119,47 @@ its slot; on **any** upload failure it rolls back via
 |---|---|---|
 | GET | `/garage/me` | own garage (no privacy gate) |
 | GET | `/garage/by-username/{username}` | 403 if private & not accepted follower |
-| GET | `/garage/cars/{carId}` | full car + mods; privacy-gated |
-| POST | `/garage/cars` | single-shot create (see above) |
-| PUT | `/garage/cars/{carId}` | full replace; 403 not owner |
-| DELETE | `/garage/cars/{carId}` | cascades mods + gallery |
-| POST | `/garage/cars/{carId}/modifications` | add mod **¹** |
-| PUT | `/garage/cars/{carId}/modifications/{modId}` | full replace |
+| GET | `/garage/cars/{carId}` | full CarDto (cover + gallery + mods with media) |
+| POST | `/garage/cars` | create car + mods (text only); media uploaded separately |
+| PUT | `/garage/cars/{carId}` | full replace of car specs |
+| DELETE | `/garage/cars/{carId}` | cascades mods + gallery; R2 objects cleaned up |
+| PATCH | `/garage/cars/{carId}/cover?coverImageUrl=...` | step 3 for cover |
+| PATCH | `/garage/cars/{carId}/gallery` | `{ urls: [...] }` — full ordered list; diffs and deletes removed R2 objects |
+| POST | `/garage/cars/{carId}/modifications` | add mod (text only) |
+| PATCH | `/garage/cars/{carId}/modifications/{modId}` | partial update: text fields and/or `{ addMedia, removeMediaUrls }` |
 | DELETE | `/garage/cars/{carId}/modifications/{modId}` | |
-| GET | `/garage/cars/{carId}/images` | gallery list (not embedded in CarDto) |
-| DELETE | `/garage/cars/{carId}/images/{imageId}` | owner only |
-| POST | `/garage/storage/download-url` | `{storage_path}` → `{signed_url}` |
-| GET | `/garage/reference/{brands,brands/{id}/models,drivetrains,colors,distance-units,status-options,mod-categories}` | lookup data |
+| GET | `/garage/reference/{brands,...}` | lookup data |
 
-**¹** `POST .../modifications` returns
-`{ modification, before: UploadSlot, after: UploadSlot }`
-(`AddModificationResponseModel` / `AddModificationResult`); `LogModBloc` uploads
-both images and rolls back via `DELETE .../modifications/{modId}` on failure —
-symmetric to the single-shot create flow. A
-`POST .../modifications/{modId}/upload-urls` → `ModificationUploadSlots`
-endpoint also exists for refreshing presigned URLs on retry; the client does not
-use it yet (it rolls back and resubmits instead).
+### Storage presigned URL endpoints (base: `/api/storage`)
+
+| Method | Path | Returns |
+|---|---|---|
+| GET | `/cars/{carId}/cover` | `{ uploadUrl, finalUrl, key }` |
+| GET | `/cars/{carId}/gallery` | `{ uploadUrl, finalUrl, key }` |
+| POST | `/cars/{carId}/modifications/{modId}/upload-urls` | `{ files: [{phase, format}] }` → `{ uploads: [{uploadUrl, finalUrl, phase}] }` |
+
+---
+
+## Upload flows
+
+### Cover image
+1. `GET /api/storage/cars/{carId}/cover` → `{ uploadUrl, finalUrl }`
+2. Compress to webp → `PUT uploadUrl` (Content-Type: image/webp, no JWT)
+3. `PATCH /api/v1/garage/cars/{carId}/cover?coverImageUrl={finalUrl}`
+
+### Gallery (per photo, then save all)
+1. `GET /api/storage/cars/{carId}/gallery` → `{ uploadUrl, finalUrl }`
+2. Compress to webp → `PUT uploadUrl` (no JWT); collect `finalUrl`
+3. Repeat 1-2 for each new photo
+4. `PATCH /api/v1/garage/cars/{carId}/gallery` with `{ urls: [all current URLs in order] }`
+
+Gallery deletion: remove URL from local list → PATCH with updated list. Backend
+diffs the incoming list and deletes orphaned R2 objects after commit.
+
+### Modification media
+1. `POST /api/storage/cars/{carId}/modifications/{modId}/upload-urls` with `{ files: [{phase, format}] }`
+2. Upload all files to R2 in parallel (no JWT)
+3. `PATCH /api/v1/garage/cars/{carId}/modifications/{modId}` with `{ addMedia: [{url, phase}] }`
 
 ---
 
@@ -129,9 +168,9 @@ use it yet (it rolls back and resubmits instead).
 | Bloc | Events | Notes |
 |---|---|---|
 | `GarageBloc` | `LoadMyGarage`, `LoadGarageByUsername`, `DeleteCar` | used by profile's `GarageSection` |
-| `AddCarBloc` | `LoadAddCarReferenceData`, `AddCarBrandSelected`, `SubmitNewCar` | `SubmitNewCar` carries car params + local cover/gallery/mod file paths; orchestrates create → uploads → rollback. `AddCarSubmitting.statusLabel` drives the progress label |
-| `CarDetailBloc` | `LoadCar`, `DeleteCarFromDetail`, `DeleteGalleryImage`, `DeleteModificationFromDetail` | `LoadCar` loads car + gallery in parallel |
-| `LogModBloc` | `LoadModCategories`, `SubmitModification` | `SubmitModification` carries params + before/after file paths |
+| `AddCarBloc` | `LoadAddCarReferenceData`, `AddCarBrandSelected`, `SubmitNewCar` | creates car then orchestrates 3-step uploads for cover, gallery, and mod media; rolls back via `DELETE /garage/cars/{carId}` on failure |
+| `CarDetailBloc` | `LoadCar`, `DeleteCarFromDetail`, `DeleteGalleryImage`, `DeleteModificationFromDetail` | gallery is embedded in `CarEntity.galleryUrls`; `DeleteGalleryImage` removes URL locally then PATCHes the full list |
+| `LogModBloc` | `LoadModCategories`, `SubmitModification` | creates mod then requests batch upload URLs, uploads to R2, PATCHes with `addMedia`; rolls back via delete on failure |
 
 ---
 
@@ -142,9 +181,6 @@ use it yet (it rolls back and resubmits instead).
 | `/garage/cars/add` | `AddCarBloc` | `RegisterCarPage` (6 steps: Identity, Performance, Drivetrain, Story, Gallery, Mods) |
 | `/garage/cars/:carId` | `CarDetailBloc` | `ChassisPage` (`state.extra` = `isOwner` bool) |
 | `/garage/cars/:carId/modifications/add` | `LogModBloc` | `LogModificationPage` |
-
-Garage view itself has no route — `GarageSection` (profile feature) renders it on
-`/profile` and `/users/:username` using `GarageBloc` provided by those routes.
 
 ---
 
