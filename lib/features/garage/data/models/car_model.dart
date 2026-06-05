@@ -2,7 +2,7 @@ import '../../domain/entities/car.dart';
 import 'car_modification_model.dart';
 import 'car_status_option_model.dart';
 
-class CarDetailModel {
+class CarModel {
   final String id;
   final String garageId;
   final String brandId;
@@ -16,6 +16,7 @@ class CarDetailModel {
   final String colorCode;
   final String mileageUnitId;
   final String mileageUnitName;
+  final int? mileage;
   final int year;
   final int horsepower;
   final int torque;
@@ -30,7 +31,7 @@ class CarDetailModel {
   final CarStatusOptionModel? status;
   final List<CarModificationModel> modifications;
 
-  const CarDetailModel({
+  const CarModel({
     required this.id,
     required this.garageId,
     required this.brandId,
@@ -49,6 +50,7 @@ class CarDetailModel {
     required this.torque,
     required this.weight,
     required this.engineDisplacement,
+    this.mileage,
     this.zeroToOneHundred,
     this.chassisCode,
     this.engineCode,
@@ -59,8 +61,8 @@ class CarDetailModel {
     required this.modifications,
   });
 
-  factory CarDetailModel.fromJson(Map<String, dynamic> json) {
-    return CarDetailModel(
+  factory CarModel.fromJson(Map<String, dynamic> json) {
+    return CarModel(
       id: json['id'] as String,
       garageId: json['garage_id'] as String,
       brandId: json['brand_id'] as String,
@@ -74,6 +76,7 @@ class CarDetailModel {
       colorCode: json['color_code'] as String,
       mileageUnitId: json['mileage_unit_id'] as String,
       mileageUnitName: json['mileage_unit_name'] as String,
+      mileage: json['mileage'] as int?,
       year: json['year'] as int,
       horsepower: json['horsepower'] as int,
       torque: json['torque'] as int,
@@ -114,6 +117,7 @@ class CarDetailModel {
       colorCode: colorCode,
       mileageUnitId: mileageUnitId,
       mileageUnitName: mileageUnitName,
+      mileage: mileage,
       year: year,
       horsepower: horsepower,
       torque: torque,

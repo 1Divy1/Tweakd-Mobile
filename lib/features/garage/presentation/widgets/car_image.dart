@@ -6,14 +6,14 @@ import '../../../../core/theme/app_colors.dart';
 
 /// Displays a car image from a permanent public URL (Cloudflare R2).
 /// Shows a shimmer while loading and a neutral placeholder on null/error.
-class ResolvedImage extends StatelessWidget {
+class CarImage extends StatelessWidget {
   final String? imageUrl;
   final double? width;
   final double? height;
   final BoxFit fit;
   final BorderRadius? borderRadius;
 
-  const ResolvedImage({
+  const CarImage({
     super.key,
     required this.imageUrl,
     this.width,
@@ -46,16 +46,19 @@ class ResolvedImage extends StatelessWidget {
   }
 
   Widget _shimmer() => Shimmer.fromColors(
-        baseColor: AppColors.line,
-        highlightColor: AppColors.line2,
-        child: Container(color: AppColors.line),
-      );
+    baseColor: AppColors.line,
+    highlightColor: AppColors.line2,
+    child: Container(color: AppColors.line),
+  );
 
   Widget _placeholder() => Container(
-        color: AppColors.line2,
-        child: const Center(
-          child: Icon(Icons.directions_car_outlined,
-              color: AppColors.muteSoft, size: 32),
-        ),
-      );
+    color: AppColors.line2,
+    child: const Center(
+      child: Icon(
+        Icons.directions_car_outlined,
+        color: AppColors.muteSoft,
+        size: 32,
+      ),
+    ),
+  );
 }

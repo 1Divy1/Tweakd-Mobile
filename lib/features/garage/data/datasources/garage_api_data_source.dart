@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/network/abstract_http.dart';
-import '../models/car_detail_model.dart';
+import '../models/car_model.dart';
 import '../models/car_modification_model.dart';
 import '../models/garage_model.dart';
 import '../models/reference_data_models.dart';
@@ -26,30 +26,30 @@ class GarageApiDataSource {
 
   // ── Cars ──────────────────────────────────────────────────────────────────
 
-  Future<CarDetailModel> getCar(String carId) async {
+  Future<CarModel> getCar(String carId) async {
     final data = await http.get('/garage/cars/$carId');
-    return CarDetailModel.fromJson(data as Map<String, dynamic>);
+    return CarModel.fromJson(data as Map<String, dynamic>);
   }
 
-  Future<CarDetailModel> addCar(Map<String, dynamic> body) async {
+  Future<CarModel> addCar(Map<String, dynamic> body) async {
     final data = await http.post('/garage/cars', body: body);
     final json = data as Map<String, dynamic>;
     // The create endpoint wraps the car in a 'car' key
-    return CarDetailModel.fromJson(
+    return CarModel.fromJson(
         json.containsKey('car') ? json['car'] as Map<String, dynamic> : json);
   }
 
-  Future<CarDetailModel> updateCar(
+  Future<CarModel> updateCar(
       String carId, Map<String, dynamic> body) async {
     final data = await http.put('/garage/cars/$carId', body: body);
-    return CarDetailModel.fromJson(data as Map<String, dynamic>);
+    return CarModel.fromJson(data as Map<String, dynamic>);
   }
 
   Future<void> deleteCar(String carId) async {
     await http.delete('/garage/cars/$carId');
   }
 
-  // ── Cover image ───────────────────────────────────────────────────────────
+  // ── Media ───────────────────────────────────────────────────────────
 
   Future<void> saveCoverUrl(String carId, String coverImageUrl) async {
     await http.patch(
@@ -57,8 +57,6 @@ class GarageApiDataSource {
       queryParameters: {'cover_image_url': coverImageUrl},
     );
   }
-
-  // ── Gallery ───────────────────────────────────────────────────────────────
 
   Future<void> saveGalleryUrls(String carId, List<String> urls) async {
     await http.patch(

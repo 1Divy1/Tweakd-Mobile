@@ -8,12 +8,12 @@ import '../../domain/entities/car_modification.dart';
 import '../bloc/car_detail/bloc.dart';
 import '../bloc/car_detail/event.dart';
 import '../bloc/car_detail/state.dart';
-import '../widgets/resolved_image.dart';
+import '../widgets/car_image.dart';
 
-class ChassisPage extends StatelessWidget {
+class AboutCarPage extends StatelessWidget {
   final bool isOwner;
 
-  const ChassisPage({super.key, required this.isOwner});
+  const AboutCarPage({super.key, required this.isOwner});
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +26,11 @@ class ChassisPage extends StatelessWidget {
           backgroundColor: AppColors.bg,
           body: switch (state) {
             CarDetailLoading() => const _LoadingView(),
-            CarDetailLoaded(:final car, :final isDeleting) => _ChassisView(
-                car: car,
-                isOwner: isOwner,
-                isDeleting: isDeleting,
-              ),
+            CarDetailLoaded(:final car, :final isDeleting) => _AboutCarView(
+              car: car,
+              isOwner: isOwner,
+              isDeleting: isDeleting,
+            ),
             CarDetailError(:final message) => _ErrorView(message: message),
             CarDetailDeleted() => const SizedBox.shrink(),
             _ => const _LoadingView(),
@@ -48,7 +48,9 @@ class _LoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator(color: AppColors.accent));
+    return const Center(
+      child: CircularProgressIndicator(color: AppColors.accent),
+    );
   }
 }
 
@@ -61,7 +63,7 @@ class _ErrorView extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          _ChassisTopBar(isOwner: false, carId: '', isDeleting: false),
+          _TopBar(isOwner: false, carId: '', isDeleting: false),
           Expanded(
             child: Center(
               child: Padding(
@@ -80,14 +82,14 @@ class _ErrorView extends StatelessWidget {
   }
 }
 
-// ── Main chassis view ────────────────────────────────────────────────────────
+// ── About car view ────────────────────────────────────────────────────────
 
-class _ChassisView extends StatelessWidget {
+class _AboutCarView extends StatelessWidget {
   final CarEntity car;
   final bool isOwner;
   final bool isDeleting;
 
-  const _ChassisView({
+  const _AboutCarView({
     required this.car,
     required this.isOwner,
     required this.isDeleting,
@@ -99,7 +101,7 @@ class _ChassisView extends StatelessWidget {
       children: [
         SafeArea(
           bottom: false,
-          child: _ChassisTopBar(
+          child: _TopBar(
             isOwner: isOwner,
             carId: car.id,
             isDeleting: isDeleting,
@@ -110,7 +112,7 @@ class _ChassisView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _HeroImage(car: car),
+                _CoverImage(car: car),
                 const SizedBox(height: 20),
                 _SpecGrid(car: car),
                 const SizedBox(height: 12),
@@ -130,9 +132,10 @@ class _ChassisView extends StatelessWidget {
                 if (car.modifications.isNotEmpty) ...[
                   const SizedBox(height: 20),
                   _ModificationsList(
-                      carId: car.id,
-                      mods: car.modifications,
-                      isOwner: isOwner),
+                    carId: car.id,
+                    mods: car.modifications,
+                    isOwner: isOwner,
+                  ),
                 ],
                 const SizedBox(height: 32),
               ],
@@ -146,12 +149,12 @@ class _ChassisView extends StatelessWidget {
 
 // ── Top bar ───────────────────────────────────────────────────────────────────
 
-class _ChassisTopBar extends StatelessWidget {
+class _TopBar extends StatelessWidget {
   final bool isOwner;
   final String carId;
   final bool isDeleting;
 
-  const _ChassisTopBar({
+  const _TopBar({
     required this.isOwner,
     required this.carId,
     required this.isDeleting,
@@ -165,12 +168,16 @@ class _ChassisTopBar extends StatelessWidget {
         children: [
           _PillButton(
             onTap: () => context.pop(),
-            child: const Icon(Icons.chevron_left, color: AppColors.ink, size: 20),
+            child: const Icon(
+              Icons.chevron_left,
+              color: AppColors.ink,
+              size: 20,
+            ),
           ),
           const Expanded(
             child: Center(
               child: Text(
-                'CHASSIS',
+                'ABOUT',
                 style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 14,
@@ -192,7 +199,11 @@ class _ChassisTopBar extends StatelessWidget {
                         color: AppColors.ink,
                       ),
                     )
-                  : const Icon(Icons.more_horiz, color: AppColors.ink, size: 20),
+                  : const Icon(
+                      Icons.more_horiz,
+                      color: AppColors.ink,
+                      size: 20,
+                    ),
             )
           else
             const SizedBox(width: 44),
@@ -226,7 +237,10 @@ class _ChassisTopBar extends StatelessWidget {
               leading: const Icon(Icons.delete_outline, color: Colors.red),
               title: const Text(
                 'Delete machine',
-                style: TextStyle(color: Colors.red, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               onTap: () {
                 Navigator.of(context).pop();
@@ -265,22 +279,19 @@ class _PillButton extends StatelessWidget {
   }
 }
 
-// ── Hero image ─────────────────────────────────────────────────────────────────
+// ── Cover image ─────────────────────────────────────────────────────────────────
 
-class _HeroImage extends StatelessWidget {
+class _CoverImage extends StatelessWidget {
   final CarEntity car;
-  const _HeroImage({required this.car});
+  const _CoverImage({required this.car});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         AspectRatio(
-          aspectRatio: 16 / 10,
-          child: ResolvedImage(
-            imageUrl: car.coverImageUrl,
-            fit: BoxFit.cover,
-          ),
+          aspectRatio: 16 / 19,
+          child: CarImage(imageUrl: car.coverImageUrl, fit: BoxFit.cover),
         ),
         Positioned(
           bottom: 0,
@@ -311,26 +322,6 @@ class _HeroImage extends StatelessWidget {
                         ),
                       ),
                     const Spacer(),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withAlpha(30),
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(color: Colors.white24),
-                      ),
-                      child: Text(
-                        '${car.year} · ${car.colorName.toUpperCase()}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 0.8,
-                        ),
-                      ),
-                    ),
                   ],
                 ),
                 const SizedBox(height: 4),
@@ -417,7 +408,11 @@ class _SpecCard extends StatelessWidget {
   final String value;
   final String unit;
 
-  const _SpecCard({required this.label, required this.value, required this.unit});
+  const _SpecCard({
+    required this.label,
+    required this.value,
+    required this.unit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -480,7 +475,8 @@ class _InfoTable extends StatelessWidget {
   Widget build(BuildContext context) {
     final rows = [
       ('DRIVETRAIN', car.drivetrainName.toUpperCase()),
-      ('MILEAGE UNIT', car.mileageUnitName.toUpperCase()),
+      if (car.mileage != null)
+        ('MILEAGE', '${car.mileage} ${car.mileageUnitName.toUpperCase()}'),
       if (car.engineCode != null && car.engineCode!.isNotEmpty)
         ('ENGINE CODE', car.engineCode!.toUpperCase()),
       ('DISPLACEMENT', '${car.engineDisplacement.toStringAsFixed(1)}L'),
@@ -560,10 +556,11 @@ class _GallerySection extends StatelessWidget {
               letterSpacing: 1.4,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
             itemCount: galleryUrls.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -577,7 +574,11 @@ class _GallerySection extends StatelessWidget {
                 onLongPress: isOwner
                     ? () => _confirmDelete(context, url)
                     : null,
-                child: ResolvedImage(
+                onTap: () => context.push(
+                  '/full-screen-image',
+                  extra: url,
+                ),
+                child: CarImage(
                   imageUrl: url,
                   fit: BoxFit.cover,
                   borderRadius: BorderRadius.circular(8),
@@ -658,8 +659,11 @@ class _ModificationsList extends StatelessWidget {
   final String carId;
   final List<CarModificationEntity> mods;
   final bool isOwner;
-  const _ModificationsList(
-      {required this.carId, required this.mods, required this.isOwner});
+  const _ModificationsList({
+    required this.carId,
+    required this.mods,
+    required this.isOwner,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -699,8 +703,11 @@ class _ModCard extends StatelessWidget {
   final String carId;
   final CarModificationEntity mod;
   final bool isOwner;
-  const _ModCard(
-      {required this.carId, required this.mod, required this.isOwner});
+  const _ModCard({
+    required this.carId,
+    required this.mod,
+    required this.isOwner,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -723,8 +730,10 @@ class _ModCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.accentSoft,
                     borderRadius: BorderRadius.circular(4),
@@ -743,8 +752,11 @@ class _ModCard extends StatelessWidget {
                 if (isOwner)
                   GestureDetector(
                     onTap: () => _showModMenu(context),
-                    child: const Icon(Icons.more_horiz,
-                        color: AppColors.mute, size: 20),
+                    child: const Icon(
+                      Icons.more_horiz,
+                      color: AppColors.mute,
+                      size: 20,
+                    ),
                   ),
               ],
             ),
@@ -773,14 +785,18 @@ class _ModCard extends StatelessWidget {
                   if (beforeMedia.isNotEmpty)
                     Expanded(
                       child: _ModImage(
-                          url: beforeMedia.first.url, label: 'BEFORE'),
+                        url: beforeMedia.first.url,
+                        label: 'BEFORE',
+                      ),
                     ),
                   if (beforeMedia.isNotEmpty && afterMedia.isNotEmpty)
                     const SizedBox(width: 8),
                   if (afterMedia.isNotEmpty)
                     Expanded(
-                      child:
-                          _ModImage(url: afterMedia.first.url, label: 'AFTER'),
+                      child: _ModImage(
+                        url: afterMedia.first.url,
+                        label: 'AFTER',
+                      ),
                     ),
                 ],
               ),
@@ -817,13 +833,16 @@ class _ModCard extends StatelessWidget {
               leading: const Icon(Icons.delete_outline, color: Colors.red),
               title: const Text(
                 'Delete modification',
-                style:
-                    TextStyle(color: Colors.red, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               onTap: () {
                 Navigator.of(context).pop();
-                bloc.add(DeleteModificationFromDetail(
-                    carId: carId, modId: mod.id));
+                bloc.add(
+                  DeleteModificationFromDetail(carId: carId, modId: mod.id),
+                );
               },
             ),
             const SizedBox(height: 8),
@@ -835,43 +854,51 @@ class _ModCard extends StatelessWidget {
 }
 
 class _ModImage extends StatelessWidget {
+  
   final String url;
   final String label;
+
   const _ModImage({required this.url, required this.label});
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        AspectRatio(
-          aspectRatio: 16 / 9,
-          child: ResolvedImage(
-            imageUrl: url,
-            fit: BoxFit.cover,
-            borderRadius: BorderRadius.circular(6),
-          ),
-        ),
-        Positioned(
-          top: 6,
-          left: 6,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-            decoration: BoxDecoration(
-              color: AppColors.ink.withAlpha(180),
-              borderRadius: BorderRadius.circular(3),
+    return GestureDetector(
+      onTap: () => context.push(
+        '/full-screen-image',
+        extra: url,
+      ),
+      child: Stack(
+        children: [
+          AspectRatio(
+            aspectRatio: 16 / 9,
+            child: CarImage(
+              imageUrl: url,
+              fit: BoxFit.cover,
+              borderRadius: BorderRadius.circular(6),
             ),
-            child: Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 9,
-                fontWeight: FontWeight.w800,
-                letterSpacing: 0.8,
+          ),
+          Positioned(
+            top: 6,
+            left: 6,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: AppColors.ink.withAlpha(180),
+                borderRadius: BorderRadius.circular(3),
+              ),
+              child: Text(
+                label,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 9,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 0.8,
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

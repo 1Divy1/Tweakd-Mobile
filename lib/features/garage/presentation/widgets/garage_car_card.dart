@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../domain/entities/car_summary.dart';
-import 'resolved_image.dart';
+import 'car_image.dart';
 
 class GarageCarCard extends StatelessWidget {
   final CarSummaryEntity car;
@@ -56,7 +56,7 @@ class _CarImage extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          ResolvedImage(imageUrl: imageUrl, fit: BoxFit.cover),
+          CarImage(imageUrl: imageUrl, fit: BoxFit.cover),
           if (status != null)
             Positioned(
               top: 10,
