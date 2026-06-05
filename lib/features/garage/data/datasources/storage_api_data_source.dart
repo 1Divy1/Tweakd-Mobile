@@ -38,9 +38,9 @@ class StorageApiDataSource {
   Future<UploadUrlResponseModel> getCoverUploadUrl(String carId) async {
     try {
       final response = await _dio.get('/cars/$carId/cover');
-      return UploadUrlResponseModel.fromJson(
-          response.data as Map<String, dynamic>);
-    } on DioException catch (e) {
+      return UploadUrlResponseModel.fromJson(response.data as Map<String, dynamic>);
+    }
+    on DioException catch (e) {
       throw _mapError(e);
     }
   }

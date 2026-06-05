@@ -17,6 +17,7 @@ class CarEntity extends Equatable {
   final String colorCode;
   final String mileageUnitId;
   final String mileageUnitName;
+  final int? mileage;
   final int year;
   final int horsepower;
   final int torque;
@@ -50,6 +51,8 @@ class CarEntity extends Equatable {
     required this.torque,
     required this.weight,
     required this.engineDisplacement,
+    required this.modifications,
+    this.mileage,
     this.zeroToOneHundred,
     this.chassisCode,
     this.engineCode,
@@ -57,7 +60,6 @@ class CarEntity extends Equatable {
     this.galleryUrls = const [],
     this.createdAt,
     this.status,
-    required this.modifications,
   });
 
   @override
@@ -75,6 +77,7 @@ class CarEntity extends Equatable {
         colorCode,
         mileageUnitId,
         mileageUnitName,
+        mileage,
         year,
         horsepower,
         torque,
@@ -104,6 +107,7 @@ class CarEntity extends Equatable {
     String? colorCode,
     String? mileageUnitId,
     String? mileageUnitName,
+    int? mileage,
     int? year,
     int? horsepower,
     int? torque,
@@ -132,6 +136,7 @@ class CarEntity extends Equatable {
       colorCode: colorCode ?? this.colorCode,
       mileageUnitId: mileageUnitId ?? this.mileageUnitId,
       mileageUnitName: mileageUnitName ?? this.mileageUnitName,
+      mileage: mileage ?? this.mileage,
       year: year ?? this.year,
       horsepower: horsepower ?? this.horsepower,
       torque: torque ?? this.torque,

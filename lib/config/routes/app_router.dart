@@ -17,7 +17,8 @@ import '../../features/garage/presentation/bloc/car_detail/event.dart';
 import '../../features/garage/presentation/bloc/event.dart';
 import '../../features/garage/presentation/bloc/log_mod/bloc.dart';
 import '../../features/garage/presentation/bloc/log_mod/event.dart';
-import '../../features/garage/presentation/pages/chassis_page.dart';
+import '../../features/garage/presentation/pages/about_car_page.dart';
+import '../../features/garage/presentation/pages/fullscreen_image_page.dart';
 import '../../features/garage/presentation/pages/log_mod_page.dart';
 import '../../features/garage/presentation/pages/register_car_page.dart';
 import '../../features/profile/presentation/bloc/bloc.dart';
@@ -123,7 +124,7 @@ final appRouter = GoRouter(
 
         return BlocProvider<CarDetailBloc>(
           create: (_) => getIt<CarDetailBloc>()..add(LoadCar(carId)),
-          child: ChassisPage(isOwner: isOwner),
+          child: AboutCarPage(isOwner: isOwner),
         );
       },
       routes: [
@@ -140,6 +141,20 @@ final appRouter = GoRouter(
           },
         ),
       ],
+    ),
+    GoRoute(
+      path: '/full-screen-image',
+      builder: (context, state) {
+        final imageUrl = state.extra as String?;
+        if (imageUrl == null) {
+          return Scaffold(
+            appBar: AppBar(),
+            body: const Center(child: Text('No image is available')),
+          );
+        }
+
+        return FullscreenImagePage(url: imageUrl);
+      },
     ),
   ],
 );

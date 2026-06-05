@@ -1,16 +1,16 @@
-import 'car_detail_model.dart';
+import 'car_model.dart';
 import 'car_modification_model.dart';
 
 /// Response from POST /garage/cars — a full CarDto with all specs and
 /// modifications, but without media URLs (those are uploaded separately).
 class CreateCarResponseModel {
-  final CarDetailModel car;
+  final CarModel car;
 
   const CreateCarResponseModel({required this.car});
 
   factory CreateCarResponseModel.fromJson(Map<String, dynamic> json) {
     return CreateCarResponseModel(
-      car: CarDetailModel.fromJson(json['car'] as Map<String, dynamic>),
+      car: CarModel.fromJson(json['car'] as Map<String, dynamic>),
     );
   }
 }
