@@ -16,14 +16,14 @@ class LoadModCategories extends LogModEvent {
 class SubmitModification extends LogModEvent {
   final String carId;
   final ModRequestParams params;
-  final String beforeFilePath;
-  final String afterFilePath;
+  final String? beforeFilePath;
+  final String? afterFilePath;
 
   const SubmitModification({
     required this.carId,
     required this.params,
-    required this.beforeFilePath,
-    required this.afterFilePath,
+    this.beforeFilePath,
+    this.afterFilePath,
   });
 
   @override

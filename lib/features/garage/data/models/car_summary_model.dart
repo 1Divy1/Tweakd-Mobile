@@ -5,14 +5,14 @@ class CarSummaryModel {
   final String id;
   final String brand;
   final String model;
-  final String? coverImagePath;
+  final String? coverImageUrl;
   final CarStatusOptionModel? status;
 
   const CarSummaryModel({
     required this.id,
     required this.brand,
     required this.model,
-    this.coverImagePath,
+    this.coverImageUrl,
     this.status,
   });
 
@@ -21,7 +21,7 @@ class CarSummaryModel {
       id: json['id'] as String,
       brand: json['brand'] as String,
       model: json['model'] as String,
-      coverImagePath: json['cover_image_url'] as String?,
+      coverImageUrl: json['cover_image_url'] as String?,
       status: json['status'] != null
           ? CarStatusOptionModel.fromJson(json['status'] as Map<String, dynamic>)
           : null,
@@ -33,7 +33,7 @@ class CarSummaryModel {
       id: id,
       brand: brand,
       model: model,
-      coverImagePath: coverImagePath,
+      coverImageUrl: coverImageUrl,
       status: status?.toEntity(),
     );
   }

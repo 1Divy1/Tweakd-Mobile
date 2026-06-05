@@ -5,9 +5,12 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../../core/services/car_image_service.dart';
 import '../../../../../core/usecases/usecase.dart';
+import '../../../domain/repositories/garage_repository.dart';
 import '../../../domain/usecases/add_modification.dart';
 import '../../../domain/usecases/delete_modification.dart';
+import '../../../domain/usecases/get_modification_upload_urls.dart';
 import '../../../domain/usecases/get_reference_data.dart';
+import '../../../domain/usecases/patch_modification.dart';
 import '../../utils/garage_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
@@ -17,12 +20,16 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
   final GetModCategoriesUseCase getModCategories;
   final AddModificationUseCase addModification;
   final DeleteModificationUseCase deleteModification;
+  final GetModificationUploadUrlsUseCase getModificationUploadUrls;
+  final PatchModificationUseCase patchModification;
   final CarImageService imageService;
 
   LogModBloc({
     required this.getModCategories,
     required this.addModification,
     required this.deleteModification,
+    required this.getModificationUploadUrls,
+    required this.patchModification,
     required this.imageService,
   }) : super(const LogModInitial()) {
     on<LoadModCategories>(_onLoadCategories);
@@ -59,11 +66,12 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
 
     emit(LogModSubmitting(categories: List.from(categories)));
 
+    // ── Step 1: create modification (text data only) ──────────────────────────
     final addResult = await addModification(
       AddModificationParams(carId: event.carId, request: event.params),
     );
 
-    final result = await addResult.fold(
+    final modification = await addResult.fold(
       (failure) async {
         emit(LogModError(
           message: GarageErrorMapper.getMessage(failure),
@@ -71,22 +79,65 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
         ));
         return null;
       },
-      (created) async => created,
+      (mod) async => mod,
     );
-    if (result == null) return;
+    if (modification == null) return;
+
+    // ── Steps 2–4: upload media; roll back modification on any failure ─────────
+    final files = <ModUploadRequest>[
+      if (event.beforeFilePath != null)
+        const ModUploadRequest(phase: 'BEFORE', format: 'WEBP'),
+      if (event.afterFilePath != null)
+        const ModUploadRequest(phase: 'AFTER', format: 'WEBP'),
+    ];
+
+    if (files.isEmpty) {
+      emit(LogModSuccess(modification));
+      return;
+    }
 
     try {
-      await Future.wait([
-        imageService.uploadToSignedUrl(
-            result.before.uploadUrl, event.beforeFilePath),
-        imageService.uploadToSignedUrl(
-            result.after.uploadUrl, event.afterFilePath),
-      ]);
-      emit(LogModSuccess(result.modification));
+      // Step 2: request presigned upload URLs in one shot
+      final uploadUrlsResult = await getModificationUploadUrls(
+        GetModificationUploadUrlsParams(
+          carId: event.carId,
+          modId: modification.id,
+          files: files,
+        ),
+      );
+      final uploads = uploadUrlsResult.fold(
+        (f) => throw Exception(GarageErrorMapper.getMessage(f)),
+        (r) => r.uploads,
+      );
+
+      // Step 3: upload all files to R2 in parallel
+      await Future.wait(uploads.map((upload) async {
+        final filePath = upload.phase == 'before'
+            ? event.beforeFilePath
+            : event.afterFilePath;
+        if (filePath == null) return;
+        final bytes = await imageService.compressToWebp(filePath);
+        await imageService.uploadToR2(upload.uploadUrl, bytes);
+      }));
+
+      // Step 4: save URLs to backend
+      final addMedia = uploads
+          .map((u) => ModMediaInput(url: u.finalUrl, phase: u.phase))
+          .toList();
+      final patchResult = await patchModification(PatchModificationParams(
+        carId: event.carId,
+        modId: modification.id,
+        params: ModPatchParams(addMedia: addMedia),
+      ));
+
+      patchResult.fold(
+        (f) => throw Exception(GarageErrorMapper.getMessage(f)),
+        (updated) => emit(LogModSuccess(updated)),
+      );
     } catch (_) {
       await deleteModification(DeleteModificationParams(
         carId: event.carId,
-        modId: result.modification.id,
+        modId: modification.id,
       ));
       emit(LogModError(
         message: 'Photo upload failed. Please try again.',

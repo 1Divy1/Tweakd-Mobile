@@ -1,8 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/base_failures.dart';
 import '../entities/car.dart';
-import '../entities/car_image.dart';
+import '../entities/car_modification.dart';
 import '../entities/car_status_option.dart';
 import '../entities/create_car_result.dart';
 import '../entities/garage.dart';
@@ -15,35 +17,51 @@ abstract class GarageRepository {
 
   // ── Cars ──────────────────────────────────────────────────────────────────
   Future<Either<Failure, CarEntity>> getCar(String carId);
-
-  /// Single-shot create. Returns the created car plus presigned upload slots;
-  /// the caller is responsible for uploading bytes and rolling back via
-  /// [deleteCar] on any upload failure.
-  Future<Either<Failure, CreateCarResult>> addCar(CreateCarParams params);
+  Future<Either<Failure, CarEntity>> addCar(CreateCarParams params);
   Future<Either<Failure, CarEntity>> updateCar(
     String carId,
     CarRequestParams params,
   );
   Future<Either<Failure, void>> deleteCar(String carId);
 
+  // ── Cover image upload (3-step) ───────────────────────────────────────────
+  Future<Either<Failure, UploadUrlResult>> getCoverUploadUrl(String carId);
+  Future<Either<Failure, void>> saveCoverUrl(String carId, String finalUrl);
+
+  // ── Gallery upload (3-step per photo, then PATCH with full list) ──────────
+  Future<Either<Failure, UploadUrlResult>> getGalleryUploadUrl(String carId);
+  Future<Either<Failure, void>> saveGalleryUrls(
+      String carId, List<String> urls);
+
   // ── Modifications ─────────────────────────────────────────────────────────
-  Future<Either<Failure, AddModificationResult>> addModification(
+  Future<Either<Failure, CarModificationEntity>> addModification(
     String carId,
     ModRequestParams params,
   );
-  Future<Either<Failure, void>> updateModification(
+
+  /// PATCH endpoint — sends only the fields that changed. Handles both text
+  /// updates and media add/remove in a single call.
+  Future<Either<Failure, CarModificationEntity>> patchModification(
     String carId,
     String modId,
-    ModRequestParams params,
+    ModPatchParams params,
   );
+
   Future<Either<Failure, void>> deleteModification(String carId, String modId);
 
-  // ── Gallery images ────────────────────────────────────────────────────────
-  Future<Either<Failure, List<CarImageEntity>>> listCarImages(String carId);
-  Future<Either<Failure, void>> deleteCarImage(String carId, String imageId);
+  // ── Modification media upload (batch presigned URLs, then PATCH) ──────────
+  Future<Either<Failure, ModUploadUrlsResult>> getModificationUploadUrls(
+    String carId,
+    String modId,
+    List<ModUploadRequest> files,
+  );
 
-  /// Resolves a canonical storage path to a short-lived signed download URL.
-  Future<Either<Failure, String>> resolveImageUrl(String storagePath);
+  // ── R2 upload (step 2 — no JWT, PUT directly to Cloudflare) ───────────────
+  Future<Either<Failure, void>> uploadFileToR2(
+    String uploadUrl,
+    Uint8List bytes, {
+    String contentType = 'image/webp',
+  });
 
   // ── Reference data ────────────────────────────────────────────────────────
   Future<Either<Failure, List<CarBrandEntity>>> getBrands();
@@ -57,8 +75,6 @@ abstract class GarageRepository {
 
 // ── Request param classes ─────────────────────────────────────────────────────
 
-/// Car specs for create/update. Image paths are backend-generated and are NOT
-/// part of this payload anymore.
 class CarRequestParams {
   final String brandId;
   final String modelId;
@@ -112,7 +128,6 @@ class CarRequestParams {
       };
 }
 
-/// Modification details for create/update. Image paths are backend-generated.
 class ModRequestParams {
   final String categoryId;
   final String title;
@@ -144,22 +159,78 @@ class ModRequestParams {
       };
 }
 
-/// Single-shot create payload: the car, its modifications (in order), and how
-/// many gallery slots to pre-allocate upload URLs for.
+/// Partial update for a modification. Only non-null fields are included in the
+/// JSON payload sent to `PATCH /garage/cars/{carId}/modifications/{modId}`.
+class ModPatchParams {
+  final String? title;
+  final String? description;
+  final DateTime? installationDate;
+  final double? price;
+  final bool? isPricePublic;
+  final int? mileageAtInstall;
+  final List<ModMediaInput>? addMedia;
+  final List<String>? removeMediaUrls;
+
+  const ModPatchParams({
+    this.title,
+    this.description,
+    this.installationDate,
+    this.price,
+    this.isPricePublic,
+    this.mileageAtInstall,
+    this.addMedia,
+    this.removeMediaUrls,
+  });
+
+  Map<String, dynamic> toJson() => {
+        if (title != null) 'title': title,
+        if (description != null) 'description': description,
+        if (installationDate != null)
+          'installation_date': installationDate!.toUtc().toIso8601String(),
+        if (price != null) 'price': price,
+        if (isPricePublic != null) 'is_price_public': isPricePublic,
+        if (mileageAtInstall != null) 'mileage_at_install': mileageAtInstall,
+        if (addMedia != null && addMedia!.isNotEmpty)
+          'add_media': addMedia!.map((m) => m.toJson()).toList(),
+        if (removeMediaUrls != null && removeMediaUrls!.isNotEmpty)
+          'remove_media_urls': removeMediaUrls,
+      };
+}
+
+/// A single media item to add to a modification.
+/// [phase] must be 'before' or 'after' (lowercase).
+class ModMediaInput {
+  final String url;
+  final String phase;
+
+  const ModMediaInput({required this.url, required this.phase});
+
+  Map<String, dynamic> toJson() => {'url': url, 'phase': phase};
+}
+
+/// One file in a batch upload-urls request.
+/// [phase] must be 'BEFORE' or 'AFTER'; [format] must be 'WEBP' or 'MP4'.
+class ModUploadRequest {
+  final String phase;
+  final String format;
+
+  const ModUploadRequest({required this.phase, required this.format});
+
+  Map<String, dynamic> toJson() => {'phase': phase, 'format': format};
+}
+
+/// Single-shot car creation payload.
 class CreateCarParams {
   final CarRequestParams car;
   final List<ModRequestParams> modifications;
-  final int galleryCount;
 
   const CreateCarParams({
     required this.car,
     required this.modifications,
-    required this.galleryCount,
   });
 
   Map<String, dynamic> toJson() => {
         'car': car.toJson(),
         'modifications': modifications.map((m) => m.toJson()).toList(),
-        'gallery_count': galleryCount,
       };
 }

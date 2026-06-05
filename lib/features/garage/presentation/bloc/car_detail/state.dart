@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/car.dart';
-import '../../../domain/entities/car_image.dart';
 
 abstract class CarDetailState extends Equatable {
   const CarDetailState();
@@ -16,29 +15,25 @@ class CarDetailLoading extends CarDetailState {
 
 class CarDetailLoaded extends CarDetailState {
   final CarEntity car;
-  final List<CarImageEntity> gallery;
   final bool isDeleting;
 
   const CarDetailLoaded({
     required this.car,
-    this.gallery = const [],
     this.isDeleting = false,
   });
 
   CarDetailLoaded copyWith({
     CarEntity? car,
-    List<CarImageEntity>? gallery,
     bool? isDeleting,
   }) {
     return CarDetailLoaded(
       car: car ?? this.car,
-      gallery: gallery ?? this.gallery,
       isDeleting: isDeleting ?? this.isDeleting,
     );
   }
 
   @override
-  List<Object?> get props => [car, gallery, isDeleting];
+  List<Object?> get props => [car, isDeleting];
 }
 
 class CarDetailError extends CarDetailState {

@@ -4,8 +4,9 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/error/base_failures.dart';
+import '../../../../core/services/car_image_service.dart';
 import '../../domain/entities/car.dart';
-import '../../domain/entities/car_image.dart';
+import '../../domain/entities/car_modification.dart';
 import '../../domain/entities/car_status_option.dart';
 import '../../domain/entities/create_car_result.dart';
 import '../../domain/entities/garage.dart';
@@ -13,12 +14,15 @@ import '../../domain/entities/reference_data.dart';
 import '../../domain/failures/garage_failures.dart';
 import '../../domain/repositories/garage_repository.dart';
 import '../datasources/garage_api_data_source.dart';
+import '../datasources/storage_api_data_source.dart';
 
 @LazySingleton(as: GarageRepository)
 class GarageRepositoryImpl implements GarageRepository {
   final GarageApiDataSource dataSource;
+  final StorageApiDataSource storageDataSource;
+  final CarImageService imageService;
 
-  GarageRepositoryImpl(this.dataSource);
+  GarageRepositoryImpl(this.dataSource, this.storageDataSource, this.imageService);
 
   // ── Garage ────────────────────────────────────────────────────────────────
 
@@ -88,8 +92,7 @@ class GarageRepositoryImpl implements GarageRepository {
   }
 
   @override
-  Future<Either<Failure, CreateCarResult>> addCar(
-      CreateCarParams params) async {
+  Future<Either<Failure, CarEntity>> addCar(CreateCarParams params) async {
     try {
       final model = await dataSource.addCar(params.toJson());
       return Right(model.toEntity());
@@ -155,10 +158,90 @@ class GarageRepositoryImpl implements GarageRepository {
     }
   }
 
+  // ── Cover image upload ────────────────────────────────────────────────────
+
+  @override
+  Future<Either<Failure, UploadUrlResult>> getCoverUploadUrl(
+      String carId) async {
+    try {
+      final model = await storageDataSource.getCoverUploadUrl(carId);
+      return Right(model.toEntity());
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('getCoverUploadUrl error: $e');
+      return const Left(UnknownFailure('Failed to get upload URL.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> saveCoverUrl(
+      String carId, String finalUrl) async {
+    try {
+      await dataSource.saveCoverUrl(carId, finalUrl);
+      return const Right(null);
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ApiException catch (e) {
+      if (e.statusCode == 403) return const Left(NotCarOwnerFailure());
+      if (e.statusCode == 404) return const Left(CarNotFoundFailure());
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('saveCoverUrl error: $e');
+      return const Left(UnknownFailure('Failed to save cover image.'));
+    }
+  }
+
+  // ── Gallery upload ────────────────────────────────────────────────────────
+
+  @override
+  Future<Either<Failure, UploadUrlResult>> getGalleryUploadUrl(
+      String carId) async {
+    try {
+      final model = await storageDataSource.getGalleryUploadUrl(carId);
+      return Right(model.toEntity());
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('getGalleryUploadUrl error: $e');
+      return const Left(UnknownFailure('Failed to get upload URL.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> saveGalleryUrls(
+      String carId, List<String> urls) async {
+    try {
+      await dataSource.saveGalleryUrls(carId, urls);
+      return const Right(null);
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ApiException catch (e) {
+      if (e.statusCode == 403) return const Left(NotCarOwnerFailure());
+      if (e.statusCode == 404) return const Left(CarNotFoundFailure());
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('saveGalleryUrls error: $e');
+      return const Left(UnknownFailure('Failed to save gallery.'));
+    }
+  }
+
   // ── Modifications ─────────────────────────────────────────────────────────
 
   @override
-  Future<Either<Failure, AddModificationResult>> addModification(
+  Future<Either<Failure, CarModificationEntity>> addModification(
     String carId,
     ModRequestParams params,
   ) async {
@@ -183,14 +266,15 @@ class GarageRepositoryImpl implements GarageRepository {
   }
 
   @override
-  Future<Either<Failure, void>> updateModification(
+  Future<Either<Failure, CarModificationEntity>> patchModification(
     String carId,
     String modId,
-    ModRequestParams params,
+    ModPatchParams params,
   ) async {
     try {
-      await dataSource.updateModification(carId, modId, params.toJson());
-      return const Right(null);
+      final model =
+          await dataSource.patchModification(carId, modId, params.toJson());
+      return Right(model.toEntity());
     } on UnauthenticatedException catch (e) {
       return Left(ServerFailure(e.message));
     } on NetworkException {
@@ -203,7 +287,7 @@ class GarageRepositoryImpl implements GarageRepository {
       if (e.statusCode == 400) return Left(InvalidReferenceFailure(e.message));
       return Left(ServerFailure(e.message));
     } catch (e) {
-      debugPrint('updateModification error: $e');
+      debugPrint('patchModification error: $e');
       return const Left(UnknownFailure('An unexpected error occurred.'));
     }
   }
@@ -230,58 +314,49 @@ class GarageRepositoryImpl implements GarageRepository {
     }
   }
 
-  // ── Gallery images ────────────────────────────────────────────────────────
+  // ── Modification media upload ──────────────────────────────────────────────
 
   @override
-  Future<Either<Failure, List<CarImageEntity>>> listCarImages(
-      String carId) async {
+  Future<Either<Failure, ModUploadUrlsResult>> getModificationUploadUrls(
+    String carId,
+    String modId,
+    List<ModUploadRequest> files,
+  ) async {
     try {
-      final models = await dataSource.listCarImages(carId);
-      return Right(models.map((m) => m.toEntity()).toList());
+      final model = await storageDataSource.getModificationUploadUrls(
+        carId,
+        modId,
+        files.map((f) => f.toJson().cast<String, String>()).toList(),
+      );
+      return Right(model.toEntity());
     } on NetworkException {
       return const Left(NetworkFailure('No internet connection.'));
-    } on ApiException catch (e) {
-      if (e.statusCode == 403) return const Left(PrivateGarageFailure());
-      if (e.statusCode == 404) return const Left(CarNotFoundFailure());
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {
-      debugPrint('listCarImages error: $e');
-      return const Left(UnknownFailure('Failed to load gallery.'));
+      debugPrint('getModificationUploadUrls error: $e');
+      return const Left(UnknownFailure('Failed to get upload URLs.'));
     }
   }
 
+  // ── R2 upload ─────────────────────────────────────────────────────────────
+
   @override
-  Future<Either<Failure, void>> deleteCarImage(
-      String carId, String imageId) async {
+  Future<Either<Failure, void>> uploadFileToR2(
+    String uploadUrl,
+    Uint8List bytes, {
+    String contentType = 'image/webp',
+  }) async {
     try {
-      await dataSource.deleteCarImage(carId, imageId);
+      await imageService.uploadToR2(uploadUrl, bytes, contentType: contentType);
       return const Right(null);
-    } on NetworkException {
-      return const Left(NetworkFailure('No internet connection.'));
-    } on ApiException catch (e) {
-      if (e.statusCode == 403) return const Left(NotCarOwnerFailure());
-      if (e.statusCode == 404) return const Left(CarNotFoundFailure());
+    } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {
-      debugPrint('deleteCarImage error: $e');
-      return const Left(UnknownFailure('An unexpected error occurred.'));
-    }
-  }
-
-  @override
-  Future<Either<Failure, String>> resolveImageUrl(String storagePath) async {
-    try {
-      final url = await dataSource.generateDownloadUrl(storagePath);
-      return Right(url);
-    } on NetworkException {
-      return const Left(NetworkFailure('No internet connection.'));
-    } on ApiException catch (e) {
-      if (e.statusCode == 403) return const Left(PrivateGarageFailure());
-      if (e.statusCode == 404) return const Left(CarNotFoundFailure());
-      return Left(ServerFailure(e.message));
-    } catch (e) {
-      debugPrint('resolveImageUrl error: $e');
-      return const Left(UnknownFailure('Failed to load image.'));
+      debugPrint('uploadFileToR2 error: $e');
+      return const Left(UnknownFailure('Upload failed.'));
     }
   }
 
@@ -337,7 +412,8 @@ class GarageRepositoryImpl implements GarageRepository {
   }
 
   @override
-  Future<Either<Failure, List<CarDistanceUnitEntity>>> getDistanceUnits() async {
+  Future<Either<Failure, List<CarDistanceUnitEntity>>>
+      getDistanceUnits() async {
     try {
       final models = await dataSource.getDistanceUnits();
       return Right(models.map((m) => m.toEntity()).toList());
@@ -349,7 +425,8 @@ class GarageRepositoryImpl implements GarageRepository {
   }
 
   @override
-  Future<Either<Failure, List<CarStatusOptionEntity>>> getStatusOptions() async {
+  Future<Either<Failure, List<CarStatusOptionEntity>>>
+      getStatusOptions() async {
     try {
       final models = await dataSource.getStatusOptions();
       return Right(models.map((m) => m.toEntity()).toList());
@@ -361,7 +438,8 @@ class GarageRepositoryImpl implements GarageRepository {
   }
 
   @override
-  Future<Either<Failure, List<CarModCategoryEntity>>> getModCategories() async {
+  Future<Either<Failure, List<CarModCategoryEntity>>>
+      getModCategories() async {
     try {
       final models = await dataSource.getModCategories();
       return Right(models.map((m) => m.toEntity()).toList());

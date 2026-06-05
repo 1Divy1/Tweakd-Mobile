@@ -6,13 +6,6 @@ import 'package:injectable/injectable.dart';
 
 import '../error/base_exceptions.dart';
 
-/// Handles the client side of the presigned-upload flow.
-///
-/// The backend creates the DB rows with deterministic storage paths and hands
-/// back Supabase presigned upload URLs (token embedded in the query string).
-/// This service compresses a picked image to webp and PUTs the bytes straight
-/// to that URL. It deliberately uses a bare [Dio] with no interceptors so the
-/// app's backend JWT is never sent to Supabase storage.
 @lazySingleton
 class CarImageService {
   final Dio _uploader = Dio();
@@ -29,29 +22,34 @@ class CarImageService {
     return compressed;
   }
 
-  /// Compresses [filePath] and uploads the bytes to a backend-issued presigned
-  /// [uploadUrl]. Throws [ServerException] on any failure so the caller can
-  /// trigger the car/modification rollback.
+  /// Compresses [filePath] to webp and uploads the bytes to [uploadUrl] on R2.
   Future<void> uploadToSignedUrl(String uploadUrl, String filePath) async {
     final bytes = await compressToWebp(filePath);
-    await uploadBytes(uploadUrl, bytes);
+    await uploadToR2(uploadUrl, bytes);
   }
 
-  Future<void> uploadBytes(String uploadUrl, Uint8List bytes) async {
+  /// PUT [bytes] directly to Cloudflare R2 via a presigned [uploadUrl].
+  /// No JWT is added — auth is embedded in the presigned URL query parameters.
+  /// [contentType] must match what the backend hard-coded when it generated the
+  /// URL (image/webp for cover and gallery, image/webp or video/mp4 for mods).
+  Future<void> uploadToR2(
+    String uploadUrl,
+    Uint8List bytes, {
+    String contentType = 'image/webp',
+  }) async {
     try {
       await _uploader.putUri(
         Uri.parse(uploadUrl),
         data: Stream.fromIterable([bytes]),
         options: Options(
           headers: {
-            'Content-Type': 'image/webp',
+            'Content-Type': contentType,
             'Content-Length': bytes.length,
-            'x-upsert': 'true',
           },
         ),
       );
     } on DioException catch (e) {
-      throw ServerException('Image upload failed: ${e.message}');
+      throw ServerException('R2 upload failed: ${e.message}');
     }
   }
 }
