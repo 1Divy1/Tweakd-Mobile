@@ -1,4 +1,4 @@
-import '../../domain/entities/search_result.dart';
+import '../../../../core/shared/entities/search_result.dart';
 
 class SearchResultModel {
   final String id;

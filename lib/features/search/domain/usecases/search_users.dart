@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/base_failures.dart';
 import '../../../../core/usecases/usecase.dart';
-import '../entities/search_result.dart';
+import '../../../../core/shared/entities/search_result.dart';
 import '../repositories/search_repository.dart';
 
 class SearchUsersParams {

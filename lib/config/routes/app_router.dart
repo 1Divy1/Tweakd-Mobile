@@ -9,6 +9,7 @@ import '../../features/authentication/presentation/pages/signup_page.dart';
 import '../../features/authentication/presentation/pages/splash_page.dart';
 import '../../features/follow/presentation/bloc/bloc.dart';
 import '../../features/follow/presentation/bloc/event.dart';
+import '../../features/follow/presentation/pages/followers_following_page.dart';
 import '../../features/garage/presentation/bloc/add_car/bloc.dart';
 import '../../features/garage/presentation/bloc/add_car/event.dart';
 import '../../features/garage/presentation/bloc/bloc.dart';
@@ -23,7 +24,7 @@ import '../../features/garage/presentation/pages/log_mod_page.dart';
 import '../../features/garage/presentation/pages/register_car_page.dart';
 import '../../features/profile/presentation/bloc/bloc.dart';
 import '../../features/profile/presentation/bloc/event.dart';
-import '../../features/profile/presentation/pages/profile_page.dart';
+import '../../features/profile/presentation/pages/my_profile_page.dart';
 import '../../features/profile/presentation/pages/public_profile_page.dart';
 import '../../features/search/presentation/bloc/bloc.dart';
 import '../../features/search/presentation/pages/search_page.dart';
@@ -31,6 +32,7 @@ import '../../features/search/presentation/pages/search_page.dart';
 final appRouter = GoRouter(
   initialLocation: '/',
   routes: [
+    // ---------- Authentication & Onboarding ----------
     GoRoute(path: '/', builder: (context, state) => const SplashPage()),
     GoRoute(path: '/signup', builder: (context, state) => const SignUpPage()),
     GoRoute(
@@ -40,6 +42,8 @@ final appRouter = GoRouter(
         child: const OnboardingPage(),
       ),
     ),
+
+    // ---------- Profile ----------
     GoRoute(
       path: '/profile',
       pageBuilder: (context, state) => NoTransitionPage(
@@ -79,9 +83,9 @@ final appRouter = GoRouter(
               create: (_) =>
                   getIt<ProfileBloc>()..add(FetchProfileByUsername(username)),
             ),
-            BlocProvider<FollowStatusBloc>(
+            BlocProvider<FollowBloc>(
               create: (_) =>
-                  getIt<FollowStatusBloc>()..add(LoadFollowStatus(username)),
+                  getIt<FollowBloc>()..add(LoadFollowStatus(username)),
             ),
             BlocProvider<GarageBloc>(
               create: (_) =>
@@ -92,6 +96,8 @@ final appRouter = GoRouter(
         );
       },
     ),
+
+    // ---------- Search Page ----------
     GoRoute(
       path: '/search',
       pageBuilder: (context, state) => NoTransitionPage(
@@ -101,6 +107,8 @@ final appRouter = GoRouter(
         ),
       ),
     ),
+
+    // ---------- Feed Page ----------
     // TODO: Implement a real FeedPage
     GoRoute(
       path: '/feed',
@@ -108,6 +116,8 @@ final appRouter = GoRouter(
         child: Scaffold(body: Center(child: Text('Feed Page'))),
       ),
     ),
+
+    // ---------- Garage Page ----------
     GoRoute(
       path: '/garage/cars/add',
       builder: (context, state) => BlocProvider<AddCarBloc>(
@@ -142,6 +152,46 @@ final appRouter = GoRouter(
         ),
       ],
     ),
+
+    // ---------- Followers & Following Page ----------
+    GoRoute(
+      path: '/followers',
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>? ?? {};
+        final username = extra['username'] as String? ?? '';
+        final followersCount = extra['followersCount'] as int? ?? 0;
+        final followingCount = extra['followingCount'] as int? ?? 0;
+        return BlocProvider<FollowBloc>(
+          create: (_) => getIt<FollowBloc>()..add(LoadFollowers(username)),
+          child: FollowersFollowingPage(
+            username: username,
+            followersCount: followersCount,
+            followingCount: followingCount,
+            showFollowers: true,
+          ),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/following',
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>? ?? {};
+        final username = extra['username'] as String? ?? '';
+        final followersCount = extra['followersCount'] as int? ?? 0;
+        final followingCount = extra['followingCount'] as int? ?? 0;
+        return BlocProvider<FollowBloc>(
+          create: (_) => getIt<FollowBloc>()..add(LoadFollowing(username)),
+          child: FollowersFollowingPage(
+            username: username,
+            followersCount: followersCount,
+            followingCount: followingCount,
+            showFollowers: false,
+          ),
+        );
+      },
+    ),
+
+    // ---------- Fullscreen Image ----------
     GoRoute(
       path: '/full-screen-image',
       builder: (context, state) {
@@ -152,7 +202,6 @@ final appRouter = GoRouter(
             body: const Center(child: Text('No image is available')),
           );
         }
-
         return FullscreenImagePage(url: imageUrl);
       },
     ),

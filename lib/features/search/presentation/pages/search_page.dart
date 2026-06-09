@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/widgets/app_bottom_nav.dart';
+import '../../../../core/shared/widgets/app_bottom_nav.dart';
 import '../bloc/bloc.dart';
 import '../bloc/event.dart';
 import '../bloc/state.dart';
-import '../widgets/search_empty_view.dart';
-import '../widgets/search_error_view.dart';
-import '../widgets/search_input.dart';
-import '../widgets/search_loading_view.dart';
-import '../widgets/search_results_view.dart';
-import '../widgets/search_top_bar.dart';
+import '../../../../core/shared/widgets/search_empty_view.dart';
+import '../../../../core/shared/widgets/search_error_view.dart';
+import '../../../../core/shared/widgets/search_input.dart';
+import '../../../../core/shared/widgets/search_loading_view.dart';
+import '../../../../core/shared/widgets/search_results_view.dart';
+import '../../../../core/shared/widgets/search_top_bar.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});

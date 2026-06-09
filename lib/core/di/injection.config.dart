@@ -191,6 +191,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i185.CarImageService>(),
       ),
     );
+    gh.factory<_i236.FollowBloc>(
+      () => _i236.FollowBloc(
+        getFollowStatus: gh<_i28.GetFollowStatusUseCase>(),
+        followUser: gh<_i757.FollowUserUseCase>(),
+        unfollowUser: gh<_i31.UnfollowUserUseCase>(),
+        getFollowers: gh<_i1027.GetFollowersUseCase>(),
+        getFollowing: gh<_i495.GetFollowingUseCase>(),
+      ),
+    );
     gh.lazySingleton<_i292.AddCarUseCase>(
       () => _i292.AddCarUseCase(gh<_i511.GarageRepository>()),
     );
@@ -305,13 +314,6 @@ extension GetItInjectableX on _i174.GetIt {
         getCurrentUserProfile: gh<_i424.GetCurrentUserProfileUseCase>(),
         getProfileByUsername: gh<_i320.GetProfileByUsernameUseCase>(),
         submitOnboarding: gh<_i1055.SubmitOnboardingUseCase>(),
-      ),
-    );
-    gh.factory<_i236.FollowStatusBloc>(
-      () => _i236.FollowStatusBloc(
-        getFollowStatus: gh<_i28.GetFollowStatusUseCase>(),
-        followUser: gh<_i757.FollowUserUseCase>(),
-        unfollowUser: gh<_i31.UnfollowUserUseCase>(),
       ),
     );
     gh.factory<_i807.CarDetailBloc>(

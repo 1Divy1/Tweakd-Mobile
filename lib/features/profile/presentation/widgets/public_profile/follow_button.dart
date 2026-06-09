@@ -13,10 +13,10 @@ class FollowButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<FollowStatusBloc, FollowStatusState>(
-      listenWhen: (_, current) => current is FollowStatusError,
+    return BlocConsumer<FollowBloc, FollowState>(
+      listenWhen: (_, current) => current is FollowError,
       listener: (context, state) {
-        if (state is FollowStatusError) {
+        if (state is FollowError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
@@ -63,7 +63,7 @@ class FollowButton extends StatelessWidget {
         borderColor: AppColors.line,
         isLoading: state.isUpdating,
         onPressed: () =>
-            context.read<FollowStatusBloc>().add(ToggleFollow(username)),
+            context.read<FollowBloc>().add(ToggleFollow(username)),
       );
     }
 
@@ -77,7 +77,7 @@ class FollowButton extends StatelessWidget {
         borderColor: AppColors.line,
         isLoading: state.isUpdating,
         onPressed: () =>
-            context.read<FollowStatusBloc>().add(ToggleFollow(username)),
+            context.read<FollowBloc>().add(ToggleFollow(username)),
       );
     }
 
@@ -87,7 +87,7 @@ class FollowButton extends StatelessWidget {
       backgroundColor: AppColors.accent,
       isLoading: state.isUpdating,
       onPressed: () =>
-          context.read<FollowStatusBloc>().add(ToggleFollow(username)),
+          context.read<FollowBloc>().add(ToggleFollow(username)),
     );
   }
 }

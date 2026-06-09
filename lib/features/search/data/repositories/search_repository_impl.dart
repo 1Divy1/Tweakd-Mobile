@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/error/base_failures.dart';
-import '../../domain/entities/search_result.dart';
+import '../../../../core/shared/entities/search_result.dart';
 import '../../domain/repositories/search_repository.dart';
 import '../datasource/search_api_data_source.dart';
 

@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/base_failures.dart';
 import '../../../../core/usecases/usecase.dart';
-import '../entities/follow_user.dart';
+import '../entities/follow_list_user.dart';
 import '../repositories/follow_repository.dart';
 
 class GetFollowersParams {
@@ -12,14 +12,13 @@ class GetFollowersParams {
 }
 
 @lazySingleton
-class GetFollowersUseCase
-    implements UseCase<List<FollowUserEntity>, GetFollowersParams> {
+class GetFollowersUseCase implements UseCase<List<FollowListUserEntity>, GetFollowersParams> {
   final FollowRepository repository;
 
   GetFollowersUseCase(this.repository);
 
   @override
-  Future<Either<Failure, List<FollowUserEntity>>> call(
+  Future<Either<Failure, List<FollowListUserEntity>>> call(
     GetFollowersParams params,
   ) {
     return repository.getFollowers(params.username);

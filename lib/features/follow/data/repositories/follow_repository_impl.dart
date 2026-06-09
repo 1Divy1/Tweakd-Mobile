@@ -4,9 +4,9 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/error/base_failures.dart';
+import '../../domain/entities/follow_list_user.dart';
 import '../../domain/entities/follow_request.dart';
 import '../../domain/entities/follow_status.dart';
-import '../../domain/entities/follow_user.dart';
 import '../../domain/failures/follow_failures.dart';
 import '../../domain/repositories/follow_repository.dart';
 import '../datasource/follow_api_data_source.dart';
@@ -140,7 +140,7 @@ class FollowRepositoryImpl implements FollowRepository {
   }
 
   @override
-  Future<Either<Failure, List<FollowUserEntity>>> getFollowers(
+  Future<Either<Failure, List<FollowListUserEntity>>> getFollowers(
     String username,
   ) async {
     try {
@@ -163,7 +163,7 @@ class FollowRepositoryImpl implements FollowRepository {
   }
 
   @override
-  Future<Either<Failure, List<FollowUserEntity>>> getFollowing(
+  Future<Either<Failure, List<FollowListUserEntity>>> getFollowing(
     String username,
   ) async {
     try {
