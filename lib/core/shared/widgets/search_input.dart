@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../theme/app_colors.dart';
 
 class SearchInput extends StatelessWidget {
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
   final VoidCallback onClear;
+  final bool autofocus;
+  final String hintText;
 
   const SearchInput({
     super.key,
     required this.controller,
     required this.onChanged,
     required this.onClear,
+    this.autofocus = true,
+    this.hintText = 'Search by username',
   });
 
   @override
@@ -25,7 +29,7 @@ class SearchInput extends StatelessWidget {
       child: TextField(
         controller: controller,
         onChanged: onChanged,
-        autofocus: true,
+        autofocus: autofocus,
         textInputAction: TextInputAction.search,
         style: const TextStyle(color: AppColors.ink, fontSize: 15),
         decoration: InputDecoration(
@@ -39,7 +43,7 @@ class SearchInput extends StatelessWidget {
             color: AppColors.ink,
             size: 20,
           ),
-          hintText: 'Search by username',
+          hintText: hintText,
           hintStyle: const TextStyle(
             color: AppColors.muteSoft,
             fontSize: 15,

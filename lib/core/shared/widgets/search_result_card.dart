@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../domain/entities/search_result.dart';
+import '../../theme/app_colors.dart';
+import '../entities/search_result.dart';
 
 class SearchResultCard extends StatelessWidget {
   final SearchResultEntity result;

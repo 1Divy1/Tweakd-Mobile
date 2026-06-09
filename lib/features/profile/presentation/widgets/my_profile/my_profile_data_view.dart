@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
-import '../../../../../core/widgets/app_bottom_nav.dart';
+import '../../../../../core/shared/widgets/app_bottom_nav.dart';
 import '../../../domain/entities/profile.dart';
 import '../shared/garage_section.dart';
 import '../shared/profile_avatar.dart';
@@ -27,7 +27,7 @@ class MyProfileDataView extends StatelessWidget {
             showBackButton: false,
             trailing: SettingsButton(
               onTap: () {
-                // Settings flow to be implemented later.
+                // TODO: Implement settings flow
               },
             ),
           ),
@@ -52,6 +52,7 @@ class MyProfileDataView extends StatelessWidget {
                   ],
                   const SizedBox(height: 18),
                   ProfileStatsRow(
+                    username: profile.username,
                     followers: profile.followersCount,
                     following: profile.followingCount,
                   ),

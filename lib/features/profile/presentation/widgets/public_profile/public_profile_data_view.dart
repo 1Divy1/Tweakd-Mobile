@@ -43,6 +43,7 @@ class PublicProfileDataView extends StatelessWidget {
                   ],
                   const SizedBox(height: 18),
                   ProfileStatsRow(
+                    username: profile.username,
                     followers: profile.followersCount,
                     following: profile.followingCount,
                   ),
