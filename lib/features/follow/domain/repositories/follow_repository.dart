@@ -21,4 +21,6 @@ abstract class FollowRepository {
   Future<Either<Failure, List<FollowListUserEntity>>> getFollowers(String username);
 
   Future<Either<Failure, List<FollowListUserEntity>>> getFollowing(String username);
+
+  Future<Either<Failure, Unit>> removeFollower(String username);
 }

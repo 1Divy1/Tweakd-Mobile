@@ -10,14 +10,15 @@ import '../../../profile/presentation/widgets/shared/profile_top_bar.dart';
 import '../bloc/bloc.dart';
 import '../bloc/event.dart';
 import '../bloc/state.dart';
-import '../widgets/followers_following/follow_results_view.dart';
-import '../widgets/followers_following/follow_tab_switcher.dart';
+import '../widgets/follow_results_view.dart';
+import '../widgets/follow_tab_switcher.dart';
 
 class FollowersFollowingPage extends StatefulWidget {
   final String username;
   final int followersCount;
   final int followingCount;
   final bool showFollowers;
+  final bool isOwnProfile;
 
   const FollowersFollowingPage({
     super.key,
@@ -25,6 +26,7 @@ class FollowersFollowingPage extends StatefulWidget {
     this.followersCount = 0,
     this.followingCount = 0,
     this.showFollowers = true,
+    this.isOwnProfile = false,
   });
 
   @override
@@ -109,6 +111,7 @@ class _FollowersFollowingPageState extends State<FollowersFollowingPage> {
                         return FollowResultsView(
                           users: _filtered(state.followers),
                           showFollowers: true,
+                          isOwnProfile: widget.isOwnProfile,
                           query: _searchQuery,
                         );
                       }
@@ -118,6 +121,7 @@ class _FollowersFollowingPageState extends State<FollowersFollowingPage> {
                         return FollowResultsView(
                           users: _filtered(state.following),
                           showFollowers: false,
+                          isOwnProfile: widget.isOwnProfile,
                           query: _searchQuery,
                         );
                       }

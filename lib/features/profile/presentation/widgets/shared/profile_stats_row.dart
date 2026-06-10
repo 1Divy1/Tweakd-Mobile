@@ -9,12 +9,14 @@ class ProfileStatsRow extends StatelessWidget {
 
   // TODO: Refactor this in the future to pass this data on the bloc state not through the router
   final String username;
+  final bool isOwnProfile;
 
   const ProfileStatsRow({
     super.key,
     required this.username,
     required this.followers,
     required this.following,
+    required this.isOwnProfile,
   });
 
   @override
@@ -29,6 +31,7 @@ class ProfileStatsRow extends StatelessWidget {
               username: username,
               followersCount: followers,
               followingCount: following,
+              isOwnProfile: isOwnProfile,
             ),
           ),
           const SizedBox(width: 12),
@@ -38,6 +41,7 @@ class ProfileStatsRow extends StatelessWidget {
               username: username,
               followersCount: followers,
               followingCount: following,
+              isOwnProfile: isOwnProfile,
             ),
           ),
         ],
@@ -51,12 +55,14 @@ class _StatCard extends StatelessWidget {
   final String username;
   final int followersCount;
   final int followingCount;
+  final bool isOwnProfile;
 
   const _StatCard({
     required this.label,
     required this.username,
     required this.followersCount,
     required this.followingCount,
+    required this.isOwnProfile,
   });
 
   @override
@@ -69,6 +75,7 @@ class _StatCard extends StatelessWidget {
                 'username': username,
                 'followersCount': followersCount,
                 'followingCount': followingCount,
+                'isOwnProfile': isOwnProfile,
               },
             )
           : context.push(
@@ -77,6 +84,7 @@ class _StatCard extends StatelessWidget {
                 'username': username,
                 'followersCount': followersCount,
                 'followingCount': followingCount,
+                'isOwnProfile': isOwnProfile,
               },
             ),
       child: Container(
@@ -90,7 +98,9 @@ class _StatCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              _formatCount(followersCount),
+              _formatCount(
+                label == 'FOLLOWERS' ? followersCount : followingCount,
+              ),
               style: const TextStyle(
                 color: AppColors.ink,
                 fontSize: 22,

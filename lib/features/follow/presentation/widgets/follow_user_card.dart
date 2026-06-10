@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../../../core/theme/app_colors.dart';
-import '../../../domain/entities/follow_list_user.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../domain/entities/follow_list_user.dart';
 
 class FollowUserCard extends StatelessWidget {
   final FollowListUserEntity user;
   final String query;
   final bool isFollowing;
+  final bool showRemoveButton;
   final VoidCallback onTap;
+  final VoidCallback onRemoveFollowerTap;
   final VoidCallback? onFollowTap;
 
   const FollowUserCard({
@@ -16,7 +18,9 @@ class FollowUserCard extends StatelessWidget {
     required this.user,
     required this.query,
     required this.isFollowing,
+    required this.showRemoveButton,
     required this.onTap,
+    required this.onRemoveFollowerTap,
     this.onFollowTap,
   });
 
@@ -37,11 +41,17 @@ class FollowUserCard extends StatelessWidget {
             _Avatar(avatarUrl: user.avatarUrl),
             const SizedBox(width: 12),
             Expanded(
-              child: _HighlightedUsername(username: user.username, query: query),
+              child: _HighlightedUsername(
+                username: user.username,
+                query: query,
+              ),
             ),
             const SizedBox(width: 8),
             if (user.id != Supabase.instance.client.auth.currentUser?.id)
-              _FollowButton(isFollowing: isFollowing, onTap: onFollowTap),
+              if (showRemoveButton)
+                _RemoveFollowerButton(onTap: onRemoveFollowerTap)
+              else
+                _FollowButton(isFollowing: isFollowing, onTap: onFollowTap),
           ],
         ),
       ),
@@ -157,6 +167,43 @@ class _HighlightedUsername extends StatelessWidget {
   }
 }
 
+class _RemoveFollowerButton extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const _RemoveFollowerButton({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: onTap,
+      style: OutlinedButton.styleFrom(
+        backgroundColor: AppColors.surface,
+        side: const BorderSide(color: AppColors.line),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        minimumSize: const Size(0, 36),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+      child: const Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.close, size: 13, color: AppColors.ink),
+          SizedBox(width: 4),
+          Text(
+            'REMOVE',
+            style: TextStyle(
+              color: AppColors.ink,
+              fontSize: 11,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 1.0,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _FollowButton extends StatelessWidget {
   final bool isFollowing;
   final VoidCallback? onTap;
@@ -171,7 +218,9 @@ class _FollowButton extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           backgroundColor: AppColors.surface,
           side: const BorderSide(color: AppColors.line),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           padding: const EdgeInsets.symmetric(horizontal: 10),
           minimumSize: const Size(0, 36),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,

@@ -184,4 +184,24 @@ class FollowRepositoryImpl implements FollowRepository {
       return const Left(UnknownFailure('An unexpected error occurred.'));
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> removeFollower(String username) async {
+    try {
+      await followApiDataSource.removeFollower(username);
+      return const Right(unit);
+    } on UnauthenticatedException catch (e) {
+      return Left(UnauthenticatedFollowFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ApiException catch (e) {
+      if (e.statusCode == 404) return Left(TargetUserNotFoundFailure(e.message));
+      return Left(ServerFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('Unexpected error in removeFollower: $e');
+      return const Left(UnknownFailure('An unexpected error occurred.'));
+    }
+  }
 }

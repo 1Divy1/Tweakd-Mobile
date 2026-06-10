@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../domain/entities/profile.dart';
+import '../../bloc/bloc.dart';
+import '../../bloc/event.dart';
+import '../../bloc/state.dart';
 import '../shared/garage_section.dart';
 import '../shared/profile_avatar.dart';
 import '../shared/profile_bio.dart';
@@ -23,8 +27,19 @@ class PublicProfileDataView extends StatelessWidget {
         children: [
           const ProfileTopBar(title: 'PROFILE'),
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                context.read<ProfileBloc>().add(FetchProfileByUsername(profile.username));
+                await context.read<ProfileBloc>().stream.firstWhere(
+                      (s) => s is ProfileLoaded || s is ProfileError,
+                    );
+              },
+              color: AppColors.accent,
+              backgroundColor: AppColors.surface,
+              strokeWidth: 2.5,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 12),
@@ -46,6 +61,7 @@ class PublicProfileDataView extends StatelessWidget {
                     username: profile.username,
                     followers: profile.followersCount,
                     following: profile.followingCount,
+                    isOwnProfile: false,
                   ),
                   const SizedBox(height: 14),
                   Padding(
@@ -58,6 +74,7 @@ class PublicProfileDataView extends StatelessWidget {
                 ],
               ),
             ),
+          ),
           ),
         ],
       ),
