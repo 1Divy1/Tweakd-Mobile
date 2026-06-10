@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../domain/entities/search_result.dart';
+import '../../theme/app_colors.dart';
+import '../entities/search_result.dart';
 import 'search_result_card.dart';
 
 class SearchResultsView extends StatelessWidget {

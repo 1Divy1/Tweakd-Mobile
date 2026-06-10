@@ -4,9 +4,9 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/error/base_failures.dart';
+import '../../domain/entities/follow_list_user.dart';
 import '../../domain/entities/follow_request.dart';
 import '../../domain/entities/follow_status.dart';
-import '../../domain/entities/follow_user.dart';
 import '../../domain/failures/follow_failures.dart';
 import '../../domain/repositories/follow_repository.dart';
 import '../datasource/follow_api_data_source.dart';
@@ -140,7 +140,7 @@ class FollowRepositoryImpl implements FollowRepository {
   }
 
   @override
-  Future<Either<Failure, List<FollowUserEntity>>> getFollowers(
+  Future<Either<Failure, List<FollowListUserEntity>>> getFollowers(
     String username,
   ) async {
     try {
@@ -163,7 +163,7 @@ class FollowRepositoryImpl implements FollowRepository {
   }
 
   @override
-  Future<Either<Failure, List<FollowUserEntity>>> getFollowing(
+  Future<Either<Failure, List<FollowListUserEntity>>> getFollowing(
     String username,
   ) async {
     try {
@@ -181,6 +181,26 @@ class FollowRepositoryImpl implements FollowRepository {
       return Left(ServerFailure(e.message));
     } catch (e) {
       debugPrint('Unexpected error in getFollowing: $e');
+      return const Left(UnknownFailure('An unexpected error occurred.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> removeFollower(String username) async {
+    try {
+      await followApiDataSource.removeFollower(username);
+      return const Right(unit);
+    } on UnauthenticatedException catch (e) {
+      return Left(UnauthenticatedFollowFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ApiException catch (e) {
+      if (e.statusCode == 404) return Left(TargetUserNotFoundFailure(e.message));
+      return Left(ServerFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('Unexpected error in removeFollower: $e');
       return const Left(UnknownFailure('An unexpected error occurred.'));
     }
   }

@@ -19,7 +19,7 @@ class PublicProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: BlocListener<FollowStatusBloc, FollowStatusState>(
+        child: BlocListener<FollowBloc, FollowState>(
           listenWhen: (previous, current) =>
               previous is FollowStatusLoaded &&
               previous.isUpdating &&

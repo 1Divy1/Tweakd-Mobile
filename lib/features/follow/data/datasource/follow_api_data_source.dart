@@ -53,4 +53,8 @@ class FollowApiDataSource {
         .map((e) => FollowUserModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
+
+  Future<void> removeFollower(String username) async {
+    await http.delete('/follow/followers/$username');
+  }
 }

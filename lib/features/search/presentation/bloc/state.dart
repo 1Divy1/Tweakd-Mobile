@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../domain/entities/search_result.dart';
+import '../../../../core/shared/entities/search_result.dart';
 
 abstract class SearchState extends Equatable {
   const SearchState();

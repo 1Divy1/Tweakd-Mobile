@@ -43,6 +43,7 @@ import '../../features/follow/domain/usecases/get_pending_requests.dart'
     as _i422;
 import '../../features/follow/domain/usecases/reject_follow_request.dart'
     as _i669;
+import '../../features/follow/domain/usecases/remove_follower.dart' as _i164;
 import '../../features/follow/domain/usecases/unfollow_user.dart' as _i31;
 import '../../features/follow/presentation/bloc/bloc.dart' as _i236;
 import '../../features/garage/data/datasources/garage_api_data_source.dart'
@@ -178,6 +179,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i669.RejectFollowRequestUseCase>(
       () => _i669.RejectFollowRequestUseCase(gh<_i760.FollowRepository>()),
     );
+    gh.lazySingleton<_i164.RemoveFollowerUseCase>(
+      () => _i164.RemoveFollowerUseCase(gh<_i760.FollowRepository>()),
+    );
     gh.lazySingleton<_i31.UnfollowUserUseCase>(
       () => _i31.UnfollowUserUseCase(gh<_i760.FollowRepository>()),
     );
@@ -307,11 +311,14 @@ extension GetItInjectableX on _i174.GetIt {
         submitOnboarding: gh<_i1055.SubmitOnboardingUseCase>(),
       ),
     );
-    gh.factory<_i236.FollowStatusBloc>(
-      () => _i236.FollowStatusBloc(
+    gh.factory<_i236.FollowBloc>(
+      () => _i236.FollowBloc(
         getFollowStatus: gh<_i28.GetFollowStatusUseCase>(),
         followUser: gh<_i757.FollowUserUseCase>(),
         unfollowUser: gh<_i31.UnfollowUserUseCase>(),
+        getFollowers: gh<_i1027.GetFollowersUseCase>(),
+        getFollowing: gh<_i495.GetFollowingUseCase>(),
+        removeFollower: gh<_i164.RemoveFollowerUseCase>(),
       ),
     );
     gh.factory<_i807.CarDetailBloc>(

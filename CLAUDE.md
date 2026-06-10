@@ -146,3 +146,4 @@ Implemented features with their key files. Read these first before exploring sub
 - All paths in `lib/` use **relative imports within the same feature** and `package:car_social_media_app/...` across features (existing code mixes both — match the surrounding file).
 - Environment variables: read via `dotenv.env['KEY']` after `await dotenv.load(fileName: ".env")` in `main.dart`. `.env` is listed in `pubspec.yaml` assets.
 - `analysis_options.yaml` uses `flutter_lints` defaults — no custom rules.
+- **Never rename pre-existing JSON key strings** in `fromJson` methods (e.g. do not change `avatar_url` to `avatarUrl`). Only add new keys as required by the task; leave all existing keys exactly as written.
