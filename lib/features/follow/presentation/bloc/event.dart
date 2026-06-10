@@ -36,6 +36,15 @@ class ToggleFollowInList extends FollowEvent {
   List<Object?> get props => [username];
 }
 
+class RemoveFollowerFromList extends FollowEvent {
+  final String username;
+
+  const RemoveFollowerFromList(this.username);
+
+  @override
+  List<Object?> get props => [username];
+}
+
 // ---------- Followers & Following ----------
 
 class LoadFollowers extends FollowEvent {

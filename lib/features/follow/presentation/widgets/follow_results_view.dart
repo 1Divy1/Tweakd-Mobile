@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../../../../core/theme/app_colors.dart';
-import '../../../domain/entities/follow_list_user.dart';
-import '../../bloc/bloc.dart';
-import '../../bloc/event.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../domain/entities/follow_list_user.dart';
+import '../bloc/bloc.dart';
+import '../bloc/event.dart';
 import 'follow_user_card.dart';
 
 class FollowResultsView extends StatelessWidget {
   final List<FollowListUserEntity> users;
   final bool showFollowers;
+  final bool isOwnProfile;
   final String query;
 
   const FollowResultsView({
     super.key,
     required this.users,
     required this.showFollowers,
+    required this.isOwnProfile,
     required this.query,
   });
 
@@ -45,10 +45,14 @@ class FollowResultsView extends StatelessWidget {
                 user: user,
                 query: query,
                 isFollowing: user.isFollowing,
+                showRemoveButton: showFollowers && isOwnProfile,
                 onTap: () =>
                     context.push('/users/${user.username}', extra: user.id),
                 onFollowTap: () => context.read<FollowBloc>().add(
                   ToggleFollowInList(user.username),
+                ),
+                onRemoveFollowerTap: () => context.read<FollowBloc>().add(
+                  RemoveFollowerFromList(user.username),
                 ),
               );
             },

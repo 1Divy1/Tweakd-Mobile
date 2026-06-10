@@ -28,6 +28,8 @@ abstract class DioModule {
     dio.interceptors.add(AuthInterceptor(supabaseClient));
     dio.interceptors.add(
       LogInterceptor(
+        requestHeader: false,
+        responseHeader: false,
         requestBody: true,
         responseBody: true,
         logPrint: (object) => debugPrint('🌐 DIO: $object'),

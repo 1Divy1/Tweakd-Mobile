@@ -10,6 +10,7 @@ import '../../domain/usecases/follow_user.dart';
 import '../../domain/usecases/get_follow_status.dart';
 import '../../domain/usecases/get_followers.dart';
 import '../../domain/usecases/get_following.dart';
+import '../../domain/usecases/remove_follower.dart';
 import '../../domain/usecases/unfollow_user.dart';
 import '../utils/follow_error_mapper.dart';
 import 'event.dart';
@@ -24,6 +25,7 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
   final UnfollowUserUseCase unfollowUser;
   final GetFollowersUseCase getFollowers;
   final GetFollowingUseCase getFollowing;
+  final RemoveFollowerUseCase removeFollower;
 
   FollowBloc({
     required this.getFollowStatus,
@@ -31,10 +33,12 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
     required this.unfollowUser,
     required this.getFollowers,
     required this.getFollowing,
+    required this.removeFollower,
   }) : super(FollowStatusInitial()) {
     on<LoadFollowStatus>(_onLoadFollowStatus);
     on<ToggleFollow>(_onToggleFollow);
     on<ToggleFollowInList>(_onToggleFollowInList);
+    on<RemoveFollowerFromList>(_onRemoveFollowerFromList);
     on<LoadFollowers>(_onLoadFollowers);
     on<LoadFollowing>(_onLoadFollowing);
   }
@@ -156,6 +160,25 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
     );
   }
 
+  FutureOr<void> _onRemoveFollowerFromList(
+    RemoveFollowerFromList event,
+    Emitter<FollowState> emit,
+  ) async {
+    final current = state;
+    if (current is! FollowersLoaded) return;
+
+    final originalFollowers = current.followers;
+    final optimistic = originalFollowers.where((u) => u.username != event.username).toList();
+    emit(FollowersLoaded(followers: optimistic));
+
+    final result = await removeFollower(RemoveFollowerParams(username: event.username));
+
+    result.fold(
+      (failure) => emit(FollowersLoaded(followers: originalFollowers)),
+      (_) {},
+    );
+  }
+  
   FutureOr<void> _onLoadFollowers(LoadFollowers event, Emitter<FollowState> emit) async {
     emit(FollowersLoading());
     

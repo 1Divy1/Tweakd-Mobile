@@ -161,6 +161,7 @@ final appRouter = GoRouter(
         final username = extra['username'] as String? ?? '';
         final followersCount = extra['followersCount'] as int? ?? 0;
         final followingCount = extra['followingCount'] as int? ?? 0;
+        final isOwnProfile = extra['isOwnProfile'] as bool? ?? false;
         return BlocProvider<FollowBloc>(
           create: (_) => getIt<FollowBloc>()..add(LoadFollowers(username)),
           child: FollowersFollowingPage(
@@ -168,6 +169,7 @@ final appRouter = GoRouter(
             followersCount: followersCount,
             followingCount: followingCount,
             showFollowers: true,
+            isOwnProfile: isOwnProfile,
           ),
         );
       },
@@ -179,6 +181,7 @@ final appRouter = GoRouter(
         final username = extra['username'] as String? ?? '';
         final followersCount = extra['followersCount'] as int? ?? 0;
         final followingCount = extra['followingCount'] as int? ?? 0;
+        final isOwnProfile = extra['isOwnProfile'] as bool? ?? false;
         return BlocProvider<FollowBloc>(
           create: (_) => getIt<FollowBloc>()..add(LoadFollowing(username)),
           child: FollowersFollowingPage(
@@ -186,6 +189,7 @@ final appRouter = GoRouter(
             followersCount: followersCount,
             followingCount: followingCount,
             showFollowers: false,
+            isOwnProfile: isOwnProfile,
           ),
         );
       },

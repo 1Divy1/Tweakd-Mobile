@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/shared/widgets/app_bottom_nav.dart';
 import '../../../domain/entities/profile.dart';
+import '../../bloc/bloc.dart';
+import '../../bloc/event.dart';
+import '../../bloc/state.dart';
 import '../shared/garage_section.dart';
 import '../shared/profile_avatar.dart';
 import '../shared/profile_bio.dart';
@@ -32,8 +36,25 @@ class MyProfileDataView extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                // Force a remote fetch — the default (fetchFromRemote: false)
+                // returns the repository's cached profile, so the request
+                // never leaves the device and counts stay stale.
+                context
+                    .read<ProfileBloc>()
+                    .add(const FetchUserProfileData(fetchFromRemote: true));
+                // Keep the refresh spinner up until the fetch settles.
+                await context.read<ProfileBloc>().stream.firstWhere(
+                      (s) => s is ProfileLoaded || s is ProfileError,
+                    );
+              },
+              color: AppColors.accent,
+              backgroundColor: AppColors.surface,
+              strokeWidth: 2.5,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 12),
@@ -55,6 +76,7 @@ class MyProfileDataView extends StatelessWidget {
                     username: profile.username,
                     followers: profile.followersCount,
                     following: profile.followingCount,
+                    isOwnProfile: true,
                   ),
                   const SizedBox(height: 22),
                   const GarageSection(isOwner: true),
@@ -62,6 +84,7 @@ class MyProfileDataView extends StatelessWidget {
                 ],
               ),
             ),
+          ),
           ),
           const AppBottomNav(activeTab: AppBottomNavTab.profile),
         ],
