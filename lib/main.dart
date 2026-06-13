@@ -5,6 +5,7 @@ import 'package:car_social_media_app/core/theme/app_theme.dart';
 import 'package:car_social_media_app/features/authentication/presentation/bloc/bloc.dart';
 import 'package:car_social_media_app/features/authentication/presentation/bloc/event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -13,6 +14,12 @@ void main() async {
 
   // Make sure the binding is initialized
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Lock the app to portrait orientation
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   // Load environment variables
   await dotenv.load(fileName: ".env");

@@ -25,7 +25,6 @@ class CarModificationEntity extends Equatable {
   final List<ModificationMediaEntity> media;
   final DateTime? installationDate;
   final double? price;
-  final bool isPricePublic;
   final int? mileageAtInstall;
   final DateTime createdAt;
 
@@ -39,7 +38,6 @@ class CarModificationEntity extends Equatable {
     this.media = const [],
     this.installationDate,
     this.price,
-    required this.isPricePublic,
     this.mileageAtInstall,
     required this.createdAt,
   });
@@ -61,7 +59,6 @@ class CarModificationEntity extends Equatable {
         media,
         installationDate,
         price,
-        isPricePublic,
         mileageAtInstall,
         createdAt,
       ];

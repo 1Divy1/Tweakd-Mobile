@@ -72,6 +72,16 @@ class CarModCategoryEntity extends Equatable {
   List<Object?> get props => [id, modName];
 }
 
+class CarFuelTypeOptionEntity extends Equatable {
+  final String id;
+  final String name;
+
+  const CarFuelTypeOptionEntity({required this.id, required this.name});
+
+  @override
+  List<Object?> get props => [id, name];
+}
+
 class GarageReferenceData extends Equatable {
   final List<CarBrandEntity> brands;
   final List<CarDrivetrainEntity> drivetrains;

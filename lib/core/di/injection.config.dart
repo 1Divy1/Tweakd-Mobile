@@ -246,6 +246,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i408.GetModCategoriesUseCase>(
       () => _i408.GetModCategoriesUseCase(gh<_i511.GarageRepository>()),
     );
+    gh.lazySingleton<_i408.GetFuelTypeOptionsUseCase>(
+      () => _i408.GetFuelTypeOptionsUseCase(gh<_i511.GarageRepository>()),
+    );
     gh.lazySingleton<_i49.PatchModificationUseCase>(
       () => _i49.PatchModificationUseCase(gh<_i511.GarageRepository>()),
     );
@@ -275,15 +278,6 @@ extension GetItInjectableX on _i174.GetIt {
         googleSignIn: gh<_i920.GoogleSignIn>(),
       ),
     );
-    gh.lazySingleton<_i424.GetCurrentUserProfileUseCase>(
-      () => _i424.GetCurrentUserProfileUseCase(gh<_i894.ProfileRepository>()),
-    );
-    gh.lazySingleton<_i320.GetProfileByUsernameUseCase>(
-      () => _i320.GetProfileByUsernameUseCase(gh<_i894.ProfileRepository>()),
-    );
-    gh.lazySingleton<_i1055.SubmitOnboardingUseCase>(
-      () => _i1055.SubmitOnboardingUseCase(gh<_i894.ProfileRepository>()),
-    );
     gh.factory<_i160.AddCarBloc>(
       () => _i160.AddCarBloc(
         getBrands: gh<_i408.GetBrandsUseCase>(),
@@ -293,6 +287,7 @@ extension GetItInjectableX on _i174.GetIt {
         getDistanceUnits: gh<_i408.GetDistanceUnitsUseCase>(),
         getStatusOptions: gh<_i408.GetStatusOptionsUseCase>(),
         getModCategories: gh<_i408.GetModCategoriesUseCase>(),
+        getFuelTypeOptions: gh<_i408.GetFuelTypeOptionsUseCase>(),
         addCar: gh<_i292.AddCarUseCase>(),
         deleteCar: gh<_i287.DeleteCarUseCase>(),
         getCoverUploadUrl: gh<_i932.GetCoverUploadUrlUseCase>(),
@@ -303,6 +298,15 @@ extension GetItInjectableX on _i174.GetIt {
         patchModification: gh<_i49.PatchModificationUseCase>(),
         imageService: gh<_i185.CarImageService>(),
       ),
+    );
+    gh.lazySingleton<_i424.GetCurrentUserProfileUseCase>(
+      () => _i424.GetCurrentUserProfileUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i320.GetProfileByUsernameUseCase>(
+      () => _i320.GetProfileByUsernameUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i1055.SubmitOnboardingUseCase>(
+      () => _i1055.SubmitOnboardingUseCase(gh<_i894.ProfileRepository>()),
     );
     gh.factory<_i180.ProfileBloc>(
       () => _i180.ProfileBloc(

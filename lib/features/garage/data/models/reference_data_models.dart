@@ -93,6 +93,23 @@ class CarModCategoryModel {
   CarModCategoryEntity toEntity() => CarModCategoryEntity(id: id, modName: modName);
 }
 
+class CarFuelTypeOptionModel {
+  final String id;
+  final String name;
+
+  const CarFuelTypeOptionModel({required this.id, required this.name});
+
+  factory CarFuelTypeOptionModel.fromJson(Map<String, dynamic> json) {
+    return CarFuelTypeOptionModel(
+      id: json['id'] as String,
+      name: json['name'] as String,
+    );
+  }
+
+  CarFuelTypeOptionEntity toEntity() =>
+      CarFuelTypeOptionEntity(id: id, name: name);
+}
+
 class CarStatusOptionRefModel {
   final String id;
   final String type;

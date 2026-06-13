@@ -27,6 +27,7 @@ class AddCarRefDataLoaded extends AddCarState {
   final List<CarDistanceUnitEntity> distanceUnits;
   final List<CarStatusOptionEntity> statusOptions;
   final List<CarModCategoryEntity> modCategories;
+  final List<CarFuelTypeOptionEntity> fuelTypeOptions;
   final bool modelsLoading;
 
   const AddCarRefDataLoaded({
@@ -37,6 +38,7 @@ class AddCarRefDataLoaded extends AddCarState {
     required this.distanceUnits,
     required this.statusOptions,
     required this.modCategories,
+    required this.fuelTypeOptions,
     this.modelsLoading = false,
   });
 
@@ -52,6 +54,7 @@ class AddCarRefDataLoaded extends AddCarState {
       distanceUnits: distanceUnits,
       statusOptions: statusOptions,
       modCategories: modCategories,
+      fuelTypeOptions: fuelTypeOptions,
       modelsLoading: modelsLoading ?? this.modelsLoading,
     );
   }
@@ -65,6 +68,7 @@ class AddCarRefDataLoaded extends AddCarState {
         distanceUnits,
         statusOptions,
         modCategories,
+        fuelTypeOptions,
         modelsLoading,
       ];
 }
