@@ -85,9 +85,9 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
 
     // ── Steps 2–4: upload media; roll back modification on any failure ─────────
     final files = <ModUploadRequest>[
-      if (event.beforeFilePath != null)
+      if (event.before != null)
         const ModUploadRequest(phase: 'BEFORE', format: 'WEBP'),
-      if (event.afterFilePath != null)
+      if (event.after != null)
         const ModUploadRequest(phase: 'AFTER', format: 'WEBP'),
     ];
 
@@ -110,14 +110,13 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
         (r) => r.uploads,
       );
 
-      // Step 3: upload all files to R2 in parallel
+      // Step 3: upload all files to R2 in parallel. Bytes are already being
+      // compressed (since selection), so this only awaits them and PUTs.
       await Future.wait(uploads.map((upload) async {
-        final filePath = upload.phase == 'before'
-            ? event.beforeFilePath
-            : event.afterFilePath;
-        if (filePath == null) return;
-        final bytes = await imageService.compressToWebp(filePath);
-        await imageService.uploadToR2(upload.uploadUrl, bytes);
+        final image =
+            upload.phase == 'before' ? event.before : event.after;
+        if (image == null) return;
+        await imageService.uploadToR2(upload.uploadUrl, await image.bytes);
       }));
 
       // Step 4: save URLs to backend

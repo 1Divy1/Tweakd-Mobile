@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/network/abstract_http.dart';
@@ -28,13 +29,17 @@ class GarageApiDataSource {
 
   Future<CarModel> getCar(String carId) async {
     final data = await http.get('/garage/cars/$carId');
-    return CarModel.fromJson(data as Map<String, dynamic>);
+    debugPrint("Raw data: $data");
+    final response = CarModel.fromJson(data as Map<String, dynamic>);
+    debugPrint("Car fuel: ${response.fuelTypeId}, ${response.fuelTypeName}");
+    debugPrint("Car mileage: ${response.mileage}");
+
+    return response;
   }
 
   Future<CarModel> addCar(Map<String, dynamic> body) async {
     final data = await http.post('/garage/cars', body: body);
     final json = data as Map<String, dynamic>;
-    // The create endpoint wraps the car in a 'car' key
     return CarModel.fromJson(
         json.containsKey('car') ? json['car'] as Map<String, dynamic> : json);
   }
@@ -143,6 +148,13 @@ class GarageApiDataSource {
     final data = await http.get('/garage/reference/mod-categories');
     return (data as List<dynamic>)
         .map((e) => CarModCategoryModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<List<CarFuelTypeOptionModel>> getFuelTypeOptions() async {
+    final data = await http.get('/garage/reference/fuel-type-options');
+    return (data as List<dynamic>)
+        .map((e) => CarFuelTypeOptionModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
 }

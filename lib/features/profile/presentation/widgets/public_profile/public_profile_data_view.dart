@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../garage/presentation/bloc/bloc.dart';
+import '../../../../garage/presentation/bloc/event.dart';
+import '../../../../garage/presentation/bloc/state.dart';
 import '../../../domain/entities/profile.dart';
 import '../../bloc/bloc.dart';
 import '../../bloc/event.dart';
@@ -29,10 +32,23 @@ class PublicProfileDataView extends StatelessWidget {
           Expanded(
             child: RefreshIndicator(
               onRefresh: () async {
-                context.read<ProfileBloc>().add(FetchProfileByUsername(profile.username));
-                await context.read<ProfileBloc>().stream.firstWhere(
-                      (s) => s is ProfileLoaded || s is ProfileError,
-                    );
+                context
+                    .read<ProfileBloc>()
+                    .add(FetchProfileByUsername(profile.username));
+                // Refresh every section too (garage today, feed/reels later),
+                // so pull-to-refresh behaves like a fresh app open.
+                context
+                    .read<GarageBloc>()
+                    .add(LoadGarageByUsername(profile.username));
+                // Keep the refresh spinner up until both fetches settle.
+                await Future.wait([
+                  context.read<ProfileBloc>().stream.firstWhere(
+                        (s) => s is ProfileLoaded || s is ProfileError,
+                      ),
+                  context.read<GarageBloc>().stream.firstWhere(
+                        (s) => s is GarageLoaded || s is GarageError,
+                      ),
+                ]);
               },
               color: AppColors.accent,
               backgroundColor: AppColors.surface,

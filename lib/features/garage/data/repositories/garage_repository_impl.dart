@@ -449,4 +449,17 @@ class GarageRepositoryImpl implements GarageRepository {
       return const Left(UnknownFailure('Failed to load mod categories.'));
     }
   }
+
+  @override
+  Future<Either<Failure, List<CarFuelTypeOptionEntity>>>
+      getFuelTypeOptions() async {
+    try {
+      final models = await dataSource.getFuelTypeOptions();
+      return Right(models.map((m) => m.toEntity()).toList());
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } catch (e) {
+      return const Left(UnknownFailure('Failed to load fuel type options.'));
+    }
+  }
 }

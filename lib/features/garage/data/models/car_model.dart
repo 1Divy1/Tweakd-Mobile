@@ -16,6 +16,8 @@ class CarModel {
   final String colorCode;
   final String mileageUnitId;
   final String mileageUnitName;
+  final String fuelTypeId;
+  final String fuelTypeName;
   final int? mileage;
   final int year;
   final int horsepower;
@@ -24,11 +26,12 @@ class CarModel {
   final double engineDisplacement;
   final double? zeroToOneHundred;
   final String? chassisCode;
+  final String? modelCode;
   final String? engineCode;
   final String? coverImageUrl;
   final List<String> galleryUrls;
   final DateTime? createdAt;
-  final CarStatusOptionModel? status;
+  final CarStatusOptionModel status;
   final List<CarModificationModel> modifications;
 
   const CarModel({
@@ -45,20 +48,23 @@ class CarModel {
     required this.colorCode,
     required this.mileageUnitId,
     required this.mileageUnitName,
+    required this.fuelTypeId,
+    required this.fuelTypeName,
     required this.year,
     required this.horsepower,
     required this.torque,
     required this.weight,
     required this.engineDisplacement,
+    required this.status,
+    required this.modifications,
     this.mileage,
     this.zeroToOneHundred,
     this.chassisCode,
+    this.modelCode,
     this.engineCode,
     this.coverImageUrl,
     this.galleryUrls = const [],
     this.createdAt,
-    this.status,
-    required this.modifications,
   });
 
   factory CarModel.fromJson(Map<String, dynamic> json) {
@@ -76,6 +82,8 @@ class CarModel {
       colorCode: json['color_code'] as String,
       mileageUnitId: json['mileage_unit_id'] as String,
       mileageUnitName: json['mileage_unit_name'] as String,
+      fuelTypeId: json['fuel_type_id'] as String,
+      fuelTypeName: json['fuel_type_name'] as String,
       mileage: json['mileage'] as int?,
       year: json['year'] as int,
       horsepower: json['horsepower'] as int,
@@ -84,6 +92,7 @@ class CarModel {
       engineDisplacement: (json['engine_displacement'] as num).toDouble(),
       zeroToOneHundred: (json['zero_to_one_hundred'] as num?)?.toDouble(),
       chassisCode: json['chassis_code'] as String?,
+      modelCode: json['model_code'] as String?,
       engineCode: json['engine_code'] as String?,
       coverImageUrl: json['cover_image_url'] as String?,
       galleryUrls: (json['gallery_urls'] as List<dynamic>? ?? [])
@@ -92,10 +101,10 @@ class CarModel {
       createdAt: json['created_at'] != null
           ? DateTime.parse(json['created_at'] as String)
           : null,
-      status: json['status'] != null
-          ? CarStatusOptionModel.fromJson(
-              json['status'] as Map<String, dynamic>)
-          : null,
+      status: CarStatusOptionModel(
+        id: json['status_id'] as String,
+        type: json['status_name'] as String,
+      ),
       modifications: (json['modifications'] as List<dynamic>)
           .map((e) => CarModificationModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -117,6 +126,8 @@ class CarModel {
       colorCode: colorCode,
       mileageUnitId: mileageUnitId,
       mileageUnitName: mileageUnitName,
+      fuelTypeId: fuelTypeId,
+      fuelTypeName: fuelTypeName,
       mileage: mileage,
       year: year,
       horsepower: horsepower,
@@ -125,11 +136,12 @@ class CarModel {
       engineDisplacement: engineDisplacement,
       zeroToOneHundred: zeroToOneHundred,
       chassisCode: chassisCode,
+      modelCode: modelCode,
       engineCode: engineCode,
       coverImageUrl: coverImageUrl,
       galleryUrls: galleryUrls,
       createdAt: createdAt,
-      status: status?.toEntity(),
+      status: status.toEntity(),
       modifications: modifications.map((m) => m.toEntity()).toList(),
     );
   }

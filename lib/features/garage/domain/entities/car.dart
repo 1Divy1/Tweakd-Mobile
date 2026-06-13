@@ -17,6 +17,8 @@ class CarEntity extends Equatable {
   final String colorCode;
   final String mileageUnitId;
   final String mileageUnitName;
+  final String fuelTypeId;
+  final String fuelTypeName;
   final int? mileage;
   final int year;
   final int horsepower;
@@ -25,11 +27,12 @@ class CarEntity extends Equatable {
   final double engineDisplacement;
   final double? zeroToOneHundred;
   final String? chassisCode;
+  final String? modelCode;
   final String? engineCode;
   final String? coverImageUrl;
   final List<String> galleryUrls;
   final DateTime? createdAt;
-  final CarStatusOptionEntity? status;
+  final CarStatusOptionEntity status;
   final List<CarModificationEntity> modifications;
 
   const CarEntity({
@@ -51,15 +54,18 @@ class CarEntity extends Equatable {
     required this.torque,
     required this.weight,
     required this.engineDisplacement,
+    required this.fuelTypeId,
+    required this.fuelTypeName,
+    required this.status,
     required this.modifications,
     this.mileage,
     this.zeroToOneHundred,
     this.chassisCode,
+    this.modelCode,
     this.engineCode,
     this.coverImageUrl,
     this.galleryUrls = const [],
     this.createdAt,
-    this.status,
   });
 
   @override
@@ -85,12 +91,15 @@ class CarEntity extends Equatable {
         engineDisplacement,
         zeroToOneHundred,
         chassisCode,
+        modelCode,
         engineCode,
         coverImageUrl,
         galleryUrls,
         createdAt,
         status,
         modifications,
+        fuelTypeId,
+        fuelTypeName,
       ];
 
   CarEntity copyWith({
@@ -107,6 +116,8 @@ class CarEntity extends Equatable {
     String? colorCode,
     String? mileageUnitId,
     String? mileageUnitName,
+    String? fuelTypeId,
+    String? fuelTypeName,
     int? mileage,
     int? year,
     int? horsepower,
@@ -115,6 +126,7 @@ class CarEntity extends Equatable {
     double? engineDisplacement,
     double? zeroToOneHundred,
     String? chassisCode,
+    String? modelCode,
     String? engineCode,
     String? coverImageUrl,
     List<String>? galleryUrls,
@@ -136,6 +148,8 @@ class CarEntity extends Equatable {
       colorCode: colorCode ?? this.colorCode,
       mileageUnitId: mileageUnitId ?? this.mileageUnitId,
       mileageUnitName: mileageUnitName ?? this.mileageUnitName,
+      fuelTypeId: fuelTypeId ?? this.fuelTypeId,
+      fuelTypeName: fuelTypeName ?? this.fuelTypeName,
       mileage: mileage ?? this.mileage,
       year: year ?? this.year,
       horsepower: horsepower ?? this.horsepower,
@@ -144,6 +158,7 @@ class CarEntity extends Equatable {
       engineDisplacement: engineDisplacement ?? this.engineDisplacement,
       zeroToOneHundred: zeroToOneHundred ?? this.zeroToOneHundred,
       chassisCode: chassisCode ?? this.chassisCode,
+      modelCode: modelCode ?? this.modelCode,
       engineCode: engineCode ?? this.engineCode,
       coverImageUrl: coverImageUrl ?? this.coverImageUrl,
       galleryUrls: galleryUrls ?? this.galleryUrls,

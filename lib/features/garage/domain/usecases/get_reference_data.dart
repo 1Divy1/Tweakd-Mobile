@@ -87,3 +87,14 @@ class GetModCategoriesUseCase
   Future<Either<Failure, List<CarModCategoryEntity>>> call(NoParams _) =>
       repository.getModCategories();
 }
+
+@lazySingleton
+class GetFuelTypeOptionsUseCase
+    implements UseCase<List<CarFuelTypeOptionEntity>, NoParams> {
+  final GarageRepository repository;
+  GetFuelTypeOptionsUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, List<CarFuelTypeOptionEntity>>> call(NoParams _) =>
+      repository.getFuelTypeOptions();
+}

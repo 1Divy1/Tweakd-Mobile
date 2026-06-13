@@ -71,6 +71,7 @@ abstract class GarageRepository {
   Future<Either<Failure, List<CarDistanceUnitEntity>>> getDistanceUnits();
   Future<Either<Failure, List<CarStatusOptionEntity>>> getStatusOptions();
   Future<Either<Failure, List<CarModCategoryEntity>>> getModCategories();
+  Future<Either<Failure, List<CarFuelTypeOptionEntity>>> getFuelTypeOptions();
 }
 
 // ── Request param classes ─────────────────────────────────────────────────────
@@ -89,6 +90,7 @@ class CarRequestParams {
   final double? zeroToOneHundred;
   final String? chassisCode;
   final String? engineCode;
+  final String? fuelTypeId;
   final String statusId;
 
   const CarRequestParams({
@@ -105,6 +107,7 @@ class CarRequestParams {
     this.zeroToOneHundred,
     this.chassisCode,
     this.engineCode,
+    this.fuelTypeId,
     required this.statusId,
   });
 
@@ -124,6 +127,7 @@ class CarRequestParams {
           'chassis_code': chassisCode,
         if (engineCode != null && engineCode!.isNotEmpty)
           'engine_code': engineCode,
+        if (fuelTypeId != null) 'fuel_type_id': fuelTypeId,
         'status_id': statusId,
       };
 }
@@ -134,7 +138,6 @@ class ModRequestParams {
   final String? description;
   final DateTime installationDate;
   final double? price;
-  final bool isPricePublic;
   final int? mileageAtInstall;
 
   const ModRequestParams({
@@ -143,7 +146,6 @@ class ModRequestParams {
     this.description,
     required this.installationDate,
     this.price,
-    required this.isPricePublic,
     this.mileageAtInstall,
   });
 
@@ -154,7 +156,6 @@ class ModRequestParams {
           'description': description,
         'installation_date': installationDate.toUtc().toIso8601String(),
         if (price != null) 'price': price,
-        'is_price_public': isPricePublic,
         if (mileageAtInstall != null) 'mileage_at_install': mileageAtInstall,
       };
 }
@@ -166,7 +167,6 @@ class ModPatchParams {
   final String? description;
   final DateTime? installationDate;
   final double? price;
-  final bool? isPricePublic;
   final int? mileageAtInstall;
   final List<ModMediaInput>? addMedia;
   final List<String>? removeMediaUrls;
@@ -176,7 +176,6 @@ class ModPatchParams {
     this.description,
     this.installationDate,
     this.price,
-    this.isPricePublic,
     this.mileageAtInstall,
     this.addMedia,
     this.removeMediaUrls,
@@ -188,7 +187,6 @@ class ModPatchParams {
         if (installationDate != null)
           'installation_date': installationDate!.toUtc().toIso8601String(),
         if (price != null) 'price': price,
-        if (isPricePublic != null) 'is_price_public': isPricePublic,
         if (mileageAtInstall != null) 'mileage_at_install': mileageAtInstall,
         if (addMedia != null && addMedia!.isNotEmpty)
           'add_media': addMedia!.map((m) => m.toJson()).toList(),

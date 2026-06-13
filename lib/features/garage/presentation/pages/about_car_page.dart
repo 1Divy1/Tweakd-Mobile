@@ -244,11 +244,115 @@ class _TopBar extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.of(context).pop();
-                context.read<CarDetailBloc>().add(DeleteCarFromDetail(carId));
+                _confirmDelete(context, carId);
               },
             ),
             const SizedBox(height: 8),
           ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _confirmDelete(BuildContext context, String carId) async {
+    final bloc = context.read<CarDetailBloc>();
+    final confirmed = await showDialog<bool>(
+      context: context,
+      barrierColor: Colors.black54,
+      builder: (dialogContext) => Dialog(
+        backgroundColor: AppColors.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 22, 20, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Delete machine?',
+                style: TextStyle(
+                  color: AppColors.ink,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'This will permanently remove this car and all of its '
+                'modifications from your garage. This action cannot be undone.',
+                style: TextStyle(
+                  color: AppColors.mute,
+                  fontSize: 14,
+                  height: 1.4,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 22),
+              Row(
+                children: [
+                  Expanded(
+                    child: _DialogButton(
+                      label: 'Cancel',
+                      onTap: () => Navigator.of(dialogContext).pop(false),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _DialogButton(
+                      label: 'Delete',
+                      isDestructive: true,
+                      onTap: () => Navigator.of(dialogContext).pop(true),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    if (confirmed == true) {
+      bloc.add(DeleteCarFromDetail(carId));
+    }
+  }
+}
+
+class _DialogButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+  final bool isDestructive;
+
+  const _DialogButton({
+    required this.label,
+    required this.onTap,
+    this.isDestructive = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 48,
+        decoration: BoxDecoration(
+          color: isDestructive ? Colors.red : AppColors.surface,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isDestructive ? Colors.red : AppColors.line,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: TextStyle(
+              color: isDestructive ? Colors.white : AppColors.ink,
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
         ),
       ),
     );
@@ -477,10 +581,13 @@ class _InfoTable extends StatelessWidget {
       ('DRIVETRAIN', car.drivetrainName.toUpperCase()),
       if (car.mileage != null)
         ('MILEAGE', '${car.mileage} ${car.mileageUnitName.toUpperCase()}'),
+      if (car.modelCode != null && car.modelCode!.isNotEmpty)
+        ('MODEL CODE', car.modelCode!.toUpperCase()),
       if (car.engineCode != null && car.engineCode!.isNotEmpty)
         ('ENGINE CODE', car.engineCode!.toUpperCase()),
       ('DISPLACEMENT', '${car.engineDisplacement.toStringAsFixed(1)}L'),
-      if (car.status != null) ('STATUS', car.status!.type.toUpperCase()),
+      ('FUEL TYPE', car.fuelTypeName.toUpperCase()),
+      ('STATUS', car.status.type.toUpperCase()),
     ];
 
     return Container(
@@ -840,9 +947,7 @@ class _ModCard extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.of(context).pop();
-                bloc.add(
-                  DeleteModificationFromDetail(carId: carId, modId: mod.id),
-                );
+                _confirmDelete(context, bloc);
               },
             ),
             const SizedBox(height: 8),
@@ -850,6 +955,73 @@ class _ModCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _confirmDelete(
+    BuildContext context,
+    CarDetailBloc bloc,
+  ) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      barrierColor: Colors.black54,
+      builder: (dialogContext) => Dialog(
+        backgroundColor: AppColors.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 22, 20, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Delete modification?',
+                style: TextStyle(
+                  color: AppColors.ink,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'This will permanently remove this modification and its '
+                'photos from the build log. This action cannot be undone.',
+                style: TextStyle(
+                  color: AppColors.mute,
+                  fontSize: 14,
+                  height: 1.4,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 22),
+              Row(
+                children: [
+                  Expanded(
+                    child: _DialogButton(
+                      label: 'Cancel',
+                      onTap: () => Navigator.of(dialogContext).pop(false),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _DialogButton(
+                      label: 'Delete',
+                      isDestructive: true,
+                      onTap: () => Navigator.of(dialogContext).pop(true),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    if (confirmed == true) {
+      bloc.add(DeleteModificationFromDetail(carId: carId, modId: mod.id));
+    }
   }
 }
 
