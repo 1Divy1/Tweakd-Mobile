@@ -34,7 +34,7 @@ class CarModificationModel {
   final String title;
   final String? description;
   final List<ModificationMediaItemModel> media;
-  final DateTime? installationDate;
+  final DateTime installationDate;
   final double? price;
   final int? mileageAtInstall;
   final DateTime createdAt;
@@ -47,7 +47,7 @@ class CarModificationModel {
     required this.title,
     this.description,
     this.media = const [],
-    this.installationDate,
+    required this.installationDate,
     this.price,
     this.mileageAtInstall,
     required this.createdAt,
@@ -65,9 +65,7 @@ class CarModificationModel {
           .map((e) =>
               ModificationMediaItemModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      installationDate: json['installation_date'] != null
-          ? DateTime.parse(json['installation_date'] as String)
-          : null,
+      installationDate: DateTime.parse(json['installation_date'] as String),
       price: (json['price'] as num?)?.toDouble(),
       mileageAtInstall: json['mileage_at_install'] as int?,
       createdAt: DateTime.parse(json['created_at'] as String),
