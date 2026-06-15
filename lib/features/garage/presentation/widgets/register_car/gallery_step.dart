@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import 'editable_image.dart';
 import 'register_car_fields.dart';
 
 /// Maximum number of gallery photos surfaced in the UI.
@@ -10,23 +11,24 @@ const _maxGalleryPhotos = 8;
 
 /// Step 5 — an optional gallery of supporting shots, laid out as a square grid
 /// with an add tile and per-tile remove affordance. The first photo is flagged
-/// as the cover that leads the chassis card.
+/// as the cover that leads the chassis card. Each item is either an existing
+/// remote photo or a freshly picked local one ([SlotImage]).
 class GalleryStep extends StatelessWidget {
-  final List<String> filePaths;
+  final List<SlotImage> images;
   final VoidCallback onAdd;
   final ValueChanged<int> onRemove;
 
   const GalleryStep({
     super.key,
-    required this.filePaths,
+    required this.images,
     required this.onAdd,
     required this.onRemove,
   });
 
   @override
   Widget build(BuildContext context) {
-    final canAddMore = filePaths.length < _maxGalleryPhotos;
-    final tileCount = filePaths.length + (canAddMore ? 1 : 0);
+    final canAddMore = images.length < _maxGalleryPhotos;
+    final tileCount = images.length + (canAddMore ? 1 : 0);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,9 +51,9 @@ class GalleryStep extends StatelessWidget {
             childAspectRatio: 0.9,
           ),
           itemBuilder: (context, i) {
-            if (i == filePaths.length) return _AddTile(onTap: onAdd);
+            if (i == images.length) return _AddTile(onTap: onAdd);
             return _GalleryTile(
-              filePath: filePaths[i],
+              image: images[i],
               isCover: i == 0,
               onRemove: () => onRemove(i),
             );
@@ -114,24 +116,29 @@ class _AddTile extends StatelessWidget {
 }
 
 class _GalleryTile extends StatelessWidget {
-  final String filePath;
+  final SlotImage image;
   final bool isCover;
   final VoidCallback onRemove;
 
   const _GalleryTile({
-    required this.filePath,
+    required this.image,
     required this.isCover,
     required this.onRemove,
   });
 
   @override
   Widget build(BuildContext context) {
+    final img = image;
     return Stack(
       fit: StackFit.expand,
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(16),
-          child: Image.file(File(filePath), fit: BoxFit.cover),
+          child: switch (img) {
+            LocalSlotImage() =>
+              Image.file(File(img.image.path), fit: BoxFit.cover),
+            RemoteSlotImage() => Image.network(img.url, fit: BoxFit.cover),
+          },
         ),
         Positioned(
           top: 6,

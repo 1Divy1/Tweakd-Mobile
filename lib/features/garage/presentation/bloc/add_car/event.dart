@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../core/services/car_image_service.dart';
 import '../../../domain/repositories/garage_repository.dart';
+import '../../widgets/register_car/editable_image.dart';
+import '../../widgets/register_car/mod_slot.dart';
 
 abstract class AddCarEvent extends Equatable {
   const AddCarEvent();
@@ -59,4 +61,46 @@ class SubmitNewCar extends AddCarEvent {
 
   @override
   List<Object?> get props => [car, cover, gallery, mods];
+}
+
+/// Edit submission for an existing car. Only changed data is written:
+/// - [car] is PUT to update scalar fields.
+/// - [newCover] (if set) is uploaded and saved; [removedCoverUrl] is the old
+///   cover object to delete from R2.
+/// - [gallery] is the final ordered list (kept remotes + new locals);
+///   [removedGalleryUrls] are existing photos to delete from R2.
+/// - [mods] holds the current mods ([NewModSlot] to create, [ExistingModSlot]
+///   to patch); [removedModIds] are mods to delete.
+class SubmitCarEdit extends AddCarEvent {
+  final String carId;
+  final CarRequestParams car;
+  final CompressedImage? newCover;
+  final String? removedCoverUrl;
+  final List<SlotImage> gallery;
+  final List<String> removedGalleryUrls;
+  final List<ModSlot> mods;
+  final List<String> removedModIds;
+
+  const SubmitCarEdit({
+    required this.carId,
+    required this.car,
+    this.newCover,
+    this.removedCoverUrl,
+    required this.gallery,
+    required this.removedGalleryUrls,
+    required this.mods,
+    required this.removedModIds,
+  });
+
+  @override
+  List<Object?> get props => [
+        carId,
+        car,
+        newCover,
+        removedCoverUrl,
+        gallery,
+        removedGalleryUrls,
+        mods,
+        removedModIds,
+      ];
 }

@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../domain/usecases/delete_car.dart';
+import '../../../domain/usecases/delete_gallery_images.dart';
 import '../../../domain/usecases/delete_modification.dart';
 import '../../../domain/usecases/get_car.dart';
-import '../../../domain/usecases/save_gallery_urls.dart';
 import '../../utils/garage_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
@@ -15,13 +15,13 @@ import 'state.dart';
 class CarDetailBloc extends Bloc<CarDetailEvent, CarDetailState> {
   final GetCarUseCase getCarUseCase;
   final DeleteCarUseCase deleteCarUseCase;
-  final SaveGalleryUrlsUseCase saveGalleryUrlsUseCase;
+  final DeleteGalleryImagesUseCase deleteGalleryImagesUseCase;
   final DeleteModificationUseCase deleteModificationUseCase;
 
   CarDetailBloc({
     required this.getCarUseCase,
     required this.deleteCarUseCase,
-    required this.saveGalleryUrlsUseCase,
+    required this.deleteGalleryImagesUseCase,
     required this.deleteModificationUseCase,
   }) : super(const CarDetailLoading()) {
     on<LoadCar>(_onLoadCar);
@@ -69,8 +69,9 @@ class CarDetailBloc extends Bloc<CarDetailEvent, CarDetailState> {
         .where((url) => url != event.imageUrl)
         .toList();
 
-    final result = await saveGalleryUrlsUseCase(
-      SaveGalleryUrlsParams(carId: event.carId, urls: updatedUrls),
+    // Deletes the photo from both the DB list and R2 storage.
+    final result = await deleteGalleryImagesUseCase(
+      DeleteGalleryImagesParams(carId: event.carId, urls: [event.imageUrl]),
     );
     result.fold(
       (failure) =>

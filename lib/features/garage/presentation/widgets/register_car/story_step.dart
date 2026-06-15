@@ -4,16 +4,19 @@ import '../../../../../core/theme/app_colors.dart';
 import '../../../domain/entities/car_status_option.dart';
 import 'register_car_fields.dart';
 
-/// Step 4 — the car's role/status, picked from a wrap of selectable pills.
+/// Step 4 — the car's role/status, picked from a wrap of selectable pills,
+/// plus an optional free-text story for the build.
 class StoryStep extends StatelessWidget {
   final List<CarStatusOptionEntity> statusOptions;
   final CarStatusOptionEntity? selectedStatus;
+  final TextEditingController storyCtrl;
   final ValueChanged<CarStatusOptionEntity> onSelectStatus;
 
   const StoryStep({
     super.key,
     required this.statusOptions,
     required this.selectedStatus,
+    required this.storyCtrl,
     required this.onSelectStatus,
   });
 
@@ -24,7 +27,7 @@ class StoryStep extends StatelessWidget {
       children: [
         const RegisterSectionHeader(
           label: '04 — STORY',
-          title: "What's this machine's role?",
+          title: "What's this car's story? Share it…",
         ),
         const SizedBox(height: 20),
         const RegisterFieldLabel('STATUS'),
@@ -42,7 +45,13 @@ class StoryStep extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 24),
-        const _StatusHint(),
+        const RegisterFieldLabel('THE STORY', optional: true),
+        const SizedBox(height: 8),
+        RegisterFormField(
+          controller: storyCtrl,
+          hint: "What's this car's story? Share it…",
+          maxLines: 5,
+        ),
       ],
     );
   }
@@ -91,48 +100,6 @@ class _StatusPill extends StatelessWidget {
             letterSpacing: 0.6,
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _StatusHint extends StatelessWidget {
-  const _StatusHint();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.accentSoft,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 5),
-            width: 7,
-            height: 7,
-            decoration: const BoxDecoration(
-              color: AppColors.accent,
-              shape: BoxShape.circle,
-            ),
-          ),
-          const SizedBox(width: 12),
-          const Expanded(
-            child: Text(
-              'Your status shapes how the build appears on the grid and who '
-              "it's surfaced to. Pick the one that fits best.",
-              style: TextStyle(
-                color: AppColors.accentHot,
-                fontSize: 14,
-                height: 1.4,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

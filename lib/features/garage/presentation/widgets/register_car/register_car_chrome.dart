@@ -369,6 +369,9 @@ class RegisterBottomBar extends StatelessWidget {
   final VoidCallback? onBack;
   final VoidCallback? onNext;
 
+  /// Label for the primary action on the final step (e.g. 'ADD CAR' / 'SAVE').
+  final String lastLabel;
+
   const RegisterBottomBar({
     super.key,
     required this.step,
@@ -376,6 +379,7 @@ class RegisterBottomBar extends StatelessWidget {
     this.submitLabel,
     this.onBack,
     this.onNext,
+    this.lastLabel = 'ADD CAR',
   });
 
   @override
@@ -479,7 +483,7 @@ class RegisterBottomBar extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              isLast ? 'REGISTER MACHINE' : 'NEXT',
+                              isLast ? lastLabel : 'NEXT',
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w800,
