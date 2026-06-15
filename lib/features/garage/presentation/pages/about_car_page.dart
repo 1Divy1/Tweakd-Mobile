@@ -105,6 +105,7 @@ class _AboutCarView extends StatelessWidget {
             isOwner: isOwner,
             carId: car.id,
             isDeleting: isDeleting,
+            car: car,
           ),
         ),
         Expanded(
@@ -117,6 +118,10 @@ class _AboutCarView extends StatelessWidget {
                 _SpecGrid(car: car),
                 const SizedBox(height: 12),
                 _InfoTable(car: car),
+                if (car.story != null && car.story!.isNotEmpty) ...[
+                  const SizedBox(height: 20),
+                  _StorySection(story: car.story!),
+                ],
                 if (car.galleryUrls.isNotEmpty) ...[
                   const SizedBox(height: 20),
                   _GallerySection(
@@ -154,10 +159,15 @@ class _TopBar extends StatelessWidget {
   final String carId;
   final bool isDeleting;
 
+  /// The full car, needed to pre-populate the edit wizard. Null on the error
+  /// view, where the menu is never shown (isOwner is false there).
+  final CarEntity? car;
+
   const _TopBar({
     required this.isOwner,
     required this.carId,
     required this.isDeleting,
+    this.car,
   });
 
   @override
@@ -189,7 +199,7 @@ class _TopBar extends StatelessWidget {
           ),
           if (isOwner)
             _PillButton(
-              onTap: isDeleting ? null : () => _showMenu(context, carId),
+              onTap: isDeleting ? null : () => _showMenu(context),
               child: isDeleting
                   ? const SizedBox(
                       width: 16,
@@ -212,7 +222,8 @@ class _TopBar extends StatelessWidget {
     );
   }
 
-  void _showMenu(BuildContext context, String carId) {
+  void _showMenu(BuildContext context) {
+    final bloc = context.read<CarDetailBloc>();
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: AppColors.surface,
@@ -233,10 +244,25 @@ class _TopBar extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
+            if (car != null)
+              ListTile(
+                leading: const Icon(Icons.edit_outlined, color: AppColors.ink),
+                title: const Text(
+                  'Edit car',
+                  style: TextStyle(
+                    color: AppColors.ink,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _openEdit(context, bloc);
+                },
+              ),
             ListTile(
               leading: const Icon(Icons.delete_outline, color: Colors.red),
               title: const Text(
-                'Delete machine',
+                'Delete car',
                 style: TextStyle(
                   color: Colors.red,
                   fontWeight: FontWeight.w600,
@@ -252,6 +278,13 @@ class _TopBar extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  /// Opens the edit wizard pre-populated with this car, then reloads the detail
+  /// so the page reflects any saved changes when the wizard pops back.
+  Future<void> _openEdit(BuildContext context, CarDetailBloc bloc) async {
+    await context.push('/garage/cars/$carId/edit', extra: car);
+    bloc.add(LoadCar(carId));
   }
 
   Future<void> _confirmDelete(BuildContext context, String carId) async {
@@ -644,6 +677,52 @@ class _InfoTable extends StatelessWidget {
   }
 }
 
+// ── Story ─────────────────────────────────────────────────────────────────────
+
+class _StorySection extends StatelessWidget {
+  final String story;
+  const _StorySection({required this.story});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'THE STORY',
+            style: TextStyle(
+              color: AppColors.ink,
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppColors.line),
+            ),
+            child: Text(
+              story,
+              style: const TextStyle(
+                color: AppColors.ink2,
+                fontSize: 17,
+                height: 1.5,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 // ── Gallery ───────────────────────────────────────────────────────────────────
 
 class _GallerySection extends StatelessWidget {
@@ -691,10 +770,33 @@ class _GallerySection extends StatelessWidget {
                     ? () => _confirmDelete(context, url)
                     : null,
                 onTap: () => context.push('/full-screen-image', extra: url),
-                child: CarImage(
-                  imageUrl: url,
-                  fit: BoxFit.cover,
-                  borderRadius: BorderRadius.circular(12),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    CarImage(
+                      imageUrl: url,
+                      fit: BoxFit.cover,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    if (isOwner)
+                      Positioned(
+                        top: 6,
+                        right: 6,
+                        child: GestureDetector(
+                          onTap: () => _confirmDelete(context, url),
+                          child: Container(
+                            width: 26,
+                            height: 26,
+                            decoration: BoxDecoration(
+                              color: Colors.black.withAlpha(140),
+                              borderRadius: BorderRadius.circular(9),
+                            ),
+                            child: const Icon(Icons.close_rounded,
+                                size: 16, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               );
             },

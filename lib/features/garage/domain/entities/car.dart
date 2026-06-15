@@ -29,6 +29,7 @@ class CarEntity extends Equatable {
   final String? chassisCode;
   final String? modelCode;
   final String? engineCode;
+  final String? story;
   final String? coverImageUrl;
   final List<String> galleryUrls;
   final DateTime? createdAt;
@@ -63,6 +64,7 @@ class CarEntity extends Equatable {
     this.chassisCode,
     this.modelCode,
     this.engineCode,
+    this.story,
     this.coverImageUrl,
     this.galleryUrls = const [],
     this.createdAt,
@@ -93,6 +95,7 @@ class CarEntity extends Equatable {
         chassisCode,
         modelCode,
         engineCode,
+        story,
         coverImageUrl,
         galleryUrls,
         createdAt,
@@ -128,6 +131,7 @@ class CarEntity extends Equatable {
     String? chassisCode,
     String? modelCode,
     String? engineCode,
+    String? story,
     String? coverImageUrl,
     List<String>? galleryUrls,
     DateTime? createdAt,
@@ -160,6 +164,7 @@ class CarEntity extends Equatable {
       chassisCode: chassisCode ?? this.chassisCode,
       modelCode: modelCode ?? this.modelCode,
       engineCode: engineCode ?? this.engineCode,
+      story: story ?? this.story,
       coverImageUrl: coverImageUrl ?? this.coverImageUrl,
       galleryUrls: galleryUrls ?? this.galleryUrls,
       createdAt: createdAt ?? this.createdAt,

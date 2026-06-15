@@ -10,6 +10,10 @@ import 'register_car_fields.dart';
 /// Step 1 — visual identity and the car's basic make/model/year details.
 class IdentityStep extends StatelessWidget {
   final String? coverFilePath;
+
+  /// In edit mode, the URL of the existing cover. Shown when no new local file
+  /// has been picked. A newly picked [coverFilePath] takes precedence.
+  final String? coverNetworkUrl;
   final CarBrandEntity? selectedBrand;
   final CarModelEntity? selectedModel;
   final List<CarBrandEntity> brands;
@@ -17,6 +21,7 @@ class IdentityStep extends StatelessWidget {
   final bool modelsLoading;
   final TextEditingController yearCtrl;
   final TextEditingController chassisCodeCtrl;
+  final TextEditingController modelCodeCtrl;
   final VoidCallback onPickCover;
   final ValueChanged<CarBrandEntity> onSelectBrand;
   final ValueChanged<CarModelEntity> onSelectModel;
@@ -24,6 +29,7 @@ class IdentityStep extends StatelessWidget {
   const IdentityStep({
     super.key,
     required this.coverFilePath,
+    this.coverNetworkUrl,
     required this.selectedBrand,
     required this.selectedModel,
     required this.brands,
@@ -31,6 +37,7 @@ class IdentityStep extends StatelessWidget {
     required this.modelsLoading,
     required this.yearCtrl,
     required this.chassisCodeCtrl,
+    required this.modelCodeCtrl,
     required this.onPickCover,
     required this.onSelectBrand,
     required this.onSelectModel,
@@ -48,7 +55,11 @@ class IdentityStep extends StatelessWidget {
         const SizedBox(height: 20),
         const RegisterFieldLabel('PRIMARY ASSET'),
         const SizedBox(height: 8),
-        _PrimaryAssetCard(filePath: coverFilePath, onTap: onPickCover),
+        _PrimaryAssetCard(
+          filePath: coverFilePath,
+          networkUrl: coverNetworkUrl,
+          onTap: onPickCover,
+        ),
         const SizedBox(height: 20),
         const RegisterFieldLabel('MAKE'),
         const SizedBox(height: 8),
@@ -102,11 +113,11 @@ class IdentityStep extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const RegisterFieldLabel('CHASSIS CODE'),
+                  const RegisterFieldLabel('CHASSIS CODE', optional: true),
                   const SizedBox(height: 8),
                   RegisterFormField(
                     controller: chassisCodeCtrl,
-                    hint: 'e.g. G82',
+                    hint: '',
                     inputFormatters: [
                       LengthLimitingTextInputFormatter(12),
                     ],
@@ -114,6 +125,16 @@ class IdentityStep extends StatelessWidget {
                 ],
               ),
             ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        const RegisterFieldLabel('MODEL CODE', optional: true),
+        const SizedBox(height: 8),
+        RegisterFormField(
+          controller: modelCodeCtrl,
+          hint: 'e.g. G30',
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(12),
           ],
         ),
       ],
@@ -125,13 +146,22 @@ class IdentityStep extends StatelessWidget {
 /// affordance whether or not a photo has been chosen yet.
 class _PrimaryAssetCard extends StatelessWidget {
   final String? filePath;
+  final String? networkUrl;
   final VoidCallback onTap;
 
-  const _PrimaryAssetCard({required this.filePath, required this.onTap});
+  const _PrimaryAssetCard({
+    required this.filePath,
+    this.networkUrl,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final hasImage = filePath != null;
+    // A freshly picked local file always wins over an existing remote cover.
+    final ImageProvider? image = filePath != null
+        ? FileImage(File(filePath!))
+        : (networkUrl != null ? NetworkImage(networkUrl!) : null);
+    final hasImage = image != null;
     return GestureDetector(
       onTap: onTap,
       child: AspectRatio(
@@ -143,7 +173,7 @@ class _PrimaryAssetCard extends StatelessWidget {
             border: Border.all(color: AppColors.line),
             image: hasImage
                 ? DecorationImage(
-                    image: FileImage(File(filePath!)),
+                    image: image,
                     fit: BoxFit.cover,
                   )
                 : null,

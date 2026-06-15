@@ -70,6 +70,23 @@ class GarageApiDataSource {
     );
   }
 
+  /// Removes the given gallery photos from the car (DB) and from R2 storage.
+  Future<void> deleteGalleryImages(String carId, List<String> urls) async {
+    await http.delete(
+      '/garage/cars/$carId/gallery',
+      body: {'urls': urls},
+    );
+  }
+
+  /// Removes the car's cover photo object from R2. The DB cover pointer is
+  /// nulled (or overwritten by a subsequent [saveCoverUrl]).
+  Future<void> deleteCoverImage(String carId, String coverImageUrl) async {
+    await http.delete(
+      '/garage/cars/$carId/cover',
+      queryParameters: {'cover_image_url': coverImageUrl},
+    );
+  }
+
   // ── Modifications ─────────────────────────────────────────────────────────
 
   Future<CarModificationModel> addModification(

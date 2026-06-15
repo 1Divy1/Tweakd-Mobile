@@ -6,9 +6,11 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../../../core/services/car_image_service.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../domain/entities/car_modification.dart';
 import '../../../domain/entities/reference_data.dart';
 import '../../../domain/repositories/garage_repository.dart';
 import '../../bloc/add_car/event.dart';
+import 'mod_slot.dart';
 import 'register_car_fields.dart';
 
 const _monthsTitle = [
@@ -16,16 +18,21 @@ const _monthsTitle = [
   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
 ];
 
-/// Bottom sheet for composing a single build-log item. Returns a [NewModInput]
-/// on success. The price is optional and, when supplied, is always public
+/// Bottom sheet for composing or editing a single build-log item. Returns a
+/// [ModSlot] on success ([NewModSlot] when adding, [ExistingModSlot] when
+/// [initialMod] is supplied). The price is optional.
 class AddModSheet extends StatefulWidget {
   final List<CarModCategoryEntity> categories;
   final CarImageService imageService;
+
+  /// When non-null, the sheet opens in edit mode pre-filled with this mod.
+  final CarModificationEntity? initialMod;
 
   const AddModSheet({
     super.key,
     required this.categories,
     required this.imageService,
+    this.initialMod,
   });
 
   @override
@@ -38,9 +45,46 @@ class _AddModSheetState extends State<AddModSheet> {
   final _descCtrl = TextEditingController();
   final _priceCtrl = TextEditingController();
   final _mileageCtrl = TextEditingController();
+  // Newly picked images (to upload).
   CompressedImage? _before;
   CompressedImage? _after;
+  // Existing remote images kept from the original mod (edit mode only).
+  String? _beforeUrl;
+  String? _afterUrl;
+  // Existing urls the user removed or replaced — deleted from R2 on submit.
+  final List<String> _removedUrls = [];
   DateTime? _date;
+
+  bool get _isEdit => widget.initialMod != null;
+
+  // Guards against a second image_picker request firing before the first
+  // finishes — iOS throws PlatformException('multiple_request') otherwise.
+  bool _isPicking = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final mod = widget.initialMod;
+    if (mod == null) return;
+    for (final c in widget.categories) {
+      if (c.id == mod.categoryId) {
+        _category = c;
+        break;
+      }
+    }
+    _titleCtrl.text = mod.title;
+    _descCtrl.text = mod.description ?? '';
+    if (mod.price != null) {
+      _priceCtrl.text =
+          mod.price!.toStringAsFixed(mod.price! % 1 == 0 ? 0 : 2);
+    }
+    if (mod.mileageAtInstall != null) {
+      _mileageCtrl.text = mod.mileageAtInstall.toString();
+    }
+    _date = mod.installationDate;
+    _beforeUrl = mod.beforeMedia.isEmpty ? null : mod.beforeMedia.first.url;
+    _afterUrl = mod.afterMedia.isEmpty ? null : mod.afterMedia.first.url;
+  }
 
   @override
   void dispose() {
@@ -52,26 +96,49 @@ class _AddModSheetState extends State<AddModSheet> {
   }
 
   Future<void> _pick({required bool isBefore}) async {
-    final picker = ImagePicker();
-    final file = await picker.pickImage(source: ImageSource.gallery);
-    if (file == null) return;
-    // Start compressing immediately so the bytes are ready by submit time.
-    final image = CompressedImage.compress(file.path, widget.imageService);
-    setState(() {
-      if (isBefore) {
-        _before = image;
-      } else {
-        _after = image;
-      }
-    });
+    if (_isPicking) return;
+    _isPicking = true;
+    try {
+      final picker = ImagePicker();
+      final file = await picker.pickImage(source: ImageSource.gallery);
+      if (file == null) return;
+      // Start compressing immediately so the bytes are ready by submit time.
+      final image = CompressedImage.compress(file.path, widget.imageService);
+      if (!mounted) return;
+      setState(() {
+        if (isBefore) {
+          if (_beforeUrl != null) _removedUrls.add(_beforeUrl!);
+          _beforeUrl = null;
+          _before = image;
+        } else {
+          if (_afterUrl != null) _removedUrls.add(_afterUrl!);
+          _afterUrl = null;
+          _after = image;
+        }
+      });
+    } on PlatformException {
+      // A pick was already in progress (e.g. a double tap) — safe to ignore.
+    } finally {
+      _isPicking = false;
+    }
   }
 
   void _removeImage({required bool isBefore}) {
     setState(() {
       if (isBefore) {
-        _before = null;
+        if (_before != null) {
+          _before = null;
+        } else if (_beforeUrl != null) {
+          _removedUrls.add(_beforeUrl!);
+          _beforeUrl = null;
+        }
       } else {
-        _after = null;
+        if (_after != null) {
+          _after = null;
+        } else if (_afterUrl != null) {
+          _removedUrls.add(_afterUrl!);
+          _afterUrl = null;
+        }
       }
     });
   }
@@ -87,14 +154,21 @@ class _AddModSheetState extends State<AddModSheet> {
   }
 
   void _done() {
+    final hasBefore = _before != null || _beforeUrl != null;
+    final hasAfter = _after != null || _afterUrl != null;
+
+    // When adding, both images are required. When editing an existing mod the
+    // images are optional (the mod may have been created without them).
+    final imagesOk = _isEdit || (hasBefore && hasAfter);
     if (_category == null ||
         _titleCtrl.text.trim().isEmpty ||
-        _before == null ||
-        _after == null ||
-        _date == null) {
+        _date == null ||
+        !imagesOk) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Category, title, date and both images are required.'),
+        SnackBar(
+          content: Text(_isEdit
+              ? 'Category, title and date are required.'
+              : 'Category, title, date and both images are required.'),
         ),
       );
       return;
@@ -106,21 +180,31 @@ class _AddModSheetState extends State<AddModSheet> {
         ? int.tryParse(_mileageCtrl.text.trim())
         : null;
 
-    Navigator.of(context).pop(
-      NewModInput(
-        before: _before,
-        after: _after,
-        request: ModRequestParams(
-          categoryId: _category!.id,
-          title: _titleCtrl.text.trim(),
-          description:
-              _descCtrl.text.trim().isEmpty ? null : _descCtrl.text.trim(),
-          installationDate: _date!,
-          price: price,
-          mileageAtInstall: mileage,
-        ),
-      ),
+    final request = ModRequestParams(
+      categoryId: _category!.id,
+      title: _titleCtrl.text.trim(),
+      description:
+          _descCtrl.text.trim().isEmpty ? null : _descCtrl.text.trim(),
+      installationDate: _date!,
+      price: price,
+      mileageAtInstall: mileage,
     );
+
+    final ModSlot result = _isEdit
+        ? ExistingModSlot(
+            original: widget.initialMod!,
+            request: request,
+            newBefore: _before,
+            newAfter: _after,
+            beforeUrl: _beforeUrl,
+            afterUrl: _afterUrl,
+            removeMediaUrls: List.of(_removedUrls),
+          )
+        : NewModSlot(
+            NewModInput(before: _before, after: _after, request: request),
+          );
+
+    Navigator.of(context).pop(result);
   }
 
   @override
@@ -153,10 +237,10 @@ class _AddModSheetState extends State<AddModSheet> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Expanded(
+                        Expanded(
                           child: RegisterSectionHeader(
                             label: '— MODIFICATION',
-                            title: 'Add a build item',
+                            title: _isEdit ? 'Edit build item' : 'Add a build item',
                           ),
                         ),
                         GestureDetector(
@@ -274,6 +358,7 @@ class _AddModSheetState extends State<AddModSheet> {
                           child: _ImageSlot(
                             label: 'BEFORE',
                             filePath: _before?.path,
+                            networkUrl: _beforeUrl,
                             onTap: () => _pick(isBefore: true),
                             onRemove: () => _removeImage(isBefore: true),
                           ),
@@ -283,6 +368,7 @@ class _AddModSheetState extends State<AddModSheet> {
                           child: _ImageSlot(
                             label: 'AFTER',
                             filePath: _after?.path,
+                            networkUrl: _afterUrl,
                             onTap: () => _pick(isBefore: false),
                             onRemove: () => _removeImage(isBefore: false),
                           ),
@@ -305,15 +391,15 @@ class _AddModSheetState extends State<AddModSheet> {
                             ),
                           ],
                         ),
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.add_rounded,
+                            Icon(_isEdit ? Icons.check_rounded : Icons.add_rounded,
                                 color: Colors.white, size: 20),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             Text(
-                              'ADD TO BUILD LOG',
-                              style: TextStyle(
+                              _isEdit ? 'SAVE CHANGES' : 'ADD TO BUILD LOG',
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w800,
                                 fontSize: 14,
@@ -341,19 +427,24 @@ class _AddModSheetState extends State<AddModSheet> {
 class _ImageSlot extends StatelessWidget {
   final String label;
   final String? filePath;
+  final String? networkUrl;
   final VoidCallback onTap;
   final VoidCallback onRemove;
 
   const _ImageSlot({
     required this.label,
     required this.filePath,
+    this.networkUrl,
     required this.onTap,
     required this.onRemove,
   });
 
   @override
   Widget build(BuildContext context) {
-    final hasImage = filePath != null;
+    final ImageProvider? image = filePath != null
+        ? FileImage(File(filePath!))
+        : (networkUrl != null ? NetworkImage(networkUrl!) : null);
+    final hasImage = image != null;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -363,8 +454,7 @@ class _ImageSlot extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: AppColors.line),
           image: hasImage
-              ? DecorationImage(
-                  image: FileImage(File(filePath!)), fit: BoxFit.cover)
+              ? DecorationImage(image: image, fit: BoxFit.cover)
               : null,
         ),
         child: Stack(

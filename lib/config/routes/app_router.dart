@@ -10,6 +10,7 @@ import '../../features/authentication/presentation/pages/splash_page.dart';
 import '../../features/follow/presentation/bloc/bloc.dart';
 import '../../features/follow/presentation/bloc/event.dart';
 import '../../features/follow/presentation/pages/followers_following_page.dart';
+import '../../features/garage/domain/entities/car.dart';
 import '../../features/garage/presentation/bloc/add_car/bloc.dart';
 import '../../features/garage/presentation/bloc/add_car/event.dart';
 import '../../features/garage/presentation/bloc/bloc.dart';
@@ -138,6 +139,17 @@ final appRouter = GoRouter(
         );
       },
       routes: [
+        GoRoute(
+          path: 'edit',
+          builder: (context, state) {
+            final car = state.extra as CarEntity;
+            return BlocProvider<AddCarBloc>(
+              create: (_) =>
+                  getIt<AddCarBloc>()..add(const LoadAddCarReferenceData()),
+              child: RegisterCarPage(editCar: car),
+            );
+          },
+        ),
         GoRoute(
           path: 'modifications/add',
           builder: (context, state) {

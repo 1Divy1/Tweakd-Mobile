@@ -238,6 +238,49 @@ class GarageRepositoryImpl implements GarageRepository {
     }
   }
 
+  // ── Image deletion (DB + R2) ──────────────────────────────────────────────
+
+  @override
+  Future<Either<Failure, void>> deleteGalleryImages(
+      String carId, List<String> urls) async {
+    if (urls.isEmpty) return const Right(null);
+    try {
+      await dataSource.deleteGalleryImages(carId, urls);
+      return const Right(null);
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ApiException catch (e) {
+      if (e.statusCode == 403) return const Left(NotCarOwnerFailure());
+      if (e.statusCode == 404) return const Left(CarNotFoundFailure());
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('deleteGalleryImages error: $e');
+      return const Left(UnknownFailure('Failed to delete gallery photos.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteCoverImage(
+      String carId, String url) async {
+    try {
+      await dataSource.deleteCoverImage(carId, url);
+      return const Right(null);
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ApiException catch (e) {
+      if (e.statusCode == 403) return const Left(NotCarOwnerFailure());
+      if (e.statusCode == 404) return const Left(CarNotFoundFailure());
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('deleteCoverImage error: $e');
+      return const Left(UnknownFailure('Failed to delete cover photo.'));
+    }
+  }
+
   // ── Modifications ─────────────────────────────────────────────────────────
 
   @override

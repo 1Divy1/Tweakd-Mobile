@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../domain/entities/reference_data.dart';
@@ -12,6 +13,7 @@ class DrivetrainStep extends StatelessWidget {
   final CarDrivetrainEntity? selectedDrivetrain;
   final CarColorEntity? selectedColor;
   final CarDistanceUnitEntity? selectedDistanceUnit;
+  final TextEditingController mileageCtrl;
   final ValueChanged<CarDrivetrainEntity> onSelectDrivetrain;
   final ValueChanged<CarColorEntity> onSelectColor;
   final ValueChanged<CarDistanceUnitEntity> onSelectDistanceUnit;
@@ -24,6 +26,7 @@ class DrivetrainStep extends StatelessWidget {
     required this.selectedDrivetrain,
     required this.selectedColor,
     required this.selectedDistanceUnit,
+    required this.mileageCtrl,
     required this.onSelectDrivetrain,
     required this.onSelectColor,
     required this.onSelectDistanceUnit,
@@ -77,6 +80,16 @@ class DrivetrainStep extends StatelessWidget {
           units: distanceUnits,
           selected: selectedDistanceUnit,
           onSelect: onSelectDistanceUnit,
+        ),
+        const SizedBox(height: 16),
+        const RegisterFieldLabel('MILEAGE', optional: true),
+        const SizedBox(height: 8),
+        RegisterFormField(
+          controller: mileageCtrl,
+          hint: 'e.g. 42000',
+          keyboardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          unit: selectedDistanceUnit?.name,
         ),
       ],
     );

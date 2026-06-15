@@ -28,6 +28,7 @@ class CarModel {
   final String? chassisCode;
   final String? modelCode;
   final String? engineCode;
+  final String? story;
   final String? coverImageUrl;
   final List<String> galleryUrls;
   final DateTime? createdAt;
@@ -62,6 +63,7 @@ class CarModel {
     this.chassisCode,
     this.modelCode,
     this.engineCode,
+    this.story,
     this.coverImageUrl,
     this.galleryUrls = const [],
     this.createdAt,
@@ -94,6 +96,7 @@ class CarModel {
       chassisCode: json['chassis_code'] as String?,
       modelCode: json['model_code'] as String?,
       engineCode: json['engine_code'] as String?,
+      story: json['story'] as String?,
       coverImageUrl: json['cover_image_url'] as String?,
       galleryUrls: (json['gallery_urls'] as List<dynamic>? ?? [])
           .map((e) => e as String)
@@ -138,6 +141,7 @@ class CarModel {
       chassisCode: chassisCode,
       modelCode: modelCode,
       engineCode: engineCode,
+      story: story,
       coverImageUrl: coverImageUrl,
       galleryUrls: galleryUrls,
       createdAt: createdAt,

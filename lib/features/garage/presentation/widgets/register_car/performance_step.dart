@@ -131,10 +131,10 @@ class _PerformanceStepState extends State<PerformanceStep> {
         const SizedBox(height: 8),
         RegisterFormField(controller: widget.engineCodeCtrl, hint: 'e.g. S58'),
         const SizedBox(height: 16),
-        const RegisterFieldLabel('FUEL TYPE', optional: true),
+        const RegisterFieldLabel('FUEL TYPE'),
         const SizedBox(height: 8),
         RegisterSelectorTile(
-          placeholder: 'e.g. Gasoline',
+          placeholder: 'e.g. Petrol',
           value: widget.selectedFuelType?.name,
           onTap: () => showRegisterPicker<CarFuelTypeOptionEntity>(
             context: context,
