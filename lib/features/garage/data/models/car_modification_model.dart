@@ -34,9 +34,8 @@ class CarModificationModel {
   final String title;
   final String? description;
   final List<ModificationMediaItemModel> media;
-  final DateTime? installationDate;
+  final DateTime installationDate;
   final double? price;
-  final bool isPricePublic;
   final int? mileageAtInstall;
   final DateTime createdAt;
 
@@ -48,9 +47,8 @@ class CarModificationModel {
     required this.title,
     this.description,
     this.media = const [],
-    this.installationDate,
+    required this.installationDate,
     this.price,
-    required this.isPricePublic,
     this.mileageAtInstall,
     required this.createdAt,
   });
@@ -67,11 +65,8 @@ class CarModificationModel {
           .map((e) =>
               ModificationMediaItemModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      installationDate: json['installation_date'] != null
-          ? DateTime.parse(json['installation_date'] as String)
-          : null,
+      installationDate: DateTime.parse(json['installation_date'] as String),
       price: (json['price'] as num?)?.toDouble(),
-      isPricePublic: json['is_price_public'] as bool,
       mileageAtInstall: json['mileage_at_install'] as int?,
       createdAt: DateTime.parse(json['created_at'] as String),
     );
@@ -88,7 +83,6 @@ class CarModificationModel {
       media: media.map((m) => m.toEntity()).toList(),
       installationDate: installationDate,
       price: price,
-      isPricePublic: isPricePublic,
       mileageAtInstall: mileageAtInstall,
       createdAt: createdAt,
     );

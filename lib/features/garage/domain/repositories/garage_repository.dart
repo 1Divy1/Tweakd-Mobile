@@ -33,6 +33,14 @@ abstract class GarageRepository {
   Future<Either<Failure, void>> saveGalleryUrls(
       String carId, List<String> urls);
 
+  // ── Image deletion (DB + R2) ──────────────────────────────────────────────
+  /// Deletes the given gallery photos from both the DB list and R2 storage.
+  Future<Either<Failure, void>> deleteGalleryImages(
+      String carId, List<String> urls);
+
+  /// Deletes the car's current cover object from R2 (used when replacing it).
+  Future<Either<Failure, void>> deleteCoverImage(String carId, String url);
+
   // ── Modifications ─────────────────────────────────────────────────────────
   Future<Either<Failure, CarModificationEntity>> addModification(
     String carId,
@@ -71,6 +79,7 @@ abstract class GarageRepository {
   Future<Either<Failure, List<CarDistanceUnitEntity>>> getDistanceUnits();
   Future<Either<Failure, List<CarStatusOptionEntity>>> getStatusOptions();
   Future<Either<Failure, List<CarModCategoryEntity>>> getModCategories();
+  Future<Either<Failure, List<CarFuelTypeOptionEntity>>> getFuelTypeOptions();
 }
 
 // ── Request param classes ─────────────────────────────────────────────────────
@@ -81,6 +90,7 @@ class CarRequestParams {
   final String drivetrainId;
   final String colorId;
   final String mileageUnitId;
+  final int? mileage;
   final int year;
   final int horsepower;
   final int torque;
@@ -88,7 +98,10 @@ class CarRequestParams {
   final double engineDisplacement;
   final double? zeroToOneHundred;
   final String? chassisCode;
+  final String? modelCode;
   final String? engineCode;
+  final String? fuelTypeId;
+  final String? story;
   final String statusId;
 
   const CarRequestParams({
@@ -97,6 +110,7 @@ class CarRequestParams {
     required this.drivetrainId,
     required this.colorId,
     required this.mileageUnitId,
+    this.mileage,
     required this.year,
     required this.horsepower,
     required this.torque,
@@ -104,7 +118,10 @@ class CarRequestParams {
     required this.engineDisplacement,
     this.zeroToOneHundred,
     this.chassisCode,
+    this.modelCode,
     this.engineCode,
+    this.fuelTypeId,
+    this.story,
     required this.statusId,
   });
 
@@ -114,6 +131,7 @@ class CarRequestParams {
         'drivetrain_id': drivetrainId,
         'color_id': colorId,
         'mileage_unit_id': mileageUnitId,
+        if (mileage != null) 'mileage': mileage,
         'year': year,
         'horsepower': horsepower,
         'torque': torque,
@@ -122,8 +140,12 @@ class CarRequestParams {
         if (zeroToOneHundred != null) 'zero_to_one_hundred': zeroToOneHundred,
         if (chassisCode != null && chassisCode!.isNotEmpty)
           'chassis_code': chassisCode,
+        if (modelCode != null && modelCode!.isNotEmpty)
+          'model_code': modelCode,
         if (engineCode != null && engineCode!.isNotEmpty)
           'engine_code': engineCode,
+        if (fuelTypeId != null) 'fuel_type_id': fuelTypeId,
+        if (story != null && story!.isNotEmpty) 'story': story,
         'status_id': statusId,
       };
 }
@@ -134,7 +156,6 @@ class ModRequestParams {
   final String? description;
   final DateTime installationDate;
   final double? price;
-  final bool isPricePublic;
   final int? mileageAtInstall;
 
   const ModRequestParams({
@@ -143,7 +164,6 @@ class ModRequestParams {
     this.description,
     required this.installationDate,
     this.price,
-    required this.isPricePublic,
     this.mileageAtInstall,
   });
 
@@ -154,7 +174,6 @@ class ModRequestParams {
           'description': description,
         'installation_date': installationDate.toUtc().toIso8601String(),
         if (price != null) 'price': price,
-        'is_price_public': isPricePublic,
         if (mileageAtInstall != null) 'mileage_at_install': mileageAtInstall,
       };
 }
@@ -166,7 +185,6 @@ class ModPatchParams {
   final String? description;
   final DateTime? installationDate;
   final double? price;
-  final bool? isPricePublic;
   final int? mileageAtInstall;
   final List<ModMediaInput>? addMedia;
   final List<String>? removeMediaUrls;
@@ -176,7 +194,6 @@ class ModPatchParams {
     this.description,
     this.installationDate,
     this.price,
-    this.isPricePublic,
     this.mileageAtInstall,
     this.addMedia,
     this.removeMediaUrls,
@@ -188,7 +205,6 @@ class ModPatchParams {
         if (installationDate != null)
           'installation_date': installationDate!.toUtc().toIso8601String(),
         if (price != null) 'price': price,
-        if (isPricePublic != null) 'is_price_public': isPricePublic,
         if (mileageAtInstall != null) 'mileage_at_install': mileageAtInstall,
         if (addMedia != null && addMedia!.isNotEmpty)
           'add_media': addMedia!.map((m) => m.toJson()).toList(),

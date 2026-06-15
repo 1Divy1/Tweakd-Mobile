@@ -57,6 +57,9 @@ import '../../features/garage/domain/repositories/garage_repository.dart'
 import '../../features/garage/domain/usecases/add_car.dart' as _i292;
 import '../../features/garage/domain/usecases/add_modification.dart' as _i352;
 import '../../features/garage/domain/usecases/delete_car.dart' as _i287;
+import '../../features/garage/domain/usecases/delete_cover_image.dart' as _i282;
+import '../../features/garage/domain/usecases/delete_gallery_images.dart'
+    as _i631;
 import '../../features/garage/domain/usecases/delete_modification.dart'
     as _i621;
 import '../../features/garage/domain/usecases/get_car.dart' as _i409;
@@ -204,6 +207,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i287.DeleteCarUseCase>(
       () => _i287.DeleteCarUseCase(gh<_i511.GarageRepository>()),
     );
+    gh.lazySingleton<_i282.DeleteCoverImageUseCase>(
+      () => _i282.DeleteCoverImageUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i631.DeleteGalleryImagesUseCase>(
+      () => _i631.DeleteGalleryImagesUseCase(gh<_i511.GarageRepository>()),
+    );
     gh.lazySingleton<_i621.DeleteModificationUseCase>(
       () => _i621.DeleteModificationUseCase(gh<_i511.GarageRepository>()),
     );
@@ -246,6 +255,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i408.GetModCategoriesUseCase>(
       () => _i408.GetModCategoriesUseCase(gh<_i511.GarageRepository>()),
     );
+    gh.lazySingleton<_i408.GetFuelTypeOptionsUseCase>(
+      () => _i408.GetFuelTypeOptionsUseCase(gh<_i511.GarageRepository>()),
+    );
     gh.lazySingleton<_i49.PatchModificationUseCase>(
       () => _i49.PatchModificationUseCase(gh<_i511.GarageRepository>()),
     );
@@ -284,24 +296,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1055.SubmitOnboardingUseCase>(
       () => _i1055.SubmitOnboardingUseCase(gh<_i894.ProfileRepository>()),
     );
-    gh.factory<_i160.AddCarBloc>(
-      () => _i160.AddCarBloc(
-        getBrands: gh<_i408.GetBrandsUseCase>(),
-        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
-        getDrivetrains: gh<_i408.GetDrivetrainsUseCase>(),
-        getColors: gh<_i408.GetColorsUseCase>(),
-        getDistanceUnits: gh<_i408.GetDistanceUnitsUseCase>(),
-        getStatusOptions: gh<_i408.GetStatusOptionsUseCase>(),
-        getModCategories: gh<_i408.GetModCategoriesUseCase>(),
-        addCar: gh<_i292.AddCarUseCase>(),
-        deleteCar: gh<_i287.DeleteCarUseCase>(),
-        getCoverUploadUrl: gh<_i932.GetCoverUploadUrlUseCase>(),
-        saveCoverUrl: gh<_i519.SaveCoverUrlUseCase>(),
-        getGalleryUploadUrl: gh<_i205.GetGalleryUploadUrlUseCase>(),
-        saveGalleryUrls: gh<_i235.SaveGalleryUrlsUseCase>(),
-        getModificationUploadUrls: gh<_i2.GetModificationUploadUrlsUseCase>(),
-        patchModification: gh<_i49.PatchModificationUseCase>(),
-        imageService: gh<_i185.CarImageService>(),
+    gh.factory<_i807.CarDetailBloc>(
+      () => _i807.CarDetailBloc(
+        getCarUseCase: gh<_i409.GetCarUseCase>(),
+        deleteCarUseCase: gh<_i287.DeleteCarUseCase>(),
+        deleteGalleryImagesUseCase: gh<_i631.DeleteGalleryImagesUseCase>(),
+        deleteModificationUseCase: gh<_i621.DeleteModificationUseCase>(),
       ),
     );
     gh.factory<_i180.ProfileBloc>(
@@ -321,14 +321,6 @@ extension GetItInjectableX on _i174.GetIt {
         removeFollower: gh<_i164.RemoveFollowerUseCase>(),
       ),
     );
-    gh.factory<_i807.CarDetailBloc>(
-      () => _i807.CarDetailBloc(
-        getCarUseCase: gh<_i409.GetCarUseCase>(),
-        deleteCarUseCase: gh<_i287.DeleteCarUseCase>(),
-        saveGalleryUrlsUseCase: gh<_i235.SaveGalleryUrlsUseCase>(),
-        deleteModificationUseCase: gh<_i621.DeleteModificationUseCase>(),
-      ),
-    );
     gh.factory<_i375.LogModBloc>(
       () => _i375.LogModBloc(
         getModCategories: gh<_i408.GetModCategoriesUseCase>(),
@@ -341,6 +333,32 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i462.SearchBloc>(
       () => _i462.SearchBloc(searchUsers: gh<_i14.SearchUsersUseCase>()),
+    );
+    gh.factory<_i160.AddCarBloc>(
+      () => _i160.AddCarBloc(
+        getBrands: gh<_i408.GetBrandsUseCase>(),
+        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
+        getDrivetrains: gh<_i408.GetDrivetrainsUseCase>(),
+        getColors: gh<_i408.GetColorsUseCase>(),
+        getDistanceUnits: gh<_i408.GetDistanceUnitsUseCase>(),
+        getStatusOptions: gh<_i408.GetStatusOptionsUseCase>(),
+        getModCategories: gh<_i408.GetModCategoriesUseCase>(),
+        getFuelTypeOptions: gh<_i408.GetFuelTypeOptionsUseCase>(),
+        addCar: gh<_i292.AddCarUseCase>(),
+        updateCar: gh<_i219.UpdateCarUseCase>(),
+        deleteCar: gh<_i287.DeleteCarUseCase>(),
+        getCoverUploadUrl: gh<_i932.GetCoverUploadUrlUseCase>(),
+        saveCoverUrl: gh<_i519.SaveCoverUrlUseCase>(),
+        deleteCoverImage: gh<_i282.DeleteCoverImageUseCase>(),
+        getGalleryUploadUrl: gh<_i205.GetGalleryUploadUrlUseCase>(),
+        saveGalleryUrls: gh<_i235.SaveGalleryUrlsUseCase>(),
+        deleteGalleryImages: gh<_i631.DeleteGalleryImagesUseCase>(),
+        addModification: gh<_i352.AddModificationUseCase>(),
+        getModificationUploadUrls: gh<_i2.GetModificationUploadUrlsUseCase>(),
+        patchModification: gh<_i49.PatchModificationUseCase>(),
+        deleteModification: gh<_i621.DeleteModificationUseCase>(),
+        imageService: gh<_i185.CarImageService>(),
+      ),
     );
     return this;
   }

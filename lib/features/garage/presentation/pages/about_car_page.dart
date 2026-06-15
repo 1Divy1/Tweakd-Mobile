@@ -105,6 +105,7 @@ class _AboutCarView extends StatelessWidget {
             isOwner: isOwner,
             carId: car.id,
             isDeleting: isDeleting,
+            car: car,
           ),
         ),
         Expanded(
@@ -117,6 +118,10 @@ class _AboutCarView extends StatelessWidget {
                 _SpecGrid(car: car),
                 const SizedBox(height: 12),
                 _InfoTable(car: car),
+                if (car.story != null && car.story!.isNotEmpty) ...[
+                  const SizedBox(height: 20),
+                  _StorySection(story: car.story!),
+                ],
                 if (car.galleryUrls.isNotEmpty) ...[
                   const SizedBox(height: 20),
                   _GallerySection(
@@ -154,10 +159,15 @@ class _TopBar extends StatelessWidget {
   final String carId;
   final bool isDeleting;
 
+  /// The full car, needed to pre-populate the edit wizard. Null on the error
+  /// view, where the menu is never shown (isOwner is false there).
+  final CarEntity? car;
+
   const _TopBar({
     required this.isOwner,
     required this.carId,
     required this.isDeleting,
+    this.car,
   });
 
   @override
@@ -189,7 +199,7 @@ class _TopBar extends StatelessWidget {
           ),
           if (isOwner)
             _PillButton(
-              onTap: isDeleting ? null : () => _showMenu(context, carId),
+              onTap: isDeleting ? null : () => _showMenu(context),
               child: isDeleting
                   ? const SizedBox(
                       width: 16,
@@ -212,7 +222,8 @@ class _TopBar extends StatelessWidget {
     );
   }
 
-  void _showMenu(BuildContext context, String carId) {
+  void _showMenu(BuildContext context) {
+    final bloc = context.read<CarDetailBloc>();
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: AppColors.surface,
@@ -233,10 +244,25 @@ class _TopBar extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
+            if (car != null)
+              ListTile(
+                leading: const Icon(Icons.edit_outlined, color: AppColors.ink),
+                title: const Text(
+                  'Edit car',
+                  style: TextStyle(
+                    color: AppColors.ink,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _openEdit(context, bloc);
+                },
+              ),
             ListTile(
               leading: const Icon(Icons.delete_outline, color: Colors.red),
               title: const Text(
-                'Delete machine',
+                'Delete car',
                 style: TextStyle(
                   color: Colors.red,
                   fontWeight: FontWeight.w600,
@@ -244,11 +270,120 @@ class _TopBar extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.of(context).pop();
-                context.read<CarDetailBloc>().add(DeleteCarFromDetail(carId));
+                _confirmDelete(context, carId);
               },
             ),
             const SizedBox(height: 8),
           ],
+        ),
+      ),
+    );
+  }
+
+  /// Opens the edit wizard pre-populated with this car, then reloads the detail
+  /// so the page reflects any saved changes when the wizard pops back.
+  Future<void> _openEdit(BuildContext context, CarDetailBloc bloc) async {
+    await context.push('/garage/cars/$carId/edit', extra: car);
+    bloc.add(LoadCar(carId));
+  }
+
+  Future<void> _confirmDelete(BuildContext context, String carId) async {
+    final bloc = context.read<CarDetailBloc>();
+    final confirmed = await showDialog<bool>(
+      context: context,
+      barrierColor: Colors.black54,
+      builder: (dialogContext) => Dialog(
+        backgroundColor: AppColors.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 22, 20, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Delete machine?',
+                style: TextStyle(
+                  color: AppColors.ink,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'This will permanently remove this car and all of its '
+                'modifications from your garage. This action cannot be undone.',
+                style: TextStyle(
+                  color: AppColors.mute,
+                  fontSize: 14,
+                  height: 1.4,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 22),
+              Row(
+                children: [
+                  Expanded(
+                    child: _DialogButton(
+                      label: 'Cancel',
+                      onTap: () => Navigator.of(dialogContext).pop(false),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _DialogButton(
+                      label: 'Delete',
+                      isDestructive: true,
+                      onTap: () => Navigator.of(dialogContext).pop(true),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    if (confirmed == true) {
+      bloc.add(DeleteCarFromDetail(carId));
+    }
+  }
+}
+
+class _DialogButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+  final bool isDestructive;
+
+  const _DialogButton({
+    required this.label,
+    required this.onTap,
+    this.isDestructive = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 48,
+        decoration: BoxDecoration(
+          color: isDestructive ? Colors.red : AppColors.surface,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isDestructive ? Colors.red : AppColors.line,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: TextStyle(
+              color: isDestructive ? Colors.white : AppColors.ink,
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
         ),
       ),
     );
@@ -287,59 +422,71 @@ class _CoverImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        AspectRatio(
-          aspectRatio: 16 / 19,
-          child: CarImage(imageUrl: car.coverImageUrl, fit: BoxFit.cover),
-        ),
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.transparent, Colors.black87],
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (car.chassisCode != null && car.chassisCode!.isNotEmpty) ...[
+            Text(
+              'BUILD IDENTIFIER · ${car.chassisCode}',
+              style: const TextStyle(
+                color: AppColors.accent,
+                fontSize: 11,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 1.2,
               ),
             ),
-            padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    if (car.chassisCode != null && car.chassisCode!.isNotEmpty)
-                      Text(
-                        'BUILD IDENTIFIER: ${car.chassisCode}',
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
-                    const Spacer(),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '${car.brandName} ${car.modelName}'.toUpperCase(),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 26,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 0.5,
-                    height: 1.1,
-                  ),
-                ),
-              ],
+            const SizedBox(height: 6),
+          ],
+          Text(
+            '${car.brandName} ${car.modelName}'.toUpperCase(),
+            style: const TextStyle(
+              color: AppColors.ink,
+              fontSize: 28,
+              fontWeight: FontWeight.w900,
+              letterSpacing: 0.3,
+              height: 1.05,
             ),
           ),
-        ),
-      ],
+          const SizedBox(height: 14),
+          Stack(
+            children: [
+              AspectRatio(
+                aspectRatio: 16 / 11,
+                child: CarImage(
+                  imageUrl: car.coverImageUrl,
+                  fit: BoxFit.cover,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              Positioned(
+                top: 12,
+                right: 12,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    '${car.year} · ${car.colorName}'.toUpperCase(),
+                    style: const TextStyle(
+                      color: AppColors.ink,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.8,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -420,7 +567,7 @@ class _SpecCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.line),
       ),
       child: Column(
@@ -477,17 +624,20 @@ class _InfoTable extends StatelessWidget {
       ('DRIVETRAIN', car.drivetrainName.toUpperCase()),
       if (car.mileage != null)
         ('MILEAGE', '${car.mileage} ${car.mileageUnitName.toUpperCase()}'),
+      if (car.modelCode != null && car.modelCode!.isNotEmpty)
+        ('MODEL CODE', car.modelCode!.toUpperCase()),
       if (car.engineCode != null && car.engineCode!.isNotEmpty)
         ('ENGINE CODE', car.engineCode!.toUpperCase()),
       ('DISPLACEMENT', '${car.engineDisplacement.toStringAsFixed(1)}L'),
-      if (car.status != null) ('STATUS', car.status!.type.toUpperCase()),
+      ('FUEL TYPE', car.fuelTypeName.toUpperCase()),
+      ('STATUS', car.status.type.toUpperCase()),
     ];
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.line),
       ),
       child: Column(
@@ -527,6 +677,52 @@ class _InfoTable extends StatelessWidget {
   }
 }
 
+// ── Story ─────────────────────────────────────────────────────────────────────
+
+class _StorySection extends StatelessWidget {
+  final String story;
+  const _StorySection({required this.story});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'THE STORY',
+            style: TextStyle(
+              color: AppColors.ink,
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppColors.line),
+            ),
+            child: Text(
+              story,
+              style: const TextStyle(
+                color: AppColors.ink2,
+                fontSize: 17,
+                height: 1.5,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 // ── Gallery ───────────────────────────────────────────────────────────────────
 
 class _GallerySection extends StatelessWidget {
@@ -550,10 +746,9 @@ class _GallerySection extends StatelessWidget {
           const Text(
             'GALLERY',
             style: TextStyle(
-              color: AppColors.mute,
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 1.4,
+              color: AppColors.ink,
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
             ),
           ),
           const SizedBox(height: 8),
@@ -574,14 +769,34 @@ class _GallerySection extends StatelessWidget {
                 onLongPress: isOwner
                     ? () => _confirmDelete(context, url)
                     : null,
-                onTap: () => context.push(
-                  '/full-screen-image',
-                  extra: url,
-                ),
-                child: CarImage(
-                  imageUrl: url,
-                  fit: BoxFit.cover,
-                  borderRadius: BorderRadius.circular(8),
+                onTap: () => context.push('/full-screen-image', extra: url),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    CarImage(
+                      imageUrl: url,
+                      fit: BoxFit.cover,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    if (isOwner)
+                      Positioned(
+                        top: 6,
+                        right: 6,
+                        child: GestureDetector(
+                          onTap: () => _confirmDelete(context, url),
+                          child: Container(
+                            width: 26,
+                            height: 26,
+                            decoration: BoxDecoration(
+                              color: Colors.black.withAlpha(140),
+                              borderRadius: BorderRadius.circular(9),
+                            ),
+                            child: const Icon(Icons.close_rounded,
+                                size: 16, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               );
             },
@@ -634,7 +849,7 @@ class _AddModButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 14),
           decoration: BoxDecoration(
             color: AppColors.accent,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(16),
           ),
           child: const Center(
             child: Text(
@@ -659,6 +874,7 @@ class _ModificationsList extends StatelessWidget {
   final String carId;
   final List<CarModificationEntity> mods;
   final bool isOwner;
+
   const _ModificationsList({
     required this.carId,
     required this.mods,
@@ -673,26 +889,90 @@ class _ModificationsList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'BUILD LOG',
+            'MODIFICATION LOG',
             style: TextStyle(
-              color: AppColors.mute,
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 1.4,
+              color: AppColors.ink,
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
             ),
           ),
           const SizedBox(height: 4),
-          Text(
-            '${mods.length} ${mods.length == 1 ? 'Modification' : 'Modifications'}',
-            style: const TextStyle(
-              color: AppColors.ink,
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
+          // Text(
+          //   '${mods.length} ${mods.length == 1 ? 'Modification' : 'Modifications'}',
+          //   style: const TextStyle(
+          //     color: AppColors.ink,
+          //     fontSize: 20,
+          //     fontWeight: FontWeight.w800,
+          //   ),
+          // ),
+          const SizedBox(height: 12),
+          for (int i = 0; i < mods.length; i++)
+            _TimelineEntry(
+              carId: carId,
+              mod: mods[i],
+              isOwner: isOwner,
+              isLast: i == mods.length - 1,
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// A single modification rendered next to a chronological timeline rail:
+/// a continuous vertical line with a hollow circle marking each card.
+class _TimelineEntry extends StatelessWidget {
+  final String carId;
+  final CarModificationEntity mod;
+  final bool isOwner;
+  final bool isLast;
+
+  const _TimelineEntry({
+    required this.carId,
+    required this.mod,
+    required this.isOwner,
+    required this.isLast,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            width: 24,
+            child: Stack(
+              children: [
+                // Continuous rail. Stops short of the bottom on the last entry.
+                Positioned(
+                  left: 11,
+                  top: 6,
+                  bottom: isLast ? null : 0,
+                  height: isLast ? 18 : null,
+                  child: Container(width: 2, color: AppColors.accent),
+                ),
+                // Marker aligned with the date label.
+                Positioned(
+                  left: 4,
+                  top: 6,
+                  child: Container(
+                    width: 16,
+                    height: 16,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.bg,
+                      border: Border.all(color: AppColors.accent, width: 3),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 12),
-          for (final mod in mods)
-            _ModCard(carId: carId, mod: mod, isOwner: isOwner),
+          const SizedBox(width: 8),
+          Expanded(
+            child: _ModCard(carId: carId, mod: mod, isOwner: isOwner),
+          ),
         ],
       ),
     );
@@ -713,6 +993,7 @@ class _ModCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final beforeMedia = mod.beforeMedia;
     final afterMedia = mod.afterMedia;
+    final date = mod.installationDate;
 
     return GestureDetector(
       onLongPress: isOwner ? () => _showModMenu(context) : null,
@@ -721,7 +1002,7 @@ class _ModCard extends StatelessWidget {
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppColors.line),
         ),
         child: Column(
@@ -729,27 +1010,38 @@ class _ModCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 3,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.accentSoft,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    mod.categoryName.toUpperCase(),
-                    style: const TextStyle(
-                      color: AppColors.accent,
-                      fontSize: 9,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 1.0,
-                    ),
+                Text(
+                  _formatModDate(date),
+                  style: const TextStyle(
+                    color: AppColors.accent,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 0.5,
                   ),
                 ),
                 const Spacer(),
-                if (isOwner)
+                if (mod.price != null)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.bg,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: AppColors.line),
+                    ),
+                    child: Text(
+                      _formatPrice(mod.price!),
+                      style: const TextStyle(
+                        color: AppColors.ink,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
+                if (isOwner) ...[
+                  const SizedBox(width: 8),
                   GestureDetector(
                     onTap: () => _showModMenu(context),
                     child: const Icon(
@@ -758,26 +1050,18 @@ class _ModCard extends StatelessWidget {
                       size: 20,
                     ),
                   ),
+                ],
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
             Text(
               mod.title,
               style: const TextStyle(
                 color: AppColors.ink,
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
               ),
             ),
-            if (mod.description != null && mod.description!.isNotEmpty) ...[
-              const SizedBox(height: 4),
-              Text(
-                mod.description!,
-                style: const TextStyle(color: AppColors.mute, fontSize: 13),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
             if (beforeMedia.isNotEmpty || afterMedia.isNotEmpty) ...[
               const SizedBox(height: 10),
               Row(
@@ -799,6 +1083,17 @@ class _ModCard extends StatelessWidget {
                       ),
                     ),
                 ],
+              ),
+            ],
+            if (mod.description != null && mod.description!.isNotEmpty) ...[
+              const SizedBox(height: 10),
+              Text(
+                mod.description!,
+                style: const TextStyle(
+                  color: AppColors.mute,
+                  fontSize: 13,
+                  height: 1.4,
+                ),
               ),
             ],
           ],
@@ -840,9 +1135,7 @@ class _ModCard extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.of(context).pop();
-                bloc.add(
-                  DeleteModificationFromDetail(carId: carId, modId: mod.id),
-                );
+                _confirmDelete(context, bloc);
               },
             ),
             const SizedBox(height: 8),
@@ -851,10 +1144,71 @@ class _ModCard extends StatelessWidget {
       ),
     );
   }
+
+  Future<void> _confirmDelete(BuildContext context, CarDetailBloc bloc) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      barrierColor: Colors.black54,
+      builder: (dialogContext) => Dialog(
+        backgroundColor: AppColors.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 22, 20, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Delete modification?',
+                style: TextStyle(
+                  color: AppColors.ink,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'This will permanently remove this modification and its '
+                'photos from the build log. This action cannot be undone.',
+                style: TextStyle(
+                  color: AppColors.mute,
+                  fontSize: 14,
+                  height: 1.4,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 22),
+              Row(
+                children: [
+                  Expanded(
+                    child: _DialogButton(
+                      label: 'Cancel',
+                      onTap: () => Navigator.of(dialogContext).pop(false),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _DialogButton(
+                      label: 'Delete',
+                      isDestructive: true,
+                      onTap: () => Navigator.of(dialogContext).pop(true),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    if (confirmed == true) {
+      bloc.add(DeleteModificationFromDetail(carId: carId, modId: mod.id));
+    }
+  }
 }
 
 class _ModImage extends StatelessWidget {
-  
   final String url;
   final String label;
 
@@ -863,10 +1217,7 @@ class _ModImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.push(
-        '/full-screen-image',
-        extra: url,
-      ),
+      onTap: () => context.push('/full-screen-image', extra: url),
       child: Stack(
         children: [
           AspectRatio(
@@ -874,7 +1225,7 @@ class _ModImage extends StatelessWidget {
             child: CarImage(
               imageUrl: url,
               fit: BoxFit.cover,
-              borderRadius: BorderRadius.circular(6),
+              borderRadius: BorderRadius.circular(10),
             ),
           ),
           Positioned(
@@ -902,3 +1253,26 @@ class _ModImage extends StatelessWidget {
     );
   }
 }
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+const _monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+String _formatModDate(DateTime date) =>
+    '${date.day} ${_monthNames[date.month - 1]} ${date.year}';
+
+String _formatPrice(double price) =>
+    '€${price.toStringAsFixed(price % 1 == 0 ? 0 : 2)}';

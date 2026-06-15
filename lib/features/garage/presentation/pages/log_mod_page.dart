@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../core/di/injection.dart';
+import '../../../../core/services/car_image_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../domain/entities/reference_data.dart';
 import '../../domain/repositories/garage_repository.dart';
@@ -23,17 +25,20 @@ class LogModificationPage extends StatefulWidget {
 }
 
 class _LogModificationPageState extends State<LogModificationPage> {
+  // Compression starts the moment an image is picked, so the bytes are ready
+  // by the time the user submits.
+  final CarImageService _imageService = getIt<CarImageService>();
+
   CarModCategoryEntity? _selectedCategory;
   final _titleCtrl = TextEditingController();
   final _descriptionCtrl = TextEditingController();
   final _priceCtrl = TextEditingController();
   final _mileageCtrl = TextEditingController();
 
-  String? _beforeFilePath;
-  String? _afterFilePath;
+  CompressedImage? _before;
+  CompressedImage? _after;
 
   DateTime? _installationDate;
-  bool _isPricePublic = false;
 
   @override
   void dispose() {
@@ -101,17 +106,14 @@ class _LogModificationPageState extends State<LogModificationPage> {
                         descriptionCtrl: _descriptionCtrl,
                         priceCtrl: _priceCtrl,
                         mileageCtrl: _mileageCtrl,
-                        beforeFilePath: _beforeFilePath,
-                        afterFilePath: _afterFilePath,
+                        beforeFilePath: _before?.path,
+                        afterFilePath: _after?.path,
                         installationDate: _installationDate,
-                        isPricePublic: _isPricePublic,
                         onSelectCategory: (c) =>
                             setState(() => _selectedCategory = c),
                         onPickBefore: () => _pickImage(isBefore: true),
                         onPickAfter: () => _pickImage(isBefore: false),
                         onPickDate: () => _pickDate(context),
-                        onTogglePricePublic: (v) =>
-                            setState(() => _isPricePublic = v),
                       ),
                     ),
                   ),
@@ -133,11 +135,13 @@ class _LogModificationPageState extends State<LogModificationPage> {
     final picker = ImagePicker();
     final file = await picker.pickImage(source: ImageSource.gallery);
     if (file == null) return;
+    // Start compressing immediately so the bytes are ready by submit time.
+    final image = CompressedImage.compress(file.path, _imageService);
     setState(() {
       if (isBefore) {
-        _beforeFilePath = file.path;
+        _before = image;
       } else {
-        _afterFilePath = file.path;
+        _after = image;
       }
     });
   }
@@ -170,9 +174,9 @@ class _LogModificationPageState extends State<LogModificationPage> {
       error = 'Please select a category.';
     } else if (_titleCtrl.text.trim().isEmpty) {
       error = 'Please enter a title.';
-    } else if (_beforeFilePath == null) {
+    } else if (_before == null) {
       error = 'Please pick a before image.';
-    } else if (_afterFilePath == null) {
+    } else if (_after == null) {
       error = 'Please pick an after image.';
     } else if (_installationDate == null) {
       error = 'Please select the installation date.';
@@ -195,8 +199,8 @@ class _LogModificationPageState extends State<LogModificationPage> {
     context.read<LogModBloc>().add(
           SubmitModification(
             carId: widget.carId,
-            beforeFilePath: _beforeFilePath,
-            afterFilePath: _afterFilePath,
+            before: _before,
+            after: _after,
             params: ModRequestParams(
               categoryId: _selectedCategory!.id,
               title: _titleCtrl.text.trim(),
@@ -205,7 +209,6 @@ class _LogModificationPageState extends State<LogModificationPage> {
                   : _descriptionCtrl.text.trim(),
               installationDate: _installationDate!,
               price: price,
-              isPricePublic: price != null && _isPricePublic,
               mileageAtInstall: mileage,
             ),
           ),
@@ -327,12 +330,10 @@ class _FormContent extends StatelessWidget {
   final String? beforeFilePath;
   final String? afterFilePath;
   final DateTime? installationDate;
-  final bool isPricePublic;
   final ValueChanged<CarModCategoryEntity> onSelectCategory;
   final VoidCallback onPickBefore;
   final VoidCallback onPickAfter;
   final VoidCallback onPickDate;
-  final ValueChanged<bool> onTogglePricePublic;
 
   const _FormContent({
     required this.categories,
@@ -344,12 +345,10 @@ class _FormContent extends StatelessWidget {
     required this.beforeFilePath,
     required this.afterFilePath,
     required this.installationDate,
-    required this.isPricePublic,
     required this.onSelectCategory,
     required this.onPickBefore,
     required this.onPickAfter,
     required this.onPickDate,
-    required this.onTogglePricePublic,
   });
 
   @override
@@ -466,37 +465,6 @@ class _FormContent extends StatelessWidget {
           inputFormatters: [
             FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
           ],
-        ),
-        const SizedBox(height: 10),
-        GestureDetector(
-          onTap: () => onTogglePricePublic(!isPricePublic),
-          child: Row(
-            children: [
-              Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: isPricePublic ? AppColors.accent : Colors.transparent,
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(
-                    color: isPricePublic ? AppColors.accent : AppColors.line,
-                  ),
-                ),
-                child: isPricePublic
-                    ? const Icon(Icons.check, size: 14, color: Colors.white)
-                    : null,
-              ),
-              const SizedBox(width: 10),
-              const Text(
-                'Make price visible to others',
-                style: TextStyle(
-                  color: AppColors.ink2,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
         ),
         const SizedBox(height: 20),
 

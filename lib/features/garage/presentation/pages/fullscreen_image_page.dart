@@ -11,18 +11,25 @@ class FullscreenImagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: IconButton(
           // TODO: create a custom reusable back button similar to iOS style
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
       ),
       body: Center(
-        child: CarImage(
-          imageUrl: url,
-          fit: BoxFit.cover,
-          borderRadius: BorderRadius.circular(8),
+        child: InteractiveViewer(
+          minScale: 1,
+          maxScale: 5,
+          child: CarImage(
+            imageUrl: url,
+            fit: BoxFit.contain,
+          ),
         ),
       ),
     );

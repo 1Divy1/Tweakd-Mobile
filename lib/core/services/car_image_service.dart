@@ -6,6 +6,30 @@ import 'package:injectable/injectable.dart';
 
 import '../error/base_exceptions.dart';
 
+/// A picked image whose WebP compression is kicked off immediately on
+/// selection, so the (relatively slow) compression work overlaps with the user
+/// filling in the rest of the wizard instead of blocking the submit button.
+///
+/// [path] is the original local file path, kept for showing a preview.
+/// [bytes] is the compression future — already in flight; `await` it at upload
+/// time, by which point it is usually already complete.
+class CompressedImage {
+  final String path;
+  final Future<Uint8List> bytes;
+
+  const CompressedImage._(this.path, this.bytes);
+
+  factory CompressedImage.compress(String path, CarImageService service) {
+    final bytes = service.compressToWebp(path);
+    // Attach a no-op observer so that, if compression fails before anything
+    // awaits [bytes] (e.g. the user abandons the wizard), it is not reported as
+    // an unhandled async error. The original future still surfaces the error to
+    // the `await` at upload time.
+    bytes.then((_) {}, onError: (_) {});
+    return CompressedImage._(path, bytes);
+  }
+}
+
 @lazySingleton
 class CarImageService {
   final Dio _uploader = Dio();
