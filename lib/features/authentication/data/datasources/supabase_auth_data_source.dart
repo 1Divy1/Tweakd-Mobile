@@ -2,6 +2,7 @@ import 'package:car_social_media_app/features/authentication/data/exceptions/aut
 import 'package:car_social_media_app/features/authentication/data/models/user_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -16,8 +17,38 @@ class SupabaseAuthDataSource {
 
   Session? get currentSession => supabaseClient.auth.currentSession;
 
+  /// Logs the user out and wipes every locally cached credential so the next
+  /// launch behaves as if the user had never signed in.
+  ///
+  /// This covers three layers:
+  /// 1. Supabase — clears the in-memory session and (via the configured
+  ///    [LocalStorage]) the persisted access/refresh token.
+  /// 2. Google Sign-In — drops the cached Google account so a subsequent
+  ///    sign-in attempt cannot silently re-authenticate the same user.
+  /// 3. Secure storage — a final defensive sweep that removes anything left
+  ///    behind in flutter_secure_storage.
   Future<void> logOut() async {
-    await supabaseClient.auth.signOut();
+    try {
+      await supabaseClient.auth.signOut();
+
+      // Google sign-out is best-effort: it can throw if Google Sign-In was
+      // never initialized (e.g. an email/password user), which must not block
+      // the logout flow.
+      try {
+        await GoogleSignIn.instance.signOut();
+      } catch (e) {
+        debugPrint('Google sign-out skipped: $e');
+      }
+
+      // Guarantee no token survives, regardless of which auth path was used.
+      await const FlutterSecureStorage().deleteAll();
+    } on AuthException catch (e) {
+      debugPrint('Supabase signOut error: $e');
+      throw ServerException(e.message);
+    } catch (e) {
+      debugPrint('Unexpected error during logOut: $e');
+      throw ServerException('Failed to log out. Please try again.');
+    }
   }
 
   Future<UserModel> checkAuthStatus() async {
