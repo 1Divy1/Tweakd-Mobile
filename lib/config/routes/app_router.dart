@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/di/injection.dart';
+import '../../features/authentication/presentation/pages/login_page.dart';
 import '../../features/authentication/presentation/pages/signup_page.dart';
 import '../../features/authentication/presentation/pages/splash_page.dart';
 import '../../features/follow/presentation/bloc/bloc.dart';
@@ -29,6 +30,7 @@ import '../../features/profile/presentation/pages/my_profile_page.dart';
 import '../../features/profile/presentation/pages/public_profile_page.dart';
 import '../../features/search/presentation/bloc/bloc.dart';
 import '../../features/search/presentation/pages/search_page.dart';
+import '../../features/settings/presentation/pages/settings_page.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
@@ -36,6 +38,7 @@ final appRouter = GoRouter(
     // ---------- Authentication & Onboarding ----------
     GoRoute(path: '/', builder: (context, state) => const SplashPage()),
     GoRoute(path: '/signup', builder: (context, state) => const SignUpPage()),
+    GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
     GoRoute(
       path: '/onboarding',
       builder: (context, state) => BlocProvider<ProfileBloc>(
@@ -107,6 +110,14 @@ final appRouter = GoRouter(
           child: const SearchPage(),
         ),
       ),
+    ),
+
+    // ---------- Settings Page ----------
+    // AuthBloc is provided app-wide in main.dart, so no BlocProvider is
+    // needed here.
+    GoRoute(
+      path: '/settings',
+      builder: (context, state) => const SettingsPage(),
     ),
 
     // ---------- Feed Page ----------

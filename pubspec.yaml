@@ -30,6 +30,9 @@ dependencies:
   flutter_image_compress: ^2.4.0
   image_picker: ^1.1.2
   uuid: ^4.0.0
+  sign_in_with_apple: ^8.1.0
+  crypto: ^3.0.7
+  flutter_facebook_auth: ^7.1.7
 
 dev_dependencies:
   flutter_test:
@@ -43,4 +46,4 @@ flutter:
   uses-material-design: true
   assets:
     - .env
-    - assets/icons/
+    - assets/logos/

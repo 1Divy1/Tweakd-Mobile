@@ -9,6 +9,9 @@ abstract class AuthEvent extends Equatable {
 
 class CheckAuthStatus extends AuthEvent {}
 
+// Logout
+class LogoutRequested extends AuthEvent {}
+
 // OAuth Events
 class GoogleLoginRequested extends AuthEvent {}
 class AppleLoginRequested extends AuthEvent {}
