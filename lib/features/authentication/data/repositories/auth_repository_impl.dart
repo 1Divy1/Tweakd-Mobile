@@ -64,4 +64,17 @@ class AuthRepositoryImpl implements AuthRepository {
       return const Left(UnknownFailure('An unexpected error occurred.'));
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> logOut() async {
+    try {
+      await supabaseDataSource.logOut();
+      return const Right(unit);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('Unexpected error in logOut: $e');
+      return const Left(UnknownFailure('An unexpected error occurred.'));
+    }
+  }
 }

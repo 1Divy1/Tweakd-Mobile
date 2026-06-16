@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/shared/widgets/app_bottom_nav.dart';
@@ -33,9 +34,7 @@ class MyProfileDataView extends StatelessWidget {
             title: 'PROFILE',
             showBackButton: false,
             trailing: SettingsButton(
-              onTap: () {
-                // TODO: Implement settings flow
-              },
+              onTap: () => context.push('/settings'),
             ),
           ),
           Expanded(

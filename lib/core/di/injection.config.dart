@@ -22,6 +22,8 @@ import '../../features/authentication/domain/repositories/auth_repository.dart'
     as _i742;
 import '../../features/authentication/domain/usecases/auth/check_auth_status.dart'
     as _i192;
+import '../../features/authentication/domain/usecases/auth/log_out.dart'
+    as _i221;
 import '../../features/authentication/domain/usecases/login/email_password_signin.dart'
     as _i263;
 import '../../features/authentication/domain/usecases/login/google_signin.dart'
@@ -149,6 +151,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i192.CheckAuthStatusUseCase>(
       () => _i192.CheckAuthStatusUseCase(gh<_i742.AuthRepository>()),
     );
+    gh.lazySingleton<_i221.LogOut>(
+      () => _i221.LogOut(gh<_i742.AuthRepository>()),
+    );
     gh.lazySingleton<_i263.EmailPasswordSignIn>(
       () => _i263.EmailPasswordSignIn(gh<_i742.AuthRepository>()),
     );
@@ -157,6 +162,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i760.FollowRepository>(
       () => _i299.FollowRepositoryImpl(gh<_i587.FollowApiDataSource>()),
+    );
+    gh.factory<_i636.AuthBloc>(
+      () => _i636.AuthBloc(
+        checkAuthStatus: gh<_i192.CheckAuthStatusUseCase>(),
+        loginUser: gh<_i263.EmailPasswordSignIn>(),
+        googleSignIn: gh<_i920.GoogleSignIn>(),
+        logOut: gh<_i221.LogOut>(),
+      ),
     );
     gh.lazySingleton<_i357.SearchRepository>(
       () => _i1017.SearchRepositoryImpl(gh<_i592.SearchApiDataSource>()),
@@ -279,13 +292,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i14.SearchUsersUseCase>(
       () => _i14.SearchUsersUseCase(gh<_i357.SearchRepository>()),
-    );
-    gh.factory<_i636.AuthBloc>(
-      () => _i636.AuthBloc(
-        checkAuthStatus: gh<_i192.CheckAuthStatusUseCase>(),
-        loginUser: gh<_i263.EmailPasswordSignIn>(),
-        googleSignIn: gh<_i920.GoogleSignIn>(),
-      ),
     );
     gh.lazySingleton<_i424.GetCurrentUserProfileUseCase>(
       () => _i424.GetCurrentUserProfileUseCase(gh<_i894.ProfileRepository>()),
