@@ -83,6 +83,25 @@ import '../../features/garage/presentation/bloc/add_car/bloc.dart' as _i160;
 import '../../features/garage/presentation/bloc/bloc.dart' as _i121;
 import '../../features/garage/presentation/bloc/car_detail/bloc.dart' as _i807;
 import '../../features/garage/presentation/bloc/log_mod/bloc.dart' as _i375;
+import '../../features/onboarding/data/datasources/onboarding_api_data_source.dart'
+    as _i1049;
+import '../../features/onboarding/data/repositories/onboarding_repository_impl.dart'
+    as _i452;
+import '../../features/onboarding/domain/repositories/onboarding_repository.dart'
+    as _i430;
+import '../../features/onboarding/domain/usecases/check_username_availability.dart'
+    as _i842;
+import '../../features/onboarding/domain/usecases/get_car_categories.dart'
+    as _i329;
+import '../../features/onboarding/domain/usecases/get_cities.dart' as _i343;
+import '../../features/onboarding/domain/usecases/get_community_roles.dart'
+    as _i863;
+import '../../features/onboarding/domain/usecases/get_countries.dart' as _i290;
+import '../../features/onboarding/domain/usecases/submit_onboarding.dart'
+    as _i1016;
+import '../../features/onboarding/presentation/bloc/bloc.dart' as _i797;
+import '../../features/onboarding/presentation/bloc/username_availability/bloc.dart'
+    as _i94;
 import '../../features/profile/data/datasource/profile_api_data_source.dart'
     as _i77;
 import '../../features/profile/data/repositories/profile_repository_impl.dart'
@@ -107,6 +126,7 @@ import '../../features/search/presentation/bloc/bloc.dart' as _i462;
 import '../network/abstract_http.dart' as _i311;
 import '../network/dio_http_client.dart' as _i554;
 import '../services/car_image_service.dart' as _i185;
+import '../services/push_permission_service.dart' as _i792;
 import 'modules/dio_module.dart' as _i983;
 import 'modules/supabase_module.dart' as _i388;
 
@@ -121,6 +141,9 @@ extension GetItInjectableX on _i174.GetIt {
     final dioModule = _$DioModule();
     gh.lazySingleton<_i454.SupabaseClient>(() => supabaseModule.supabaseClient);
     gh.lazySingleton<_i185.CarImageService>(() => _i185.CarImageService());
+    gh.lazySingleton<_i792.PushPermissionService>(
+      () => _i792.PushPermissionService(),
+    );
     gh.lazySingleton<_i361.Dio>(
       () => dioModule.dio(gh<_i454.SupabaseClient>()),
     );
@@ -141,6 +164,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i879.GarageApiDataSource>(
       () => _i879.GarageApiDataSource(gh<_i311.AbstractHTTP>()),
+    );
+    gh.lazySingleton<_i1049.OnboardingApiDataSource>(
+      () => _i1049.OnboardingApiDataSource(gh<_i311.AbstractHTTP>()),
     );
     gh.lazySingleton<_i77.ProfileApiDataSource>(
       () => _i77.ProfileApiDataSource(gh<_i311.AbstractHTTP>()),
@@ -210,6 +236,30 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i526.StorageApiDataSource>(),
         gh<_i185.CarImageService>(),
       ),
+    );
+    gh.lazySingleton<_i430.OnboardingRepository>(
+      () =>
+          _i452.OnboardingRepositoryImpl(gh<_i1049.OnboardingApiDataSource>()),
+    );
+    gh.lazySingleton<_i842.CheckUsernameAvailabilityUseCase>(
+      () => _i842.CheckUsernameAvailabilityUseCase(
+        gh<_i430.OnboardingRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i329.GetCarCategoriesUseCase>(
+      () => _i329.GetCarCategoriesUseCase(gh<_i430.OnboardingRepository>()),
+    );
+    gh.lazySingleton<_i343.GetCitiesUseCase>(
+      () => _i343.GetCitiesUseCase(gh<_i430.OnboardingRepository>()),
+    );
+    gh.lazySingleton<_i863.GetCommunityRolesUseCase>(
+      () => _i863.GetCommunityRolesUseCase(gh<_i430.OnboardingRepository>()),
+    );
+    gh.lazySingleton<_i290.GetCountriesUseCase>(
+      () => _i290.GetCountriesUseCase(gh<_i430.OnboardingRepository>()),
+    );
+    gh.lazySingleton<_i1016.SubmitOnboardingUseCase>(
+      () => _i1016.SubmitOnboardingUseCase(gh<_i430.OnboardingRepository>()),
     );
     gh.lazySingleton<_i292.AddCarUseCase>(
       () => _i292.AddCarUseCase(gh<_i511.GarageRepository>()),
@@ -310,6 +360,11 @@ extension GetItInjectableX on _i174.GetIt {
         deleteModificationUseCase: gh<_i621.DeleteModificationUseCase>(),
       ),
     );
+    gh.factory<_i94.UsernameAvailabilityBloc>(
+      () => _i94.UsernameAvailabilityBloc(
+        checkUsername: gh<_i842.CheckUsernameAvailabilityUseCase>(),
+      ),
+    );
     gh.factory<_i180.ProfileBloc>(
       () => _i180.ProfileBloc(
         getCurrentUserProfile: gh<_i424.GetCurrentUserProfileUseCase>(),
@@ -335,6 +390,17 @@ extension GetItInjectableX on _i174.GetIt {
         getModificationUploadUrls: gh<_i2.GetModificationUploadUrlsUseCase>(),
         patchModification: gh<_i49.PatchModificationUseCase>(),
         imageService: gh<_i185.CarImageService>(),
+      ),
+    );
+    gh.factory<_i797.OnboardingBloc>(
+      () => _i797.OnboardingBloc(
+        getCountries: gh<_i290.GetCountriesUseCase>(),
+        getCities: gh<_i343.GetCitiesUseCase>(),
+        getCommunityRoles: gh<_i863.GetCommunityRolesUseCase>(),
+        getCarCategories: gh<_i329.GetCarCategoriesUseCase>(),
+        getBrands: gh<_i408.GetBrandsUseCase>(),
+        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
+        submitOnboarding: gh<_i1016.SubmitOnboardingUseCase>(),
       ),
     );
     gh.factory<_i462.SearchBloc>(

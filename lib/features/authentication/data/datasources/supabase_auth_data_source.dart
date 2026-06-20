@@ -137,6 +137,4 @@ class SupabaseAuthDataSource {
 
     return checkAuthStatus();
   }
-
-
 }
