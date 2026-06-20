@@ -1,4 +1,3 @@
-import 'package:car_social_media_app/features/authentication/presentation/pages/onboarding_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -24,6 +23,10 @@ import '../../features/garage/presentation/pages/about_car_page.dart';
 import '../../features/garage/presentation/pages/fullscreen_image_page.dart';
 import '../../features/garage/presentation/pages/log_mod_page.dart';
 import '../../features/garage/presentation/pages/register_car_page.dart';
+import '../../features/onboarding/presentation/bloc/bloc.dart';
+import '../../features/onboarding/presentation/bloc/event.dart';
+import '../../features/onboarding/presentation/bloc/username_availability/bloc.dart';
+import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/profile/presentation/bloc/bloc.dart';
 import '../../features/profile/presentation/bloc/event.dart';
 import '../../features/profile/presentation/pages/my_profile_page.dart';
@@ -41,8 +44,16 @@ final appRouter = GoRouter(
     GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
     GoRoute(
       path: '/onboarding',
-      builder: (context, state) => BlocProvider<ProfileBloc>(
-        create: (_) => getIt<ProfileBloc>(),
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider<OnboardingBloc>(
+            create: (_) => getIt<OnboardingBloc>()
+              ..add(const LoadOnboardingReferenceData()),
+          ),
+          BlocProvider<UsernameAvailabilityBloc>(
+            create: (_) => getIt<UsernameAvailabilityBloc>(),
+          ),
+        ],
         child: const OnboardingPage(),
       ),
     ),
