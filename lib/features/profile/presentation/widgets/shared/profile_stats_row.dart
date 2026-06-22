@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 
 class ProfileStatsRow extends StatelessWidget {
   final int followers;
@@ -21,13 +22,15 @@ class ProfileStatsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: [
           Expanded(
             child: _StatCard(
-              label: 'FOLLOWERS',
+              label: l10n.profileStatFollowers,
+              isFollowers: true,
               username: username,
               followersCount: followers,
               followingCount: following,
@@ -37,7 +40,8 @@ class ProfileStatsRow extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: _StatCard(
-              label: 'FOLLOWING',
+              label: l10n.profileStatFollowing,
+              isFollowers: false,
               username: username,
               followersCount: followers,
               followingCount: following,
@@ -52,6 +56,7 @@ class ProfileStatsRow extends StatelessWidget {
 
 class _StatCard extends StatelessWidget {
   final String label;
+  final bool isFollowers;
   final String username;
   final int followersCount;
   final int followingCount;
@@ -59,6 +64,7 @@ class _StatCard extends StatelessWidget {
 
   const _StatCard({
     required this.label,
+    required this.isFollowers,
     required this.username,
     required this.followersCount,
     required this.followingCount,
@@ -68,25 +74,15 @@ class _StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => label == 'FOLLOWERS'
-          ? context.push(
-              '/followers',
-              extra: {
-                'username': username,
-                'followersCount': followersCount,
-                'followingCount': followingCount,
-                'isOwnProfile': isOwnProfile,
-              },
-            )
-          : context.push(
-              '/following',
-              extra: {
-                'username': username,
-                'followersCount': followersCount,
-                'followingCount': followingCount,
-                'isOwnProfile': isOwnProfile,
-              },
-            ),
+      onTap: () => context.push(
+        isFollowers ? '/followers' : '/following',
+        extra: {
+          'username': username,
+          'followersCount': followersCount,
+          'followingCount': followingCount,
+          'isOwnProfile': isOwnProfile,
+        },
+      ),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
@@ -98,9 +94,7 @@ class _StatCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              _formatCount(
-                label == 'FOLLOWERS' ? followersCount : followingCount,
-              ),
+              _formatCount(isFollowers ? followersCount : followingCount),
               style: const TextStyle(
                 color: AppColors.ink,
                 fontSize: 22,

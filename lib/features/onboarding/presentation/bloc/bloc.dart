@@ -54,8 +54,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
         rolesResult.isLeft() ||
         categoriesResult.isLeft() ||
         brandsResult.isLeft()) {
-      emit(const OnboardingRefError(
-          'Failed to load onboarding data. Please try again.'));
+      emit(const OnboardingRefError(OnboardingErrorCode.loadFailed));
       return;
     }
 
@@ -147,7 +146,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     result.fold(
       (failure) => emit(OnboardingSubmitError(
         refData: refData,
-        message: OnboardingErrorMapper.getMessage(failure),
+        code: OnboardingErrorMapper.getCode(failure),
       )),
       (profile) => emit(OnboardingSubmitted(profile)),
     );

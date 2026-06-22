@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/services/push_permission_service.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/dream_car_draft.dart';
 import '../../domain/entities/notification_preferences.dart';
 import '../../domain/entities/onboarding reference/city_entity.dart';
@@ -16,9 +17,10 @@ import '../bloc/event.dart';
 import '../bloc/state.dart';
 import '../bloc/username_availability/bloc.dart';
 import '../bloc/username_availability/state.dart';
+import '../utils/onboarding_error_mapper.dart';
 import '../utils/username_validator.dart';
 import '../widgets/onboarding_chrome.dart';
-import '../widgets/steps/garage_step.dart';
+import '../widgets/steps/car_preferences_step.dart';
 import '../widgets/steps/identity_step.dart';
 import '../widgets/steps/location_step.dart';
 import '../widgets/steps/notifications_step.dart';
@@ -104,13 +106,14 @@ class _OnboardingPageState extends State<OnboardingPage>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return BlocConsumer<OnboardingBloc, OnboardingState>(
       listener: (context, state) {
         if (state is OnboardingSubmitted) {
           context.go('/profile');
         } else if (state is OnboardingSubmitError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
+            SnackBar(content: Text(onboardingErrorMessage(l10n, state.code))),
           );
         }
       },
@@ -134,7 +137,8 @@ class _OnboardingPageState extends State<OnboardingPage>
                 OnboardingBottomBar(
                   step: _step,
                   isSubmitting: isSubmitting,
-                  submitLabel: isSubmitting ? 'Finishing setup…' : null,
+                  submitLabel:
+                      isSubmitting ? l10n.onboardingFinishingSetup : null,
                   onBack: _step > 0 && !isSubmitting
                       ? () => setState(() => _step--)
                       : null,
@@ -162,7 +166,10 @@ class _OnboardingPageState extends State<OnboardingPage>
       }
       if (state is OnboardingRefError) {
         return _RefErrorView(
-          message: state.message,
+          message: onboardingErrorMessage(
+            AppLocalizations.of(context)!,
+            state.code,
+          ),
           onRetry: () => _bloc.add(const LoadOnboardingReferenceData()),
         );
       }
@@ -294,24 +301,28 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   bool _validateStep(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     String? error;
     switch (_step) {
       case 0:
-        error = validateOnboardingUsername(_usernameCtrl.text.trim());
-        if (error == null &&
-            context.read<UsernameAvailabilityBloc>().state is UsernameTaken) {
-          error = 'That handle is already taken. Try another one.';
+        final formatError =
+            validateOnboardingUsername(_usernameCtrl.text.trim());
+        if (formatError != null) {
+          error = usernameValidationMessage(l10n, formatError);
+        } else if (context.read<UsernameAvailabilityBloc>().state
+            is UsernameTaken) {
+          error = l10n.onboardingErrorUsernameTaken;
         }
       case 1:
         break; // dream cars are optional
       case 2:
-        if (_roleIds.isEmpty) error = 'Pick at least one role.';
+        if (_roleIds.isEmpty) error = l10n.onboardingErrorPickRole;
       case 3:
         if (_categoryIds.length < kMinTasteCategories) {
-          error = 'Pick at least $kMinTasteCategories category to continue.';
+          error = l10n.onboardingErrorPickCategory(kMinTasteCategories);
         }
       case 4:
-        if (_city == null) error = 'Select your city to continue.';
+        if (_city == null) error = l10n.onboardingErrorSelectCity;
     }
     if (error != null) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
@@ -321,27 +332,28 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   void _submit(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     // Re-check the required answers in case the user navigated back and
     // cleared one. Jump to the offending step rather than failing the call.
     final usernameError = validateOnboardingUsername(_usernameCtrl.text.trim());
     if (usernameError != null) {
-      _jumpTo(context, 0, usernameError);
+      _jumpTo(context, 0, usernameValidationMessage(l10n, usernameError));
       return;
     }
     if (context.read<UsernameAvailabilityBloc>().state is UsernameTaken) {
-      _jumpTo(context, 0, 'That handle is already taken. Try another one.');
+      _jumpTo(context, 0, l10n.onboardingErrorUsernameTaken);
       return;
     }
     if (_roleIds.isEmpty) {
-      _jumpTo(context, 2, 'Pick at least one role.');
+      _jumpTo(context, 2, l10n.onboardingErrorPickRole);
       return;
     }
     if (_categoryIds.length < kMinTasteCategories) {
-      _jumpTo(context, 3, 'Pick at least $kMinTasteCategories category.');
+      _jumpTo(context, 3, l10n.onboardingErrorPickCategory(kMinTasteCategories));
       return;
     }
     if (_city == null) {
-      _jumpTo(context, 4, 'Select your city.');
+      _jumpTo(context, 4, l10n.onboardingErrorSelectCity);
       return;
     }
 
@@ -426,9 +438,9 @@ class _RefErrorView extends StatelessWidget {
                   color: AppColors.accent,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Text(
-                  'RETRY',
-                  style: TextStyle(
+                child: Text(
+                  AppLocalizations.of(context)!.commonRetry.toUpperCase(),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 1,

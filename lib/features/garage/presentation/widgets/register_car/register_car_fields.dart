@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 
 /// Accent eyebrow label + large title + optional supporting line that opens
 /// every step of the register-car wizard.
@@ -84,9 +85,9 @@ class RegisterFieldLabel extends StatelessWidget {
         ),
         if (optional) ...[
           const SizedBox(width: 6),
-          const Text(
-            'OPTIONAL',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.garageOptional,
+            style: const TextStyle(
               color: AppColors.muteSoft,
               fontSize: 11,
               fontWeight: FontWeight.w700,
@@ -373,9 +374,9 @@ class RegisterRefDataError extends StatelessWidget {
                   color: AppColors.accent,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Text(
-                  'RETRY',
-                  style: TextStyle(
+                child: Text(
+                  AppLocalizations.of(context)!.commonRetry.toUpperCase(),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 1,
@@ -509,10 +510,10 @@ class _RegisterPickerSheetState<T> extends State<_RegisterPickerSheet<T>> {
           const Divider(height: 1, color: AppColors.line),
           Expanded(
             child: filtered.isEmpty
-                ? const Center(
+                ? Center(
                     child: Text(
-                      'No matches',
-                      style: TextStyle(
+                      AppLocalizations.of(context)!.garageNoMatches,
+                      style: const TextStyle(
                         color: AppColors.muteSoft,
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
@@ -587,15 +588,15 @@ class _PickerSearchField extends StatelessWidget {
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
               ),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 isDense: true,
-                hintText: 'Search…',
-                hintStyle: TextStyle(
+                hintText: AppLocalizations.of(context)!.garageSearchHint,
+                hintStyle: const TextStyle(
                   color: AppColors.muteSoft,
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                 ),
-                contentPadding: EdgeInsets.fromLTRB(10, 13, 14, 13),
+                contentPadding: const EdgeInsets.fromLTRB(10, 13, 14, 13),
                 border: InputBorder.none,
               ),
             ),

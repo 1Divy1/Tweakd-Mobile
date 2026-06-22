@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/onboarding reference/car_category_entity.dart';
 import '../onboarding_fields.dart';
 import '../onboarding_pickers.dart';
@@ -24,20 +25,20 @@ class TasteStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final count = selectedIds.length;
     final enough = count >= kMinTasteCategories;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const OnboardingSectionHeader(
-          label: '04 — TASTE',
-          title: 'Categories you’re into',
-          subtitle: 'Tap the scenes that get your pulse up. We’ll lead with '
-              'these across your feed and the marketplace.',
+        OnboardingSectionHeader(
+          label: l10n.onboardingTasteLabel,
+          title: l10n.onboardingTasteTitle,
+          subtitle: l10n.onboardingTasteSubtitle,
         ),
         const SizedBox(height: 20),
-        const OnboardingFieldLabel('CATEGORIES'),
+        OnboardingFieldLabel(l10n.onboardingFieldCategories),
         const SizedBox(height: 12),
         Wrap(
           spacing: 10,
@@ -60,10 +61,10 @@ class TasteStep extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
             children: [
-              TextSpan(text: '$count selected'),
-              const TextSpan(
-                text: ' · pick at least 1 to calibrate your feed.',
-                style: TextStyle(fontWeight: FontWeight.w500),
+              TextSpan(text: l10n.onboardingTasteSelectedCount(count)),
+              TextSpan(
+                text: l10n.onboardingTastePickHint,
+                style: const TextStyle(fontWeight: FontWeight.w500),
               ),
             ],
           ),

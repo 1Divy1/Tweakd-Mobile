@@ -1,4 +1,5 @@
 import 'package:car_social_media_app/config/routes/app_router.dart';
+import 'package:car_social_media_app/l10n/app_localizations.dart';
 import 'package:car_social_media_app/core/di/injection.dart';
 import 'package:car_social_media_app/core/storage/secure_local_storage.dart';
 import 'package:car_social_media_app/core/theme/app_theme.dart';
@@ -51,9 +52,11 @@ class CarSocialMediaApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
-        title: 'Cargram',
+        onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light(),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         routerConfig: appRouter,
       ),
     );

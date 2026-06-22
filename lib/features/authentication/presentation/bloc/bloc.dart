@@ -64,7 +64,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await loginUser(params);
 
     result.fold(
-      (failure) => emit(AuthError(AuthErrorMapper.getMessage(failure))),
+      (failure) => emit(AuthError(AuthErrorMapper.getCode(failure))),
       (user) => emit(Authenticated(user)),
     );
   }
@@ -78,7 +78,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await logOut(NoParams());
 
     result.fold(
-      (failure) => emit(AuthError(AuthErrorMapper.getMessage(failure))),
+      (failure) => emit(AuthError(AuthErrorMapper.getCode(failure))),
       (_) => emit(Unauthenticated()),
     );
   }
@@ -94,7 +94,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     debugPrint("googleSignIn usecase result: $result");
 
     result.fold(
-      (failure) => emit(AuthError(AuthErrorMapper.getMessage(failure))),
+      (failure) => emit(AuthError(AuthErrorMapper.getCode(failure))),
       (user) {
         if (user.requiresOnboarding) {
           emit(AuthenticatedRequiresOnboarding(user));

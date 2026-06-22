@@ -2,6 +2,7 @@ import 'package:car_social_media_app/features/garage/domain/entities/reference_d
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../onboarding_fields.dart';
 import '../onboarding_pickers.dart';
 
@@ -42,17 +43,17 @@ class GarageStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const OnboardingSectionHeader(
-          label: '02 — GARAGE',
-          title: 'Brands & models you love',
-          subtitle: 'Pick the marques you follow, then drill into the exact '
-              'models. We’ll tune your feed around them.',
+        OnboardingSectionHeader(
+          label: l10n.onboardingGarageLabel,
+          title: l10n.onboardingGarageTitle,
+          subtitle: l10n.onboardingGarageSubtitle,
         ),
         const SizedBox(height: 20),
-        const OnboardingFieldLabel('YOUR PICKS', optional: true),
+        OnboardingFieldLabel(l10n.onboardingFieldYourPicks, optional: true),
         const SizedBox(height: 12),
         for (var i = 0; i < rows.length; i++) ...[
           _DreamCarCard(
@@ -96,6 +97,7 @@ class _DreamCarCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final brand = row.brand;
     final modelsLabel =
         row.models.isEmpty ? null : row.models.map((m) => m.model).join(' · ');
@@ -125,7 +127,7 @@ class _DreamCarCard extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () => showOnboardingPicker<CarBrandEntity>(
                     context: context,
-                    title: 'Select a brand',
+                    title: l10n.onboardingSelectBrand,
                     items: brands,
                     labelOf: (b) => b.name,
                     onSelected: onSelectBrand,
@@ -133,7 +135,7 @@ class _DreamCarCard extends StatelessWidget {
                   ),
                   child: _InlineSelectorText(
                     value: brand?.name,
-                    placeholder: 'Select a brand',
+                    placeholder: l10n.onboardingSelectBrand,
                   ),
                 ),
               ),
@@ -143,10 +145,10 @@ class _DreamCarCard extends StatelessWidget {
           ),
           if (brand != null) ...[
             const SizedBox(height: 14),
-            const OnboardingFieldLabel('MODELS', optional: true),
+            OnboardingFieldLabel(l10n.onboardingFieldModels, optional: true),
             const SizedBox(height: 8),
             OnboardingSelectorTile(
-              placeholder: 'Add models',
+              placeholder: l10n.onboardingAddModels,
               value: modelsLabel,
               loading: modelsLoading,
               enabled: models.isNotEmpty,
@@ -154,7 +156,7 @@ class _DreamCarCard extends StatelessWidget {
                   ? null
                   : () => showOnboardingMultiPicker<CarModelEntity>(
                         context: context,
-                        title: '${brand.name} models',
+                        title: l10n.onboardingBrandModels(brand.name),
                         items: models,
                         labelOf: (m) => m.model,
                         isSelected: (m) =>
@@ -280,14 +282,14 @@ class _AddBrandButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: AppColors.accent.withAlpha(120)),
         ),
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.add_rounded, size: 20, color: AppColors.accent),
-            SizedBox(width: 8),
+            const Icon(Icons.add_rounded, size: 20, color: AppColors.accent),
+            const SizedBox(width: 8),
             Text(
-              'ADD ANOTHER BRAND',
-              style: TextStyle(
+              AppLocalizations.of(context)!.onboardingAddBrand,
+              style: const TextStyle(
                 color: AppColors.accent,
                 fontSize: 13,
                 fontWeight: FontWeight.w800,

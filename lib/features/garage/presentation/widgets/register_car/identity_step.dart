@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/reference_data.dart';
 import 'register_car_fields.dart';
 
@@ -45,15 +46,16 @@ class IdentityStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const RegisterSectionHeader(
-          label: '01 — IDENTITY',
-          title: 'Visual & basics',
+        RegisterSectionHeader(
+          label: l10n.garageRegisterIdentityLabel,
+          title: l10n.garageRegisterIdentityTitle,
         ),
         const SizedBox(height: 20),
-        const RegisterFieldLabel('PRIMARY ASSET'),
+        RegisterFieldLabel(l10n.garageFieldPrimaryAsset),
         const SizedBox(height: 8),
         _PrimaryAssetCard(
           filePath: coverFilePath,
@@ -61,14 +63,14 @@ class IdentityStep extends StatelessWidget {
           onTap: onPickCover,
         ),
         const SizedBox(height: 20),
-        const RegisterFieldLabel('MAKE'),
+        RegisterFieldLabel(l10n.garageFieldMake),
         const SizedBox(height: 8),
         RegisterSelectorTile(
-          placeholder: 'e.g. Porsche',
+          placeholder: l10n.garageHintMake,
           value: selectedBrand?.name,
           onTap: () => showRegisterPicker<CarBrandEntity>(
             context: context,
-            title: 'Select Make',
+            title: l10n.garagePickerMake,
             items: brands,
             labelOf: (b) => b.name,
             onSelected: onSelectBrand,
@@ -76,12 +78,12 @@ class IdentityStep extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        const RegisterFieldLabel('MODEL'),
+        RegisterFieldLabel(l10n.garageFieldModel),
         const SizedBox(height: 8),
         RegisterSelectorTile(
           placeholder: selectedBrand == null
-              ? 'Select a make first'
-              : 'e.g. 911 GT3 RS',
+              ? l10n.garageHintModelPickMakeFirst
+              : l10n.garageHintModel,
           value: selectedModel?.model,
           loading: modelsLoading,
           enabled: selectedBrand != null,
@@ -89,7 +91,7 @@ class IdentityStep extends StatelessWidget {
               ? null
               : () => showRegisterPicker<CarModelEntity>(
                     context: context,
-                    title: 'Select Model',
+                    title: l10n.garagePickerModel,
                     items: models,
                     labelOf: (m) => m.model,
                     onSelected: onSelectModel,
@@ -102,7 +104,7 @@ class IdentityStep extends StatelessWidget {
           children: [
             Expanded(
               child: RegisterLabeledField(
-                label: 'YEAR',
+                label: l10n.garageFieldYear,
                 controller: yearCtrl,
                 hint: '2024',
                 isNumber: true,
@@ -113,7 +115,8 @@ class IdentityStep extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const RegisterFieldLabel('CHASSIS CODE', optional: true),
+                  RegisterFieldLabel(l10n.garageFieldChassisCode,
+                      optional: true),
                   const SizedBox(height: 8),
                   RegisterFormField(
                     controller: chassisCodeCtrl,
@@ -128,11 +131,11 @@ class IdentityStep extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        const RegisterFieldLabel('MODEL CODE', optional: true),
+        RegisterFieldLabel(l10n.garageFieldModelCode, optional: true),
         const SizedBox(height: 8),
         RegisterFormField(
           controller: modelCodeCtrl,
-          hint: 'e.g. G30',
+          hint: l10n.garageHintModelCode,
           inputFormatters: [
             LengthLimitingTextInputFormatter(12),
           ],
@@ -186,14 +189,14 @@ class _PrimaryAssetCard extends StatelessWidget {
             ],
           ),
           child: hasImage
-              ? _filledOverlay()
-              : _emptyPrompt(),
+              ? _filledOverlay(context)
+              : _emptyPrompt(context),
         ),
       ),
     );
   }
 
-  Widget _filledOverlay() {
+  Widget _filledOverlay(BuildContext context) {
     return Stack(
       children: [
         Positioned(
@@ -205,9 +208,9 @@ class _PrimaryAssetCard extends StatelessWidget {
               color: Colors.white.withAlpha(235),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const Text(
-              'PRIMARY · 1 / 1',
-              style: TextStyle(
+            child: Text(
+              AppLocalizations.of(context)!.garagePrimaryAssetBadge,
+              style: const TextStyle(
                 color: AppColors.ink,
                 fontSize: 11,
                 fontWeight: FontWeight.w800,
@@ -230,12 +233,12 @@ class _PrimaryAssetCard extends StatelessWidget {
                 color: AppColors.ink, size: 20),
           ),
         ),
-        const Positioned(
+        Positioned(
           left: 16,
           bottom: 14,
           child: Text(
-            'Studio shot · tap to replace',
-            style: TextStyle(
+            AppLocalizations.of(context)!.garageStudioShotReplace,
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 14,
               fontWeight: FontWeight.w700,
@@ -249,7 +252,8 @@ class _PrimaryAssetCard extends StatelessWidget {
     );
   }
 
-  Widget _emptyPrompt() {
+  Widget _emptyPrompt(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -265,18 +269,18 @@ class _PrimaryAssetCard extends StatelessWidget {
                 color: AppColors.accent, size: 26),
           ),
           const SizedBox(height: 14),
-          const Text(
-            'Add the studio shot',
-            style: TextStyle(
+          Text(
+            l10n.garageAddStudioShot,
+            style: const TextStyle(
               color: AppColors.ink,
               fontWeight: FontWeight.w800,
               fontSize: 16,
             ),
           ),
           const SizedBox(height: 4),
-          const Text(
-            'Tap to pick from your gallery',
-            style: TextStyle(color: AppColors.mute, fontSize: 13),
+          Text(
+            l10n.garagePickFromGallery,
+            style: const TextStyle(color: AppColors.mute, fontSize: 13),
           ),
         ],
       ),

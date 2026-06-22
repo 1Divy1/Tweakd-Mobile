@@ -1,14 +1,24 @@
+import 'package:car_social_media_app/l10n/app_localizations.dart';
+
 import '../../../../core/error/base_failures.dart';
-import '../../../../core/utils/core_error_mapper.dart';
 import '../../domain/failures/auth_failures.dart';
 
-class AuthErrorMapper {
-  static String getMessage(Failure failure) {
-    if (failure is UnauthenticatedFailure) {
-      return 'Your session is not active. Please log in again.';
-    }
+/// User-facing error situations the auth flow can surface. The bloc emits these
+/// codes (never strings); the UI maps them to localized copy via
+/// [authErrorMessage].
+enum AuthErrorCode { sessionExpired, generic }
 
-    // If it's not an AuthFailure, we can use the CoreErrorMapper to get a generic message
-    return CoreErrorMapper.getMessage(failure);
+class AuthErrorMapper {
+  static AuthErrorCode getCode(Failure failure) {
+    if (failure is UnauthenticatedFailure) return AuthErrorCode.sessionExpired;
+    return AuthErrorCode.generic;
   }
 }
+
+/// Turns an [AuthErrorCode] into localized copy. Lives in the presentation
+/// layer because it needs an [AppLocalizations] from a widget.
+String authErrorMessage(AppLocalizations l10n, AuthErrorCode code) =>
+    switch (code) {
+      AuthErrorCode.sessionExpired => l10n.authErrorSessionExpired,
+      AuthErrorCode.generic => l10n.authErrorGeneric,
+    };

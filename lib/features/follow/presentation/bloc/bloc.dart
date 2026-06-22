@@ -55,7 +55,7 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
 
     result.fold(
       (failure) => emit(
-        FollowError(message: FollowErrorMapper.getMessage(failure)),
+        FollowError(code: FollowErrorMapper.getCode(failure)),
       ),
       (status) => emit(FollowStatusLoaded(followStatus: status)),
     );
@@ -86,7 +86,7 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
 
     result.fold(
       (failure) {
-        emit(FollowError(message: FollowErrorMapper.getMessage(failure)));
+        emit(FollowError(code: FollowErrorMapper.getCode(failure)));
         emit(FollowStatusLoaded(followStatus: previousStatus));
       },
       (newStatus) => emit(FollowStatusLoaded(followStatus: newStatus)),
@@ -102,7 +102,7 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
 
     result.fold(
       (failure) {
-        emit(FollowError(message: FollowErrorMapper.getMessage(failure)));
+        emit(FollowError(code: FollowErrorMapper.getCode(failure)));
         emit(FollowStatusLoaded(followStatus: previousStatus));
       },
       (_) => emit(
@@ -185,7 +185,7 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
     final result = await getFollowers(GetFollowersParams(username: event.username));
 
     result.fold(
-      (failure) => emit(FollowError(message: FollowErrorMapper.getMessage(failure))),
+      (failure) => emit(FollowError(code: FollowErrorMapper.getCode(failure))),
       (followers) {
         debugPrint('Loaded ${followers.length} followers for user ${event.username}:');
         debugPrint('Followers list: $followers');
@@ -200,7 +200,7 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
     final result = await getFollowing(GetFollowingParams(username: event.username));
 
     result.fold(
-      (failure) => emit(FollowError(message: FollowErrorMapper.getMessage(failure))),
+      (failure) => emit(FollowError(code: FollowErrorMapper.getCode(failure))),
       (following) {
         debugPrint('Loaded ${following.length} following for user ${event.username}:');
         debugPrint('Following list: $following');

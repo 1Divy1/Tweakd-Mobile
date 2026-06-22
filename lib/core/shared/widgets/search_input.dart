@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:car_social_media_app/l10n/app_localizations.dart';
+
 import '../../theme/app_colors.dart';
 
 class SearchInput extends StatelessWidget {
@@ -7,7 +9,9 @@ class SearchInput extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final VoidCallback onClear;
   final bool autofocus;
-  final String hintText;
+
+  /// Falls back to the localized "Search by username" hint when null.
+  final String? hintText;
 
   const SearchInput({
     super.key,
@@ -15,11 +19,13 @@ class SearchInput extends StatelessWidget {
     required this.onChanged,
     required this.onClear,
     this.autofocus = true,
-    this.hintText = 'Search by username',
+    this.hintText,
   });
 
   @override
   Widget build(BuildContext context) {
+    final resolvedHint =
+        hintText ?? AppLocalizations.of(context)!.searchInputHint;
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
@@ -43,7 +49,7 @@ class SearchInput extends StatelessWidget {
             color: AppColors.ink,
             size: 20,
           ),
-          hintText: hintText,
+          hintText: resolvedHint,
           hintStyle: const TextStyle(
             color: AppColors.muteSoft,
             fontSize: 15,

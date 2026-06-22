@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 
-/// Display names for each onboarding step, in order. Index 0..5 map to the six
-/// steps; the progress rail also uses "START" / "FINISH" book-ends.
-const onboardingStepNames = <String>[
-  'IDENTITY',
-  'GARAGE',
-  'ROLE',
-  'TASTE',
-  'LOCATION',
-  'NOTIFICATIONS',
-];
+/// Localized display names for each onboarding step, in order. Index 0..5 map to
+/// the six steps; the progress rail also uses "START" / "FINISH" book-ends.
+List<String> onboardingStepNames(AppLocalizations l10n) => [
+      l10n.onboardingStepIdentity,
+      l10n.onboardingStepGarage,
+      l10n.onboardingStepRole,
+      l10n.onboardingStepTaste,
+      l10n.onboardingStepLocation,
+      l10n.onboardingStepNotifications,
+    ];
 
 const onboardingStepCount = 6;
 
@@ -93,6 +94,8 @@ class OnboardingStepProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final stepNames = onboardingStepNames(l10n);
     final isFirst = step == 0;
     final isLast = step == onboardingStepCount - 1;
 
@@ -149,17 +152,17 @@ class OnboardingStepProgress extends StatelessWidget {
             children: [
               Expanded(
                 child: _NodeLabel(
-                  text: isFirst ? 'START' : onboardingStepNames[step - 1],
+                  text: isFirst ? l10n.onboardingStart : stepNames[step - 1],
                   active: false,
                 ),
               ),
               Expanded(
                 child: Column(
                   children: [
-                    _NodeLabel(text: onboardingStepNames[step], active: true),
+                    _NodeLabel(text: stepNames[step], active: true),
                     const SizedBox(height: 2),
                     Text(
-                      'STEP ${step + 1} / $onboardingStepCount',
+                      l10n.onboardingStepCounter(step + 1, onboardingStepCount),
                       style: const TextStyle(
                         color: AppColors.muteSoft,
                         fontSize: 9,
@@ -172,7 +175,7 @@ class OnboardingStepProgress extends StatelessWidget {
               ),
               Expanded(
                 child: _NodeLabel(
-                  text: isLast ? 'FINISH' : onboardingStepNames[step + 1],
+                  text: isLast ? l10n.onboardingFinish : stepNames[step + 1],
                   active: false,
                 ),
               ),
@@ -349,8 +352,9 @@ class OnboardingBottomBar extends StatelessWidget {
   final VoidCallback? onBack;
   final VoidCallback? onNext;
 
-  /// Label for the primary action on the final step.
-  final String lastLabel;
+  /// Label for the primary action on the final step. Defaults to the localized
+  /// "FINISH SETUP" when null.
+  final String? lastLabel;
 
   const OnboardingBottomBar({
     super.key,
@@ -359,11 +363,12 @@ class OnboardingBottomBar extends StatelessWidget {
     this.submitLabel,
     this.onBack,
     this.onNext,
-    this.lastLabel = 'FINISH SETUP',
+    this.lastLabel,
   });
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isLast = step == onboardingStepCount - 1;
     final showBack = onBack != null && !isSubmitting;
 
@@ -393,15 +398,15 @@ class OnboardingBottomBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: AppColors.line),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.arrow_back_rounded,
+                      const Icon(Icons.arrow_back_rounded,
                           size: 18, color: AppColors.ink),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       Text(
-                        'BACK',
-                        style: TextStyle(
+                        l10n.onboardingBack,
+                        style: const TextStyle(
                           color: AppColors.ink,
                           fontWeight: FontWeight.w800,
                           fontSize: 14,
@@ -449,7 +454,7 @@ class OnboardingBottomBar extends StatelessWidget {
                             ),
                             const SizedBox(width: 12),
                             Text(
-                              submitLabel ?? 'Working…',
+                              submitLabel ?? l10n.onboardingWorking,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w800,
@@ -463,7 +468,9 @@ class OnboardingBottomBar extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              isLast ? lastLabel : 'NEXT',
+                              isLast
+                                  ? (lastLabel ?? l10n.onboardingFinishSetup)
+                                  : l10n.onboardingNext,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w800,

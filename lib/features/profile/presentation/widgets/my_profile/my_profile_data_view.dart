@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/shared/widgets/app_bottom_nav.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../../garage/presentation/bloc/bloc.dart';
 import '../../../../garage/presentation/bloc/event.dart';
 import '../../../../garage/presentation/bloc/state.dart';
@@ -31,7 +32,7 @@ class MyProfileDataView extends StatelessWidget {
       child: Column(
         children: [
           ProfileTopBar(
-            title: 'PROFILE',
+            title: AppLocalizations.of(context)!.profileTitle,
             showBackButton: false,
             trailing: SettingsButton(
               onTap: () => context.push('/settings'),

@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../authentication/presentation/bloc/bloc.dart';
 import '../../../authentication/presentation/bloc/event.dart';
 import '../../../authentication/presentation/bloc/state.dart';
+import '../../../authentication/presentation/utils/auth_error_mapper.dart';
 import '../../../profile/presentation/widgets/shared/profile_top_bar.dart';
 import '../widgets/logout_button.dart';
 
@@ -13,27 +15,26 @@ class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
   Future<void> _confirmLogout(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
     final shouldLogout = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
         backgroundColor: AppColors.surface,
-        title: const Text('Log out?'),
-        content: const Text(
-          'You will need to sign in again to access your account.',
-        ),
+        title: Text(l10n.settingsLogoutTitle),
+        content: Text(l10n.settingsLogoutBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text(
-              'Cancel',
-              style: TextStyle(color: AppColors.ink2),
+            child: Text(
+              l10n.commonCancel,
+              style: const TextStyle(color: AppColors.ink2),
             ),
           ),
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text(
-              'Log out',
-              style: TextStyle(color: AppColors.accent),
+            child: Text(
+              l10n.settingsLogout,
+              style: const TextStyle(color: AppColors.accent),
             ),
           ),
         ],
@@ -47,6 +48,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: SafeArea(
@@ -59,14 +61,15 @@ class SettingsPage extends StatelessWidget {
             } else if (state is AuthError) {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
-                ..showSnackBar(SnackBar(content: Text(state.message)));
+                ..showSnackBar(SnackBar(
+                    content: Text(authErrorMessage(l10n, state.code))));
             }
           },
           builder: (context, state) {
             final isLoggingOut = state is AuthLoading;
             return Column(
               children: [
-                const ProfileTopBar(title: 'SETTINGS'),
+                ProfileTopBar(title: l10n.settingsTitle),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),

@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/car.dart';
 import '../../domain/entities/car_modification.dart';
 import '../bloc/car_detail/bloc.dart';
 import '../bloc/car_detail/event.dart';
 import '../bloc/car_detail/state.dart';
+import '../utils/garage_error_mapper.dart';
 import '../widgets/car_image.dart';
 
 class AboutCarPage extends StatelessWidget {
@@ -31,7 +33,9 @@ class AboutCarPage extends StatelessWidget {
               isOwner: isOwner,
               isDeleting: isDeleting,
             ),
-            CarDetailError(:final message) => _ErrorView(message: message),
+            CarDetailError(:final code) => _ErrorView(
+              message: garageErrorMessage(AppLocalizations.of(context)!, code),
+            ),
             CarDetailDeleted() => const SizedBox.shrink(),
             _ => const _LoadingView(),
           },
@@ -184,11 +188,11 @@ class _TopBar extends StatelessWidget {
               size: 20,
             ),
           ),
-          const Expanded(
+          Expanded(
             child: Center(
               child: Text(
-                'ABOUT',
-                style: TextStyle(
+                AppLocalizations.of(context)!.garageAboutTitle,
+                style: const TextStyle(
                   color: AppColors.ink,
                   fontSize: 14,
                   fontWeight: FontWeight.w800,
@@ -247,9 +251,9 @@ class _TopBar extends StatelessWidget {
             if (car != null)
               ListTile(
                 leading: const Icon(Icons.edit_outlined, color: AppColors.ink),
-                title: const Text(
-                  'Edit car',
-                  style: TextStyle(
+                title: Text(
+                  AppLocalizations.of(context)!.garageEditCar,
+                  style: const TextStyle(
                     color: AppColors.ink,
                     fontWeight: FontWeight.w600,
                   ),
@@ -261,9 +265,9 @@ class _TopBar extends StatelessWidget {
               ),
             ListTile(
               leading: const Icon(Icons.delete_outline, color: Colors.red),
-              title: const Text(
-                'Delete car',
-                style: TextStyle(
+              title: Text(
+                AppLocalizations.of(context)!.garageDeleteCar,
+                style: const TextStyle(
                   color: Colors.red,
                   fontWeight: FontWeight.w600,
                 ),
@@ -288,6 +292,7 @@ class _TopBar extends StatelessWidget {
   }
 
   Future<void> _confirmDelete(BuildContext context, String carId) async {
+    final l10n = AppLocalizations.of(context)!;
     final bloc = context.read<CarDetailBloc>();
     final confirmed = await showDialog<bool>(
       context: context,
@@ -301,19 +306,18 @@ class _TopBar extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Delete machine?',
-                style: TextStyle(
+              Text(
+                l10n.garageDeleteMachineTitle,
+                style: const TextStyle(
                   color: AppColors.ink,
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
-                'This will permanently remove this car and all of its '
-                'modifications from your garage. This action cannot be undone.',
-                style: TextStyle(
+              Text(
+                l10n.garageDeleteMachineBody,
+                style: const TextStyle(
                   color: AppColors.mute,
                   fontSize: 14,
                   height: 1.4,
@@ -325,14 +329,14 @@ class _TopBar extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _DialogButton(
-                      label: 'Cancel',
+                      label: l10n.garageDialogCancel,
                       onTap: () => Navigator.of(dialogContext).pop(false),
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: _DialogButton(
-                      label: 'Delete',
+                      label: l10n.garageDialogDelete,
                       isDestructive: true,
                       onTap: () => Navigator.of(dialogContext).pop(true),
                     ),
@@ -429,7 +433,8 @@ class _CoverImage extends StatelessWidget {
         children: [
           if (car.chassisCode != null && car.chassisCode!.isNotEmpty) ...[
             Text(
-              'BUILD IDENTIFIER · ${car.chassisCode}',
+              AppLocalizations.of(context)!
+                  .garageBuildIdentifier(car.chassisCode!),
               style: const TextStyle(
                 color: AppColors.accent,
                 fontSize: 11,
@@ -499,6 +504,7 @@ class _SpecGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -507,7 +513,7 @@ class _SpecGrid extends StatelessWidget {
             children: [
               Expanded(
                 child: _SpecCard(
-                  label: 'POWER',
+                  label: l10n.garageSpecPower,
                   value: '${car.horsepower}',
                   unit: 'HP',
                 ),
@@ -515,7 +521,7 @@ class _SpecGrid extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: _SpecCard(
-                  label: 'TORQUE',
+                  label: l10n.garageSpecTorque,
                   value: '${car.torque}',
                   unit: 'NM',
                 ),
@@ -537,7 +543,7 @@ class _SpecGrid extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: _SpecCard(
-                  label: 'WEIGHT',
+                  label: l10n.garageSpecWeight,
                   value: '${car.weight}',
                   unit: 'KG',
                 ),
@@ -620,17 +626,20 @@ class _InfoTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final rows = [
-      ('DRIVETRAIN', car.drivetrainName.toUpperCase()),
+      (l10n.garageInfoDrivetrain, car.drivetrainName.toUpperCase()),
       if (car.mileage != null)
-        ('MILEAGE', '${car.mileage} ${car.mileageUnitName.toUpperCase()}'),
+        (l10n.garageInfoMileage,
+            '${car.mileage} ${car.mileageUnitName.toUpperCase()}'),
       if (car.modelCode != null && car.modelCode!.isNotEmpty)
-        ('MODEL CODE', car.modelCode!.toUpperCase()),
+        (l10n.garageInfoModelCode, car.modelCode!.toUpperCase()),
       if (car.engineCode != null && car.engineCode!.isNotEmpty)
-        ('ENGINE CODE', car.engineCode!.toUpperCase()),
-      ('DISPLACEMENT', '${car.engineDisplacement.toStringAsFixed(1)}L'),
-      ('FUEL TYPE', car.fuelTypeName.toUpperCase()),
-      ('STATUS', car.status.type.toUpperCase()),
+        (l10n.garageInfoEngineCode, car.engineCode!.toUpperCase()),
+      (l10n.garageInfoDisplacement,
+          '${car.engineDisplacement.toStringAsFixed(1)}L'),
+      (l10n.garageInfoFuelType, car.fuelTypeName.toUpperCase()),
+      (l10n.garageInfoStatus, car.status.type.toUpperCase()),
     ];
 
     return Container(
@@ -690,9 +699,9 @@ class _StorySection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'THE STORY',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.garageStoryHeading,
+            style: const TextStyle(
               color: AppColors.ink,
               fontSize: 20,
               fontWeight: FontWeight.w900,
@@ -743,9 +752,9 @@ class _GallerySection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'GALLERY',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.garageGalleryHeading,
+            style: const TextStyle(
               color: AppColors.ink,
               fontSize: 20,
               fontWeight: FontWeight.w900,
@@ -807,24 +816,26 @@ class _GallerySection extends StatelessWidget {
   }
 
   void _confirmDelete(BuildContext context, String imageUrl) {
+    final l10n = AppLocalizations.of(context)!;
     final bloc = context.read<CarDetailBloc>();
     showDialog<void>(
       context: context,
       builder: (dialogCtx) => AlertDialog(
         backgroundColor: AppColors.surface,
-        title: const Text('Delete photo?'),
-        content: const Text('This gallery photo will be permanently removed.'),
+        title: Text(l10n.garageDeletePhotoTitle),
+        content: Text(l10n.garageDeletePhotoBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogCtx).pop(),
-            child: const Text('Cancel'),
+            child: Text(l10n.garageDialogCancel),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(dialogCtx).pop();
               bloc.add(DeleteGalleryImage(carId: carId, imageUrl: imageUrl));
             },
-            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+            child: Text(l10n.garageDialogDelete,
+                style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -851,10 +862,10 @@ class _AddModButton extends StatelessWidget {
             color: AppColors.accent,
             borderRadius: BorderRadius.circular(16),
           ),
-          child: const Center(
+          child: Center(
             child: Text(
-              '+ LOG BUILD ITERATION',
-              style: TextStyle(
+              AppLocalizations.of(context)!.garageLogBuildIteration,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 13,
                 fontWeight: FontWeight.w800,
@@ -888,9 +899,9 @@ class _ModificationsList extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'MODIFICATION LOG',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.garageModLogHeading,
+            style: const TextStyle(
               color: AppColors.ink,
               fontSize: 20,
               fontWeight: FontWeight.w900,
@@ -1070,7 +1081,7 @@ class _ModCard extends StatelessWidget {
                     Expanded(
                       child: _ModImage(
                         url: beforeMedia.first.url,
-                        label: 'BEFORE',
+                        label: AppLocalizations.of(context)!.garageModBefore,
                       ),
                     ),
                   if (beforeMedia.isNotEmpty && afterMedia.isNotEmpty)
@@ -1079,7 +1090,7 @@ class _ModCard extends StatelessWidget {
                     Expanded(
                       child: _ModImage(
                         url: afterMedia.first.url,
-                        label: 'AFTER',
+                        label: AppLocalizations.of(context)!.garageModAfter,
                       ),
                     ),
                 ],
@@ -1126,9 +1137,9 @@ class _ModCard extends StatelessWidget {
             const SizedBox(height: 16),
             ListTile(
               leading: const Icon(Icons.delete_outline, color: Colors.red),
-              title: const Text(
-                'Delete modification',
-                style: TextStyle(
+              title: Text(
+                AppLocalizations.of(context)!.garageDeleteModMenu,
+                style: const TextStyle(
                   color: Colors.red,
                   fontWeight: FontWeight.w600,
                 ),
@@ -1146,6 +1157,7 @@ class _ModCard extends StatelessWidget {
   }
 
   Future<void> _confirmDelete(BuildContext context, CarDetailBloc bloc) async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       barrierColor: Colors.black54,
@@ -1158,19 +1170,18 @@ class _ModCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Delete modification?',
-                style: TextStyle(
+              Text(
+                l10n.garageDeleteModTitle,
+                style: const TextStyle(
                   color: AppColors.ink,
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
-                'This will permanently remove this modification and its '
-                'photos from the build log. This action cannot be undone.',
-                style: TextStyle(
+              Text(
+                l10n.garageDeleteModBody,
+                style: const TextStyle(
                   color: AppColors.mute,
                   fontSize: 14,
                   height: 1.4,
@@ -1182,14 +1193,14 @@ class _ModCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _DialogButton(
-                      label: 'Cancel',
+                      label: l10n.garageDialogCancel,
                       onTap: () => Navigator.of(dialogContext).pop(false),
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: _DialogButton(
-                      label: 'Delete',
+                      label: l10n.garageDialogDelete,
                       isDestructive: true,
                       onTap: () => Navigator.of(dialogContext).pop(true),
                     ),

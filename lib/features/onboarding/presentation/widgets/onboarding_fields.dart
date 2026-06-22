@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Accent eyebrow label + large title + optional supporting line that opens
 /// every step of the onboarding wizard.
@@ -83,9 +84,9 @@ class OnboardingFieldLabel extends StatelessWidget {
         ),
         if (optional) ...[
           const SizedBox(width: 6),
-          const Text(
-            'OPTIONAL',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.onboardingOptional,
+            style: const TextStyle(
               color: AppColors.muteSoft,
               fontSize: 11,
               fontWeight: FontWeight.w700,

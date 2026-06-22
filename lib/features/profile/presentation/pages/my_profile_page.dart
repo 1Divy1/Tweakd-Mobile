@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../bloc/bloc.dart';
 import '../bloc/event.dart';
 import '../bloc/state.dart';
+import '../utils/profile_error_mapper.dart';
 import '../widgets/my_profile/my_profile_data_view.dart';
 import '../widgets/profile_error_view.dart';
 import '../widgets/profile_loading_view.dart';
@@ -22,7 +24,10 @@ class MyProfilePage extends StatelessWidget {
             }
             if (state is ProfileError) {
               return ProfileErrorView(
-                message: state.message,
+                message: profileErrorMessage(
+                  AppLocalizations.of(context)!,
+                  state.code,
+                ),
                 onRetry: () => context.read<ProfileBloc>().add(
                   FetchUserProfileData(),
                 ),

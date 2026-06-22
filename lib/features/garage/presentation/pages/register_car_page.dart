@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/services/car_image_service.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/car.dart';
 import '../../domain/entities/car_status_option.dart';
 import '../../domain/entities/reference_data.dart';
@@ -14,6 +15,7 @@ import '../../domain/repositories/garage_repository.dart';
 import '../bloc/add_car/bloc.dart';
 import '../bloc/add_car/event.dart';
 import '../bloc/add_car/state.dart';
+import '../utils/garage_error_mapper.dart';
 import '../widgets/register_car/add_mod_sheet.dart';
 import '../widgets/register_car/drivetrain_step.dart';
 import '../widgets/register_car/editable_image.dart';
@@ -160,6 +162,7 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return BlocConsumer<AddCarBloc, AddCarState>(
       listener: (context, state) {
         if (state is AddCarRefDataLoaded) _seedSelections(context, state);
@@ -167,21 +170,22 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                  _isEdit ? 'Changes saved!' : 'Machine registered!'),
+                  _isEdit ? l10n.garageChangesSaved : l10n.garageCarRegistered),
             ),
           );
           context.pop();
         }
         if (state is AddCarError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
+            SnackBar(content: Text(garageErrorMessage(l10n, state.code))),
           );
         }
       },
       builder: (context, state) {
         final isSubmitting = state is AddCarSubmitting;
-        final submitLabel =
-            state is AddCarSubmitting ? state.statusLabel : null;
+        final submitLabel = state is AddCarSubmitting
+            ? addCarPhaseLabel(l10n, state.phase)
+            : null;
         final refData = switch (state) {
           AddCarRefDataLoaded() => state,
           AddCarSubmitting(:final refData) => refData,
@@ -208,7 +212,7 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
                 else if (state is AddCarRefDataError)
                   Expanded(
                     child: RegisterRefDataError(
-                      message: state.message,
+                      message: garageErrorMessage(l10n, state.code),
                       onRetry: () => context
                           .read<AddCarBloc>()
                           .add(const LoadAddCarReferenceData()),
@@ -225,7 +229,8 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
                   step: _step,
                   isSubmitting: isSubmitting,
                   submitLabel: submitLabel,
-                  lastLabel: _isEdit ? 'SAVE' : 'ADD CAR',
+                  lastLabel:
+                      _isEdit ? l10n.garageRegisterSave : l10n.garageRegisterAddCar,
                   onBack: _step > 0 ? () => setState(() => _step--) : null,
                   onNext:
                       refData != null ? () => _onNext(context, refData) : null,
@@ -419,6 +424,7 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
   }
 
   Future<void> _confirmClose(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
     final navigator = Navigator.of(context);
     final discard = await showDialog<bool>(
       context: context,
@@ -432,19 +438,18 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Discard this build?',
-                style: TextStyle(
+              Text(
+                l10n.garageDiscardTitle,
+                style: const TextStyle(
                   color: AppColors.ink,
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
-                "You haven't registered this machine yet. If you leave now, "
-                'everything you entered will be lost.',
-                style: TextStyle(
+              Text(
+                l10n.garageDiscardBody,
+                style: const TextStyle(
                   color: AppColors.mute,
                   fontSize: 14,
                   height: 1.4,
@@ -456,14 +461,14 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
                 children: [
                   Expanded(
                     child: _CloseDialogButton(
-                      label: 'Keep editing',
+                      label: l10n.garageKeepEditing,
                       onTap: () => Navigator.of(dialogContext).pop(false),
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: _CloseDialogButton(
-                      label: 'Discard',
+                      label: l10n.garageDiscard,
                       isDestructive: true,
                       onTap: () => Navigator.of(dialogContext).pop(true),
                     ),
@@ -566,7 +571,9 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
   void _submitEdit(BuildContext context) {
     if (_selectedStatus == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a status.')),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.garageValStatus),
+        ),
       );
       return;
     }
@@ -586,41 +593,42 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
   }
 
   bool _validateStep(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     String? error;
     switch (_step) {
       case 0:
         if (_cover == null && _existingCoverUrl == null) {
-          error = 'Please pick a cover photo.';
+          error = l10n.garageValCoverPhoto;
         } else if (_selectedBrand == null) {
-          error = 'Please select a make.';
+          error = l10n.garageValMake;
         } else if (_selectedModel == null) {
-          error = 'Please select a model.';
+          error = l10n.garageValModel;
         } else if (_yearCtrl.text.trim().isEmpty) {
-          error = 'Please enter the year.';
+          error = l10n.garageValYear;
         }
       case 1:
         if (_hpCtrl.text.trim().isEmpty) {
-          error = 'Please enter horsepower.';
+          error = l10n.garageValHorsepower;
         } else if (_torqueCtrl.text.trim().isEmpty) {
-          error = 'Please enter torque.';
+          error = l10n.garageValTorque;
         } else if (_weightCtrl.text.trim().isEmpty) {
-          error = 'Please enter weight.';
+          error = l10n.garageValWeight;
         } else if (_displacementCtrl.text.trim().isEmpty) {
-          error = 'Please enter displacement.';
+          error = l10n.garageValDisplacement;
         } else if (_selectedFuelType == null) {
-          error = 'Please select a fuel type.';
+          error = l10n.garageValFuelType;
         }
       case 2:
         if (_selectedDrivetrain == null) {
-          error = 'Please select a drivetrain.';
+          error = l10n.garageValDrivetrain;
         } else if (_selectedColor == null) {
-          error = 'Please select a color.';
+          error = l10n.garageValColor;
         } else if (_selectedDistanceUnit == null) {
-          error = 'Please select a mileage unit.';
+          error = l10n.garageValMileageUnit;
         }
       case 3:
         if (_selectedStatus == null) {
-          error = 'Please select a status.';
+          error = l10n.garageValStatus;
         }
     }
     if (error != null) {
@@ -633,7 +641,9 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
   void _submit(BuildContext context) {
     if (_selectedStatus == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a status.')),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.garageValStatus),
+        ),
       );
       return;
     }

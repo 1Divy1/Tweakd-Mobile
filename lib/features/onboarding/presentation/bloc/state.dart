@@ -6,6 +6,7 @@ import '../../domain/entities/onboarding reference/car_category_entity.dart';
 import '../../domain/entities/onboarding reference/city_entity.dart';
 import '../../domain/entities/onboarding reference/community_role_entity.dart';
 import '../../domain/entities/onboarding reference/country_entity.dart';
+import '../utils/onboarding_error_mapper.dart';
 
 abstract class OnboardingState extends Equatable {
   const OnboardingState();
@@ -23,11 +24,11 @@ class OnboardingRefLoading extends OnboardingState {
 }
 
 class OnboardingRefError extends OnboardingState {
-  final String message;
-  const OnboardingRefError(this.message);
+  final OnboardingErrorCode code;
+  const OnboardingRefError(this.code);
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [code];
 }
 
 /// All reference data needed by the wizard. Countries, roles, categories and
@@ -111,9 +112,9 @@ class OnboardingSubmitted extends OnboardingState {
 
 class OnboardingSubmitError extends OnboardingState {
   final OnboardingRefLoaded refData;
-  final String message;
-  const OnboardingSubmitError({required this.refData, required this.message});
+  final OnboardingErrorCode code;
+  const OnboardingSubmitError({required this.refData, required this.code});
 
   @override
-  List<Object?> get props => [refData, message];
+  List<Object?> get props => [refData, code];
 }

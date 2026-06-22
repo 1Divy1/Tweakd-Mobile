@@ -1,22 +1,44 @@
+import 'package:car_social_media_app/l10n/app_localizations.dart';
+
 import '../../../../core/error/base_failures.dart';
-import '../../../../core/utils/core_error_mapper.dart';
 import '../../domain/failures/profile_failures.dart';
 
+/// User-facing error situations the profile flow can surface. The bloc emits
+/// these codes (never strings); the UI maps them to localized copy via
+/// [profileErrorMessage].
+enum ProfileErrorCode {
+  usernameTaken,
+  sessionExpired,
+  notFound,
+  invalidUsername,
+  generic,
+}
+
 class ProfileErrorMapper {
-  static String getMessage(Failure failure) {
+  static ProfileErrorCode getCode(Failure failure) {
     if (failure is UsernameTakenFailure) {
-      return 'The username is already taken. Please choose a different one.';
+      return ProfileErrorCode.usernameTaken;
     }
     if (failure is UnauthenticatedFailure) {
-      return 'Your session is not active. Please log in again.';
+      return ProfileErrorCode.sessionExpired;
     }
     if (failure is ProfileNotFoundFailure) {
-      return failure.message;
+      return ProfileErrorCode.notFound;
     }
     if (failure is InvalidUsernameFailure) {
-      return failure.message;
+      return ProfileErrorCode.invalidUsername;
     }
-
-    return CoreErrorMapper.getMessage(failure);
+    return ProfileErrorCode.generic;
   }
 }
+
+/// Turns a [ProfileErrorCode] into localized copy. Lives in the presentation
+/// layer because it needs an [AppLocalizations] from a widget.
+String profileErrorMessage(AppLocalizations l10n, ProfileErrorCode code) =>
+    switch (code) {
+      ProfileErrorCode.usernameTaken => l10n.profileErrorUsernameTaken,
+      ProfileErrorCode.sessionExpired => l10n.profileErrorSessionExpired,
+      ProfileErrorCode.notFound => l10n.profileErrorNotFound,
+      ProfileErrorCode.invalidUsername => l10n.profileErrorInvalidUsername,
+      ProfileErrorCode.generic => l10n.profileErrorGeneric,
+    };

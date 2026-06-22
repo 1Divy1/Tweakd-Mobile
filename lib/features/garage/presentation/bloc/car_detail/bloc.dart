@@ -35,7 +35,7 @@ class CarDetailBloc extends Bloc<CarDetailEvent, CarDetailState> {
     final result = await getCarUseCase(GetCarParams(carId: event.carId));
     result.fold(
       (failure) =>
-          emit(CarDetailError(message: GarageErrorMapper.getMessage(failure))),
+          emit(CarDetailError(code: GarageErrorMapper.getCode(failure))),
       (car) => emit(CarDetailLoaded(car: car)),
     );
   }
@@ -51,7 +51,7 @@ class CarDetailBloc extends Bloc<CarDetailEvent, CarDetailState> {
     final result = await deleteCarUseCase(DeleteCarParams(carId: event.carId));
     result.fold(
       (failure) {
-        emit(CarDetailError(message: GarageErrorMapper.getMessage(failure)));
+        emit(CarDetailError(code: GarageErrorMapper.getCode(failure)));
         emit(current.copyWith(isDeleting: false));
       },
       (_) => emit(const CarDetailDeleted()),
@@ -75,7 +75,7 @@ class CarDetailBloc extends Bloc<CarDetailEvent, CarDetailState> {
     );
     result.fold(
       (failure) =>
-          emit(CarDetailError(message: GarageErrorMapper.getMessage(failure))),
+          emit(CarDetailError(code: GarageErrorMapper.getCode(failure))),
       (_) {
         final updatedCar = current.car.copyWith(galleryUrls: updatedUrls);
         emit(current.copyWith(car: updatedCar));
@@ -95,7 +95,7 @@ class CarDetailBloc extends Bloc<CarDetailEvent, CarDetailState> {
     );
     result.fold(
       (failure) =>
-          emit(CarDetailError(message: GarageErrorMapper.getMessage(failure))),
+          emit(CarDetailError(code: GarageErrorMapper.getCode(failure))),
       (_) {
         final updatedMods = current.car.modifications
             .where((m) => m.id != event.modId)

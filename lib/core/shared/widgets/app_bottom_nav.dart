@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:car_social_media_app/l10n/app_localizations.dart';
+
 import '../../theme/app_colors.dart';
 
 enum AppBottomNavTab { feed, map, search, contests, profile }
@@ -12,6 +14,7 @@ class AppBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: const BoxDecoration(
@@ -25,7 +28,7 @@ class AppBottomNav extends StatelessWidget {
           children: [
             _NavItem(
               icon: Icons.grid_view_rounded,
-              label: 'FEED',
+              label: l10n.navFeed,
               isActive: activeTab == AppBottomNavTab.feed,
               onTap: () {
                 if (activeTab != AppBottomNavTab.feed) context.go('/feed');
@@ -33,7 +36,7 @@ class AppBottomNav extends StatelessWidget {
             ),
             _NavItem(
               icon: Icons.map_outlined,
-              label: 'MAP',
+              label: l10n.navMap,
               isActive: activeTab == AppBottomNavTab.map,
               onTap: () {
                 // Map route to be implemented later.
@@ -41,7 +44,7 @@ class AppBottomNav extends StatelessWidget {
             ),
             _NavItem(
               icon: Icons.search,
-              label: 'SEARCH',
+              label: l10n.navSearch,
               isActive: activeTab == AppBottomNavTab.search,
               onTap: () {
                 if (activeTab != AppBottomNavTab.search) context.go('/search');
@@ -49,7 +52,7 @@ class AppBottomNav extends StatelessWidget {
             ),
             _NavItem(
               icon: Icons.emoji_events_outlined,
-              label: 'CONTESTS',
+              label: l10n.navContests,
               isActive: activeTab == AppBottomNavTab.contests,
               onTap: () {
                 // Contests route to be implemented later.
@@ -57,7 +60,7 @@ class AppBottomNav extends StatelessWidget {
             ),
             _NavItem(
               icon: Icons.person_outline,
-              label: 'PROFILE',
+              label: l10n.navProfile,
               isActive: activeTab == AppBottomNavTab.profile,
               onTap: () {
                 if (activeTab != AppBottomNavTab.profile) context.go('/profile');

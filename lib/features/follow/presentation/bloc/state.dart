@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../domain/entities/follow_list_user.dart';
 import '../../domain/entities/follow_status.dart';
+import '../utils/follow_error_mapper.dart';
 
 abstract class FollowState extends Equatable {
   const FollowState();
@@ -34,12 +35,12 @@ class FollowStatusLoaded extends FollowState {
 }
 
 class FollowError extends FollowState {
-  final String message;
+  final FollowErrorCode code;
 
-  const FollowError({required this.message});
+  const FollowError({required this.code});
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [code];
 }
 
 // ---------- Followers & Following states ----------

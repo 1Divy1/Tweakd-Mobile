@@ -46,7 +46,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
 
     result.fold(
       (_) => emit(const LogModCategoriesError(
-        message: 'Failed to load categories. Please try again.',
+        code: GarageErrorCode.categoriesLoadFailed,
       )),
       (categories) => emit(LogModCategoriesLoaded(categories: categories)),
     );
@@ -74,7 +74,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
     final modification = await addResult.fold(
       (failure) async {
         emit(LogModError(
-          message: GarageErrorMapper.getMessage(failure),
+          code: GarageErrorMapper.getCode(failure),
           categories: List.from(categories),
         ));
         return null;
@@ -106,7 +106,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
         ),
       );
       final uploads = uploadUrlsResult.fold(
-        (f) => throw Exception(GarageErrorMapper.getMessage(f)),
+        (f) => throw Exception('$f'),
         (r) => r.uploads,
       );
 
@@ -130,7 +130,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
       ));
 
       patchResult.fold(
-        (f) => throw Exception(GarageErrorMapper.getMessage(f)),
+        (f) => throw Exception('$f'),
         (updated) => emit(LogModSuccess(updated)),
       );
     } catch (_) {
@@ -139,7 +139,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
         modId: modification.id,
       ));
       emit(LogModError(
-        message: 'Photo upload failed. Please try again.',
+        code: GarageErrorCode.photoUploadFailed,
         categories: List.from(categories),
       ));
     }

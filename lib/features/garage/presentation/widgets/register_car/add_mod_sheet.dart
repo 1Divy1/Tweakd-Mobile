@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../../../core/services/car_image_service.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/car_modification.dart';
 import '../../../domain/entities/reference_data.dart';
 import '../../../domain/repositories/garage_repository.dart';
@@ -164,11 +165,12 @@ class _AddModSheetState extends State<AddModSheet> {
         _titleCtrl.text.trim().isEmpty ||
         _date == null ||
         !imagesOk) {
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(_isEdit
-              ? 'Category, title and date are required.'
-              : 'Category, title, date and both images are required.'),
+              ? l10n.garageModValidationEdit
+              : l10n.garageModValidationAdd),
         ),
       );
       return;
@@ -209,6 +211,7 @@ class _AddModSheetState extends State<AddModSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: DraggableScrollableSheet(
@@ -239,8 +242,10 @@ class _AddModSheetState extends State<AddModSheet> {
                       children: [
                         Expanded(
                           child: RegisterSectionHeader(
-                            label: '— MODIFICATION',
-                            title: _isEdit ? 'Edit build item' : 'Add a build item',
+                            label: l10n.garageModSheetLabel,
+                            title: _isEdit
+                                ? l10n.garageModSheetTitleEdit
+                                : l10n.garageModSheetTitleAdd,
                           ),
                         ),
                         GestureDetector(
@@ -260,39 +265,40 @@ class _AddModSheetState extends State<AddModSheet> {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    const RegisterFieldLabel('CATEGORY'),
+                    RegisterFieldLabel(l10n.garageFieldCategory),
                     const SizedBox(height: 8),
                     RegisterSelectorTile(
-                      placeholder: 'e.g. Engine',
+                      placeholder: l10n.garageHintCategory,
                       value: _category?.modName,
                       onTap: () => showRegisterPicker<CarModCategoryEntity>(
                         context: context,
-                        title: 'Select Category',
+                        title: l10n.garagePickerCategory,
                         items: widget.categories,
                         labelOf: (c) => c.modName,
                         onSelected: (c) => setState(() => _category = c),
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const RegisterFieldLabel('TITLE'),
+                    RegisterFieldLabel(l10n.garageFieldTitle),
                     const SizedBox(height: 8),
                     RegisterFormField(
                       controller: _titleCtrl,
-                      hint: 'e.g. Stage 2 turbo',
+                      hint: l10n.garageHintModTitle,
                     ),
                     const SizedBox(height: 16),
-                    const RegisterFieldLabel('DESCRIPTION', optional: true),
+                    RegisterFieldLabel(l10n.garageFieldDescription,
+                        optional: true),
                     const SizedBox(height: 8),
                     RegisterFormField(
                       controller: _descCtrl,
-                      hint: 'What changed, and what it gained…',
+                      hint: l10n.garageHintModDescription,
                       maxLines: 3,
                     ),
                     const SizedBox(height: 16),
-                    const RegisterFieldLabel('INSTALLATION DATE'),
+                    RegisterFieldLabel(l10n.garageFieldInstallationDate),
                     const SizedBox(height: 8),
                     RegisterSelectorTile(
-                      placeholder: 'Select date',
+                      placeholder: l10n.garageSelectDate,
                       value: _date != null ? _formatDate(_date!) : null,
                       onTap: _pickDate,
                     ),
@@ -304,7 +310,8 @@ class _AddModSheetState extends State<AddModSheet> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const RegisterFieldLabel('PRICE', optional: true),
+                              RegisterFieldLabel(l10n.garageFieldPrice,
+                                  optional: true),
                               const SizedBox(height: 8),
                               RegisterFormField(
                                 controller: _priceCtrl,
@@ -332,7 +339,7 @@ class _AddModSheetState extends State<AddModSheet> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const RegisterFieldLabel('MILEAGE',
+                              RegisterFieldLabel(l10n.garageFieldMileageShort,
                                   optional: true),
                               const SizedBox(height: 8),
                               RegisterFormField(
@@ -350,13 +357,13 @@ class _AddModSheetState extends State<AddModSheet> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    const RegisterFieldLabel('BEFORE & AFTER'),
+                    RegisterFieldLabel(l10n.garageLogModBeforeAfter),
                     const SizedBox(height: 8),
                     Row(
                       children: [
                         Expanded(
                           child: _ImageSlot(
-                            label: 'BEFORE',
+                            label: l10n.garageModBefore,
                             filePath: _before?.path,
                             networkUrl: _beforeUrl,
                             onTap: () => _pick(isBefore: true),
@@ -366,7 +373,7 @@ class _AddModSheetState extends State<AddModSheet> {
                         const SizedBox(width: 12),
                         Expanded(
                           child: _ImageSlot(
-                            label: 'AFTER',
+                            label: l10n.garageModAfter,
                             filePath: _after?.path,
                             networkUrl: _afterUrl,
                             onTap: () => _pick(isBefore: false),
@@ -398,7 +405,9 @@ class _AddModSheetState extends State<AddModSheet> {
                                 color: Colors.white, size: 20),
                             const SizedBox(width: 8),
                             Text(
-                              _isEdit ? 'SAVE CHANGES' : 'ADD TO BUILD LOG',
+                              _isEdit
+                                  ? l10n.garageModSaveChanges
+                                  : l10n.garageModAddToBuildLog,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w800,

@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../utils/username_validator.dart';
+
 abstract class UsernameAvailabilityState extends Equatable {
   const UsernameAvailabilityState();
 
@@ -12,15 +14,15 @@ class UsernameAvailabilityInitial extends UsernameAvailabilityState {
   const UsernameAvailabilityInitial();
 }
 
-/// The handle is malformed; [message] is the format error to surface. No
-/// backend call is made in this state.
+/// The handle is malformed; [error] is the format violation to surface. No
+/// backend call is made in this state. The UI maps it to localized copy.
 class UsernameAvailabilityInvalid extends UsernameAvailabilityState {
-  final String message;
+  final UsernameValidationError error;
 
-  const UsernameAvailabilityInvalid(this.message);
+  const UsernameAvailabilityInvalid(this.error);
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [error];
 }
 
 /// The handle is well-formed and a backend availability check is pending or in
@@ -54,16 +56,13 @@ class UsernameTaken extends UsernameAvailabilityState {
   List<Object?> get props => [username];
 }
 
-/// The availability check could not be completed (network/server error).
+/// The availability check could not be completed (network/server error). The
+/// UI supplies the localized "couldn't check" copy.
 class UsernameAvailabilityFailed extends UsernameAvailabilityState {
   final String username;
-  final String message;
 
-  const UsernameAvailabilityFailed({
-    required this.username,
-    required this.message,
-  });
+  const UsernameAvailabilityFailed({required this.username});
 
   @override
-  List<Object?> get props => [username, message];
+  List<Object?> get props => [username];
 }

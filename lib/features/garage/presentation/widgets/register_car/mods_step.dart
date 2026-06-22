@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/reference_data.dart';
 import 'mod_slot.dart';
 import 'register_car_fields.dart';
@@ -31,22 +32,23 @@ class ModsStep extends StatelessWidget {
     this.onEdit,
   });
 
-  String _categoryName(String id) {
+  String _categoryName(AppLocalizations l10n, String id) {
     for (final c in categories) {
       if (c.id == id) return c.modName;
     }
-    return 'MODIFICATION';
+    return l10n.garageModFallbackCategory;
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const RegisterSectionHeader(
-          label: '06 — MODS',
-          title: 'Build log',
-          subtitle: 'Optional — log the work that makes it yours.',
+        RegisterSectionHeader(
+          label: l10n.garageRegisterModsLabel,
+          title: l10n.garageRegisterModsTitle,
+          subtitle: l10n.garageRegisterModsSubtitle,
         ),
         const SizedBox(height: 20),
         for (var i = 0; i < mods.length; i++)
@@ -54,7 +56,7 @@ class ModsStep extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 12),
             child: _ModCard(
               mod: mods[i],
-              category: _categoryName(mods[i].categoryId),
+              category: _categoryName(l10n, mods[i].categoryId),
               onRemove: () => onRemove(i),
               onTap: onEdit == null ? null : () => onEdit!(i),
             ),
@@ -202,17 +204,17 @@ class _AddModButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: const DashedRoundedBorder(
+      child: DashedRoundedBorder(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 18),
+          padding: const EdgeInsets.symmetric(vertical: 18),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.add_rounded, color: AppColors.accent, size: 20),
-              SizedBox(width: 8),
+              const Icon(Icons.add_rounded, color: AppColors.accent, size: 20),
+              const SizedBox(width: 8),
               Text(
-                'ADD MODIFICATION',
-                style: TextStyle(
+                AppLocalizations.of(context)!.garageAddModification,
+                style: const TextStyle(
                   color: AppColors.ink,
                   fontWeight: FontWeight.w800,
                   fontSize: 14,

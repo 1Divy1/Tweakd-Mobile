@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../../follow/presentation/bloc/bloc.dart';
 import '../../../../follow/presentation/bloc/event.dart';
 import '../../../../follow/presentation/bloc/state.dart';
+import '../../../../follow/presentation/utils/follow_error_mapper.dart';
 
 class FollowButton extends StatelessWidget {
   final String username;
@@ -19,16 +21,19 @@ class FollowButton extends StatelessWidget {
         if (state is FollowError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(state.message),
+              content: Text(
+                followErrorMessage(AppLocalizations.of(context)!, state.code),
+              ),
               behavior: SnackBarBehavior.floating,
             ),
           );
         }
       },
       builder: (context, state) {
+        final l10n = AppLocalizations.of(context)!;
         if (state is FollowStatusLoading || state is FollowStatusInitial) {
-          return const _FollowButtonShell(
-            label: 'FOLLOW',
+          return _FollowButtonShell(
+            label: l10n.followActionFollow,
             icon: Icons.add,
             backgroundColor: AppColors.accent,
             isLoading: true,
@@ -40,8 +45,8 @@ class FollowButton extends StatelessWidget {
         }
 
         // Error with no previous status — show disabled follow button.
-        return const _FollowButtonShell(
-          label: 'FOLLOW',
+        return _FollowButtonShell(
+          label: l10n.followActionFollow,
           icon: Icons.add,
           backgroundColor: AppColors.accent,
           enabled: false,
@@ -51,11 +56,12 @@ class FollowButton extends StatelessWidget {
   }
 
   Widget _buildLoaded(BuildContext context, FollowStatusLoaded state) {
+    final l10n = AppLocalizations.of(context)!;
     final status = state.followStatus;
 
     if (status.isFollowing) {
       return _FollowButtonShell(
-        label: 'UNFOLLOW',
+        label: l10n.followActionUnfollow,
         icon: Icons.person_remove_outlined,
         backgroundColor: AppColors.surface,
         textColor: AppColors.ink,
@@ -69,7 +75,7 @@ class FollowButton extends StatelessWidget {
 
     if (status.isPending) {
       return _FollowButtonShell(
-        label: 'REQUESTED',
+        label: l10n.followActionRequested,
         icon: Icons.schedule,
         backgroundColor: AppColors.surface,
         textColor: AppColors.mute,
@@ -82,7 +88,7 @@ class FollowButton extends StatelessWidget {
     }
 
     return _FollowButtonShell(
-      label: 'FOLLOW',
+      label: l10n.followActionFollow,
       icon: Icons.add,
       backgroundColor: AppColors.accent,
       isLoading: state.isUpdating,

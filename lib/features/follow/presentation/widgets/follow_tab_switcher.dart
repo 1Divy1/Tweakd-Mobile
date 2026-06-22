@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class FollowTabSwitcher extends StatelessWidget {
   final bool showFollowers;
@@ -18,6 +19,7 @@ class FollowTabSwitcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
@@ -29,7 +31,7 @@ class FollowTabSwitcher extends StatelessWidget {
         children: [
           Expanded(
             child: _FollowTab(
-              label: 'FOLLOWERS',
+              label: l10n.profileStatFollowers,
               count: followersCount,
               isActive: showFollowers,
               onTap: () => onTabChanged(true),
@@ -37,7 +39,7 @@ class FollowTabSwitcher extends StatelessWidget {
           ),
           Expanded(
             child: _FollowTab(
-              label: 'FOLLOWING',
+              label: l10n.profileStatFollowing,
               count: followingCount,
               isActive: !showFollowers,
               onTap: () => onTabChanged(false),

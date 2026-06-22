@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../../garage/presentation/bloc/bloc.dart';
 import '../../../../garage/presentation/bloc/event.dart';
 import '../../../../garage/presentation/bloc/state.dart';
@@ -28,7 +29,7 @@ class PublicProfileDataView extends StatelessWidget {
       color: AppColors.bg,
       child: Column(
         children: [
-          const ProfileTopBar(title: 'PROFILE'),
+          ProfileTopBar(title: AppLocalizations.of(context)!.profileTitle),
           Expanded(
             child: RefreshIndicator(
               onRefresh: () async {

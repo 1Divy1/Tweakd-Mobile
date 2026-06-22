@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:car_social_media_app/l10n/app_localizations.dart';
+
 import '../../theme/app_colors.dart';
 
 class SearchTopBar extends StatelessWidget {
@@ -13,10 +15,10 @@ class SearchTopBar extends StatelessWidget {
         color: AppColors.bg,
         border: Border(bottom: BorderSide(color: AppColors.line)),
       ),
-      child: const Center(
+      child: Center(
         child: Text(
-          'SEARCH',
-          style: TextStyle(
+          AppLocalizations.of(context)!.searchTitle,
+          style: const TextStyle(
             color: AppColors.ink,
             fontSize: 14,
             fontWeight: FontWeight.w800,
