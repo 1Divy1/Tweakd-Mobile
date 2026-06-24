@@ -7,8 +7,8 @@ import '../repositories/garage_repository.dart';
 
 class DeleteGalleryImagesParams {
   final String carId;
-  final List<String> urls;
-  const DeleteGalleryImagesParams({required this.carId, required this.urls});
+  final List<String> keys;
+  const DeleteGalleryImagesParams({required this.carId, required this.keys});
 }
 
 @lazySingleton
@@ -20,6 +20,6 @@ class DeleteGalleryImagesUseCase
 
   @override
   Future<Either<Failure, void>> call(DeleteGalleryImagesParams params) {
-    return repository.deleteGalleryImages(params.carId, params.urls);
+    return repository.deleteGalleryImages(params.carId, params.keys);
   }
 }

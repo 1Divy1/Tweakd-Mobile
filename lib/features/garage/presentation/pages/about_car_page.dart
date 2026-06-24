@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/car.dart';
+import '../../domain/entities/car_image_ref.dart';
 import '../../domain/entities/car_modification.dart';
 import '../bloc/car_detail/bloc.dart';
 import '../bloc/car_detail/event.dart';
@@ -126,11 +127,11 @@ class _AboutCarView extends StatelessWidget {
                   const SizedBox(height: 20),
                   _StorySection(story: car.story!),
                 ],
-                if (car.galleryUrls.isNotEmpty) ...[
+                if (car.gallery.isNotEmpty) ...[
                   const SizedBox(height: 20),
                   _GallerySection(
                     carId: car.id,
-                    galleryUrls: car.galleryUrls,
+                    gallery: car.gallery,
                     isOwner: isOwner,
                   ),
                 ],
@@ -460,7 +461,7 @@ class _CoverImage extends StatelessWidget {
               AspectRatio(
                 aspectRatio: 16 / 11,
                 child: CarImage(
-                  imageUrl: car.coverImageUrl,
+                  imageUrl: car.coverImage?.url,
                   fit: BoxFit.cover,
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -736,12 +737,12 @@ class _StorySection extends StatelessWidget {
 
 class _GallerySection extends StatelessWidget {
   final String carId;
-  final List<String> galleryUrls;
+  final List<CarImageRef> gallery;
   final bool isOwner;
 
   const _GallerySection({
     required this.carId,
-    required this.galleryUrls,
+    required this.gallery,
     required this.isOwner,
   });
 
@@ -765,7 +766,7 @@ class _GallerySection extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
-            itemCount: galleryUrls.length,
+            itemCount: gallery.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 8,
@@ -773,17 +774,18 @@ class _GallerySection extends StatelessWidget {
               childAspectRatio: 16 / 10,
             ),
             itemBuilder: (context, i) {
-              final url = galleryUrls[i];
+              final image = gallery[i];
               return GestureDetector(
                 onLongPress: isOwner
-                    ? () => _confirmDelete(context, url)
+                    ? () => _confirmDelete(context, image.key)
                     : null,
-                onTap: () => context.push('/full-screen-image', extra: url),
+                onTap: () =>
+                    context.push('/full-screen-image', extra: image.url),
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
                     CarImage(
-                      imageUrl: url,
+                      imageUrl: image.url,
                       fit: BoxFit.cover,
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -792,7 +794,7 @@ class _GallerySection extends StatelessWidget {
                         top: 6,
                         right: 6,
                         child: GestureDetector(
-                          onTap: () => _confirmDelete(context, url),
+                          onTap: () => _confirmDelete(context, image.key),
                           child: Container(
                             width: 26,
                             height: 26,
@@ -815,7 +817,7 @@ class _GallerySection extends StatelessWidget {
     );
   }
 
-  void _confirmDelete(BuildContext context, String imageUrl) {
+  void _confirmDelete(BuildContext context, String imageKey) {
     final l10n = AppLocalizations.of(context)!;
     final bloc = context.read<CarDetailBloc>();
     showDialog<void>(
@@ -832,7 +834,7 @@ class _GallerySection extends StatelessWidget {
           TextButton(
             onPressed: () {
               Navigator.of(dialogCtx).pop();
-              bloc.add(DeleteGalleryImage(carId: carId, imageUrl: imageUrl));
+              bloc.add(DeleteGalleryImage(carId: carId, imageKey: imageKey));
             },
             child: Text(l10n.garageDialogDelete,
                 style: const TextStyle(color: Colors.red)),

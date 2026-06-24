@@ -1,18 +1,20 @@
 import 'package:equatable/equatable.dart';
 
 class ModificationMediaEntity extends Equatable {
-  final String url;
+  final String key; // R2 key — sent back to key-based endpoints
+  final String url; // fully-qualified url built by the backend — for display
   final String type;  // 'image' or 'video'
   final String phase; // 'before' or 'after'
 
   const ModificationMediaEntity({
+    required this.key,
     required this.url,
     required this.type,
     required this.phase,
   });
 
   @override
-  List<Object?> get props => [url, type, phase];
+  List<Object?> get props => [key, url, type, phase];
 }
 
 class CarModificationEntity extends Equatable {

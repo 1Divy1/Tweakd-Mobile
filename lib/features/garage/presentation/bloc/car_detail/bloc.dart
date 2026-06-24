@@ -65,19 +65,19 @@ class CarDetailBloc extends Bloc<CarDetailEvent, CarDetailState> {
     final current = state;
     if (current is! CarDetailLoaded) return;
 
-    final updatedUrls = current.car.galleryUrls
-        .where((url) => url != event.imageUrl)
+    final updatedGallery = current.car.gallery
+        .where((ref) => ref.key != event.imageKey)
         .toList();
 
     // Deletes the photo from both the DB list and R2 storage.
     final result = await deleteGalleryImagesUseCase(
-      DeleteGalleryImagesParams(carId: event.carId, urls: [event.imageUrl]),
+      DeleteGalleryImagesParams(carId: event.carId, keys: [event.imageKey]),
     );
     result.fold(
       (failure) =>
           emit(CarDetailError(code: GarageErrorMapper.getCode(failure))),
       (_) {
-        final updatedCar = current.car.copyWith(galleryUrls: updatedUrls);
+        final updatedCar = current.car.copyWith(gallery: updatedGallery);
         emit(current.copyWith(car: updatedCar));
       },
     );

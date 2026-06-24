@@ -1,6 +1,25 @@
 import '../../domain/entities/car.dart';
+import '../../domain/entities/car_image_ref.dart';
 import 'car_modification_model.dart';
 import 'car_status_option_model.dart';
+
+/// A stored image as returned by the backend: the domain/bucket-agnostic R2
+/// [key] plus a fully-qualified [url] built on the fly for display.
+class CarImageRefModel {
+  final String key;
+  final String url;
+
+  const CarImageRefModel({required this.key, required this.url});
+
+  factory CarImageRefModel.fromJson(Map<String, dynamic> json) {
+    return CarImageRefModel(
+      key: json['key'] as String,
+      url: json['url'] as String,
+    );
+  }
+
+  CarImageRef toEntity() => CarImageRef(key: key, url: url);
+}
 
 class CarModel {
   final String id;
@@ -29,8 +48,8 @@ class CarModel {
   final String? modelCode;
   final String? engineCode;
   final String? story;
-  final String? coverImageUrl;
-  final List<String> galleryUrls;
+  final CarImageRefModel? coverImage;
+  final List<CarImageRefModel> gallery;
   final DateTime? createdAt;
   final CarStatusOptionModel status;
   final List<CarModificationModel> modifications;
@@ -64,8 +83,8 @@ class CarModel {
     this.modelCode,
     this.engineCode,
     this.story,
-    this.coverImageUrl,
-    this.galleryUrls = const [],
+    this.coverImage,
+    this.gallery = const [],
     this.createdAt,
   });
 
@@ -97,9 +116,12 @@ class CarModel {
       modelCode: json['model_code'] as String?,
       engineCode: json['engine_code'] as String?,
       story: json['story'] as String?,
-      coverImageUrl: json['cover_image_url'] as String?,
-      galleryUrls: (json['gallery_urls'] as List<dynamic>? ?? [])
-          .map((e) => e as String)
+      coverImage: json['cover_image'] == null
+          ? null
+          : CarImageRefModel.fromJson(
+              json['cover_image'] as Map<String, dynamic>),
+      gallery: (json['gallery'] as List<dynamic>? ?? [])
+          .map((e) => CarImageRefModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       createdAt: json['created_at'] != null
           ? DateTime.parse(json['created_at'] as String)
@@ -142,8 +164,8 @@ class CarModel {
       modelCode: modelCode,
       engineCode: engineCode,
       story: story,
-      coverImageUrl: coverImageUrl,
-      galleryUrls: galleryUrls,
+      coverImage: coverImage?.toEntity(),
+      gallery: gallery.map((g) => g.toEntity()).toList(),
       createdAt: createdAt,
       status: status.toEntity(),
       modifications: modifications.map((m) => m.toEntity()).toList(),

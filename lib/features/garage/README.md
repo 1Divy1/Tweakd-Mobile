@@ -26,10 +26,11 @@ garage/
 │   └── repositories/garage_repository_impl.dart
 ├── domain/
 │   ├── entities/
-│   │   ├── car.dart                # CarEntity (+ coverImageUrl, galleryUrls, copyWith)
-│   │   ├── car_modification.dart   # CarModificationEntity (+ media list, beforeMedia/afterMedia getters)
+│   │   ├── car.dart                # CarEntity (+ coverImage, gallery, copyWith)
+│   │   ├── car_image_ref.dart      # CarImageRef { key, url } — cover & gallery items
+│   │   ├── car_modification.dart   # CarModificationEntity (+ media list w/ key, beforeMedia/afterMedia getters)
 │   │   ├── car_status_option.dart
-│   │   ├── car_summary.dart        # coverImageUrl (direct public URL)
+│   │   ├── car_summary.dart        # CarSummaryEntity (coverImage: CarImageRef? — garage-list cards)
 │   │   ├── create_car_result.dart  # UploadUrlResult, ModUploadUrl, ModUploadUrlsResult
 │   │   ├── garage.dart
 │   │   └── reference_data.dart
@@ -48,8 +49,8 @@ garage/
 │       ├── get_my_garage.dart
 │       ├── get_reference_data.dart
 │       ├── patch_modification.dart
-│       ├── save_cover_url.dart
-│       ├── save_gallery_urls.dart
+│       ├── save_cover_key.dart
+│       ├── save_gallery_keys.dart
 │       └── update_car.dart
 └── presentation/
     ├── bloc/
@@ -85,12 +86,13 @@ JSON is **camelCase**.
 
 ### Image storage — Cloudflare R2
 
-Images are stored as **permanent public URLs** in Cloudflare R2. Every upload
-follows a three-step pattern:
+Images are stored in Cloudflare R2 and persisted by their **R2 key** (the DB
+holds keys, not urls; display urls are built on read). Every upload follows a
+three-step pattern:
 
-1. **GET presigned URL** from backend (with JWT) → `{ uploadUrl, finalUrl, key }`
+1. **GET presigned URL** from backend (with JWT) → `{ uploadUrl, key }`
 2. **PUT file bytes** directly to R2 (NO JWT — auth is embedded in `uploadUrl`)
-3. **PATCH backend** with `finalUrl` to persist the URL in the DB
+3. **PATCH backend** with the `key` to persist the image in the DB (cover & gallery)
 
 ### CarDto shape (GET /garage/cars/{carId})
 
@@ -100,18 +102,23 @@ follows a three-step pattern:
   drivetrainName, colorId, colorName, colorCode, mileageUnitId, mileageUnitName,
   year, horsepower, torque, weight, engineDisplacement, zeroToOneHundred,
   chassisCode, engineCode,
-  coverImageUrl: String?,          // nullable until a cover is uploaded
-  galleryUrls: List<String>,       // ordered; empty if no gallery
+  coverImage: { key, url } | null, // null until a cover is uploaded
+  gallery: [{ key, url }],         // ordered; empty if no gallery
   createdAt, status,
   modifications: [
     {
       id, carId, categoryId, categoryName, title, description,
-      media: [{ url, type, phase }],  // type: "image"|"video", phase: "before"|"after"
+      media: [{ key, url, type, phase }],  // type: "image"|"video", phase: "before"|"after"
       installationDate, price, isPricePublic, mileageAtInstall, createdAt
     }
   ]
 }
 ```
+
+The backend stores only the domain/bucket-agnostic R2 `key`; it builds a
+fully-qualified `url` on the fly when an image is read. Rule of thumb: **display
+`url`, send `key` back** to the key-based endpoints — never reconstruct a key
+from a url.
 
 ### Endpoints
 
@@ -123,10 +130,12 @@ follows a three-step pattern:
 | POST | `/garage/cars` | create car + mods (text only); media uploaded separately |
 | PUT | `/garage/cars/{carId}` | full replace of car specs |
 | DELETE | `/garage/cars/{carId}` | cascades mods + gallery; R2 objects cleaned up |
-| PATCH | `/garage/cars/{carId}/cover?coverImageUrl=...` | step 3 for cover |
-| PATCH | `/garage/cars/{carId}/gallery` | `{ urls: [...] }` — full ordered list; diffs and deletes removed R2 objects |
+| PATCH | `/garage/cars/{carId}/cover?key=...` | step 3 for cover — R2 key from the upload-url response |
+| DELETE | `/garage/cars/{carId}/cover` | no param/body — backend deletes the current cover by car id |
+| PATCH | `/garage/cars/{carId}/gallery` | `{ keys: [...] }` — full ordered list of R2 keys; diffs and deletes removed R2 objects |
+| DELETE | `/garage/cars/{carId}/gallery` | `{ keys: [...] }` — delete the given gallery photos |
 | POST | `/garage/cars/{carId}/modifications` | add mod (text only) |
-| PATCH | `/garage/cars/{carId}/modifications/{modId}` | partial update: text fields and/or `{ addMedia, removeMediaUrls }` |
+| PATCH | `/garage/cars/{carId}/modifications/{modId}` | partial update: text fields and/or `{ add_media: [{key, phase}], remove_media_keys: [...] }` |
 | DELETE | `/garage/cars/{carId}/modifications/{modId}` | |
 | GET | `/garage/reference/{brands,...}` | lookup data |
 
@@ -134,32 +143,35 @@ follows a three-step pattern:
 
 | Method | Path | Returns |
 |---|---|---|
-| GET | `/cars/{carId}/cover` | `{ uploadUrl, finalUrl, key }` |
-| GET | `/cars/{carId}/gallery` | `{ uploadUrl, finalUrl, key }` |
-| POST | `/cars/{carId}/modifications/{modId}/upload-urls` | `{ files: [{phase, format}] }` → `{ uploads: [{uploadUrl, finalUrl, phase}] }` |
+| GET | `/cars/{carId}/cover` | `{ uploadUrl, key }` |
+| GET | `/cars/{carId}/gallery` | `{ uploadUrl, key }` |
+| POST | `/cars/{carId}/modifications/{modId}/upload-urls` | `{ files: [{phase, format}] }` → `{ uploads: [{uploadUrl, key, phase}] }` |
 
 ---
 
 ## Upload flows
 
 ### Cover image
-1. `GET /api/storage/cars/{carId}/cover` → `{ uploadUrl, finalUrl }`
+1. `GET /api/storage/cars/{carId}/cover` → `{ uploadUrl, key }`
 2. Compress to webp → `PUT uploadUrl` (Content-Type: image/webp, no JWT)
-3. `PATCH /api/v1/garage/cars/{carId}/cover?coverImageUrl={finalUrl}`
+3. `PATCH /api/v1/garage/cars/{carId}/cover?key={key}`
+
+Replacing a cover: upload the new file, `DELETE /garage/cars/{carId}/cover`
+(deletes the current cover by car id), then PATCH the new key.
 
 ### Gallery (per photo, then save all)
-1. `GET /api/storage/cars/{carId}/gallery` → `{ uploadUrl, finalUrl }`
-2. Compress to webp → `PUT uploadUrl` (no JWT); collect `finalUrl`
+1. `GET /api/storage/cars/{carId}/gallery` → `{ uploadUrl, key }`
+2. Compress to webp → `PUT uploadUrl` (no JWT); collect `key`
 3. Repeat 1-2 for each new photo
-4. `PATCH /api/v1/garage/cars/{carId}/gallery` with `{ urls: [all current URLs in order] }`
+4. `PATCH /api/v1/garage/cars/{carId}/gallery` with `{ keys: [all current keys in order] }`
 
-Gallery deletion: remove URL from local list → PATCH with updated list. Backend
-diffs the incoming list and deletes orphaned R2 objects after commit.
+Gallery deletion: `DELETE /garage/cars/{carId}/gallery` with `{ keys: [...] }`,
+then drop those refs from the local list. Backend deletes the R2 objects.
 
 ### Modification media
 1. `POST /api/storage/cars/{carId}/modifications/{modId}/upload-urls` with `{ files: [{phase, format}] }`
 2. Upload all files to R2 in parallel (no JWT)
-3. `PATCH /api/v1/garage/cars/{carId}/modifications/{modId}` with `{ addMedia: [{url, phase}] }`
+3. `PATCH /api/v1/garage/cars/{carId}/modifications/{modId}` with `{ addMedia: [{key, phase}] }`
 
 ---
 
@@ -169,7 +181,7 @@ diffs the incoming list and deletes orphaned R2 objects after commit.
 |---|---|---|
 | `GarageBloc` | `LoadMyGarage`, `LoadGarageByUsername`, `DeleteCar` | used by profile's `GarageSection` |
 | `AddCarBloc` | `LoadAddCarReferenceData`, `AddCarBrandSelected`, `SubmitNewCar` | creates car then orchestrates 3-step uploads for cover, gallery, and mod media; rolls back via `DELETE /garage/cars/{carId}` on failure |
-| `CarDetailBloc` | `LoadCar`, `DeleteCarFromDetail`, `DeleteGalleryImage`, `DeleteModificationFromDetail` | gallery is embedded in `CarEntity.galleryUrls`; `DeleteGalleryImage` removes URL locally then PATCHes the full list |
+| `CarDetailBloc` | `LoadCar`, `DeleteCarFromDetail`, `DeleteGalleryImage`, `DeleteModificationFromDetail` | gallery is embedded in `CarEntity.gallery` (list of `{key, url}`); `DeleteGalleryImage` deletes by R2 key then drops the ref locally |
 | `LogModBloc` | `LoadModCategories`, `SubmitModification` | creates mod then requests batch upload URLs, uploads to R2, PATCHes with `addMedia`; rolls back via delete on failure |
 
 ---

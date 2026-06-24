@@ -26,20 +26,25 @@ abstract class GarageRepository {
 
   // ── Cover image upload (3-step) ───────────────────────────────────────────
   Future<Either<Failure, UploadUrlResult>> getCoverUploadUrl(String carId);
-  Future<Either<Failure, void>> saveCoverUrl(String carId, String finalUrl);
+  /// Points the car at the uploaded cover by its R2 [key] (from the upload-url
+  /// response). The backend builds the display url on read.
+  Future<Either<Failure, void>> saveCoverKey(String carId, String key);
 
   // ── Gallery upload (3-step per photo, then PATCH with full list) ──────────
   Future<Either<Failure, UploadUrlResult>> getGalleryUploadUrl(String carId);
-  Future<Either<Failure, void>> saveGalleryUrls(
-      String carId, List<String> urls);
+  /// Persists the full desired gallery state as a list of R2 [keys].
+  Future<Either<Failure, void>> saveGalleryKeys(
+      String carId, List<String> keys);
 
   // ── Image deletion (DB + R2) ──────────────────────────────────────────────
-  /// Deletes the given gallery photos from both the DB list and R2 storage.
+  /// Deletes the given gallery photos (by R2 [keys]) from both the DB list and
+  /// R2 storage.
   Future<Either<Failure, void>> deleteGalleryImages(
-      String carId, List<String> urls);
+      String carId, List<String> keys);
 
   /// Deletes the car's current cover object from R2 (used when replacing it).
-  Future<Either<Failure, void>> deleteCoverImage(String carId, String url);
+  /// The backend resolves the cover from the car id — no key needed.
+  Future<Either<Failure, void>> deleteCoverImage(String carId);
 
   // ── Modifications ─────────────────────────────────────────────────────────
   Future<Either<Failure, CarModificationEntity>> addModification(
@@ -187,7 +192,7 @@ class ModPatchParams {
   final double? price;
   final int? mileageAtInstall;
   final List<ModMediaInput>? addMedia;
-  final List<String>? removeMediaUrls;
+  final List<String>? removeMediaKeys;
 
   const ModPatchParams({
     this.title,
@@ -196,7 +201,7 @@ class ModPatchParams {
     this.price,
     this.mileageAtInstall,
     this.addMedia,
-    this.removeMediaUrls,
+    this.removeMediaKeys,
   });
 
   Map<String, dynamic> toJson() => {
@@ -208,20 +213,20 @@ class ModPatchParams {
         if (mileageAtInstall != null) 'mileage_at_install': mileageAtInstall,
         if (addMedia != null && addMedia!.isNotEmpty)
           'add_media': addMedia!.map((m) => m.toJson()).toList(),
-        if (removeMediaUrls != null && removeMediaUrls!.isNotEmpty)
-          'remove_media_urls': removeMediaUrls,
+        if (removeMediaKeys != null && removeMediaKeys!.isNotEmpty)
+          'remove_media_keys': removeMediaKeys,
       };
 }
 
-/// A single media item to add to a modification.
-/// [phase] must be 'before' or 'after' (lowercase).
+/// A single media item to add to a modification, referenced by its R2 [key]
+/// (from the upload-urls response). [phase] must be 'before' or 'after'.
 class ModMediaInput {
-  final String url;
+  final String key;
   final String phase;
 
-  const ModMediaInput({required this.url, required this.phase});
+  const ModMediaInput({required this.key, required this.phase});
 
-  Map<String, dynamic> toJson() => {'url': url, 'phase': phase};
+  Map<String, dynamic> toJson() => {'key': key, 'phase': phase};
 }
 
 /// One file in a batch upload-urls request.

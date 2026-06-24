@@ -1,18 +1,19 @@
 import '../../domain/entities/car_summary.dart';
+import 'car_model.dart';
 import 'car_status_option_model.dart';
 
 class CarSummaryModel {
   final String id;
   final String brand;
   final String model;
-  final String? coverImageUrl;
+  final CarImageRefModel? coverImage;
   final CarStatusOptionModel? status;
 
   const CarSummaryModel({
     required this.id,
     required this.brand,
     required this.model,
-    this.coverImageUrl,
+    this.coverImage,
     this.status,
   });
 
@@ -21,7 +22,10 @@ class CarSummaryModel {
       id: json['id'] as String,
       brand: json['brand'] as String,
       model: json['model'] as String,
-      coverImageUrl: json['cover_image_url'] as String?,
+      coverImage: json['cover_image'] == null
+          ? null
+          : CarImageRefModel.fromJson(
+              json['cover_image'] as Map<String, dynamic>),
       status: json['status'] != null
           ? CarStatusOptionModel.fromJson(json['status'] as Map<String, dynamic>)
           : null,
@@ -33,7 +37,7 @@ class CarSummaryModel {
       id: id,
       brand: brand,
       model: model,
-      coverImageUrl: coverImageUrl,
+      coverImage: coverImage?.toEntity(),
       status: status?.toEntity(),
     );
   }

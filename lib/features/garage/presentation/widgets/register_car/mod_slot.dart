@@ -41,7 +41,7 @@ class NewModSlot extends ModSlot {
 
 /// An existing mod being edited. Holds the current text values plus the image
 /// delta: newly picked before/after images to upload+add, the remaining
-/// existing image urls, and the existing urls the user removed (or replaced).
+/// existing image urls, and the existing media (by R2 key) the user removed.
 class ExistingModSlot extends ModSlot {
   final CarModificationEntity original;
   final ModRequestParams request;
@@ -49,7 +49,7 @@ class ExistingModSlot extends ModSlot {
   final CompressedImage? newAfter;
   final String? beforeUrl;
   final String? afterUrl;
-  final List<String> removeMediaUrls;
+  final List<String> removeMediaKeys;
 
   const ExistingModSlot({
     required this.original,
@@ -58,7 +58,7 @@ class ExistingModSlot extends ModSlot {
     this.newAfter,
     this.beforeUrl,
     this.afterUrl,
-    this.removeMediaUrls = const [],
+    this.removeMediaKeys = const [],
   });
 
   String get modId => original.id;
@@ -93,7 +93,7 @@ class ExistingModSlot extends ModSlot {
           ? request.mileageAtInstall
           : null,
       addMedia: addMedia,
-      removeMediaUrls: removeMediaUrls.isEmpty ? null : removeMediaUrls,
+      removeMediaKeys: removeMediaKeys.isEmpty ? null : removeMediaKeys,
     );
   }
 
@@ -103,6 +103,6 @@ class ExistingModSlot extends ModSlot {
     return patch.toJson().isNotEmpty ||
         newBefore != null ||
         newAfter != null ||
-        removeMediaUrls.isNotEmpty;
+        removeMediaKeys.isNotEmpty;
   }
 }

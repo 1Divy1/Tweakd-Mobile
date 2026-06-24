@@ -179,10 +179,10 @@ class GarageRepositoryImpl implements GarageRepository {
   }
 
   @override
-  Future<Either<Failure, void>> saveCoverUrl(
-      String carId, String finalUrl) async {
+  Future<Either<Failure, void>> saveCoverKey(
+      String carId, String key) async {
     try {
-      await dataSource.saveCoverUrl(carId, finalUrl);
+      await dataSource.saveCoverKey(carId, key);
       return const Right(null);
     } on NetworkException {
       return const Left(NetworkFailure('No internet connection.'));
@@ -193,7 +193,7 @@ class GarageRepositoryImpl implements GarageRepository {
       if (e.statusCode == 404) return const Left(CarNotFoundFailure());
       return Left(ServerFailure(e.message));
     } catch (e) {
-      debugPrint('saveCoverUrl error: $e');
+      debugPrint('saveCoverKey error: $e');
       return const Left(UnknownFailure('Failed to save cover image.'));
     }
   }
@@ -219,10 +219,10 @@ class GarageRepositoryImpl implements GarageRepository {
   }
 
   @override
-  Future<Either<Failure, void>> saveGalleryUrls(
-      String carId, List<String> urls) async {
+  Future<Either<Failure, void>> saveGalleryKeys(
+      String carId, List<String> keys) async {
     try {
-      await dataSource.saveGalleryUrls(carId, urls);
+      await dataSource.saveGalleryKeys(carId, keys);
       return const Right(null);
     } on NetworkException {
       return const Left(NetworkFailure('No internet connection.'));
@@ -233,7 +233,7 @@ class GarageRepositoryImpl implements GarageRepository {
       if (e.statusCode == 404) return const Left(CarNotFoundFailure());
       return Left(ServerFailure(e.message));
     } catch (e) {
-      debugPrint('saveGalleryUrls error: $e');
+      debugPrint('saveGalleryKeys error: $e');
       return const Left(UnknownFailure('Failed to save gallery.'));
     }
   }
@@ -242,10 +242,10 @@ class GarageRepositoryImpl implements GarageRepository {
 
   @override
   Future<Either<Failure, void>> deleteGalleryImages(
-      String carId, List<String> urls) async {
-    if (urls.isEmpty) return const Right(null);
+      String carId, List<String> keys) async {
+    if (keys.isEmpty) return const Right(null);
     try {
-      await dataSource.deleteGalleryImages(carId, urls);
+      await dataSource.deleteGalleryImages(carId, keys);
       return const Right(null);
     } on NetworkException {
       return const Left(NetworkFailure('No internet connection.'));
@@ -262,10 +262,9 @@ class GarageRepositoryImpl implements GarageRepository {
   }
 
   @override
-  Future<Either<Failure, void>> deleteCoverImage(
-      String carId, String url) async {
+  Future<Either<Failure, void>> deleteCoverImage(String carId) async {
     try {
-      await dataSource.deleteCoverImage(carId, url);
+      await dataSource.deleteCoverImage(carId);
       return const Right(null);
     } on NetworkException {
       return const Left(NetworkFailure('No internet connection.'));

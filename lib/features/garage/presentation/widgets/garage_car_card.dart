@@ -24,7 +24,7 @@ class GarageCarCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _CarImage(imageUrl: car.coverImageUrl, status: car.status?.type),
+            _CarImage(imageUrl: car.coverImage?.url, status: car.status?.type),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               child: Text(

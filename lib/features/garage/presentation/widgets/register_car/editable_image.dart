@@ -10,12 +10,15 @@ sealed class SlotImage extends Equatable {
 }
 
 /// An image already stored remotely. Kept as-is unless the user removes it.
+/// [url] is for display; [key] is the R2 key sent back to the key-based
+/// gallery endpoints when persisting the final list.
 class RemoteSlotImage extends SlotImage {
   final String url;
-  const RemoteSlotImage(this.url);
+  final String key;
+  const RemoteSlotImage(this.url, this.key);
 
   @override
-  List<Object?> get props => [url];
+  List<Object?> get props => [url, key];
 }
 
 /// A newly picked local image whose WebP compression is already in flight.

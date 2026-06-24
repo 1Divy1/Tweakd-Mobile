@@ -17,8 +17,8 @@ import '../../../domain/usecases/get_gallery_upload_url.dart';
 import '../../../domain/usecases/get_modification_upload_urls.dart';
 import '../../../domain/usecases/get_reference_data.dart';
 import '../../../domain/usecases/patch_modification.dart';
-import '../../../domain/usecases/save_cover_url.dart';
-import '../../../domain/usecases/save_gallery_urls.dart';
+import '../../../domain/usecases/save_cover_key.dart';
+import '../../../domain/usecases/save_gallery_keys.dart';
 import '../../../domain/usecases/update_car.dart';
 import '../../widgets/register_car/editable_image.dart';
 import '../../widgets/register_car/mod_slot.dart';
@@ -40,10 +40,10 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
   final UpdateCarUseCase updateCar;
   final DeleteCarUseCase deleteCar;
   final GetCoverUploadUrlUseCase getCoverUploadUrl;
-  final SaveCoverUrlUseCase saveCoverUrl;
+  final SaveCoverKeyUseCase saveCoverKey;
   final DeleteCoverImageUseCase deleteCoverImage;
   final GetGalleryUploadUrlUseCase getGalleryUploadUrl;
-  final SaveGalleryUrlsUseCase saveGalleryUrls;
+  final SaveGalleryKeysUseCase saveGalleryKeys;
   final DeleteGalleryImagesUseCase deleteGalleryImages;
   final AddModificationUseCase addModification;
   final GetModificationUploadUrlsUseCase getModificationUploadUrls;
@@ -64,10 +64,10 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
     required this.updateCar,
     required this.deleteCar,
     required this.getCoverUploadUrl,
-    required this.saveCoverUrl,
+    required this.saveCoverKey,
     required this.deleteCoverImage,
     required this.getGalleryUploadUrl,
-    required this.saveGalleryUrls,
+    required this.saveGalleryKeys,
     required this.deleteGalleryImages,
     required this.addModification,
     required this.getModificationUploadUrls,
@@ -198,24 +198,23 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
   }
 
   /// Fetches a presigned cover slot, uploads the (already compressed) bytes and
-  /// registers the final URL on the car.
+  /// registers the R2 key on the car (the backend builds the url on read).
   Future<void> _uploadCover(String carId, CompressedImage cover) async {
     final slot = (await getCoverUploadUrl(GetCoverUploadUrlParams(carId: carId)))
         .fold((f) => throw Exception('$f'), (s) => s);
     await imageService.uploadToR2(slot.uploadUrl, await cover.bytes);
-    (await saveCoverUrl(
-            SaveCoverUrlParams(carId: carId, finalUrl: slot.finalUrl)))
+    (await saveCoverKey(SaveCoverKeyParams(carId: carId, key: slot.key)))
         .fold((f) => throw Exception('$f'), (_) {});
   }
 
-  /// Uploads every gallery image in parallel, then registers the final URLs.
+  /// Uploads every gallery image in parallel, then registers their R2 keys.
   /// [Future.wait] preserves order, so the saved list matches the user's order.
   Future<void> _uploadGallery(
     String carId,
     List<CompressedImage> gallery,
   ) async {
     if (gallery.isEmpty) return;
-    final finalUrls = await Future.wait(gallery.map((image) async {
+    final keys = await Future.wait(gallery.map((image) async {
       final slot =
           (await getGalleryUploadUrl(GetGalleryUploadUrlParams(carId: carId)))
               .fold(
@@ -223,10 +222,9 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
         (s) => s,
       );
       await imageService.uploadToR2(slot.uploadUrl, await image.bytes);
-      return slot.finalUrl;
+      return slot.key;
     }));
-    (await saveGalleryUrls(
-            SaveGalleryUrlsParams(carId: carId, urls: finalUrls)))
+    (await saveGalleryKeys(SaveGalleryKeysParams(carId: carId, keys: keys)))
         .fold((f) => throw Exception('$f'), (_) {});
   }
 
@@ -258,7 +256,7 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
     }));
 
     final addMedia = uploads
-        .map((u) => ModMediaInput(url: u.finalUrl, phase: u.phase))
+        .map((u) => ModMediaInput(key: u.key, phase: u.phase))
         .toList();
     (await patchModification(PatchModificationParams(
       carId: carId,
@@ -309,37 +307,36 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
 
       // ── Cover ──────────────────────────────────────────────────────────────
       if (event.newCover != null) {
-        await _replaceCover(
-            event.carId, event.newCover!, event.removedCoverUrl);
+        await _replaceCover(event.carId, event.newCover!, event.removedCover);
       }
 
       // ── Gallery ────────────────────────────────────────────────────────────
       final galleryChanged = event.gallery.any((s) => s is LocalSlotImage) ||
-          event.removedGalleryUrls.isNotEmpty;
+          event.removedGalleryKeys.isNotEmpty;
       if (galleryChanged) {
         // Delete removed photos first — while their rows still exist — since the
         // backend scopes R2 deletion to the car's current gallery rows. Saving
         // the new full list first would drop those rows and orphan the objects.
-        if (event.removedGalleryUrls.isNotEmpty) {
+        if (event.removedGalleryKeys.isNotEmpty) {
           (await deleteGalleryImages(DeleteGalleryImagesParams(
             carId: event.carId,
-            urls: event.removedGalleryUrls,
+            keys: event.removedGalleryKeys,
           )))
               .fold(
                   (f) => throw Exception('$f'), (_) {});
         }
-        // Upload any new locals, then persist the final ordered list.
-        final finalUrls = <String>[];
+        // Upload any new locals, then persist the final ordered list of keys.
+        final finalKeys = <String>[];
         for (final slot in event.gallery) {
           switch (slot) {
-            case RemoteSlotImage(:final url):
-              finalUrls.add(url);
+            case RemoteSlotImage(:final key):
+              finalKeys.add(key);
             case LocalSlotImage(:final image):
-              finalUrls.add(await _uploadGalleryImage(event.carId, image));
+              finalKeys.add(await _uploadGalleryImage(event.carId, image));
           }
         }
-        (await saveGalleryUrls(
-                SaveGalleryUrlsParams(carId: event.carId, urls: finalUrls)))
+        (await saveGalleryKeys(
+                SaveGalleryKeysParams(carId: event.carId, keys: finalKeys)))
             .fold((f) => throw Exception('$f'), (_) {});
       }
 
@@ -384,31 +381,30 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
       (s) => s,
     );
     await imageService.uploadToR2(slot.uploadUrl, await image.bytes);
-    return slot.finalUrl;
+    return slot.key;
   }
 
   /// Replaces the car's cover. Uploads the new file to R2 first, then deletes
   /// the old cover object (the backend's DELETE /cover targets the *current*
   /// cover, so this must run before the cover pointer is moved), then points
-  /// the car at the new cover. Ordering keeps the window where the car has no
-  /// cover sub-second and self-healing if a later step fails.
+  /// the car at the new cover by its key. Ordering keeps the window where the
+  /// car has no cover sub-second and self-healing if a later step fails.
   Future<void> _replaceCover(
     String carId,
     CompressedImage cover,
-    String? oldUrl,
+    bool hadCover,
   ) async {
     final slot = (await getCoverUploadUrl(GetCoverUploadUrlParams(carId: carId)))
         .fold((f) => throw Exception('$f'), (s) => s);
     await imageService.uploadToR2(slot.uploadUrl, await cover.bytes);
 
-    if (oldUrl != null) {
-      (await deleteCoverImage(DeleteCoverImageParams(carId: carId, url: oldUrl)))
+    if (hadCover) {
+      (await deleteCoverImage(DeleteCoverImageParams(carId: carId)))
           .fold(
               (f) => throw Exception('$f'), (_) {});
     }
 
-    (await saveCoverUrl(
-            SaveCoverUrlParams(carId: carId, finalUrl: slot.finalUrl)))
+    (await saveCoverKey(SaveCoverKeyParams(carId: carId, key: slot.key)))
         .fold((f) => throw Exception('$f'), (_) {});
   }
 
@@ -439,7 +435,7 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
       }));
 
       addMedia.addAll(
-          uploads.map((u) => ModMediaInput(url: u.finalUrl, phase: u.phase)));
+          uploads.map((u) => ModMediaInput(key: u.key, phase: u.phase)));
     }
 
     final patch =

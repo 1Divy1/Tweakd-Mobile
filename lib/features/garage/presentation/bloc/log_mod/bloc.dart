@@ -121,7 +121,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
 
       // Step 4: save URLs to backend
       final addMedia = uploads
-          .map((u) => ModMediaInput(url: u.finalUrl, phase: u.phase))
+          .map((u) => ModMediaInput(key: u.key, phase: u.phase))
           .toList();
       final patchResult = await patchModification(PatchModificationParams(
         carId: event.carId,
