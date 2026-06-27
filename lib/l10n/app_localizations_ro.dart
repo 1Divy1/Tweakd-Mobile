@@ -1413,4 +1413,172 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get postErrorNotFound => 'Această postare nu mai există.';
+
+  @override
+  String get profileTabPosts => 'POSTĂRI';
+
+  @override
+  String get profileTabGarage => 'GARAJ';
+
+  @override
+  String get postsLoadMore => 'ÎNCARCĂ MAI MULT';
+
+  @override
+  String get postsEmptyOwner => 'Încă nu ai postat nimic.';
+
+  @override
+  String get postsEmptyVisitor => 'Nicio postare încă.';
+
+  @override
+  String get postsCreateFirst => 'CREEAZĂ PRIMA POSTARE';
+
+  @override
+  String get postDetailTitle => 'POSTARE';
+
+  @override
+  String get postEditAction => 'Editează postarea';
+
+  @override
+  String get postDeleteAction => 'Șterge postarea';
+
+  @override
+  String get postDeleteTitle => 'Ștergi postarea?';
+
+  @override
+  String get postDeleteBody =>
+      'Această postare și pozele, aprecierile și comentariile sale vor fi șterse definitiv.';
+
+  @override
+  String get postEditTitle => 'EDITEAZĂ POSTAREA';
+
+  @override
+  String get postEditSave => 'SALVEAZĂ';
+
+  @override
+  String get postTimeNow => 'acum';
+
+  @override
+  String postTimeMinutes(int count) {
+    return '${count}m';
+  }
+
+  @override
+  String postTimeHours(int count) {
+    return '${count}h';
+  }
+
+  @override
+  String postTimeDays(int count) {
+    return '${count}z';
+  }
+
+  @override
+  String postTimeWeeks(int count) {
+    return '${count}săpt';
+  }
+
+  @override
+  String postLikesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count aprecieri',
+      one: '1 apreciere',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String postViewAllComments(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Vezi toate cele $count comentarii',
+      one: 'Vezi 1 comentariu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String postCommentsTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count comentarii',
+      one: '1 comentariu',
+      zero: 'Comentarii',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get postCommentsEmpty => 'Niciun comentariu încă. Fii primul.';
+
+  @override
+  String get postCommentsLoadError =>
+      'Comentariile nu au putut fi încărcate. Încearcă din nou.';
+
+  @override
+  String get postCommentHint => 'Adaugă un comentariu…';
+
+  @override
+  String get postCommentDeleted => '[șters]';
+
+  @override
+  String get postCommentDelete => 'Șterge';
+
+  @override
+  String get postCommentDeleteTitle => 'Ștergi comentariul?';
+
+  @override
+  String get postCommentDeleteBody => 'Acest comentariu va fi șters definitiv.';
+
+  @override
+  String postCommentLikesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count aprecieri',
+      one: '1 apreciere',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get postCommentReply => 'Răspunde';
+
+  @override
+  String postReplyingTo(String username) {
+    return 'Răspunzi lui @$username';
+  }
+
+  @override
+  String get postRepliesHide => 'Ascunde răspunsurile';
+
+  @override
+  String get postRepliesViewGeneric => 'Vezi răspunsurile';
+
+  @override
+  String get postRepliesViewMore => 'Vezi mai multe răspunsuri';
+
+  @override
+  String postRepliesView(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Vezi $count răspunsuri',
+      one: 'Vezi 1 răspuns',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get postLikersTitle => 'Aprecieri';
+
+  @override
+  String get postLikersEmpty => 'Nicio apreciere încă.';
+
+  @override
+  String get postLikersLoadError =>
+      'Aprecierile nu au putut fi încărcate. Încearcă din nou.';
 }

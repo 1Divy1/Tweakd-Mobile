@@ -1410,4 +1410,172 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get postErrorNotFound => 'This post no longer exists.';
+
+  @override
+  String get profileTabPosts => 'POSTS';
+
+  @override
+  String get profileTabGarage => 'GARAGE';
+
+  @override
+  String get postsLoadMore => 'LOAD MORE';
+
+  @override
+  String get postsEmptyOwner => 'You haven\'t posted yet.';
+
+  @override
+  String get postsEmptyVisitor => 'No posts yet.';
+
+  @override
+  String get postsCreateFirst => 'CREATE YOUR FIRST POST';
+
+  @override
+  String get postDetailTitle => 'POST';
+
+  @override
+  String get postEditAction => 'Edit post';
+
+  @override
+  String get postDeleteAction => 'Delete post';
+
+  @override
+  String get postDeleteTitle => 'Delete post?';
+
+  @override
+  String get postDeleteBody =>
+      'This post and its photos, likes and comments will be permanently removed.';
+
+  @override
+  String get postEditTitle => 'EDIT POST';
+
+  @override
+  String get postEditSave => 'SAVE';
+
+  @override
+  String get postTimeNow => 'now';
+
+  @override
+  String postTimeMinutes(int count) {
+    return '${count}m';
+  }
+
+  @override
+  String postTimeHours(int count) {
+    return '${count}h';
+  }
+
+  @override
+  String postTimeDays(int count) {
+    return '${count}d';
+  }
+
+  @override
+  String postTimeWeeks(int count) {
+    return '${count}w';
+  }
+
+  @override
+  String postLikesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count likes',
+      one: '1 like',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String postViewAllComments(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'View all $count comments',
+      one: 'View 1 comment',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String postCommentsTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count comments',
+      one: '1 comment',
+      zero: 'Comments',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get postCommentsEmpty => 'No comments yet. Be the first.';
+
+  @override
+  String get postCommentsLoadError =>
+      'Couldn\'t load comments. Please try again.';
+
+  @override
+  String get postCommentHint => 'Add a comment…';
+
+  @override
+  String get postCommentDeleted => '[deleted]';
+
+  @override
+  String get postCommentDelete => 'Delete';
+
+  @override
+  String get postCommentDeleteTitle => 'Delete comment?';
+
+  @override
+  String get postCommentDeleteBody =>
+      'This comment will be permanently removed.';
+
+  @override
+  String postCommentLikesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count likes',
+      one: '1 like',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get postCommentReply => 'Reply';
+
+  @override
+  String postReplyingTo(String username) {
+    return 'Replying to @$username';
+  }
+
+  @override
+  String get postRepliesHide => 'Hide replies';
+
+  @override
+  String get postRepliesViewGeneric => 'View replies';
+
+  @override
+  String get postRepliesViewMore => 'View more replies';
+
+  @override
+  String postRepliesView(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'View $count replies',
+      one: 'View 1 reply',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get postLikersTitle => 'Likes';
+
+  @override
+  String get postLikersEmpty => 'No likes yet.';
+
+  @override
+  String get postLikersLoadError => 'Couldn\'t load likes. Please try again.';
 }

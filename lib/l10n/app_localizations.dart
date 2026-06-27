@@ -2653,6 +2653,234 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This post no longer exists.'**
   String get postErrorNotFound;
+
+  /// No description provided for @profileTabPosts.
+  ///
+  /// In en, this message translates to:
+  /// **'POSTS'**
+  String get profileTabPosts;
+
+  /// No description provided for @profileTabGarage.
+  ///
+  /// In en, this message translates to:
+  /// **'GARAGE'**
+  String get profileTabGarage;
+
+  /// No description provided for @postsLoadMore.
+  ///
+  /// In en, this message translates to:
+  /// **'LOAD MORE'**
+  String get postsLoadMore;
+
+  /// No description provided for @postsEmptyOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t posted yet.'**
+  String get postsEmptyOwner;
+
+  /// No description provided for @postsEmptyVisitor.
+  ///
+  /// In en, this message translates to:
+  /// **'No posts yet.'**
+  String get postsEmptyVisitor;
+
+  /// No description provided for @postsCreateFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'CREATE YOUR FIRST POST'**
+  String get postsCreateFirst;
+
+  /// No description provided for @postDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'POST'**
+  String get postDetailTitle;
+
+  /// No description provided for @postEditAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit post'**
+  String get postEditAction;
+
+  /// No description provided for @postDeleteAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete post'**
+  String get postDeleteAction;
+
+  /// No description provided for @postDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete post?'**
+  String get postDeleteTitle;
+
+  /// No description provided for @postDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This post and its photos, likes and comments will be permanently removed.'**
+  String get postDeleteBody;
+
+  /// No description provided for @postEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'EDIT POST'**
+  String get postEditTitle;
+
+  /// No description provided for @postEditSave.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE'**
+  String get postEditSave;
+
+  /// No description provided for @postTimeNow.
+  ///
+  /// In en, this message translates to:
+  /// **'now'**
+  String get postTimeNow;
+
+  /// No description provided for @postTimeMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}m'**
+  String postTimeMinutes(int count);
+
+  /// No description provided for @postTimeHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}h'**
+  String postTimeHours(int count);
+
+  /// No description provided for @postTimeDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}d'**
+  String postTimeDays(int count);
+
+  /// No description provided for @postTimeWeeks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}w'**
+  String postTimeWeeks(int count);
+
+  /// No description provided for @postLikesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 like} other{{count} likes}}'**
+  String postLikesCount(int count);
+
+  /// No description provided for @postViewAllComments.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{View 1 comment} other{View all {count} comments}}'**
+  String postViewAllComments(int count);
+
+  /// No description provided for @postCommentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Comments} =1{1 comment} other{{count} comments}}'**
+  String postCommentsTitle(int count);
+
+  /// No description provided for @postCommentsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No comments yet. Be the first.'**
+  String get postCommentsEmpty;
+
+  /// No description provided for @postCommentsLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load comments. Please try again.'**
+  String get postCommentsLoadError;
+
+  /// No description provided for @postCommentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a comment…'**
+  String get postCommentHint;
+
+  /// No description provided for @postCommentDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'[deleted]'**
+  String get postCommentDeleted;
+
+  /// No description provided for @postCommentDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get postCommentDelete;
+
+  /// No description provided for @postCommentDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete comment?'**
+  String get postCommentDeleteTitle;
+
+  /// No description provided for @postCommentDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This comment will be permanently removed.'**
+  String get postCommentDeleteBody;
+
+  /// No description provided for @postCommentLikesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 like} other{{count} likes}}'**
+  String postCommentLikesCount(int count);
+
+  /// No description provided for @postCommentReply.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get postCommentReply;
+
+  /// No description provided for @postReplyingTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Replying to @{username}'**
+  String postReplyingTo(String username);
+
+  /// No description provided for @postRepliesHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide replies'**
+  String get postRepliesHide;
+
+  /// No description provided for @postRepliesViewGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'View replies'**
+  String get postRepliesViewGeneric;
+
+  /// No description provided for @postRepliesViewMore.
+  ///
+  /// In en, this message translates to:
+  /// **'View more replies'**
+  String get postRepliesViewMore;
+
+  /// No description provided for @postRepliesView.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{View 1 reply} other{View {count} replies}}'**
+  String postRepliesView(int count);
+
+  /// No description provided for @postLikersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Likes'**
+  String get postLikersTitle;
+
+  /// No description provided for @postLikersEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No likes yet.'**
+  String get postLikersEmpty;
+
+  /// No description provided for @postLikersLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load likes. Please try again.'**
+  String get postLikersLoadError;
 }
 
 class _AppLocalizationsDelegate

@@ -632,5 +632,101 @@
   "postErrorImageUpload": "Your photos couldn't be uploaded. Please try again.",
   "postErrorInvalidTags": "You can't tag a car without also tagging its owner.",
   "postErrorNotOwner": "You don't have permission to do that.",
-  "postErrorNotFound": "This post no longer exists."
+  "postErrorNotFound": "This post no longer exists.",
+
+  "profileTabPosts": "POSTS",
+  "profileTabGarage": "GARAGE",
+
+  "postsLoadMore": "LOAD MORE",
+  "postsEmptyOwner": "You haven't posted yet.",
+  "postsEmptyVisitor": "No posts yet.",
+  "postsCreateFirst": "CREATE YOUR FIRST POST",
+
+  "postDetailTitle": "POST",
+  "postEditAction": "Edit post",
+  "postDeleteAction": "Delete post",
+  "postDeleteTitle": "Delete post?",
+  "postDeleteBody": "This post and its photos, likes and comments will be permanently removed.",
+  "postEditTitle": "EDIT POST",
+  "postEditSave": "SAVE",
+
+  "postTimeNow": "now",
+  "postTimeMinutes": "{count}m",
+  "@postTimeMinutes": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postTimeHours": "{count}h",
+  "@postTimeHours": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postTimeDays": "{count}d",
+  "@postTimeDays": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postTimeWeeks": "{count}w",
+  "@postTimeWeeks": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "postLikesCount": "{count, plural, =1{1 like} other{{count} likes}}",
+  "@postLikesCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postViewAllComments": "{count, plural, =1{View 1 comment} other{View all {count} comments}}",
+  "@postViewAllComments": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "postCommentsTitle": "{count, plural, =0{Comments} =1{1 comment} other{{count} comments}}",
+  "@postCommentsTitle": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postCommentsEmpty": "No comments yet. Be the first.",
+  "postCommentsLoadError": "Couldn't load comments. Please try again.",
+  "postCommentHint": "Add a comment…",
+  "postCommentDeleted": "[deleted]",
+  "postCommentDelete": "Delete",
+  "postCommentDeleteTitle": "Delete comment?",
+  "postCommentDeleteBody": "This comment will be permanently removed.",
+  "postCommentLikesCount": "{count, plural, =1{1 like} other{{count} likes}}",
+  "@postCommentLikesCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "postCommentReply": "Reply",
+  "postReplyingTo": "Replying to @{username}",
+  "@postReplyingTo": {
+    "placeholders": {
+      "username": { "type": "String" }
+    }
+  },
+  "postRepliesHide": "Hide replies",
+  "postRepliesViewGeneric": "View replies",
+  "postRepliesViewMore": "View more replies",
+  "postRepliesView": "{count, plural, =1{View 1 reply} other{View {count} replies}}",
+  "@postRepliesView": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "postLikersTitle": "Likes",
+  "postLikersEmpty": "No likes yet.",
+  "postLikersLoadError": "Couldn't load likes. Please try again."
 }

@@ -8,25 +8,38 @@ import '../../../../../l10n/app_localizations.dart';
 import '../../../../garage/presentation/bloc/bloc.dart';
 import '../../../../garage/presentation/bloc/event.dart';
 import '../../../../garage/presentation/bloc/state.dart';
+import '../../../../posts/presentation/bloc/profile_posts/bloc.dart';
+import '../../../../posts/presentation/bloc/profile_posts/event.dart';
+import '../../../../posts/presentation/bloc/profile_posts/state.dart';
 import '../../../domain/entities/profile.dart';
 import '../../bloc/bloc.dart';
 import '../../bloc/event.dart';
 import '../../bloc/state.dart';
 import '../shared/garage_section.dart';
+import '../shared/posts_section.dart';
 import '../shared/profile_avatar.dart';
 import '../shared/profile_bio.dart';
 import '../shared/profile_identity.dart';
+import '../shared/profile_section_tabs.dart';
 import '../shared/profile_stats_row.dart';
 import '../shared/profile_top_bar.dart';
 import 'settings_button.dart';
 
-class MyProfileDataView extends StatelessWidget {
+class MyProfileDataView extends StatefulWidget {
   final ProfileEntity profile;
 
   const MyProfileDataView({super.key, required this.profile});
 
   @override
+  State<MyProfileDataView> createState() => _MyProfileDataViewState();
+}
+
+class _MyProfileDataViewState extends State<MyProfileDataView> {
+  ProfileSection _section = ProfileSection.posts;
+
+  @override
   Widget build(BuildContext context) {
+    final profile = widget.profile;
     return ColoredBox(
       color: AppColors.bg,
       child: Column(
@@ -47,16 +60,21 @@ class MyProfileDataView extends StatelessWidget {
                 context
                     .read<ProfileBloc>()
                     .add(const FetchUserProfileData(fetchFromRemote: true));
-                // Refresh every section too (garage today, feed/reels later),
-                // so pull-to-refresh behaves like a fresh app open.
+                // Refresh every section too, so pull-to-refresh behaves like a
+                // fresh app open.
                 context.read<GarageBloc>().add(const LoadMyGarage());
-                // Keep the refresh spinner up until both fetches settle.
+                context.read<ProfilePostsBloc>().add(const LoadMyPosts());
+                // Keep the refresh spinner up until the fetches settle.
                 await Future.wait([
                   context.read<ProfileBloc>().stream.firstWhere(
                         (s) => s is ProfileLoaded || s is ProfileError,
                       ),
                   context.read<GarageBloc>().stream.firstWhere(
                         (s) => s is GarageLoaded || s is GarageError,
+                      ),
+                  context.read<ProfilePostsBloc>().stream.firstWhere(
+                        (s) =>
+                            s is ProfilePostsLoaded || s is ProfilePostsError,
                       ),
                 ]);
               },
@@ -66,36 +84,46 @@ class MyProfileDataView extends StatelessWidget {
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 12),
-                  ProfileAvatar(
-                    avatarUrl: profile.avatarUrl,
-                    isVerified: profile.isVerified,
-                  ),
-                  const SizedBox(height: 14),
-                  ProfileIdentity(
-                    name: profile.name,
-                    username: profile.username,
-                  ),
-                  if (profile.bio.isNotEmpty) ...[
-                    const SizedBox(height: 16),
-                    ProfileBio(bio: profile.bio),
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: 12),
+                    ProfileAvatar(
+                      avatarUrl: profile.avatarUrl,
+                      isVerified: profile.isVerified,
+                    ),
+                    const SizedBox(height: 14),
+                    ProfileIdentity(
+                      name: profile.name,
+                      username: profile.username,
+                    ),
+                    if (profile.bio.isNotEmpty) ...[
+                      const SizedBox(height: 16),
+                      ProfileBio(bio: profile.bio),
+                    ],
+                    const SizedBox(height: 18),
+                    ProfileStatsRow(
+                      username: profile.username,
+                      followers: profile.followersCount,
+                      following: profile.followingCount,
+                      isOwnProfile: true,
+                    ),
+                    const SizedBox(height: 22),
+                    ProfileSectionTabs(
+                      active: _section,
+                      onChanged: (s) => setState(() => _section = s),
+                    ),
+                    const SizedBox(height: 22),
+                    switch (_section) {
+                      ProfileSection.posts =>
+                        const PostsSection(isOwner: true),
+                      ProfileSection.garage =>
+                        const GarageSection(isOwner: true),
+                    },
+                    const SizedBox(height: 24),
                   ],
-                  const SizedBox(height: 18),
-                  ProfileStatsRow(
-                    username: profile.username,
-                    followers: profile.followersCount,
-                    following: profile.followingCount,
-                    isOwnProfile: true,
-                  ),
-                  const SizedBox(height: 22),
-                  const GarageSection(isOwner: true),
-                  const SizedBox(height: 24),
-                ],
+                ),
               ),
             ),
-          ),
           ),
           const AppBottomNav(activeTab: AppBottomNavTab.profile),
         ],

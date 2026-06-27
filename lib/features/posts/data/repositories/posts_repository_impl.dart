@@ -6,6 +6,7 @@ import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/error/base_failures.dart';
 import '../../../../core/services/image_service.dart';
 import '../../domain/entities/post.dart';
+import '../../domain/entities/post_comment.dart';
 import '../../domain/entities/post_params.dart';
 import '../../domain/entities/post_pages.dart';
 import '../../domain/entities/post_upload.dart';
@@ -275,4 +276,150 @@ class PostsRepositoryImpl implements PostsRepository {
       return const Left(UnknownFailure('Failed to delete post.'));
     }
   }
+
+  // ── Engagement ───────────────────────────────────────────────────────────────
+
+  /// Shared wrapper for the body-less, idempotent engagement calls. They share
+  /// one error shape: 404 → post/comment not found, everything else generic.
+  Future<Either<Failure, void>> _engage(
+    Future<void> Function() call,
+    String label,
+  ) async {
+    try {
+      await call();
+      return const Right(null);
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ApiException catch (e) {
+      if (e.statusCode == 404) return const Left(PostNotFoundFailure());
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('$label error: $e');
+      return const Left(UnknownFailure('An unexpected error occurred.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> likePost(String postId) =>
+      _engage(() => dataSource.likePost(postId), 'likePost');
+
+  @override
+  Future<Either<Failure, void>> unlikePost(String postId) =>
+      _engage(() => dataSource.unlikePost(postId), 'unlikePost');
+
+  @override
+  Future<Either<Failure, void>> savePost(String postId) =>
+      _engage(() => dataSource.savePost(postId), 'savePost');
+
+  @override
+  Future<Either<Failure, void>> unsavePost(String postId) =>
+      _engage(() => dataSource.unsavePost(postId), 'unsavePost');
+
+  @override
+  Future<Either<Failure, void>> sharePost(String postId, {String? content}) =>
+      _engage(() => dataSource.sharePost(postId, content: content), 'sharePost');
+
+  @override
+  Future<Either<Failure, void>> unsharePost(String postId) =>
+      _engage(() => dataSource.unsharePost(postId), 'unsharePost');
+
+  // ── Comments ─────────────────────────────────────────────────────────────────
+
+  @override
+  Future<Either<Failure, PostCommentEntity>> addComment(
+    String postId, {
+    required String content,
+    String? parentCommentId,
+  }) async {
+    try {
+      final model = await dataSource.addComment(
+        postId,
+        content: content,
+        parentCommentId: parentCommentId,
+      );
+      return Right(model.toEntity());
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ApiException catch (e) {
+      if (e.statusCode == 404) return const Left(PostNotFoundFailure());
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('addComment error: $e');
+      return const Left(UnknownFailure('Failed to add comment.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, CommentPageEntity>> getReplies(
+    String postId,
+    String commentId, {
+    String? cursor,
+    int size = 20,
+  }) async {
+    try {
+      final model = await dataSource.getReplies(
+        postId,
+        commentId,
+        cursor: cursor,
+        size: size,
+      );
+      return Right(model.toEntity());
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ApiException catch (e) {
+      if (e.statusCode == 404) return const Left(PostNotFoundFailure());
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('getReplies error: $e');
+      return const Left(UnknownFailure('Failed to load replies.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteComment(
+    String postId,
+    String commentId,
+  ) async {
+    try {
+      await dataSource.deleteComment(postId, commentId);
+      return const Right(null);
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ApiException catch (e) {
+      if (e.statusCode == 403) return const Left(NotPostOwnerFailure());
+      if (e.statusCode == 404) return const Left(PostNotFoundFailure());
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('deleteComment error: $e');
+      return const Left(UnknownFailure('Failed to delete comment.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> likeComment(String postId, String commentId) =>
+      _engage(() => dataSource.likeComment(postId, commentId), 'likeComment');
+
+  @override
+  Future<Either<Failure, void>> unlikeComment(
+    String postId,
+    String commentId,
+  ) =>
+      _engage(
+          () => dataSource.unlikeComment(postId, commentId), 'unlikeComment');
 }

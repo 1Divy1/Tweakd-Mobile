@@ -61,18 +61,27 @@ class PostTaggedCarModel {
   final String id;
   final String make;
   final String model;
+  final String? ownerId;
+  final String? ownerUsername;
 
   const PostTaggedCarModel({
     required this.id,
     required this.make,
     required this.model,
+    this.ownerId,
+    this.ownerUsername,
   });
 
   factory PostTaggedCarModel.fromJson(Map<String, dynamic> json) {
+    // Tagged cars are serialized as the backend `CarSummaryDto`, whose make
+    // field is `brand`; `make` is kept as a fallback for any legacy payload.
+    final owner = json['owner'] as Map<String, dynamic>?;
     return PostTaggedCarModel(
       id: json['id'] as String,
-      make: (json['make'] as String?) ?? '',
+      make: (json['brand'] as String?) ?? (json['make'] as String?) ?? '',
       model: (json['model'] as String?) ?? '',
+      ownerId: owner?['id'] as String?,
+      ownerUsername: owner?['username'] as String?,
     );
   }
 
@@ -80,6 +89,8 @@ class PostTaggedCarModel {
         id: id,
         make: make,
         model: model,
+        ownerId: ownerId,
+        ownerUsername: ownerUsername,
       );
 }
 

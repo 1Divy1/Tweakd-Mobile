@@ -13,6 +13,11 @@ class PostCommentEntity extends Equatable {
   final bool deleted;
   final int likeCount;
   final bool viewerHasLiked;
+
+  /// Number of direct replies to this comment. Always 0 for a reply itself
+  /// (replies aren't nested beyond one level). Defaults to 0 when the backend
+  /// omits it.
+  final int replyCount;
   final DateTime createdAt;
 
   const PostCommentEntity({
@@ -23,8 +28,31 @@ class PostCommentEntity extends Equatable {
     required this.deleted,
     required this.likeCount,
     required this.viewerHasLiked,
+    this.replyCount = 0,
     required this.createdAt,
   });
+
+  bool get isReply => parentCommentId != null;
+
+  PostCommentEntity copyWith({
+    String? content,
+    bool? deleted,
+    int? likeCount,
+    bool? viewerHasLiked,
+    int? replyCount,
+  }) {
+    return PostCommentEntity(
+      id: id,
+      author: author,
+      content: content ?? this.content,
+      parentCommentId: parentCommentId,
+      deleted: deleted ?? this.deleted,
+      likeCount: likeCount ?? this.likeCount,
+      viewerHasLiked: viewerHasLiked ?? this.viewerHasLiked,
+      replyCount: replyCount ?? this.replyCount,
+      createdAt: createdAt,
+    );
+  }
 
   @override
   List<Object?> get props => [
@@ -35,6 +63,7 @@ class PostCommentEntity extends Equatable {
         deleted,
         likeCount,
         viewerHasLiked,
+        replyCount,
         createdAt,
       ];
 }

@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/base_failures.dart';
 import '../entities/post.dart';
+import '../entities/post_comment.dart';
 import '../entities/post_params.dart';
 import '../entities/post_pages.dart';
 import '../entities/post_upload.dart';
@@ -68,4 +69,40 @@ abstract class PostsRepository {
   );
 
   Future<Either<Failure, void>> deletePost(String postId);
+
+  // ── Engagement ───────────────────────────────────────────────────────────────
+
+  Future<Either<Failure, void>> likePost(String postId);
+
+  Future<Either<Failure, void>> unlikePost(String postId);
+
+  Future<Either<Failure, void>> savePost(String postId);
+
+  Future<Either<Failure, void>> unsavePost(String postId);
+
+  Future<Either<Failure, void>> sharePost(String postId, {String? content});
+
+  Future<Either<Failure, void>> unsharePost(String postId);
+
+  // ── Comments ─────────────────────────────────────────────────────────────────
+
+  Future<Either<Failure, PostCommentEntity>> addComment(
+    String postId, {
+    required String content,
+    String? parentCommentId,
+  });
+
+  /// Direct replies to [commentId] on [postId], newest first.
+  Future<Either<Failure, CommentPageEntity>> getReplies(
+    String postId,
+    String commentId, {
+    String? cursor,
+    int size,
+  });
+
+  Future<Either<Failure, void>> deleteComment(String postId, String commentId);
+
+  Future<Either<Failure, void>> likeComment(String postId, String commentId);
+
+  Future<Either<Failure, void>> unlikeComment(String postId, String commentId);
 }

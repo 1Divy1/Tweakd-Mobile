@@ -10,6 +10,7 @@ class PostCommentModel {
   final bool deleted;
   final int likeCount;
   final bool viewerHasLiked;
+  final int replyCount;
   final DateTime createdAt;
 
   const PostCommentModel({
@@ -20,6 +21,7 @@ class PostCommentModel {
     required this.deleted,
     required this.likeCount,
     required this.viewerHasLiked,
+    required this.replyCount,
     required this.createdAt,
   });
 
@@ -32,6 +34,7 @@ class PostCommentModel {
       deleted: json['deleted'] as bool? ?? false,
       likeCount: (json['like_count'] as num?)?.toInt() ?? 0,
       viewerHasLiked: json['viewer_has_liked'] as bool? ?? false,
+      replyCount: (json['reply_count'] as num?)?.toInt() ?? 0,
       createdAt: DateTime.parse(json['created_at'] as String),
     );
   }
@@ -44,6 +47,7 @@ class PostCommentModel {
         deleted: deleted,
         likeCount: likeCount,
         viewerHasLiked: viewerHasLiked,
+        replyCount: replyCount,
         createdAt: createdAt,
       );
 }

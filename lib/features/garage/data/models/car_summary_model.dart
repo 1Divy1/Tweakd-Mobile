@@ -8,6 +8,8 @@ class CarSummaryModel {
   final String model;
   final CarImageRefModel? coverImage;
   final CarStatusOptionModel? status;
+  final String? ownerId;
+  final String? ownerUsername;
 
   const CarSummaryModel({
     required this.id,
@@ -15,9 +17,12 @@ class CarSummaryModel {
     required this.model,
     this.coverImage,
     this.status,
+    this.ownerId,
+    this.ownerUsername,
   });
 
   factory CarSummaryModel.fromJson(Map<String, dynamic> json) {
+    final owner = json['owner'] as Map<String, dynamic>?;
     return CarSummaryModel(
       id: json['id'] as String,
       brand: json['brand'] as String,
@@ -29,6 +34,8 @@ class CarSummaryModel {
       status: json['status'] != null
           ? CarStatusOptionModel.fromJson(json['status'] as Map<String, dynamic>)
           : null,
+      ownerId: owner?['id'] as String?,
+      ownerUsername: owner?['username'] as String?,
     );
   }
 
@@ -39,6 +46,8 @@ class CarSummaryModel {
       model: model,
       coverImage: coverImage?.toEntity(),
       status: status?.toEntity(),
+      ownerId: ownerId,
+      ownerUsername: ownerUsername,
     );
   }
 }

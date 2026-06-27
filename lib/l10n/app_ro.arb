@@ -476,5 +476,101 @@
   "postErrorImageUpload": "Pozele nu au putut fi încărcate. Încearcă din nou.",
   "postErrorInvalidTags": "Nu poți eticheta o mașină fără a-i eticheta și proprietarul.",
   "postErrorNotOwner": "Nu ai permisiunea să faci asta.",
-  "postErrorNotFound": "Această postare nu mai există."
+  "postErrorNotFound": "Această postare nu mai există.",
+
+  "profileTabPosts": "POSTĂRI",
+  "profileTabGarage": "GARAJ",
+
+  "postsLoadMore": "ÎNCARCĂ MAI MULT",
+  "postsEmptyOwner": "Încă nu ai postat nimic.",
+  "postsEmptyVisitor": "Nicio postare încă.",
+  "postsCreateFirst": "CREEAZĂ PRIMA POSTARE",
+
+  "postDetailTitle": "POSTARE",
+  "postEditAction": "Editează postarea",
+  "postDeleteAction": "Șterge postarea",
+  "postDeleteTitle": "Ștergi postarea?",
+  "postDeleteBody": "Această postare și pozele, aprecierile și comentariile sale vor fi șterse definitiv.",
+  "postEditTitle": "EDITEAZĂ POSTAREA",
+  "postEditSave": "SALVEAZĂ",
+
+  "postTimeNow": "acum",
+  "postTimeMinutes": "{count}m",
+  "@postTimeMinutes": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postTimeHours": "{count}h",
+  "@postTimeHours": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postTimeDays": "{count}z",
+  "@postTimeDays": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postTimeWeeks": "{count}săpt",
+  "@postTimeWeeks": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "postLikesCount": "{count, plural, =1{1 apreciere} other{{count} aprecieri}}",
+  "@postLikesCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postViewAllComments": "{count, plural, =1{Vezi 1 comentariu} other{Vezi toate cele {count} comentarii}}",
+  "@postViewAllComments": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "postCommentsTitle": "{count, plural, =0{Comentarii} =1{1 comentariu} other{{count} comentarii}}",
+  "@postCommentsTitle": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postCommentsEmpty": "Niciun comentariu încă. Fii primul.",
+  "postCommentsLoadError": "Comentariile nu au putut fi încărcate. Încearcă din nou.",
+  "postCommentHint": "Adaugă un comentariu…",
+  "postCommentDeleted": "[șters]",
+  "postCommentDelete": "Șterge",
+  "postCommentDeleteTitle": "Ștergi comentariul?",
+  "postCommentDeleteBody": "Acest comentariu va fi șters definitiv.",
+  "postCommentLikesCount": "{count, plural, =1{1 apreciere} other{{count} aprecieri}}",
+  "@postCommentLikesCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "postCommentReply": "Răspunde",
+  "postReplyingTo": "Răspunzi lui @{username}",
+  "@postReplyingTo": {
+    "placeholders": {
+      "username": { "type": "String" }
+    }
+  },
+  "postRepliesHide": "Ascunde răspunsurile",
+  "postRepliesViewGeneric": "Vezi răspunsurile",
+  "postRepliesViewMore": "Vezi mai multe răspunsuri",
+  "postRepliesView": "{count, plural, =1{Vezi 1 răspuns} other{Vezi {count} răspunsuri}}",
+  "@postRepliesView": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "postLikersTitle": "Aprecieri",
+  "postLikersEmpty": "Nicio apreciere încă.",
+  "postLikersLoadError": "Aprecierile nu au putut fi încărcate. Încearcă din nou."
 }

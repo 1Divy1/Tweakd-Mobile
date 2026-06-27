@@ -97,4 +97,77 @@ class PostsApiDataSource {
     );
     return LikerPageModel.fromJson(data as Map<String, dynamic>);
   }
+
+  // ── Engagement — likes / saves / shares (idempotent, no body) ────────────────
+
+  Future<void> likePost(String postId) async {
+    await http.post('/posts/$postId/likes');
+  }
+
+  Future<void> unlikePost(String postId) async {
+    await http.delete('/posts/$postId/likes');
+  }
+
+  Future<void> savePost(String postId) async {
+    await http.post('/posts/$postId/saves');
+  }
+
+  Future<void> unsavePost(String postId) async {
+    await http.delete('/posts/$postId/saves');
+  }
+
+  /// Plain share when [content] is null; a non-null [content] quote-shares.
+  /// Callers pass null for a plain share, so the body is empty in that case.
+  Future<void> sharePost(String postId, {String? content}) async {
+    await http.post('/posts/$postId/shares', body: {'content': ?content});
+  }
+
+  Future<void> unsharePost(String postId) async {
+    await http.delete('/posts/$postId/shares');
+  }
+
+  // ── Comments ─────────────────────────────────────────────────────────────────
+
+  Future<PostCommentModel> addComment(
+    String postId, {
+    required String content,
+    String? parentCommentId,
+  }) async {
+    final data = await http.post(
+      '/posts/$postId/comments',
+      body: {
+        'content': content,
+        'parent_comment_id': ?parentCommentId,
+      },
+    );
+    return PostCommentModel.fromJson(data as Map<String, dynamic>);
+  }
+
+  Future<CommentPageModel> getReplies(
+    String postId,
+    String commentId, {
+    String? cursor,
+    int size = 20,
+  }) async {
+    final data = await http.get(
+      '/posts/$postId/comments/$commentId/replies',
+      queryParameters: {
+        'cursor': ?cursor,
+        'size': size,
+      },
+    );
+    return CommentPageModel.fromJson(data as Map<String, dynamic>);
+  }
+
+  Future<void> deleteComment(String postId, String commentId) async {
+    await http.delete('/posts/$postId/comments/$commentId');
+  }
+
+  Future<void> likeComment(String postId, String commentId) async {
+    await http.post('/posts/$postId/comments/$commentId/likes');
+  }
+
+  Future<void> unlikeComment(String postId, String commentId) async {
+    await http.delete('/posts/$postId/comments/$commentId/likes');
+  }
 }
