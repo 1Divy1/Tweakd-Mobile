@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../../core/services/car_image_service.dart';
+import '../../../../../core/services/image_service.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/car_modification.dart';
@@ -24,7 +24,7 @@ const _monthsTitle = [
 /// [initialMod] is supplied). The price is optional.
 class AddModSheet extends StatefulWidget {
   final List<CarModCategoryEntity> categories;
-  final CarImageService imageService;
+  final ImageService imageService;
 
   /// When non-null, the sheet opens in edit mode pre-filled with this mod.
   final CarModificationEntity? initialMod;

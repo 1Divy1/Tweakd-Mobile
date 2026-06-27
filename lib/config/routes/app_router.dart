@@ -24,6 +24,9 @@ import '../../features/garage/presentation/pages/fullscreen_image_page.dart';
 import '../../features/garage/presentation/pages/log_mod_page.dart';
 import '../../features/garage/presentation/pages/register_car_page.dart';
 import '../../features/onboarding/presentation/bloc/bloc.dart';
+import '../../features/posts/presentation/bloc/create_post/bloc.dart';
+import '../../features/posts/presentation/bloc/tag_picker/bloc.dart';
+import '../../features/posts/presentation/pages/create_post_page.dart';
 import '../../features/onboarding/presentation/bloc/event.dart';
 import '../../features/onboarding/presentation/bloc/username_availability/bloc.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
@@ -137,6 +140,22 @@ final appRouter = GoRouter(
       path: '/feed',
       pageBuilder: (context, state) => const NoTransitionPage(
         child: Scaffold(body: Center(child: Text('Feed Page'))),
+      ),
+    ),
+
+    // ---------- Create Post ----------
+    GoRoute(
+      path: '/posts/create',
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider<CreatePostBloc>(
+            create: (_) => getIt<CreatePostBloc>(),
+          ),
+          BlocProvider<TagPickerBloc>(
+            create: (_) => getIt<TagPickerBloc>(),
+          ),
+        ],
+        child: const CreatePostPage(),
       ),
     ),
 

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'car_image_ref.dart';
+import '../../../../core/shared/entities/image_ref.dart';
 import 'car_modification.dart';
 import 'car_status_option.dart';
 
@@ -31,8 +31,8 @@ class CarEntity extends Equatable {
   final String? modelCode;
   final String? engineCode;
   final String? story;
-  final CarImageRef? coverImage;
-  final List<CarImageRef> gallery;
+  final ImageRef? coverImage;
+  final List<ImageRef> gallery;
   final DateTime? createdAt;
   final CarStatusOptionEntity status;
   final List<CarModificationEntity> modifications;
@@ -133,8 +133,8 @@ class CarEntity extends Equatable {
     String? modelCode,
     String? engineCode,
     String? story,
-    CarImageRef? coverImage,
-    List<CarImageRef>? gallery,
+    ImageRef? coverImage,
+    List<ImageRef>? gallery,
     DateTime? createdAt,
     CarStatusOptionEntity? status,
     List<CarModificationEntity>? modifications,

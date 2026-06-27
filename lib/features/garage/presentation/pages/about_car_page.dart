@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/shared/entities/image_ref.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/car.dart';
-import '../../domain/entities/car_image_ref.dart';
 import '../../domain/entities/car_modification.dart';
 import '../bloc/car_detail/bloc.dart';
 import '../bloc/car_detail/event.dart';
@@ -737,7 +737,7 @@ class _StorySection extends StatelessWidget {
 
 class _GallerySection extends StatelessWidget {
   final String carId;
-  final List<CarImageRef> gallery;
+  final List<ImageRef> gallery;
   final bool isOwner;
 
   const _GallerySection({

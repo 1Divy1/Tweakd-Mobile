@@ -1,6 +1,5 @@
-import 'dart:typed_data';
-
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:injectable/injectable.dart';
 
@@ -19,7 +18,7 @@ class CompressedImage {
 
   const CompressedImage._(this.path, this.bytes);
 
-  factory CompressedImage.compress(String path, CarImageService service) {
+  factory CompressedImage.compress(String path, ImageService service) {
     final bytes = service.compressToWebp(path);
     // Attach a no-op observer so that, if compression fails before anything
     // awaits [bytes] (e.g. the user abandons the wizard), it is not reported as
@@ -31,7 +30,7 @@ class CompressedImage {
 }
 
 @lazySingleton
-class CarImageService {
+class ImageService {
   final Dio _uploader = Dio();
 
   Future<Uint8List> compressToWebp(String filePath) async {
@@ -41,6 +40,7 @@ class CarImageService {
       quality: 80,
     );
     if (compressed == null) {
+      debugPrint('⚠️  WebP compression returned null for: $filePath');
       throw ServerException('Image compression failed.');
     }
     return compressed;
@@ -73,7 +73,10 @@ class CarImageService {
         ),
       );
     } on DioException catch (e) {
-      throw ServerException('R2 upload failed: ${e.message}');
+      throw ServerException(
+        'R2 upload failed (${e.response?.statusCode}): '
+        '${e.response?.data ?? e.message}',
+      );
     }
   }
 }

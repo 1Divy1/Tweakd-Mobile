@@ -102,6 +102,29 @@ import '../../features/onboarding/domain/usecases/submit_onboarding.dart'
 import '../../features/onboarding/presentation/bloc/bloc.dart' as _i797;
 import '../../features/onboarding/presentation/bloc/username_availability/bloc.dart'
     as _i94;
+import '../../features/posts/data/datasources/posts_api_data_source.dart'
+    as _i710;
+import '../../features/posts/data/datasources/posts_storage_api_data_source.dart'
+    as _i747;
+import '../../features/posts/data/repositories/posts_repository_impl.dart'
+    as _i675;
+import '../../features/posts/domain/repositories/posts_repository.dart'
+    as _i245;
+import '../../features/posts/domain/usecases/create_post.dart' as _i573;
+import '../../features/posts/domain/usecases/delete_post.dart' as _i640;
+import '../../features/posts/domain/usecases/get_image_upload_urls.dart'
+    as _i760;
+import '../../features/posts/domain/usecases/get_my_posts.dart' as _i851;
+import '../../features/posts/domain/usecases/get_post.dart' as _i601;
+import '../../features/posts/domain/usecases/get_post_comments.dart' as _i235;
+import '../../features/posts/domain/usecases/get_post_likers.dart' as _i528;
+import '../../features/posts/domain/usecases/get_posts_by_username.dart'
+    as _i677;
+import '../../features/posts/domain/usecases/save_image_keys.dart' as _i913;
+import '../../features/posts/domain/usecases/update_post.dart' as _i310;
+import '../../features/posts/domain/usecases/upload_post_image.dart' as _i708;
+import '../../features/posts/presentation/bloc/create_post/bloc.dart' as _i969;
+import '../../features/posts/presentation/bloc/tag_picker/bloc.dart' as _i200;
 import '../../features/profile/data/datasource/profile_api_data_source.dart'
     as _i77;
 import '../../features/profile/data/repositories/profile_repository_impl.dart'
@@ -125,7 +148,7 @@ import '../../features/search/domain/usecases/search_users.dart' as _i14;
 import '../../features/search/presentation/bloc/bloc.dart' as _i462;
 import '../network/abstract_http.dart' as _i311;
 import '../network/dio_http_client.dart' as _i554;
-import '../services/car_image_service.dart' as _i185;
+import '../services/image_service.dart' as _i185;
 import '../services/push_permission_service.dart' as _i792;
 import 'modules/dio_module.dart' as _i983;
 import 'modules/supabase_module.dart' as _i388;
@@ -140,7 +163,7 @@ extension GetItInjectableX on _i174.GetIt {
     final supabaseModule = _$SupabaseModule();
     final dioModule = _$DioModule();
     gh.lazySingleton<_i454.SupabaseClient>(() => supabaseModule.supabaseClient);
-    gh.lazySingleton<_i185.CarImageService>(() => _i185.CarImageService());
+    gh.lazySingleton<_i185.ImageService>(() => _i185.ImageService());
     gh.lazySingleton<_i792.PushPermissionService>(
       () => _i792.PushPermissionService(),
     );
@@ -152,6 +175,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i526.StorageApiDataSource>(
       () => _i526.StorageApiDataSource(gh<_i454.SupabaseClient>()),
+    );
+    gh.lazySingleton<_i747.PostsStorageApiDataSource>(
+      () => _i747.PostsStorageApiDataSource(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i311.AbstractHTTP>(
       () => _i554.DioHttpClient(gh<_i361.Dio>()),
@@ -167,6 +193,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1049.OnboardingApiDataSource>(
       () => _i1049.OnboardingApiDataSource(gh<_i311.AbstractHTTP>()),
+    );
+    gh.lazySingleton<_i710.PostsApiDataSource>(
+      () => _i710.PostsApiDataSource(gh<_i311.AbstractHTTP>()),
     );
     gh.lazySingleton<_i77.ProfileApiDataSource>(
       () => _i77.ProfileApiDataSource(gh<_i311.AbstractHTTP>()),
@@ -195,6 +224,13 @@ extension GetItInjectableX on _i174.GetIt {
         loginUser: gh<_i263.EmailPasswordSignIn>(),
         googleSignIn: gh<_i920.GoogleSignIn>(),
         logOut: gh<_i221.LogOut>(),
+      ),
+    );
+    gh.lazySingleton<_i245.PostsRepository>(
+      () => _i675.PostsRepositoryImpl(
+        gh<_i710.PostsApiDataSource>(),
+        gh<_i747.PostsStorageApiDataSource>(),
+        gh<_i185.ImageService>(),
       ),
     );
     gh.lazySingleton<_i357.SearchRepository>(
@@ -234,7 +270,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i107.GarageRepositoryImpl(
         gh<_i879.GarageApiDataSource>(),
         gh<_i526.StorageApiDataSource>(),
-        gh<_i185.CarImageService>(),
+        gh<_i185.ImageService>(),
       ),
     );
     gh.lazySingleton<_i430.OnboardingRepository>(
@@ -260,6 +296,39 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1016.SubmitOnboardingUseCase>(
       () => _i1016.SubmitOnboardingUseCase(gh<_i430.OnboardingRepository>()),
+    );
+    gh.lazySingleton<_i573.CreatePostUseCase>(
+      () => _i573.CreatePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i640.DeletePostUseCase>(
+      () => _i640.DeletePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i760.GetImageUploadUrlsUseCase>(
+      () => _i760.GetImageUploadUrlsUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i851.GetMyPostsUseCase>(
+      () => _i851.GetMyPostsUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i601.GetPostUseCase>(
+      () => _i601.GetPostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i235.GetPostCommentsUseCase>(
+      () => _i235.GetPostCommentsUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i528.GetPostLikersUseCase>(
+      () => _i528.GetPostLikersUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i677.GetPostsByUsernameUseCase>(
+      () => _i677.GetPostsByUsernameUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i913.SaveImageKeysUseCase>(
+      () => _i913.SaveImageKeysUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i310.UpdatePostUseCase>(
+      () => _i310.UpdatePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i708.UploadPostImageUseCase>(
+      () => _i708.UploadPostImageUseCase(gh<_i245.PostsRepository>()),
     );
     gh.lazySingleton<_i292.AddCarUseCase>(
       () => _i292.AddCarUseCase(gh<_i511.GarageRepository>()),
@@ -365,6 +434,12 @@ extension GetItInjectableX on _i174.GetIt {
         checkUsername: gh<_i842.CheckUsernameAvailabilityUseCase>(),
       ),
     );
+    gh.factory<_i200.TagPickerBloc>(
+      () => _i200.TagPickerBloc(
+        searchUsers: gh<_i14.SearchUsersUseCase>(),
+        getGarageByUsername: gh<_i543.GetGarageByUsernameUseCase>(),
+      ),
+    );
     gh.factory<_i160.AddCarBloc>(
       () => _i160.AddCarBloc(
         getBrands: gh<_i408.GetBrandsUseCase>(),
@@ -388,7 +463,7 @@ extension GetItInjectableX on _i174.GetIt {
         getModificationUploadUrls: gh<_i2.GetModificationUploadUrlsUseCase>(),
         patchModification: gh<_i49.PatchModificationUseCase>(),
         deleteModification: gh<_i621.DeleteModificationUseCase>(),
-        imageService: gh<_i185.CarImageService>(),
+        imageService: gh<_i185.ImageService>(),
       ),
     );
     gh.factory<_i180.ProfileBloc>(
@@ -415,7 +490,7 @@ extension GetItInjectableX on _i174.GetIt {
         deleteModification: gh<_i621.DeleteModificationUseCase>(),
         getModificationUploadUrls: gh<_i2.GetModificationUploadUrlsUseCase>(),
         patchModification: gh<_i49.PatchModificationUseCase>(),
-        imageService: gh<_i185.CarImageService>(),
+        imageService: gh<_i185.ImageService>(),
       ),
     );
     gh.factory<_i797.OnboardingBloc>(
@@ -431,6 +506,16 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i462.SearchBloc>(
       () => _i462.SearchBloc(searchUsers: gh<_i14.SearchUsersUseCase>()),
+    );
+    gh.factory<_i969.CreatePostBloc>(
+      () => _i969.CreatePostBloc(
+        createPost: gh<_i573.CreatePostUseCase>(),
+        getImageUploadUrls: gh<_i760.GetImageUploadUrlsUseCase>(),
+        uploadImage: gh<_i708.UploadPostImageUseCase>(),
+        saveImageKeys: gh<_i913.SaveImageKeysUseCase>(),
+        deletePost: gh<_i640.DeletePostUseCase>(),
+        imageService: gh<_i185.ImageService>(),
+      ),
     );
     return this;
   }

@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 
-import 'car_image_ref.dart';
+import '../../../../core/shared/entities/image_ref.dart';
 import 'car_status_option.dart';
 
 class CarSummaryEntity extends Equatable {
   final String id;
   final String brand;
   final String model;
-  final CarImageRef? coverImage;
+  final ImageRef? coverImage;
   final CarStatusOptionEntity? status;
 
   const CarSummaryEntity({

@@ -1178,6 +1178,12 @@ abstract class AppLocalizations {
   /// **'CONTESTS'**
   String get navContests;
 
+  /// No description provided for @navCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'CREATE'**
+  String get navCreate;
+
   /// No description provided for @navProfile.
   ///
   /// In en, this message translates to:
@@ -2257,6 +2263,396 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You will need to sign in again to access your account.'**
   String get settingsLogoutBody;
+
+  /// No description provided for @postNewPost.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW POST'**
+  String get postNewPost;
+
+  /// No description provided for @postStepPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'PHOTOS'**
+  String get postStepPhotos;
+
+  /// No description provided for @postStepCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'CAPTION'**
+  String get postStepCaption;
+
+  /// No description provided for @postStepTags.
+  ///
+  /// In en, this message translates to:
+  /// **'TAGS'**
+  String get postStepTags;
+
+  /// No description provided for @postStepVisibility.
+  ///
+  /// In en, this message translates to:
+  /// **'VISIBILITY'**
+  String get postStepVisibility;
+
+  /// No description provided for @postStepReview.
+  ///
+  /// In en, this message translates to:
+  /// **'REVIEW'**
+  String get postStepReview;
+
+  /// No description provided for @postStart.
+  ///
+  /// In en, this message translates to:
+  /// **'START'**
+  String get postStart;
+
+  /// No description provided for @postPublishStep.
+  ///
+  /// In en, this message translates to:
+  /// **'PUBLISH'**
+  String get postPublishStep;
+
+  /// No description provided for @postBack.
+  ///
+  /// In en, this message translates to:
+  /// **'BACK'**
+  String get postBack;
+
+  /// No description provided for @postNext.
+  ///
+  /// In en, this message translates to:
+  /// **'NEXT'**
+  String get postNext;
+
+  /// No description provided for @postPublish.
+  ///
+  /// In en, this message translates to:
+  /// **'PUBLISH POST'**
+  String get postPublish;
+
+  /// No description provided for @postStepCounter.
+  ///
+  /// In en, this message translates to:
+  /// **'STEP {current} / {total}'**
+  String postStepCounter(int current, int total);
+
+  /// No description provided for @postPhotosTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick your shots'**
+  String get postPhotosTitle;
+
+  /// No description provided for @postPhotosSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag to reorder — the cover leads your post. Photos only for now.'**
+  String get postPhotosSubtitle;
+
+  /// No description provided for @postPhotosAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD'**
+  String get postPhotosAdd;
+
+  /// No description provided for @postPhotosCover.
+  ///
+  /// In en, this message translates to:
+  /// **'COVER'**
+  String get postPhotosCover;
+
+  /// No description provided for @postPhotosVideosSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'VIDEOS — COMING SOON'**
+  String get postPhotosVideosSoon;
+
+  /// No description provided for @postPhotosCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} / {max} PHOTOS'**
+  String postPhotosCount(int count, int max);
+
+  /// No description provided for @postCaptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Say something'**
+  String get postCaptionTitle;
+
+  /// No description provided for @postCaptionSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a description for your post. Mention details, the story, the build.'**
+  String get postCaptionSubtitle;
+
+  /// No description provided for @postCaptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'DESCRIPTION'**
+  String get postCaptionLabel;
+
+  /// No description provided for @postCaptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Share the story behind this post…'**
+  String get postCaptionHint;
+
+  /// No description provided for @postCaptionCounter.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} / {max}'**
+  String postCaptionCounter(int count, int max);
+
+  /// No description provided for @postTagsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag cars & people'**
+  String get postTagsTitle;
+
+  /// No description provided for @postTagsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Link the cars in this post from any garage, and tag the people in it.'**
+  String get postTagsSubtitle;
+
+  /// No description provided for @postTagsCars.
+  ///
+  /// In en, this message translates to:
+  /// **'CARS'**
+  String get postTagsCars;
+
+  /// No description provided for @postTagsPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'PEOPLE'**
+  String get postTagsPeople;
+
+  /// No description provided for @postTagsCarHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search a car in any garage…'**
+  String get postTagsCarHint;
+
+  /// No description provided for @postTagsPeopleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search people to tag…'**
+  String get postTagsPeopleHint;
+
+  /// No description provided for @postTagsAddCar.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag a car'**
+  String get postTagsAddCar;
+
+  /// No description provided for @postTagsTagPersonFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag a person first to tag one of their cars.'**
+  String get postTagsTagPersonFirst;
+
+  /// No description provided for @postTagsChoosePerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Whose car?'**
+  String get postTagsChoosePerson;
+
+  /// No description provided for @postTagsChooseCar.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a car'**
+  String get postTagsChooseCar;
+
+  /// No description provided for @postTagsNoCars.
+  ///
+  /// In en, this message translates to:
+  /// **'This person has no cars to tag.'**
+  String get postTagsNoCars;
+
+  /// No description provided for @postTagsNoPeopleFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No people found.'**
+  String get postTagsNoPeopleFound;
+
+  /// No description provided for @postTagsLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load. Please try again.'**
+  String get postTagsLoadError;
+
+  /// No description provided for @postVisibilityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Who sees what'**
+  String get postVisibilityTitle;
+
+  /// No description provided for @postVisibilitySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide a counter and others won\'t see that number — they can still like, comment and share.'**
+  String get postVisibilitySubtitle;
+
+  /// No description provided for @postVisibilityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'VISIBLE COUNTS'**
+  String get postVisibilityLabel;
+
+  /// No description provided for @postVisibilityLikesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show like count'**
+  String get postVisibilityLikesTitle;
+
+  /// No description provided for @postVisibilityLikesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Others can see how many likes this post has'**
+  String get postVisibilityLikesDesc;
+
+  /// No description provided for @postVisibilityCommentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show comment count'**
+  String get postVisibilityCommentsTitle;
+
+  /// No description provided for @postVisibilityCommentsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide the number — comments stay open'**
+  String get postVisibilityCommentsDesc;
+
+  /// No description provided for @postVisibilitySharesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show share count'**
+  String get postVisibilitySharesTitle;
+
+  /// No description provided for @postVisibilitySharesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Others can see how many times it was shared'**
+  String get postVisibilitySharesDesc;
+
+  /// No description provided for @postVisibilitySavedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show saved count'**
+  String get postVisibilitySavedTitle;
+
+  /// No description provided for @postVisibilitySavedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Others can see how many times it was saved'**
+  String get postVisibilitySavedDesc;
+
+  /// No description provided for @postVisibilityTimeNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts show a relative time — \"2h ago\", \"3 days ago\" — never the exact date. This is automatic and always on.'**
+  String get postVisibilityTimeNote;
+
+  /// No description provided for @postReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Looking good?'**
+  String get postReviewTitle;
+
+  /// No description provided for @postReviewSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This is exactly how your post appears in the feed.'**
+  String get postReviewSubtitle;
+
+  /// No description provided for @postReviewYou.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get postReviewYou;
+
+  /// No description provided for @postReviewJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'JUST NOW'**
+  String get postReviewJustNow;
+
+  /// No description provided for @postValPhotosRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Add at least one photo to continue.'**
+  String get postValPhotosRequired;
+
+  /// No description provided for @postDiscardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard post?'**
+  String get postDiscardTitle;
+
+  /// No description provided for @postDiscardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your photos, caption and tags won\'t be saved.'**
+  String get postDiscardBody;
+
+  /// No description provided for @postKeepEditing.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep editing'**
+  String get postKeepEditing;
+
+  /// No description provided for @postDiscard.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get postDiscard;
+
+  /// No description provided for @postCreatedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Post published.'**
+  String get postCreatedSuccess;
+
+  /// No description provided for @postPhaseCreating.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating…'**
+  String get postPhaseCreating;
+
+  /// No description provided for @postPhaseUploading.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading photos…'**
+  String get postPhaseUploading;
+
+  /// No description provided for @postErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t publish your post. Please try again.'**
+  String get postErrorGeneric;
+
+  /// No description provided for @postErrorImageUpload.
+  ///
+  /// In en, this message translates to:
+  /// **'Your photos couldn\'t be uploaded. Please try again.'**
+  String get postErrorImageUpload;
+
+  /// No description provided for @postErrorInvalidTags.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t tag a car without also tagging its owner.'**
+  String get postErrorInvalidTags;
+
+  /// No description provided for @postErrorNotOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have permission to do that.'**
+  String get postErrorNotOwner;
+
+  /// No description provided for @postErrorNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This post no longer exists.'**
+  String get postErrorNotFound;
 }
 
 class _AppLocalizationsDelegate

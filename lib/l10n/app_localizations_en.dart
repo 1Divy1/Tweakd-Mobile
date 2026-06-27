@@ -634,6 +634,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navContests => 'CONTESTS';
 
   @override
+  String get navCreate => 'CREATE';
+
+  @override
   String get navProfile => 'PROFILE';
 
   @override
@@ -1191,4 +1194,220 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get settingsLogoutBody =>
       'You will need to sign in again to access your account.';
+
+  @override
+  String get postNewPost => 'NEW POST';
+
+  @override
+  String get postStepPhotos => 'PHOTOS';
+
+  @override
+  String get postStepCaption => 'CAPTION';
+
+  @override
+  String get postStepTags => 'TAGS';
+
+  @override
+  String get postStepVisibility => 'VISIBILITY';
+
+  @override
+  String get postStepReview => 'REVIEW';
+
+  @override
+  String get postStart => 'START';
+
+  @override
+  String get postPublishStep => 'PUBLISH';
+
+  @override
+  String get postBack => 'BACK';
+
+  @override
+  String get postNext => 'NEXT';
+
+  @override
+  String get postPublish => 'PUBLISH POST';
+
+  @override
+  String postStepCounter(int current, int total) {
+    return 'STEP $current / $total';
+  }
+
+  @override
+  String get postPhotosTitle => 'Pick your shots';
+
+  @override
+  String get postPhotosSubtitle =>
+      'Drag to reorder — the cover leads your post. Photos only for now.';
+
+  @override
+  String get postPhotosAdd => 'ADD';
+
+  @override
+  String get postPhotosCover => 'COVER';
+
+  @override
+  String get postPhotosVideosSoon => 'VIDEOS — COMING SOON';
+
+  @override
+  String postPhotosCount(int count, int max) {
+    return '$count / $max PHOTOS';
+  }
+
+  @override
+  String get postCaptionTitle => 'Say something';
+
+  @override
+  String get postCaptionSubtitle =>
+      'Add a description for your post. Mention details, the story, the build.';
+
+  @override
+  String get postCaptionLabel => 'DESCRIPTION';
+
+  @override
+  String get postCaptionHint => 'Share the story behind this post…';
+
+  @override
+  String postCaptionCounter(int count, int max) {
+    return '$count / $max';
+  }
+
+  @override
+  String get postTagsTitle => 'Tag cars & people';
+
+  @override
+  String get postTagsSubtitle =>
+      'Link the cars in this post from any garage, and tag the people in it.';
+
+  @override
+  String get postTagsCars => 'CARS';
+
+  @override
+  String get postTagsPeople => 'PEOPLE';
+
+  @override
+  String get postTagsCarHint => 'Search a car in any garage…';
+
+  @override
+  String get postTagsPeopleHint => 'Search people to tag…';
+
+  @override
+  String get postTagsAddCar => 'Tag a car';
+
+  @override
+  String get postTagsTagPersonFirst =>
+      'Tag a person first to tag one of their cars.';
+
+  @override
+  String get postTagsChoosePerson => 'Whose car?';
+
+  @override
+  String get postTagsChooseCar => 'Pick a car';
+
+  @override
+  String get postTagsNoCars => 'This person has no cars to tag.';
+
+  @override
+  String get postTagsNoPeopleFound => 'No people found.';
+
+  @override
+  String get postTagsLoadError => 'Couldn\'t load. Please try again.';
+
+  @override
+  String get postVisibilityTitle => 'Who sees what';
+
+  @override
+  String get postVisibilitySubtitle =>
+      'Hide a counter and others won\'t see that number — they can still like, comment and share.';
+
+  @override
+  String get postVisibilityLabel => 'VISIBLE COUNTS';
+
+  @override
+  String get postVisibilityLikesTitle => 'Show like count';
+
+  @override
+  String get postVisibilityLikesDesc =>
+      'Others can see how many likes this post has';
+
+  @override
+  String get postVisibilityCommentsTitle => 'Show comment count';
+
+  @override
+  String get postVisibilityCommentsDesc =>
+      'Hide the number — comments stay open';
+
+  @override
+  String get postVisibilitySharesTitle => 'Show share count';
+
+  @override
+  String get postVisibilitySharesDesc =>
+      'Others can see how many times it was shared';
+
+  @override
+  String get postVisibilitySavedTitle => 'Show saved count';
+
+  @override
+  String get postVisibilitySavedDesc =>
+      'Others can see how many times it was saved';
+
+  @override
+  String get postVisibilityTimeNote =>
+      'Posts show a relative time — \"2h ago\", \"3 days ago\" — never the exact date. This is automatic and always on.';
+
+  @override
+  String get postReviewTitle => 'Looking good?';
+
+  @override
+  String get postReviewSubtitle =>
+      'This is exactly how your post appears in the feed.';
+
+  @override
+  String get postReviewYou => 'You';
+
+  @override
+  String get postReviewJustNow => 'JUST NOW';
+
+  @override
+  String get postValPhotosRequired => 'Add at least one photo to continue.';
+
+  @override
+  String get postDiscardTitle => 'Discard post?';
+
+  @override
+  String get postDiscardBody =>
+      'Your photos, caption and tags won\'t be saved.';
+
+  @override
+  String get postKeepEditing => 'Keep editing';
+
+  @override
+  String get postDiscard => 'Discard';
+
+  @override
+  String get postCreatedSuccess => 'Post published.';
+
+  @override
+  String get postPhaseCreating => 'Creating…';
+
+  @override
+  String get postPhaseUploading => 'Uploading photos…';
+
+  @override
+  String get postErrorGeneric =>
+      'Couldn\'t publish your post. Please try again.';
+
+  @override
+  String get postErrorImageUpload =>
+      'Your photos couldn\'t be uploaded. Please try again.';
+
+  @override
+  String get postErrorInvalidTags =>
+      'You can\'t tag a car without also tagging its owner.';
+
+  @override
+  String get postErrorNotOwner => 'You don\'t have permission to do that.';
+
+  @override
+  String get postErrorNotFound => 'This post no longer exists.';
 }

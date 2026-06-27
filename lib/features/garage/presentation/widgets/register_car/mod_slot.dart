@@ -1,4 +1,4 @@
-import '../../../../../core/services/car_image_service.dart';
+import '../../../../../core/services/image_service.dart';
 import '../../../domain/entities/car_modification.dart';
 import '../../../domain/repositories/garage_repository.dart';
 import '../../bloc/add_car/event.dart';

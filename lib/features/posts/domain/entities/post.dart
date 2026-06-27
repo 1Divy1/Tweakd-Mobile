@@ -1,0 +1,76 @@
+import 'package:equatable/equatable.dart';
+
+import 'post_image.dart';
+import 'post_tagged_car.dart';
+import 'post_user.dart';
+
+/// A full post as returned by the backend. Engagement counters are always
+/// present; the matching `*CountEnabled` flag reflects the author's choice to
+/// show or hide that number — the UI honours the flag, the count stays valid.
+class PostEntity extends Equatable {
+  final String id;
+  final String? description;
+  final PostUserEntity author;
+  final List<PostImageEntity> images;
+  final List<PostUserEntity> taggedPeople;
+  final List<PostTaggedCarEntity> taggedCars;
+
+  final int likesCount;
+  final int commentsCount;
+  final int sharesCount;
+  final int savedCount;
+
+  final bool likesCountEnabled;
+  final bool commentsCountEnabled;
+  final bool sharesCountEnabled;
+  final bool savedCountEnabled;
+
+  final bool viewerHasLiked;
+  final bool viewerHasSaved;
+
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  const PostEntity({
+    required this.id,
+    required this.description,
+    required this.author,
+    required this.images,
+    required this.taggedPeople,
+    required this.taggedCars,
+    required this.likesCount,
+    required this.commentsCount,
+    required this.sharesCount,
+    required this.savedCount,
+    required this.likesCountEnabled,
+    required this.commentsCountEnabled,
+    required this.sharesCountEnabled,
+    required this.savedCountEnabled,
+    required this.viewerHasLiked,
+    required this.viewerHasSaved,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  @override
+  List<Object?> get props => [
+        id,
+        description,
+        author,
+        images,
+        taggedPeople,
+        taggedCars,
+        likesCount,
+        commentsCount,
+        sharesCount,
+        savedCount,
+        likesCountEnabled,
+        commentsCountEnabled,
+        sharesCountEnabled,
+        savedCountEnabled,
+        viewerHasLiked,
+        viewerHasSaved,
+        createdAt,
+        updatedAt,
+      ];
+}

@@ -334,6 +334,7 @@
   "navMap": "MAP",
   "navSearch": "SEARCH",
   "navContests": "CONTESTS",
+  "navCreate": "CREATE",
   "navProfile": "PROFILE",
 
   "garageErrorCarNotFound": "This car could not be found.",
@@ -539,5 +540,97 @@
   "settingsTitle": "SETTINGS",
   "settingsLogout": "Log out",
   "settingsLogoutTitle": "Log out?",
-  "settingsLogoutBody": "You will need to sign in again to access your account."
+  "settingsLogoutBody": "You will need to sign in again to access your account.",
+
+  "postNewPost": "NEW POST",
+  "postStepPhotos": "PHOTOS",
+  "postStepCaption": "CAPTION",
+  "postStepTags": "TAGS",
+  "postStepVisibility": "VISIBILITY",
+  "postStepReview": "REVIEW",
+  "postStart": "START",
+  "postPublishStep": "PUBLISH",
+  "postBack": "BACK",
+  "postNext": "NEXT",
+  "postPublish": "PUBLISH POST",
+  "postStepCounter": "STEP {current} / {total}",
+  "@postStepCounter": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+
+  "postPhotosTitle": "Pick your shots",
+  "postPhotosSubtitle": "Drag to reorder — the cover leads your post. Photos only for now.",
+  "postPhotosAdd": "ADD",
+  "postPhotosCover": "COVER",
+  "postPhotosVideosSoon": "VIDEOS — COMING SOON",
+  "postPhotosCount": "{count} / {max} PHOTOS",
+  "@postPhotosCount": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "max": { "type": "int" }
+    }
+  },
+
+  "postCaptionTitle": "Say something",
+  "postCaptionSubtitle": "Add a description for your post. Mention details, the story, the build.",
+  "postCaptionLabel": "DESCRIPTION",
+  "postCaptionHint": "Share the story behind this post…",
+  "postCaptionCounter": "{count} / {max}",
+  "@postCaptionCounter": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "max": { "type": "int" }
+    }
+  },
+
+  "postTagsTitle": "Tag cars & people",
+  "postTagsSubtitle": "Link the cars in this post from any garage, and tag the people in it.",
+  "postTagsCars": "CARS",
+  "postTagsPeople": "PEOPLE",
+  "postTagsCarHint": "Search a car in any garage…",
+  "postTagsPeopleHint": "Search people to tag…",
+  "postTagsAddCar": "Tag a car",
+  "postTagsTagPersonFirst": "Tag a person first to tag one of their cars.",
+  "postTagsChoosePerson": "Whose car?",
+  "postTagsChooseCar": "Pick a car",
+  "postTagsNoCars": "This person has no cars to tag.",
+  "postTagsNoPeopleFound": "No people found.",
+  "postTagsLoadError": "Couldn't load. Please try again.",
+
+  "postVisibilityTitle": "Who sees what",
+  "postVisibilitySubtitle": "Hide a counter and others won't see that number — they can still like, comment and share.",
+  "postVisibilityLabel": "VISIBLE COUNTS",
+  "postVisibilityLikesTitle": "Show like count",
+  "postVisibilityLikesDesc": "Others can see how many likes this post has",
+  "postVisibilityCommentsTitle": "Show comment count",
+  "postVisibilityCommentsDesc": "Hide the number — comments stay open",
+  "postVisibilitySharesTitle": "Show share count",
+  "postVisibilitySharesDesc": "Others can see how many times it was shared",
+  "postVisibilitySavedTitle": "Show saved count",
+  "postVisibilitySavedDesc": "Others can see how many times it was saved",
+  "postVisibilityTimeNote": "Posts show a relative time — \"2h ago\", \"3 days ago\" — never the exact date. This is automatic and always on.",
+
+  "postReviewTitle": "Looking good?",
+  "postReviewSubtitle": "This is exactly how your post appears in the feed.",
+  "postReviewYou": "You",
+  "postReviewJustNow": "JUST NOW",
+
+  "postValPhotosRequired": "Add at least one photo to continue.",
+
+  "postDiscardTitle": "Discard post?",
+  "postDiscardBody": "Your photos, caption and tags won't be saved.",
+  "postKeepEditing": "Keep editing",
+  "postDiscard": "Discard",
+
+  "postCreatedSuccess": "Post published.",
+  "postPhaseCreating": "Creating…",
+  "postPhaseUploading": "Uploading photos…",
+  "postErrorGeneric": "Couldn't publish your post. Please try again.",
+  "postErrorImageUpload": "Your photos couldn't be uploaded. Please try again.",
+  "postErrorInvalidTags": "You can't tag a car without also tagging its owner.",
+  "postErrorNotOwner": "You don't have permission to do that.",
+  "postErrorNotFound": "This post no longer exists."
 }

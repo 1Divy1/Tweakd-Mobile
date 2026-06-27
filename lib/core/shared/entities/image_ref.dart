@@ -4,11 +4,11 @@ import 'package:equatable/equatable.dart';
 /// [key] (domain/bucket agnostic) and builds a fully-qualified [url] on the fly
 /// when an image is read. Rule of thumb: display [url], send [key] back to the
 /// key-based endpoints — never reconstruct a key from a url.
-class CarImageRef extends Equatable {
+class ImageRef extends Equatable {
   final String key;
   final String url;
 
-  const CarImageRef({required this.key, required this.url});
+  const ImageRef({required this.key, required this.url});
 
   @override
   List<Object?> get props => [key, url];

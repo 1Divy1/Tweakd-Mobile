@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../../core/services/car_image_service.dart';
+import '../../../../../core/services/image_service.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../../../domain/repositories/garage_repository.dart';
 import '../../../domain/usecases/add_car.dart';
@@ -49,7 +49,7 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
   final GetModificationUploadUrlsUseCase getModificationUploadUrls;
   final PatchModificationUseCase patchModification;
   final DeleteModificationUseCase deleteModification;
-  final CarImageService imageService;
+  final ImageService imageService;
 
   AddCarBloc({
     required this.getBrands,

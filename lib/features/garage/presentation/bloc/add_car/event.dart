@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../../core/services/car_image_service.dart';
+import '../../../../../core/services/image_service.dart';
 import '../../../domain/repositories/garage_repository.dart';
 import '../../widgets/register_car/editable_image.dart';
 import '../../widgets/register_car/mod_slot.dart';

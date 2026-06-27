@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/error/base_failures.dart';
-import '../../../../core/services/car_image_service.dart';
+import '../../../../core/services/image_service.dart';
 import '../../domain/entities/car.dart';
 import '../../domain/entities/car_modification.dart';
 import '../../domain/entities/car_status_option.dart';
@@ -20,7 +20,7 @@ import '../datasources/storage_api_data_source.dart';
 class GarageRepositoryImpl implements GarageRepository {
   final GarageApiDataSource dataSource;
   final StorageApiDataSource storageDataSource;
-  final CarImageService imageService;
+  final ImageService imageService;
 
   GarageRepositoryImpl(this.dataSource, this.storageDataSource, this.imageService);
 

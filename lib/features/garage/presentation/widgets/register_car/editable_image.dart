@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../../core/services/car_image_service.dart';
+import '../../../../../core/services/image_service.dart';
 
 /// An image slot used by the register/edit wizard. In create mode every slot is
 /// a freshly picked local file ([LocalSlotImage]); in edit mode an existing

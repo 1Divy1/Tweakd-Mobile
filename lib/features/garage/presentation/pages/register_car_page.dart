@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/di/injection.dart';
-import '../../../../core/services/car_image_service.dart';
+import '../../../../core/services/image_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/car.dart';
@@ -50,7 +50,7 @@ class RegisterCarPage extends StatefulWidget {
 class _RegisterCarPageState extends State<RegisterCarPage> {
   // Compression is started the moment an image is picked, so the bytes are
   // ready by the time the user reaches the submit step.
-  final CarImageService _imageService = getIt<CarImageService>();
+  final ImageService _imageService = getIt<ImageService>();
 
   int _step = 0;
 

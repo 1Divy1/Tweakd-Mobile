@@ -1,5 +1,5 @@
+import '../../../../core/shared/entities/image_ref.dart';
 import '../../domain/entities/car.dart';
-import '../../domain/entities/car_image_ref.dart';
 import 'car_modification_model.dart';
 import 'car_status_option_model.dart';
 
@@ -18,7 +18,7 @@ class CarImageRefModel {
     );
   }
 
-  CarImageRef toEntity() => CarImageRef(key: key, url: url);
+  ImageRef toEntity() => ImageRef(key: key, url: url);
 }
 
 class CarModel {
