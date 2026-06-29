@@ -6,10 +6,12 @@ import '../../domain/entities/follow_list_user.dart';
 import '../../../../core/shared/widgets/search_input.dart';
 import '../../../../core/shared/widgets/search_loading_view.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../profile/presentation/widgets/shared/profile_top_bar.dart';
 import '../bloc/bloc.dart';
 import '../bloc/event.dart';
 import '../bloc/state.dart';
+import '../utils/follow_error_mapper.dart';
 import '../widgets/follow_results_view.dart';
 import '../widgets/follow_tab_switcher.dart';
 
@@ -73,6 +75,7 @@ class _FollowersFollowingPageState extends State<FollowersFollowingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: SafeArea(
@@ -95,7 +98,9 @@ class _FollowersFollowingPageState extends State<FollowersFollowingPage> {
                     onChanged: _onSearchChanged,
                     onClear: _onSearchCleared,
                     autofocus: false,
-                    hintText: _showFollowers ? 'Search followers...' : 'Search following...',
+                    hintText: _showFollowers
+                        ? l10n.followSearchFollowersHint
+                        : l10n.followSearchFollowingHint,
                   ),
                 ],
               ),
@@ -126,7 +131,11 @@ class _FollowersFollowingPageState extends State<FollowersFollowingPage> {
                         );
                       }
                     }
-                    if (state is FollowError) return SearchErrorView(message: state.message);
+                    if (state is FollowError) {
+                      return SearchErrorView(
+                        message: followErrorMessage(l10n, state.code),
+                      );
+                    }
                     return const SearchLoadingView();
                   },
                 ),

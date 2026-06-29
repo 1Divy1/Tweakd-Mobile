@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/car_modification.dart';
 import '../../../domain/entities/reference_data.dart';
+import '../../utils/garage_error_mapper.dart';
 
 abstract class LogModState extends Equatable {
   const LogModState();
@@ -28,12 +29,12 @@ class LogModCategoriesLoaded extends LogModState {
 }
 
 class LogModCategoriesError extends LogModState {
-  final String message;
+  final GarageErrorCode code;
 
-  const LogModCategoriesError({required this.message});
+  const LogModCategoriesError({required this.code});
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [code];
 }
 
 class LogModSubmitting extends LogModState {
@@ -55,11 +56,11 @@ class LogModSuccess extends LogModState {
 }
 
 class LogModError extends LogModState {
-  final String message;
+  final GarageErrorCode code;
   final List<CarModCategoryEntity> categories;
 
-  const LogModError({required this.message, required this.categories});
+  const LogModError({required this.code, required this.categories});
 
   @override
-  List<Object?> get props => [message, categories];
+  List<Object?> get props => [code, categories];
 }

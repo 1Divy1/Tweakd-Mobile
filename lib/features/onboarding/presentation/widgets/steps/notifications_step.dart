@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/services/push_permission_service.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/notification_preferences.dart';
 import '../onboarding_fields.dart';
 
@@ -35,14 +36,14 @@ class NotificationsStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const OnboardingSectionHeader(
-          label: '06 — NOTIFICATIONS',
-          title: 'What should we ping you about?',
-          subtitle: 'Stay on top of what matters. You can fine-tune any of '
-              'these later.',
+        OnboardingSectionHeader(
+          label: l10n.onboardingNotificationsLabel,
+          title: l10n.onboardingNotificationsTitle,
+          subtitle: l10n.onboardingNotificationsSubtitle,
         ),
         const SizedBox(height: 20),
         _PushPermissionBanner(
@@ -51,62 +52,62 @@ class NotificationsStep extends StatelessWidget {
           onOpenSettings: onOpenPushSettings,
         ),
         const SizedBox(height: 24),
-        _GroupLabel('ON YOUR CONTENT'),
+        _GroupLabel(l10n.onboardingNotifGroupContent),
         _ToggleRow(
           icon: Icons.favorite_rounded,
           iconColor: AppColors.accent,
-          title: 'Likes',
-          subtitle: 'When someone likes your builds & posts',
+          title: l10n.onboardingNotifLikesTitle,
+          subtitle: l10n.onboardingNotifLikesSubtitle,
           value: prefs.likesEnabled,
           onChanged: (v) => onChanged(prefs.copyWith(likesEnabled: v)),
         ),
         _ToggleRow(
           icon: Icons.mode_comment_outlined,
-          title: 'Comments',
-          subtitle: 'Replies and threads on your content',
+          title: l10n.onboardingNotifCommentsTitle,
+          subtitle: l10n.onboardingNotifCommentsSubtitle,
           value: prefs.commentsEnabled,
           onChanged: (v) => onChanged(prefs.copyWith(commentsEnabled: v)),
         ),
         _ToggleRow(
           icon: Icons.ios_share_rounded,
-          title: 'Shares',
-          subtitle: 'When your content gets reposted',
+          title: l10n.onboardingNotifSharesTitle,
+          subtitle: l10n.onboardingNotifSharesSubtitle,
           value: prefs.sharesEnabled,
           onChanged: (v) => onChanged(prefs.copyWith(sharesEnabled: v)),
         ),
         const SizedBox(height: 18),
-        _GroupLabel('MESSAGES'),
+        _GroupLabel(l10n.onboardingNotifGroupMessages),
         _ToggleRow(
           icon: Icons.mail_outline_rounded,
-          title: 'Direct messages',
-          subtitle: 'New DMs and message requests',
+          title: l10n.onboardingNotifDmsTitle,
+          subtitle: l10n.onboardingNotifDmsSubtitle,
           value: prefs.dmsEnabled,
           onChanged: (v) => onChanged(prefs.copyWith(dmsEnabled: v)),
         ),
         const SizedBox(height: 18),
-        _GroupLabel('MEETS & EVENTS · WITHIN $radiusKm KM'),
+        _GroupLabel(l10n.onboardingNotifGroupMeets(radiusKm)),
         _ToggleRow(
           icon: Icons.bolt_rounded,
           iconColor: AppColors.accent,
-          title: 'Flash meets',
-          subtitle: 'Spontaneous link-ups happening near you',
+          title: l10n.onboardingNotifFlashMeetsTitle,
+          subtitle: l10n.onboardingNotifFlashMeetsSubtitle,
           value: prefs.flashMeetsEnabled,
           onChanged: (v) => onChanged(prefs.copyWith(flashMeetsEnabled: v)),
         ),
         _ToggleRow(
           icon: Icons.calendar_today_rounded,
-          title: 'Organized events',
-          subtitle: 'Shows, track days & cars-and-coffee',
+          title: l10n.onboardingNotifEventsTitle,
+          subtitle: l10n.onboardingNotifEventsSubtitle,
           value: prefs.organizedEventsEnabled,
           onChanged: (v) =>
               onChanged(prefs.copyWith(organizedEventsEnabled: v)),
         ),
         const SizedBox(height: 18),
-        _GroupLabel('MARKETPLACE'),
+        _GroupLabel(l10n.onboardingNotifGroupMarketplace),
         _ToggleRow(
           icon: Icons.shopping_bag_outlined,
-          title: 'Price drops',
-          subtitle: 'When a saved item gets a discount',
+          title: l10n.onboardingNotifPriceDropsTitle,
+          subtitle: l10n.onboardingNotifPriceDropsSubtitle,
           value: prefs.priceDropsEnabled,
           onChanged: (v) => onChanged(prefs.copyWith(priceDropsEnabled: v)),
         ),
@@ -135,6 +136,7 @@ class _PushPermissionBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (permission) {
       case PushPermission.granted:
         return Container(
@@ -157,11 +159,10 @@ class _PushPermissionBanner extends StatelessWidget {
                     size: 20, color: AppColors.accent),
               ),
               const SizedBox(width: 14),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Push notifications are on. Pick what you want to hear about '
-                  'below.',
-                  style: TextStyle(
+                  l10n.onboardingPushGrantedText,
+                  style: const TextStyle(
                     color: AppColors.ink2,
                     fontSize: 13.5,
                     height: 1.3,
@@ -179,11 +180,9 @@ class _PushPermissionBanner extends StatelessWidget {
       case PushPermission.blocked:
         return _ActionBanner(
           icon: Icons.notifications_off_rounded,
-          title: 'Push notifications are turned off',
-          subtitle:
-              'They\'re blocked in your system settings. Turn them on to get '
-              'pinged about the topics below.',
-          actionLabel: 'OPEN SETTINGS',
+          title: l10n.onboardingPushBlockedTitle,
+          subtitle: l10n.onboardingPushBlockedSubtitle,
+          actionLabel: l10n.onboardingPushOpenSettings,
           onAction: onOpenSettings,
           filled: false,
         );
@@ -191,10 +190,9 @@ class _PushPermissionBanner extends StatelessWidget {
       case PushPermission.canRequest:
         return _ActionBanner(
           icon: Icons.notifications_active_rounded,
-          title: 'Turn on push notifications',
-          subtitle: 'Allow notifications so we can ping you about the topics '
-              'you pick below.',
-          actionLabel: 'ENABLE',
+          title: l10n.onboardingPushEnableTitle,
+          subtitle: l10n.onboardingPushEnableSubtitle,
+          actionLabel: l10n.onboardingPushEnable,
           onAction: onEnable,
           filled: true,
         );

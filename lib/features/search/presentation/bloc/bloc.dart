@@ -77,7 +77,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         emit(
           SearchError(
             query: event.query,
-            message: SearchErrorMapper.getMessage(failure),
+            code: SearchErrorMapper.getCode(failure),
           ),
         );
       },

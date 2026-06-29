@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/onboarding reference/community_role_entity.dart';
 import '../onboarding_fields.dart';
 import '../onboarding_pickers.dart';
@@ -21,17 +21,17 @@ class RoleStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const OnboardingSectionHeader(
-          label: '03 — ROLE',
-          title: 'Your role in the scene',
-          subtitle: 'How do you show up in the community? Choose all that '
-              'apply — it shapes who you meet.',
+        OnboardingSectionHeader(
+          label: l10n.onboardingRoleLabel,
+          title: l10n.onboardingRoleTitle,
+          subtitle: l10n.onboardingRoleSubtitle,
         ),
         const SizedBox(height: 20),
-        const OnboardingFieldLabel('ROLES'),
+        OnboardingFieldLabel(l10n.onboardingFieldRoles),
         const SizedBox(height: 12),
         Wrap(
           spacing: 10,

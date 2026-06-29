@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/car_status_option.dart';
 import 'register_car_fields.dart';
 
@@ -22,15 +23,16 @@ class StoryStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const RegisterSectionHeader(
-          label: '04 — STORY',
-          title: "What's this car's story? Share it…",
+        RegisterSectionHeader(
+          label: l10n.garageRegisterStoryLabel,
+          title: l10n.garageRegisterStoryTitle,
         ),
         const SizedBox(height: 20),
-        const RegisterFieldLabel('STATUS'),
+        RegisterFieldLabel(l10n.garageFieldStatus),
         const SizedBox(height: 12),
         Wrap(
           spacing: 10,
@@ -45,11 +47,11 @@ class StoryStep extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 24),
-        const RegisterFieldLabel('THE STORY', optional: true),
+        RegisterFieldLabel(l10n.garageFieldTheStory, optional: true),
         const SizedBox(height: 8),
         RegisterFormField(
           controller: storyCtrl,
-          hint: "What's this car's story? Share it…",
+          hint: l10n.garageHintStory,
           maxLines: 5,
         ),
       ],

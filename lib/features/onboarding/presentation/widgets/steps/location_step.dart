@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/onboarding reference/city_entity.dart';
 import '../../../domain/entities/onboarding reference/country_entity.dart';
 import '../onboarding_fields.dart';
@@ -54,27 +55,27 @@ class LocationStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final countrySelected = selectedCountry != null;
     final regionSelected = selectedRegion != null;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const OnboardingSectionHeader(
-          label: '05 — LOCATION',
-          title: 'Where’s home base?',
-          subtitle: 'Used for local meets, events and marketplace finds — '
-              'never shown publicly on your profile.',
+        OnboardingSectionHeader(
+          label: l10n.onboardingLocationLabel,
+          title: l10n.onboardingLocationTitle,
+          subtitle: l10n.onboardingLocationSubtitle,
         ),
         const SizedBox(height: 20),
-        const OnboardingFieldLabel('COUNTRY'),
+        OnboardingFieldLabel(l10n.onboardingFieldCountry),
         const SizedBox(height: 8),
         OnboardingSelectorTile(
-          placeholder: 'Select your country',
+          placeholder: l10n.onboardingSelectCountryPlaceholder,
           value: selectedCountry?.name,
           onTap: () => showOnboardingPicker<CountryEntity>(
             context: context,
-            title: 'Select country',
+            title: l10n.onboardingPickerCountry,
             items: countries,
             labelOf: (c) => c.name,
             onSelected: onSelectCountry,
@@ -82,16 +83,18 @@ class LocationStep extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        const OnboardingFieldLabel('REGION'),
+        OnboardingFieldLabel(l10n.onboardingFieldRegion),
         const SizedBox(height: 8),
         OnboardingSelectorTile(
-          placeholder: countrySelected ? 'Select your region' : 'Pick a country first',
+          placeholder: countrySelected
+              ? l10n.onboardingSelectRegionPlaceholder
+              : l10n.onboardingPickCountryFirst,
           value: selectedRegion,
           loading: citiesLoading,
           enabled: countrySelected && _regions.isNotEmpty,
           onTap: () => showOnboardingPicker<String>(
             context: context,
-            title: 'Select region',
+            title: l10n.onboardingPickerRegion,
             items: _regions,
             labelOf: (r) => r,
             onSelected: onSelectRegion,
@@ -99,15 +102,17 @@ class LocationStep extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        const OnboardingFieldLabel('CITY'),
+        OnboardingFieldLabel(l10n.onboardingFieldCity),
         const SizedBox(height: 8),
         OnboardingSelectorTile(
-          placeholder: regionSelected ? 'Select your city' : 'Pick a region first',
+          placeholder: regionSelected
+              ? l10n.onboardingSelectCityPlaceholder
+              : l10n.onboardingPickRegionFirst,
           value: selectedCity?.name,
           enabled: regionSelected && _citiesInRegion.isNotEmpty,
           onTap: () => showOnboardingPicker<CityEntity>(
             context: context,
-            title: 'Select city',
+            title: l10n.onboardingPickerCity,
             items: _citiesInRegion,
             labelOf: (c) => c.name,
             onSelected: onSelectCity,
@@ -155,9 +160,9 @@ class _RadiusCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'DISCOVERY RADIUS',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.onboardingDiscoveryRadius,
+                  style: const TextStyle(
                     color: AppColors.muteSoft,
                     fontSize: 11,
                     fontWeight: FontWeight.w800,

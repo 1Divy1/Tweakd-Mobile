@@ -1,0 +1,739 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Tweakd",
+  "@appTitle": {
+    "description": "The application name shown in the OS task switcher"
+  },
+
+  "settingsLanguage": "Language",
+  "@settingsLanguage": {
+    "description": "Label for the language selector in settings"
+  },
+
+  "languageEnglish": "English",
+  "languageRomanian": "Romanian",
+
+  "commonSave": "Save",
+  "commonCancel": "Cancel",
+  "commonRetry": "Retry",
+
+  "profileFollowers": "{count, plural, =0{No followers} =1{1 follower} other{{count} followers}}",
+  "@profileFollowers": {
+    "description": "Follower count with pluralization",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "greetingHello": "Hello, {name}!",
+  "@greetingHello": {
+    "description": "Greeting that interpolates the user's name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+
+  "authLoginTitle": "Welcome back",
+  "@authLoginTitle": {
+    "description": "Login page headline"
+  },
+  "authLoginSubtitle": "Sign in to get back in the garage.",
+  "@authLoginSubtitle": {
+    "description": "Login page subtitle"
+  },
+  "authSignupTitle": "Join the grid",
+  "@authSignupTitle": {
+    "description": "Sign up page headline"
+  },
+  "authSignupSubtitle": "Create your account and connect with the community",
+  "@authSignupSubtitle": {
+    "description": "Sign up page subtitle"
+  },
+
+  "authEmailLabel": "Email",
+  "authEmailHint": "you@email.com",
+  "authPasswordLabel": "Password",
+  "authPasswordHintLogin": "Enter your password",
+  "authPasswordHintSignup": "Create a password",
+  "authUsernameLabel": "Username",
+  "authUsernameHint": "username",
+
+  "authForgotPassword": "FORGOT PASSWORD?",
+  "authSignIn": "Sign in",
+  "authCreateAccount": "Create account",
+  "authOrContinueWith": "Or continue with",
+  "authOrSignUpWith": "Or sign up with",
+
+  "authNoAccountPrefix": "New to Tweakd? ",
+  "@authNoAccountPrefix": {
+    "description": "Prefix before the 'Create account' link on the login page"
+  },
+  "authHaveAccountPrefix": "Already have an account? ",
+  "@authHaveAccountPrefix": {
+    "description": "Prefix before the 'Sign in' link on the sign up page"
+  },
+
+  "authTermsPrefix": "By creating an account you agree to the ",
+  "authTermsTerms": "Terms",
+  "authTermsAnd": " & ",
+  "authTermsPrivacy": "Privacy Policy",
+
+  "authComingSoon": "{feature} is coming soon.",
+  "@authComingSoon": {
+    "description": "Snackbar shown when tapping a not-yet-implemented feature",
+    "placeholders": {
+      "feature": {
+        "type": "String"
+      }
+    }
+  },
+  "authFeatureProviderSignIn": "{provider} sign-in",
+  "@authFeatureProviderSignIn": {
+    "description": "Feature name for a social provider sign-in, fed into authComingSoon",
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "authFeaturePasswordRecovery": "Password recovery",
+  "authFeatureEmailSignUp": "Email sign up",
+
+  "onboardingBack": "BACK",
+  "onboardingNext": "NEXT",
+  "onboardingFinishSetup": "FINISH SETUP",
+  "onboardingFinishingSetup": "Finishing setup…",
+  "onboardingWorking": "Working…",
+  "onboardingStart": "START",
+  "onboardingFinish": "FINISH",
+  "onboardingStepCounter": "STEP {current} / {total}",
+  "@onboardingStepCounter": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "onboardingOptional": "OPTIONAL",
+  "onboardingSearchHint": "Search…",
+  "onboardingNoMatches": "No matches",
+
+  "onboardingStepIdentity": "IDENTITY",
+  "onboardingStepGarage": "PREFERENCES",
+  "onboardingStepRole": "ROLE",
+  "onboardingStepTaste": "TASTE",
+  "onboardingStepLocation": "LOCATION",
+  "onboardingStepNotifications": "NOTIFICATIONS",
+
+  "onboardingErrorPickRole": "Pick at least one role.",
+  "onboardingErrorPickCategory": "Pick at least {count} category to continue.",
+  "@onboardingErrorPickCategory": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "onboardingErrorSelectCity": "Select your city to continue.",
+
+  "onboardingUsernameErrorEmpty": "Please choose a handle.",
+  "onboardingUsernameErrorTooShort": "Handle must be at least {min} characters.",
+  "@onboardingUsernameErrorTooShort": {
+    "placeholders": {
+      "min": { "type": "int" }
+    }
+  },
+  "onboardingUsernameErrorTooLong": "Handle must be at most {max} characters.",
+  "@onboardingUsernameErrorTooLong": {
+    "placeholders": {
+      "max": { "type": "int" }
+    }
+  },
+  "onboardingUsernameErrorInvalidChars": "Use lowercase letters, numbers, dots (.) and underscores (_).",
+
+  "onboardingUsernameChecking": "Checking availability…",
+  "onboardingUsernameTaken": " is already taken",
+  "onboardingUsernameAvailable": " is available",
+  "onboardingUsernameCheckFailed": "Couldn't check availability. Tap Next to try anyway.",
+  "onboardingUsernameHelp": "This will be your public handle.",
+  "onboardingUsernameHint": "your_handle",
+
+  "onboardingErrorLoadFailed": "Failed to load onboarding data. Please try again.",
+  "onboardingErrorUsernameTaken": "That handle is already taken. Try another one.",
+  "onboardingErrorSessionExpired": "Your session is not active. Please log in again.",
+  "onboardingErrorInvalidUsername": "That username isn't valid. Please try another.",
+  "onboardingErrorGeneric": "Something went wrong. Please try again.",
+
+  "onboardingIdentityLabel": "01 — IDENTITY",
+  "onboardingIdentityTitle": "Claim your handle",
+  "onboardingIdentitySubtitle": "This is how the community finds and mentions you. Add a short bio so people get your vibe at a glance.",
+  "onboardingFieldUsername": "USERNAME",
+  "onboardingFieldBio": "BIO",
+  "onboardingBioHint": "Tell others a few things about yourself…",
+
+  "onboardingGarageLabel": "02 — PREFERENCES",
+  "onboardingGarageTitle": "Brands & models you love",
+  "onboardingGarageSubtitle": "Pick your favorite brands and models. We’ll tune your feed around them.",
+  "onboardingFieldYourPicks": "YOUR PICKS",
+  "onboardingFieldModels": "MODELS",
+  "onboardingSelectBrand": "Select a brand",
+  "onboardingAddModels": "Add models",
+  "onboardingBrandModels": "{brand} models",
+  "@onboardingBrandModels": {
+    "placeholders": {
+      "brand": { "type": "String" }
+    }
+  },
+  "onboardingAddBrand": "ADD ANOTHER BRAND",
+
+  "onboardingRoleLabel": "03 — ROLE",
+  "onboardingRoleTitle": "Your role in the scene",
+  "onboardingRoleSubtitle": "How do you show up in the community? Choose all that apply.",
+  "onboardingFieldRoles": "ROLES",
+
+  "onboardingTasteLabel": "04 — TASTE",
+  "onboardingTasteTitle": "Categories you’re into",
+  "onboardingTasteSubtitle": "Select the categories you’re passionate about. We’ll lead with these across your feed and the marketplace.",
+  "onboardingFieldCategories": "CATEGORIES",
+  "onboardingTasteSelectedCount": "{count} selected",
+  "@onboardingTasteSelectedCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "onboardingTastePickHint": " · pick at least 1 to calibrate your feed.",
+
+  "onboardingLocationLabel": "05 — LOCATION",
+  "onboardingLocationTitle": "Where does the local community find you?",
+  "onboardingLocationSubtitle": "Your location helps us tailor your experience with local carmeets, events and relevant marketplace finds.",
+  "onboardingFieldCountry": "COUNTRY",
+  "onboardingFieldRegion": "REGION",
+  "onboardingFieldCity": "CITY",
+  "onboardingSelectCountryPlaceholder": "Select your country",
+  "onboardingSelectRegionPlaceholder": "Select your region",
+  "onboardingPickCountryFirst": "Pick a country first",
+  "onboardingSelectCityPlaceholder": "Select your city",
+  "onboardingPickRegionFirst": "Pick a region first",
+  "onboardingPickerCountry": "Select country",
+  "onboardingPickerRegion": "Select region",
+  "onboardingPickerCity": "Select city",
+  "onboardingDiscoveryRadius": "DISCOVERY RADIUS",
+
+  "onboardingNotificationsLabel": "06 — NOTIFICATIONS",
+  "onboardingNotificationsTitle": "What should we ping you about?",
+  "onboardingNotificationsSubtitle": "Stay on top of what matters. You can fine-tune any of these later.",
+  "onboardingPushGrantedText": "Push notifications are on. Pick what you want to hear about below.",
+  "onboardingPushBlockedTitle": "Push notifications are turned off",
+  "onboardingPushBlockedSubtitle": "They're blocked in your system settings. Turn them on to get pinged about the topics below.",
+  "onboardingPushOpenSettings": "OPEN SETTINGS",
+  "onboardingPushEnableTitle": "Turn on push notifications",
+  "onboardingPushEnableSubtitle": "Allow notifications so we can ping you about the topics you pick below.",
+  "onboardingPushEnable": "ENABLE",
+  "onboardingNotifGroupContent": "ON YOUR CONTENT",
+  "onboardingNotifGroupMessages": "MESSAGES",
+  "onboardingNotifGroupMeets": "MEETS & EVENTS · WITHIN {radius} KM",
+  "@onboardingNotifGroupMeets": {
+    "placeholders": {
+      "radius": { "type": "int" }
+    }
+  },
+  "onboardingNotifGroupMarketplace": "MARKETPLACE",
+  "onboardingNotifLikesTitle": "Likes",
+  "onboardingNotifLikesSubtitle": "When someone likes your builds & posts",
+  "onboardingNotifCommentsTitle": "Comments",
+  "onboardingNotifCommentsSubtitle": "Replies and threads on your content",
+  "onboardingNotifSharesTitle": "Shares",
+  "onboardingNotifSharesSubtitle": "When your content gets reposted",
+  "onboardingNotifDmsTitle": "Direct messages",
+  "onboardingNotifDmsSubtitle": "New DMs and message requests",
+  "onboardingNotifFlashMeetsTitle": "Flash meets",
+  "onboardingNotifFlashMeetsSubtitle": "Spontaneous link-ups happening near you",
+  "onboardingNotifEventsTitle": "Organized events",
+  "onboardingNotifEventsSubtitle": "Shows, track days & cars-and-coffee",
+  "onboardingNotifPriceDropsTitle": "Price drops",
+  "onboardingNotifPriceDropsSubtitle": "When a saved item gets a discount",
+
+  "profileTitle": "PROFILE",
+  "profileStatFollowers": "FOLLOWERS",
+  "profileStatFollowing": "FOLLOWING",
+
+  "profileErrorUsernameTaken": "The username is already taken. Please choose a different one.",
+  "profileErrorSessionExpired": "Your session is not active. Please log in again.",
+  "profileErrorNotFound": "This profile could not be found.",
+  "profileErrorInvalidUsername": "That username isn't valid. Please try another.",
+  "profileErrorGeneric": "Something went wrong. Please try again.",
+
+  "followActionFollow": "FOLLOW",
+  "followActionUnfollow": "UNFOLLOW",
+  "followActionRequested": "REQUESTED",
+
+  "garageSectionEyebrow": "THE GARAGE",
+  "garageMachineCount": "{count, plural, =0{0 Machines} =1{1 Machine} other{{count} Machines}}",
+  "@garageMachineCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "garageAddButton": "+ ADD",
+  "garageEmptyOwner": "Your garage is empty. Add your first machine.",
+  "garageEmptyVisitor": "No machines yet.",
+
+  "followActionFollowing": "FOLLOWING",
+  "followRemove": "REMOVE",
+  "followSearchFollowersHint": "Search followers...",
+  "followSearchFollowingHint": "Search following...",
+  "followResultsForQuery": "FOR \"{query}\"",
+  "@followResultsForQuery": {
+    "placeholders": {
+      "query": { "type": "String" }
+    }
+  },
+  "followNoResultsQuery": "No results for \"{query}\"",
+  "@followNoResultsQuery": {
+    "placeholders": {
+      "query": { "type": "String" }
+    }
+  },
+  "followNoFollowers": "No followers yet",
+  "followNoFollowing": "Not following anyone yet",
+
+  "followErrorCannotFollowSelf": "You can't follow yourself.",
+  "followErrorPrivateProfile": "This profile is private.",
+  "followErrorUserNotFound": "That user could not be found.",
+  "followErrorRequestNotFound": "That follow request could not be found.",
+  "followErrorSessionExpired": "Your session is not active. Please log in again.",
+  "followErrorGeneric": "Something went wrong. Please try again.",
+
+  "searchTitle": "SEARCH",
+  "searchInputHint": "Search by username",
+  "searchEmptyTitle": "Search community members",
+  "searchEmptySubtitle": "Type a username to find members across\nthe community.",
+  "searchResultsDrivers": "{count, plural, =1{1 USER} other{{count} USERS}}",
+  "@searchResultsDrivers": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "searchForQuery": "FOR \"{query}\"",
+  "@searchForQuery": {
+    "placeholders": {
+      "query": { "type": "String" }
+    }
+  },
+  "searchNoResults": "No users found for \"{query}\"",
+  "@searchNoResults": {
+    "placeholders": {
+      "query": { "type": "String" }
+    }
+  },
+  "searchErrorGeneric": "Something went wrong. Please try again.",
+
+  "navFeed": "FEED",
+  "navMap": "MAP",
+  "navSearch": "SEARCH",
+  "navContests": "CONTESTS",
+  "navCreate": "CREATE",
+  "navProfile": "PROFILE",
+
+  "garageErrorCarNotFound": "This car could not be found.",
+  "garageErrorGarageNotFound": "This garage could not be found.",
+  "garageErrorPrivateGarage": "This garage is private.",
+  "garageErrorNotOwner": "You don't have permission to do that.",
+  "garageErrorInvalidReference": "Some of the selected options are invalid.",
+  "garageErrorGeneric": "Something went wrong. Please try again.",
+  "garageErrorRefDataLoadFailed": "Failed to load form data. Please try again.",
+  "garageErrorCategoriesLoadFailed": "Failed to load categories. Please try again.",
+  "garageErrorPhotoUploadFailed": "Photo upload failed. Please try again.",
+  "garageErrorEditSaveFailed": "Some changes could not be saved. Please try again.",
+
+  "garagePhaseCreating": "Creating machine…",
+  "garagePhaseUploadingPhotos": "Uploading photos…",
+  "garagePhaseSavingChanges": "Saving changes…",
+  "garagePhaseSavingPhotos": "Saving photos…",
+
+  "garageRegisterStepIdentity": "IDENTITY",
+  "garageRegisterStepPerformance": "PERFORMANCE",
+  "garageRegisterStepConfiguration": "CONFIGURATION",
+  "garageRegisterStepStory": "STORY",
+  "garageRegisterStepGallery": "GALLERY",
+  "garageRegisterStepMods": "MODS",
+  "garageRegisterStart": "START",
+  "garageRegisterFinish": "FINISH",
+  "garageRegisterStepCounter": "STEP {current} / {total}",
+  "@garageRegisterStepCounter": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "garageRegisterBack": "BACK",
+  "garageRegisterNext": "NEXT",
+  "garageRegisterWorking": "Working…",
+  "garageRegisterAddCar": "ADD CAR",
+  "garageRegisterSave": "SAVE",
+  "garageOptional": "OPTIONAL",
+  "garageSearchHint": "Search…",
+  "garageNoMatches": "No matches",
+
+  "garageRegisterIdentityLabel": "01 — IDENTITY",
+  "garageRegisterIdentityTitle": "Visual & basics",
+  "garageFieldPrimaryAsset": "PRIMARY ASSET",
+  "garageFieldMake": "MAKE",
+  "garageHintMake": "e.g. Porsche",
+  "garagePickerMake": "Select Make",
+  "garageFieldModel": "MODEL",
+  "garageHintModelPickMakeFirst": "Select a make first",
+  "garageHintModel": "e.g. 911 GT3 RS",
+  "garagePickerModel": "Select Model",
+  "garageFieldYear": "YEAR",
+  "garageFieldChassisCode": "CHASSIS CODE",
+  "garageFieldModelCode": "MODEL CODE",
+  "garageHintModelCode": "e.g. G30",
+  "garagePrimaryAssetBadge": "PRIMARY · 1 / 1",
+  "garageStudioShotReplace": "Studio shot · tap to replace",
+  "garageAddStudioShot": "Add the studio shot",
+  "garagePickFromGallery": "Tap to pick from your gallery",
+
+  "garageRegisterPerformanceLabel": "02 — PERFORMANCE",
+  "garageRegisterPerformanceTitle": "Power & weight",
+  "garageFieldPower": "POWER",
+  "garageFieldTorque": "TORQUE",
+  "garageFieldWeight": "WEIGHT",
+  "garageFieldDisplacement": "DISPLACEMENT",
+  "garageFieldEngineCode": "ENGINE CODE",
+  "garageHintEngineCode": "e.g. S58",
+  "garageFieldFuelType": "FUEL TYPE",
+  "garageHintFuelType": "e.g. Petrol",
+  "garagePickerFuelType": "Select Fuel Type",
+  "garagePowerToWeight": "POWER-TO-WEIGHT · AUTO",
+
+  "garageRegisterConfigurationLabel": "03 — CONFIGURATION",
+  "garageRegisterConfigurationTitle": "Configuration",
+  "garageFieldDrivetrain": "DRIVETRAIN",
+  "garageHintDrivetrain": "e.g. Rear-Wheel Drive",
+  "garagePickerDrivetrain": "Select Drivetrain",
+  "garageFieldColor": "COLOR",
+  "garageHintColor": "e.g. Inka Orange",
+  "garagePickerColor": "Select Color",
+  "garageFieldMileageUnit": "MILEAGE UNIT",
+  "garageFieldMileage": "MILEAGE",
+  "garageHintMileage": "e.g. 42000",
+
+  "garageRegisterStoryLabel": "04 — STORY",
+  "garageRegisterStoryTitle": "What's this car's story? Share it…",
+  "garageFieldStatus": "STATUS",
+  "garageFieldTheStory": "THE STORY",
+  "garageHintStory": "What's this car's story? Share it…",
+
+  "garageRegisterGalleryLabel": "05 — GALLERY",
+  "garageRegisterGalleryTitle": "Show it off",
+  "garageFieldPhotos": "PHOTOS",
+  "garageGalleryAdd": "ADD",
+  "garageGalleryHint": "Up to 8 photos. The cover leads your chassis card — drag to reorder.",
+  "garageGalleryCover": "COVER",
+
+  "garageRegisterModsLabel": "06 — MODS",
+  "garageRegisterModsTitle": "Build log",
+  "garageRegisterModsSubtitle": "Optional — log the work that makes it yours.",
+  "garageModFallbackCategory": "MODIFICATION",
+  "garageAddModification": "ADD MODIFICATION",
+
+  "garageModSheetLabel": "— MODIFICATION",
+  "garageModSheetTitleEdit": "Edit build item",
+  "garageModSheetTitleAdd": "Add a build item",
+  "garageFieldCategory": "CATEGORY",
+  "garageHintCategory": "e.g. Engine",
+  "garagePickerCategory": "Select Category",
+  "garageFieldTitle": "TITLE",
+  "garageHintModTitle": "e.g. Stage 2 turbo",
+  "garageFieldDescription": "DESCRIPTION",
+  "garageHintModDescription": "What changed, and what it gained…",
+  "garageFieldInstallationDate": "INSTALLATION DATE",
+  "garageSelectDate": "Select date",
+  "garageFieldPrice": "PRICE",
+  "garageFieldMileageShort": "MILEAGE",
+  "garageModBefore": "BEFORE",
+  "garageModAfter": "AFTER",
+  "garageModSaveChanges": "SAVE CHANGES",
+  "garageModAddToBuildLog": "ADD TO BUILD LOG",
+  "garageModValidationEdit": "Category, title and date are required.",
+  "garageModValidationAdd": "Category, title, date and both images are required.",
+
+  "garageAboutTitle": "ABOUT",
+  "garageBuildIdentifier": "BUILD IDENTIFIER · {code}",
+  "@garageBuildIdentifier": {
+    "placeholders": {
+      "code": { "type": "String" }
+    }
+  },
+  "garageSpecPower": "POWER",
+  "garageSpecTorque": "TORQUE",
+  "garageSpecWeight": "WEIGHT",
+  "garageInfoDrivetrain": "DRIVETRAIN",
+  "garageInfoMileage": "MILEAGE",
+  "garageInfoModelCode": "MODEL CODE",
+  "garageInfoEngineCode": "ENGINE CODE",
+  "garageInfoDisplacement": "DISPLACEMENT",
+  "garageInfoFuelType": "FUEL TYPE",
+  "garageInfoStatus": "STATUS",
+  "garageStoryHeading": "THE STORY",
+  "garageGalleryHeading": "GALLERY",
+  "garageLogBuildIteration": "+ LOG BUILD ITERATION",
+  "garageModLogHeading": "MODIFICATION LOG",
+  "garageEditCar": "Edit car",
+  "garageDeleteCar": "Delete car",
+  "garageDeleteMachineTitle": "Delete machine?",
+  "garageDeleteMachineBody": "This will permanently remove this car and all of its modifications from your garage. This action cannot be undone.",
+  "garageDialogCancel": "Cancel",
+  "garageDialogDelete": "Delete",
+  "garageDeletePhotoTitle": "Delete photo?",
+  "garageDeletePhotoBody": "This gallery photo will be permanently removed.",
+  "garageDeleteModTitle": "Delete modification?",
+  "garageDeleteModBody": "This will permanently remove this modification and its photos from the build log. This action cannot be undone.",
+  "garageDeleteModMenu": "Delete modification",
+  "garageCarRegistered": "Machine registered!",
+  "garageChangesSaved": "Changes saved!",
+
+  "garageValCoverPhoto": "Please pick a cover photo.",
+  "garageValMake": "Please select a make.",
+  "garageValModel": "Please select a model.",
+  "garageValYear": "Please enter the year.",
+  "garageValHorsepower": "Please enter horsepower.",
+  "garageValTorque": "Please enter torque.",
+  "garageValWeight": "Please enter weight.",
+  "garageValDisplacement": "Please enter displacement.",
+  "garageValFuelType": "Please select a fuel type.",
+  "garageValDrivetrain": "Please select a drivetrain.",
+  "garageValColor": "Please select a color.",
+  "garageValMileageUnit": "Please select a mileage unit.",
+  "garageValStatus": "Please select a status.",
+  "garageDiscardTitle": "Discard this build?",
+  "garageDiscardBody": "You haven't registered this machine yet. If you leave now, everything you entered will be lost.",
+  "garageKeepEditing": "Keep editing",
+  "garageDiscard": "Discard",
+
+  "garageLogModTitle": "LOG BUILD ITERATION",
+  "garageLogModSectionLabel": "— MODIFICATION",
+  "garageLogModSectionTitle": "Log a build iteration",
+  "garageLogModCategoryHint": "e.g. Engine, Suspension, Aesthetics",
+  "garageLogModTitleHint": "e.g. Stage 2 turbo upgrade",
+  "garageLogModDescLabel": "DESCRIPTION (OPTIONAL)",
+  "garageLogModDescHint": "Notes, observations, upgrades done…",
+  "garageLogModBeforeAfter": "BEFORE & AFTER",
+  "garageLogModInstallDate": "INSTALLATION DATE",
+  "garageLogModPriceLabel": "PRICE (OPTIONAL)",
+  "garageLogModMileageLabel": "MILEAGE AT INSTALL (OPTIONAL)",
+  "garageLogModMileageHint": "e.g. 45000",
+  "garageLogModSubmit": "LOG MODIFICATION",
+  "garageLogModLogged": "Modification logged!",
+  "garageLogModValCategory": "Please select a category.",
+  "garageLogModValTitle": "Please enter a title.",
+  "garageLogModValBefore": "Please pick a before image.",
+  "garageLogModValAfter": "Please pick an after image.",
+  "garageLogModValDate": "Please select the installation date.",
+
+  "authErrorSessionExpired": "Your session is not active. Please log in again.",
+  "authErrorGeneric": "Something went wrong. Please try again.",
+
+  "settingsTitle": "SETTINGS",
+  "settingsLogout": "Log out",
+  "settingsLogoutTitle": "Log out?",
+  "settingsLogoutBody": "You will need to sign in again to access your account.",
+
+  "postNewPost": "NEW POST",
+  "postStepPhotos": "PHOTOS",
+  "postStepCaption": "CAPTION",
+  "postStepTags": "TAGS",
+  "postStepVisibility": "VISIBILITY",
+  "postStepReview": "REVIEW",
+  "postStart": "START",
+  "postPublishStep": "PUBLISH",
+  "postBack": "BACK",
+  "postNext": "NEXT",
+  "postPublish": "PUBLISH POST",
+  "postStepCounter": "STEP {current} / {total}",
+  "@postStepCounter": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+
+  "postPhotosTitle": "Pick your shots",
+  "postPhotosSubtitle": "Drag to reorder — the cover leads your post. Photos only for now.",
+  "postPhotosAdd": "ADD",
+  "postPhotosCover": "COVER",
+  "postPhotosVideosSoon": "VIDEOS — COMING SOON",
+  "postPhotosCount": "{count} / {max} PHOTOS",
+  "@postPhotosCount": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "max": { "type": "int" }
+    }
+  },
+
+  "postCaptionTitle": "Say something",
+  "postCaptionSubtitle": "Add a description for your post. Mention details, the story, the build.",
+  "postCaptionLabel": "DESCRIPTION",
+  "postCaptionHint": "Share the story behind this post…",
+  "postCaptionCounter": "{count} / {max}",
+  "@postCaptionCounter": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "max": { "type": "int" }
+    }
+  },
+
+  "postTagsTitle": "Tag cars & people",
+  "postTagsSubtitle": "Link the cars in this post from any garage, and tag the people in it.",
+  "postTagsCars": "CARS",
+  "postTagsPeople": "PEOPLE",
+  "postTagsCarHint": "Search a car in any garage…",
+  "postTagsPeopleHint": "Search people to tag…",
+  "postTagsAddCar": "Tag a car",
+  "postTagsTagPersonFirst": "Tag a person first to tag one of their cars.",
+  "postTagsChoosePerson": "Whose car?",
+  "postTagsChooseCar": "Pick a car",
+  "postTagsNoCars": "This person has no cars to tag.",
+  "postTagsNoPeopleFound": "No people found.",
+  "postTagsLoadError": "Couldn't load. Please try again.",
+
+  "postVisibilityTitle": "Who sees what",
+  "postVisibilitySubtitle": "Hide a counter and others won't see that number — they can still like, comment and share.",
+  "postVisibilityLabel": "VISIBLE COUNTS",
+  "postVisibilityLikesTitle": "Show like count",
+  "postVisibilityLikesDesc": "Others can see how many likes this post has",
+  "postVisibilityCommentsTitle": "Show comment count",
+  "postVisibilityCommentsDesc": "Hide the number — comments stay open",
+  "postVisibilitySharesTitle": "Show share count",
+  "postVisibilitySharesDesc": "Others can see how many times it was shared",
+  "postVisibilitySavedTitle": "Show saved count",
+  "postVisibilitySavedDesc": "Others can see how many times it was saved",
+  "postVisibilityTimeNote": "Posts show a relative time — \"2h ago\", \"3 days ago\" — never the exact date. This is automatic and always on.",
+
+  "postReviewTitle": "Looking good?",
+  "postReviewSubtitle": "This is exactly how your post appears in the feed.",
+  "postReviewYou": "You",
+  "postReviewJustNow": "JUST NOW",
+
+  "postValPhotosRequired": "Add at least one photo to continue.",
+
+  "postDiscardTitle": "Discard post?",
+  "postDiscardBody": "Your photos, caption and tags won't be saved.",
+  "postKeepEditing": "Keep editing",
+  "postDiscard": "Discard",
+
+  "postCreatedSuccess": "Post published.",
+  "postPhaseCreating": "Creating…",
+  "postPhaseUploading": "Uploading photos…",
+  "postErrorGeneric": "Couldn't publish your post. Please try again.",
+  "postErrorImageUpload": "Your photos couldn't be uploaded. Please try again.",
+  "postErrorInvalidTags": "You can't tag a car without also tagging its owner.",
+  "postErrorNotOwner": "You don't have permission to do that.",
+  "postErrorNotFound": "This post no longer exists.",
+
+  "profileTabPosts": "POSTS",
+  "profileTabGarage": "GARAGE",
+
+  "postsLoadMore": "LOAD MORE",
+  "postsEmptyOwner": "You haven't posted yet.",
+  "postsEmptyVisitor": "No posts yet.",
+  "postsCreateFirst": "CREATE YOUR FIRST POST",
+
+  "postDetailTitle": "POST",
+  "postEditAction": "Edit post",
+  "postDeleteAction": "Delete post",
+  "postDeleteTitle": "Delete post?",
+  "postDeleteBody": "This post and its photos, likes and comments will be permanently removed.",
+  "postEditTitle": "EDIT POST",
+  "postEditSave": "SAVE",
+
+  "postShareTitle": "SHARE POST",
+  "postShareSend": "SHARE",
+  "postShareNoteLabel": "Add a note",
+  "postShareNoteHint": "Say something about this post… (optional)",
+  "postSharePreviewNoCaption": "No caption",
+  "postShareSuccess": "Post shared.",
+
+  "postTimeNow": "now",
+  "postTimeMinutes": "{count}m",
+  "@postTimeMinutes": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postTimeHours": "{count}h",
+  "@postTimeHours": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postTimeDays": "{count}d",
+  "@postTimeDays": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postTimeWeeks": "{count}w",
+  "@postTimeWeeks": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "postLikesCount": "{count, plural, =1{1 like} other{{count} likes}}",
+  "@postLikesCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postViewAllComments": "{count, plural, =1{View 1 comment} other{View all {count} comments}}",
+  "@postViewAllComments": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "postCommentsTitle": "{count, plural, =0{Comments} =1{1 comment} other{{count} comments}}",
+  "@postCommentsTitle": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postCommentsEmpty": "No comments yet. Be the first.",
+  "postCommentsLoadError": "Couldn't load comments. Please try again.",
+  "postCommentHint": "Add a comment…",
+  "postCommentDeleted": "[deleted]",
+  "postCommentDelete": "Delete",
+  "postCommentDeleteTitle": "Delete comment?",
+  "postCommentDeleteBody": "This comment will be permanently removed.",
+  "postCommentLikesCount": "{count, plural, =1{1 like} other{{count} likes}}",
+  "@postCommentLikesCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "postCommentReply": "Reply",
+  "postReplyingTo": "Replying to @{username}",
+  "@postReplyingTo": {
+    "placeholders": {
+      "username": { "type": "String" }
+    }
+  },
+  "postRepliesHide": "Hide replies",
+  "postRepliesViewGeneric": "View replies",
+  "postRepliesViewMore": "View more replies",
+  "postRepliesView": "{count, plural, =1{View 1 reply} other{View {count} replies}}",
+  "@postRepliesView": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "postLikersTitle": "Likes",
+  "postLikersEmpty": "No likes yet.",
+  "postLikersLoadError": "Couldn't load likes. Please try again."
+}

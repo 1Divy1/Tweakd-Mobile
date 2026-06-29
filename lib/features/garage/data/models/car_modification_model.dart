@@ -1,11 +1,13 @@
 import '../../domain/entities/car_modification.dart';
 
 class ModificationMediaItemModel {
+  final String key;
   final String url;
   final String type;
   final String phase;
 
   const ModificationMediaItemModel({
+    required this.key,
     required this.url,
     required this.type,
     required this.phase,
@@ -13,6 +15,7 @@ class ModificationMediaItemModel {
 
   factory ModificationMediaItemModel.fromJson(Map<String, dynamic> json) {
     return ModificationMediaItemModel(
+      key: json['key'] as String,
       url: json['url'] as String,
       type: json['type'] as String,
       phase: json['phase'] as String,
@@ -20,6 +23,7 @@ class ModificationMediaItemModel {
   }
 
   ModificationMediaEntity toEntity() => ModificationMediaEntity(
+        key: key,
         url: url,
         type: type,
         phase: phase,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/reference_data.dart';
 import 'register_car_fields.dart';
 
@@ -34,39 +35,40 @@ class DrivetrainStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const RegisterSectionHeader(
-          label: '03 — CONFIGURATION',
-          title: 'Configuration',
+        RegisterSectionHeader(
+          label: l10n.garageRegisterConfigurationLabel,
+          title: l10n.garageRegisterConfigurationTitle,
         ),
         const SizedBox(height: 20),
-        const RegisterFieldLabel('DRIVETRAIN'),
+        RegisterFieldLabel(l10n.garageFieldDrivetrain),
         const SizedBox(height: 8),
         RegisterSelectorTile(
-          placeholder: 'e.g. Rear-Wheel Drive',
+          placeholder: l10n.garageHintDrivetrain,
           value: selectedDrivetrain?.name,
           onTap: () => showRegisterPicker<CarDrivetrainEntity>(
             context: context,
-            title: 'Select Drivetrain',
+            title: l10n.garagePickerDrivetrain,
             items: drivetrains,
             labelOf: (d) => d.name,
             onSelected: onSelectDrivetrain,
           ),
         ),
         const SizedBox(height: 16),
-        const RegisterFieldLabel('COLOR'),
+        RegisterFieldLabel(l10n.garageFieldColor),
         const SizedBox(height: 8),
         RegisterSelectorTile(
-          placeholder: 'e.g. Inka Orange',
+          placeholder: l10n.garageHintColor,
           value: selectedColor?.name,
           leading: selectedColor != null
               ? _ColorSwatch(code: selectedColor!.colorCode)
               : null,
           onTap: () => showRegisterPicker<CarColorEntity>(
             context: context,
-            title: 'Select Color',
+            title: l10n.garagePickerColor,
             items: colors,
             labelOf: (c) => c.name,
             leadingOf: (c) => _ColorSwatch(code: c.colorCode),
@@ -74,7 +76,7 @@ class DrivetrainStep extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        const RegisterFieldLabel('MILEAGE UNIT'),
+        RegisterFieldLabel(l10n.garageFieldMileageUnit),
         const SizedBox(height: 8),
         _MileageToggle(
           units: distanceUnits,
@@ -82,11 +84,11 @@ class DrivetrainStep extends StatelessWidget {
           onSelect: onSelectDistanceUnit,
         ),
         const SizedBox(height: 16),
-        const RegisterFieldLabel('MILEAGE', optional: true),
+        RegisterFieldLabel(l10n.garageFieldMileage, optional: true),
         const SizedBox(height: 8),
         RegisterFormField(
           controller: mileageCtrl,
-          hint: 'e.g. 42000',
+          hint: l10n.garageHintMileage,
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           unit: selectedDistanceUnit?.name,

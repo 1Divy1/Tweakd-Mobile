@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/car.dart';
+import '../../utils/garage_error_mapper.dart';
 
 abstract class CarDetailState extends Equatable {
   const CarDetailState();
@@ -37,11 +38,11 @@ class CarDetailLoaded extends CarDetailState {
 }
 
 class CarDetailError extends CarDetailState {
-  final String message;
-  const CarDetailError({required this.message});
+  final GarageErrorCode code;
+  const CarDetailError({required this.code});
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [code];
 }
 
 class CarDetailDeleted extends CarDetailState {

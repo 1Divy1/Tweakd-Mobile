@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 
-/// Display names for each wizard step, in order. Index 0..5 map to the six
-/// steps; the progress bar also uses "START" / "FINISH" book-ends.
-const registerStepNames = <String>[
-  'IDENTITY',
-  'PERFORMANCE',
-  'CONFIGURATION',
-  'STORY',
-  'GALLERY',
-  'MODS',
-];
+/// Localized display names for each wizard step, in order. Index 0..5 map to the
+/// six steps; the progress bar also uses "START" / "FINISH" book-ends.
+List<String> registerStepNames(AppLocalizations l10n) => [
+      l10n.garageRegisterStepIdentity,
+      l10n.garageRegisterStepPerformance,
+      l10n.garageRegisterStepConfiguration,
+      l10n.garageRegisterStepStory,
+      l10n.garageRegisterStepGallery,
+      l10n.garageRegisterStepMods,
+    ];
 
 const registerStepCount = 6;
 
@@ -113,6 +114,8 @@ class RegisterStepProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final stepNames = registerStepNames(l10n);
     final isFirst = step == 0;
     final isLast = step == registerStepCount - 1;
 
@@ -170,17 +173,17 @@ class RegisterStepProgress extends StatelessWidget {
             children: [
               Expanded(
                 child: _NodeLabel(
-                  text: isFirst ? 'START' : registerStepNames[step - 1],
+                  text: isFirst ? l10n.garageRegisterStart : stepNames[step - 1],
                   active: false,
                 ),
               ),
               Expanded(
                 child: Column(
                   children: [
-                    _NodeLabel(text: registerStepNames[step], active: true),
+                    _NodeLabel(text: stepNames[step], active: true),
                     const SizedBox(height: 2),
                     Text(
-                      'STEP ${step + 1} / $registerStepCount',
+                      l10n.garageRegisterStepCounter(step + 1, registerStepCount),
                       style: const TextStyle(
                         color: AppColors.muteSoft,
                         fontSize: 9,
@@ -193,7 +196,7 @@ class RegisterStepProgress extends StatelessWidget {
               ),
               Expanded(
                 child: _NodeLabel(
-                  text: isLast ? 'FINISH' : registerStepNames[step + 1],
+                  text: isLast ? l10n.garageRegisterFinish : stepNames[step + 1],
                   active: false,
                 ),
               ),
@@ -370,7 +373,8 @@ class RegisterBottomBar extends StatelessWidget {
   final VoidCallback? onNext;
 
   /// Label for the primary action on the final step (e.g. 'ADD CAR' / 'SAVE').
-  final String lastLabel;
+  /// Defaults to the localized "ADD CAR" when null.
+  final String? lastLabel;
 
   const RegisterBottomBar({
     super.key,
@@ -379,11 +383,12 @@ class RegisterBottomBar extends StatelessWidget {
     this.submitLabel,
     this.onBack,
     this.onNext,
-    this.lastLabel = 'ADD CAR',
+    this.lastLabel,
   });
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isLast = step == registerStepCount - 1;
     final showBack = onBack != null && !isSubmitting;
 
@@ -413,15 +418,15 @@ class RegisterBottomBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: AppColors.line),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.arrow_back_rounded,
+                      const Icon(Icons.arrow_back_rounded,
                           size: 18, color: AppColors.ink),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       Text(
-                        'BACK',
-                        style: TextStyle(
+                        l10n.garageRegisterBack,
+                        style: const TextStyle(
                           color: AppColors.ink,
                           fontWeight: FontWeight.w800,
                           fontSize: 14,
@@ -469,7 +474,7 @@ class RegisterBottomBar extends StatelessWidget {
                             ),
                             const SizedBox(width: 12),
                             Text(
-                              submitLabel ?? 'Working…',
+                              submitLabel ?? l10n.garageRegisterWorking,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w800,
@@ -483,7 +488,9 @@ class RegisterBottomBar extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              isLast ? lastLabel : 'NEXT',
+                              isLast
+                                  ? (lastLabel ?? l10n.garageRegisterAddCar)
+                                  : l10n.garageRegisterNext,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w800,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/reference_data.dart';
 import 'register_car_fields.dart';
 
@@ -61,12 +62,13 @@ class _PerformanceStepState extends State<PerformanceStep> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const RegisterSectionHeader(
-          label: '02 — PERFORMANCE',
-          title: 'Power & weight',
+        RegisterSectionHeader(
+          label: l10n.garageRegisterPerformanceLabel,
+          title: l10n.garageRegisterPerformanceTitle,
         ),
         const SizedBox(height: 20),
         Row(
@@ -74,7 +76,7 @@ class _PerformanceStepState extends State<PerformanceStep> {
           children: [
             Expanded(
               child: RegisterLabeledField(
-                label: 'POWER',
+                label: l10n.garageFieldPower,
                 controller: widget.hpCtrl,
                 hint: '503',
                 unit: 'HP',
@@ -84,7 +86,7 @@ class _PerformanceStepState extends State<PerformanceStep> {
             const SizedBox(width: 12),
             Expanded(
               child: RegisterLabeledField(
-                label: 'TORQUE',
+                label: l10n.garageFieldTorque,
                 controller: widget.torqueCtrl,
                 hint: '650',
                 unit: 'NM',
@@ -109,7 +111,7 @@ class _PerformanceStepState extends State<PerformanceStep> {
             const SizedBox(width: 12),
             Expanded(
               child: RegisterLabeledField(
-                label: 'WEIGHT',
+                label: l10n.garageFieldWeight,
                 controller: widget.weightCtrl,
                 hint: '1650',
                 unit: 'KG',
@@ -120,25 +122,26 @@ class _PerformanceStepState extends State<PerformanceStep> {
         ),
         const SizedBox(height: 16),
         RegisterLabeledField(
-          label: 'DISPLACEMENT',
+          label: l10n.garageFieldDisplacement,
           controller: widget.displacementCtrl,
           hint: '3.0',
           unit: 'LITRE',
           isDecimal: true,
         ),
         const SizedBox(height: 16),
-        const RegisterFieldLabel('ENGINE CODE', optional: true),
+        RegisterFieldLabel(l10n.garageFieldEngineCode, optional: true),
         const SizedBox(height: 8),
-        RegisterFormField(controller: widget.engineCodeCtrl, hint: 'e.g. S58'),
+        RegisterFormField(
+            controller: widget.engineCodeCtrl, hint: l10n.garageHintEngineCode),
         const SizedBox(height: 16),
-        const RegisterFieldLabel('FUEL TYPE'),
+        RegisterFieldLabel(l10n.garageFieldFuelType),
         const SizedBox(height: 8),
         RegisterSelectorTile(
-          placeholder: 'e.g. Petrol',
+          placeholder: l10n.garageHintFuelType,
           value: widget.selectedFuelType?.name,
           onTap: () => showRegisterPicker<CarFuelTypeOptionEntity>(
             context: context,
-            title: 'Select Fuel Type',
+            title: l10n.garagePickerFuelType,
             items: widget.fuelTypeOptions,
             labelOf: (f) => f.name,
             onSelected: widget.onSelectFuelType,
@@ -170,7 +173,7 @@ class _PowerToWeightCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'POWER-TO-WEIGHT · AUTO',
+                  AppLocalizations.of(context)!.garagePowerToWeight,
                   style: TextStyle(
                     color: Colors.white.withAlpha(140),
                     fontSize: 11,

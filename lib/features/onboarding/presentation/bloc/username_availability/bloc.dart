@@ -59,6 +59,7 @@ class UsernameAvailabilityBloc
       emit(UsernameAvailabilityInvalid(formatError));
       return;
     }
+    // formatError carries a UsernameValidationError code; the UI localizes it.
 
     // Well-formed: show the checking hint immediately, but only fire the
     // request once typing pauses for [_debounceDuration].
@@ -88,12 +89,7 @@ class UsernameAvailabilityBloc
     result.fold(
       (failure) {
         if (failure is RequestCancelledFailure) return;
-        emit(
-          UsernameAvailabilityFailed(
-            username: event.username,
-            message: "Couldn't check availability. Tap Next to try anyway.",
-          ),
-        );
+        emit(UsernameAvailabilityFailed(username: event.username));
       },
       (isAvailable) => emit(
         isAvailable

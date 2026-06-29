@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../domain/entities/profile.dart';
+import '../utils/profile_error_mapper.dart';
 
 abstract class ProfileState extends Equatable {
   const ProfileState();
@@ -21,12 +22,12 @@ class ProfileLoaded extends ProfileState {
 }
 
 class ProfileError extends ProfileState {
-  final String message;
+  final ProfileErrorCode code;
 
-  const ProfileError(this.message);
+  const ProfileError(this.code);
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [code];
 }
 
 class OnboardingSubmitting extends ProfileState {}
@@ -41,10 +42,10 @@ class OnboardingSubmitted extends ProfileState {
 }
 
 class OnboardingError extends ProfileState {
-  final String message;
+  final ProfileErrorCode code;
 
-  const OnboardingError(this.message);
+  const OnboardingError(this.code);
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [code];
 }

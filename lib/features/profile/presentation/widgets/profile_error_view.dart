@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/app_localizations.dart';
+
 class ProfileErrorView extends StatelessWidget {
   final String message;
   final VoidCallback onRetry;
@@ -26,7 +28,10 @@ class ProfileErrorView extends StatelessWidget {
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
-            ElevatedButton(onPressed: onRetry, child: const Text('Retry')),
+            ElevatedButton(
+              onPressed: onRetry,
+              child: Text(AppLocalizations.of(context)!.commonRetry),
+            ),
           ],
         ),
       ),

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../../core/services/car_image_service.dart';
+import '../../../../../core/services/image_service.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../../../domain/repositories/garage_repository.dart';
 import '../../../domain/usecases/add_modification.dart';
@@ -22,7 +22,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
   final DeleteModificationUseCase deleteModification;
   final GetModificationUploadUrlsUseCase getModificationUploadUrls;
   final PatchModificationUseCase patchModification;
-  final CarImageService imageService;
+  final ImageService imageService;
 
   LogModBloc({
     required this.getModCategories,
@@ -46,7 +46,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
 
     result.fold(
       (_) => emit(const LogModCategoriesError(
-        message: 'Failed to load categories. Please try again.',
+        code: GarageErrorCode.categoriesLoadFailed,
       )),
       (categories) => emit(LogModCategoriesLoaded(categories: categories)),
     );
@@ -74,7 +74,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
     final modification = await addResult.fold(
       (failure) async {
         emit(LogModError(
-          message: GarageErrorMapper.getMessage(failure),
+          code: GarageErrorMapper.getCode(failure),
           categories: List.from(categories),
         ));
         return null;
@@ -106,7 +106,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
         ),
       );
       final uploads = uploadUrlsResult.fold(
-        (f) => throw Exception(GarageErrorMapper.getMessage(f)),
+        (f) => throw Exception('$f'),
         (r) => r.uploads,
       );
 
@@ -121,7 +121,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
 
       // Step 4: save URLs to backend
       final addMedia = uploads
-          .map((u) => ModMediaInput(url: u.finalUrl, phase: u.phase))
+          .map((u) => ModMediaInput(key: u.key, phase: u.phase))
           .toList();
       final patchResult = await patchModification(PatchModificationParams(
         carId: event.carId,
@@ -130,7 +130,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
       ));
 
       patchResult.fold(
-        (f) => throw Exception(GarageErrorMapper.getMessage(f)),
+        (f) => throw Exception('$f'),
         (updated) => emit(LogModSuccess(updated)),
       );
     } catch (_) {
@@ -139,7 +139,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
         modId: modification.id,
       ));
       emit(LogModError(
-        message: 'Photo upload failed. Please try again.',
+        code: GarageErrorCode.photoUploadFailed,
         categories: List.from(categories),
       ));
     }

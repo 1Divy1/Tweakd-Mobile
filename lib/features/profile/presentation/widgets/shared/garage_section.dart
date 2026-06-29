@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../../garage/presentation/bloc/bloc.dart';
 import '../../../../garage/presentation/bloc/state.dart';
+import '../../../../garage/presentation/utils/garage_error_mapper.dart';
 import '../../../../garage/presentation/widgets/garage_car_card.dart';
 
 class GarageSection extends StatelessWidget {
@@ -49,7 +51,9 @@ class GarageSection extends StatelessWidget {
                     ),
                 ],
               ),
-            GarageError(:final message) => _GarageErrorView(message: message),
+            GarageError(:final code) => _GarageErrorView(
+                message: garageErrorMessage(AppLocalizations.of(context)!, code),
+              ),
             _ => const SizedBox.shrink(),
           },
         );
@@ -66,12 +70,13 @@ class _GarageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'THE GARAGE',
-          style: TextStyle(
+        Text(
+          l10n.garageSectionEyebrow,
+          style: const TextStyle(
             color: AppColors.mute,
             fontSize: 11,
             fontWeight: FontWeight.w700,
@@ -84,7 +89,7 @@ class _GarageHeader extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                '$count ${count == 1 ? 'Machine' : 'Machines'}',
+                l10n.garageMachineCount(count),
                 style: const TextStyle(
                   color: AppColors.ink,
                   fontSize: 22,
@@ -105,9 +110,9 @@ class _GarageHeader extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: AppColors.line),
                   ),
-                  child: const Text(
-                    '+ ADD',
-                    style: TextStyle(
+                  child: Text(
+                    l10n.garageAddButton,
+                    style: const TextStyle(
                       color: AppColors.ink,
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
@@ -147,7 +152,9 @@ class _GarageEmptyView extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            isOwner ? 'Your garage is empty. Add your first machine.' : 'No machines yet.',
+            isOwner
+                ? AppLocalizations.of(context)!.garageEmptyOwner
+                : AppLocalizations.of(context)!.garageEmptyVisitor,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: AppColors.mute,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/follow_list_user.dart';
 
 class FollowUserCard extends StatelessWidget {
@@ -184,14 +185,14 @@ class _RemoveFollowerButton extends StatelessWidget {
         minimumSize: const Size(0, 36),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
-      child: const Row(
+      child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.close, size: 13, color: AppColors.ink),
-          SizedBox(width: 4),
+          const Icon(Icons.close, size: 13, color: AppColors.ink),
+          const SizedBox(width: 4),
           Text(
-            'REMOVE',
-            style: TextStyle(
+            AppLocalizations.of(context)!.followRemove,
+            style: const TextStyle(
               color: AppColors.ink,
               fontSize: 11,
               fontWeight: FontWeight.w800,
@@ -227,12 +228,12 @@ class _FollowButton extends StatelessWidget {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(Icons.check, size: 13, color: AppColors.ink),
-            SizedBox(width: 4),
+          children: [
+            const Icon(Icons.check, size: 13, color: AppColors.ink),
+            const SizedBox(width: 4),
             Text(
-              'FOLLOWING',
-              style: TextStyle(
+              AppLocalizations.of(context)!.followActionFollowing,
+              style: const TextStyle(
                 color: AppColors.ink,
                 fontSize: 11,
                 fontWeight: FontWeight.w800,
@@ -254,9 +255,9 @@ class _FollowButton extends StatelessWidget {
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         elevation: 0,
       ),
-      child: const Text(
-        'FOLLOW',
-        style: TextStyle(
+      child: Text(
+        AppLocalizations.of(context)!.followActionFollow,
+        style: const TextStyle(
           color: Colors.white,
           fontSize: 11,
           fontWeight: FontWeight.w800,

@@ -7,13 +7,15 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/di/injection.dart';
-import '../../../../core/services/car_image_service.dart';
+import '../../../../core/services/image_service.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/reference_data.dart';
 import '../../domain/repositories/garage_repository.dart';
 import '../bloc/log_mod/bloc.dart';
 import '../bloc/log_mod/event.dart';
 import '../bloc/log_mod/state.dart';
+import '../utils/garage_error_mapper.dart';
 
 class LogModificationPage extends StatefulWidget {
   final String carId;
@@ -27,7 +29,7 @@ class LogModificationPage extends StatefulWidget {
 class _LogModificationPageState extends State<LogModificationPage> {
   // Compression starts the moment an image is picked, so the bytes are ready
   // by the time the user submits.
-  final CarImageService _imageService = getIt<CarImageService>();
+  final ImageService _imageService = getIt<ImageService>();
 
   CarModCategoryEntity? _selectedCategory;
   final _titleCtrl = TextEditingController();
@@ -53,15 +55,16 @@ class _LogModificationPageState extends State<LogModificationPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<LogModBloc, LogModState>(
       listener: (context, state) {
+        final l10n = AppLocalizations.of(context)!;
         if (state is LogModSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Modification logged!')),
+            SnackBar(content: Text(l10n.garageLogModLogged)),
           );
           context.pop();
         }
         if (state is LogModError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
+            SnackBar(content: Text(garageErrorMessage(l10n, state.code))),
           );
         }
       },
@@ -89,7 +92,10 @@ class _LogModificationPageState extends State<LogModificationPage> {
                 else if (state is LogModCategoriesError)
                   Expanded(
                     child: _CategoriesError(
-                      message: state.message,
+                      message: garageErrorMessage(
+                        AppLocalizations.of(context)!,
+                        state.code,
+                      ),
                       onRetry: () => context
                           .read<LogModBloc>()
                           .add(const LoadModCategories()),
@@ -169,17 +175,18 @@ class _LogModificationPageState extends State<LogModificationPage> {
   }
 
   void _submit(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     String? error;
     if (_selectedCategory == null) {
-      error = 'Please select a category.';
+      error = l10n.garageLogModValCategory;
     } else if (_titleCtrl.text.trim().isEmpty) {
-      error = 'Please enter a title.';
+      error = l10n.garageLogModValTitle;
     } else if (_before == null) {
-      error = 'Please pick a before image.';
+      error = l10n.garageLogModValBefore;
     } else if (_after == null) {
-      error = 'Please pick an after image.';
+      error = l10n.garageLogModValAfter;
     } else if (_installationDate == null) {
-      error = 'Please select the installation date.';
+      error = l10n.garageLogModValDate;
     }
 
     if (error != null) {
@@ -241,11 +248,11 @@ class _TopBar extends StatelessWidget {
               child: const Icon(Icons.close, size: 18, color: AppColors.ink),
             ),
           ),
-          const Expanded(
+          Expanded(
             child: Center(
               child: Text(
-                'LOG BUILD ITERATION',
-                style: TextStyle(
+                AppLocalizations.of(context)!.garageLogModTitle,
+                style: const TextStyle(
                   color: AppColors.ink,
                   fontSize: 13,
                   fontWeight: FontWeight.w800,
@@ -302,9 +309,9 @@ class _SubmitBar extends StatelessWidget {
                       color: Colors.white,
                     ),
                   )
-                : const Text(
-                    'LOG MODIFICATION',
-                    style: TextStyle(
+                : Text(
+                    AppLocalizations.of(context)!.garageLogModSubmit,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w800,
                       fontSize: 13,
@@ -353,53 +360,54 @@ class _FormContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const _SectionHeader(
-          label: '— MODIFICATION',
-          title: 'Log a build iteration',
+        _SectionHeader(
+          label: l10n.garageLogModSectionLabel,
+          title: l10n.garageLogModSectionTitle,
         ),
         const SizedBox(height: 20),
 
         // Category
-        const _FieldLabel('CATEGORY'),
+        _FieldLabel(l10n.garageFieldCategory),
         const SizedBox(height: 8),
         _SelectorTile(
-          placeholder: 'e.g. Engine, Suspension, Aesthetics',
+          placeholder: l10n.garageLogModCategoryHint,
           value: selectedCategory?.modName,
           onTap: () => _showCategoryPicker(context),
         ),
         const SizedBox(height: 14),
 
         // Title
-        const _FieldLabel('TITLE'),
+        _FieldLabel(l10n.garageFieldTitle),
         const SizedBox(height: 8),
         _InputField(
           controller: titleCtrl,
-          hint: 'e.g. Stage 2 turbo upgrade',
+          hint: l10n.garageLogModTitleHint,
           maxLines: 1,
         ),
         const SizedBox(height: 14),
 
         // Description
-        const _FieldLabel('DESCRIPTION (OPTIONAL)'),
+        _FieldLabel(l10n.garageLogModDescLabel),
         const SizedBox(height: 8),
         _InputField(
           controller: descriptionCtrl,
-          hint: 'Notes, observations, upgrades done…',
+          hint: l10n.garageLogModDescHint,
           maxLines: 4,
         ),
         const SizedBox(height: 20),
 
         // Before / After images
-        const _FieldLabel('BEFORE & AFTER'),
+        _FieldLabel(l10n.garageLogModBeforeAfter),
         const SizedBox(height: 10),
         Row(
           children: [
             Expanded(
               child: _ImageSlot(
-                label: 'BEFORE',
+                label: l10n.garageModBefore,
                 filePath: beforeFilePath,
                 onTap: onPickBefore,
               ),
@@ -407,7 +415,7 @@ class _FormContent extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: _ImageSlot(
-                label: 'AFTER',
+                label: l10n.garageModAfter,
                 filePath: afterFilePath,
                 onTap: onPickAfter,
               ),
@@ -417,7 +425,7 @@ class _FormContent extends StatelessWidget {
         const SizedBox(height: 20),
 
         // Installation date
-        const _FieldLabel('INSTALLATION DATE'),
+        _FieldLabel(l10n.garageLogModInstallDate),
         const SizedBox(height: 8),
         GestureDetector(
           onTap: onPickDate,
@@ -434,7 +442,7 @@ class _FormContent extends StatelessWidget {
                   child: Text(
                     installationDate != null
                         ? _formatDate(installationDate!)
-                        : 'Select date',
+                        : l10n.garageSelectDate,
                     style: TextStyle(
                       color: installationDate != null
                           ? AppColors.ink
@@ -455,7 +463,7 @@ class _FormContent extends StatelessWidget {
         const SizedBox(height: 20),
 
         // Price (optional)
-        const _FieldLabel('PRICE (OPTIONAL)'),
+        _FieldLabel(l10n.garageLogModPriceLabel),
         const SizedBox(height: 8),
         _InputField(
           controller: priceCtrl,
@@ -469,11 +477,11 @@ class _FormContent extends StatelessWidget {
         const SizedBox(height: 20),
 
         // Mileage at install (optional)
-        const _FieldLabel('MILEAGE AT INSTALL (OPTIONAL)'),
+        _FieldLabel(l10n.garageLogModMileageLabel),
         const SizedBox(height: 8),
         _InputField(
           controller: mileageCtrl,
-          hint: 'e.g. 45000',
+          hint: l10n.garageLogModMileageHint,
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         ),
@@ -507,11 +515,11 @@ class _FormContent extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                'Select Category',
-                style: TextStyle(
+                AppLocalizations.of(context)!.garagePickerCategory,
+                style: const TextStyle(
                   color: AppColors.ink,
                   fontSize: 16,
                   fontWeight: FontWeight.w800,
@@ -806,9 +814,9 @@ class _CategoriesError extends StatelessWidget {
                   color: AppColors.accent,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: const Text(
-                  'Retry',
-                  style: TextStyle(
+                child: Text(
+                  AppLocalizations.of(context)!.commonRetry,
+                  style: const TextStyle(
                       color: Colors.white, fontWeight: FontWeight.w700),
                 ),
               ),

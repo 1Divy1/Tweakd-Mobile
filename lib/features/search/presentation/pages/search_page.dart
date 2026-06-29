@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/shared/widgets/app_bottom_nav.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../bloc/bloc.dart';
 import '../bloc/event.dart';
 import '../bloc/state.dart';
+import '../utils/search_error_mapper.dart';
 import '../../../../core/shared/widgets/search_empty_view.dart';
 import '../../../../core/shared/widgets/search_error_view.dart';
 import '../../../../core/shared/widgets/search_input.dart';
@@ -62,7 +64,12 @@ class _SearchPageState extends State<SearchPage> {
                       return const SearchLoadingView();
                     }
                     if (state is SearchError) {
-                      return SearchErrorView(message: state.message);
+                      return SearchErrorView(
+                        message: searchErrorMessage(
+                          AppLocalizations.of(context)!,
+                          state.code,
+                        ),
+                      );
                     }
                     if (state is SearchSuccess) {
                       return SearchResultsView(

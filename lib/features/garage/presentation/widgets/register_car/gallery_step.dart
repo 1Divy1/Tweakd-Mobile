@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import 'editable_image.dart';
 import 'register_car_fields.dart';
 
@@ -27,18 +28,19 @@ class GalleryStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final canAddMore = images.length < _maxGalleryPhotos;
     final tileCount = images.length + (canAddMore ? 1 : 0);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const RegisterSectionHeader(
-          label: '05 — GALLERY',
-          title: 'Show it off',
+        RegisterSectionHeader(
+          label: l10n.garageRegisterGalleryLabel,
+          title: l10n.garageRegisterGalleryTitle,
         ),
         const SizedBox(height: 20),
-        const RegisterFieldLabel('PHOTOS', optional: true),
+        RegisterFieldLabel(l10n.garageFieldPhotos, optional: true),
         const SizedBox(height: 12),
         GridView.builder(
           shrinkWrap: true,
@@ -60,9 +62,9 @@ class GalleryStep extends StatelessWidget {
           },
         ),
         const SizedBox(height: 16),
-        const Text(
-          'Up to 8 photos. The cover leads your chassis card — drag to reorder.',
-          style: TextStyle(
+        Text(
+          l10n.garageGalleryHint,
+          style: const TextStyle(
             color: AppColors.mute,
             fontSize: 14,
             height: 1.35,
@@ -98,9 +100,9 @@ class _AddTile extends StatelessWidget {
                     color: AppColors.accent, size: 22),
               ),
               const SizedBox(height: 8),
-              const Text(
-                'ADD',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.garageGalleryAdd,
+                style: const TextStyle(
                   color: AppColors.mute,
                   fontSize: 12,
                   fontWeight: FontWeight.w800,
@@ -167,9 +169,9 @@ class _GalleryTile extends StatelessWidget {
                 color: AppColors.accent,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Text(
-                'COVER',
-                style: TextStyle(
+              child: Text(
+                AppLocalizations.of(context)!.garageGalleryCover,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 10,
                   fontWeight: FontWeight.w800,

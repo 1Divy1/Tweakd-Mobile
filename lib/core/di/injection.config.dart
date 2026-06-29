@@ -76,8 +76,8 @@ import '../../features/garage/domain/usecases/get_modification_upload_urls.dart'
 import '../../features/garage/domain/usecases/get_my_garage.dart' as _i391;
 import '../../features/garage/domain/usecases/get_reference_data.dart' as _i408;
 import '../../features/garage/domain/usecases/patch_modification.dart' as _i49;
-import '../../features/garage/domain/usecases/save_cover_url.dart' as _i519;
-import '../../features/garage/domain/usecases/save_gallery_urls.dart' as _i235;
+import '../../features/garage/domain/usecases/save_cover_key.dart' as _i401;
+import '../../features/garage/domain/usecases/save_gallery_keys.dart' as _i472;
 import '../../features/garage/domain/usecases/update_car.dart' as _i219;
 import '../../features/garage/presentation/bloc/add_car/bloc.dart' as _i160;
 import '../../features/garage/presentation/bloc/bloc.dart' as _i121;
@@ -102,6 +102,42 @@ import '../../features/onboarding/domain/usecases/submit_onboarding.dart'
 import '../../features/onboarding/presentation/bloc/bloc.dart' as _i797;
 import '../../features/onboarding/presentation/bloc/username_availability/bloc.dart'
     as _i94;
+import '../../features/posts/data/datasources/posts_api_data_source.dart'
+    as _i710;
+import '../../features/posts/data/datasources/posts_storage_api_data_source.dart'
+    as _i747;
+import '../../features/posts/data/repositories/posts_repository_impl.dart'
+    as _i675;
+import '../../features/posts/domain/repositories/posts_repository.dart'
+    as _i245;
+import '../../features/posts/domain/usecases/add_comment.dart' as _i541;
+import '../../features/posts/domain/usecases/comment_actions.dart' as _i326;
+import '../../features/posts/domain/usecases/create_post.dart' as _i573;
+import '../../features/posts/domain/usecases/delete_post.dart' as _i640;
+import '../../features/posts/domain/usecases/get_comment_replies.dart' as _i567;
+import '../../features/posts/domain/usecases/get_image_upload_urls.dart'
+    as _i760;
+import '../../features/posts/domain/usecases/get_my_posts.dart' as _i851;
+import '../../features/posts/domain/usecases/get_post.dart' as _i601;
+import '../../features/posts/domain/usecases/get_post_comments.dart' as _i235;
+import '../../features/posts/domain/usecases/get_post_likers.dart' as _i528;
+import '../../features/posts/domain/usecases/get_posts_by_username.dart'
+    as _i677;
+import '../../features/posts/domain/usecases/post_like.dart' as _i111;
+import '../../features/posts/domain/usecases/post_save.dart' as _i584;
+import '../../features/posts/domain/usecases/save_image_keys.dart' as _i913;
+import '../../features/posts/domain/usecases/share_post.dart' as _i1023;
+import '../../features/posts/domain/usecases/update_post.dart' as _i310;
+import '../../features/posts/domain/usecases/upload_post_image.dart' as _i708;
+import '../../features/posts/presentation/bloc/comments/bloc.dart' as _i1002;
+import '../../features/posts/presentation/bloc/create_post/bloc.dart' as _i969;
+import '../../features/posts/presentation/bloc/edit_post/bloc.dart' as _i470;
+import '../../features/posts/presentation/bloc/likers/bloc.dart' as _i905;
+import '../../features/posts/presentation/bloc/post_detail/bloc.dart' as _i486;
+import '../../features/posts/presentation/bloc/profile_posts/bloc.dart'
+    as _i274;
+import '../../features/posts/presentation/bloc/share_post/bloc.dart' as _i690;
+import '../../features/posts/presentation/bloc/tag_picker/bloc.dart' as _i200;
 import '../../features/profile/data/datasource/profile_api_data_source.dart'
     as _i77;
 import '../../features/profile/data/repositories/profile_repository_impl.dart'
@@ -125,7 +161,7 @@ import '../../features/search/domain/usecases/search_users.dart' as _i14;
 import '../../features/search/presentation/bloc/bloc.dart' as _i462;
 import '../network/abstract_http.dart' as _i311;
 import '../network/dio_http_client.dart' as _i554;
-import '../services/car_image_service.dart' as _i185;
+import '../services/image_service.dart' as _i768;
 import '../services/push_permission_service.dart' as _i792;
 import 'modules/dio_module.dart' as _i983;
 import 'modules/supabase_module.dart' as _i388;
@@ -140,7 +176,7 @@ extension GetItInjectableX on _i174.GetIt {
     final supabaseModule = _$SupabaseModule();
     final dioModule = _$DioModule();
     gh.lazySingleton<_i454.SupabaseClient>(() => supabaseModule.supabaseClient);
-    gh.lazySingleton<_i185.CarImageService>(() => _i185.CarImageService());
+    gh.lazySingleton<_i768.ImageService>(() => _i768.ImageService());
     gh.lazySingleton<_i792.PushPermissionService>(
       () => _i792.PushPermissionService(),
     );
@@ -152,6 +188,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i526.StorageApiDataSource>(
       () => _i526.StorageApiDataSource(gh<_i454.SupabaseClient>()),
+    );
+    gh.lazySingleton<_i747.PostsStorageApiDataSource>(
+      () => _i747.PostsStorageApiDataSource(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i311.AbstractHTTP>(
       () => _i554.DioHttpClient(gh<_i361.Dio>()),
@@ -168,11 +207,21 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1049.OnboardingApiDataSource>(
       () => _i1049.OnboardingApiDataSource(gh<_i311.AbstractHTTP>()),
     );
+    gh.lazySingleton<_i710.PostsApiDataSource>(
+      () => _i710.PostsApiDataSource(gh<_i311.AbstractHTTP>()),
+    );
     gh.lazySingleton<_i77.ProfileApiDataSource>(
       () => _i77.ProfileApiDataSource(gh<_i311.AbstractHTTP>()),
     );
     gh.lazySingleton<_i592.SearchApiDataSource>(
       () => _i592.SearchApiDataSource(gh<_i311.AbstractHTTP>()),
+    );
+    gh.lazySingleton<_i511.GarageRepository>(
+      () => _i107.GarageRepositoryImpl(
+        gh<_i879.GarageApiDataSource>(),
+        gh<_i526.StorageApiDataSource>(),
+        gh<_i768.ImageService>(),
+      ),
     );
     gh.lazySingleton<_i192.CheckAuthStatusUseCase>(
       () => _i192.CheckAuthStatusUseCase(gh<_i742.AuthRepository>()),
@@ -229,13 +278,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i894.ProfileRepository>(
       () => _i334.ProfileRepositoryImpl(gh<_i77.ProfileApiDataSource>()),
-    );
-    gh.lazySingleton<_i511.GarageRepository>(
-      () => _i107.GarageRepositoryImpl(
-        gh<_i879.GarageApiDataSource>(),
-        gh<_i526.StorageApiDataSource>(),
-        gh<_i185.CarImageService>(),
-      ),
     );
     gh.lazySingleton<_i430.OnboardingRepository>(
       () =>
@@ -324,14 +366,21 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i49.PatchModificationUseCase>(
       () => _i49.PatchModificationUseCase(gh<_i511.GarageRepository>()),
     );
-    gh.lazySingleton<_i519.SaveCoverUrlUseCase>(
-      () => _i519.SaveCoverUrlUseCase(gh<_i511.GarageRepository>()),
+    gh.lazySingleton<_i401.SaveCoverKeyUseCase>(
+      () => _i401.SaveCoverKeyUseCase(gh<_i511.GarageRepository>()),
     );
-    gh.lazySingleton<_i235.SaveGalleryUrlsUseCase>(
-      () => _i235.SaveGalleryUrlsUseCase(gh<_i511.GarageRepository>()),
+    gh.lazySingleton<_i472.SaveGalleryKeysUseCase>(
+      () => _i472.SaveGalleryKeysUseCase(gh<_i511.GarageRepository>()),
     );
     gh.lazySingleton<_i219.UpdateCarUseCase>(
       () => _i219.UpdateCarUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i245.PostsRepository>(
+      () => _i675.PostsRepositoryImpl(
+        gh<_i710.PostsApiDataSource>(),
+        gh<_i747.PostsStorageApiDataSource>(),
+        gh<_i768.ImageService>(),
+      ),
     );
     gh.factory<_i121.GarageBloc>(
       () => _i121.GarageBloc(
@@ -365,6 +414,38 @@ extension GetItInjectableX on _i174.GetIt {
         checkUsername: gh<_i842.CheckUsernameAvailabilityUseCase>(),
       ),
     );
+    gh.factory<_i200.TagPickerBloc>(
+      () => _i200.TagPickerBloc(
+        searchUsers: gh<_i14.SearchUsersUseCase>(),
+        getGarageByUsername: gh<_i543.GetGarageByUsernameUseCase>(),
+      ),
+    );
+    gh.factory<_i160.AddCarBloc>(
+      () => _i160.AddCarBloc(
+        getBrands: gh<_i408.GetBrandsUseCase>(),
+        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
+        getDrivetrains: gh<_i408.GetDrivetrainsUseCase>(),
+        getColors: gh<_i408.GetColorsUseCase>(),
+        getDistanceUnits: gh<_i408.GetDistanceUnitsUseCase>(),
+        getStatusOptions: gh<_i408.GetStatusOptionsUseCase>(),
+        getModCategories: gh<_i408.GetModCategoriesUseCase>(),
+        getFuelTypeOptions: gh<_i408.GetFuelTypeOptionsUseCase>(),
+        addCar: gh<_i292.AddCarUseCase>(),
+        updateCar: gh<_i219.UpdateCarUseCase>(),
+        deleteCar: gh<_i287.DeleteCarUseCase>(),
+        getCoverUploadUrl: gh<_i932.GetCoverUploadUrlUseCase>(),
+        saveCoverKey: gh<_i401.SaveCoverKeyUseCase>(),
+        deleteCoverImage: gh<_i282.DeleteCoverImageUseCase>(),
+        getGalleryUploadUrl: gh<_i205.GetGalleryUploadUrlUseCase>(),
+        saveGalleryKeys: gh<_i472.SaveGalleryKeysUseCase>(),
+        deleteGalleryImages: gh<_i631.DeleteGalleryImagesUseCase>(),
+        addModification: gh<_i352.AddModificationUseCase>(),
+        getModificationUploadUrls: gh<_i2.GetModificationUploadUrlsUseCase>(),
+        patchModification: gh<_i49.PatchModificationUseCase>(),
+        deleteModification: gh<_i621.DeleteModificationUseCase>(),
+        imageService: gh<_i768.ImageService>(),
+      ),
+    );
     gh.factory<_i180.ProfileBloc>(
       () => _i180.ProfileBloc(
         getCurrentUserProfile: gh<_i424.GetCurrentUserProfileUseCase>(),
@@ -382,16 +463,6 @@ extension GetItInjectableX on _i174.GetIt {
         removeFollower: gh<_i164.RemoveFollowerUseCase>(),
       ),
     );
-    gh.factory<_i375.LogModBloc>(
-      () => _i375.LogModBloc(
-        getModCategories: gh<_i408.GetModCategoriesUseCase>(),
-        addModification: gh<_i352.AddModificationUseCase>(),
-        deleteModification: gh<_i621.DeleteModificationUseCase>(),
-        getModificationUploadUrls: gh<_i2.GetModificationUploadUrlsUseCase>(),
-        patchModification: gh<_i49.PatchModificationUseCase>(),
-        imageService: gh<_i185.CarImageService>(),
-      ),
-    );
     gh.factory<_i797.OnboardingBloc>(
       () => _i797.OnboardingBloc(
         getCountries: gh<_i290.GetCountriesUseCase>(),
@@ -406,31 +477,126 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i462.SearchBloc>(
       () => _i462.SearchBloc(searchUsers: gh<_i14.SearchUsersUseCase>()),
     );
-    gh.factory<_i160.AddCarBloc>(
-      () => _i160.AddCarBloc(
-        getBrands: gh<_i408.GetBrandsUseCase>(),
-        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
-        getDrivetrains: gh<_i408.GetDrivetrainsUseCase>(),
-        getColors: gh<_i408.GetColorsUseCase>(),
-        getDistanceUnits: gh<_i408.GetDistanceUnitsUseCase>(),
-        getStatusOptions: gh<_i408.GetStatusOptionsUseCase>(),
+    gh.lazySingleton<_i541.AddCommentUseCase>(
+      () => _i541.AddCommentUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i326.DeleteCommentUseCase>(
+      () => _i326.DeleteCommentUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i326.LikeCommentUseCase>(
+      () => _i326.LikeCommentUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i326.UnlikeCommentUseCase>(
+      () => _i326.UnlikeCommentUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i573.CreatePostUseCase>(
+      () => _i573.CreatePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i640.DeletePostUseCase>(
+      () => _i640.DeletePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i567.GetCommentRepliesUseCase>(
+      () => _i567.GetCommentRepliesUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i760.GetImageUploadUrlsUseCase>(
+      () => _i760.GetImageUploadUrlsUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i851.GetMyPostsUseCase>(
+      () => _i851.GetMyPostsUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i601.GetPostUseCase>(
+      () => _i601.GetPostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i235.GetPostCommentsUseCase>(
+      () => _i235.GetPostCommentsUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i528.GetPostLikersUseCase>(
+      () => _i528.GetPostLikersUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i677.GetPostsByUsernameUseCase>(
+      () => _i677.GetPostsByUsernameUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i111.LikePostUseCase>(
+      () => _i111.LikePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i111.UnlikePostUseCase>(
+      () => _i111.UnlikePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i584.SavePostUseCase>(
+      () => _i584.SavePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i584.UnsavePostUseCase>(
+      () => _i584.UnsavePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i913.SaveImageKeysUseCase>(
+      () => _i913.SaveImageKeysUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i1023.SharePostUseCase>(
+      () => _i1023.SharePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i310.UpdatePostUseCase>(
+      () => _i310.UpdatePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i708.UploadPostImageUseCase>(
+      () => _i708.UploadPostImageUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.factory<_i375.LogModBloc>(
+      () => _i375.LogModBloc(
         getModCategories: gh<_i408.GetModCategoriesUseCase>(),
-        getFuelTypeOptions: gh<_i408.GetFuelTypeOptionsUseCase>(),
-        addCar: gh<_i292.AddCarUseCase>(),
-        updateCar: gh<_i219.UpdateCarUseCase>(),
-        deleteCar: gh<_i287.DeleteCarUseCase>(),
-        getCoverUploadUrl: gh<_i932.GetCoverUploadUrlUseCase>(),
-        saveCoverUrl: gh<_i519.SaveCoverUrlUseCase>(),
-        deleteCoverImage: gh<_i282.DeleteCoverImageUseCase>(),
-        getGalleryUploadUrl: gh<_i205.GetGalleryUploadUrlUseCase>(),
-        saveGalleryUrls: gh<_i235.SaveGalleryUrlsUseCase>(),
-        deleteGalleryImages: gh<_i631.DeleteGalleryImagesUseCase>(),
         addModification: gh<_i352.AddModificationUseCase>(),
+        deleteModification: gh<_i621.DeleteModificationUseCase>(),
         getModificationUploadUrls: gh<_i2.GetModificationUploadUrlsUseCase>(),
         patchModification: gh<_i49.PatchModificationUseCase>(),
-        deleteModification: gh<_i621.DeleteModificationUseCase>(),
-        imageService: gh<_i185.CarImageService>(),
+        imageService: gh<_i768.ImageService>(),
       ),
+    );
+    gh.factory<_i486.PostDetailBloc>(
+      () => _i486.PostDetailBloc(
+        getPost: gh<_i601.GetPostUseCase>(),
+        likePost: gh<_i111.LikePostUseCase>(),
+        unlikePost: gh<_i111.UnlikePostUseCase>(),
+        savePost: gh<_i584.SavePostUseCase>(),
+        unsavePost: gh<_i584.UnsavePostUseCase>(),
+        deletePost: gh<_i640.DeletePostUseCase>(),
+      ),
+    );
+    gh.factory<_i470.EditPostBloc>(
+      () => _i470.EditPostBloc(
+        updatePost: gh<_i310.UpdatePostUseCase>(),
+        deletePost: gh<_i640.DeletePostUseCase>(),
+      ),
+    );
+    gh.factory<_i969.CreatePostBloc>(
+      () => _i969.CreatePostBloc(
+        createPost: gh<_i573.CreatePostUseCase>(),
+        getImageUploadUrls: gh<_i760.GetImageUploadUrlsUseCase>(),
+        uploadImage: gh<_i708.UploadPostImageUseCase>(),
+        saveImageKeys: gh<_i913.SaveImageKeysUseCase>(),
+        deletePost: gh<_i640.DeletePostUseCase>(),
+        imageService: gh<_i768.ImageService>(),
+      ),
+    );
+    gh.factory<_i905.LikersBloc>(
+      () => _i905.LikersBloc(getLikers: gh<_i528.GetPostLikersUseCase>()),
+    );
+    gh.factory<_i274.ProfilePostsBloc>(
+      () => _i274.ProfilePostsBloc(
+        getMyPosts: gh<_i851.GetMyPostsUseCase>(),
+        getPostsByUsername: gh<_i677.GetPostsByUsernameUseCase>(),
+      ),
+    );
+    gh.factory<_i1002.CommentsBloc>(
+      () => _i1002.CommentsBloc(
+        getComments: gh<_i235.GetPostCommentsUseCase>(),
+        getReplies: gh<_i567.GetCommentRepliesUseCase>(),
+        addComment: gh<_i541.AddCommentUseCase>(),
+        deleteComment: gh<_i326.DeleteCommentUseCase>(),
+        likeComment: gh<_i326.LikeCommentUseCase>(),
+        unlikeComment: gh<_i326.UnlikeCommentUseCase>(),
+      ),
+    );
+    gh.factory<_i690.SharePostBloc>(
+      () => _i690.SharePostBloc(gh<_i1023.SharePostUseCase>()),
     );
     return this;
   }

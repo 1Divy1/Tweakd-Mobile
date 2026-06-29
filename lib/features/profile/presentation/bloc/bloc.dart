@@ -35,7 +35,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final result = await getCurrentUserProfile(GetCurrentUserParams(fetchFromRemote: event.fetchFromRemote));
 
     result.fold(
-      (failure) => emit(ProfileError(ProfileErrorMapper.getMessage(failure))),
+      (failure) => emit(ProfileError(ProfileErrorMapper.getCode(failure))),
       (profile) => emit(ProfileLoaded(profile)),
     );
   }
@@ -51,7 +51,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     );
 
     result.fold(
-      (failure) => emit(ProfileError(ProfileErrorMapper.getMessage(failure))),
+      (failure) => emit(ProfileError(ProfileErrorMapper.getCode(failure))),
       (profile) => emit(ProfileLoaded(profile)),
     );
   }
@@ -67,8 +67,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     );
 
     result.fold(
-      (failure) =>
-          emit(OnboardingError(ProfileErrorMapper.getMessage(failure))),
+      (failure) => emit(OnboardingError(ProfileErrorMapper.getCode(failure))),
       (profile) => emit(OnboardingSubmitted(profile)),
     );
   }

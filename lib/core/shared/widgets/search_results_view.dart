@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:car_social_media_app/l10n/app_localizations.dart';
+
 import '../../theme/app_colors.dart';
 import '../entities/search_result.dart';
 import 'search_result_card.dart';
@@ -55,13 +57,13 @@ class _ResultsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final label = count == 1 ? 'DRIVER' : 'DRIVERS';
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
       child: Row(
         children: [
           Text(
-            '$count $label',
+            l10n.searchResultsDrivers(count),
             style: const TextStyle(
               color: AppColors.muteSoft,
               fontSize: 11,
@@ -71,7 +73,7 @@ class _ResultsHeader extends StatelessWidget {
           ),
           const Spacer(),
           Text(
-            'FOR "$query"',
+            l10n.searchForQuery(query),
             style: const TextStyle(
               color: AppColors.muteSoft,
               fontSize: 11,
@@ -101,7 +103,7 @@ class _NoResults extends StatelessWidget {
             const Icon(Icons.search_off, size: 36, color: AppColors.muteSoft),
             const SizedBox(height: 14),
             Text(
-              'No drivers found for "$query"',
+              AppLocalizations.of(context)!.searchNoResults(query),
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: AppColors.mute,

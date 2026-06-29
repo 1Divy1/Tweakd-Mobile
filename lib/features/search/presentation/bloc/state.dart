@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/shared/entities/search_result.dart';
+import '../utils/search_error_mapper.dart';
 
 abstract class SearchState extends Equatable {
   const SearchState();
@@ -34,10 +35,10 @@ class SearchSuccess extends SearchState {
 
 class SearchError extends SearchState {
   final String query;
-  final String message;
+  final SearchErrorCode code;
 
-  const SearchError({required this.query, required this.message});
+  const SearchError({required this.query, required this.code});
 
   @override
-  List<Object?> get props => [query, message];
+  List<Object?> get props => [query, code];
 }

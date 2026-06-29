@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/follow_list_user.dart';
 import '../bloc/bloc.dart';
 import '../bloc/event.dart';
@@ -27,7 +28,9 @@ class FollowResultsView extends StatelessWidget {
       return _NoResults(query: query, showFollowers: showFollowers);
     }
 
-    final label = showFollowers ? 'FOLLOWERS' : 'FOLLOWING';
+    final l10n = AppLocalizations.of(context)!;
+    final label =
+        showFollowers ? l10n.profileStatFollowers : l10n.profileStatFollowing;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -92,7 +95,7 @@ class _ResultsHeader extends StatelessWidget {
           if (query.isNotEmpty) ...[
             const Spacer(),
             Text(
-              'FOR "$query"',
+              AppLocalizations.of(context)!.followResultsForQuery(query),
               style: const TextStyle(
                 color: AppColors.muteSoft,
                 fontSize: 11,
@@ -115,11 +118,12 @@ class _NoResults extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final message = query.isNotEmpty
-        ? 'No results for "$query"'
+        ? l10n.followNoResultsQuery(query)
         : showFollowers
-        ? 'No followers yet'
-        : 'Not following anyone yet';
+        ? l10n.followNoFollowers
+        : l10n.followNoFollowing;
 
     return Center(
       child: Padding(

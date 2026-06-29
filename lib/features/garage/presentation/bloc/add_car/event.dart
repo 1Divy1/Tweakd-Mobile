@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../../core/services/car_image_service.dart';
+import '../../../../../core/services/image_service.dart';
 import '../../../domain/repositories/garage_repository.dart';
 import '../../widgets/register_car/editable_image.dart';
 import '../../widgets/register_car/mod_slot.dart';
@@ -65,19 +65,19 @@ class SubmitNewCar extends AddCarEvent {
 
 /// Edit submission for an existing car. Only changed data is written:
 /// - [car] is PUT to update scalar fields.
-/// - [newCover] (if set) is uploaded and saved; [removedCoverUrl] is the old
-///   cover object to delete from R2.
+/// - [newCover] (if set) is uploaded and saved; [removedCover] is true when an
+///   existing cover should be deleted from R2 (the backend resolves it by id).
 /// - [gallery] is the final ordered list (kept remotes + new locals);
-///   [removedGalleryUrls] are existing photos to delete from R2.
+///   [removedGalleryKeys] are existing photos (by R2 key) to delete from R2.
 /// - [mods] holds the current mods ([NewModSlot] to create, [ExistingModSlot]
 ///   to patch); [removedModIds] are mods to delete.
 class SubmitCarEdit extends AddCarEvent {
   final String carId;
   final CarRequestParams car;
   final CompressedImage? newCover;
-  final String? removedCoverUrl;
+  final bool removedCover;
   final List<SlotImage> gallery;
-  final List<String> removedGalleryUrls;
+  final List<String> removedGalleryKeys;
   final List<ModSlot> mods;
   final List<String> removedModIds;
 
@@ -85,9 +85,9 @@ class SubmitCarEdit extends AddCarEvent {
     required this.carId,
     required this.car,
     this.newCover,
-    this.removedCoverUrl,
+    this.removedCover = false,
     required this.gallery,
-    required this.removedGalleryUrls,
+    required this.removedGalleryKeys,
     required this.mods,
     required this.removedModIds,
   });
@@ -97,9 +97,9 @@ class SubmitCarEdit extends AddCarEvent {
         carId,
         car,
         newCover,
-        removedCoverUrl,
+        removedCover,
         gallery,
-        removedGalleryUrls,
+        removedGalleryKeys,
         mods,
         removedModIds,
       ];

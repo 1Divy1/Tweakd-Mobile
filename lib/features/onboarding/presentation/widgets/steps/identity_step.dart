@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../bloc/username_availability/bloc.dart';
 import '../../bloc/username_availability/event.dart';
 import '../../bloc/username_availability/state.dart';
+import '../../utils/username_validator.dart';
 import '../onboarding_fields.dart';
 
 /// Max bio length surfaced in the UI counter. Stays well within the backend's
@@ -27,17 +29,17 @@ class IdentityStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const OnboardingSectionHeader(
-          label: '01 — IDENTITY',
-          title: 'Claim your handle',
-          subtitle: 'This is how the community finds and @-mentions you. '
-              'Add a short bio so people get your vibe at a glance.',
+        OnboardingSectionHeader(
+          label: l10n.onboardingIdentityLabel,
+          title: l10n.onboardingIdentityTitle,
+          subtitle: l10n.onboardingIdentitySubtitle,
         ),
         const SizedBox(height: 24),
-        const OnboardingFieldLabel('USERNAME'),
+        OnboardingFieldLabel(l10n.onboardingFieldUsername),
         const SizedBox(height: 8),
         BlocBuilder<UsernameAvailabilityBloc, UsernameAvailabilityState>(
           builder: (context, state) {
@@ -58,7 +60,7 @@ class IdentityStep extends StatelessWidget {
           },
         ),
         const SizedBox(height: 20),
-        const OnboardingFieldLabel('BIO', optional: true),
+        OnboardingFieldLabel(l10n.onboardingFieldBio, optional: true),
         const SizedBox(height: 8),
         _BioField(controller: bioCtrl),
         const SizedBox(height: 8),
@@ -153,15 +155,15 @@ class _UsernameField extends StatelessWidget {
                 fontWeight: FontWeight.w800,
                 letterSpacing: 0.3,
               ),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 isDense: true,
-                hintText: 'your_handle',
-                hintStyle: TextStyle(
+                hintText: AppLocalizations.of(context)!.onboardingUsernameHint,
+                hintStyle: const TextStyle(
                   color: AppColors.muteSoft,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
-                contentPadding: EdgeInsets.fromLTRB(10, 16, 16, 16),
+                contentPadding: const EdgeInsets.fromLTRB(10, 16, 16, 16),
                 border: InputBorder.none,
               ),
             ),
@@ -183,10 +185,14 @@ class _AvailabilityHint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final state = this.state;
 
     if (state is UsernameAvailabilityInvalid) {
-      return _hintText(state.message, AppColors.accentHot);
+      return _hintText(
+        usernameValidationMessage(l10n, state.error),
+        AppColors.accentHot,
+      );
     }
 
     if (state is UsernameAvailabilityChecking) {
@@ -201,7 +207,7 @@ class _AvailabilityHint extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          _hintText('Checking availability…', AppColors.mute),
+          _hintText(l10n.onboardingUsernameChecking, AppColors.mute),
         ],
       );
     }
@@ -209,7 +215,7 @@ class _AvailabilityHint extends StatelessWidget {
     if (state is UsernameTaken) {
       return _verdict(
         username: state.username,
-        trailing: ' is already taken',
+        trailing: l10n.onboardingUsernameTaken,
         color: AppColors.accentHot,
         icon: Icons.close_rounded,
         iconBg: AppColors.accentHot,
@@ -219,7 +225,7 @@ class _AvailabilityHint extends StatelessWidget {
     if (state is UsernameAvailable) {
       return _verdict(
         username: state.username,
-        trailing: ' is available',
+        trailing: l10n.onboardingUsernameAvailable,
         color: AppColors.mute,
         icon: Icons.check_rounded,
         iconBg: AppColors.accent,
@@ -227,11 +233,11 @@ class _AvailabilityHint extends StatelessWidget {
     }
 
     if (state is UsernameAvailabilityFailed) {
-      return _hintText(state.message, AppColors.mute);
+      return _hintText(l10n.onboardingUsernameCheckFailed, AppColors.mute);
     }
 
     // UsernameAvailabilityInitial — field is empty.
-    return _hintText('This will be your public handle.', AppColors.mute);
+    return _hintText(l10n.onboardingUsernameHelp, AppColors.mute);
   }
 
   Widget _hintText(String text, Color color) => Text(
@@ -327,17 +333,16 @@ class _BioField extends StatelessWidget {
                 int? maxLength,
                 required bool isFocused}) =>
             null,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           isDense: true,
-          hintText: 'Tell the grid about your current ride, your dream '
-              'garage, or what you’re here for…',
-          hintStyle: TextStyle(
+          hintText: AppLocalizations.of(context)!.onboardingBioHint,
+          hintStyle: const TextStyle(
             color: AppColors.muteSoft,
             fontSize: 15,
             height: 1.35,
             fontWeight: FontWeight.w500,
           ),
-          contentPadding: EdgeInsets.symmetric(vertical: 12),
+          contentPadding: const EdgeInsets.symmetric(vertical: 12),
           border: InputBorder.none,
         ),
       ),

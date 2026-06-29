@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import '../../../domain/entities/car.dart';
 import '../../../domain/entities/car_status_option.dart';
 import '../../../domain/entities/reference_data.dart';
+import '../../utils/garage_error_mapper.dart';
 
 abstract class AddCarState extends Equatable {
   const AddCarState();
@@ -76,13 +77,13 @@ class AddCarRefDataLoaded extends AddCarState {
 class AddCarSubmitting extends AddCarState {
   final AddCarRefDataLoaded refData;
 
-  /// Human-readable phase, e.g. "Creating machine…", "Uploading photos…".
-  final String statusLabel;
+  /// In-flight phase; the UI maps it to a localized label.
+  final AddCarPhase phase;
 
-  const AddCarSubmitting({required this.refData, required this.statusLabel});
+  const AddCarSubmitting({required this.refData, required this.phase});
 
   @override
-  List<Object?> get props => [refData, statusLabel];
+  List<Object?> get props => [refData, phase];
 }
 
 class AddCarSuccess extends AddCarState {
@@ -94,19 +95,19 @@ class AddCarSuccess extends AddCarState {
 }
 
 class AddCarError extends AddCarState {
-  final String message;
+  final GarageErrorCode code;
   final AddCarRefDataLoaded refData;
 
-  const AddCarError({required this.message, required this.refData});
+  const AddCarError({required this.code, required this.refData});
 
   @override
-  List<Object?> get props => [message, refData];
+  List<Object?> get props => [code, refData];
 }
 
 class AddCarRefDataError extends AddCarState {
-  final String message;
-  const AddCarRefDataError({required this.message});
+  final GarageErrorCode code;
+  const AddCarRefDataError({required this.code});
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [code];
 }

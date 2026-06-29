@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../bloc/bloc.dart';
 import '../bloc/event.dart';
 import '../bloc/state.dart';
+import '../utils/auth_error_mapper.dart';
 import '../widgets/auth_brand_header.dart';
 import '../widgets/auth_divider.dart';
 import '../widgets/auth_primary_button.dart';
@@ -35,16 +37,19 @@ class _SignUpPageState extends State<SignUpPage> {
   void _onCreateAccount() {
     // Email/password sign up has no backend yet; the social and email login
     // flows live in AuthBloc. Surface a placeholder until it is wired up.
-    _showComingSoon('Email sign up');
+    _showComingSoon(AppLocalizations.of(context)!.authFeatureEmailSignUp);
   }
 
   void _onSocialTap(SocialProvider provider) {
+    final l10n = AppLocalizations.of(context)!;
     switch (provider) {
       case SocialProvider.google:
         context.read<AuthBloc>().add(GoogleLoginRequested());
       case SocialProvider.apple:
       case SocialProvider.facebook:
-        _showComingSoon('${_providerName(provider)} sign-in');
+        _showComingSoon(
+          l10n.authFeatureProviderSignIn(_providerName(provider)),
+        );
     }
   }
 
@@ -54,14 +59,16 @@ class _SignUpPageState extends State<SignUpPage> {
     SocialProvider.facebook => 'Facebook',
   };
 
-  void _showComingSoon(String what) {
+  void _showComingSoon(String feature) {
+    final l10n = AppLocalizations.of(context)!;
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$what is coming soon.')),
+      SnackBar(content: Text(l10n.authComingSoon(feature))),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: SafeArea(
@@ -73,7 +80,7 @@ class _SignUpPageState extends State<SignUpPage> {
               context.go('/profile');
             } else if (state is AuthError) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
+                SnackBar(content: Text(authErrorMessage(l10n, state.code))),
               );
             }
           },
@@ -98,20 +105,20 @@ class _SignUpPageState extends State<SignUpPage> {
                           const SizedBox(height: 16),
                           const AuthBrandHeader(),
                           const SizedBox(height: 28),
-                          const Text(
-                            'Join the grid',
+                          Text(
+                            l10n.authSignupTitle,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: AppColors.ink,
                               fontSize: 32,
                               fontWeight: FontWeight.w900,
                             ),
                           ),
                           const SizedBox(height: 8),
-                          const Text(
-                            'Create your account and build your garage.',
+                          Text(
+                            l10n.authSignupSubtitle,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: AppColors.mute,
                               fontSize: 15,
                             ),
@@ -120,43 +127,43 @@ class _SignUpPageState extends State<SignUpPage> {
                           // ---- Form: fixed gaps between fields ----
                           const SizedBox(height: 32),
                           AuthTextField(
-                            label: 'Email',
+                            label: l10n.authEmailLabel,
                             icon: Icons.mail_outline,
-                            hint: 'you@email.com',
+                            hint: l10n.authEmailHint,
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
                           ),
                           const SizedBox(height: 18),
                           AuthTextField(
-                            label: 'Username',
+                            label: l10n.authUsernameLabel,
                             icon: Icons.alternate_email,
-                            hint: 'username',
+                            hint: l10n.authUsernameHint,
                             controller: _usernameController,
                           ),
                           const SizedBox(height: 18),
                           AuthTextField(
-                            label: 'Password',
+                            label: l10n.authPasswordLabel,
                             icon: Icons.lock_outline,
-                            hint: 'Create a password',
+                            hint: l10n.authPasswordHintSignup,
                             controller: _passwordController,
                             isPassword: true,
                             textInputAction: TextInputAction.done,
                           ),
                           const SizedBox(height: 24),
                           AuthPrimaryButton(
-                            label: 'Create account',
+                            label: l10n.authCreateAccount,
                             isLoading: isLoading,
                             onPressed: _onCreateAccount,
                           ),
                           const SizedBox(height: 16),
-                          _buildTermsText(),
+                          _buildTermsText(l10n),
 
                           // ---- Flexible gap eats the leftover height ----
                           const Spacer(),
 
                           // ---- Footer: divider + social + sign-in link ----
                           const SizedBox(height: 24),
-                          const AuthDivider(label: 'Or sign up with'),
+                          AuthDivider(label: l10n.authOrSignUpWith),
                           const SizedBox(height: 20),
                           SocialLoginButtons(
                             order: const [
@@ -167,7 +174,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             onTap: _onSocialTap,
                           ),
                           const SizedBox(height: 24),
-                          _buildSignInLink(context),
+                          _buildSignInLink(context, l10n),
                         ],
                       ),
                     ),
@@ -181,46 +188,46 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildTermsText() {
+  Widget _buildTermsText(AppLocalizations l10n) {
     return Text.rich(
-      const TextSpan(
-        style: TextStyle(fontSize: 13, color: AppColors.mute, height: 1.4),
+      TextSpan(
+        style: const TextStyle(fontSize: 13, color: AppColors.mute, height: 1.4),
         children: [
-          TextSpan(text: 'By creating an account you agree to the '),
+          TextSpan(text: l10n.authTermsPrefix),
           TextSpan(
-            text: 'Terms',
-            style: TextStyle(
+            text: l10n.authTermsTerms,
+            style: const TextStyle(
               color: AppColors.ink,
               fontWeight: FontWeight.w700,
             ),
           ),
-          TextSpan(text: ' & '),
+          TextSpan(text: l10n.authTermsAnd),
           TextSpan(
-            text: 'Privacy Policy',
-            style: TextStyle(
+            text: l10n.authTermsPrivacy,
+            style: const TextStyle(
               color: AppColors.ink,
               fontWeight: FontWeight.w700,
             ),
           ),
-          TextSpan(text: '.'),
+          const TextSpan(text: '.'),
         ],
       ),
       textAlign: TextAlign.center,
     );
   }
 
-  Widget _buildSignInLink(BuildContext context) {
+  Widget _buildSignInLink(BuildContext context, AppLocalizations l10n) {
     return Center(
       child: GestureDetector(
         onTap: () => context.go('/login'),
         child: RichText(
-          text: const TextSpan(
-            style: TextStyle(fontSize: 15, color: AppColors.mute),
+          text: TextSpan(
+            style: const TextStyle(fontSize: 15, color: AppColors.mute),
             children: [
-              TextSpan(text: 'Already have an account? '),
+              TextSpan(text: l10n.authHaveAccountPrefix),
               TextSpan(
-                text: 'Sign in',
-                style: TextStyle(
+                text: l10n.authSignIn,
+                style: const TextStyle(
                   color: AppColors.ink,
                   fontWeight: FontWeight.w700,
                   decoration: TextDecoration.underline,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// A full-width destructive action row used to trigger logout.
 class LogoutButton extends StatelessWidget {
@@ -30,9 +31,9 @@ class LogoutButton extends StatelessWidget {
           children: [
             const Icon(Icons.logout, color: AppColors.accent, size: 20),
             const SizedBox(width: 12),
-            const Text(
-              'Log out',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)!.settingsLogout,
+              style: const TextStyle(
                 color: AppColors.accent,
                 fontSize: 15,
                 fontWeight: FontWeight.w700,

@@ -34,7 +34,7 @@ class GarageBloc extends Bloc<GarageEvent, GarageState> {
     emit(const GarageLoading());
     final result = await getMyGarage(NoParams());
     result.fold(
-      (failure) => emit(GarageError(message: GarageErrorMapper.getMessage(failure))),
+      (failure) => emit(GarageError(code: GarageErrorMapper.getCode(failure))),
       (garage) => emit(GarageLoaded(garage: garage)),
     );
   }
@@ -48,7 +48,7 @@ class GarageBloc extends Bloc<GarageEvent, GarageState> {
       GetGarageByUsernameParams(username: event.username),
     );
     result.fold(
-      (failure) => emit(GarageError(message: GarageErrorMapper.getMessage(failure))),
+      (failure) => emit(GarageError(code: GarageErrorMapper.getCode(failure))),
       (garage) => emit(GarageLoaded(garage: garage)),
     );
   }
@@ -66,7 +66,7 @@ class GarageBloc extends Bloc<GarageEvent, GarageState> {
 
     result.fold(
       (failure) {
-        emit(GarageError(message: GarageErrorMapper.getMessage(failure)));
+        emit(GarageError(code: GarageErrorMapper.getCode(failure)));
         emit(current.copyWith(isDeleting: false));
       },
       (_) {

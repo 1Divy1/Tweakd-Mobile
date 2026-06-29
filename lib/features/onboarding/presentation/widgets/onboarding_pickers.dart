@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// A tappable field that opens a picker. Shows a placeholder until a value is
 /// chosen, an optional leading widget, and a chevron affordance.
@@ -421,10 +422,10 @@ class _NoMatches extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Text(
-        'No matches',
-        style: TextStyle(
+        AppLocalizations.of(context)!.onboardingNoMatches,
+        style: const TextStyle(
           color: AppColors.muteSoft,
           fontSize: 15,
           fontWeight: FontWeight.w600,
@@ -466,15 +467,15 @@ class _PickerSearchField extends StatelessWidget {
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
               ),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 isDense: true,
-                hintText: 'Search…',
-                hintStyle: TextStyle(
+                hintText: AppLocalizations.of(context)!.onboardingSearchHint,
+                hintStyle: const TextStyle(
                   color: AppColors.muteSoft,
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                 ),
-                contentPadding: EdgeInsets.fromLTRB(10, 13, 14, 13),
+                contentPadding: const EdgeInsets.fromLTRB(10, 13, 14, 13),
                 border: InputBorder.none,
               ),
             ),

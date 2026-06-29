@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:car_social_media_app/l10n/app_localizations.dart';
+
 import '../../theme/app_colors.dart';
 
 class SearchEmptyView extends StatelessWidget {
@@ -7,6 +9,7 @@ class SearchEmptyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -28,19 +31,19 @@ class SearchEmptyView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 18),
-            const Text(
-              'Find your people',
-              style: TextStyle(
+            Text(
+              l10n.searchEmptyTitle,
+              style: const TextStyle(
                 color: AppColors.ink,
                 fontSize: 22,
                 fontWeight: FontWeight.w800,
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Type a username to find drivers across\nthe community.',
+            Text(
+              l10n.searchEmptySubtitle,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: AppColors.mute,
                 fontSize: 14,
                 height: 1.4,

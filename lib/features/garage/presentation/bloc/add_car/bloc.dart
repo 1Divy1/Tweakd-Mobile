@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../../core/services/car_image_service.dart';
+import '../../../../../core/services/image_service.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../../../domain/repositories/garage_repository.dart';
 import '../../../domain/usecases/add_car.dart';
@@ -17,8 +17,8 @@ import '../../../domain/usecases/get_gallery_upload_url.dart';
 import '../../../domain/usecases/get_modification_upload_urls.dart';
 import '../../../domain/usecases/get_reference_data.dart';
 import '../../../domain/usecases/patch_modification.dart';
-import '../../../domain/usecases/save_cover_url.dart';
-import '../../../domain/usecases/save_gallery_urls.dart';
+import '../../../domain/usecases/save_cover_key.dart';
+import '../../../domain/usecases/save_gallery_keys.dart';
 import '../../../domain/usecases/update_car.dart';
 import '../../widgets/register_car/editable_image.dart';
 import '../../widgets/register_car/mod_slot.dart';
@@ -40,16 +40,16 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
   final UpdateCarUseCase updateCar;
   final DeleteCarUseCase deleteCar;
   final GetCoverUploadUrlUseCase getCoverUploadUrl;
-  final SaveCoverUrlUseCase saveCoverUrl;
+  final SaveCoverKeyUseCase saveCoverKey;
   final DeleteCoverImageUseCase deleteCoverImage;
   final GetGalleryUploadUrlUseCase getGalleryUploadUrl;
-  final SaveGalleryUrlsUseCase saveGalleryUrls;
+  final SaveGalleryKeysUseCase saveGalleryKeys;
   final DeleteGalleryImagesUseCase deleteGalleryImages;
   final AddModificationUseCase addModification;
   final GetModificationUploadUrlsUseCase getModificationUploadUrls;
   final PatchModificationUseCase patchModification;
   final DeleteModificationUseCase deleteModification;
-  final CarImageService imageService;
+  final ImageService imageService;
 
   AddCarBloc({
     required this.getBrands,
@@ -64,10 +64,10 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
     required this.updateCar,
     required this.deleteCar,
     required this.getCoverUploadUrl,
-    required this.saveCoverUrl,
+    required this.saveCoverKey,
     required this.deleteCoverImage,
     required this.getGalleryUploadUrl,
-    required this.saveGalleryUrls,
+    required this.saveGalleryKeys,
     required this.deleteGalleryImages,
     required this.addModification,
     required this.getModificationUploadUrls,
@@ -102,8 +102,7 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
         statusOptionsResult.isLeft() ||
         modCategoriesResult.isLeft() ||
         fuelTypeOptionsResult.isLeft()) {
-      emit(const AddCarRefDataError(
-          message: 'Failed to load form data. Please try again.'));
+      emit(const AddCarRefDataError(code: GarageErrorCode.refDataLoadFailed));
       return;
     }
 
@@ -153,7 +152,7 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
     if (refData == null) return;
 
     // ── Step 1: create car + mods (text data only) ───────────────────────────
-    emit(AddCarSubmitting(refData: refData, statusLabel: 'Creating machine…'));
+    emit(AddCarSubmitting(refData: refData, phase: AddCarPhase.creating));
 
     final createResult = await addCar(
       CreateCarParams(
@@ -165,7 +164,7 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
     final car = await createResult.fold(
       (failure) async {
         emit(AddCarError(
-          message: GarageErrorMapper.getMessage(failure),
+          code: GarageErrorMapper.getCode(failure),
           refData: refData,
         ));
         return null;
@@ -178,7 +177,7 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
     // Images were already compressed at selection time, so each task only has
     // to fetch a presigned URL and PUT the bytes. Cover, gallery and every
     // modification are independent, so they all run concurrently.
-    emit(AddCarSubmitting(refData: refData, statusLabel: 'Uploading photos…'));
+    emit(AddCarSubmitting(refData: refData, phase: AddCarPhase.uploadingPhotos));
 
     try {
       await Future.wait([
@@ -192,43 +191,41 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
     } catch (_) {
       await deleteCar(DeleteCarParams(carId: car.id));
       emit(AddCarError(
-        message: 'Photo upload failed. Please try again.',
+        code: GarageErrorCode.photoUploadFailed,
         refData: refData,
       ));
     }
   }
 
   /// Fetches a presigned cover slot, uploads the (already compressed) bytes and
-  /// registers the final URL on the car.
+  /// registers the R2 key on the car (the backend builds the url on read).
   Future<void> _uploadCover(String carId, CompressedImage cover) async {
     final slot = (await getCoverUploadUrl(GetCoverUploadUrlParams(carId: carId)))
-        .fold((f) => throw Exception(GarageErrorMapper.getMessage(f)), (s) => s);
+        .fold((f) => throw Exception('$f'), (s) => s);
     await imageService.uploadToR2(slot.uploadUrl, await cover.bytes);
-    (await saveCoverUrl(
-            SaveCoverUrlParams(carId: carId, finalUrl: slot.finalUrl)))
-        .fold((f) => throw Exception(GarageErrorMapper.getMessage(f)), (_) {});
+    (await saveCoverKey(SaveCoverKeyParams(carId: carId, key: slot.key)))
+        .fold((f) => throw Exception('$f'), (_) {});
   }
 
-  /// Uploads every gallery image in parallel, then registers the final URLs.
+  /// Uploads every gallery image in parallel, then registers their R2 keys.
   /// [Future.wait] preserves order, so the saved list matches the user's order.
   Future<void> _uploadGallery(
     String carId,
     List<CompressedImage> gallery,
   ) async {
     if (gallery.isEmpty) return;
-    final finalUrls = await Future.wait(gallery.map((image) async {
+    final keys = await Future.wait(gallery.map((image) async {
       final slot =
           (await getGalleryUploadUrl(GetGalleryUploadUrlParams(carId: carId)))
               .fold(
-        (f) => throw Exception(GarageErrorMapper.getMessage(f)),
+        (f) => throw Exception('$f'),
         (s) => s,
       );
       await imageService.uploadToR2(slot.uploadUrl, await image.bytes);
-      return slot.finalUrl;
+      return slot.key;
     }));
-    (await saveGalleryUrls(
-            SaveGalleryUrlsParams(carId: carId, urls: finalUrls)))
-        .fold((f) => throw Exception(GarageErrorMapper.getMessage(f)), (_) {});
+    (await saveGalleryKeys(SaveGalleryKeysParams(carId: carId, keys: keys)))
+        .fold((f) => throw Exception('$f'), (_) {});
   }
 
   /// Requests batch presigned URLs for a modification's before/after images,
@@ -249,7 +246,7 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
     final uploads = (await getModificationUploadUrls(
       GetModificationUploadUrlsParams(carId: carId, modId: modId, files: files),
     ))
-        .fold((f) => throw Exception(GarageErrorMapper.getMessage(f)),
+        .fold((f) => throw Exception('$f'),
             (r) => r.uploads);
 
     await Future.wait(uploads.map((upload) async {
@@ -259,14 +256,14 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
     }));
 
     final addMedia = uploads
-        .map((u) => ModMediaInput(url: u.finalUrl, phase: u.phase))
+        .map((u) => ModMediaInput(key: u.key, phase: u.phase))
         .toList();
     (await patchModification(PatchModificationParams(
       carId: carId,
       modId: modId,
       params: ModPatchParams(addMedia: addMedia),
     )))
-        .fold((f) => throw Exception(GarageErrorMapper.getMessage(f)), (_) {});
+        .fold((f) => throw Exception('$f'), (_) {});
   }
 
   // ── Edit ───────────────────────────────────────────────────────────────────
@@ -288,7 +285,7 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
     };
     if (refData == null) return;
 
-    emit(AddCarSubmitting(refData: refData, statusLabel: 'Saving changes…'));
+    emit(AddCarSubmitting(refData: refData, phase: AddCarPhase.savingChanges));
 
     final updateResult = await updateCar(
       UpdateCarParams(carId: event.carId, request: event.car),
@@ -296,7 +293,7 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
     final updatedCar = updateResult.fold(
       (failure) {
         emit(AddCarError(
-          message: GarageErrorMapper.getMessage(failure),
+          code: GarageErrorMapper.getCode(failure),
           refData: refData,
         ));
         return null;
@@ -306,49 +303,48 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
     if (updatedCar == null) return;
 
     try {
-      emit(AddCarSubmitting(refData: refData, statusLabel: 'Saving photos…'));
+      emit(AddCarSubmitting(refData: refData, phase: AddCarPhase.savingPhotos));
 
       // ── Cover ──────────────────────────────────────────────────────────────
       if (event.newCover != null) {
-        await _replaceCover(
-            event.carId, event.newCover!, event.removedCoverUrl);
+        await _replaceCover(event.carId, event.newCover!, event.removedCover);
       }
 
       // ── Gallery ────────────────────────────────────────────────────────────
       final galleryChanged = event.gallery.any((s) => s is LocalSlotImage) ||
-          event.removedGalleryUrls.isNotEmpty;
+          event.removedGalleryKeys.isNotEmpty;
       if (galleryChanged) {
         // Delete removed photos first — while their rows still exist — since the
         // backend scopes R2 deletion to the car's current gallery rows. Saving
         // the new full list first would drop those rows and orphan the objects.
-        if (event.removedGalleryUrls.isNotEmpty) {
+        if (event.removedGalleryKeys.isNotEmpty) {
           (await deleteGalleryImages(DeleteGalleryImagesParams(
             carId: event.carId,
-            urls: event.removedGalleryUrls,
+            keys: event.removedGalleryKeys,
           )))
               .fold(
-                  (f) => throw Exception(GarageErrorMapper.getMessage(f)), (_) {});
+                  (f) => throw Exception('$f'), (_) {});
         }
-        // Upload any new locals, then persist the final ordered list.
-        final finalUrls = <String>[];
+        // Upload any new locals, then persist the final ordered list of keys.
+        final finalKeys = <String>[];
         for (final slot in event.gallery) {
           switch (slot) {
-            case RemoteSlotImage(:final url):
-              finalUrls.add(url);
+            case RemoteSlotImage(:final key):
+              finalKeys.add(key);
             case LocalSlotImage(:final image):
-              finalUrls.add(await _uploadGalleryImage(event.carId, image));
+              finalKeys.add(await _uploadGalleryImage(event.carId, image));
           }
         }
-        (await saveGalleryUrls(
-                SaveGalleryUrlsParams(carId: event.carId, urls: finalUrls)))
-            .fold((f) => throw Exception(GarageErrorMapper.getMessage(f)), (_) {});
+        (await saveGalleryKeys(
+                SaveGalleryKeysParams(carId: event.carId, keys: finalKeys)))
+            .fold((f) => throw Exception('$f'), (_) {});
       }
 
       // ── Modifications ───────────────────────────────────────────────────────
       for (final modId in event.removedModIds) {
         (await deleteModification(
                 DeleteModificationParams(carId: event.carId, modId: modId)))
-            .fold((f) => throw Exception(GarageErrorMapper.getMessage(f)), (_) {});
+            .fold((f) => throw Exception('$f'), (_) {});
       }
       for (final slot in event.mods) {
         switch (slot) {
@@ -357,7 +353,7 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
               carId: event.carId,
               request: input.request,
             )))
-                .fold((f) => throw Exception(GarageErrorMapper.getMessage(f)),
+                .fold((f) => throw Exception('$f'),
                     (m) => m);
             await _uploadModMedia(event.carId, created.id, input);
           case ExistingModSlot():
@@ -368,7 +364,7 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
       emit(AddCarSuccess(updatedCar));
     } catch (_) {
       emit(AddCarError(
-        message: 'Some changes could not be saved. Please try again.',
+        code: GarageErrorCode.editSaveFailed,
         refData: refData,
       ));
     }
@@ -381,36 +377,35 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
     final slot =
         (await getGalleryUploadUrl(GetGalleryUploadUrlParams(carId: carId)))
             .fold(
-      (f) => throw Exception(GarageErrorMapper.getMessage(f)),
+      (f) => throw Exception('$f'),
       (s) => s,
     );
     await imageService.uploadToR2(slot.uploadUrl, await image.bytes);
-    return slot.finalUrl;
+    return slot.key;
   }
 
   /// Replaces the car's cover. Uploads the new file to R2 first, then deletes
   /// the old cover object (the backend's DELETE /cover targets the *current*
   /// cover, so this must run before the cover pointer is moved), then points
-  /// the car at the new cover. Ordering keeps the window where the car has no
-  /// cover sub-second and self-healing if a later step fails.
+  /// the car at the new cover by its key. Ordering keeps the window where the
+  /// car has no cover sub-second and self-healing if a later step fails.
   Future<void> _replaceCover(
     String carId,
     CompressedImage cover,
-    String? oldUrl,
+    bool hadCover,
   ) async {
     final slot = (await getCoverUploadUrl(GetCoverUploadUrlParams(carId: carId)))
-        .fold((f) => throw Exception(GarageErrorMapper.getMessage(f)), (s) => s);
+        .fold((f) => throw Exception('$f'), (s) => s);
     await imageService.uploadToR2(slot.uploadUrl, await cover.bytes);
 
-    if (oldUrl != null) {
-      (await deleteCoverImage(DeleteCoverImageParams(carId: carId, url: oldUrl)))
+    if (hadCover) {
+      (await deleteCoverImage(DeleteCoverImageParams(carId: carId)))
           .fold(
-              (f) => throw Exception(GarageErrorMapper.getMessage(f)), (_) {});
+              (f) => throw Exception('$f'), (_) {});
     }
 
-    (await saveCoverUrl(
-            SaveCoverUrlParams(carId: carId, finalUrl: slot.finalUrl)))
-        .fold((f) => throw Exception(GarageErrorMapper.getMessage(f)), (_) {});
+    (await saveCoverKey(SaveCoverKeyParams(carId: carId, key: slot.key)))
+        .fold((f) => throw Exception('$f'), (_) {});
   }
 
   /// Uploads any newly picked before/after images for an existing mod, then
@@ -430,7 +425,7 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
         GetModificationUploadUrlsParams(
             carId: carId, modId: slot.modId, files: files),
       ))
-          .fold((f) => throw Exception(GarageErrorMapper.getMessage(f)),
+          .fold((f) => throw Exception('$f'),
               (r) => r.uploads);
 
       await Future.wait(uploads.map((upload) async {
@@ -440,7 +435,7 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
       }));
 
       addMedia.addAll(
-          uploads.map((u) => ModMediaInput(url: u.finalUrl, phase: u.phase)));
+          uploads.map((u) => ModMediaInput(key: u.key, phase: u.phase)));
     }
 
     final patch =
@@ -452,6 +447,6 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
       modId: slot.modId,
       params: patch,
     )))
-        .fold((f) => throw Exception(GarageErrorMapper.getMessage(f)), (_) {});
+        .fold((f) => throw Exception('$f'), (_) {});
   }
 }
