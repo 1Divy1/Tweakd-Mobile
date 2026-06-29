@@ -207,6 +207,7 @@
   "navMap": "HARTĂ",
   "navSearch": "CĂUTARE",
   "navContests": "CONCURSURI",
+  "navCreate": "CREEAZĂ",
   "navProfile": "PROFIL",
 
   "garageErrorCarNotFound": "Această mașină nu a putut fi găsită.",
@@ -401,5 +402,182 @@
   "settingsTitle": "SETĂRI",
   "settingsLogout": "Deconectare",
   "settingsLogoutTitle": "Te deconectezi?",
-  "settingsLogoutBody": "Va trebui să te conectezi din nou pentru a-ți accesa contul."
+  "settingsLogoutBody": "Va trebui să te conectezi din nou pentru a-ți accesa contul.",
+
+  "postNewPost": "POSTARE NOUĂ",
+  "postStepPhotos": "POZE",
+  "postStepCaption": "DESCRIERE",
+  "postStepTags": "ETICHETE",
+  "postStepVisibility": "VIZIBILITATE",
+  "postStepReview": "VERIFICARE",
+  "postStart": "START",
+  "postPublishStep": "PUBLICĂ",
+  "postBack": "ÎNAPOI",
+  "postNext": "ÎNAINTE",
+  "postPublish": "PUBLICĂ POSTAREA",
+  "postStepCounter": "PASUL {current} / {total}",
+
+  "postPhotosTitle": "Alege-ți cadrele",
+  "postPhotosSubtitle": "Trage pentru a reordona — coperta deschide postarea. Deocamdată doar poze.",
+  "postPhotosAdd": "ADAUGĂ",
+  "postPhotosCover": "COPERTĂ",
+  "postPhotosVideosSoon": "VIDEO — ÎN CURÂND",
+  "postPhotosCount": "{count} / {max} POZE",
+
+  "postCaptionTitle": "Spune ceva",
+  "postCaptionSubtitle": "Adaugă o descriere pentru postare. Menționează detalii, povestea, build-ul.",
+  "postCaptionLabel": "DESCRIERE",
+  "postCaptionHint": "Spune povestea din spatele acestei postări…",
+  "postCaptionCounter": "{count} / {max}",
+
+  "postTagsTitle": "Etichetează mașini și persoane",
+  "postTagsSubtitle": "Leagă mașinile din această postare din orice garaj și etichetează persoanele din ea.",
+  "postTagsCars": "MAȘINI",
+  "postTagsPeople": "PERSOANE",
+  "postTagsCarHint": "Caută o mașină în orice garaj…",
+  "postTagsPeopleHint": "Caută persoane de etichetat…",
+  "postTagsAddCar": "Etichetează o mașină",
+  "postTagsTagPersonFirst": "Etichetează mai întâi o persoană pentru a-i eticheta una dintre mașini.",
+  "postTagsChoosePerson": "A cui mașină?",
+  "postTagsChooseCar": "Alege o mașină",
+  "postTagsNoCars": "Această persoană nu are mașini de etichetat.",
+  "postTagsNoPeopleFound": "Nicio persoană găsită.",
+  "postTagsLoadError": "Încărcarea a eșuat. Încearcă din nou.",
+
+  "postVisibilityTitle": "Cine ce vede",
+  "postVisibilitySubtitle": "Ascunde un contor și ceilalți nu vor vedea acel număr — pot în continuare să dea like, să comenteze și să distribuie.",
+  "postVisibilityLabel": "CONTOARE VIZIBILE",
+  "postVisibilityLikesTitle": "Arată numărul de aprecieri",
+  "postVisibilityLikesDesc": "Ceilalți pot vedea câte aprecieri are postarea",
+  "postVisibilityCommentsTitle": "Arată numărul de comentarii",
+  "postVisibilityCommentsDesc": "Ascunde numărul — comentariile rămân deschise",
+  "postVisibilitySharesTitle": "Arată numărul de distribuiri",
+  "postVisibilitySharesDesc": "Ceilalți pot vedea de câte ori a fost distribuită",
+  "postVisibilitySavedTitle": "Arată numărul de salvări",
+  "postVisibilitySavedDesc": "Ceilalți pot vedea de câte ori a fost salvată",
+  "postVisibilityTimeNote": "Postările arată un timp relativ — „acum 2h”, „acum 3 zile” — niciodată data exactă. Aceasta este automată și mereu activă.",
+
+  "postReviewTitle": "Arată bine?",
+  "postReviewSubtitle": "Exact așa apare postarea ta în feed.",
+  "postReviewYou": "Tu",
+  "postReviewJustNow": "ACUM",
+
+  "postValPhotosRequired": "Adaugă cel puțin o poză pentru a continua.",
+
+  "postDiscardTitle": "Renunți la postare?",
+  "postDiscardBody": "Pozele, descrierea și etichetele tale nu vor fi salvate.",
+  "postKeepEditing": "Continuă editarea",
+  "postDiscard": "Renunță",
+
+  "postCreatedSuccess": "Postare publicată.",
+  "postPhaseCreating": "Se creează…",
+  "postPhaseUploading": "Se încarcă pozele…",
+  "postErrorGeneric": "Postarea nu a putut fi publicată. Încearcă din nou.",
+  "postErrorImageUpload": "Pozele nu au putut fi încărcate. Încearcă din nou.",
+  "postErrorInvalidTags": "Nu poți eticheta o mașină fără a-i eticheta și proprietarul.",
+  "postErrorNotOwner": "Nu ai permisiunea să faci asta.",
+  "postErrorNotFound": "Această postare nu mai există.",
+
+  "profileTabPosts": "POSTĂRI",
+  "profileTabGarage": "GARAJ",
+
+  "postsLoadMore": "ÎNCARCĂ MAI MULT",
+  "postsEmptyOwner": "Încă nu ai postat nimic.",
+  "postsEmptyVisitor": "Nicio postare încă.",
+  "postsCreateFirst": "CREEAZĂ PRIMA POSTARE",
+
+  "postDetailTitle": "POSTARE",
+  "postEditAction": "Editează postarea",
+  "postDeleteAction": "Șterge postarea",
+  "postDeleteTitle": "Ștergi postarea?",
+  "postDeleteBody": "Această postare și pozele, aprecierile și comentariile sale vor fi șterse definitiv.",
+  "postEditTitle": "EDITEAZĂ POSTAREA",
+  "postEditSave": "SALVEAZĂ",
+
+  "postShareTitle": "DISTRIBUIE POSTAREA",
+  "postShareSend": "DISTRIBUIE",
+  "postShareNoteLabel": "Adaugă o notă",
+  "postShareNoteHint": "Spune ceva despre această postare… (opțional)",
+  "postSharePreviewNoCaption": "Fără descriere",
+  "postShareSuccess": "Postare distribuită.",
+
+  "postTimeNow": "acum",
+  "postTimeMinutes": "{count}m",
+  "@postTimeMinutes": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postTimeHours": "{count}h",
+  "@postTimeHours": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postTimeDays": "{count}z",
+  "@postTimeDays": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postTimeWeeks": "{count}săpt",
+  "@postTimeWeeks": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "postLikesCount": "{count, plural, =1{1 apreciere} other{{count} aprecieri}}",
+  "@postLikesCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postViewAllComments": "{count, plural, =1{Vezi 1 comentariu} other{Vezi toate cele {count} comentarii}}",
+  "@postViewAllComments": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "postCommentsTitle": "{count, plural, =0{Comentarii} =1{1 comentariu} other{{count} comentarii}}",
+  "@postCommentsTitle": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "postCommentsEmpty": "Niciun comentariu încă. Fii primul.",
+  "postCommentsLoadError": "Comentariile nu au putut fi încărcate. Încearcă din nou.",
+  "postCommentHint": "Adaugă un comentariu…",
+  "postCommentDeleted": "[șters]",
+  "postCommentDelete": "Șterge",
+  "postCommentDeleteTitle": "Ștergi comentariul?",
+  "postCommentDeleteBody": "Acest comentariu va fi șters definitiv.",
+  "postCommentLikesCount": "{count, plural, =1{1 apreciere} other{{count} aprecieri}}",
+  "@postCommentLikesCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "postCommentReply": "Răspunde",
+  "postReplyingTo": "Răspunzi lui @{username}",
+  "@postReplyingTo": {
+    "placeholders": {
+      "username": { "type": "String" }
+    }
+  },
+  "postRepliesHide": "Ascunde răspunsurile",
+  "postRepliesViewGeneric": "Vezi răspunsurile",
+  "postRepliesViewMore": "Vezi mai multe răspunsuri",
+  "postRepliesView": "{count, plural, =1{Vezi 1 răspuns} other{Vezi {count} răspunsuri}}",
+  "@postRepliesView": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "postLikersTitle": "Aprecieri",
+  "postLikersEmpty": "Nicio apreciere încă.",
+  "postLikersLoadError": "Aprecierile nu au putut fi încărcate. Încearcă din nou."
 }

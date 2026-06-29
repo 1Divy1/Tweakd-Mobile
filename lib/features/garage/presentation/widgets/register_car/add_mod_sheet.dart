@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../../core/services/car_image_service.dart';
+import '../../../../../core/services/image_service.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/car_modification.dart';
@@ -24,7 +24,7 @@ const _monthsTitle = [
 /// [initialMod] is supplied). The price is optional.
 class AddModSheet extends StatefulWidget {
   final List<CarModCategoryEntity> categories;
-  final CarImageService imageService;
+  final ImageService imageService;
 
   /// When non-null, the sheet opens in edit mode pre-filled with this mod.
   final CarModificationEntity? initialMod;
@@ -50,10 +50,13 @@ class _AddModSheetState extends State<AddModSheet> {
   CompressedImage? _before;
   CompressedImage? _after;
   // Existing remote images kept from the original mod (edit mode only).
+  // [_*Url] is for display; [_*Key] is the R2 key sent back on removal.
   String? _beforeUrl;
   String? _afterUrl;
-  // Existing urls the user removed or replaced — deleted from R2 on submit.
-  final List<String> _removedUrls = [];
+  String? _beforeKey;
+  String? _afterKey;
+  // Existing media (by R2 key) the user removed or replaced — deleted on submit.
+  final List<String> _removedKeys = [];
   DateTime? _date;
 
   bool get _isEdit => widget.initialMod != null;
@@ -85,6 +88,8 @@ class _AddModSheetState extends State<AddModSheet> {
     _date = mod.installationDate;
     _beforeUrl = mod.beforeMedia.isEmpty ? null : mod.beforeMedia.first.url;
     _afterUrl = mod.afterMedia.isEmpty ? null : mod.afterMedia.first.url;
+    _beforeKey = mod.beforeMedia.isEmpty ? null : mod.beforeMedia.first.key;
+    _afterKey = mod.afterMedia.isEmpty ? null : mod.afterMedia.first.key;
   }
 
   @override
@@ -108,12 +113,14 @@ class _AddModSheetState extends State<AddModSheet> {
       if (!mounted) return;
       setState(() {
         if (isBefore) {
-          if (_beforeUrl != null) _removedUrls.add(_beforeUrl!);
+          if (_beforeKey != null) _removedKeys.add(_beforeKey!);
           _beforeUrl = null;
+          _beforeKey = null;
           _before = image;
         } else {
-          if (_afterUrl != null) _removedUrls.add(_afterUrl!);
+          if (_afterKey != null) _removedKeys.add(_afterKey!);
           _afterUrl = null;
+          _afterKey = null;
           _after = image;
         }
       });
@@ -129,16 +136,18 @@ class _AddModSheetState extends State<AddModSheet> {
       if (isBefore) {
         if (_before != null) {
           _before = null;
-        } else if (_beforeUrl != null) {
-          _removedUrls.add(_beforeUrl!);
+        } else if (_beforeKey != null) {
+          _removedKeys.add(_beforeKey!);
           _beforeUrl = null;
+          _beforeKey = null;
         }
       } else {
         if (_after != null) {
           _after = null;
-        } else if (_afterUrl != null) {
-          _removedUrls.add(_afterUrl!);
+        } else if (_afterKey != null) {
+          _removedKeys.add(_afterKey!);
           _afterUrl = null;
+          _afterKey = null;
         }
       }
     });
@@ -200,7 +209,7 @@ class _AddModSheetState extends State<AddModSheet> {
             newAfter: _after,
             beforeUrl: _beforeUrl,
             afterUrl: _afterUrl,
-            removeMediaUrls: List.of(_removedUrls),
+            removeMediaKeys: List.of(_removedKeys),
           )
         : NewModSlot(
             NewModInput(before: _before, after: _after, request: request),

@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/di/injection.dart';
-import '../../../../core/services/car_image_service.dart';
+import '../../../../core/services/image_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/reference_data.dart';
@@ -29,7 +29,7 @@ class LogModificationPage extends StatefulWidget {
 class _LogModificationPageState extends State<LogModificationPage> {
   // Compression starts the moment an image is picked, so the bytes are ready
   // by the time the user submits.
-  final CarImageService _imageService = getIt<CarImageService>();
+  final ImageService _imageService = getIt<ImageService>();
 
   CarModCategoryEntity? _selectedCategory;
   final _titleCtrl = TextEditingController();

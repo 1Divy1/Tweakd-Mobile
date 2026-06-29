@@ -56,35 +56,32 @@ class GarageApiDataSource {
 
   // ── Media ───────────────────────────────────────────────────────────
 
-  Future<void> saveCoverUrl(String carId, String coverImageUrl) async {
+  Future<void> saveCoverKey(String carId, String key) async {
     await http.patch(
       '/garage/cars/$carId/cover',
-      queryParameters: {'cover_image_url': coverImageUrl},
+      queryParameters: {'key': key},
     );
   }
 
-  Future<void> saveGalleryUrls(String carId, List<String> urls) async {
+  Future<void> saveGalleryKeys(String carId, List<String> keys) async {
     await http.patch(
       '/garage/cars/$carId/gallery',
-      body: {'urls': urls},
+      body: {'keys': keys},
     );
   }
 
   /// Removes the given gallery photos from the car (DB) and from R2 storage.
-  Future<void> deleteGalleryImages(String carId, List<String> urls) async {
+  Future<void> deleteGalleryImages(String carId, List<String> keys) async {
     await http.delete(
       '/garage/cars/$carId/gallery',
-      body: {'urls': urls},
+      body: {'keys': keys},
     );
   }
 
-  /// Removes the car's cover photo object from R2. The DB cover pointer is
-  /// nulled (or overwritten by a subsequent [saveCoverUrl]).
-  Future<void> deleteCoverImage(String carId, String coverImageUrl) async {
-    await http.delete(
-      '/garage/cars/$carId/cover',
-      queryParameters: {'cover_image_url': coverImageUrl},
-    );
+  /// Removes the car's current cover photo object from R2 and nulls the DB
+  /// pointer. The backend resolves the cover from the car id — no param/body.
+  Future<void> deleteCoverImage(String carId) async {
+    await http.delete('/garage/cars/$carId/cover');
   }
 
   // ── Modifications ─────────────────────────────────────────────────────────

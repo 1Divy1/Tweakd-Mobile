@@ -24,6 +24,19 @@ import '../../features/garage/presentation/pages/fullscreen_image_page.dart';
 import '../../features/garage/presentation/pages/log_mod_page.dart';
 import '../../features/garage/presentation/pages/register_car_page.dart';
 import '../../features/onboarding/presentation/bloc/bloc.dart';
+import '../../features/posts/domain/entities/post.dart';
+import '../../features/posts/presentation/bloc/create_post/bloc.dart';
+import '../../features/posts/presentation/bloc/edit_post/bloc.dart';
+import '../../features/posts/presentation/bloc/post_detail/bloc.dart';
+import '../../features/posts/presentation/bloc/post_detail/event.dart';
+import '../../features/posts/presentation/bloc/profile_posts/bloc.dart';
+import '../../features/posts/presentation/bloc/profile_posts/event.dart';
+import '../../features/posts/presentation/bloc/share_post/bloc.dart';
+import '../../features/posts/presentation/bloc/tag_picker/bloc.dart';
+import '../../features/posts/presentation/pages/create_post_page.dart';
+import '../../features/posts/presentation/pages/edit_post_page.dart';
+import '../../features/posts/presentation/pages/post_detail_page.dart';
+import '../../features/posts/presentation/pages/share_post_page.dart';
 import '../../features/onboarding/presentation/bloc/event.dart';
 import '../../features/onboarding/presentation/bloc/username_availability/bloc.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
@@ -70,6 +83,10 @@ final appRouter = GoRouter(
             BlocProvider<GarageBloc>(
               create: (_) => getIt<GarageBloc>()..add(const LoadMyGarage()),
             ),
+            BlocProvider<ProfilePostsBloc>(
+              create: (_) =>
+                  getIt<ProfilePostsBloc>()..add(const LoadMyPosts()),
+            ),
           ],
           child: const MyProfilePage(),
         ),
@@ -106,6 +123,10 @@ final appRouter = GoRouter(
               create: (_) =>
                   getIt<GarageBloc>()..add(LoadGarageByUsername(username)),
             ),
+            BlocProvider<ProfilePostsBloc>(
+              create: (_) => getIt<ProfilePostsBloc>()
+                ..add(LoadPostsByUsername(username)),
+            ),
           ],
           child: PublicProfilePage(username: username),
         );
@@ -138,6 +159,61 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) => const NoTransitionPage(
         child: Scaffold(body: Center(child: Text('Feed Page'))),
       ),
+    ),
+
+    // ---------- Create Post ----------
+    GoRoute(
+      path: '/posts/create',
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider<CreatePostBloc>(
+            create: (_) => getIt<CreatePostBloc>(),
+          ),
+          BlocProvider<TagPickerBloc>(
+            create: (_) => getIt<TagPickerBloc>(),
+          ),
+        ],
+        child: const CreatePostPage(),
+      ),
+    ),
+    GoRoute(
+      path: '/posts/:postId',
+      builder: (context, state) {
+        final postId = state.pathParameters['postId']!;
+        return BlocProvider<PostDetailBloc>(
+          create: (_) => getIt<PostDetailBloc>()..add(LoadPost(postId)),
+          child: const PostDetailPage(),
+        );
+      },
+      routes: [
+        GoRoute(
+          path: 'edit',
+          builder: (context, state) {
+            final post = state.extra as PostEntity;
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider<EditPostBloc>(
+                  create: (_) => getIt<EditPostBloc>(),
+                ),
+                BlocProvider<TagPickerBloc>(
+                  create: (_) => getIt<TagPickerBloc>(),
+                ),
+              ],
+              child: EditPostPage(post: post),
+            );
+          },
+        ),
+        GoRoute(
+          path: 'share',
+          builder: (context, state) {
+            final post = state.extra as PostEntity;
+            return BlocProvider<SharePostBloc>(
+              create: (_) => getIt<SharePostBloc>(),
+              child: SharePostPage(post: post),
+            );
+          },
+        ),
+      ],
     ),
 
     // ---------- Garage Page ----------

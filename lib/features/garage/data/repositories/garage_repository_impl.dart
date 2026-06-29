@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/error/base_failures.dart';
-import '../../../../core/services/car_image_service.dart';
+import '../../../../core/services/image_service.dart';
 import '../../domain/entities/car.dart';
 import '../../domain/entities/car_modification.dart';
 import '../../domain/entities/car_status_option.dart';
@@ -20,7 +20,7 @@ import '../datasources/storage_api_data_source.dart';
 class GarageRepositoryImpl implements GarageRepository {
   final GarageApiDataSource dataSource;
   final StorageApiDataSource storageDataSource;
-  final CarImageService imageService;
+  final ImageService imageService;
 
   GarageRepositoryImpl(this.dataSource, this.storageDataSource, this.imageService);
 
@@ -179,10 +179,10 @@ class GarageRepositoryImpl implements GarageRepository {
   }
 
   @override
-  Future<Either<Failure, void>> saveCoverUrl(
-      String carId, String finalUrl) async {
+  Future<Either<Failure, void>> saveCoverKey(
+      String carId, String key) async {
     try {
-      await dataSource.saveCoverUrl(carId, finalUrl);
+      await dataSource.saveCoverKey(carId, key);
       return const Right(null);
     } on NetworkException {
       return const Left(NetworkFailure('No internet connection.'));
@@ -193,7 +193,7 @@ class GarageRepositoryImpl implements GarageRepository {
       if (e.statusCode == 404) return const Left(CarNotFoundFailure());
       return Left(ServerFailure(e.message));
     } catch (e) {
-      debugPrint('saveCoverUrl error: $e');
+      debugPrint('saveCoverKey error: $e');
       return const Left(UnknownFailure('Failed to save cover image.'));
     }
   }
@@ -219,10 +219,10 @@ class GarageRepositoryImpl implements GarageRepository {
   }
 
   @override
-  Future<Either<Failure, void>> saveGalleryUrls(
-      String carId, List<String> urls) async {
+  Future<Either<Failure, void>> saveGalleryKeys(
+      String carId, List<String> keys) async {
     try {
-      await dataSource.saveGalleryUrls(carId, urls);
+      await dataSource.saveGalleryKeys(carId, keys);
       return const Right(null);
     } on NetworkException {
       return const Left(NetworkFailure('No internet connection.'));
@@ -233,7 +233,7 @@ class GarageRepositoryImpl implements GarageRepository {
       if (e.statusCode == 404) return const Left(CarNotFoundFailure());
       return Left(ServerFailure(e.message));
     } catch (e) {
-      debugPrint('saveGalleryUrls error: $e');
+      debugPrint('saveGalleryKeys error: $e');
       return const Left(UnknownFailure('Failed to save gallery.'));
     }
   }
@@ -242,10 +242,10 @@ class GarageRepositoryImpl implements GarageRepository {
 
   @override
   Future<Either<Failure, void>> deleteGalleryImages(
-      String carId, List<String> urls) async {
-    if (urls.isEmpty) return const Right(null);
+      String carId, List<String> keys) async {
+    if (keys.isEmpty) return const Right(null);
     try {
-      await dataSource.deleteGalleryImages(carId, urls);
+      await dataSource.deleteGalleryImages(carId, keys);
       return const Right(null);
     } on NetworkException {
       return const Left(NetworkFailure('No internet connection.'));
@@ -262,10 +262,9 @@ class GarageRepositoryImpl implements GarageRepository {
   }
 
   @override
-  Future<Either<Failure, void>> deleteCoverImage(
-      String carId, String url) async {
+  Future<Either<Failure, void>> deleteCoverImage(String carId) async {
     try {
-      await dataSource.deleteCoverImage(carId, url);
+      await dataSource.deleteCoverImage(carId);
       return const Right(null);
     } on NetworkException {
       return const Left(NetworkFailure('No internet connection.'));

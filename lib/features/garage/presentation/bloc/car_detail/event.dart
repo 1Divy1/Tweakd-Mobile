@@ -23,15 +23,15 @@ class DeleteCarFromDetail extends CarDetailEvent {
   List<Object?> get props => [carId];
 }
 
-/// Removes a gallery photo by its URL and persists the updated list to the
-/// backend via PATCH /garage/cars/{carId}/gallery.
+/// Removes a gallery photo by its R2 key and persists the updated list to the
+/// backend via DELETE /garage/cars/{carId}/gallery.
 class DeleteGalleryImage extends CarDetailEvent {
   final String carId;
-  final String imageUrl;
-  const DeleteGalleryImage({required this.carId, required this.imageUrl});
+  final String imageKey;
+  const DeleteGalleryImage({required this.carId, required this.imageKey});
 
   @override
-  List<Object?> get props => [carId, imageUrl];
+  List<Object?> get props => [carId, imageKey];
 }
 
 class DeleteModificationFromDetail extends CarDetailEvent {

@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/di/injection.dart';
-import '../../../../core/services/car_image_service.dart';
+import '../../../../core/services/image_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/car.dart';
@@ -50,7 +50,7 @@ class RegisterCarPage extends StatefulWidget {
 class _RegisterCarPageState extends State<RegisterCarPage> {
   // Compression is started the moment an image is picked, so the bytes are
   // ready by the time the user reaches the submit step.
-  final CarImageService _imageService = getIt<CarImageService>();
+  final ImageService _imageService = getIt<ImageService>();
 
   int _step = 0;
 
@@ -66,10 +66,10 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
 
   // Step 1 — Identity
   CompressedImage? _cover;
-  // Edit mode: the existing cover URL (shown until replaced) and the old URL to
-  // delete from R2 once a new cover is picked.
+  // Edit mode: the existing cover URL (shown until replaced) and whether an
+  // existing cover should be deleted from R2 once a new cover is picked.
   String? _existingCoverUrl;
-  String? _removedCoverUrl;
+  bool _removedCover = false;
   CarBrandEntity? _selectedBrand;
   CarModelEntity? _selectedModel;
   final _yearCtrl = TextEditingController();
@@ -97,8 +97,8 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
 
   // Step 5 — Gallery. A mix of existing remote photos and new local picks.
   final List<SlotImage> _gallery = [];
-  // Edit mode: existing gallery URLs removed by the user (deleted from R2).
-  final List<String> _removedGalleryUrls = [];
+  // Edit mode: existing gallery R2 keys removed by the user (deleted from R2).
+  final List<String> _removedGalleryKeys = [];
 
   // Step 6 — Modifications. New mods to create + existing mods being edited.
   final List<ModSlot> _mods = [];
@@ -125,8 +125,8 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
     _mileageCtrl.text = car.mileage != null ? car.mileage.toString() : '';
     _storyCtrl.text = car.story ?? '';
 
-    _existingCoverUrl = car.coverImageUrl;
-    _gallery.addAll(car.galleryUrls.map((u) => RemoteSlotImage(u)));
+    _existingCoverUrl = car.coverImage?.url;
+    _gallery.addAll(car.gallery.map((g) => RemoteSlotImage(g.url, g.key)));
     _mods.addAll(car.modifications.map(
       (m) => ExistingModSlot(
         original: m,
@@ -320,10 +320,10 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
       if (file == null) return;
       if (!mounted) return;
       setState(() {
-        // Replacing an existing cover: remember the old URL so its R2 object is
-        // deleted on submit, and clear the network preview.
+        // Replacing an existing cover: flag it for deletion from R2 on submit
+        // (the backend deletes by car id), and clear the network preview.
         if (_existingCoverUrl != null) {
-          _removedCoverUrl = _existingCoverUrl;
+          _removedCover = true;
           _existingCoverUrl = null;
         }
         _cover = CompressedImage.compress(file.path, _imageService);
@@ -359,8 +359,8 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
   void _removeGalleryImage(int i) {
     setState(() {
       final removed = _gallery.removeAt(i);
-      // Existing photos must be deleted from R2 on submit.
-      if (removed is RemoteSlotImage) _removedGalleryUrls.add(removed.url);
+      // Existing photos must be deleted from R2 on submit (by their R2 key).
+      if (removed is RemoteSlotImage) _removedGalleryKeys.add(removed.key);
     });
   }
 
@@ -583,9 +583,9 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
             carId: widget.editCar!.id,
             car: _buildCarParams(),
             newCover: _cover,
-            removedCoverUrl: _removedCoverUrl,
+            removedCover: _removedCover,
             gallery: List.of(_gallery),
-            removedGalleryUrls: List.of(_removedGalleryUrls),
+            removedGalleryKeys: List.of(_removedGalleryKeys),
             mods: List.of(_mods),
             removedModIds: List.of(_removedModIds),
           ),

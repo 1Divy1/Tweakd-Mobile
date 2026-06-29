@@ -635,6 +635,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get navContests => 'CONCURSURI';
 
   @override
+  String get navCreate => 'CREEAZĂ';
+
+  @override
   String get navProfile => 'PROFIL';
 
   @override
@@ -1194,4 +1197,407 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get settingsLogoutBody =>
       'Va trebui să te conectezi din nou pentru a-ți accesa contul.';
+
+  @override
+  String get postNewPost => 'POSTARE NOUĂ';
+
+  @override
+  String get postStepPhotos => 'POZE';
+
+  @override
+  String get postStepCaption => 'DESCRIERE';
+
+  @override
+  String get postStepTags => 'ETICHETE';
+
+  @override
+  String get postStepVisibility => 'VIZIBILITATE';
+
+  @override
+  String get postStepReview => 'VERIFICARE';
+
+  @override
+  String get postStart => 'START';
+
+  @override
+  String get postPublishStep => 'PUBLICĂ';
+
+  @override
+  String get postBack => 'ÎNAPOI';
+
+  @override
+  String get postNext => 'ÎNAINTE';
+
+  @override
+  String get postPublish => 'PUBLICĂ POSTAREA';
+
+  @override
+  String postStepCounter(int current, int total) {
+    return 'PASUL $current / $total';
+  }
+
+  @override
+  String get postPhotosTitle => 'Alege-ți cadrele';
+
+  @override
+  String get postPhotosSubtitle =>
+      'Trage pentru a reordona — coperta deschide postarea. Deocamdată doar poze.';
+
+  @override
+  String get postPhotosAdd => 'ADAUGĂ';
+
+  @override
+  String get postPhotosCover => 'COPERTĂ';
+
+  @override
+  String get postPhotosVideosSoon => 'VIDEO — ÎN CURÂND';
+
+  @override
+  String postPhotosCount(int count, int max) {
+    return '$count / $max POZE';
+  }
+
+  @override
+  String get postCaptionTitle => 'Spune ceva';
+
+  @override
+  String get postCaptionSubtitle =>
+      'Adaugă o descriere pentru postare. Menționează detalii, povestea, build-ul.';
+
+  @override
+  String get postCaptionLabel => 'DESCRIERE';
+
+  @override
+  String get postCaptionHint => 'Spune povestea din spatele acestei postări…';
+
+  @override
+  String postCaptionCounter(int count, int max) {
+    return '$count / $max';
+  }
+
+  @override
+  String get postTagsTitle => 'Etichetează mașini și persoane';
+
+  @override
+  String get postTagsSubtitle =>
+      'Leagă mașinile din această postare din orice garaj și etichetează persoanele din ea.';
+
+  @override
+  String get postTagsCars => 'MAȘINI';
+
+  @override
+  String get postTagsPeople => 'PERSOANE';
+
+  @override
+  String get postTagsCarHint => 'Caută o mașină în orice garaj…';
+
+  @override
+  String get postTagsPeopleHint => 'Caută persoane de etichetat…';
+
+  @override
+  String get postTagsAddCar => 'Etichetează o mașină';
+
+  @override
+  String get postTagsTagPersonFirst =>
+      'Etichetează mai întâi o persoană pentru a-i eticheta una dintre mașini.';
+
+  @override
+  String get postTagsChoosePerson => 'A cui mașină?';
+
+  @override
+  String get postTagsChooseCar => 'Alege o mașină';
+
+  @override
+  String get postTagsNoCars => 'Această persoană nu are mașini de etichetat.';
+
+  @override
+  String get postTagsNoPeopleFound => 'Nicio persoană găsită.';
+
+  @override
+  String get postTagsLoadError => 'Încărcarea a eșuat. Încearcă din nou.';
+
+  @override
+  String get postVisibilityTitle => 'Cine ce vede';
+
+  @override
+  String get postVisibilitySubtitle =>
+      'Ascunde un contor și ceilalți nu vor vedea acel număr — pot în continuare să dea like, să comenteze și să distribuie.';
+
+  @override
+  String get postVisibilityLabel => 'CONTOARE VIZIBILE';
+
+  @override
+  String get postVisibilityLikesTitle => 'Arată numărul de aprecieri';
+
+  @override
+  String get postVisibilityLikesDesc =>
+      'Ceilalți pot vedea câte aprecieri are postarea';
+
+  @override
+  String get postVisibilityCommentsTitle => 'Arată numărul de comentarii';
+
+  @override
+  String get postVisibilityCommentsDesc =>
+      'Ascunde numărul — comentariile rămân deschise';
+
+  @override
+  String get postVisibilitySharesTitle => 'Arată numărul de distribuiri';
+
+  @override
+  String get postVisibilitySharesDesc =>
+      'Ceilalți pot vedea de câte ori a fost distribuită';
+
+  @override
+  String get postVisibilitySavedTitle => 'Arată numărul de salvări';
+
+  @override
+  String get postVisibilitySavedDesc =>
+      'Ceilalți pot vedea de câte ori a fost salvată';
+
+  @override
+  String get postVisibilityTimeNote =>
+      'Postările arată un timp relativ — „acum 2h”, „acum 3 zile” — niciodată data exactă. Aceasta este automată și mereu activă.';
+
+  @override
+  String get postReviewTitle => 'Arată bine?';
+
+  @override
+  String get postReviewSubtitle => 'Exact așa apare postarea ta în feed.';
+
+  @override
+  String get postReviewYou => 'Tu';
+
+  @override
+  String get postReviewJustNow => 'ACUM';
+
+  @override
+  String get postValPhotosRequired =>
+      'Adaugă cel puțin o poză pentru a continua.';
+
+  @override
+  String get postDiscardTitle => 'Renunți la postare?';
+
+  @override
+  String get postDiscardBody =>
+      'Pozele, descrierea și etichetele tale nu vor fi salvate.';
+
+  @override
+  String get postKeepEditing => 'Continuă editarea';
+
+  @override
+  String get postDiscard => 'Renunță';
+
+  @override
+  String get postCreatedSuccess => 'Postare publicată.';
+
+  @override
+  String get postPhaseCreating => 'Se creează…';
+
+  @override
+  String get postPhaseUploading => 'Se încarcă pozele…';
+
+  @override
+  String get postErrorGeneric =>
+      'Postarea nu a putut fi publicată. Încearcă din nou.';
+
+  @override
+  String get postErrorImageUpload =>
+      'Pozele nu au putut fi încărcate. Încearcă din nou.';
+
+  @override
+  String get postErrorInvalidTags =>
+      'Nu poți eticheta o mașină fără a-i eticheta și proprietarul.';
+
+  @override
+  String get postErrorNotOwner => 'Nu ai permisiunea să faci asta.';
+
+  @override
+  String get postErrorNotFound => 'Această postare nu mai există.';
+
+  @override
+  String get profileTabPosts => 'POSTĂRI';
+
+  @override
+  String get profileTabGarage => 'GARAJ';
+
+  @override
+  String get postsLoadMore => 'ÎNCARCĂ MAI MULT';
+
+  @override
+  String get postsEmptyOwner => 'Încă nu ai postat nimic.';
+
+  @override
+  String get postsEmptyVisitor => 'Nicio postare încă.';
+
+  @override
+  String get postsCreateFirst => 'CREEAZĂ PRIMA POSTARE';
+
+  @override
+  String get postDetailTitle => 'POSTARE';
+
+  @override
+  String get postEditAction => 'Editează postarea';
+
+  @override
+  String get postDeleteAction => 'Șterge postarea';
+
+  @override
+  String get postDeleteTitle => 'Ștergi postarea?';
+
+  @override
+  String get postDeleteBody =>
+      'Această postare și pozele, aprecierile și comentariile sale vor fi șterse definitiv.';
+
+  @override
+  String get postEditTitle => 'EDITEAZĂ POSTAREA';
+
+  @override
+  String get postEditSave => 'SALVEAZĂ';
+
+  @override
+  String get postShareTitle => 'DISTRIBUIE POSTAREA';
+
+  @override
+  String get postShareSend => 'DISTRIBUIE';
+
+  @override
+  String get postShareNoteLabel => 'Adaugă o notă';
+
+  @override
+  String get postShareNoteHint =>
+      'Spune ceva despre această postare… (opțional)';
+
+  @override
+  String get postSharePreviewNoCaption => 'Fără descriere';
+
+  @override
+  String get postShareSuccess => 'Postare distribuită.';
+
+  @override
+  String get postTimeNow => 'acum';
+
+  @override
+  String postTimeMinutes(int count) {
+    return '${count}m';
+  }
+
+  @override
+  String postTimeHours(int count) {
+    return '${count}h';
+  }
+
+  @override
+  String postTimeDays(int count) {
+    return '${count}z';
+  }
+
+  @override
+  String postTimeWeeks(int count) {
+    return '${count}săpt';
+  }
+
+  @override
+  String postLikesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count aprecieri',
+      one: '1 apreciere',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String postViewAllComments(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Vezi toate cele $count comentarii',
+      one: 'Vezi 1 comentariu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String postCommentsTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count comentarii',
+      one: '1 comentariu',
+      zero: 'Comentarii',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get postCommentsEmpty => 'Niciun comentariu încă. Fii primul.';
+
+  @override
+  String get postCommentsLoadError =>
+      'Comentariile nu au putut fi încărcate. Încearcă din nou.';
+
+  @override
+  String get postCommentHint => 'Adaugă un comentariu…';
+
+  @override
+  String get postCommentDeleted => '[șters]';
+
+  @override
+  String get postCommentDelete => 'Șterge';
+
+  @override
+  String get postCommentDeleteTitle => 'Ștergi comentariul?';
+
+  @override
+  String get postCommentDeleteBody => 'Acest comentariu va fi șters definitiv.';
+
+  @override
+  String postCommentLikesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count aprecieri',
+      one: '1 apreciere',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get postCommentReply => 'Răspunde';
+
+  @override
+  String postReplyingTo(String username) {
+    return 'Răspunzi lui @$username';
+  }
+
+  @override
+  String get postRepliesHide => 'Ascunde răspunsurile';
+
+  @override
+  String get postRepliesViewGeneric => 'Vezi răspunsurile';
+
+  @override
+  String get postRepliesViewMore => 'Vezi mai multe răspunsuri';
+
+  @override
+  String postRepliesView(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Vezi $count răspunsuri',
+      one: 'Vezi 1 răspuns',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get postLikersTitle => 'Aprecieri';
+
+  @override
+  String get postLikersEmpty => 'Nicio apreciere încă.';
+
+  @override
+  String get postLikersLoadError =>
+      'Aprecierile nu au putut fi încărcate. Încearcă din nou.';
 }

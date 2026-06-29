@@ -1,30 +1,41 @@
 import '../../domain/entities/car_summary.dart';
+import 'car_model.dart';
 import 'car_status_option_model.dart';
 
 class CarSummaryModel {
   final String id;
   final String brand;
   final String model;
-  final String? coverImageUrl;
+  final CarImageRefModel? coverImage;
   final CarStatusOptionModel? status;
+  final String? ownerId;
+  final String? ownerUsername;
 
   const CarSummaryModel({
     required this.id,
     required this.brand,
     required this.model,
-    this.coverImageUrl,
+    this.coverImage,
     this.status,
+    this.ownerId,
+    this.ownerUsername,
   });
 
   factory CarSummaryModel.fromJson(Map<String, dynamic> json) {
+    final owner = json['owner'] as Map<String, dynamic>?;
     return CarSummaryModel(
       id: json['id'] as String,
       brand: json['brand'] as String,
       model: json['model'] as String,
-      coverImageUrl: json['cover_image_url'] as String?,
+      coverImage: json['cover_image'] == null
+          ? null
+          : CarImageRefModel.fromJson(
+              json['cover_image'] as Map<String, dynamic>),
       status: json['status'] != null
           ? CarStatusOptionModel.fromJson(json['status'] as Map<String, dynamic>)
           : null,
+      ownerId: owner?['id'] as String?,
+      ownerUsername: owner?['username'] as String?,
     );
   }
 
@@ -33,8 +44,10 @@ class CarSummaryModel {
       id: id,
       brand: brand,
       model: model,
-      coverImageUrl: coverImageUrl,
+      coverImage: coverImage?.toEntity(),
       status: status?.toEntity(),
+      ownerId: ownerId,
+      ownerUsername: ownerUsername,
     );
   }
 }

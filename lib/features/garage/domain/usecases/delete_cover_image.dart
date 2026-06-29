@@ -7,8 +7,7 @@ import '../repositories/garage_repository.dart';
 
 class DeleteCoverImageParams {
   final String carId;
-  final String url;
-  const DeleteCoverImageParams({required this.carId, required this.url});
+  const DeleteCoverImageParams({required this.carId});
 }
 
 @lazySingleton
@@ -19,6 +18,6 @@ class DeleteCoverImageUseCase implements UseCase<void, DeleteCoverImageParams> {
 
   @override
   Future<Either<Failure, void>> call(DeleteCoverImageParams params) {
-    return repository.deleteCoverImage(params.carId, params.url);
+    return repository.deleteCoverImage(params.carId);
   }
 }

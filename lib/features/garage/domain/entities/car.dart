@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/shared/entities/image_ref.dart';
 import 'car_modification.dart';
 import 'car_status_option.dart';
 
@@ -30,8 +31,8 @@ class CarEntity extends Equatable {
   final String? modelCode;
   final String? engineCode;
   final String? story;
-  final String? coverImageUrl;
-  final List<String> galleryUrls;
+  final ImageRef? coverImage;
+  final List<ImageRef> gallery;
   final DateTime? createdAt;
   final CarStatusOptionEntity status;
   final List<CarModificationEntity> modifications;
@@ -65,8 +66,8 @@ class CarEntity extends Equatable {
     this.modelCode,
     this.engineCode,
     this.story,
-    this.coverImageUrl,
-    this.galleryUrls = const [],
+    this.coverImage,
+    this.gallery = const [],
     this.createdAt,
   });
 
@@ -96,8 +97,8 @@ class CarEntity extends Equatable {
         modelCode,
         engineCode,
         story,
-        coverImageUrl,
-        galleryUrls,
+        coverImage,
+        gallery,
         createdAt,
         status,
         modifications,
@@ -132,8 +133,8 @@ class CarEntity extends Equatable {
     String? modelCode,
     String? engineCode,
     String? story,
-    String? coverImageUrl,
-    List<String>? galleryUrls,
+    ImageRef? coverImage,
+    List<ImageRef>? gallery,
     DateTime? createdAt,
     CarStatusOptionEntity? status,
     List<CarModificationEntity>? modifications,
@@ -165,8 +166,8 @@ class CarEntity extends Equatable {
       modelCode: modelCode ?? this.modelCode,
       engineCode: engineCode ?? this.engineCode,
       story: story ?? this.story,
-      coverImageUrl: coverImageUrl ?? this.coverImageUrl,
-      galleryUrls: galleryUrls ?? this.galleryUrls,
+      coverImage: coverImage ?? this.coverImage,
+      gallery: gallery ?? this.gallery,
       createdAt: createdAt ?? this.createdAt,
       status: status ?? this.status,
       modifications: modifications ?? this.modifications,
