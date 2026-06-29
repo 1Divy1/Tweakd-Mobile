@@ -86,9 +86,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                             onToggleSave: () => context
                                 .read<PostDetailBloc>()
                                 .add(const ToggleSavePost()),
-                            onShare: () => context
-                                .read<PostDetailBloc>()
-                                .add(const SharePostPressed()),
+                            onShare: () => _openShare(context, post),
                             onOpenComments: () => _openComments(context, post),
                             onOpenLikers: () => showLikersSheet(
                               context,
@@ -106,6 +104,20 @@ class _PostDetailPageState extends State<PostDetailPage> {
         },
       ),
     );
+  }
+
+  Future<void> _openShare(BuildContext context, PostEntity post) async {
+    final l10n = AppLocalizations.of(context)!;
+    final messenger = ScaffoldMessenger.of(context);
+    final shared = await context.push<bool>(
+      '/posts/${post.id}/share',
+      extra: post,
+    );
+    if (shared == true) {
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.postShareSuccess)),
+      );
+    }
   }
 
   void _openComments(BuildContext context, PostEntity post) {

@@ -27,11 +27,6 @@ class ToggleSavePost extends PostDetailEvent {
   const ToggleSavePost();
 }
 
-/// Fires a plain share and bumps the share counter.
-class SharePostPressed extends PostDetailEvent {
-  const SharePostPressed();
-}
-
 class DeletePostPressed extends PostDetailEvent {
   const DeletePostPressed();
 }

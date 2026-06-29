@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -487,7 +488,8 @@ class _CarChooser extends StatelessWidget {
                   width: 44,
                   height: 44,
                   child: car.coverImage != null
-                      ? Image.network(car.coverImage!.url, fit: BoxFit.cover)
+                      ? CachedNetworkImage(
+                          imageUrl: car.coverImage!.url, fit: BoxFit.cover)
                       : Container(
                           color: AppColors.bg,
                           child: const Icon(Icons.directions_car_rounded,
@@ -598,7 +600,8 @@ class _Avatar extends StatelessWidget {
     return CircleAvatar(
       radius: 18,
       backgroundColor: AppColors.accentSoft,
-      backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl!) : null,
+      backgroundImage:
+          avatarUrl != null ? CachedNetworkImageProvider(avatarUrl!) : null,
       child: avatarUrl == null
           ? Text(
               initial,
@@ -637,7 +640,7 @@ class _CarChip extends StatelessWidget {
               width: 38,
               height: 38,
               child: car.imageUrl != null
-                  ? Image.network(car.imageUrl!, fit: BoxFit.cover)
+                  ? CachedNetworkImage(imageUrl: car.imageUrl!, fit: BoxFit.cover)
                   : Container(
                       color: AppColors.bg,
                       child: const Icon(Icons.directions_car_rounded,

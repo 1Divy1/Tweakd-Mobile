@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -7,6 +8,7 @@ import '../../../domain/entities/post.dart';
 import '../../../domain/entities/post_image.dart';
 import '../../../domain/entities/post_tagged_car.dart';
 import '../../../domain/entities/post_user.dart';
+import 'pinch_zoom.dart';
 import 'post_time.dart';
 
 /// A faithful, full rendering of a published post — the same card the create
@@ -159,6 +161,7 @@ class _Media extends StatefulWidget {
 class _MediaState extends State<_Media> {
   final _controller = PageController();
   int _page = 0;
+  bool _zooming = false;
 
   @override
   void dispose() {
@@ -189,20 +192,24 @@ class _MediaState extends State<_Media> {
         children: [
           PageView.builder(
             controller: _controller,
+            physics: _zooming
+                ? const NeverScrollableScrollPhysics()
+                : const PageScrollPhysics(),
             itemCount: images.length,
             onPageChanged: (i) => setState(() => _page = i),
-            itemBuilder: (_, i) => Image.network(
-              images[i].imageUrl,
-              fit: BoxFit.cover,
-              loadingBuilder: (context, child, progress) {
-                if (progress == null) return child;
-                return const ColoredBox(color: AppColors.bg);
-              },
-              errorBuilder: (_, _, _) => const ColoredBox(
-                color: AppColors.bg,
-                child: Center(
-                  child: Icon(Icons.broken_image_outlined,
-                      color: AppColors.muteSoft, size: 36),
+            itemBuilder: (_, i) => PinchZoom(
+              onZoomChanged: (z) => setState(() => _zooming = z),
+              child: CachedNetworkImage(
+                imageUrl: images[i].imageUrl,
+                fit: BoxFit.contain,
+                fadeInDuration: const Duration(milliseconds: 150),
+                placeholder: (_, _) => const ColoredBox(color: AppColors.bg),
+                errorWidget: (_, _, _) => const ColoredBox(
+                  color: AppColors.bg,
+                  child: Center(
+                    child: Icon(Icons.broken_image_outlined,
+                        color: AppColors.muteSoft, size: 36),
+                  ),
                 ),
               ),
             ),
@@ -495,7 +502,8 @@ class _Avatar extends StatelessWidget {
     return CircleAvatar(
       radius: 21,
       backgroundColor: AppColors.accentSoft,
-      backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl!) : null,
+      backgroundImage:
+          avatarUrl != null ? CachedNetworkImageProvider(avatarUrl!) : null,
       child: avatarUrl == null
           ? Text(
               initial,

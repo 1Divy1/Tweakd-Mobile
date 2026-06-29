@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
@@ -187,7 +188,7 @@ class _PhotoTile extends StatelessWidget {
             LocalPostPhoto(:final path) =>
               Image.file(File(path), fit: BoxFit.cover),
             RemotePostPhoto(:final url) =>
-              Image.network(url, fit: BoxFit.cover),
+              CachedNetworkImage(imageUrl: url, fit: BoxFit.cover),
           },
         ),
         // Drag handle affordance (top-left).

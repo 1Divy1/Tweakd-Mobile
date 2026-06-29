@@ -2732,6 +2732,42 @@ abstract class AppLocalizations {
   /// **'SAVE'**
   String get postEditSave;
 
+  /// No description provided for @postShareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SHARE POST'**
+  String get postShareTitle;
+
+  /// No description provided for @postShareSend.
+  ///
+  /// In en, this message translates to:
+  /// **'SHARE'**
+  String get postShareSend;
+
+  /// No description provided for @postShareNoteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a note'**
+  String get postShareNoteLabel;
+
+  /// No description provided for @postShareNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Say something about this post… (optional)'**
+  String get postShareNoteHint;
+
+  /// No description provided for @postSharePreviewNoCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'No caption'**
+  String get postSharePreviewNoCaption;
+
+  /// No description provided for @postShareSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Post shared.'**
+  String get postShareSuccess;
+
   /// No description provided for @postTimeNow.
   ///
   /// In en, this message translates to:

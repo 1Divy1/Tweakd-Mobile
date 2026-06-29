@@ -7,7 +7,6 @@ import '../../../domain/usecases/delete_post.dart';
 import '../../../domain/usecases/get_post.dart';
 import '../../../domain/usecases/post_like.dart';
 import '../../../domain/usecases/post_save.dart';
-import '../../../domain/usecases/share_post.dart';
 import '../../utils/post_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
@@ -21,7 +20,6 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
   final UnlikePostUseCase unlikePost;
   final SavePostUseCase savePost;
   final UnsavePostUseCase unsavePost;
-  final SharePostUseCase sharePost;
   final DeletePostUseCase deletePost;
 
   PostDetailBloc({
@@ -30,13 +28,11 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
     required this.unlikePost,
     required this.savePost,
     required this.unsavePost,
-    required this.sharePost,
     required this.deletePost,
   }) : super(const PostDetailLoading()) {
     on<LoadPost>(_onLoad);
     on<ToggleLikePost>(_onToggleLike);
     on<ToggleSavePost>(_onToggleSave);
-    on<SharePostPressed>(_onShare);
     on<DeletePostPressed>(_onDelete);
     on<PostUpdated>(_onUpdated);
     on<CommentCountChanged>(_onCommentCountChanged);
@@ -103,19 +99,6 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
     final params = PostIdParams(postId: post.id);
     final result = saved ? await unsavePost(params) : await savePost(params);
     result.fold((_) => emit(current), (_) {});
-  }
-
-  Future<void> _onShare(
-    SharePostPressed event,
-    Emitter<PostDetailState> emit,
-  ) async {
-    final current = state;
-    if (current is! PostDetailLoaded) return;
-
-    // Shares are idempotent server-side (one row per user) and the post DTO
-    // carries no "viewer has shared" flag, so the local count can't be bumped
-    // reliably — fire and let the next load reflect the true total.
-    await sharePost(SharePostParams(postId: current.post.id));
   }
 
   Future<void> _onDelete(

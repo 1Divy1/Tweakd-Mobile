@@ -56,7 +56,7 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
       (_) => emit(state.copyWith(status: CommentsStatus.failure)),
       (page) => emit(state.copyWith(
         status: CommentsStatus.success,
-        comments: page.items,
+        comments: _visibleRoots(page.items),
         nextCursor: page.nextCursor,
       )),
     );
@@ -75,7 +75,7 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
     result.fold(
       (_) => emit(state.copyWith(isLoadingMore: false)),
       (page) => emit(state.copyWith(
-        comments: [...state.comments, ...page.items],
+        comments: [...state.comments, ..._visibleRoots(page.items)],
         nextCursor: page.nextCursor,
         isLoadingMore: false,
       )),
@@ -186,7 +186,7 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
         replies: _putThread(
           id,
           ReplyThread(
-            items: page.items,
+            items: _visibleReplies(page.items),
             nextCursor: page.nextCursor,
             expanded: true,
           ),
@@ -222,7 +222,7 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
         replies: _putThread(
           id,
           ReplyThread(
-            items: [...thread.items, ...page.items],
+            items: [...thread.items, ..._visibleReplies(page.items)],
             nextCursor: page.nextCursor,
             expanded: true,
           ),
@@ -238,14 +238,35 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
     final id = event.commentId;
     final previous = state;
 
-    // Case 1 — a root comment: drop it (and its thread) and decrement the total.
-    if (state.comments.any((c) => c.id == id)) {
-      final replies = Map<String, ReplyThread>.from(state.replies)..remove(id);
-      emit(state.copyWith(
-        comments: state.comments.where((c) => c.id != id).toList(),
-        totalCount: (state.totalCount - 1).clamp(0, 1 << 31),
-        replies: replies,
-      ));
+    // Case 1 — a root comment.
+    final root = state.comments.where((c) => c.id == id).firstOrNull;
+    if (root != null) {
+      final thread = state.replies[id];
+      final hasReplies =
+          root.replyCount > 0 || (thread != null && thread.items.isNotEmpty);
+
+      if (hasReplies) {
+        // The backend keeps a deleted comment that still anchors replies as a
+        // soft-deleted tombstone (deleted, no content). Mirror that here so the
+        // thread stays visible instead of the parent vanishing — which would
+        // empty the list and flash "no comments" until the next reload.
+        emit(state.copyWith(
+          comments: [
+            for (final c in state.comments) c.id == id ? _tombstone(c) : c,
+          ],
+          totalCount: (state.totalCount - 1).clamp(0, 1 << 31),
+        ));
+      } else {
+        // No replies to anchor — drop the comment (and any thread) entirely.
+        final replies = Map<String, ReplyThread>.from(state.replies)
+          ..remove(id);
+        emit(state.copyWith(
+          comments: state.comments.where((c) => c.id != id).toList(),
+          totalCount: (state.totalCount - 1).clamp(0, 1 << 31),
+          replies: replies,
+        ));
+      }
+
       final result = await deleteComment(
         CommentRefParams(postId: _postId, commentId: id),
       );
@@ -262,16 +283,27 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
     final parentId = _parentOf(id);
     if (parentId == null) return;
     final thread = state.replies[parentId]!;
+    final parent = state.comments.where((c) => c.id == parentId).firstOrNull;
+    final remainingItems = thread.items.where((c) => c.id != id).toList();
 
-    emit(state.copyWith(
-      replies: _putThread(
-        parentId,
-        thread.copyWith(
-          items: thread.items.where((c) => c.id != id).toList(),
-        ),
-      ),
-      comments: _bumpReplyCount(parentId, -1),
-    ));
+    if (parent != null &&
+        parent.deleted &&
+        remainingItems.isEmpty &&
+        parent.replyCount - 1 <= 0) {
+      // The parent was only kept as a tombstone to anchor this reply; with the
+      // last reply gone it has nothing left to anchor, so remove it entirely.
+      final replies = Map<String, ReplyThread>.from(state.replies)
+        ..remove(parentId);
+      emit(state.copyWith(
+        comments: state.comments.where((c) => c.id != parentId).toList(),
+        replies: replies,
+      ));
+    } else {
+      emit(state.copyWith(
+        replies: _putThread(parentId, thread.copyWith(items: remainingItems)),
+        comments: _bumpReplyCount(parentId, -1),
+      ));
+    }
 
     final result = await deleteComment(
       CommentRefParams(postId: _postId, commentId: id),
@@ -311,6 +343,31 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
   Map<String, ReplyThread> _putThread(String id, ReplyThread thread) {
     return {...state.replies, id: thread};
   }
+
+  /// Root comments worth showing. A soft-deleted comment is only kept while it
+  /// still anchors replies (replyCount > 0); a deleted leaf has nothing to
+  /// anchor, so it's dropped rather than rendered as a "deleted" tombstone.
+  List<PostCommentEntity> _visibleRoots(List<PostCommentEntity> items) =>
+      items.where((c) => !c.deleted || c.replyCount > 0).toList();
+
+  /// Replies are always leaves (threading is one level deep), so a deleted
+  /// reply anchors nothing and is dropped.
+  List<PostCommentEntity> _visibleReplies(List<PostCommentEntity> items) =>
+      items.where((c) => !c.deleted).toList();
+
+  /// A soft-deleted copy of [c] that still anchors its replies, matching the
+  /// backend's deleted-comment shape: no content, no likes, reply count kept.
+  PostCommentEntity _tombstone(PostCommentEntity c) => PostCommentEntity(
+        id: c.id,
+        author: c.author,
+        content: null,
+        parentCommentId: c.parentCommentId,
+        deleted: true,
+        likeCount: 0,
+        viewerHasLiked: false,
+        replyCount: c.replyCount,
+        createdAt: c.createdAt,
+      );
 
   /// Returns the comments list with [parentId]'s replyCount adjusted by [delta].
   List<PostCommentEntity> _bumpReplyCount(String parentId, int delta) {

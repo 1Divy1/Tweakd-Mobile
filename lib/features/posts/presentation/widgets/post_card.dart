@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
@@ -30,14 +31,11 @@ class PostCard extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               if (coverUrl != null)
-                Image.network(
-                  coverUrl,
+                CachedNetworkImage(
+                  imageUrl: coverUrl,
                   fit: BoxFit.cover,
-                  loadingBuilder: (context, child, progress) {
-                    if (progress == null) return child;
-                    return const ColoredBox(color: AppColors.bg);
-                  },
-                  errorBuilder: (_, _, _) => const _PlaceholderTile(),
+                  placeholder: (_, _) => const ColoredBox(color: AppColors.bg),
+                  errorWidget: (_, _, _) => const _PlaceholderTile(),
                 )
               else
                 const _PlaceholderTile(),

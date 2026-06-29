@@ -31,10 +31,12 @@ import '../../features/posts/presentation/bloc/post_detail/bloc.dart';
 import '../../features/posts/presentation/bloc/post_detail/event.dart';
 import '../../features/posts/presentation/bloc/profile_posts/bloc.dart';
 import '../../features/posts/presentation/bloc/profile_posts/event.dart';
+import '../../features/posts/presentation/bloc/share_post/bloc.dart';
 import '../../features/posts/presentation/bloc/tag_picker/bloc.dart';
 import '../../features/posts/presentation/pages/create_post_page.dart';
 import '../../features/posts/presentation/pages/edit_post_page.dart';
 import '../../features/posts/presentation/pages/post_detail_page.dart';
+import '../../features/posts/presentation/pages/share_post_page.dart';
 import '../../features/onboarding/presentation/bloc/event.dart';
 import '../../features/onboarding/presentation/bloc/username_availability/bloc.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
@@ -198,6 +200,16 @@ final appRouter = GoRouter(
                 ),
               ],
               child: EditPostPage(post: post),
+            );
+          },
+        ),
+        GoRoute(
+          path: 'share',
+          builder: (context, state) {
+            final post = state.extra as PostEntity;
+            return BlocProvider<SharePostBloc>(
+              create: (_) => getIt<SharePostBloc>(),
+              child: SharePostPage(post: post),
             );
           },
         ),

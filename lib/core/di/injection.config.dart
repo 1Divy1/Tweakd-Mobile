@@ -136,6 +136,7 @@ import '../../features/posts/presentation/bloc/likers/bloc.dart' as _i905;
 import '../../features/posts/presentation/bloc/post_detail/bloc.dart' as _i486;
 import '../../features/posts/presentation/bloc/profile_posts/bloc.dart'
     as _i274;
+import '../../features/posts/presentation/bloc/share_post/bloc.dart' as _i690;
 import '../../features/posts/presentation/bloc/tag_picker/bloc.dart' as _i200;
 import '../../features/profile/data/datasource/profile_api_data_source.dart'
     as _i77;
@@ -549,6 +550,16 @@ extension GetItInjectableX on _i174.GetIt {
         imageService: gh<_i768.ImageService>(),
       ),
     );
+    gh.factory<_i486.PostDetailBloc>(
+      () => _i486.PostDetailBloc(
+        getPost: gh<_i601.GetPostUseCase>(),
+        likePost: gh<_i111.LikePostUseCase>(),
+        unlikePost: gh<_i111.UnlikePostUseCase>(),
+        savePost: gh<_i584.SavePostUseCase>(),
+        unsavePost: gh<_i584.UnsavePostUseCase>(),
+        deletePost: gh<_i640.DeletePostUseCase>(),
+      ),
+    );
     gh.factory<_i470.EditPostBloc>(
       () => _i470.EditPostBloc(
         updatePost: gh<_i310.UpdatePostUseCase>(),
@@ -568,17 +579,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i905.LikersBloc>(
       () => _i905.LikersBloc(getLikers: gh<_i528.GetPostLikersUseCase>()),
     );
-    gh.factory<_i486.PostDetailBloc>(
-      () => _i486.PostDetailBloc(
-        getPost: gh<_i601.GetPostUseCase>(),
-        likePost: gh<_i111.LikePostUseCase>(),
-        unlikePost: gh<_i111.UnlikePostUseCase>(),
-        savePost: gh<_i584.SavePostUseCase>(),
-        unsavePost: gh<_i584.UnsavePostUseCase>(),
-        sharePost: gh<_i1023.SharePostUseCase>(),
-        deletePost: gh<_i640.DeletePostUseCase>(),
-      ),
-    );
     gh.factory<_i274.ProfilePostsBloc>(
       () => _i274.ProfilePostsBloc(
         getMyPosts: gh<_i851.GetMyPostsUseCase>(),
@@ -594,6 +594,9 @@ extension GetItInjectableX on _i174.GetIt {
         likeComment: gh<_i326.LikeCommentUseCase>(),
         unlikeComment: gh<_i326.UnlikeCommentUseCase>(),
       ),
+    );
+    gh.factory<_i690.SharePostBloc>(
+      () => _i690.SharePostBloc(gh<_i1023.SharePostUseCase>()),
     );
     return this;
   }

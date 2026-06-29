@@ -1452,6 +1452,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get postEditSave => 'SAVE';
 
   @override
+  String get postShareTitle => 'SHARE POST';
+
+  @override
+  String get postShareSend => 'SHARE';
+
+  @override
+  String get postShareNoteLabel => 'Add a note';
+
+  @override
+  String get postShareNoteHint => 'Say something about this post… (optional)';
+
+  @override
+  String get postSharePreviewNoCaption => 'No caption';
+
+  @override
+  String get postShareSuccess => 'Post shared.';
+
+  @override
   String get postTimeNow => 'now';
 
   @override

@@ -1455,6 +1455,25 @@ class AppLocalizationsRo extends AppLocalizations {
   String get postEditSave => 'SALVEAZĂ';
 
   @override
+  String get postShareTitle => 'DISTRIBUIE POSTAREA';
+
+  @override
+  String get postShareSend => 'DISTRIBUIE';
+
+  @override
+  String get postShareNoteLabel => 'Adaugă o notă';
+
+  @override
+  String get postShareNoteHint =>
+      'Spune ceva despre această postare… (opțional)';
+
+  @override
+  String get postSharePreviewNoCaption => 'Fără descriere';
+
+  @override
+  String get postShareSuccess => 'Postare distribuită.';
+
+  @override
   String get postTimeNow => 'acum';
 
   @override

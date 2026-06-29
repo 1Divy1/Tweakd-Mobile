@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
@@ -127,8 +128,9 @@ class _Header extends StatelessWidget {
           CircleAvatar(
             radius: 21,
             backgroundColor: AppColors.accentSoft,
-            backgroundImage:
-                authorAvatarUrl != null ? NetworkImage(authorAvatarUrl!) : null,
+            backgroundImage: authorAvatarUrl != null
+                ? CachedNetworkImageProvider(authorAvatarUrl!)
+                : null,
             child: authorAvatarUrl == null
                 ? Text(
                     initial,
@@ -186,12 +188,34 @@ class _Header extends StatelessWidget {
   }
 }
 
-class _Media extends StatelessWidget {
+class _Media extends StatefulWidget {
   final List<PostPhoto> photos;
   const _Media({required this.photos});
 
   @override
+  State<_Media> createState() => _MediaState();
+}
+
+class _MediaState extends State<_Media> {
+  final _controller = PageController();
+  int _page = 0;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Widget _photo(PostPhoto photo) => switch (photo) {
+        LocalPostPhoto(:final path) =>
+          Image.file(File(path), fit: BoxFit.cover),
+        RemotePostPhoto(:final url) =>
+          CachedNetworkImage(imageUrl: url, fit: BoxFit.cover),
+      };
+
+  @override
   Widget build(BuildContext context) {
+    final photos = widget.photos;
     if (photos.isEmpty) {
       return AspectRatio(
         aspectRatio: 4 / 3,
@@ -205,18 +229,17 @@ class _Media extends StatelessWidget {
       );
     }
 
-    final cover = photos.first;
     return AspectRatio(
       aspectRatio: 4 / 3,
       child: Stack(
         fit: StackFit.expand,
         children: [
-          switch (cover) {
-            LocalPostPhoto(:final path) =>
-              Image.file(File(path), fit: BoxFit.cover),
-            RemotePostPhoto(:final url) =>
-              Image.network(url, fit: BoxFit.cover),
-          },
+          PageView.builder(
+            controller: _controller,
+            itemCount: photos.length,
+            onPageChanged: (i) => setState(() => _page = i),
+            itemBuilder: (_, i) => _photo(photos[i]),
+          ),
           if (photos.length > 1)
             Positioned(
               top: 12,
@@ -229,7 +252,7 @@ class _Media extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  '1 / ${photos.length}',
+                  '${_page + 1} / ${photos.length}',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12,
@@ -243,7 +266,7 @@ class _Media extends StatelessWidget {
               left: 0,
               right: 0,
               bottom: 12,
-              child: _PageDots(count: photos.length),
+              child: _PageDots(count: photos.length, active: _page),
             ),
         ],
       ),
@@ -253,7 +276,8 @@ class _Media extends StatelessWidget {
 
 class _PageDots extends StatelessWidget {
   final int count;
-  const _PageDots({required this.count});
+  final int active;
+  const _PageDots({required this.count, required this.active});
 
   @override
   Widget build(BuildContext context) {
@@ -263,11 +287,11 @@ class _PageDots extends StatelessWidget {
       children: [
         for (var i = 0; i < shown; i++)
           Container(
-            width: i == 0 ? 16 : 6,
+            width: i == active ? 16 : 6,
             height: 6,
             margin: const EdgeInsets.symmetric(horizontal: 3),
             decoration: BoxDecoration(
-              color: i == 0 ? Colors.white : Colors.white.withAlpha(130),
+              color: i == active ? Colors.white : Colors.white.withAlpha(130),
               borderRadius: BorderRadius.circular(3),
             ),
           ),

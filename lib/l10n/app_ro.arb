@@ -494,6 +494,13 @@
   "postEditTitle": "EDITEAZĂ POSTAREA",
   "postEditSave": "SALVEAZĂ",
 
+  "postShareTitle": "DISTRIBUIE POSTAREA",
+  "postShareSend": "DISTRIBUIE",
+  "postShareNoteLabel": "Adaugă o notă",
+  "postShareNoteHint": "Spune ceva despre această postare… (opțional)",
+  "postSharePreviewNoCaption": "Fără descriere",
+  "postShareSuccess": "Postare distribuită.",
+
   "postTimeNow": "acum",
   "postTimeMinutes": "{count}m",
   "@postTimeMinutes": {

@@ -650,6 +650,13 @@
   "postEditTitle": "EDIT POST",
   "postEditSave": "SAVE",
 
+  "postShareTitle": "SHARE POST",
+  "postShareSend": "SHARE",
+  "postShareNoteLabel": "Add a note",
+  "postShareNoteHint": "Say something about this post… (optional)",
+  "postSharePreviewNoCaption": "No caption",
+  "postShareSuccess": "Post shared.",
+
   "postTimeNow": "now",
   "postTimeMinutes": "{count}m",
   "@postTimeMinutes": {
