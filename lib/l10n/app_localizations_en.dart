@@ -640,6 +640,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navProfile => 'PROFILE';
 
   @override
+  String get feedComingSoon => 'Coming soon';
+
+  @override
+  String get feedEmptyTitle => 'Your feed is quiet';
+
+  @override
+  String get feedEmptyMessage =>
+      'Posts from the community will show up here. Check back soon.';
+
+  @override
+  String get feedErrorNetwork =>
+      'No internet connection. Check your network and try again.';
+
+  @override
+  String get feedErrorGeneric => 'Couldn\'t load the feed. Please try again.';
+
+  @override
   String get garageErrorCarNotFound => 'This car could not be found.';
 
   @override

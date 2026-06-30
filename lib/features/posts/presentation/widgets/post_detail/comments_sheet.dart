@@ -11,19 +11,18 @@ import '../../../domain/entities/post_comment.dart';
 import '../../bloc/comments/bloc.dart';
 import '../../bloc/comments/event.dart';
 import '../../bloc/comments/state.dart';
-import '../../bloc/post_detail/bloc.dart';
-import '../../bloc/post_detail/event.dart';
 import 'post_time.dart';
 
-/// Opens the comments bottom sheet for [postId]. The post's [postDetailBloc] is
-/// kept in sync with adds/deletes via [CommentCountChanged], and [postOwnerId]
-/// lets the post owner delete any comment.
+/// Opens the comments bottom sheet for [postId]. [onCountChanged] is called
+/// whenever the total changes (from adds/deletes) so the caller — the post
+/// detail view or the feed list — can keep its own counter in sync.
+/// [postOwnerId] lets the post owner delete any comment.
 Future<void> showCommentsSheet(
   BuildContext context, {
   required String postId,
   required int initialCount,
   required String postOwnerId,
-  required PostDetailBloc postDetailBloc,
+  required ValueChanged<int> onCountChanged,
 }) {
   return showModalBottomSheet<void>(
     context: context,
@@ -37,8 +36,7 @@ Future<void> showCommentsSheet(
         ..add(LoadComments(postId, initialCount: initialCount)),
       child: BlocListener<CommentsBloc, CommentsState>(
         listenWhen: (a, b) => a.totalCount != b.totalCount,
-        listener: (_, state) =>
-            postDetailBloc.add(CommentCountChanged(state.totalCount)),
+        listener: (_, state) => onCountChanged(state.totalCount),
         child: _CommentsSheet(postOwnerId: postOwnerId),
       ),
     ),
