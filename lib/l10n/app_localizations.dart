@@ -1190,6 +1190,36 @@ abstract class AppLocalizations {
   /// **'PROFILE'**
   String get navProfile;
 
+  /// No description provided for @feedComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get feedComingSoon;
+
+  /// No description provided for @feedEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your feed is quiet'**
+  String get feedEmptyTitle;
+
+  /// No description provided for @feedEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts from the community will show up here. Check back soon.'**
+  String get feedEmptyMessage;
+
+  /// No description provided for @feedErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Check your network and try again.'**
+  String get feedErrorNetwork;
+
+  /// No description provided for @feedErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the feed. Please try again.'**
+  String get feedErrorGeneric;
+
   /// No description provided for @garageErrorCarNotFound.
   ///
   /// In en, this message translates to:

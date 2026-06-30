@@ -337,6 +337,12 @@
   "navCreate": "CREATE",
   "navProfile": "PROFILE",
 
+  "feedComingSoon": "Coming soon",
+  "feedEmptyTitle": "Your feed is quiet",
+  "feedEmptyMessage": "Posts from the community will show up here. Check back soon.",
+  "feedErrorNetwork": "No internet connection. Check your network and try again.",
+  "feedErrorGeneric": "Couldn't load the feed. Please try again.",
+
   "garageErrorCarNotFound": "This car could not be found.",
   "garageErrorGarageNotFound": "This garage could not be found.",
   "garageErrorPrivateGarage": "This garage is private.",

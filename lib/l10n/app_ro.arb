@@ -210,6 +210,12 @@
   "navCreate": "CREEAZĂ",
   "navProfile": "PROFIL",
 
+  "feedComingSoon": "În curând",
+  "feedEmptyTitle": "Feedul tău e liniștit",
+  "feedEmptyMessage": "Postările din comunitate vor apărea aici. Revino în curând.",
+  "feedErrorNetwork": "Nicio conexiune la internet. Verifică rețeaua și încearcă din nou.",
+  "feedErrorGeneric": "Nu am putut încărca feedul. Te rugăm să încerci din nou.",
+
   "garageErrorCarNotFound": "Această mașină nu a putut fi găsită.",
   "garageErrorGarageNotFound": "Acest garaj nu a putut fi găsit.",
   "garageErrorPrivateGarage": "Acest garaj este privat.",

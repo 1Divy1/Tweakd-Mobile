@@ -29,6 +29,13 @@ import '../../features/authentication/domain/usecases/login/email_password_signi
 import '../../features/authentication/domain/usecases/login/google_signin.dart'
     as _i920;
 import '../../features/authentication/presentation/bloc/bloc.dart' as _i636;
+import '../../features/feed/data/datasources/feed_api_data_source.dart'
+    as _i194;
+import '../../features/feed/data/repositories/feed_repository_impl.dart'
+    as _i452;
+import '../../features/feed/domain/repositories/feed_repository.dart' as _i430;
+import '../../features/feed/domain/usecases/get_global_feed.dart' as _i199;
+import '../../features/feed/presentation/bloc/feed/bloc.dart' as _i719;
 import '../../features/follow/data/datasource/follow_api_data_source.dart'
     as _i587;
 import '../../features/follow/data/repositories/follow_repository_impl.dart'
@@ -198,6 +205,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i742.AuthRepository>(
       () => _i317.AuthRepositoryImpl(gh<_i981.SupabaseAuthDataSource>()),
     );
+    gh.lazySingleton<_i194.FeedApiDataSource>(
+      () => _i194.FeedApiDataSource(gh<_i311.AbstractHTTP>()),
+    );
     gh.lazySingleton<_i587.FollowApiDataSource>(
       () => _i587.FollowApiDataSource(gh<_i311.AbstractHTTP>()),
     );
@@ -248,6 +258,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i357.SearchRepository>(
       () => _i1017.SearchRepositoryImpl(gh<_i592.SearchApiDataSource>()),
+    );
+    gh.lazySingleton<_i430.FeedRepository>(
+      () => _i452.FeedRepositoryImpl(gh<_i194.FeedApiDataSource>()),
     );
     gh.lazySingleton<_i256.AcceptFollowRequestUseCase>(
       () => _i256.AcceptFollowRequestUseCase(gh<_i760.FollowRepository>()),
@@ -391,6 +404,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i14.SearchUsersUseCase>(
       () => _i14.SearchUsersUseCase(gh<_i357.SearchRepository>()),
+    );
+    gh.lazySingleton<_i199.GetGlobalFeedUseCase>(
+      () => _i199.GetGlobalFeedUseCase(gh<_i430.FeedRepository>()),
     );
     gh.lazySingleton<_i424.GetCurrentUserProfileUseCase>(
       () => _i424.GetCurrentUserProfileUseCase(gh<_i894.ProfileRepository>()),
@@ -597,6 +613,16 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i690.SharePostBloc>(
       () => _i690.SharePostBloc(gh<_i1023.SharePostUseCase>()),
+    );
+    gh.factory<_i719.FeedBloc>(
+      () => _i719.FeedBloc(
+        getGlobalFeed: gh<_i199.GetGlobalFeedUseCase>(),
+        likePost: gh<_i111.LikePostUseCase>(),
+        unlikePost: gh<_i111.UnlikePostUseCase>(),
+        savePost: gh<_i584.SavePostUseCase>(),
+        unsavePost: gh<_i584.UnsavePostUseCase>(),
+        addComment: gh<_i541.AddCommentUseCase>(),
+      ),
     );
     return this;
   }

@@ -641,6 +641,24 @@ class AppLocalizationsRo extends AppLocalizations {
   String get navProfile => 'PROFIL';
 
   @override
+  String get feedComingSoon => 'În curând';
+
+  @override
+  String get feedEmptyTitle => 'Feedul tău e liniștit';
+
+  @override
+  String get feedEmptyMessage =>
+      'Postările din comunitate vor apărea aici. Revino în curând.';
+
+  @override
+  String get feedErrorNetwork =>
+      'Nicio conexiune la internet. Verifică rețeaua și încearcă din nou.';
+
+  @override
+  String get feedErrorGeneric =>
+      'Nu am putut încărca feedul. Te rugăm să încerci din nou.';
+
+  @override
   String get garageErrorCarNotFound => 'Această mașină nu a putut fi găsită.';
 
   @override

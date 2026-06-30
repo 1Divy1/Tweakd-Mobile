@@ -121,12 +121,13 @@ class _PostDetailPageState extends State<PostDetailPage> {
   }
 
   void _openComments(BuildContext context, PostEntity post) {
+    final bloc = context.read<PostDetailBloc>();
     showCommentsSheet(
       context,
       postId: post.id,
       initialCount: post.commentsCount,
       postOwnerId: post.author.id,
-      postDetailBloc: context.read<PostDetailBloc>(),
+      onCountChanged: (count) => bloc.add(CommentCountChanged(count)),
     );
   }
 
