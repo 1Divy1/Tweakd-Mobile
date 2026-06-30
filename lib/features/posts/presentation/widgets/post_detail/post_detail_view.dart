@@ -1,14 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/post.dart';
-import '../../../domain/entities/post_image.dart';
-import '../../../domain/entities/post_tagged_car.dart';
-import '../../../domain/entities/post_user.dart';
-import 'pinch_zoom.dart';
+import '../post_card/post_author_header.dart';
+import '../post_card/post_media_carousel.dart';
+import '../post_card/post_tags.dart';
 import 'post_time.dart';
 
 /// A faithful, full rendering of a published post — the same card the create
@@ -37,8 +34,13 @@ class PostDetailView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _Header(author: post.author, createdAt: post.createdAt),
-        _Media(images: post.images),
+        PostAuthorHeader(author: post.author, createdAt: post.createdAt),
+        PostMediaCarousel(
+          images: post.images,
+          aspectRatio: 4 / 3,
+          fit: BoxFit.contain,
+          enableZoom: true,
+        ),
         _Actions(
           post: post,
           onToggleLike: onToggleLike,
@@ -62,7 +64,7 @@ class PostDetailView extends StatelessWidget {
         if (post.taggedCars.isNotEmpty || post.taggedPeople.isNotEmpty)
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
-            child: _Tags(
+            child: PostTags(
               people: post.taggedPeople,
               cars: post.taggedCars,
             ),
@@ -96,179 +98,6 @@ class PostDetailView extends StatelessWidget {
             ),
           ),
         ),
-      ],
-    );
-  }
-}
-
-class _Header extends StatelessWidget {
-  final PostUserEntity author;
-  final DateTime createdAt;
-
-  const _Header({required this.author, required this.createdAt});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => context.push('/users/${author.username}', extra: author.id),
-        child: Row(
-          children: [
-            _Avatar(username: author.username, avatarUrl: author.avatarUrl),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    author.username,
-                    style: const TextStyle(
-                      color: AppColors.ink,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    postTimeAgo(AppLocalizations.of(context)!, createdAt),
-                    style: const TextStyle(
-                      color: AppColors.mute,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0.6,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _Media extends StatefulWidget {
-  final List<PostImageEntity> images;
-  const _Media({required this.images});
-
-  @override
-  State<_Media> createState() => _MediaState();
-}
-
-class _MediaState extends State<_Media> {
-  final _controller = PageController();
-  int _page = 0;
-  bool _zooming = false;
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final images = widget.images;
-    if (images.isEmpty) {
-      return AspectRatio(
-        aspectRatio: 4 / 3,
-        child: Container(
-          color: AppColors.bg,
-          child: const Center(
-            child: Icon(Icons.image_outlined,
-                color: AppColors.muteSoft, size: 40),
-          ),
-        ),
-      );
-    }
-
-    return AspectRatio(
-      aspectRatio: 4 / 3,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          PageView.builder(
-            controller: _controller,
-            physics: _zooming
-                ? const NeverScrollableScrollPhysics()
-                : const PageScrollPhysics(),
-            itemCount: images.length,
-            onPageChanged: (i) => setState(() => _page = i),
-            itemBuilder: (_, i) => PinchZoom(
-              onZoomChanged: (z) => setState(() => _zooming = z),
-              child: CachedNetworkImage(
-                imageUrl: images[i].imageUrl,
-                fit: BoxFit.contain,
-                fadeInDuration: const Duration(milliseconds: 150),
-                placeholder: (_, _) => const ColoredBox(color: AppColors.bg),
-                errorWidget: (_, _, _) => const ColoredBox(
-                  color: AppColors.bg,
-                  child: Center(
-                    child: Icon(Icons.broken_image_outlined,
-                        color: AppColors.muteSoft, size: 36),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          if (images.length > 1)
-            Positioned(
-              top: 12,
-              right: 12,
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Colors.black.withAlpha(150),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  '${_page + 1} / ${images.length}',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-          if (images.length > 1)
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 12,
-              child: _PageDots(count: images.length, active: _page),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-class _PageDots extends StatelessWidget {
-  final int count;
-  final int active;
-  const _PageDots({required this.count, required this.active});
-
-  @override
-  Widget build(BuildContext context) {
-    final shown = count.clamp(0, 7);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        for (var i = 0; i < shown; i++)
-          Container(
-            width: i == active ? 16 : 6,
-            height: 6,
-            margin: const EdgeInsets.symmetric(horizontal: 3),
-            decoration: BoxDecoration(
-              color: i == active ? Colors.white : Colors.white.withAlpha(130),
-              borderRadius: BorderRadius.circular(3),
-            ),
-          ),
       ],
     );
   }
@@ -420,100 +249,3 @@ class _Caption extends StatelessWidget {
   }
 }
 
-class _Tags extends StatelessWidget {
-  final List<PostUserEntity> people;
-  final List<PostTaggedCarEntity> cars;
-
-  const _Tags({required this.people, required this.cars});
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: [
-        for (final car in cars)
-          _TagChip(
-            icon: Icons.directions_car_rounded,
-            label: '${car.make} ${car.model}'.trim(),
-          ),
-        for (final person in people)
-          _TagChip(
-            icon: Icons.person_rounded,
-            label: '@${person.username}',
-            onTap: () => context.push(
-              '/users/${person.username}',
-              extra: person.id,
-            ),
-          ),
-      ],
-    );
-  }
-}
-
-class _TagChip extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback? onTap;
-
-  const _TagChip({required this.icon, required this.label, this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.line),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 14, color: AppColors.accent),
-            const SizedBox(width: 6),
-            Text(
-              label,
-              style: const TextStyle(
-                color: AppColors.ink,
-                fontSize: 12.5,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _Avatar extends StatelessWidget {
-  final String username;
-  final String? avatarUrl;
-
-  const _Avatar({required this.username, this.avatarUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    final initial =
-        username.isNotEmpty ? username.characters.first.toUpperCase() : '?';
-    return CircleAvatar(
-      radius: 21,
-      backgroundColor: AppColors.accentSoft,
-      backgroundImage:
-          avatarUrl != null ? CachedNetworkImageProvider(avatarUrl!) : null,
-      child: avatarUrl == null
-          ? Text(
-              initial,
-              style: const TextStyle(
-                color: AppColors.accentHot,
-                fontSize: 16,
-                fontWeight: FontWeight.w800,
-              ),
-            )
-          : null,
-    );
-  }
-}

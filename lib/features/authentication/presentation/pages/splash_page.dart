@@ -19,7 +19,7 @@ class SplashPage extends StatelessWidget {
           context.go('/onboarding');
         } 
         else if (state is Authenticated) {
-          context.go('/profile');
+          context.go('/feed');
         }
       },
       child: const Scaffold(

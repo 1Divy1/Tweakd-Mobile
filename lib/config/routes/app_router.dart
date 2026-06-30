@@ -7,6 +7,9 @@ import '../../core/di/injection.dart';
 import '../../features/authentication/presentation/pages/login_page.dart';
 import '../../features/authentication/presentation/pages/signup_page.dart';
 import '../../features/authentication/presentation/pages/splash_page.dart';
+import '../../features/feed/presentation/bloc/feed/bloc.dart';
+import '../../features/feed/presentation/bloc/feed/event.dart';
+import '../../features/feed/presentation/pages/feed_page.dart';
 import '../../features/follow/presentation/bloc/bloc.dart';
 import '../../features/follow/presentation/bloc/event.dart';
 import '../../features/follow/presentation/pages/followers_following_page.dart';
@@ -153,11 +156,13 @@ final appRouter = GoRouter(
     ),
 
     // ---------- Feed Page ----------
-    // TODO: Implement a real FeedPage
     GoRoute(
       path: '/feed',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: Scaffold(body: Center(child: Text('Feed Page'))),
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: BlocProvider<FeedBloc>(
+          create: (_) => getIt<FeedBloc>()..add(const LoadFeed()),
+          child: const FeedPage(),
+        ),
       ),
     ),
 
