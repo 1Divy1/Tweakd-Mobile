@@ -71,3 +71,13 @@ class SubmitFeedComment extends FeedEvent {
   @override
   List<Object?> get props => [postId, content];
 }
+
+/// Removes a post from the feed after the viewer reports it, so the next post
+/// takes its place. The post is only hidden from the UI, never deleted.
+class HideFeedPost extends FeedEvent {
+  final String postId;
+  const HideFeedPost(this.postId);
+
+  @override
+  List<Object?> get props => [postId];
+}

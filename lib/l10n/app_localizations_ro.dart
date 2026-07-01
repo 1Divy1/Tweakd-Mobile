@@ -1618,4 +1618,87 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get postLikersLoadError =>
       'Aprecierile nu au putut fi încărcate. Încearcă din nou.';
+
+  @override
+  String get postReport => 'Raportează postarea';
+
+  @override
+  String get commentReport => 'Raportează';
+
+  @override
+  String get profileReportAccount => 'Raportează contul';
+
+  @override
+  String get reportSubmit => 'Trimite raportul';
+
+  @override
+  String get reportClose => 'Închide';
+
+  @override
+  String get reportRetry => 'Încearcă din nou';
+
+  @override
+  String get reportReasonsLoadError =>
+      'Motivele de raportare nu au putut fi încărcate. Încearcă din nou.';
+
+  @override
+  String get reportSuccessTitle => 'Raport primit';
+
+  @override
+  String get reportSuccessBody =>
+      'Îți mulțumim că ne-ai anunțat. Echipa noastră va analiza în curând.';
+
+  @override
+  String get reportErrorAlreadyReported => 'Ai raportat deja acest lucru.';
+
+  @override
+  String get reportErrorSelf => 'Nu îți poți raporta propriul conținut.';
+
+  @override
+  String get reportErrorInvalidReason =>
+      'Acel motiv nu se aplică aici. Alege altul.';
+
+  @override
+  String get reportErrorNotFound => 'Acest conținut nu mai este disponibil.';
+
+  @override
+  String get reportErrorNetwork =>
+      'Fără conexiune la internet. Încearcă din nou.';
+
+  @override
+  String get reportErrorGeneric =>
+      'Raportul nu a putut fi trimis. Încearcă din nou.';
+
+  @override
+  String get settingsMyReports => 'Rapoartele mele';
+
+  @override
+  String get myReportsTitle => 'RAPOARTELE MELE';
+
+  @override
+  String get myReportsEmpty => 'Nu ai trimis încă niciun raport.';
+
+  @override
+  String get reportTargetPost => 'Postare';
+
+  @override
+  String get reportTargetComment => 'Comentariu';
+
+  @override
+  String get reportTargetProfile => 'Profil';
+
+  @override
+  String get reportNoReason => 'Niciun motiv specificat';
+
+  @override
+  String get reportStatusPending => 'În așteptare';
+
+  @override
+  String get reportStatusInProgress => 'În curs';
+
+  @override
+  String get reportStatusResolved => 'Rezolvat';
+
+  @override
+  String get reportStatusDismissed => 'Respins';
 }

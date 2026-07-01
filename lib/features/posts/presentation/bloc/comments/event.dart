@@ -69,6 +69,16 @@ class RemoveComment extends CommentsEvent {
   List<Object?> get props => [commentId];
 }
 
+/// Hides a comment from the viewer's list after they report it. Local only — the
+/// comment is not deleted on the backend, just removed from this session's view.
+class HideComment extends CommentsEvent {
+  final String commentId;
+  const HideComment(this.commentId);
+
+  @override
+  List<Object?> get props => [commentId];
+}
+
 class ToggleCommentLike extends CommentsEvent {
   final String commentId;
   const ToggleCommentLike(this.commentId);

@@ -158,6 +158,17 @@ import '../../features/profile/domain/usecases/get_profile_by_username.dart'
 import '../../features/profile/domain/usecases/submit_onboarding.dart'
     as _i1055;
 import '../../features/profile/presentation/bloc/bloc.dart' as _i180;
+import '../../features/report/data/datasources/report_api_data_source.dart'
+    as _i398;
+import '../../features/report/data/repositories/report_repository_impl.dart'
+    as _i420;
+import '../../features/report/domain/repositories/report_repository.dart'
+    as _i23;
+import '../../features/report/domain/usecases/get_my_reports.dart' as _i75;
+import '../../features/report/domain/usecases/get_report_reasons.dart' as _i935;
+import '../../features/report/domain/usecases/submit_report.dart' as _i535;
+import '../../features/report/presentation/bloc/my_reports/bloc.dart' as _i370;
+import '../../features/report/presentation/bloc/report/bloc.dart' as _i668;
 import '../../features/search/data/datasource/search_api_data_source.dart'
     as _i592;
 import '../../features/search/data/repositories/search_repository_impl.dart'
@@ -223,6 +234,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i77.ProfileApiDataSource>(
       () => _i77.ProfileApiDataSource(gh<_i311.AbstractHTTP>()),
     );
+    gh.lazySingleton<_i398.ReportApiDataSource>(
+      () => _i398.ReportApiDataSource(gh<_i311.AbstractHTTP>()),
+    );
     gh.lazySingleton<_i592.SearchApiDataSource>(
       () => _i592.SearchApiDataSource(gh<_i311.AbstractHTTP>()),
     );
@@ -259,6 +273,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i357.SearchRepository>(
       () => _i1017.SearchRepositoryImpl(gh<_i592.SearchApiDataSource>()),
     );
+    gh.lazySingleton<_i23.ReportRepository>(
+      () => _i420.ReportRepositoryImpl(gh<_i398.ReportApiDataSource>()),
+    );
     gh.lazySingleton<_i430.FeedRepository>(
       () => _i452.FeedRepositoryImpl(gh<_i194.FeedApiDataSource>()),
     );
@@ -291,6 +308,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i894.ProfileRepository>(
       () => _i334.ProfileRepositoryImpl(gh<_i77.ProfileApiDataSource>()),
+    );
+    gh.lazySingleton<_i75.GetMyReportsUseCase>(
+      () => _i75.GetMyReportsUseCase(gh<_i23.ReportRepository>()),
+    );
+    gh.lazySingleton<_i935.GetReportReasonsUseCase>(
+      () => _i935.GetReportReasonsUseCase(gh<_i23.ReportRepository>()),
+    );
+    gh.lazySingleton<_i535.SubmitReportUseCase>(
+      () => _i535.SubmitReportUseCase(gh<_i23.ReportRepository>()),
     );
     gh.lazySingleton<_i430.OnboardingRepository>(
       () =>
@@ -405,6 +431,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i14.SearchUsersUseCase>(
       () => _i14.SearchUsersUseCase(gh<_i357.SearchRepository>()),
     );
+    gh.factory<_i668.ReportBloc>(
+      () => _i668.ReportBloc(
+        getReasons: gh<_i935.GetReportReasonsUseCase>(),
+        submitReport: gh<_i535.SubmitReportUseCase>(),
+      ),
+    );
     gh.lazySingleton<_i199.GetGlobalFeedUseCase>(
       () => _i199.GetGlobalFeedUseCase(gh<_i430.FeedRepository>()),
     );
@@ -478,6 +510,9 @@ extension GetItInjectableX on _i174.GetIt {
         getFollowing: gh<_i495.GetFollowingUseCase>(),
         removeFollower: gh<_i164.RemoveFollowerUseCase>(),
       ),
+    );
+    gh.factory<_i370.MyReportsBloc>(
+      () => _i370.MyReportsBloc(getMyReports: gh<_i75.GetMyReportsUseCase>()),
     );
     gh.factory<_i797.OnboardingBloc>(
       () => _i797.OnboardingBloc(

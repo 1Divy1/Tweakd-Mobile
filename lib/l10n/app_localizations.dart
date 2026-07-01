@@ -2947,6 +2947,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t load likes. Please try again.'**
   String get postLikersLoadError;
+
+  /// No description provided for @postReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Report post'**
+  String get postReport;
+
+  /// No description provided for @commentReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get commentReport;
+
+  /// No description provided for @profileReportAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Report account'**
+  String get profileReportAccount;
+
+  /// No description provided for @reportSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit report'**
+  String get reportSubmit;
+
+  /// No description provided for @reportClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get reportClose;
+
+  /// No description provided for @reportRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get reportRetry;
+
+  /// No description provided for @reportReasonsLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load report reasons. Please try again.'**
+  String get reportReasonsLoadError;
+
+  /// No description provided for @reportSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report received'**
+  String get reportSuccessTitle;
+
+  /// No description provided for @reportSuccessBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for letting us know. Our team will review this shortly.'**
+  String get reportSuccessBody;
+
+  /// No description provided for @reportErrorAlreadyReported.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve already reported this.'**
+  String get reportErrorAlreadyReported;
+
+  /// No description provided for @reportErrorSelf.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t report your own content.'**
+  String get reportErrorSelf;
+
+  /// No description provided for @reportErrorInvalidReason.
+  ///
+  /// In en, this message translates to:
+  /// **'That reason doesn\'t apply here. Please pick another.'**
+  String get reportErrorInvalidReason;
+
+  /// No description provided for @reportErrorNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This content is no longer available.'**
+  String get reportErrorNotFound;
+
+  /// No description provided for @reportErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Please try again.'**
+  String get reportErrorNetwork;
+
+  /// No description provided for @reportErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t submit your report. Please try again.'**
+  String get reportErrorGeneric;
+
+  /// No description provided for @settingsMyReports.
+  ///
+  /// In en, this message translates to:
+  /// **'My reports'**
+  String get settingsMyReports;
+
+  /// No description provided for @myReportsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MY REPORTS'**
+  String get myReportsTitle;
+
+  /// No description provided for @myReportsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t submitted any reports yet.'**
+  String get myReportsEmpty;
+
+  /// No description provided for @reportTargetPost.
+  ///
+  /// In en, this message translates to:
+  /// **'Post'**
+  String get reportTargetPost;
+
+  /// No description provided for @reportTargetComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment'**
+  String get reportTargetComment;
+
+  /// No description provided for @reportTargetProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get reportTargetProfile;
+
+  /// No description provided for @reportNoReason.
+  ///
+  /// In en, this message translates to:
+  /// **'No reason given'**
+  String get reportNoReason;
+
+  /// No description provided for @reportStatusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get reportStatusPending;
+
+  /// No description provided for @reportStatusInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In progress'**
+  String get reportStatusInProgress;
+
+  /// No description provided for @reportStatusResolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolved'**
+  String get reportStatusResolved;
+
+  /// No description provided for @reportStatusDismissed.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismissed'**
+  String get reportStatusDismissed;
 }
 
 class _AppLocalizationsDelegate
