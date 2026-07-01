@@ -7,6 +7,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../../core/di/injection.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
+import '../../../../report/domain/entities/report_target.dart';
+import '../../../../report/presentation/widgets/report_reason_sheet.dart';
 import '../../../domain/entities/post_comment.dart';
 import '../../bloc/comments/bloc.dart';
 import '../../bloc/comments/event.dart';
@@ -37,7 +39,7 @@ Future<void> showCommentsSheet(
       child: BlocListener<CommentsBloc, CommentsState>(
         listenWhen: (a, b) => a.totalCount != b.totalCount,
         listener: (_, state) => onCountChanged(state.totalCount),
-        child: _CommentsSheet(postOwnerId: postOwnerId),
+        child: _CommentsSheet(postId: postId, postOwnerId: postOwnerId),
       ),
     ),
   );
@@ -51,9 +53,10 @@ class _ReplyTarget {
 }
 
 class _CommentsSheet extends StatefulWidget {
+  final String postId;
   final String postOwnerId;
 
-  const _CommentsSheet({required this.postOwnerId});
+  const _CommentsSheet({required this.postId, required this.postOwnerId});
 
   @override
   State<_CommentsSheet> createState() => _CommentsSheetState();
@@ -91,6 +94,21 @@ class _CommentsSheetState extends State<_CommentsSheet> {
   }
 
   void _cancelReply() => setState(() => _replyTarget = null);
+
+  /// Opens the report flow for [comment]; hides it on a successful report.
+  Future<void> _reportComment(PostCommentEntity comment) async {
+    final l10n = AppLocalizations.of(context)!;
+    final bloc = context.read<CommentsBloc>();
+    final reported = await showReportSheet(
+      context,
+      target: CommentReportTarget(
+        postId: widget.postId,
+        commentId: comment.id,
+      ),
+      title: l10n.commentReport,
+    );
+    if (reported) bloc.add(HideComment(comment.id));
+  }
 
   void _submit() {
     final text = _inputCtrl.text.trim();
@@ -175,6 +193,7 @@ class _CommentsSheetState extends State<_CommentsSheet> {
                           postOwnerId: widget.postOwnerId,
                           onReply: () => _startReply(comment),
                           onReplyTo: _startReply,
+                          onReport: _reportComment,
                         );
                       },
                     ),
@@ -204,6 +223,7 @@ class _RootComment extends StatelessWidget {
   final String postOwnerId;
   final VoidCallback onReply;
   final ValueChanged<PostCommentEntity> onReplyTo;
+  final ValueChanged<PostCommentEntity> onReport;
 
   const _RootComment({
     required this.comment,
@@ -212,11 +232,16 @@ class _RootComment extends StatelessWidget {
     required this.postOwnerId,
     required this.onReply,
     required this.onReplyTo,
+    required this.onReport,
   });
 
   bool _canDelete(PostCommentEntity c) =>
       currentUserId != null &&
       (c.author.id == currentUserId || postOwnerId == currentUserId);
+
+  /// Anyone but the comment's own author can report it.
+  bool _canReport(PostCommentEntity c) =>
+      currentUserId != null && c.author.id != currentUserId;
 
   @override
   Widget build(BuildContext context) {
@@ -231,11 +256,13 @@ class _RootComment extends StatelessWidget {
         _CommentBody(
           comment: comment,
           canDelete: _canDelete(comment),
+          canReport: _canReport(comment),
           onToggleLike: () =>
               context.read<CommentsBloc>().add(ToggleCommentLike(comment.id)),
           onDelete: () =>
               context.read<CommentsBloc>().add(RemoveComment(comment.id)),
           onReply: onReply,
+          onReport: () => onReport(comment),
         ),
         if (hasReplies)
           Padding(
@@ -258,11 +285,13 @@ class _RootComment extends StatelessWidget {
               comment: reply,
               indented: true,
               canDelete: _canDelete(reply),
+              canReport: _canReport(reply),
               onToggleLike: () =>
                   context.read<CommentsBloc>().add(ToggleCommentLike(reply.id)),
               onDelete: () =>
                   context.read<CommentsBloc>().add(RemoveComment(reply.id)),
               onReply: () => onReplyTo(comment),
+              onReport: () => onReport(reply),
             ),
           if (thread!.isLoading)
             const _LoadingRow()
@@ -326,17 +355,21 @@ class _RepliesToggle extends StatelessWidget {
 class _CommentBody extends StatelessWidget {
   final PostCommentEntity comment;
   final bool canDelete;
+  final bool canReport;
   final bool indented;
   final VoidCallback onToggleLike;
   final VoidCallback onDelete;
   final VoidCallback onReply;
+  final VoidCallback onReport;
 
   const _CommentBody({
     required this.comment,
     required this.canDelete,
+    required this.canReport,
     required this.onToggleLike,
     required this.onDelete,
     required this.onReply,
+    required this.onReport,
     this.indented = false,
   });
 
@@ -430,6 +463,20 @@ class _CommentBody extends StatelessWidget {
                         onTap: onReply,
                         child: Text(
                           l10n.postCommentReply,
+                          style: const TextStyle(
+                            color: AppColors.mute,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
+                    if (!comment.deleted && canReport) ...[
+                      const SizedBox(width: 14),
+                      GestureDetector(
+                        onTap: onReport,
+                        child: Text(
+                          l10n.commentReport,
                           style: const TextStyle(
                             color: AppColors.mute,
                             fontSize: 11,

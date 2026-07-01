@@ -741,5 +741,33 @@
 
   "postLikersTitle": "Likes",
   "postLikersEmpty": "No likes yet.",
-  "postLikersLoadError": "Couldn't load likes. Please try again."
+  "postLikersLoadError": "Couldn't load likes. Please try again.",
+
+  "postReport": "Report post",
+  "commentReport": "Report",
+  "profileReportAccount": "Report account",
+  "reportSubmit": "Submit report",
+  "reportClose": "Close",
+  "reportRetry": "Try again",
+  "reportReasonsLoadError": "Couldn't load report reasons. Please try again.",
+  "reportSuccessTitle": "Report received",
+  "reportSuccessBody": "Thanks for letting us know. Our team will review this shortly.",
+  "reportErrorAlreadyReported": "You've already reported this.",
+  "reportErrorSelf": "You can't report your own content.",
+  "reportErrorInvalidReason": "That reason doesn't apply here. Please pick another.",
+  "reportErrorNotFound": "This content is no longer available.",
+  "reportErrorNetwork": "No internet connection. Please try again.",
+  "reportErrorGeneric": "Couldn't submit your report. Please try again.",
+
+  "settingsMyReports": "My reports",
+  "myReportsTitle": "MY REPORTS",
+  "myReportsEmpty": "You haven't submitted any reports yet.",
+  "reportTargetPost": "Post",
+  "reportTargetComment": "Comment",
+  "reportTargetProfile": "Profile",
+  "reportNoReason": "No reason given",
+  "reportStatusPending": "Pending",
+  "reportStatusInProgress": "In progress",
+  "reportStatusResolved": "Resolved",
+  "reportStatusDismissed": "Dismissed"
 }

@@ -8,8 +8,11 @@ import '../../../../core/shared/widgets/app_bottom_nav.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../posts/domain/entities/post.dart';
+import '../../../posts/presentation/widgets/post_card/post_options_sheet.dart';
 import '../../../posts/presentation/widgets/post_detail/comments_sheet.dart';
 import '../../../posts/presentation/widgets/post_detail/likers_sheet.dart';
+import '../../../report/domain/entities/report_target.dart';
+import '../../../report/presentation/widgets/report_reason_sheet.dart';
 import '../bloc/feed/bloc.dart';
 import '../bloc/feed/event.dart';
 import '../bloc/feed/state.dart';
@@ -102,8 +105,21 @@ class _FeedListState extends State<_FeedList> {
     await completer.future;
   }
 
-  void _openPost(PostEntity post) {
-    context.push('/posts/${post.id}');
+  /// Opens the post "⋯" menu; if the viewer reports the post, hide it so the
+  /// next post takes its place.
+  Future<void> _openPostMenu(PostEntity post) async {
+    final l10n = AppLocalizations.of(context)!;
+    final feedBloc = context.read<FeedBloc>();
+
+    final action = await showPostOptionsSheet(context);
+    if (action != PostMenuAction.report || !mounted) return;
+
+    final reported = await showReportSheet(
+      context,
+      target: PostReportTarget(post.id),
+      title: l10n.postReport,
+    );
+    if (reported) feedBloc.add(HideFeedPost(post.id));
   }
 
   void _openComments(PostEntity post) {
@@ -172,7 +188,7 @@ class _FeedListState extends State<_FeedList> {
             onOpenLikers: () => showLikersSheet(context, postId: post.id),
             onSubmitComment: (text) =>
                 context.read<FeedBloc>().add(SubmitFeedComment(post.id, text)),
-            onMenu: () => _openPost(post),
+            onMenu: () => _openPostMenu(post),
           );
         },
       ),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
+import '../../../../report/domain/entities/report_target.dart';
+import '../../../../report/presentation/widgets/report_reason_sheet.dart';
 import '../../../../garage/presentation/bloc/bloc.dart';
 import '../../../../garage/presentation/bloc/event.dart';
 import '../../../../garage/presentation/bloc/state.dart';
@@ -22,6 +25,7 @@ import '../shared/profile_section_tabs.dart';
 import '../shared/profile_stats_row.dart';
 import '../shared/profile_top_bar.dart';
 import 'follow_button.dart';
+import 'profile_options_sheet.dart';
 
 class PublicProfileDataView extends StatefulWidget {
   final ProfileEntity profile;
@@ -42,7 +46,10 @@ class _PublicProfileDataViewState extends State<PublicProfileDataView> {
       color: AppColors.bg,
       child: Column(
         children: [
-          ProfileTopBar(title: AppLocalizations.of(context)!.profileTitle),
+          ProfileTopBar(
+            title: AppLocalizations.of(context)!.profileTitle,
+            trailing: _ProfileMenuButton(username: profile.username),
+          ),
           Expanded(
             child: RefreshIndicator(
               onRefresh: () async {
@@ -124,6 +131,46 @@ class _PublicProfileDataViewState extends State<PublicProfileDataView> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// The public profile "⋯" button. Opens the account options sheet; on a
+/// successful "Report account" it redirects to the feed and clears the back
+/// stack so the viewer can't navigate back to the reported profile.
+class _ProfileMenuButton extends StatelessWidget {
+  final String username;
+
+  const _ProfileMenuButton({required this.username});
+
+  Future<void> _openMenu(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
+    final action = await showProfileOptionsSheet(context);
+    if (action != ProfileMenuAction.report || !context.mounted) return;
+
+    final reported = await showReportSheet(
+      context,
+      target: ProfileReportTarget(username),
+      title: l10n.profileReportAccount,
+    );
+    if (reported && context.mounted) context.go('/feed');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => _openMenu(context),
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        width: 44,
+        height: 36,
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.line),
+        ),
+        child: const Icon(Icons.more_horiz, color: AppColors.ink, size: 20),
       ),
     );
   }

@@ -6,12 +6,15 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../report/domain/entities/report_target.dart';
+import '../../../report/presentation/widgets/report_reason_sheet.dart';
 import '../../domain/entities/post.dart';
 import '../bloc/post_detail/bloc.dart';
 import '../bloc/post_detail/event.dart';
 import '../bloc/post_detail/state.dart';
 import '../utils/post_error_mapper.dart';
 import 'edit_post_page.dart';
+import '../widgets/post_card/post_options_sheet.dart';
 import '../widgets/post_detail/comments_sheet.dart';
 import '../widgets/post_detail/likers_sheet.dart';
 import '../widgets/post_detail/post_detail_view.dart';
@@ -59,13 +62,14 @@ class _PostDetailPageState extends State<PostDetailPage> {
               child: Column(
                 children: [
                   _TopBar(
-                    isOwner:
-                        state is PostDetailLoaded && _isOwner(state.post),
                     isDeleting:
                         state is PostDetailLoaded && state.isDeleting,
                     onBack: () => context.pop(_changed),
+                    // Owners get edit/delete; everyone else gets the report menu.
                     onMenu: state is PostDetailLoaded
-                        ? () => _showOwnerMenu(context, state.post)
+                        ? () => _isOwner(state.post)
+                            ? _showOwnerMenu(context, state.post)
+                            : _reportPost(context, state.post)
                         : null,
                   ),
                   Expanded(
@@ -146,6 +150,21 @@ class _PostDetailPageState extends State<PostDetailPage> {
     } else if (result.updated != null) {
       bloc.add(PostUpdated(result.updated!));
     }
+  }
+
+  /// Non-owner "⋯" menu: opens the report flow and, on a successful report,
+  /// leaves the detail screen (the post is hidden, not deleted).
+  Future<void> _reportPost(BuildContext context, PostEntity post) async {
+    final l10n = AppLocalizations.of(context)!;
+    final action = await showPostOptionsSheet(context);
+    if (action != PostMenuAction.report || !context.mounted) return;
+
+    final reported = await showReportSheet(
+      context,
+      target: PostReportTarget(post.id),
+      title: l10n.postReport,
+    );
+    if (reported && context.mounted) context.pop(_changed);
   }
 
   void _showOwnerMenu(BuildContext context, PostEntity post) {
@@ -267,13 +286,11 @@ class _PostDetailPageState extends State<PostDetailPage> {
 }
 
 class _TopBar extends StatelessWidget {
-  final bool isOwner;
   final bool isDeleting;
   final VoidCallback onBack;
   final VoidCallback? onMenu;
 
   const _TopBar({
-    required this.isOwner,
     required this.isDeleting,
     required this.onBack,
     this.onMenu,
@@ -302,7 +319,7 @@ class _TopBar extends StatelessWidget {
               ),
             ),
           ),
-          if (isOwner)
+          if (onMenu != null)
             _PillButton(
               onTap: isDeleting ? null : onMenu,
               child: isDeleting

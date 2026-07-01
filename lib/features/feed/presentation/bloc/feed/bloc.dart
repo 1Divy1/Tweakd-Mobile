@@ -42,6 +42,15 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     on<ToggleSaveFeedPost>(_onToggleSave);
     on<UpdateFeedPostCommentCount>(_onUpdateCommentCount);
     on<SubmitFeedComment>(_onSubmitComment);
+    on<HideFeedPost>(_onHidePost);
+  }
+
+  void _onHidePost(HideFeedPost event, Emitter<FeedState> emit) {
+    final current = state;
+    if (current is! FeedLoaded) return;
+    emit(current.copyWith(
+      posts: current.posts.where((p) => p.id != event.postId).toList(),
+    ));
   }
 
   void _onUpdateCommentCount(
