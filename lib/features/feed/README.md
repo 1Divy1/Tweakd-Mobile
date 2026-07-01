@@ -53,7 +53,8 @@ shared `AuthInterceptor`).
 ## UI-only / not yet implemented
 
 - `FeedTopBar` likes + DMs buttons → "coming soon" snackbar (no screens yet).
-- Card `⋯` opens `/posts/{id}` (no dedicated feed-post menu yet). The card body
-  itself no longer navigates on tap.
+- Card `⋯` opens the post options sheet (report — see the **report** feature); a
+  successful report fires `HideFeedPost`. The card body itself doesn't navigate
+  on tap, and there's no "open post detail" affordance from the feed anymore.
 - A like/save toggled on the detail screen isn't mirrored back into the feed
   list without a refresh (comment counts *are* mirrored, via the shared sheet).

@@ -1613,4 +1613,86 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get postLikersLoadError => 'Couldn\'t load likes. Please try again.';
+
+  @override
+  String get postReport => 'Report post';
+
+  @override
+  String get commentReport => 'Report';
+
+  @override
+  String get profileReportAccount => 'Report account';
+
+  @override
+  String get reportSubmit => 'Submit report';
+
+  @override
+  String get reportClose => 'Close';
+
+  @override
+  String get reportRetry => 'Try again';
+
+  @override
+  String get reportReasonsLoadError =>
+      'Couldn\'t load report reasons. Please try again.';
+
+  @override
+  String get reportSuccessTitle => 'Report received';
+
+  @override
+  String get reportSuccessBody =>
+      'Thanks for letting us know. Our team will review this shortly.';
+
+  @override
+  String get reportErrorAlreadyReported => 'You\'ve already reported this.';
+
+  @override
+  String get reportErrorSelf => 'You can\'t report your own content.';
+
+  @override
+  String get reportErrorInvalidReason =>
+      'That reason doesn\'t apply here. Please pick another.';
+
+  @override
+  String get reportErrorNotFound => 'This content is no longer available.';
+
+  @override
+  String get reportErrorNetwork => 'No internet connection. Please try again.';
+
+  @override
+  String get reportErrorGeneric =>
+      'Couldn\'t submit your report. Please try again.';
+
+  @override
+  String get settingsMyReports => 'My reports';
+
+  @override
+  String get myReportsTitle => 'MY REPORTS';
+
+  @override
+  String get myReportsEmpty => 'You haven\'t submitted any reports yet.';
+
+  @override
+  String get reportTargetPost => 'Post';
+
+  @override
+  String get reportTargetComment => 'Comment';
+
+  @override
+  String get reportTargetProfile => 'Profile';
+
+  @override
+  String get reportNoReason => 'No reason given';
+
+  @override
+  String get reportStatusPending => 'Pending';
+
+  @override
+  String get reportStatusInProgress => 'In progress';
+
+  @override
+  String get reportStatusResolved => 'Resolved';
+
+  @override
+  String get reportStatusDismissed => 'Dismissed';
 }

@@ -41,7 +41,40 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
     on<ToggleReplies>(_onToggleReplies);
     on<LoadMoreReplies>(_onLoadMoreReplies);
     on<RemoveComment>(_onRemove);
+    on<HideComment>(_onHide);
     on<ToggleCommentLike>(_onToggleLike);
+  }
+
+  /// Removes a reported comment from the viewer's view. Unlike [RemoveComment]
+  /// there's no backend call (the report already happened) and no tombstone —
+  /// the comment (and, for a root, its thread) is dropped outright.
+  void _onHide(HideComment event, Emitter<CommentsState> emit) {
+    final id = event.commentId;
+
+    // Case 1 — a root comment: drop it and any loaded reply thread.
+    if (state.comments.any((c) => c.id == id)) {
+      final replies = Map<String, ReplyThread>.from(state.replies)..remove(id);
+      emit(state.copyWith(
+        comments: state.comments.where((c) => c.id != id).toList(),
+        totalCount: (state.totalCount - 1).clamp(0, 1 << 31),
+        replies: replies,
+      ));
+      return;
+    }
+
+    // Case 2 — a reply: drop it from its parent thread and decrement the count.
+    final parentId = _parentOf(id);
+    if (parentId == null) return;
+    final thread = state.replies[parentId]!;
+    emit(state.copyWith(
+      replies: _putThread(
+        parentId,
+        thread.copyWith(
+          items: thread.items.where((c) => c.id != id).toList(),
+        ),
+      ),
+      comments: _bumpReplyCount(parentId, -1),
+    ));
   }
 
   Future<void> _onLoad(LoadComments event, Emitter<CommentsState> emit) async {

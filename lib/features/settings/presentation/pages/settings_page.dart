@@ -10,6 +10,7 @@ import '../../../authentication/presentation/bloc/state.dart';
 import '../../../authentication/presentation/utils/auth_error_mapper.dart';
 import '../../../profile/presentation/widgets/shared/profile_top_bar.dart';
 import '../widgets/logout_button.dart';
+import '../widgets/settings_tile.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -76,6 +77,12 @@ class SettingsPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        SettingsTile(
+                          icon: Icons.flag_outlined,
+                          label: l10n.settingsMyReports,
+                          onTap: () => context.push('/reports'),
+                        ),
+                        const SizedBox(height: 12),
                         LogoutButton(
                           isLoading: isLoggingOut,
                           onTap: () => _confirmLogout(context),

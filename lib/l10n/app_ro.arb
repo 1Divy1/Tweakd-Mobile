@@ -585,5 +585,33 @@
 
   "postLikersTitle": "Aprecieri",
   "postLikersEmpty": "Nicio apreciere încă.",
-  "postLikersLoadError": "Aprecierile nu au putut fi încărcate. Încearcă din nou."
+  "postLikersLoadError": "Aprecierile nu au putut fi încărcate. Încearcă din nou.",
+
+  "postReport": "Raportează postarea",
+  "commentReport": "Raportează",
+  "profileReportAccount": "Raportează contul",
+  "reportSubmit": "Trimite raportul",
+  "reportClose": "Închide",
+  "reportRetry": "Încearcă din nou",
+  "reportReasonsLoadError": "Motivele de raportare nu au putut fi încărcate. Încearcă din nou.",
+  "reportSuccessTitle": "Raport primit",
+  "reportSuccessBody": "Îți mulțumim că ne-ai anunțat. Echipa noastră va analiza în curând.",
+  "reportErrorAlreadyReported": "Ai raportat deja acest lucru.",
+  "reportErrorSelf": "Nu îți poți raporta propriul conținut.",
+  "reportErrorInvalidReason": "Acel motiv nu se aplică aici. Alege altul.",
+  "reportErrorNotFound": "Acest conținut nu mai este disponibil.",
+  "reportErrorNetwork": "Fără conexiune la internet. Încearcă din nou.",
+  "reportErrorGeneric": "Raportul nu a putut fi trimis. Încearcă din nou.",
+
+  "settingsMyReports": "Rapoartele mele",
+  "myReportsTitle": "RAPOARTELE MELE",
+  "myReportsEmpty": "Nu ai trimis încă niciun raport.",
+  "reportTargetPost": "Postare",
+  "reportTargetComment": "Comentariu",
+  "reportTargetProfile": "Profil",
+  "reportNoReason": "Niciun motiv specificat",
+  "reportStatusPending": "În așteptare",
+  "reportStatusInProgress": "În curs",
+  "reportStatusResolved": "Rezolvat",
+  "reportStatusDismissed": "Respins"
 }

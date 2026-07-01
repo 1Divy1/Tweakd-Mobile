@@ -47,6 +47,9 @@ import '../../features/profile/presentation/bloc/bloc.dart';
 import '../../features/profile/presentation/bloc/event.dart';
 import '../../features/profile/presentation/pages/my_profile_page.dart';
 import '../../features/profile/presentation/pages/public_profile_page.dart';
+import '../../features/report/presentation/bloc/my_reports/bloc.dart';
+import '../../features/report/presentation/bloc/my_reports/event.dart';
+import '../../features/report/presentation/pages/my_reports_page.dart';
 import '../../features/search/presentation/bloc/bloc.dart';
 import '../../features/search/presentation/pages/search_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
@@ -153,6 +156,15 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/settings',
       builder: (context, state) => const SettingsPage(),
+    ),
+
+    // ---------- My Reports ----------
+    GoRoute(
+      path: '/reports',
+      builder: (context, state) => BlocProvider<MyReportsBloc>(
+        create: (_) => getIt<MyReportsBloc>()..add(const LoadMyReports()),
+        child: const MyReportsPage(),
+      ),
     ),
 
     // ---------- Feed Page ----------
