@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
+/// The rounded outline this field draws on its own (the global input theme no
+/// longer supplies a default border).
+final OutlineInputBorder _border = OutlineInputBorder(
+  borderRadius: BorderRadius.circular(12),
+  borderSide: const BorderSide(color: AppColors.line),
+);
+
 /// A labeled input used across the auth pages: an uppercase field label above a
 /// rounded text field with a leading icon. When [isPassword] is true the field
 /// is obscured and gets a show/hide toggle.
@@ -57,6 +64,11 @@ class _AuthTextFieldState extends State<AuthTextField> {
           style: const TextStyle(color: AppColors.ink, fontSize: 15),
           decoration: InputDecoration(
             hintText: widget.hint,
+            // This field isn't wrapped in a bordered Container, so it carries its
+            // own rounded outline (the global input theme draws no border).
+            border: _border,
+            enabledBorder: _border,
+            focusedBorder: _border,
             prefixIcon: Icon(widget.icon, color: AppColors.mute, size: 20),
             suffixIcon: widget.isPassword
                 ? IconButton(

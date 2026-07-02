@@ -41,6 +41,12 @@ import '../../features/posts/presentation/pages/edit_post_page.dart';
 import '../../features/posts/presentation/pages/post_detail_page.dart';
 import '../../features/posts/presentation/pages/share_post_page.dart';
 import '../../features/onboarding/presentation/bloc/event.dart';
+import '../../features/feedback/presentation/bloc/feedback/bloc.dart';
+import '../../features/feedback/presentation/bloc/feedback/event.dart';
+import '../../features/feedback/presentation/bloc/my_feedback/bloc.dart';
+import '../../features/feedback/presentation/bloc/my_feedback/event.dart';
+import '../../features/feedback/presentation/pages/feedback_page.dart';
+import '../../features/feedback/presentation/pages/my_feedback_page.dart';
 import '../../features/onboarding/presentation/bloc/username_availability/bloc.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/profile/presentation/bloc/bloc.dart';
@@ -164,6 +170,25 @@ final appRouter = GoRouter(
       builder: (context, state) => BlocProvider<MyReportsBloc>(
         create: (_) => getIt<MyReportsBloc>()..add(const LoadMyReports()),
         child: const MyReportsPage(),
+      ),
+    ),
+
+    // ---------- Send Feedback ----------
+    GoRoute(
+      path: '/feedback',
+      builder: (context, state) => BlocProvider<FeedbackBloc>(
+        create: (_) =>
+            getIt<FeedbackBloc>()..add(const LoadFeedbackOptions()),
+        child: const FeedbackPage(),
+      ),
+    ),
+
+    // ---------- My Feedback ----------
+    GoRoute(
+      path: '/feedback/mine',
+      builder: (context, state) => BlocProvider<MyFeedbackBloc>(
+        create: (_) => getIt<MyFeedbackBloc>()..add(const LoadMyFeedback()),
+        child: const MyFeedbackPage(),
       ),
     ),
 

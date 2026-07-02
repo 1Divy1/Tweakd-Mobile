@@ -3103,6 +3103,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dismissed'**
   String get reportStatusDismissed;
+
+  /// No description provided for @settingsSendFeedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Send feedback'**
+  String get settingsSendFeedback;
+
+  /// No description provided for @settingsMyFeedback.
+  ///
+  /// In en, this message translates to:
+  /// **'My feedback'**
+  String get settingsMyFeedback;
+
+  /// No description provided for @feedbackEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'FEEDBACK'**
+  String get feedbackEyebrow;
+
+  /// No description provided for @feedbackHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Got any suggestions ?'**
+  String get feedbackHeadline;
+
+  /// No description provided for @feedbackSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a bug, request a feature, or just share a thought and it goes straight to us.'**
+  String get feedbackSubtitle;
+
+  /// No description provided for @feedbackTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'FEEDBACK TYPE'**
+  String get feedbackTypeLabel;
+
+  /// No description provided for @feedbackTypeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a type'**
+  String get feedbackTypeHint;
+
+  /// No description provided for @feedbackFeatureLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'RELATED TO AN EXISTING FEATURE?'**
+  String get feedbackFeatureLabel;
+
+  /// No description provided for @feedbackFeatureHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a feature'**
+  String get feedbackFeatureHint;
+
+  /// No description provided for @feedbackOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'OPTIONAL'**
+  String get feedbackOptional;
+
+  /// No description provided for @feedbackContentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'YOUR FEEDBACK'**
+  String get feedbackContentLabel;
+
+  /// No description provided for @feedbackContentLabelBug.
+  ///
+  /// In en, this message translates to:
+  /// **'WHAT HAPPENED'**
+  String get feedbackContentLabelBug;
+
+  /// No description provided for @feedbackContentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your thoughts…'**
+  String get feedbackContentHint;
+
+  /// No description provided for @feedbackReproductionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'REPRODUCTION STEPS'**
+  String get feedbackReproductionLabel;
+
+  /// No description provided for @feedbackReproductionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Open the …\n2. Tap …\n3. …'**
+  String get feedbackReproductionHint;
+
+  /// No description provided for @feedbackTypePickerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback type'**
+  String get feedbackTypePickerTitle;
+
+  /// No description provided for @feedbackFeaturePickerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Related feature'**
+  String get feedbackFeaturePickerTitle;
+
+  /// No description provided for @feedbackFeatureNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get feedbackFeatureNone;
+
+  /// No description provided for @feedbackTypeBugDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Something is broken'**
+  String get feedbackTypeBugDesc;
+
+  /// No description provided for @feedbackTypeFeatureDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Something you wish existed'**
+  String get feedbackTypeFeatureDesc;
+
+  /// No description provided for @feedbackTypeGeneralDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Thoughts, praise or an idea'**
+  String get feedbackTypeGeneralDesc;
+
+  /// No description provided for @feedbackSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Send feedback'**
+  String get feedbackSubmit;
+
+  /// No description provided for @feedbackRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get feedbackRetry;
+
+  /// No description provided for @feedbackLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the feedback form. Please try again.'**
+  String get feedbackLoadError;
+
+  /// No description provided for @feedbackSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks! Your feedback is on its way.'**
+  String get feedbackSuccess;
+
+  /// No description provided for @feedbackErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Please try again.'**
+  String get feedbackErrorNetwork;
+
+  /// No description provided for @feedbackErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t send your feedback. Please try again.'**
+  String get feedbackErrorGeneric;
+
+  /// No description provided for @myFeedbackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MY FEEDBACK'**
+  String get myFeedbackTitle;
+
+  /// No description provided for @myFeedbackEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t sent any feedback yet.'**
+  String get myFeedbackEmpty;
+
+  /// No description provided for @myFeedbackResponseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'RESPONSE'**
+  String get myFeedbackResponseLabel;
 }
 
 class _AppLocalizationsDelegate

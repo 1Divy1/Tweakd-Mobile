@@ -1,0 +1,98 @@
+Date : 2026-07-01 22:11:52
+Directory : /Users/mbpro/Developer/Apps/Car-Social-Media-App
+Total : 44 files,  1972 codes, 220 comments, 340 blanks, all 2532 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Dart     |         43 |      1,919 |        220 |        329 |      2,468 |
+| Markdown |          1 |         53 |          0 |         11 |         64 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                                  | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                                     |         44 |      1,972 |        220 |        340 |      2,532 |
+| lib                                                                                                                                   |         44 |      1,972 |        220 |        340 |      2,532 |
+| lib/config                                                                                                                            |          1 |         21 |          2 |          2 |         25 |
+| lib/config/routes                                                                                                                     |          1 |         21 |          2 |          2 |         25 |
+| lib/core                                                                                                                              |          1 |         44 |          0 |          0 |         44 |
+| lib/core/di                                                                                                                           |          1 |         44 |          0 |          0 |         44 |
+| lib/features                                                                                                                          |         39 |      1,754 |        102 |        251 |      2,107 |
+| lib/features/feedback                                                                                                                 |         38 |      1,742 |        102 |        251 |      2,095 |
+| lib/features/feedback (Files)                                                                                                         |          1 |         53 |          0 |         11 |         64 |
+| lib/features/feedback/data                                                                                                            |          5 |        190 |          6 |         31 |        227 |
+| lib/features/feedback/data/datasources                                                                                                |          1 |         41 |          6 |          8 |         55 |
+| lib/features/feedback/data/models                                                                                                     |          3 |         63 |          0 |         15 |         78 |
+| lib/features/feedback/data/repositories                                                                                               |          1 |         86 |          0 |          8 |         94 |
+| lib/features/feedback/domain                                                                                                          |          8 |        121 |         15 |         40 |        176 |
+| lib/features/feedback/domain/entities                                                                                                 |          3 |         36 |          9 |         12 |         57 |
+| lib/features/feedback/domain/repositories                                                                                             |          1 |         23 |          6 |          8 |         37 |
+| lib/features/feedback/domain/usecases                                                                                                 |          4 |         62 |          0 |         20 |         82 |
+| lib/features/feedback/presentation                                                                                                    |         24 |      1,378 |         81 |        169 |      1,628 |
+| lib/features/feedback/presentation/bloc                                                                                               |          6 |        247 |         29 |         59 |        335 |
+| lib/features/feedback/presentation/bloc/feedback                                                                                      |          3 |        186 |         26 |         40 |        252 |
+| lib/features/feedback/presentation/bloc/my_feedback                                                                                   |          3 |         61 |          3 |         19 |         83 |
+| lib/features/feedback/presentation/pages                                                                                              |          2 |        111 |          6 |          8 |        125 |
+| lib/features/feedback/presentation/utils                                                                                              |          2 |         39 |          8 |          8 |         55 |
+| lib/features/feedback/presentation/widgets                                                                                            |         14 |        981 |         38 |         94 |      1,113 |
+| lib/features/feedback/presentation/widgets (Files)                                                                                    |          9 |        766 |         33 |         67 |        866 |
+| lib/features/feedback/presentation/widgets/my_feedback                                                                                |          5 |        215 |          5 |         27 |        247 |
+| lib/features/settings                                                                                                                 |          1 |         12 |          0 |          0 |         12 |
+| lib/features/settings/presentation                                                                                                    |          1 |         12 |          0 |          0 |         12 |
+| lib/features/settings/presentation/pages                                                                                              |          1 |         12 |          0 |          0 |         12 |
+| lib/l10n                                                                                                                              |          3 |        153 |        116 |         87 |        356 |
++---------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                                                              | language | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/config/routes/app_router.dart                                                    | Dart     |         21 |          2 |          2 |         25 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/core/di/injection.config.dart                                                    | Dart     |         44 |          0 |          0 |         44 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/README.md                                                      | Markdown |         53 |          0 |         11 |         64 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/data/datasources/feedback_api_data_source.dart                 | Dart     |         41 |          6 |          8 |         55 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/data/models/feedback_feature_model.dart                        | Dart     |         13 |          0 |          5 |         18 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/data/models/feedback_type_model.dart                           | Dart     |         13 |          0 |          5 |         18 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/data/models/my_feedback_model.dart                             | Dart     |         37 |          0 |          5 |         42 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/data/repositories/feedback_repository_impl.dart                | Dart     |         86 |          0 |          8 |         94 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/domain/entities/feedback_feature.dart                          | Dart     |          8 |          2 |          4 |         14 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/domain/entities/feedback_type.dart                             | Dart     |          8 |          3 |          4 |         15 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/domain/entities/my_feedback.dart                               | Dart     |         20 |          4 |          4 |         28 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/domain/repositories/feedback_repository.dart                   | Dart     |         23 |          6 |          8 |         37 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/domain/usecases/get_feedback_features.dart                     | Dart     |         16 |          0 |          5 |         21 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/domain/usecases/get_feedback_types.dart                        | Dart     |         16 |          0 |          5 |         21 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/domain/usecases/get_my_feedback.dart                           | Dart     |         16 |          0 |          5 |         21 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/domain/usecases/submit_feedback.dart                           | Dart     |         14 |          0 |          5 |         19 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/bloc/feedback/bloc.dart                           | Dart     |        101 |          8 |         18 |        127 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/bloc/feedback/event.dart                          | Dart     |         31 |          7 |         11 |         49 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/bloc/feedback/state.dart                          | Dart     |         54 |         11 |         11 |         76 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/bloc/my_feedback/bloc.dart                        | Dart     |         26 |          2 |          5 |         33 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/bloc/my_feedback/event.dart                       | Dart     |          9 |          1 |          4 |         14 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/bloc/my_feedback/state.dart                       | Dart     |         26 |          0 |         10 |         36 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/pages/feedback_page.dart                          | Dart     |         60 |          4 |          4 |         68 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/pages/my_feedback_page.dart                       | Dart     |         51 |          2 |          4 |         57 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/utils/feedback_error_mapper.dart                  | Dart     |         14 |          5 |          4 |         23 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/utils/feedback_type_visuals.dart                  | Dart     |         25 |          3 |          4 |         32 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/feedback_dropdown_field.dart              | Dart     |         83 |          5 |          6 |         94 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/feedback_error_view.dart                  | Dart     |         47 |          2 |          5 |         54 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/feedback_feature_picker.dart              | Dart     |         84 |          2 |          6 |         92 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/feedback_form.dart                        | Dart     |        299 |         15 |         25 |        339 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/feedback_loading_view.dart                | Dart     |         11 |          0 |          4 |         15 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/feedback_picker_sheet.dart                | Dart     |         47 |          2 |          5 |         54 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/feedback_section_label.dart               | Dart     |         44 |          2 |          5 |         51 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/feedback_top_bar.dart                     | Dart     |         48 |          2 |          5 |         55 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/feedback_type_picker.dart                 | Dart     |        103 |          3 |          6 |        112 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/my_feedback/my_feedback_empty_view.dart   | Dart     |         35 |          0 |          4 |         39 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/my_feedback/my_feedback_error_view.dart   | Dart     |         48 |          0 |          5 |         53 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/my_feedback/my_feedback_list_view.dart    | Dart     |         16 |          1 |          5 |         22 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/my_feedback/my_feedback_loading_view.dart | Dart     |         11 |          0 |          4 |         15 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/my_feedback/my_feedback_tile.dart         | Dart     |        105 |          4 |          9 |        118 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/settings/presentation/pages/settings_page.dart                          | Dart     |         12 |          0 |          0 |         12 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/l10n/app_localizations.dart                                                      | Dart     |         29 |        116 |         29 |        174 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/l10n/app_localizations_en.dart                                                   | Dart     |         62 |          0 |         29 |         91 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/l10n/app_localizations_ro.dart                                                   | Dart     |         62 |          0 |         29 |         91 |
+| Total                                                                                                                                 |          |      1,972 |        220 |        340 |      2,532 |
++---------------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
