@@ -36,6 +36,21 @@ import '../../features/feed/data/repositories/feed_repository_impl.dart'
 import '../../features/feed/domain/repositories/feed_repository.dart' as _i430;
 import '../../features/feed/domain/usecases/get_global_feed.dart' as _i199;
 import '../../features/feed/presentation/bloc/feed/bloc.dart' as _i719;
+import '../../features/feedback/data/datasources/feedback_api_data_source.dart'
+    as _i239;
+import '../../features/feedback/data/repositories/feedback_repository_impl.dart'
+    as _i961;
+import '../../features/feedback/domain/repositories/feedback_repository.dart'
+    as _i619;
+import '../../features/feedback/domain/usecases/get_feedback_features.dart'
+    as _i383;
+import '../../features/feedback/domain/usecases/get_feedback_types.dart'
+    as _i258;
+import '../../features/feedback/domain/usecases/get_my_feedback.dart' as _i311;
+import '../../features/feedback/domain/usecases/submit_feedback.dart' as _i345;
+import '../../features/feedback/presentation/bloc/feedback/bloc.dart' as _i862;
+import '../../features/feedback/presentation/bloc/my_feedback/bloc.dart'
+    as _i129;
 import '../../features/follow/data/datasource/follow_api_data_source.dart'
     as _i587;
 import '../../features/follow/data/repositories/follow_repository_impl.dart'
@@ -219,6 +234,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i194.FeedApiDataSource>(
       () => _i194.FeedApiDataSource(gh<_i311.AbstractHTTP>()),
     );
+    gh.lazySingleton<_i239.FeedbackApiDataSource>(
+      () => _i239.FeedbackApiDataSource(gh<_i311.AbstractHTTP>()),
+    );
     gh.lazySingleton<_i587.FollowApiDataSource>(
       () => _i587.FollowApiDataSource(gh<_i311.AbstractHTTP>()),
     );
@@ -239,6 +257,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i592.SearchApiDataSource>(
       () => _i592.SearchApiDataSource(gh<_i311.AbstractHTTP>()),
+    );
+    gh.lazySingleton<_i619.FeedbackRepository>(
+      () => _i961.FeedbackRepositoryImpl(gh<_i239.FeedbackApiDataSource>()),
     );
     gh.lazySingleton<_i511.GarageRepository>(
       () => _i107.GarageRepositoryImpl(
@@ -437,6 +458,18 @@ extension GetItInjectableX on _i174.GetIt {
         submitReport: gh<_i535.SubmitReportUseCase>(),
       ),
     );
+    gh.lazySingleton<_i383.GetFeedbackFeaturesUseCase>(
+      () => _i383.GetFeedbackFeaturesUseCase(gh<_i619.FeedbackRepository>()),
+    );
+    gh.lazySingleton<_i258.GetFeedbackTypesUseCase>(
+      () => _i258.GetFeedbackTypesUseCase(gh<_i619.FeedbackRepository>()),
+    );
+    gh.lazySingleton<_i311.GetMyFeedbackUseCase>(
+      () => _i311.GetMyFeedbackUseCase(gh<_i619.FeedbackRepository>()),
+    );
+    gh.lazySingleton<_i345.SubmitFeedbackUseCase>(
+      () => _i345.SubmitFeedbackUseCase(gh<_i619.FeedbackRepository>()),
+    );
     gh.lazySingleton<_i199.GetGlobalFeedUseCase>(
       () => _i199.GetGlobalFeedUseCase(gh<_i430.FeedRepository>()),
     );
@@ -456,6 +489,10 @@ extension GetItInjectableX on _i174.GetIt {
         deleteGalleryImagesUseCase: gh<_i631.DeleteGalleryImagesUseCase>(),
         deleteModificationUseCase: gh<_i621.DeleteModificationUseCase>(),
       ),
+    );
+    gh.factory<_i129.MyFeedbackBloc>(
+      () =>
+          _i129.MyFeedbackBloc(getMyFeedback: gh<_i311.GetMyFeedbackUseCase>()),
     );
     gh.factory<_i94.UsernameAvailabilityBloc>(
       () => _i94.UsernameAvailabilityBloc(
@@ -609,6 +646,13 @@ extension GetItInjectableX on _i174.GetIt {
         savePost: gh<_i584.SavePostUseCase>(),
         unsavePost: gh<_i584.UnsavePostUseCase>(),
         deletePost: gh<_i640.DeletePostUseCase>(),
+      ),
+    );
+    gh.factory<_i862.FeedbackBloc>(
+      () => _i862.FeedbackBloc(
+        getTypes: gh<_i258.GetFeedbackTypesUseCase>(),
+        getFeatures: gh<_i383.GetFeedbackFeaturesUseCase>(),
+        submitFeedback: gh<_i345.SubmitFeedbackUseCase>(),
       ),
     );
     gh.factory<_i470.EditPostBloc>(

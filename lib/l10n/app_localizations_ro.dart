@@ -1701,4 +1701,98 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get reportStatusDismissed => 'Respins';
+
+  @override
+  String get settingsSendFeedback => 'Trimite feedback';
+
+  @override
+  String get settingsMyFeedback => 'Feedbackul meu';
+
+  @override
+  String get feedbackEyebrow => 'FEEDBACK';
+
+  @override
+  String get feedbackHeadline => 'Ai o sugestie ?';
+
+  @override
+  String get feedbackSubtitle =>
+      'Raportează o eroare, cere o funcție sau împărtășește un gând și ajunge direct la noi.';
+
+  @override
+  String get feedbackTypeLabel => 'TIP DE FEEDBACK';
+
+  @override
+  String get feedbackTypeHint => 'Alege un tip';
+
+  @override
+  String get feedbackFeatureLabel => 'LEGAT DE O FUNCȚIE EXISTENTĂ?';
+
+  @override
+  String get feedbackFeatureHint => 'Alege o funcție';
+
+  @override
+  String get feedbackOptional => 'OPȚIONAL';
+
+  @override
+  String get feedbackContentLabel => 'FEEDBACKUL TĂU';
+
+  @override
+  String get feedbackContentLabelBug => 'CE S-A ÎNTÂMPLAT';
+
+  @override
+  String get feedbackContentHint => 'Spune-ne ce gândești…';
+
+  @override
+  String get feedbackReproductionLabel => 'PAȘI DE REPRODUCERE';
+
+  @override
+  String get feedbackReproductionHint => '1. Deschide …\n2. Apasă …\n3. …';
+
+  @override
+  String get feedbackTypePickerTitle => 'Tip de feedback';
+
+  @override
+  String get feedbackFeaturePickerTitle => 'Funcție asociată';
+
+  @override
+  String get feedbackFeatureNone => 'Niciuna';
+
+  @override
+  String get feedbackTypeBugDesc => 'Ceva nu funcționează';
+
+  @override
+  String get feedbackTypeFeatureDesc => 'Ceva ce ți-ai dori să existe';
+
+  @override
+  String get feedbackTypeGeneralDesc => 'Gânduri, aprecieri sau o idee';
+
+  @override
+  String get feedbackSubmit => 'Trimite feedback';
+
+  @override
+  String get feedbackRetry => 'Încearcă din nou';
+
+  @override
+  String get feedbackLoadError =>
+      'Formularul de feedback nu a putut fi încărcat. Încearcă din nou.';
+
+  @override
+  String get feedbackSuccess => 'Mulțumim! Feedbackul tău este pe drum.';
+
+  @override
+  String get feedbackErrorNetwork =>
+      'Fără conexiune la internet. Încearcă din nou.';
+
+  @override
+  String get feedbackErrorGeneric =>
+      'Feedbackul nu a putut fi trimis. Încearcă din nou.';
+
+  @override
+  String get myFeedbackTitle => 'FEEDBACKUL MEU';
+
+  @override
+  String get myFeedbackEmpty => 'Nu ai trimis încă niciun feedback.';
+
+  @override
+  String get myFeedbackResponseLabel => 'RĂSPUNS';
 }

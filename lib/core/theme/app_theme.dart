@@ -46,23 +46,19 @@ class AppTheme {
         ),
       ),
       iconTheme: const IconThemeData(color: AppColors.ink),
-      inputDecorationTheme: InputDecorationTheme(
+      // No border by default: text fields across the app wrap their TextField
+      // in a bordered Container and set `border: InputBorder.none` on the field.
+      // A themed outline here would still paint through the enabled/focused
+      // states, producing an ugly double ("inner") border. Fields that want a
+      // border of their own (e.g. AuthTextField) set it explicitly.
+      inputDecorationTheme: const InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surface,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        hintStyle: const TextStyle(color: AppColors.muteSoft, fontSize: 15),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.line),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.line),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.line),
-        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        hintStyle: TextStyle(color: AppColors.muteSoft, fontSize: 15),
+        border: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        focusedBorder: InputBorder.none,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(

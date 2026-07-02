@@ -1695,4 +1695,98 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportStatusDismissed => 'Dismissed';
+
+  @override
+  String get settingsSendFeedback => 'Send feedback';
+
+  @override
+  String get settingsMyFeedback => 'My feedback';
+
+  @override
+  String get feedbackEyebrow => 'FEEDBACK';
+
+  @override
+  String get feedbackHeadline => 'Got any suggestions ?';
+
+  @override
+  String get feedbackSubtitle =>
+      'Report a bug, request a feature, or just share a thought and it goes straight to us.';
+
+  @override
+  String get feedbackTypeLabel => 'FEEDBACK TYPE';
+
+  @override
+  String get feedbackTypeHint => 'Select a type';
+
+  @override
+  String get feedbackFeatureLabel => 'RELATED TO AN EXISTING FEATURE?';
+
+  @override
+  String get feedbackFeatureHint => 'Select a feature';
+
+  @override
+  String get feedbackOptional => 'OPTIONAL';
+
+  @override
+  String get feedbackContentLabel => 'YOUR FEEDBACK';
+
+  @override
+  String get feedbackContentLabelBug => 'WHAT HAPPENED';
+
+  @override
+  String get feedbackContentHint => 'Share your thoughts…';
+
+  @override
+  String get feedbackReproductionLabel => 'REPRODUCTION STEPS';
+
+  @override
+  String get feedbackReproductionHint => '1. Open the …\n2. Tap …\n3. …';
+
+  @override
+  String get feedbackTypePickerTitle => 'Feedback type';
+
+  @override
+  String get feedbackFeaturePickerTitle => 'Related feature';
+
+  @override
+  String get feedbackFeatureNone => 'None';
+
+  @override
+  String get feedbackTypeBugDesc => 'Something is broken';
+
+  @override
+  String get feedbackTypeFeatureDesc => 'Something you wish existed';
+
+  @override
+  String get feedbackTypeGeneralDesc => 'Thoughts, praise or an idea';
+
+  @override
+  String get feedbackSubmit => 'Send feedback';
+
+  @override
+  String get feedbackRetry => 'Try again';
+
+  @override
+  String get feedbackLoadError =>
+      'Couldn\'t load the feedback form. Please try again.';
+
+  @override
+  String get feedbackSuccess => 'Thanks! Your feedback is on its way.';
+
+  @override
+  String get feedbackErrorNetwork =>
+      'No internet connection. Please try again.';
+
+  @override
+  String get feedbackErrorGeneric =>
+      'Couldn\'t send your feedback. Please try again.';
+
+  @override
+  String get myFeedbackTitle => 'MY FEEDBACK';
+
+  @override
+  String get myFeedbackEmpty => 'You haven\'t sent any feedback yet.';
+
+  @override
+  String get myFeedbackResponseLabel => 'RESPONSE';
 }

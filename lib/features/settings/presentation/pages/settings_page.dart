@@ -83,6 +83,18 @@ class SettingsPage extends StatelessWidget {
                           onTap: () => context.push('/reports'),
                         ),
                         const SizedBox(height: 12),
+                        SettingsTile(
+                          icon: Icons.forum_outlined,
+                          label: l10n.settingsMyFeedback,
+                          onTap: () => context.push('/feedback/mine'),
+                        ),
+                        const SizedBox(height: 12),
+                        SettingsTile(
+                          icon: Icons.campaign_outlined,
+                          label: l10n.settingsSendFeedback,
+                          onTap: () => context.push('/feedback'),
+                        ),
+                        const SizedBox(height: 12),
                         LogoutButton(
                           isLoading: isLoggingOut,
                           onTap: () => _confirmLogout(context),
