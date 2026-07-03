@@ -1789,4 +1789,299 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get myFeedbackResponseLabel => 'RESPONSE';
+
+  @override
+  String get navForums => 'FORUMS';
+
+  @override
+  String get forumsTitle => 'Forums';
+
+  @override
+  String get forumsSubtitle => 'Your paddock';
+
+  @override
+  String get forumsYourShortcuts => 'YOUR SHORTCUTS';
+
+  @override
+  String get forumsEditShortcuts => 'EDIT';
+
+  @override
+  String get forumsDoneEditing => 'DONE';
+
+  @override
+  String get forumsHotInYourForums => 'HOT IN YOUR FORUMS';
+
+  @override
+  String get forumsSortHot => 'Hot';
+
+  @override
+  String get forumsSortNew => 'New';
+
+  @override
+  String get forumsSortActive => 'Active';
+
+  @override
+  String get forumsEmptyTitle => 'Pin the forums you live in';
+
+  @override
+  String get forumsEmptyBody =>
+      'Shortcuts are saved filters — a car, a topic, or both. Pin a few and they land right here.';
+
+  @override
+  String get forumsPopularHubs => 'POPULAR HUBS TO START WITH';
+
+  @override
+  String get forumsCtaTitle => 'Got something to say?';
+
+  @override
+  String get forumsCtaBody =>
+      'Every great forum started with one thread. Make it yours.';
+
+  @override
+  String get forumsStartFirstThread => 'Start the first thread';
+
+  @override
+  String get forumsShortcutSaved => 'Shortcut saved to your paddock.';
+
+  @override
+  String get forumsShortcutRemoved => 'Shortcut removed.';
+
+  @override
+  String get forumsBrowseTitle => 'BROWSE';
+
+  @override
+  String get forumsByCar => 'By car';
+
+  @override
+  String get forumsByTopic => 'By topic';
+
+  @override
+  String forumsBrandsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count BRANDS',
+      one: '1 BRAND',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String forumsThreadsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count threads',
+      one: '1 thread',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumsByComponent => 'BY COMPONENT';
+
+  @override
+  String get forumsByFormat => 'BY FORMAT';
+
+  @override
+  String get forumsModels => 'MODELS';
+
+  @override
+  String get forumsRefineByTopic => 'REFINE BY TOPIC';
+
+  @override
+  String forumsHotIn(String name) {
+    return 'HOT IN $name';
+  }
+
+  @override
+  String get forumsThreadsLabel => 'THREADS';
+
+  @override
+  String get forumsAllTopics => 'All';
+
+  @override
+  String get forumsSaveShortcut => 'Save shortcut';
+
+  @override
+  String get forumsSaveShortcutSubtitle =>
+      'Pin this filter to your paddock for one-tap access.';
+
+  @override
+  String get forumsShortcutNameLabel => 'NAME';
+
+  @override
+  String get forumsNotifyMe => 'Notify me';
+
+  @override
+  String get forumsNotifyMeSubtitle => 'New hot threads in this filter';
+
+  @override
+  String get forumsNoThreadsTitle => 'No threads here yet.';
+
+  @override
+  String get forumsNoThreadsBody => 'Be the first — start the conversation.';
+
+  @override
+  String get forumsRetry => 'Try again';
+
+  @override
+  String get forumsThreadTitle => 'THREAD';
+
+  @override
+  String get forumsPinned => 'PINNED';
+
+  @override
+  String get forumsLocked => 'LOCKED';
+
+  @override
+  String get forumsLockedBar => 'This thread is locked — replies are closed.';
+
+  @override
+  String forumsRepliesHeader(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count REPLIES',
+      one: '1 REPLY',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumsReply => 'Reply';
+
+  @override
+  String forumsShowReplies(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Show $count replies',
+      one: 'Show 1 reply',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumsHideReplies => 'Hide';
+
+  @override
+  String get forumsShowMoreReplies => 'Show more replies';
+
+  @override
+  String get forumsAddReply => 'Add a reply…';
+
+  @override
+  String forumsReplyingTo(String username) {
+    return 'Replying to @$username';
+  }
+
+  @override
+  String get forumsDeletedPlaceholder => '[deleted]';
+
+  @override
+  String get forumsPosted => 'Posted';
+
+  @override
+  String get forumsActiveNow => 'active just now';
+
+  @override
+  String forumsActiveAgo(String time) {
+    return 'active $time ago';
+  }
+
+  @override
+  String get forumsEditThread => 'Edit body';
+
+  @override
+  String get forumsDeleteThread => 'Delete thread';
+
+  @override
+  String get forumsEditReply => 'Edit reply';
+
+  @override
+  String get forumsDeleteReply => 'Delete reply';
+
+  @override
+  String get forumsDeleteThreadConfirmTitle => 'Delete this thread?';
+
+  @override
+  String get forumsDeleteThreadConfirmBody =>
+      'If it has replies it stays visible as [deleted]; otherwise it\'s gone for good.';
+
+  @override
+  String get forumsDeleteReplyConfirmTitle => 'Delete this reply?';
+
+  @override
+  String get forumsDeleteReplyConfirmBody =>
+      'If it has replies it becomes a [deleted] placeholder; otherwise it\'s removed.';
+
+  @override
+  String get forumsDelete => 'Delete';
+
+  @override
+  String get forumsEditSave => 'Save';
+
+  @override
+  String get forumsComingSoon => 'Coming soon';
+
+  @override
+  String get forumsNewThreadTitle => 'NEW THREAD';
+
+  @override
+  String get forumsPost => 'Post';
+
+  @override
+  String get forumsThreadTitleHint => 'Title';
+
+  @override
+  String get forumsThreadBodyHint =>
+      'Share the details, questions, or your writeup…';
+
+  @override
+  String get forumsTagACar => 'TAG A CAR';
+
+  @override
+  String forumsFromYourGarage(String car) {
+    return 'From your garage · $car';
+  }
+
+  @override
+  String get forumsSearchCarHint => 'Search a model…';
+
+  @override
+  String get forumsTagCarHelper =>
+      'Brand is set automatically from the model. Leave empty for a general thread.';
+
+  @override
+  String get forumsTopics => 'TOPICS';
+
+  @override
+  String get forumsComponentLabel => 'COMPONENT';
+
+  @override
+  String get forumsFormatLabel => 'FORMAT';
+
+  @override
+  String get forumsThreadPosted => 'Thread posted.';
+
+  @override
+  String get forumsShare => 'Share';
+
+  @override
+  String get forumsErrorNetwork => 'No internet connection. Please try again.';
+
+  @override
+  String get forumsErrorNotFound => 'This content doesn\'t exist anymore.';
+
+  @override
+  String get forumsErrorConflict =>
+      'This thread is locked or the content was deleted.';
+
+  @override
+  String get forumsErrorForbidden =>
+      'You can only edit or delete your own content.';
+
+  @override
+  String get forumsErrorGeneric => 'Something went wrong. Please try again.';
 }

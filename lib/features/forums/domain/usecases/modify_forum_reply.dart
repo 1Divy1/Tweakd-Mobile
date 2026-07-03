@@ -1,0 +1,41 @@
+import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
+
+import '../../../../core/error/base_failures.dart';
+import '../../../../core/usecases/usecase.dart';
+import '../entities/forum_reply.dart';
+import '../repositories/forums_repository.dart';
+
+class EditForumReplyParams {
+  final String postId;
+  final String content;
+
+  const EditForumReplyParams({required this.postId, required this.content});
+}
+
+@lazySingleton
+class EditForumReplyUseCase
+    implements UseCase<ForumReplyEntity, EditForumReplyParams> {
+  final ForumsRepository repository;
+
+  EditForumReplyUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, ForumReplyEntity>> call(EditForumReplyParams params) {
+    return repository.editReply(params.postId, content: params.content);
+  }
+}
+
+/// Author-only. A reply with children becomes a "[deleted]" placeholder;
+/// a childless one is removed entirely.
+@lazySingleton
+class DeleteForumReplyUseCase implements UseCase<void, String> {
+  final ForumsRepository repository;
+
+  DeleteForumReplyUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, void>> call(String postId) {
+    return repository.deleteReply(postId);
+  }
+}
