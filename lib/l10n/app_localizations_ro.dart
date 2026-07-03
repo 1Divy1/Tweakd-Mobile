@@ -1795,4 +1795,301 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get myFeedbackResponseLabel => 'RĂSPUNS';
+
+  @override
+  String get navForums => 'FORUMURI';
+
+  @override
+  String get forumsTitle => 'Forumuri';
+
+  @override
+  String get forumsSubtitle => 'Paddock-ul tău';
+
+  @override
+  String get forumsYourShortcuts => 'SCURTĂTURILE TALE';
+
+  @override
+  String get forumsEditShortcuts => 'EDITEAZĂ';
+
+  @override
+  String get forumsDoneEditing => 'GATA';
+
+  @override
+  String get forumsHotInYourForums => 'HOT ÎN FORUMURILE TALE';
+
+  @override
+  String get forumsSortHot => 'Hot';
+
+  @override
+  String get forumsSortNew => 'Noi';
+
+  @override
+  String get forumsSortActive => 'Active';
+
+  @override
+  String get forumsEmptyTitle => 'Fixează forumurile în care trăiești';
+
+  @override
+  String get forumsEmptyBody =>
+      'Scurtăturile sunt filtre salvate — o mașină, un subiect sau ambele. Fixează câteva și apar chiar aici.';
+
+  @override
+  String get forumsPopularHubs => 'HUB-URI POPULARE PENTRU ÎNCEPUT';
+
+  @override
+  String get forumsCtaTitle => 'Ai ceva de spus?';
+
+  @override
+  String get forumsCtaBody =>
+      'Orice forum grozav a început cu un singur thread. Fă-l pe al tău.';
+
+  @override
+  String get forumsStartFirstThread => 'Începe primul thread';
+
+  @override
+  String get forumsShortcutSaved => 'Scurtătură salvată în paddock.';
+
+  @override
+  String get forumsShortcutRemoved => 'Scurtătură ștearsă.';
+
+  @override
+  String get forumsBrowseTitle => 'EXPLOREAZĂ';
+
+  @override
+  String get forumsByCar => 'După mașină';
+
+  @override
+  String get forumsByTopic => 'După subiect';
+
+  @override
+  String forumsBrandsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count MĂRCI',
+      one: '1 MARCĂ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String forumsThreadsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count thread-uri',
+      one: '1 thread',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumsByComponent => 'DUPĂ COMPONENTĂ';
+
+  @override
+  String get forumsByFormat => 'DUPĂ FORMAT';
+
+  @override
+  String get forumsModels => 'MODELE';
+
+  @override
+  String get forumsRefineByTopic => 'FILTREAZĂ DUPĂ SUBIECT';
+
+  @override
+  String forumsHotIn(String name) {
+    return 'HOT ÎN $name';
+  }
+
+  @override
+  String get forumsThreadsLabel => 'THREAD-URI';
+
+  @override
+  String get forumsAllTopics => 'Toate';
+
+  @override
+  String get forumsSaveShortcut => 'Salvează scurtătura';
+
+  @override
+  String get forumsSaveShortcutSubtitle =>
+      'Fixează acest filtru în paddock pentru acces dintr-o atingere.';
+
+  @override
+  String get forumsShortcutNameLabel => 'NUME';
+
+  @override
+  String get forumsNotifyMe => 'Notifică-mă';
+
+  @override
+  String get forumsNotifyMeSubtitle => 'Thread-uri noi hot în acest filtru';
+
+  @override
+  String get forumsNoThreadsTitle => 'Niciun thread aici încă.';
+
+  @override
+  String get forumsNoThreadsBody => 'Fii primul — pornește conversația.';
+
+  @override
+  String get forumsRetry => 'Încearcă din nou';
+
+  @override
+  String get forumsThreadTitle => 'THREAD';
+
+  @override
+  String get forumsPinned => 'FIXAT';
+
+  @override
+  String get forumsLocked => 'BLOCAT';
+
+  @override
+  String get forumsLockedBar =>
+      'Acest thread este blocat — nu se mai pot adăuga răspunsuri.';
+
+  @override
+  String forumsRepliesHeader(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count RĂSPUNSURI',
+      one: '1 RĂSPUNS',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumsReply => 'Răspunde';
+
+  @override
+  String forumsShowReplies(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Arată $count răspunsuri',
+      one: 'Arată 1 răspuns',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumsHideReplies => 'Ascunde';
+
+  @override
+  String get forumsShowMoreReplies => 'Arată mai multe răspunsuri';
+
+  @override
+  String get forumsAddReply => 'Adaugă un răspuns…';
+
+  @override
+  String forumsReplyingTo(String username) {
+    return 'Îi răspunzi lui @$username';
+  }
+
+  @override
+  String get forumsDeletedPlaceholder => '[șters]';
+
+  @override
+  String get forumsPosted => 'Postat';
+
+  @override
+  String get forumsActiveNow => 'activ chiar acum';
+
+  @override
+  String forumsActiveAgo(String time) {
+    return 'activ acum $time';
+  }
+
+  @override
+  String get forumsEditThread => 'Editează conținutul';
+
+  @override
+  String get forumsDeleteThread => 'Șterge thread-ul';
+
+  @override
+  String get forumsEditReply => 'Editează răspunsul';
+
+  @override
+  String get forumsDeleteReply => 'Șterge răspunsul';
+
+  @override
+  String get forumsDeleteThreadConfirmTitle => 'Ștergi acest thread?';
+
+  @override
+  String get forumsDeleteThreadConfirmBody =>
+      'Dacă are răspunsuri rămâne vizibil ca [șters]; altfel dispare definitiv.';
+
+  @override
+  String get forumsDeleteReplyConfirmTitle => 'Ștergi acest răspuns?';
+
+  @override
+  String get forumsDeleteReplyConfirmBody =>
+      'Dacă are răspunsuri devine un marcaj [șters]; altfel este eliminat.';
+
+  @override
+  String get forumsDelete => 'Șterge';
+
+  @override
+  String get forumsEditSave => 'Salvează';
+
+  @override
+  String get forumsComingSoon => 'În curând';
+
+  @override
+  String get forumsNewThreadTitle => 'THREAD NOU';
+
+  @override
+  String get forumsPost => 'Postează';
+
+  @override
+  String get forumsThreadTitleHint => 'Titlu';
+
+  @override
+  String get forumsThreadBodyHint =>
+      'Împărtășește detalii, întrebări sau writeup-ul tău…';
+
+  @override
+  String get forumsTagACar => 'ETICHETEAZĂ O MAȘINĂ';
+
+  @override
+  String forumsFromYourGarage(String car) {
+    return 'Din garajul tău · $car';
+  }
+
+  @override
+  String get forumsSearchCarHint => 'Caută un model…';
+
+  @override
+  String get forumsTagCarHelper =>
+      'Marca se setează automat din model. Lasă gol pentru un thread general.';
+
+  @override
+  String get forumsTopics => 'SUBIECTE';
+
+  @override
+  String get forumsComponentLabel => 'COMPONENTĂ';
+
+  @override
+  String get forumsFormatLabel => 'FORMAT';
+
+  @override
+  String get forumsThreadPosted => 'Thread postat.';
+
+  @override
+  String get forumsShare => 'Distribuie';
+
+  @override
+  String get forumsErrorNetwork =>
+      'Nu există conexiune la internet. Încearcă din nou.';
+
+  @override
+  String get forumsErrorNotFound => 'Acest conținut nu mai există.';
+
+  @override
+  String get forumsErrorConflict =>
+      'Thread-ul este blocat sau conținutul a fost șters.';
+
+  @override
+  String get forumsErrorForbidden =>
+      'Poți edita sau șterge doar conținutul tău.';
+
+  @override
+  String get forumsErrorGeneric => 'Ceva n-a mers bine. Încearcă din nou.';
 }
