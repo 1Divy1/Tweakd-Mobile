@@ -802,5 +802,134 @@
 
   "myFeedbackTitle": "MY FEEDBACK",
   "myFeedbackEmpty": "You haven't sent any feedback yet.",
-  "myFeedbackResponseLabel": "RESPONSE"
+  "myFeedbackResponseLabel": "RESPONSE",
+
+  "navForums": "FORUMS",
+
+  "forumsTitle": "Forums",
+  "forumsSubtitle": "Your paddock",
+  "forumsYourShortcuts": "YOUR SHORTCUTS",
+  "forumsEditShortcuts": "EDIT",
+  "forumsDoneEditing": "DONE",
+  "forumsHotInYourForums": "HOT IN YOUR FORUMS",
+  "forumsSortHot": "Hot",
+  "forumsSortNew": "New",
+  "forumsSortActive": "Active",
+  "forumsEmptyTitle": "Pin the forums you live in",
+  "forumsEmptyBody": "Shortcuts are saved filters — a car, a topic, or both. Pin a few and they land right here.",
+  "forumsPopularHubs": "POPULAR HUBS TO START WITH",
+  "forumsCtaTitle": "Got something to say?",
+  "forumsCtaBody": "Every great forum started with one thread. Make it yours.",
+  "forumsStartFirstThread": "Start the first thread",
+  "forumsShortcutSaved": "Shortcut saved to your paddock.",
+  "forumsShortcutRemoved": "Shortcut removed.",
+
+  "forumsBrowseTitle": "BROWSE",
+  "forumsByCar": "By car",
+  "forumsByTopic": "By topic",
+  "forumsBrandsCount": "{count, plural, =1{1 BRAND} other{{count} BRANDS}}",
+  "@forumsBrandsCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "forumsThreadsCount": "{count, plural, =1{1 thread} other{{count} threads}}",
+  "@forumsThreadsCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "forumsByComponent": "BY COMPONENT",
+  "forumsByFormat": "BY FORMAT",
+
+  "forumsModels": "MODELS",
+  "forumsRefineByTopic": "REFINE BY TOPIC",
+  "forumsHotIn": "HOT IN {name}",
+  "@forumsHotIn": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "forumsThreadsLabel": "THREADS",
+  "forumsAllTopics": "All",
+  "forumsSaveShortcut": "Save shortcut",
+  "forumsSaveShortcutSubtitle": "Pin this filter to your paddock for one-tap access.",
+  "forumsShortcutNameLabel": "NAME",
+  "forumsNotifyMe": "Notify me",
+  "forumsNotifyMeSubtitle": "New hot threads in this filter",
+  "forumsNoThreadsTitle": "No threads here yet.",
+  "forumsNoThreadsBody": "Be the first — start the conversation.",
+  "forumsRetry": "Try again",
+
+  "forumsThreadTitle": "THREAD",
+  "forumsPinned": "PINNED",
+  "forumsLocked": "LOCKED",
+  "forumsLockedBar": "This thread is locked — replies are closed.",
+  "forumsRepliesHeader": "{count, plural, =1{1 REPLY} other{{count} REPLIES}}",
+  "@forumsRepliesHeader": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "forumsReply": "Reply",
+  "forumsShowReplies": "{count, plural, =1{Show 1 reply} other{Show {count} replies}}",
+  "@forumsShowReplies": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "forumsHideReplies": "Hide",
+  "forumsShowMoreReplies": "Show more replies",
+  "forumsAddReply": "Add a reply…",
+  "forumsReplyingTo": "Replying to @{username}",
+  "@forumsReplyingTo": {
+    "placeholders": {
+      "username": {"type": "String"}
+    }
+  },
+  "forumsDeletedPlaceholder": "[deleted]",
+  "forumsPosted": "Posted",
+  "forumsActiveNow": "active just now",
+  "forumsActiveAgo": "active {time} ago",
+  "@forumsActiveAgo": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "forumsEditThread": "Edit body",
+  "forumsDeleteThread": "Delete thread",
+  "forumsEditReply": "Edit reply",
+  "forumsDeleteReply": "Delete reply",
+  "forumsDeleteThreadConfirmTitle": "Delete this thread?",
+  "forumsDeleteThreadConfirmBody": "If it has replies it stays visible as [deleted]; otherwise it's gone for good.",
+  "forumsDeleteReplyConfirmTitle": "Delete this reply?",
+  "forumsDeleteReplyConfirmBody": "If it has replies it becomes a [deleted] placeholder; otherwise it's removed.",
+  "forumsDelete": "Delete",
+  "forumsEditSave": "Save",
+  "forumsComingSoon": "Coming soon",
+
+  "forumsNewThreadTitle": "NEW THREAD",
+  "forumsPost": "Post",
+  "forumsThreadTitleHint": "Title",
+  "forumsThreadBodyHint": "Share the details, questions, or your writeup…",
+  "forumsTagACar": "TAG A CAR",
+  "forumsFromYourGarage": "From your garage · {car}",
+  "@forumsFromYourGarage": {
+    "placeholders": {
+      "car": {"type": "String"}
+    }
+  },
+  "forumsSearchCarHint": "Search a model…",
+  "forumsTagCarHelper": "Brand is set automatically from the model. Leave empty for a general thread.",
+  "forumsTopics": "TOPICS",
+  "forumsComponentLabel": "COMPONENT",
+  "forumsFormatLabel": "FORMAT",
+  "forumsThreadPosted": "Thread posted.",
+
+  "forumsShare": "Share",
+  "forumsErrorNetwork": "No internet connection. Please try again.",
+  "forumsErrorNotFound": "This content doesn't exist anymore.",
+  "forumsErrorConflict": "This thread is locked or the content was deleted.",
+  "forumsErrorForbidden": "You can only edit or delete your own content.",
+  "forumsErrorGeneric": "Something went wrong. Please try again."
 }

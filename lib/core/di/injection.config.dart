@@ -70,6 +70,29 @@ import '../../features/follow/domain/usecases/reject_follow_request.dart'
 import '../../features/follow/domain/usecases/remove_follower.dart' as _i164;
 import '../../features/follow/domain/usecases/unfollow_user.dart' as _i31;
 import '../../features/follow/presentation/bloc/bloc.dart' as _i236;
+import '../../features/forums/data/datasources/forums_api_data_source.dart'
+    as _i789;
+import '../../features/forums/data/repositories/forums_repository_impl.dart'
+    as _i737;
+import '../../features/forums/domain/repositories/forums_repository.dart'
+    as _i10;
+import '../../features/forums/domain/usecases/create_forum_reply.dart' as _i99;
+import '../../features/forums/domain/usecases/create_forum_thread.dart'
+    as _i605;
+import '../../features/forums/domain/usecases/forum_shortcuts.dart' as _i846;
+import '../../features/forums/domain/usecases/get_forum_replies.dart' as _i480;
+import '../../features/forums/domain/usecases/get_forum_thread.dart' as _i276;
+import '../../features/forums/domain/usecases/get_forum_threads.dart' as _i669;
+import '../../features/forums/domain/usecases/get_forum_topics.dart' as _i354;
+import '../../features/forums/domain/usecases/modify_forum_reply.dart' as _i492;
+import '../../features/forums/domain/usecases/modify_forum_thread.dart'
+    as _i499;
+import '../../features/forums/domain/usecases/toggle_forum_likes.dart' as _i390;
+import '../../features/forums/presentation/bloc/browse/bloc.dart' as _i813;
+import '../../features/forums/presentation/bloc/composer/bloc.dart' as _i188;
+import '../../features/forums/presentation/bloc/home/bloc.dart' as _i197;
+import '../../features/forums/presentation/bloc/hub/bloc.dart' as _i198;
+import '../../features/forums/presentation/bloc/thread/bloc.dart' as _i382;
 import '../../features/garage/data/datasources/garage_api_data_source.dart'
     as _i879;
 import '../../features/garage/data/datasources/storage_api_data_source.dart'
@@ -240,6 +263,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i587.FollowApiDataSource>(
       () => _i587.FollowApiDataSource(gh<_i311.AbstractHTTP>()),
     );
+    gh.lazySingleton<_i789.ForumsApiDataSource>(
+      () => _i789.ForumsApiDataSource(gh<_i311.AbstractHTTP>()),
+    );
     gh.lazySingleton<_i879.GarageApiDataSource>(
       () => _i879.GarageApiDataSource(gh<_i311.AbstractHTTP>()),
     );
@@ -290,6 +316,9 @@ extension GetItInjectableX on _i174.GetIt {
         googleSignIn: gh<_i920.GoogleSignIn>(),
         logOut: gh<_i221.LogOut>(),
       ),
+    );
+    gh.lazySingleton<_i10.ForumsRepository>(
+      () => _i737.ForumsRepositoryImpl(gh<_i789.ForumsApiDataSource>()),
     );
     gh.lazySingleton<_i357.SearchRepository>(
       () => _i1017.SearchRepositoryImpl(gh<_i592.SearchApiDataSource>()),
@@ -490,9 +519,79 @@ extension GetItInjectableX on _i174.GetIt {
         deleteModificationUseCase: gh<_i621.DeleteModificationUseCase>(),
       ),
     );
+    gh.lazySingleton<_i99.CreateForumReplyUseCase>(
+      () => _i99.CreateForumReplyUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i605.CreateForumThreadUseCase>(
+      () => _i605.CreateForumThreadUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i846.GetForumShortcutsUseCase>(
+      () => _i846.GetForumShortcutsUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i846.CreateForumShortcutUseCase>(
+      () => _i846.CreateForumShortcutUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i846.UpdateForumShortcutUseCase>(
+      () => _i846.UpdateForumShortcutUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i846.ReorderForumShortcutsUseCase>(
+      () => _i846.ReorderForumShortcutsUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i846.DeleteForumShortcutUseCase>(
+      () => _i846.DeleteForumShortcutUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i480.GetThreadRepliesUseCase>(
+      () => _i480.GetThreadRepliesUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i480.GetReplyChildrenUseCase>(
+      () => _i480.GetReplyChildrenUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i276.GetForumThreadUseCase>(
+      () => _i276.GetForumThreadUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i669.GetForumThreadsUseCase>(
+      () => _i669.GetForumThreadsUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i354.GetForumTopicsUseCase>(
+      () => _i354.GetForumTopicsUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i492.EditForumReplyUseCase>(
+      () => _i492.EditForumReplyUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i492.DeleteForumReplyUseCase>(
+      () => _i492.DeleteForumReplyUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i499.EditForumThreadUseCase>(
+      () => _i499.EditForumThreadUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i499.DeleteForumThreadUseCase>(
+      () => _i499.DeleteForumThreadUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i390.LikeForumThreadUseCase>(
+      () => _i390.LikeForumThreadUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i390.UnlikeForumThreadUseCase>(
+      () => _i390.UnlikeForumThreadUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i390.LikeForumReplyUseCase>(
+      () => _i390.LikeForumReplyUseCase(gh<_i10.ForumsRepository>()),
+    );
+    gh.lazySingleton<_i390.UnlikeForumReplyUseCase>(
+      () => _i390.UnlikeForumReplyUseCase(gh<_i10.ForumsRepository>()),
+    );
     gh.factory<_i129.MyFeedbackBloc>(
       () =>
           _i129.MyFeedbackBloc(getMyFeedback: gh<_i311.GetMyFeedbackUseCase>()),
+    );
+    gh.factory<_i197.ForumsHomeBloc>(
+      () => _i197.ForumsHomeBloc(
+        getShortcuts: gh<_i846.GetForumShortcutsUseCase>(),
+        getThreads: gh<_i669.GetForumThreadsUseCase>(),
+        getTopics: gh<_i354.GetForumTopicsUseCase>(),
+        createShortcut: gh<_i846.CreateForumShortcutUseCase>(),
+        deleteShortcut: gh<_i846.DeleteForumShortcutUseCase>(),
+        reorderShortcuts: gh<_i846.ReorderForumShortcutsUseCase>(),
+      ),
     );
     gh.factory<_i94.UsernameAvailabilityBloc>(
       () => _i94.UsernameAvailabilityBloc(
@@ -560,6 +659,12 @@ extension GetItInjectableX on _i174.GetIt {
         getBrands: gh<_i408.GetBrandsUseCase>(),
         getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
         submitOnboarding: gh<_i1016.SubmitOnboardingUseCase>(),
+      ),
+    );
+    gh.factory<_i813.ForumBrowseBloc>(
+      () => _i813.ForumBrowseBloc(
+        getBrands: gh<_i408.GetBrandsUseCase>(),
+        getTopics: gh<_i354.GetForumTopicsUseCase>(),
       ),
     );
     gh.factory<_i462.SearchBloc>(
@@ -638,6 +743,14 @@ extension GetItInjectableX on _i174.GetIt {
         imageService: gh<_i768.ImageService>(),
       ),
     );
+    gh.factory<_i198.ForumHubBloc>(
+      () => _i198.ForumHubBloc(
+        getThreads: gh<_i669.GetForumThreadsUseCase>(),
+        getTopics: gh<_i354.GetForumTopicsUseCase>(),
+        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
+        createShortcut: gh<_i846.CreateForumShortcutUseCase>(),
+      ),
+    );
     gh.factory<_i486.PostDetailBloc>(
       () => _i486.PostDetailBloc(
         getPost: gh<_i601.GetPostUseCase>(),
@@ -661,6 +774,22 @@ extension GetItInjectableX on _i174.GetIt {
         deletePost: gh<_i640.DeletePostUseCase>(),
       ),
     );
+    gh.factory<_i382.ForumThreadBloc>(
+      () => _i382.ForumThreadBloc(
+        getThread: gh<_i276.GetForumThreadUseCase>(),
+        getThreadReplies: gh<_i480.GetThreadRepliesUseCase>(),
+        getReplyChildren: gh<_i480.GetReplyChildrenUseCase>(),
+        createReply: gh<_i99.CreateForumReplyUseCase>(),
+        likeThread: gh<_i390.LikeForumThreadUseCase>(),
+        unlikeThread: gh<_i390.UnlikeForumThreadUseCase>(),
+        likeReply: gh<_i390.LikeForumReplyUseCase>(),
+        unlikeReply: gh<_i390.UnlikeForumReplyUseCase>(),
+        editThread: gh<_i499.EditForumThreadUseCase>(),
+        deleteThread: gh<_i499.DeleteForumThreadUseCase>(),
+        editReply: gh<_i492.EditForumReplyUseCase>(),
+        deleteReply: gh<_i492.DeleteForumReplyUseCase>(),
+      ),
+    );
     gh.factory<_i969.CreatePostBloc>(
       () => _i969.CreatePostBloc(
         createPost: gh<_i573.CreatePostUseCase>(),
@@ -673,6 +802,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i905.LikersBloc>(
       () => _i905.LikersBloc(getLikers: gh<_i528.GetPostLikersUseCase>()),
+    );
+    gh.factory<_i188.NewThreadBloc>(
+      () => _i188.NewThreadBloc(
+        getTopics: gh<_i354.GetForumTopicsUseCase>(),
+        getBrands: gh<_i408.GetBrandsUseCase>(),
+        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
+        getMyGarage: gh<_i391.GetMyGarageUseCase>(),
+        createThread: gh<_i605.CreateForumThreadUseCase>(),
+      ),
     );
     gh.factory<_i274.ProfilePostsBloc>(
       () => _i274.ProfilePostsBloc(

@@ -5,7 +5,7 @@ import 'package:car_social_media_app/l10n/app_localizations.dart';
 
 import '../../theme/app_colors.dart';
 
-enum AppBottomNavTab { feed, map, createPost, search, profile }
+enum AppBottomNavTab { feed, map, forums, createPost, search, profile }
 
 class AppBottomNav extends StatelessWidget {
   final AppBottomNavTab activeTab;
@@ -43,6 +43,16 @@ class AppBottomNav extends StatelessWidget {
               isActive: activeTab == AppBottomNavTab.map,
               onTap: () {
                 // Map route to be implemented later.
+              },
+            ),
+            _NavItem(
+              icon: Icons.forum_outlined,
+              label: l10n.navForums,
+              isActive: activeTab == AppBottomNavTab.forums,
+              onTap: () {
+                if (activeTab != AppBottomNavTab.forums) {
+                  context.go('/forums');
+                }
               },
             ),
             // Center create action. Pushed (not go) over the active tab so the

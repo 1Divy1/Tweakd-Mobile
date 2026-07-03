@@ -3283,6 +3283,498 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'RESPONSE'**
   String get myFeedbackResponseLabel;
+
+  /// No description provided for @navForums.
+  ///
+  /// In en, this message translates to:
+  /// **'FORUMS'**
+  String get navForums;
+
+  /// No description provided for @forumsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Forums'**
+  String get forumsTitle;
+
+  /// No description provided for @forumsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your paddock'**
+  String get forumsSubtitle;
+
+  /// No description provided for @forumsYourShortcuts.
+  ///
+  /// In en, this message translates to:
+  /// **'YOUR SHORTCUTS'**
+  String get forumsYourShortcuts;
+
+  /// No description provided for @forumsEditShortcuts.
+  ///
+  /// In en, this message translates to:
+  /// **'EDIT'**
+  String get forumsEditShortcuts;
+
+  /// No description provided for @forumsDoneEditing.
+  ///
+  /// In en, this message translates to:
+  /// **'DONE'**
+  String get forumsDoneEditing;
+
+  /// No description provided for @forumsHotInYourForums.
+  ///
+  /// In en, this message translates to:
+  /// **'HOT IN YOUR FORUMS'**
+  String get forumsHotInYourForums;
+
+  /// No description provided for @forumsSortHot.
+  ///
+  /// In en, this message translates to:
+  /// **'Hot'**
+  String get forumsSortHot;
+
+  /// No description provided for @forumsSortNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get forumsSortNew;
+
+  /// No description provided for @forumsSortActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get forumsSortActive;
+
+  /// No description provided for @forumsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin the forums you live in'**
+  String get forumsEmptyTitle;
+
+  /// No description provided for @forumsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortcuts are saved filters — a car, a topic, or both. Pin a few and they land right here.'**
+  String get forumsEmptyBody;
+
+  /// No description provided for @forumsPopularHubs.
+  ///
+  /// In en, this message translates to:
+  /// **'POPULAR HUBS TO START WITH'**
+  String get forumsPopularHubs;
+
+  /// No description provided for @forumsCtaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Got something to say?'**
+  String get forumsCtaTitle;
+
+  /// No description provided for @forumsCtaBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Every great forum started with one thread. Make it yours.'**
+  String get forumsCtaBody;
+
+  /// No description provided for @forumsStartFirstThread.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the first thread'**
+  String get forumsStartFirstThread;
+
+  /// No description provided for @forumsShortcutSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortcut saved to your paddock.'**
+  String get forumsShortcutSaved;
+
+  /// No description provided for @forumsShortcutRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortcut removed.'**
+  String get forumsShortcutRemoved;
+
+  /// No description provided for @forumsBrowseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'BROWSE'**
+  String get forumsBrowseTitle;
+
+  /// No description provided for @forumsByCar.
+  ///
+  /// In en, this message translates to:
+  /// **'By car'**
+  String get forumsByCar;
+
+  /// No description provided for @forumsByTopic.
+  ///
+  /// In en, this message translates to:
+  /// **'By topic'**
+  String get forumsByTopic;
+
+  /// No description provided for @forumsBrandsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 BRAND} other{{count} BRANDS}}'**
+  String forumsBrandsCount(int count);
+
+  /// No description provided for @forumsThreadsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 thread} other{{count} threads}}'**
+  String forumsThreadsCount(int count);
+
+  /// No description provided for @forumsByComponent.
+  ///
+  /// In en, this message translates to:
+  /// **'BY COMPONENT'**
+  String get forumsByComponent;
+
+  /// No description provided for @forumsByFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'BY FORMAT'**
+  String get forumsByFormat;
+
+  /// No description provided for @forumsModels.
+  ///
+  /// In en, this message translates to:
+  /// **'MODELS'**
+  String get forumsModels;
+
+  /// No description provided for @forumsRefineByTopic.
+  ///
+  /// In en, this message translates to:
+  /// **'REFINE BY TOPIC'**
+  String get forumsRefineByTopic;
+
+  /// No description provided for @forumsHotIn.
+  ///
+  /// In en, this message translates to:
+  /// **'HOT IN {name}'**
+  String forumsHotIn(String name);
+
+  /// No description provided for @forumsThreadsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'THREADS'**
+  String get forumsThreadsLabel;
+
+  /// No description provided for @forumsAllTopics.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get forumsAllTopics;
+
+  /// No description provided for @forumsSaveShortcut.
+  ///
+  /// In en, this message translates to:
+  /// **'Save shortcut'**
+  String get forumsSaveShortcut;
+
+  /// No description provided for @forumsSaveShortcutSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin this filter to your paddock for one-tap access.'**
+  String get forumsSaveShortcutSubtitle;
+
+  /// No description provided for @forumsShortcutNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'NAME'**
+  String get forumsShortcutNameLabel;
+
+  /// No description provided for @forumsNotifyMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Notify me'**
+  String get forumsNotifyMe;
+
+  /// No description provided for @forumsNotifyMeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New hot threads in this filter'**
+  String get forumsNotifyMeSubtitle;
+
+  /// No description provided for @forumsNoThreadsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No threads here yet.'**
+  String get forumsNoThreadsTitle;
+
+  /// No description provided for @forumsNoThreadsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Be the first — start the conversation.'**
+  String get forumsNoThreadsBody;
+
+  /// No description provided for @forumsRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get forumsRetry;
+
+  /// No description provided for @forumsThreadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'THREAD'**
+  String get forumsThreadTitle;
+
+  /// No description provided for @forumsPinned.
+  ///
+  /// In en, this message translates to:
+  /// **'PINNED'**
+  String get forumsPinned;
+
+  /// No description provided for @forumsLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'LOCKED'**
+  String get forumsLocked;
+
+  /// No description provided for @forumsLockedBar.
+  ///
+  /// In en, this message translates to:
+  /// **'This thread is locked — replies are closed.'**
+  String get forumsLockedBar;
+
+  /// No description provided for @forumsRepliesHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 REPLY} other{{count} REPLIES}}'**
+  String forumsRepliesHeader(int count);
+
+  /// No description provided for @forumsReply.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get forumsReply;
+
+  /// No description provided for @forumsShowReplies.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Show 1 reply} other{Show {count} replies}}'**
+  String forumsShowReplies(int count);
+
+  /// No description provided for @forumsHideReplies.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide'**
+  String get forumsHideReplies;
+
+  /// No description provided for @forumsShowMoreReplies.
+  ///
+  /// In en, this message translates to:
+  /// **'Show more replies'**
+  String get forumsShowMoreReplies;
+
+  /// No description provided for @forumsAddReply.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a reply…'**
+  String get forumsAddReply;
+
+  /// No description provided for @forumsReplyingTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Replying to @{username}'**
+  String forumsReplyingTo(String username);
+
+  /// No description provided for @forumsDeletedPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'[deleted]'**
+  String get forumsDeletedPlaceholder;
+
+  /// No description provided for @forumsPosted.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted'**
+  String get forumsPosted;
+
+  /// No description provided for @forumsActiveNow.
+  ///
+  /// In en, this message translates to:
+  /// **'active just now'**
+  String get forumsActiveNow;
+
+  /// No description provided for @forumsActiveAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'active {time} ago'**
+  String forumsActiveAgo(String time);
+
+  /// No description provided for @forumsEditThread.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit body'**
+  String get forumsEditThread;
+
+  /// No description provided for @forumsDeleteThread.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete thread'**
+  String get forumsDeleteThread;
+
+  /// No description provided for @forumsEditReply.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit reply'**
+  String get forumsEditReply;
+
+  /// No description provided for @forumsDeleteReply.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete reply'**
+  String get forumsDeleteReply;
+
+  /// No description provided for @forumsDeleteThreadConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this thread?'**
+  String get forumsDeleteThreadConfirmTitle;
+
+  /// No description provided for @forumsDeleteThreadConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'If it has replies it stays visible as [deleted]; otherwise it\'s gone for good.'**
+  String get forumsDeleteThreadConfirmBody;
+
+  /// No description provided for @forumsDeleteReplyConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this reply?'**
+  String get forumsDeleteReplyConfirmTitle;
+
+  /// No description provided for @forumsDeleteReplyConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'If it has replies it becomes a [deleted] placeholder; otherwise it\'s removed.'**
+  String get forumsDeleteReplyConfirmBody;
+
+  /// No description provided for @forumsDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get forumsDelete;
+
+  /// No description provided for @forumsEditSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get forumsEditSave;
+
+  /// No description provided for @forumsComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get forumsComingSoon;
+
+  /// No description provided for @forumsNewThreadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW THREAD'**
+  String get forumsNewThreadTitle;
+
+  /// No description provided for @forumsPost.
+  ///
+  /// In en, this message translates to:
+  /// **'Post'**
+  String get forumsPost;
+
+  /// No description provided for @forumsThreadTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get forumsThreadTitleHint;
+
+  /// No description provided for @forumsThreadBodyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Share the details, questions, or your writeup…'**
+  String get forumsThreadBodyHint;
+
+  /// No description provided for @forumsTagACar.
+  ///
+  /// In en, this message translates to:
+  /// **'TAG A CAR'**
+  String get forumsTagACar;
+
+  /// No description provided for @forumsFromYourGarage.
+  ///
+  /// In en, this message translates to:
+  /// **'From your garage · {car}'**
+  String forumsFromYourGarage(String car);
+
+  /// No description provided for @forumsSearchCarHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search a model…'**
+  String get forumsSearchCarHint;
+
+  /// No description provided for @forumsTagCarHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Brand is set automatically from the model. Leave empty for a general thread.'**
+  String get forumsTagCarHelper;
+
+  /// No description provided for @forumsTopics.
+  ///
+  /// In en, this message translates to:
+  /// **'TOPICS'**
+  String get forumsTopics;
+
+  /// No description provided for @forumsComponentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'COMPONENT'**
+  String get forumsComponentLabel;
+
+  /// No description provided for @forumsFormatLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'FORMAT'**
+  String get forumsFormatLabel;
+
+  /// No description provided for @forumsThreadPosted.
+  ///
+  /// In en, this message translates to:
+  /// **'Thread posted.'**
+  String get forumsThreadPosted;
+
+  /// No description provided for @forumsShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get forumsShare;
+
+  /// No description provided for @forumsErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Please try again.'**
+  String get forumsErrorNetwork;
+
+  /// No description provided for @forumsErrorNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This content doesn\'t exist anymore.'**
+  String get forumsErrorNotFound;
+
+  /// No description provided for @forumsErrorConflict.
+  ///
+  /// In en, this message translates to:
+  /// **'This thread is locked or the content was deleted.'**
+  String get forumsErrorConflict;
+
+  /// No description provided for @forumsErrorForbidden.
+  ///
+  /// In en, this message translates to:
+  /// **'You can only edit or delete your own content.'**
+  String get forumsErrorForbidden;
+
+  /// No description provided for @forumsErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get forumsErrorGeneric;
 }
 
 class _AppLocalizationsDelegate

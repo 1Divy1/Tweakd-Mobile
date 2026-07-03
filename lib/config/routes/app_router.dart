@@ -11,6 +11,22 @@ import '../../features/feed/presentation/bloc/feed/bloc.dart';
 import '../../features/feed/presentation/bloc/feed/event.dart';
 import '../../features/feed/presentation/pages/feed_page.dart';
 import '../../features/follow/presentation/bloc/bloc.dart';
+import '../../features/forums/domain/entities/forum_filter.dart';
+import '../../features/forums/presentation/bloc/browse/bloc.dart';
+import '../../features/forums/presentation/bloc/browse/event.dart';
+import '../../features/forums/presentation/bloc/composer/bloc.dart';
+import '../../features/forums/presentation/bloc/composer/event.dart';
+import '../../features/forums/presentation/bloc/home/bloc.dart';
+import '../../features/forums/presentation/bloc/home/event.dart';
+import '../../features/forums/presentation/bloc/hub/bloc.dart';
+import '../../features/forums/presentation/bloc/hub/event.dart';
+import '../../features/forums/presentation/bloc/thread/bloc.dart';
+import '../../features/forums/presentation/bloc/thread/event.dart';
+import '../../features/forums/presentation/pages/forum_hub_page.dart';
+import '../../features/forums/presentation/pages/forum_thread_page.dart';
+import '../../features/forums/presentation/pages/forums_browse_page.dart';
+import '../../features/forums/presentation/pages/forums_home_page.dart';
+import '../../features/forums/presentation/pages/new_thread_page.dart';
 import '../../features/follow/presentation/bloc/event.dart';
 import '../../features/follow/presentation/pages/followers_following_page.dart';
 import '../../features/garage/domain/entities/car.dart';
@@ -201,6 +217,61 @@ final appRouter = GoRouter(
           child: const FeedPage(),
         ),
       ),
+    ),
+
+    // ---------- Forums ----------
+    GoRoute(
+      path: '/forums',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: BlocProvider<ForumsHomeBloc>(
+          create: (_) =>
+              getIt<ForumsHomeBloc>()..add(const LoadForumsHome()),
+          child: const ForumsHomePage(),
+        ),
+      ),
+      routes: [
+        GoRoute(
+          path: 'browse',
+          builder: (context, state) => BlocProvider<ForumBrowseBloc>(
+            create: (_) =>
+                getIt<ForumBrowseBloc>()..add(const LoadForumBrowse()),
+            child: const ForumsBrowsePage(),
+          ),
+        ),
+        // The hub filter travels as `extra`; a hub deep-linked without one
+        // falls back to the forums home.
+        GoRoute(
+          path: 'hub',
+          redirect: (context, state) =>
+              state.extra is ForumFilter ? null : '/forums',
+          builder: (context, state) {
+            final filter = state.extra as ForumFilter;
+            return BlocProvider<ForumHubBloc>(
+              create: (_) => getIt<ForumHubBloc>()..add(LoadForumHub(filter)),
+              child: const ForumHubPage(),
+            );
+          },
+        ),
+        GoRoute(
+          path: 'new',
+          builder: (context, state) => BlocProvider<NewThreadBloc>(
+            create: (_) =>
+                getIt<NewThreadBloc>()..add(const LoadNewThreadRefs()),
+            child: const NewThreadPage(),
+          ),
+        ),
+        GoRoute(
+          path: 'threads/:threadId',
+          builder: (context, state) {
+            final threadId = state.pathParameters['threadId']!;
+            return BlocProvider<ForumThreadBloc>(
+              create: (_) =>
+                  getIt<ForumThreadBloc>()..add(LoadForumThread(threadId)),
+              child: ForumThreadPage(threadId: threadId),
+            );
+          },
+        ),
+      ],
     ),
 
     // ---------- Create Post ----------
