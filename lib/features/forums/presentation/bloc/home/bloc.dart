@@ -3,10 +3,12 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../../core/usecases/usecase.dart';
 import '../../../domain/entities/forum_shortcut.dart';
-import '../../../domain/entities/forum_topic.dart';
+import '../../../domain/entities/forum_suggestion.dart';
+import '../../../domain/entities/forum_thread.dart';
+import '../../../domain/usecases/forum_saves.dart';
 import '../../../domain/usecases/forum_shortcuts.dart';
+import '../../../domain/usecases/get_forum_suggestions.dart';
 import '../../../domain/usecases/get_forum_threads.dart';
-import '../../../domain/usecases/get_forum_topics.dart';
 import '../../utils/forum_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
@@ -18,24 +20,29 @@ import 'state.dart';
 class ForumsHomeBloc extends Bloc<ForumsHomeEvent, ForumsHomeState> {
   final GetForumShortcutsUseCase getShortcuts;
   final GetForumThreadsUseCase getThreads;
-  final GetForumTopicsUseCase getTopics;
+  final GetForumSuggestionsUseCase getSuggestions;
   final CreateForumShortcutUseCase createShortcut;
   final DeleteForumShortcutUseCase deleteShortcut;
   final ReorderForumShortcutsUseCase reorderShortcuts;
+  final SaveForumThreadUseCase saveThread;
+  final UnsaveForumThreadUseCase unsaveThread;
 
   ForumsHomeBloc({
     required this.getShortcuts,
     required this.getThreads,
-    required this.getTopics,
+    required this.getSuggestions,
     required this.createShortcut,
     required this.deleteShortcut,
     required this.reorderShortcuts,
+    required this.saveThread,
+    required this.unsaveThread,
   }) : super(const ForumsHomeState()) {
     on<LoadForumsHome>(_onLoad);
     on<RefreshForumsHome>(_onRefresh);
     on<ChangeForumsHomeSort>(_onChangeSort);
     on<LoadMoreForumsHome>(_onLoadMore);
-    on<PinForumTopicShortcut>(_onPinTopic);
+    on<PinForumSuggestion>(_onPinSuggestion);
+    on<ToggleForumSaveInFeed>(_onToggleSave);
     on<RemoveForumShortcut>(_onRemove);
     on<MoveForumShortcut>(_onMove);
   }
@@ -49,12 +56,12 @@ class ForumsHomeBloc extends Bloc<ForumsHomeEvent, ForumsHomeState> {
     // Fire in parallel, await individually to keep the Either types.
     final shortcutsFuture = getShortcuts(NoParams());
     final threadsFuture = getThreads(GetForumThreadsParams(sort: state.sort));
-    final topicsFuture = getTopics(NoParams());
+    final suggestionsFuture = getSuggestions(const GetForumSuggestionsParams());
     final shortcutsResult = await shortcutsFuture;
     final threadsResult = await threadsFuture;
-    final topicsResult = await topicsFuture;
+    final suggestionsResult = await suggestionsFuture;
 
-    // Shortcuts and threads are the page — either failing is fatal. The topic
+    // Shortcuts and threads are the page — either failing is fatal. The hub
     // suggestions only feed the empty state, so their failure is silent.
     ForumErrorCode? fatal;
     shortcutsResult.fold((f) => fatal = ForumErrorMapper.getCode(f), (_) {});
@@ -71,9 +78,9 @@ class ForumsHomeBloc extends Bloc<ForumsHomeEvent, ForumsHomeState> {
           shortcutsResult.getOrElse(() => const <ForumShortcutEntity>[]),
       threads: threadsResult.fold((_) => const [], (page) => page.items),
       nextCursor: threadsResult.fold((_) => null, (page) => page.nextCursor),
-      suggestedTopics: topicsResult.fold(
-        (_) => const <ForumTopicEntity>[],
-        _flattenTopics,
+      suggestions: suggestionsResult.fold(
+        (_) => const <ForumSuggestionEntity>[],
+        (list) => list,
       ),
     ));
   }
@@ -158,18 +165,50 @@ class ForumsHomeBloc extends Bloc<ForumsHomeEvent, ForumsHomeState> {
     );
   }
 
-  Future<void> _onPinTopic(
-    PinForumTopicShortcut event,
+  Future<void> _onPinSuggestion(
+    PinForumSuggestion event,
     Emitter<ForumsHomeState> emit,
   ) async {
+    final s = event.suggestion;
     final result = await createShortcut(CreateForumShortcutParams(
-      name: event.topic.name,
-      topicId: event.topic.id,
+      name: s.displayName,
+      brandId: s.type == ForumSuggestionType.brand ? s.id : null,
+      modelId: s.type == ForumSuggestionType.model ? s.id : null,
+      topicId: s.type == ForumSuggestionType.topic ? s.id : null,
     ));
     result.fold(
       (f) => emit(state.copyWith(actionError: ForumErrorMapper.getCode(f))),
       (shortcut) =>
           emit(state.copyWith(shortcuts: [...state.shortcuts, shortcut])),
+    );
+  }
+
+  Future<void> _onToggleSave(
+    ToggleForumSaveInFeed event,
+    Emitter<ForumsHomeState> emit,
+  ) async {
+    final index = state.threads.indexWhere((t) => t.id == event.threadId);
+    if (index < 0) return;
+    final original = state.threads[index];
+    final saved = original.viewerHasSaved;
+
+    List<ForumThreadEntity> withSaved(bool value) {
+      final next = [...state.threads];
+      next[index] = next[index].withSaved(value);
+      return next;
+    }
+
+    emit(state.copyWith(threads: withSaved(!saved)));
+
+    final result = saved
+        ? await unsaveThread(event.threadId)
+        : await saveThread(event.threadId);
+    result.fold(
+      (f) => emit(state.copyWith(
+        threads: withSaved(saved),
+        actionError: ForumErrorMapper.getCode(f),
+      )),
+      (_) {},
     );
   }
 
@@ -217,14 +256,5 @@ class ForumsHomeBloc extends Bloc<ForumsHomeEvent, ForumsHomeState> {
       )),
       (serverOrder) => emit(state.copyWith(shortcuts: serverOrder)),
     );
-  }
-
-  /// Topic suggestions for the empty paddock, in backend sort order.
-  static List<ForumTopicEntity> _flattenTopics(
-    List<ForumTopicGroupEntity> groups,
-  ) {
-    final topics = [for (final g in groups) ...g.topics]
-      ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
-    return topics.take(6).toList();
   }
 }

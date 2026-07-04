@@ -16,6 +16,10 @@ class ForumShortcutEntity extends Equatable {
   final ForumTopicEntity? topic;
   final int sortOrder;
   final bool notify;
+
+  /// Threads matching the shortcut's filter, created after it was saved, that
+  /// the viewer hasn't opened yet. Drives the unread badge on the card.
+  final int unreadCount;
   final DateTime? createdAt;
 
   const ForumShortcutEntity({
@@ -26,6 +30,7 @@ class ForumShortcutEntity extends Equatable {
     this.topic,
     this.sortOrder = 0,
     this.notify = false,
+    this.unreadCount = 0,
     this.createdAt,
   });
 
@@ -34,5 +39,5 @@ class ForumShortcutEntity extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id, name, brand, model, topic, sortOrder, notify, createdAt];
+      [id, name, brand, model, topic, sortOrder, notify, unreadCount, createdAt];
 }

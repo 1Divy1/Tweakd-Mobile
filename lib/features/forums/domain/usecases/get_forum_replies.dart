@@ -4,16 +4,23 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/error/base_failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../entities/forum_pages.dart';
+import '../entities/forum_reply.dart';
 import '../repositories/forums_repository.dart';
 
 class GetForumRepliesParams {
   /// Thread id for [GetThreadRepliesUseCase]; reply (post) id for
   /// [GetReplyChildrenUseCase].
   final String id;
+  final ForumReplySort sort;
   final String? cursor;
   final int size;
 
-  const GetForumRepliesParams({required this.id, this.cursor, this.size = 20});
+  const GetForumRepliesParams({
+    required this.id,
+    this.sort = ForumReplySort.oldest,
+    this.cursor,
+    this.size = 20,
+  });
 }
 
 /// Top-level replies of a thread, oldest first.
@@ -29,6 +36,7 @@ class GetThreadRepliesUseCase
       GetForumRepliesParams params) {
     return repository.getThreadReplies(
       params.id,
+      sort: params.sort,
       cursor: params.cursor,
       size: params.size,
     );
@@ -48,6 +56,7 @@ class GetReplyChildrenUseCase
       GetForumRepliesParams params) {
     return repository.getReplyChildren(
       params.id,
+      sort: params.sort,
       cursor: params.cursor,
       size: params.size,
     );

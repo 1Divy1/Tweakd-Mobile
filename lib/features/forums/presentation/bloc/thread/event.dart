@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../domain/entities/forum_reply.dart';
+
 sealed class ForumThreadEvent extends Equatable {
   const ForumThreadEvent();
 
@@ -43,6 +45,20 @@ class LoadMoreReplyChildren extends ForumThreadEvent {
 /// Optimistically toggles the viewer's like on the thread.
 class ToggleForumThreadLike extends ForumThreadEvent {
   const ToggleForumThreadLike();
+}
+
+/// Optimistically toggles the viewer's save (bookmark) on the thread.
+class ToggleForumThreadSave extends ForumThreadEvent {
+  const ToggleForumThreadSave();
+}
+
+/// Switches the reply order (oldest/newest) and reloads the reply tree.
+class ChangeReplySort extends ForumThreadEvent {
+  final ForumReplySort sort;
+  const ChangeReplySort(this.sort);
+
+  @override
+  List<Object?> get props => [sort];
 }
 
 /// Optimistically toggles the viewer's like on one reply.

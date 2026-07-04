@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 
+import '../../../domain/entities/forum_suggestion.dart';
 import '../../../domain/entities/forum_thread.dart';
-import '../../../domain/entities/forum_topic.dart';
 
 sealed class ForumsHomeEvent extends Equatable {
   const ForumsHomeEvent();
@@ -43,13 +43,22 @@ class LoadMoreForumsHome extends ForumsHomeEvent {
   const LoadMoreForumsHome();
 }
 
-/// Pins a topic from the empty state's "popular hubs" suggestions.
-class PinForumTopicShortcut extends ForumsHomeEvent {
-  final ForumTopicEntity topic;
-  const PinForumTopicShortcut(this.topic);
+/// Pins a suggestion (brand/model/topic) from the empty state's "popular hubs".
+class PinForumSuggestion extends ForumsHomeEvent {
+  final ForumSuggestionEntity suggestion;
+  const PinForumSuggestion(this.suggestion);
 
   @override
-  List<Object?> get props => [topic];
+  List<Object?> get props => [suggestion];
+}
+
+/// Optimistically toggles the viewer's save on a thread in the hot feed.
+class ToggleForumSaveInFeed extends ForumsHomeEvent {
+  final String threadId;
+  const ToggleForumSaveInFeed(this.threadId);
+
+  @override
+  List<Object?> get props => [threadId];
 }
 
 /// Deletes a shortcut (edit mode), optimistically.

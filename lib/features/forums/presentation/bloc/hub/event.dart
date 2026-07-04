@@ -53,3 +53,12 @@ class SaveForumShortcut extends ForumHubEvent {
   @override
   List<Object?> get props => [name, notify];
 }
+
+/// Optimistically toggles the viewer's save on a thread in the hub list.
+class ToggleForumHubSave extends ForumHubEvent {
+  final String threadId;
+  const ToggleForumHubSave(this.threadId);
+
+  @override
+  List<Object?> get props => [threadId];
+}

@@ -4,6 +4,8 @@ import 'package:injectable/injectable.dart';
 import 'package:car_social_media_app/features/garage/domain/usecases/get_reference_data.dart';
 
 import '../../../../../core/usecases/usecase.dart';
+import '../../../domain/entities/forum_thread.dart';
+import '../../../domain/usecases/forum_saves.dart';
 import '../../../domain/usecases/forum_shortcuts.dart';
 import '../../../domain/usecases/get_forum_threads.dart';
 import '../../../domain/usecases/get_forum_topics.dart';
@@ -20,18 +22,23 @@ class ForumHubBloc extends Bloc<ForumHubEvent, ForumHubState> {
   final GetForumTopicsUseCase getTopics;
   final GetModelsByBrandUseCase getModelsByBrand;
   final CreateForumShortcutUseCase createShortcut;
+  final SaveForumThreadUseCase saveThread;
+  final UnsaveForumThreadUseCase unsaveThread;
 
   ForumHubBloc({
     required this.getThreads,
     required this.getTopics,
     required this.getModelsByBrand,
     required this.createShortcut,
+    required this.saveThread,
+    required this.unsaveThread,
   }) : super(const ForumHubState()) {
     on<LoadForumHub>(_onLoad);
     on<ChangeForumHubSort>(_onChangeSort);
     on<SelectForumHubTopic>(_onSelectTopic);
     on<LoadMoreForumHub>(_onLoadMore);
     on<SaveForumShortcut>(_onSaveShortcut);
+    on<ToggleForumHubSave>(_onToggleSave);
   }
 
   Future<void> _onLoad(LoadForumHub event, Emitter<ForumHubState> emit) async {
@@ -166,6 +173,34 @@ class ForumHubBloc extends Bloc<ForumHubEvent, ForumHubState> {
         actionError: ForumErrorMapper.getCode(f),
       )),
       (_) => emit(state.copyWith(isSavingShortcut: false, bumpSaved: true)),
+    );
+  }
+
+  Future<void> _onToggleSave(
+    ToggleForumHubSave event,
+    Emitter<ForumHubState> emit,
+  ) async {
+    final index = state.threads.indexWhere((t) => t.id == event.threadId);
+    if (index < 0) return;
+    final saved = state.threads[index].viewerHasSaved;
+
+    List<ForumThreadEntity> withSaved(bool value) {
+      final next = [...state.threads];
+      next[index] = next[index].withSaved(value);
+      return next;
+    }
+
+    emit(state.copyWith(threads: withSaved(!saved)));
+
+    final result = saved
+        ? await unsaveThread(event.threadId)
+        : await saveThread(event.threadId);
+    result.fold(
+      (f) => emit(state.copyWith(
+        threads: withSaved(saved),
+        actionError: ForumErrorMapper.getCode(f),
+      )),
+      (_) {},
     );
   }
 }

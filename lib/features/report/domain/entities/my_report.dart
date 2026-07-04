@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 /// The kind of thing a report was filed against.
-enum ReportTargetType { post, comment, profile }
+enum ReportTargetType { post, comment, profile, forumThread, forumReply }
 
 /// Moderation lifecycle of a submitted report. Matches the backend
 /// `report_status` enum labels exactly.

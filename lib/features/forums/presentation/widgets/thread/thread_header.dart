@@ -12,6 +12,7 @@ import '../shared/forum_chips.dart';
 class ThreadHeader extends StatelessWidget {
   final ForumThreadDetailEntity thread;
   final VoidCallback onToggleLike;
+  final VoidCallback onToggleSave;
   final VoidCallback onReply;
   final VoidCallback onShare;
 
@@ -19,6 +20,7 @@ class ThreadHeader extends StatelessWidget {
     super.key,
     required this.thread,
     required this.onToggleLike,
+    required this.onToggleSave,
     required this.onReply,
     required this.onShare,
   });
@@ -140,6 +142,16 @@ class ThreadHeader extends StatelessWidget {
                 icon: Icons.mode_comment_outlined,
                 label: forumCompactCount(thread.replyCount),
                 onTap: onReply,
+              ),
+              _ActionItem(
+                icon: thread.viewerHasSaved
+                    ? Icons.bookmark_rounded
+                    : Icons.bookmark_border_rounded,
+                label: thread.viewerHasSaved
+                    ? l10n.forumsSaved
+                    : l10n.forumsSave,
+                color: thread.viewerHasSaved ? AppColors.accent : null,
+                onTap: onToggleSave,
               ),
               _ActionItem(
                 icon: Icons.ios_share_rounded,

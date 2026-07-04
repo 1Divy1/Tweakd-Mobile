@@ -33,6 +33,10 @@ class ForumThreadEntity extends Equatable {
   final bool locked;
   final bool deleted;
 
+  /// Whether the viewer has saved (bookmarked) this thread. Present on every
+  /// thread card and on the thread detail.
+  final bool viewerHasSaved;
+
   const ForumThreadEntity({
     required this.id,
     required this.title,
@@ -46,6 +50,7 @@ class ForumThreadEntity extends Equatable {
     this.pinned = false,
     this.locked = false,
     this.deleted = false,
+    this.viewerHasSaved = false,
   });
 
   @override
@@ -62,7 +67,26 @@ class ForumThreadEntity extends Equatable {
         pinned,
         locked,
         deleted,
+        viewerHasSaved,
       ];
+
+  /// Returns a copy with the viewer's save state flipped — used to reflect an
+  /// optimistic bookmark toggle in thread lists (feed, hubs, saved).
+  ForumThreadEntity withSaved(bool saved) => ForumThreadEntity(
+        id: id,
+        title: title,
+        author: author,
+        brand: brand,
+        model: model,
+        topics: topics,
+        likesCount: likesCount,
+        replyCount: replyCount,
+        lastActivityAt: lastActivityAt,
+        pinned: pinned,
+        locked: locked,
+        deleted: deleted,
+        viewerHasSaved: saved,
+      );
 }
 
 /// Full thread as returned by `GET /forums/threads/{id}`: the card fields
@@ -85,6 +109,7 @@ class ForumThreadDetailEntity extends ForumThreadEntity {
     super.pinned,
     super.locked,
     super.deleted,
+    super.viewerHasSaved,
     this.content,
     required this.createdAt,
     this.viewerHasLiked = false,
@@ -94,6 +119,7 @@ class ForumThreadDetailEntity extends ForumThreadEntity {
     int? likesCount,
     int? replyCount,
     bool? viewerHasLiked,
+    bool? viewerHasSaved,
     String? content,
   }) {
     return ForumThreadDetailEntity(
@@ -109,6 +135,7 @@ class ForumThreadDetailEntity extends ForumThreadEntity {
       pinned: pinned,
       locked: locked,
       deleted: deleted,
+      viewerHasSaved: viewerHasSaved ?? this.viewerHasSaved,
       content: content ?? this.content,
       createdAt: createdAt,
       viewerHasLiked: viewerHasLiked ?? this.viewerHasLiked,

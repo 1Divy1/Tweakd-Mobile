@@ -1688,6 +1688,12 @@ class AppLocalizationsRo extends AppLocalizations {
   String get reportTargetProfile => 'Profil';
 
   @override
+  String get reportTargetForumThread => 'Thread din forum';
+
+  @override
+  String get reportTargetForumReply => 'Răspuns din forum';
+
+  @override
   String get reportNoReason => 'Niciun motiv specificat';
 
   @override
@@ -2074,6 +2080,40 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get forumsShare => 'Distribuie';
+
+  @override
+  String get forumsSave => 'Salvează';
+
+  @override
+  String get forumsSaved => 'Salvat';
+
+  @override
+  String get forumsAuthorBadge => 'OP';
+
+  @override
+  String get forumsRepliesOldest => 'Cele mai vechi';
+
+  @override
+  String get forumsRepliesNewest => 'Cele mai noi';
+
+  @override
+  String get forumsReportThreadTitle => 'Raportează thread-ul';
+
+  @override
+  String get forumsReportReplyTitle => 'Raportează răspunsul';
+
+  @override
+  String get forumsSavedTitle => 'SALVATE';
+
+  @override
+  String get forumsSavedHeader => 'THREAD-URI SALVATE';
+
+  @override
+  String get forumsSavedEmptyTitle => 'Nimic salvat încă';
+
+  @override
+  String get forumsSavedEmptyBody =>
+      'Salvează thread-uri ca să le găsești aici mai târziu.';
 
   @override
   String get forumsErrorNetwork =>

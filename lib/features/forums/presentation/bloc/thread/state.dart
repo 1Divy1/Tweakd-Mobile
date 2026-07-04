@@ -101,6 +101,7 @@ class ForumThreadState extends Equatable {
   final String? repliesCursor;
   final bool repliesLoading;
   final bool isLoadingMoreReplies;
+  final ForumReplySort replySort;
   final bool isSubmitting;
   final String? replyingToId;
   final String? replyingToUsername;
@@ -117,6 +118,7 @@ class ForumThreadState extends Equatable {
     this.repliesCursor,
     this.repliesLoading = false,
     this.isLoadingMoreReplies = false,
+    this.replySort = ForumReplySort.oldest,
     this.isSubmitting = false,
     this.replyingToId,
     this.replyingToUsername,
@@ -137,6 +139,7 @@ class ForumThreadState extends Equatable {
     bool clearRepliesCursor = false,
     bool? repliesLoading,
     bool? isLoadingMoreReplies,
+    ForumReplySort? replySort,
     bool? isSubmitting,
     String? replyingToId,
     String? replyingToUsername,
@@ -154,6 +157,7 @@ class ForumThreadState extends Equatable {
           clearRepliesCursor ? null : (repliesCursor ?? this.repliesCursor),
       repliesLoading: repliesLoading ?? this.repliesLoading,
       isLoadingMoreReplies: isLoadingMoreReplies ?? this.isLoadingMoreReplies,
+      replySort: replySort ?? this.replySort,
       isSubmitting: isSubmitting ?? this.isSubmitting,
       replyingToId:
           clearReplyTarget ? null : (replyingToId ?? this.replyingToId),
@@ -177,6 +181,7 @@ class ForumThreadState extends Equatable {
         repliesCursor,
         repliesLoading,
         isLoadingMoreReplies,
+        replySort,
         isSubmitting,
         replyingToId,
         replyingToUsername,

@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../domain/entities/forum_reply.dart';
 import '../../../domain/usecases/create_forum_reply.dart';
+import '../../../domain/usecases/forum_saves.dart';
 import '../../../domain/usecases/get_forum_replies.dart';
 import '../../../domain/usecases/get_forum_thread.dart';
 import '../../../domain/usecases/modify_forum_reply.dart';
@@ -29,6 +30,8 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
   final DeleteForumThreadUseCase deleteThread;
   final EditForumReplyUseCase editReply;
   final DeleteForumReplyUseCase deleteReply;
+  final SaveForumThreadUseCase saveThread;
+  final UnsaveForumThreadUseCase unsaveThread;
 
   String _threadId = '';
 
@@ -45,12 +48,16 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
     required this.deleteThread,
     required this.editReply,
     required this.deleteReply,
+    required this.saveThread,
+    required this.unsaveThread,
   }) : super(const ForumThreadState()) {
     on<LoadForumThread>(_onLoad);
     on<LoadMoreThreadReplies>(_onLoadMoreReplies);
+    on<ChangeReplySort>(_onChangeReplySort);
     on<ToggleReplyChildren>(_onToggleChildren);
     on<LoadMoreReplyChildren>(_onLoadMoreChildren);
     on<ToggleForumThreadLike>(_onToggleThreadLike);
+    on<ToggleForumThreadSave>(_onToggleThreadSave);
     on<ToggleForumReplyLike>(_onToggleReplyLike);
     on<StartReplyTo>(_onStartReplyTo);
     on<SubmitForumReply>(_onSubmitReply);
@@ -80,8 +87,8 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
           repliesLoading: true,
         ));
 
-        final repliesResult =
-            await getThreadReplies(GetForumRepliesParams(id: _threadId));
+        final repliesResult = await getThreadReplies(
+            GetForumRepliesParams(id: _threadId, sort: state.replySort));
         repliesResult.fold(
           (f) => emit(state.copyWith(
             repliesLoading: false,
@@ -111,6 +118,7 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
 
     final result = await getThreadReplies(GetForumRepliesParams(
       id: _threadId,
+      sort: state.replySort,
       cursor: state.repliesCursor,
     ));
     result.fold(
@@ -128,6 +136,37 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
           clearRepliesCursor: page.nextCursor == null,
         ));
       },
+    );
+  }
+
+  /// Switches oldest/newest and reloads the top-level replies (resetting the
+  /// lazily-expanded tree, since order changed). Children re-fetch in the new
+  /// order when re-expanded.
+  Future<void> _onChangeReplySort(
+    ChangeReplySort event,
+    Emitter<ForumThreadState> emit,
+  ) async {
+    if (event.sort == state.replySort || state.thread == null) return;
+    emit(state.copyWith(
+      replySort: event.sort,
+      repliesLoading: true,
+      replies: const [],
+      clearRepliesCursor: true,
+    ));
+
+    final result = await getThreadReplies(
+        GetForumRepliesParams(id: _threadId, sort: event.sort));
+    result.fold(
+      (f) => emit(state.copyWith(
+        repliesLoading: false,
+        actionError: ForumErrorMapper.getCode(f),
+      )),
+      (page) => emit(state.copyWith(
+        repliesLoading: false,
+        replies: [for (final r in page.items) ReplyNode(reply: r)],
+        repliesCursor: page.nextCursor,
+        clearRepliesCursor: page.nextCursor == null,
+      )),
     );
   }
 
@@ -151,8 +190,8 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
           (n) => n.copyWith(childrenLoading: true)),
     ));
 
-    final result =
-        await getReplyChildren(GetForumRepliesParams(id: event.postId));
+    final result = await getReplyChildren(
+        GetForumRepliesParams(id: event.postId, sort: state.replySort));
     result.fold(
       (f) => emit(state.copyWith(
         replies: updateReplyNode(state.replies, event.postId,
@@ -190,6 +229,7 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
 
     final result = await getReplyChildren(GetForumRepliesParams(
       id: event.postId,
+      sort: state.replySort,
       cursor: node.childrenCursor,
     ));
     result.fold(
@@ -232,6 +272,27 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
 
     final result =
         liked ? await unlikeThread(_threadId) : await likeThread(_threadId);
+    result.fold(
+      (f) => emit(state.copyWith(
+        thread: thread,
+        actionError: ForumErrorMapper.getCode(f),
+      )),
+      (_) {},
+    );
+  }
+
+  Future<void> _onToggleThreadSave(
+    ToggleForumThreadSave event,
+    Emitter<ForumThreadState> emit,
+  ) async {
+    final thread = state.thread;
+    if (thread == null) return;
+
+    final saved = thread.viewerHasSaved;
+    emit(state.copyWith(thread: thread.copyWith(viewerHasSaved: !saved)));
+
+    final result =
+        saved ? await unsaveThread(_threadId) : await saveThread(_threadId);
     result.fold(
       (f) => emit(state.copyWith(
         thread: thread,

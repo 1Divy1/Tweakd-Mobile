@@ -4,6 +4,7 @@ import '../../domain/entities/forum_author.dart';
 import '../../domain/entities/forum_pages.dart';
 import '../../domain/entities/forum_reply.dart';
 import '../../domain/entities/forum_shortcut.dart';
+import '../../domain/entities/forum_suggestion.dart';
 import '../../domain/entities/forum_thread.dart';
 import '../../domain/entities/forum_topic.dart';
 
@@ -96,21 +97,23 @@ class ForumAuthorModel {
       ForumAuthorEntity(id: id, username: username, avatarUrl: avatarUrl);
 }
 
-/// `{id, name}` brand reference — parsed straight into the garage entity that
-/// the whole car catalog already uses.
+/// `{id, name, thread_count?}` brand reference — parsed straight into the
+/// garage entity that the whole car catalog already uses.
 CarBrandEntity forumBrandFromJson(Map<String, dynamic> json) {
   return CarBrandEntity(
     id: json['id'] as String,
     name: json['name'] as String,
+    threadCount: (json['thread_count'] as num?)?.toInt(),
   );
 }
 
-/// `{id, brand_id, model}` model reference.
+/// `{id, brand_id, model, thread_count?}` model reference.
 CarModelEntity forumModelFromJson(Map<String, dynamic> json) {
   return CarModelEntity(
     id: json['id'] as String,
     brandId: json['brand_id'] as String,
     model: json['model'] as String,
+    threadCount: (json['thread_count'] as num?)?.toInt(),
   );
 }
 
@@ -143,6 +146,7 @@ class ForumThreadModel {
       pinned: json['pinned'] as bool? ?? false,
       locked: json['locked'] as bool? ?? false,
       deleted: json['deleted'] as bool? ?? false,
+      viewerHasSaved: json['viewer_has_saved'] as bool? ?? false,
     ));
   }
 
@@ -169,6 +173,7 @@ class ForumThreadDetailModel {
       pinned: card.pinned,
       locked: card.locked,
       deleted: card.deleted,
+      viewerHasSaved: card.viewerHasSaved,
       content: json['content'] as String?,
       createdAt: DateTime.parse(json['created_at'] as String),
       viewerHasLiked: json['viewer_has_liked'] as bool? ?? false,
@@ -195,6 +200,7 @@ class ForumReplyModel {
       replyCount: (json['reply_count'] as num?)?.toInt() ?? 0,
       deleted: json['deleted'] as bool? ?? false,
       viewerHasLiked: json['viewer_has_liked'] as bool? ?? false,
+      isAuthor: json['is_author'] as bool? ?? false,
       createdAt: DateTime.parse(json['created_at'] as String),
     ));
   }
@@ -265,6 +271,7 @@ class ForumShortcutModel {
               .toEntity(),
       sortOrder: (json['sort_order'] as num?)?.toInt() ?? 0,
       notify: json['notify'] as bool? ?? false,
+      unreadCount: (json['unread_count'] as num?)?.toInt() ?? 0,
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
@@ -272,4 +279,29 @@ class ForumShortcutModel {
   }
 
   ForumShortcutEntity toEntity() => entity;
+}
+
+class ForumSuggestionModel {
+  final ForumSuggestionEntity entity;
+
+  const ForumSuggestionModel(this.entity);
+
+  factory ForumSuggestionModel.fromJson(Map<String, dynamic> json) {
+    return ForumSuggestionModel(ForumSuggestionEntity(
+      type: _suggestionTypeFromJson(json['type'] as String?),
+      id: json['id'] as String,
+      name: json['name'] as String,
+      subtitle: json['subtitle'] as String?,
+      threadCount: (json['thread_count'] as num?)?.toInt() ?? 0,
+    ));
+  }
+
+  ForumSuggestionEntity toEntity() => entity;
+
+  static ForumSuggestionType _suggestionTypeFromJson(String? value) =>
+      switch (value) {
+        'brand' => ForumSuggestionType.brand,
+        'model' => ForumSuggestionType.model,
+        _ => ForumSuggestionType.topic,
+      };
 }
