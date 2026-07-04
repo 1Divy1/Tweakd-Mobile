@@ -39,6 +39,8 @@ class MyReportModel {
         'post' => ReportTargetType.post,
         'comment' => ReportTargetType.comment,
         'profile' => ReportTargetType.profile,
+        'forum_thread' => ReportTargetType.forumThread,
+        'forum_thread_reply' => ReportTargetType.forumReply,
         // Defensive: an unknown target type falls back to post rather than
         // throwing, so one bad row can't sink the whole list.
         _ => ReportTargetType.post,

@@ -3074,6 +3074,18 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get reportTargetProfile;
 
+  /// No description provided for @reportTargetForumThread.
+  ///
+  /// In en, this message translates to:
+  /// **'Forum thread'**
+  String get reportTargetForumThread;
+
+  /// No description provided for @reportTargetForumReply.
+  ///
+  /// In en, this message translates to:
+  /// **'Forum reply'**
+  String get reportTargetForumReply;
+
   /// No description provided for @reportNoReason.
   ///
   /// In en, this message translates to:
@@ -3745,6 +3757,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share'**
   String get forumsShare;
+
+  /// No description provided for @forumsSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get forumsSave;
+
+  /// No description provided for @forumsSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get forumsSaved;
+
+  /// No description provided for @forumsAuthorBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'OP'**
+  String get forumsAuthorBadge;
+
+  /// No description provided for @forumsRepliesOldest.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest'**
+  String get forumsRepliesOldest;
+
+  /// No description provided for @forumsRepliesNewest.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest'**
+  String get forumsRepliesNewest;
+
+  /// No description provided for @forumsReportThreadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report thread'**
+  String get forumsReportThreadTitle;
+
+  /// No description provided for @forumsReportReplyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report reply'**
+  String get forumsReportReplyTitle;
+
+  /// No description provided for @forumsSavedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVED'**
+  String get forumsSavedTitle;
+
+  /// No description provided for @forumsSavedHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVED THREADS'**
+  String get forumsSavedHeader;
+
+  /// No description provided for @forumsSavedEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing saved yet'**
+  String get forumsSavedEmptyTitle;
+
+  /// No description provided for @forumsSavedEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmark threads to find them here later.'**
+  String get forumsSavedEmptyBody;
 
   /// No description provided for @forumsErrorNetwork.
   ///

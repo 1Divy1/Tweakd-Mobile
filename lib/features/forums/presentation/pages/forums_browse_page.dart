@@ -108,7 +108,11 @@ class _ByCarGrid extends StatelessWidget {
           itemCount: state.brands.length,
           itemBuilder: (context, index) {
             final brand = state.brands[index];
-            return ForumBrandCard(brand: brand, onTap: () => onOpen(brand));
+            return ForumBrandCard(
+              brand: brand,
+              threadCount: brand.threadCount,
+              onTap: () => onOpen(brand),
+            );
           },
         ),
       ],

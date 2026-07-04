@@ -1,0 +1,15 @@
+"filename", "language", "Markdown", "Dart", "comment", "blank", "total"
+"/Users/mbpro/Developer/Apps/Car-Social-Media-App/FORUMS_PROGRESS.md", "Markdown", 23, 0, 0, 1, 24
+"/Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/config/routes/app_router.dart", "Dart", 0, 11, 0, 0, 11
+"/Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/core/di/injection.config.dart", "Dart", 0, 28, 0, 0, 28
+"/Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/forums/presentation/bloc/hub/bloc.dart", "Dart", 0, 30, 0, 4, 34
+"/Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/forums/presentation/bloc/saved/bloc.dart", "Dart", 0, 97, 2, 10, 109
+"/Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/forums/presentation/bloc/saved/event.dart", "Dart", 0, 25, 4, 10, 39
+"/Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/forums/presentation/bloc/saved/state.dart", "Dart", 0, 53, 2, 7, 62
+"/Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/forums/presentation/pages/forum_hub_page.dart", "Dart", 0, 2, 0, 0, 2
+"/Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/forums/presentation/pages/saved_threads_page.dart", "Dart", 0, 183, 0, 18, 201
+"/Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/report/README.md", "Markdown", 4, 0, 0, 0, 4
+"/Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/l10n/app_localizations.dart", "Dart", 0, 13, 52, 13, 78
+"/Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/l10n/app_localizations_en.dart", "Dart", 0, 27, 0, 13, 40
+"/Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/l10n/app_localizations_ro.dart", "Dart", 0, 27, 0, 13, 40
+"Total", "-", 27, 496, 60, 89, 672

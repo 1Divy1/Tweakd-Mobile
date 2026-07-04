@@ -27,6 +27,9 @@ import '../../features/forums/presentation/pages/forum_thread_page.dart';
 import '../../features/forums/presentation/pages/forums_browse_page.dart';
 import '../../features/forums/presentation/pages/forums_home_page.dart';
 import '../../features/forums/presentation/pages/new_thread_page.dart';
+import '../../features/forums/presentation/pages/saved_threads_page.dart';
+import '../../features/forums/presentation/bloc/saved/bloc.dart';
+import '../../features/forums/presentation/bloc/saved/event.dart';
 import '../../features/follow/presentation/bloc/event.dart';
 import '../../features/follow/presentation/pages/followers_following_page.dart';
 import '../../features/garage/domain/entities/car.dart';
@@ -236,6 +239,14 @@ final appRouter = GoRouter(
             create: (_) =>
                 getIt<ForumBrowseBloc>()..add(const LoadForumBrowse()),
             child: const ForumsBrowsePage(),
+          ),
+        ),
+        GoRoute(
+          path: 'saved',
+          builder: (context, state) => BlocProvider<SavedThreadsBloc>(
+            create: (_) =>
+                getIt<SavedThreadsBloc>()..add(const LoadSavedThreads()),
+            child: const SavedThreadsPage(),
           ),
         ),
         // The hub filter travels as `extra`; a hub deep-linked without one

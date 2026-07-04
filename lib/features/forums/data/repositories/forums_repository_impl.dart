@@ -8,6 +8,7 @@ import '../../domain/entities/forum_filter.dart';
 import '../../domain/entities/forum_pages.dart';
 import '../../domain/entities/forum_reply.dart';
 import '../../domain/entities/forum_shortcut.dart';
+import '../../domain/entities/forum_suggestion.dart';
 import '../../domain/entities/forum_thread.dart';
 import '../../domain/entities/forum_topic.dart';
 import '../../domain/failures/forum_failures.dart';
@@ -83,12 +84,14 @@ class ForumsRepositoryImpl implements ForumsRepository {
   @override
   Future<Either<Failure, ForumReplyPageEntity>> getThreadReplies(
     String threadId, {
+    ForumReplySort sort = ForumReplySort.oldest,
     String? cursor,
     int? size,
   }) =>
       _run('getThreadReplies', () async {
         final page = await dataSource.getThreadReplies(
           threadId,
+          sort: sort,
           cursor: cursor,
           size: size,
         );
@@ -98,12 +101,14 @@ class ForumsRepositoryImpl implements ForumsRepository {
   @override
   Future<Either<Failure, ForumReplyPageEntity>> getReplyChildren(
     String postId, {
+    ForumReplySort sort = ForumReplySort.oldest,
     String? cursor,
     int? size,
   }) =>
       _run('getReplyChildren', () async {
         final page = await dataSource.getReplyChildren(
           postId,
+          sort: sort,
           cursor: cursor,
           size: size,
         );
@@ -241,4 +246,32 @@ class ForumsRepositoryImpl implements ForumsRepository {
   @override
   Future<Either<Failure, void>> deleteShortcut(String shortcutId) =>
       _run('deleteShortcut', () => dataSource.deleteShortcut(shortcutId));
+
+  @override
+  Future<Either<Failure, void>> saveThread(String threadId) =>
+      _run('saveThread', () => dataSource.saveThread(threadId));
+
+  @override
+  Future<Either<Failure, void>> unsaveThread(String threadId) =>
+      _run('unsaveThread', () => dataSource.unsaveThread(threadId));
+
+  @override
+  Future<Either<Failure, ForumThreadPageEntity>> getSavedThreads({
+    String? cursor,
+    int? size,
+  }) =>
+      _run('getSavedThreads', () async {
+        final page =
+            await dataSource.getSavedThreads(cursor: cursor, size: size);
+        return page.toEntity();
+      });
+
+  @override
+  Future<Either<Failure, List<ForumSuggestionEntity>>> getSuggestions({
+    int? limit,
+  }) =>
+      _run('getSuggestions', () async {
+        final models = await dataSource.getSuggestions(limit: limit);
+        return models.map((m) => m.toEntity()).toList();
+      });
 }

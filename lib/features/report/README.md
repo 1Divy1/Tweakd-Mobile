@@ -1,9 +1,10 @@
 # report
 
-Cross-cutting reporting for **posts, comments and profiles**. One clean-arch
-feature (`presentation → domain → data`) drives the same reason-picker sheet from
-three entry points; the owning features (feed, posts, profile) only host the
-"⋯" menus and decide what to do after a successful report.
+Cross-cutting reporting for **posts, comments, profiles, forum threads and
+forum replies**. One clean-arch feature (`presentation → domain → data`) drives
+the same reason-picker sheet from every entry point; the owning features (feed,
+posts, profile, forums) only host the "⋯" menus and decide what to do after a
+successful report.
 
 ## Flow
 
@@ -23,11 +24,13 @@ Base URL already includes `/api/v1`; JWT via the shared `AuthInterceptor`.
 Request bodies are snake_case (`{ "reason_id": "…" }`); the report POSTs return
 `204 No Content`.
 
-| Target  | Reasons (GET)                     | Report (POST)                                  |
-|---------|-----------------------------------|------------------------------------------------|
-| post    | `/posts/report-reasons`           | `/posts/{postId}/report`                       |
-| comment | `/posts/comments/report-reasons`  | `/posts/{postId}/comments/{commentId}/report`  |
-| profile | `/profile/report-reasons`         | `/profile/{username}/report`                   |
+| Target        | Reasons (GET)                     | Report (POST)                                  |
+|---------------|-----------------------------------|------------------------------------------------|
+| post          | `/posts/report-reasons`           | `/posts/{postId}/report`                       |
+| comment       | `/posts/comments/report-reasons`  | `/posts/{postId}/comments/{commentId}/report`  |
+| profile       | `/profile/report-reasons`         | `/profile/{username}/report`                   |
+| forum thread  | `/forums/threads/report-reasons`  | `/forums/threads/{threadId}/report`            |
+| forum reply   | `/forums/posts/report-reasons`    | `/forums/posts/{postId}/report`                |
 
 `GET report-reasons` returns `[{ id, reason }]`; `id` is echoed back as
 `reason_id`.
@@ -35,7 +38,8 @@ Request bodies are snake_case (`{ "reason_id": "…" }`); the report POSTs retur
 **My reports** — `GET /reports/mine` (reporter from the JWT) returns a single
 newest-first list across all three types, each item snake_case:
 `{ target_type, target_id, reason, status, created_at }`. `target_type` ∈
-`post|comment|profile`; `status` ∈ `pending|in_progress|resolved|dismissed`;
+`post|comment|profile|forum_thread|forum_thread_reply`; `status` ∈
+`pending|in_progress|resolved|dismissed`;
 `reason` is null when no preset reason was picked. Empty ⇒ `[]`.
 
 Error mapping (`ReportRepositoryImpl` → `ReportErrorMapper`):

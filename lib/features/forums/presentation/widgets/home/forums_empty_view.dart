@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
-import '../../../domain/entities/forum_topic.dart';
+import '../../../domain/entities/forum_suggestion.dart';
 import '../shared/forum_section_label.dart';
 
-/// Empty-paddock home: the pin explainer, pinnable topic suggestions and the
-/// start-first-thread CTA.
+/// Empty-paddock home: the pin explainer, pinnable popular-hub suggestions
+/// (brands, models, topics) and the start-first-thread CTA.
 class ForumsEmptyView extends StatelessWidget {
-  final List<ForumTopicEntity> suggestedTopics;
-  final ValueChanged<ForumTopicEntity> onPinTopic;
+  final List<ForumSuggestionEntity> suggestions;
+  final ValueChanged<ForumSuggestionEntity> onPin;
   final VoidCallback onStartThread;
 
   const ForumsEmptyView({
     super.key,
-    required this.suggestedTopics,
-    required this.onPinTopic,
+    required this.suggestions,
+    required this.onPin,
     required this.onStartThread,
   });
 
@@ -29,7 +29,7 @@ class ForumsEmptyView extends StatelessWidget {
         children: [
           const SizedBox(height: 8),
           _ExplainerCard(l10n: l10n),
-          if (suggestedTopics.isNotEmpty) ...[
+          if (suggestions.isNotEmpty) ...[
             const SizedBox(height: 24),
             ForumSectionLabel(label: l10n.forumsPopularHubs),
             const SizedBox(height: 12),
@@ -37,10 +37,10 @@ class ForumsEmptyView extends StatelessWidget {
               spacing: 8,
               runSpacing: 8,
               children: [
-                for (final topic in suggestedTopics)
+                for (final suggestion in suggestions)
                   _PinnableHubChip(
-                    topic: topic,
-                    onPin: () => onPinTopic(topic),
+                    suggestion: suggestion,
+                    onPin: () => onPin(suggestion),
                   ),
               ],
             ),
@@ -110,15 +110,21 @@ class _ExplainerCard extends StatelessWidget {
 }
 
 class _PinnableHubChip extends StatelessWidget {
-  final ForumTopicEntity topic;
+  final ForumSuggestionEntity suggestion;
   final VoidCallback onPin;
 
-  const _PinnableHubChip({required this.topic, required this.onPin});
+  const _PinnableHubChip({required this.suggestion, required this.onPin});
+
+  IconData get _icon => switch (suggestion.type) {
+        ForumSuggestionType.brand => Icons.directions_car_filled_outlined,
+        ForumSuggestionType.model => Icons.garage_outlined,
+        ForumSuggestionType.topic => Icons.tag_rounded,
+      };
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(14, 8, 8, 8),
+      padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(999),
@@ -127,8 +133,10 @@ class _PinnableHubChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
+          Icon(_icon, size: 14, color: AppColors.mute),
+          const SizedBox(width: 6),
           Text(
-            topic.name,
+            suggestion.displayName,
             style: const TextStyle(
               color: AppColors.ink,
               fontSize: 13,

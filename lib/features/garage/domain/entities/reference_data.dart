@@ -6,10 +6,18 @@ class CarBrandEntity extends Equatable {
   final String id;
   final String name;
 
-  const CarBrandEntity({required this.id, required this.name});
+  /// Forum threads tagged with this brand. Null outside forum contexts (the
+  /// garage catalog only populates it where the backend sends `thread_count`).
+  final int? threadCount;
+
+  const CarBrandEntity({
+    required this.id,
+    required this.name,
+    this.threadCount,
+  });
 
   @override
-  List<Object?> get props => [id, name];
+  List<Object?> get props => [id, name, threadCount];
 }
 
 class CarModelEntity extends Equatable {
@@ -17,14 +25,19 @@ class CarModelEntity extends Equatable {
   final String brandId;
   final String model;
 
+  /// Forum threads tagged with this model. Null when the backend doesn't send
+  /// a `thread_count` for this context.
+  final int? threadCount;
+
   const CarModelEntity({
     required this.id,
     required this.brandId,
     required this.model,
+    this.threadCount,
   });
 
   @override
-  List<Object?> get props => [id, brandId, model];
+  List<Object?> get props => [id, brandId, model, threadCount];
 }
 
 class CarDrivetrainEntity extends Equatable {

@@ -34,3 +34,19 @@ class ProfileReportTarget extends ReportTarget {
   @override
   List<Object?> get props => [username];
 }
+
+class ForumThreadReportTarget extends ReportTarget {
+  final String threadId;
+  const ForumThreadReportTarget(this.threadId);
+
+  @override
+  List<Object?> get props => [threadId];
+}
+
+class ForumReplyReportTarget extends ReportTarget {
+  final String postId;
+  const ForumReplyReportTarget(this.postId);
+
+  @override
+  List<Object?> get props => [postId];
+}

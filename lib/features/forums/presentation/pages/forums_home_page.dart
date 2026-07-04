@@ -78,6 +78,7 @@ class _ForumsHomePageState extends State<ForumsHomePage> {
           children: [
             ForumsTopBar(
               onBrowse: () => _pushAndSync('/forums/browse'),
+              onSaved: () => _pushAndSync('/forums/saved'),
               onNewThread: () => _pushAndSync('/forums/new'),
             ),
             Expanded(
@@ -169,8 +170,8 @@ class _HomeContent extends StatelessWidget {
           physics: const AlwaysScrollableScrollPhysics(),
           children: [
             ForumsEmptyView(
-              suggestedTopics: state.suggestedTopics,
-              onPinTopic: (topic) => bloc.add(PinForumTopicShortcut(topic)),
+              suggestions: state.suggestions,
+              onPin: (suggestion) => bloc.add(PinForumSuggestion(suggestion)),
               onStartThread: onStartThread,
             ),
           ],
@@ -222,6 +223,8 @@ class _HomeContent extends StatelessWidget {
               ForumThreadCard(
                 thread: thread,
                 onTap: () => onOpenThread(thread.id),
+                onToggleSave: () =>
+                    bloc.add(ToggleForumSaveInFeed(thread.id)),
               ),
             if (state.isLoadingMore)
               const Padding(

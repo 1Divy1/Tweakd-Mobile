@@ -24,6 +24,12 @@ class ReportApiDataSource {
   Future<List<ReportReasonModel>> getProfileReasons() =>
       _getReasons('/profile/report-reasons');
 
+  Future<List<ReportReasonModel>> getForumThreadReasons() =>
+      _getReasons('/forums/threads/report-reasons');
+
+  Future<List<ReportReasonModel>> getForumReplyReasons() =>
+      _getReasons('/forums/posts/report-reasons');
+
   Future<List<ReportReasonModel>> _getReasons(String path) async {
     final data = await http.get(path);
     return (data as List<dynamic>)
@@ -51,6 +57,20 @@ class ReportApiDataSource {
   Future<void> reportProfile(String username, String reasonId) async {
     await http.post(
       '/profile/$username/report',
+      body: {'reason_id': reasonId},
+    );
+  }
+
+  Future<void> reportForumThread(String threadId, String reasonId) async {
+    await http.post(
+      '/forums/threads/$threadId/report',
+      body: {'reason_id': reasonId},
+    );
+  }
+
+  Future<void> reportForumReply(String postId, String reasonId) async {
+    await http.post(
+      '/forums/posts/$postId/report',
       body: {'reason_id': reasonId},
     );
   }

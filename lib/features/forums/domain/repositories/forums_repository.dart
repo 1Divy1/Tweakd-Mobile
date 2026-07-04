@@ -6,6 +6,7 @@ import '../entities/forum_filter.dart';
 import '../entities/forum_pages.dart';
 import '../entities/forum_reply.dart';
 import '../entities/forum_shortcut.dart';
+import '../entities/forum_suggestion.dart';
 import '../entities/forum_thread.dart';
 import '../entities/forum_topic.dart';
 
@@ -23,16 +24,18 @@ abstract class ForumsRepository {
 
   Future<Either<Failure, ForumThreadDetailEntity>> getThread(String threadId);
 
-  /// Top-level replies of a thread, oldest first.
+  /// Top-level replies of a thread. [sort] picks oldest- or newest-first.
   Future<Either<Failure, ForumReplyPageEntity>> getThreadReplies(
     String threadId, {
+    ForumReplySort sort,
     String? cursor,
     int? size,
   });
 
-  /// One page of a reply's direct children.
+  /// One page of a reply's direct children, in the given [sort].
   Future<Either<Failure, ForumReplyPageEntity>> getReplyChildren(
     String postId, {
+    ForumReplySort sort,
     String? cursor,
     int? size,
   });
@@ -95,4 +98,19 @@ abstract class ForumsRepository {
   );
 
   Future<Either<Failure, void>> deleteShortcut(String shortcutId);
+
+  /// Idempotent save/unsave (bookmark) of a thread.
+  Future<Either<Failure, void>> saveThread(String threadId);
+  Future<Either<Failure, void>> unsaveThread(String threadId);
+
+  /// The viewer's saved threads, newest-save-first.
+  Future<Either<Failure, ForumThreadPageEntity>> getSavedThreads({
+    String? cursor,
+    int? size,
+  });
+
+  /// The most active brands, models and topics, ranked by thread count.
+  Future<Either<Failure, List<ForumSuggestionEntity>>> getSuggestions({
+    int? limit,
+  });
 }

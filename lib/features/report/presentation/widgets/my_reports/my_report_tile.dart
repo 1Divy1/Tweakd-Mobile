@@ -25,6 +25,14 @@ class MyReportTile extends StatelessWidget {
           Icons.person_outline,
           l10n.reportTargetProfile,
         ),
+      ReportTargetType.forumThread => (
+          Icons.forum_outlined,
+          l10n.reportTargetForumThread,
+        ),
+      ReportTargetType.forumReply => (
+          Icons.mode_comment_outlined,
+          l10n.reportTargetForumReply,
+        ),
     };
     final date = MaterialLocalizations.of(context).formatMediumDate(
       report.createdAt,

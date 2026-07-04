@@ -8,11 +8,13 @@ import '../shared/forum_pill_button.dart';
 /// new-thread button.
 class ForumsTopBar extends StatelessWidget {
   final VoidCallback onBrowse;
+  final VoidCallback onSaved;
   final VoidCallback onNewThread;
 
   const ForumsTopBar({
     super.key,
     required this.onBrowse,
+    required this.onSaved,
     required this.onNewThread,
   });
 
@@ -47,6 +49,11 @@ class ForumsTopBar extends StatelessWidget {
               ],
             ),
           ),
+          ForumPillButton(
+            icon: Icons.bookmark_border_rounded,
+            onTap: onSaved,
+          ),
+          const SizedBox(width: 8),
           ForumPillButton(icon: Icons.add_rounded, onTap: onNewThread),
         ],
       ),

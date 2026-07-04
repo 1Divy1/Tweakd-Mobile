@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/forum_shortcut.dart';
+import '../../utils/forum_format.dart';
 import '../shared/forum_section_label.dart';
 
 /// The horizontal "YOUR SHORTCUTS" row. Edit mode turns the cards
@@ -142,6 +143,8 @@ class _ShortcutCard extends StatelessWidget {
                   color: isEditing ? AppColors.ink2 : AppColors.muteSoft,
                 ),
                 const Spacer(),
+                if (!isEditing && shortcut.unreadCount > 0)
+                  _UnreadBadge(count: shortcut.unreadCount),
                 if (isEditing && onRemove != null)
                   GestureDetector(
                     onTap: onRemove,
@@ -200,6 +203,36 @@ class _ShortcutCard extends StatelessWidget {
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// The unread-thread count pill on a shortcut card (new threads matching the
+/// filter that the viewer hasn't opened yet).
+class _UnreadBadge extends StatelessWidget {
+  final int count;
+
+  const _UnreadBadge({required this.count});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: const BoxConstraints(minWidth: 18),
+      height: 18,
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      decoration: BoxDecoration(
+        color: AppColors.accent,
+        borderRadius: BorderRadius.circular(9),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        forumCompactCount(count),
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 10,
+          fontWeight: FontWeight.w800,
         ),
       ),
     );
