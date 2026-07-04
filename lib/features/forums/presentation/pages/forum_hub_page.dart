@@ -9,6 +9,7 @@ import '../bloc/hub/bloc.dart';
 import '../bloc/hub/event.dart';
 import '../bloc/hub/state.dart';
 import '../utils/forum_error_mapper.dart';
+import '../utils/forum_format.dart';
 import '../widgets/hub/save_shortcut_sheet.dart';
 import '../widgets/shared/forum_chips.dart';
 import '../widgets/shared/forum_error_view.dart';
@@ -89,11 +90,23 @@ class _ForumHubPageState extends State<ForumHubPage> {
           },
           builder: (context, state) {
             final filter = state.baseFilter;
+            final count = filter.model?.threadCount ??
+                filter.brand?.threadCount ??
+                filter.topic?.threadCount;
+            final countLabel = count == null
+                ? null
+                : l10n
+                    .forumsThreadsCount(count)
+                    .replaceFirst('$count', forumCompactCount(count));
+            final subtitle = [
+              if (filter.model != null) filter.brand?.name,
+              countLabel,
+            ].whereType<String>().join(' · ');
             return Column(
               children: [
                 ForumSubTopBar(
                   title: filter.title.toUpperCase(),
-                  subtitle: filter.model != null ? filter.brand?.name : null,
+                  subtitle: subtitle.isEmpty ? null : subtitle,
                   trailing: ForumPillButton(
                     icon: Icons.notifications_none_rounded,
                     onTap: () => _openSaveSheet(notifyDefault: true),
@@ -250,6 +263,8 @@ class _HubContent extends StatelessWidget {
               hideBrandTag: filter.brand != null,
               hideModelTag: filter.model != null,
               onTap: () => context.push('/forums/threads/${thread.id}'),
+              onToggleSave: () =>
+                  bloc.add(ToggleForumHubSave(thread.id)),
             ),
           if (state.isLoadingMore)
             const Padding(

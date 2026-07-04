@@ -5,32 +5,52 @@ class CarBrandModel {
   final String id;
   final String name;
 
-  const CarBrandModel({required this.id, required this.name});
+  /// Forum thread count — present only where the backend sends it (forum
+  /// contexts); the plain garage catalog omits it.
+  final int? threadCount;
+
+  const CarBrandModel({required this.id, required this.name, this.threadCount});
 
   factory CarBrandModel.fromJson(Map<String, dynamic> json) {
-    return CarBrandModel(id: json['id'] as String, name: json['name'] as String);
+    return CarBrandModel(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      threadCount: (json['thread_count'] as num?)?.toInt(),
+    );
   }
 
-  CarBrandEntity toEntity() => CarBrandEntity(id: id, name: name);
+  CarBrandEntity toEntity() =>
+      CarBrandEntity(id: id, name: name, threadCount: threadCount);
 }
 
 class CarModelModel {
   final String id;
   final String brandId;
   final String model;
+  final int? threadCount;
 
-  const CarModelModel({required this.id, required this.brandId, required this.model});
+  const CarModelModel({
+    required this.id,
+    required this.brandId,
+    required this.model,
+    this.threadCount,
+  });
 
   factory CarModelModel.fromJson(Map<String, dynamic> json) {
     return CarModelModel(
       id: json['id'] as String,
       brandId: json['brand_id'] as String,
       model: json['model'] as String,
+      threadCount: (json['thread_count'] as num?)?.toInt(),
     );
   }
 
-  CarModelEntity toEntity() =>
-      CarModelEntity(id: id, brandId: brandId, model: model);
+  CarModelEntity toEntity() => CarModelEntity(
+        id: id,
+        brandId: brandId,
+        model: model,
+        threadCount: threadCount,
+      );
 }
 
 class CarDrivetrainModel {

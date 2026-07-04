@@ -2,6 +2,18 @@ import 'package:equatable/equatable.dart';
 
 import 'forum_author.dart';
 
+/// Order for a reply list (the Oldest / Newest toggle). The backend defaults
+/// to oldest-first; an unknown value is a 400.
+enum ForumReplySort { oldest, newest }
+
+/// Wire value for the replies `sort` query parameter.
+extension ForumReplySortApi on ForumReplySort {
+  String get apiValue => switch (this) {
+        ForumReplySort.oldest => 'old',
+        ForumReplySort.newest => 'new',
+      };
+}
+
 /// A reply ("post") in a thread. Replies load level by level: [replyCount] is
 /// the number of direct children, fetched on demand. A [deleted] reply has a
 /// null author/content and renders a "[deleted]" placeholder — it stays
@@ -14,6 +26,10 @@ class ForumReplyEntity extends Equatable {
   final int replyCount;
   final bool deleted;
   final bool viewerHasLiked;
+
+  /// True when this reply's author is the thread's original poster. Always
+  /// false on a [deleted] reply.
+  final bool isAuthor;
   final DateTime createdAt;
 
   const ForumReplyEntity({
@@ -24,6 +40,7 @@ class ForumReplyEntity extends Equatable {
     this.replyCount = 0,
     this.deleted = false,
     this.viewerHasLiked = false,
+    this.isAuthor = false,
     required this.createdAt,
   });
 
@@ -41,6 +58,7 @@ class ForumReplyEntity extends Equatable {
       replyCount: replyCount ?? this.replyCount,
       deleted: deleted,
       viewerHasLiked: viewerHasLiked ?? this.viewerHasLiked,
+      isAuthor: isAuthor,
       createdAt: createdAt,
     );
   }
@@ -54,6 +72,7 @@ class ForumReplyEntity extends Equatable {
         replyCount,
         deleted,
         viewerHasLiked,
+        isAuthor,
         createdAt,
       ];
 }

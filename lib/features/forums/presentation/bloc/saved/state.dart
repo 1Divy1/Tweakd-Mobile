@@ -1,67 +1,47 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../domain/entities/forum_shortcut.dart';
-import '../../../domain/entities/forum_suggestion.dart';
 import '../../../domain/entities/forum_thread.dart';
 import '../../utils/forum_error_mapper.dart';
 
-/// One composite state for the forums home: the shortcuts row, the hot-feed
-/// list and the empty-state topic suggestions load together but fail softly
-/// where possible. [actionError] is a one-shot snackbar signal — listeners
-/// key on [actionErrorTick], never on the value alone.
-class ForumsHomeState extends Equatable {
+/// State of the saved-threads screen. [actionError] is a one-shot snackbar
+/// signal keyed on [actionErrorTick].
+class SavedThreadsState extends Equatable {
   final bool isLoading;
   final ForumErrorCode? errorCode;
-  final List<ForumShortcutEntity> shortcuts;
-  final List<ForumSuggestionEntity> suggestions;
   final List<ForumThreadEntity> threads;
   final String? nextCursor;
-  final bool isThreadsLoading;
   final bool isLoadingMore;
-  final ForumThreadSort sort;
   final ForumErrorCode? actionError;
   final int actionErrorTick;
 
-  const ForumsHomeState({
+  const SavedThreadsState({
     this.isLoading = true,
     this.errorCode,
-    this.shortcuts = const [],
-    this.suggestions = const [],
     this.threads = const [],
     this.nextCursor,
-    this.isThreadsLoading = false,
     this.isLoadingMore = false,
-    this.sort = ForumThreadSort.hot,
     this.actionError,
     this.actionErrorTick = 0,
   });
 
   bool get hasMore => nextCursor != null;
 
-  ForumsHomeState copyWith({
+  SavedThreadsState copyWith({
     bool? isLoading,
     ForumErrorCode? errorCode,
     bool clearError = false,
-    List<ForumShortcutEntity>? shortcuts,
-    List<ForumSuggestionEntity>? suggestions,
     List<ForumThreadEntity>? threads,
     String? nextCursor,
     bool clearNextCursor = false,
-    bool? isThreadsLoading,
     bool? isLoadingMore,
-    ForumThreadSort? sort,
     ForumErrorCode? actionError,
   }) {
-    return ForumsHomeState(
+    return SavedThreadsState(
       isLoading: isLoading ?? this.isLoading,
       errorCode: clearError ? null : (errorCode ?? this.errorCode),
-      shortcuts: shortcuts ?? this.shortcuts,
-      suggestions: suggestions ?? this.suggestions,
       threads: threads ?? this.threads,
       nextCursor: clearNextCursor ? null : (nextCursor ?? this.nextCursor),
-      isThreadsLoading: isThreadsLoading ?? this.isThreadsLoading,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
-      sort: sort ?? this.sort,
       actionError: actionError ?? this.actionError,
       actionErrorTick:
           actionError != null ? actionErrorTick + 1 : actionErrorTick,
@@ -72,13 +52,9 @@ class ForumsHomeState extends Equatable {
   List<Object?> get props => [
         isLoading,
         errorCode,
-        shortcuts,
-        suggestions,
         threads,
         nextCursor,
-        isThreadsLoading,
         isLoadingMore,
-        sort,
         actionError,
         actionErrorTick,
       ];

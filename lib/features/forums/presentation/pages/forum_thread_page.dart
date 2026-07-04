@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'package:car_social_media_app/features/report/domain/entities/report_target.dart';
+import 'package:car_social_media_app/features/report/presentation/widgets/report_reason_sheet.dart';
+
 import '../../../../core/di/injection.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -16,6 +19,7 @@ import '../widgets/shared/forum_section_label.dart';
 import '../widgets/shared/forum_sub_top_bar.dart';
 import '../widgets/thread/forum_edit_sheet.dart';
 import '../widgets/thread/reply_input_bar.dart';
+import '../widgets/thread/reply_sort_toggle.dart';
 import '../widgets/thread/reply_tile.dart';
 import '../widgets/thread/thread_header.dart';
 
@@ -67,12 +71,25 @@ class _ForumThreadPageState extends State<ForumThreadPage> {
     _replyFocus.requestFocus();
   }
 
-  /// The thread top bar "⋯" menu (author only): edit body / delete.
-  Future<void> _openThreadMenu() async {
+  /// The thread top bar "⋯" menu. The author gets edit/delete; everyone else
+  /// gets Report.
+  Future<void> _openThreadMenu(bool isAuthor) async {
     final l10n = AppLocalizations.of(context)!;
     final bloc = context.read<ForumThreadBloc>();
     final thread = bloc.state.thread;
     if (thread == null) return;
+
+    if (!isAuthor) {
+      final reported = await showReportSheet(
+        context,
+        target: ForumThreadReportTarget(thread.id),
+        title: l10n.forumsReportThreadTitle,
+      );
+      // A reported thread is left in place; drop back to where the viewer came
+      // from so it isn't front and centre.
+      if (reported && mounted) context.pop();
+      return;
+    }
 
     final action = await _showActionsSheet(
       edit: l10n.forumsEditThread,
@@ -97,9 +114,20 @@ class _ForumThreadPageState extends State<ForumThreadPage> {
     }
   }
 
+  /// A reply's "⋯" menu. The author gets edit/delete; everyone else gets Report.
   Future<void> _openReplyMenu(ReplyNode node) async {
     final l10n = AppLocalizations.of(context)!;
     final bloc = context.read<ForumThreadBloc>();
+    final isOwn = node.reply.author?.id == _currentUserId;
+
+    if (!isOwn) {
+      await showReportSheet(
+        context,
+        target: ForumReplyReportTarget(node.reply.id),
+        title: l10n.forumsReportReplyTitle,
+      );
+      return;
+    }
 
     final action = await _showActionsSheet(
       edit: l10n.forumsEditReply,
@@ -273,10 +301,10 @@ class _ForumThreadPageState extends State<ForumThreadPage> {
               children: [
                 ForumSubTopBar(
                   title: l10n.forumsThreadTitle,
-                  trailing: isAuthor
+                  trailing: (thread != null && !thread.deleted)
                       ? ForumPillButton(
                           icon: Icons.more_horiz,
-                          onTap: _openThreadMenu,
+                          onTap: () => _openThreadMenu(isAuthor),
                         )
                       : null,
                 ),
@@ -366,13 +394,26 @@ class _ThreadContent extends StatelessWidget {
         ThreadHeader(
           thread: thread,
           onToggleLike: () => bloc.add(const ToggleForumThreadLike()),
+          onToggleSave: () => bloc.add(const ToggleForumThreadSave()),
           onReply: onFocusComposer,
           onShare: onShare,
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 14, 16, 4),
-          child:
-              ForumSectionLabel(label: l10n.forumsRepliesHeader(thread.replyCount)),
+          child: Row(
+            children: [
+              Expanded(
+                child: ForumSectionLabel(
+                  label: l10n.forumsRepliesHeader(thread.replyCount),
+                ),
+              ),
+              if (thread.replyCount > 0)
+                ReplySortToggle(
+                  active: state.replySort,
+                  onChanged: (sort) => bloc.add(ChangeReplySort(sort)),
+                ),
+            ],
+          ),
         ),
         if (state.repliesLoading)
           const Padding(

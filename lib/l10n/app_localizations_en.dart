@@ -1682,6 +1682,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reportTargetProfile => 'Profile';
 
   @override
+  String get reportTargetForumThread => 'Forum thread';
+
+  @override
+  String get reportTargetForumReply => 'Forum reply';
+
+  @override
   String get reportNoReason => 'No reason given';
 
   @override
@@ -2067,6 +2073,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get forumsShare => 'Share';
+
+  @override
+  String get forumsSave => 'Save';
+
+  @override
+  String get forumsSaved => 'Saved';
+
+  @override
+  String get forumsAuthorBadge => 'OP';
+
+  @override
+  String get forumsRepliesOldest => 'Oldest';
+
+  @override
+  String get forumsRepliesNewest => 'Newest';
+
+  @override
+  String get forumsReportThreadTitle => 'Report thread';
+
+  @override
+  String get forumsReportReplyTitle => 'Report reply';
+
+  @override
+  String get forumsSavedTitle => 'SAVED';
+
+  @override
+  String get forumsSavedHeader => 'SAVED THREADS';
+
+  @override
+  String get forumsSavedEmptyTitle => 'Nothing saved yet';
+
+  @override
+  String get forumsSavedEmptyBody =>
+      'Bookmark threads to find them here later.';
 
   @override
   String get forumsErrorNetwork => 'No internet connection. Please try again.';

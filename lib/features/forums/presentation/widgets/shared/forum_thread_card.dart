@@ -17,6 +17,9 @@ class ForumThreadCard extends StatelessWidget {
   final bool hideBrandTag;
   final bool hideModelTag;
 
+  /// When set, a bookmark toggle is shown on the card; null hides it.
+  final VoidCallback? onToggleSave;
+
   const ForumThreadCard({
     super.key,
     required this.thread,
@@ -24,6 +27,7 @@ class ForumThreadCard extends StatelessWidget {
     this.showExcerpt = false,
     this.hideBrandTag = false,
     this.hideModelTag = false,
+    this.onToggleSave,
   });
 
   @override
@@ -140,6 +144,22 @@ class ForumThreadCard extends StatelessWidget {
                   icon: Icons.favorite_border_rounded,
                   count: thread.likesCount,
                 ),
+                if (onToggleSave != null) ...[
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: onToggleSave,
+                    behavior: HitTestBehavior.opaque,
+                    child: Icon(
+                      thread.viewerHasSaved
+                          ? Icons.bookmark_rounded
+                          : Icons.bookmark_border_rounded,
+                      size: 19,
+                      color: thread.viewerHasSaved
+                          ? AppColors.accent
+                          : AppColors.mute,
+                    ),
+                  ),
+                ],
               ],
             ),
           ],

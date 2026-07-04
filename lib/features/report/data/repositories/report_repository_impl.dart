@@ -26,6 +26,8 @@ class ReportRepositoryImpl implements ReportRepository {
         PostReportTarget() => await dataSource.getPostReasons(),
         CommentReportTarget() => await dataSource.getCommentReasons(),
         ProfileReportTarget() => await dataSource.getProfileReasons(),
+        ForumThreadReportTarget() => await dataSource.getForumThreadReasons(),
+        ForumReplyReportTarget() => await dataSource.getForumReplyReasons(),
       };
       return Right(models.map((m) => m.toEntity()).toList());
     } on UnauthenticatedException catch (e) {
@@ -53,6 +55,10 @@ class ReportRepositoryImpl implements ReportRepository {
           await dataSource.reportComment(postId, commentId, reasonId);
         case ProfileReportTarget(:final username):
           await dataSource.reportProfile(username, reasonId);
+        case ForumThreadReportTarget(:final threadId):
+          await dataSource.reportForumThread(threadId, reasonId);
+        case ForumReplyReportTarget(:final postId):
+          await dataSource.reportForumReply(postId, reasonId);
       }
       return const Right(null);
     } on UnauthenticatedException catch (e) {

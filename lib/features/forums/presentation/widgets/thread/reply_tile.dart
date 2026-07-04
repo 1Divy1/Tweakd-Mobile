@@ -39,9 +39,6 @@ class ReplyTile extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final reply = node.reply;
     final authorName = reply.author?.username;
-    final isOwn = !reply.deleted &&
-        currentUserId != null &&
-        reply.author?.id == currentUserId;
     final indent = 16.0 + (depth.clamp(0, 3)) * 22.0;
 
     return Column(
@@ -75,6 +72,10 @@ class ReplyTile extends StatelessWidget {
                       ),
                     ),
                   ),
+                  if (!reply.deleted && reply.isAuthor) ...[
+                    const SizedBox(width: 6),
+                    const _AuthorBadge(),
+                  ],
                   Text(
                     '  ·  ${postTimeAgo(l10n, reply.createdAt)}',
                     style: const TextStyle(
@@ -84,7 +85,7 @@ class ReplyTile extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  if (isOwn)
+                  if (!reply.deleted && authorName != null)
                     GestureDetector(
                       onTap: () => onMenu(node),
                       child: const Icon(
@@ -205,6 +206,33 @@ class ReplyTile extends StatelessWidget {
             ),
         ],
       ],
+    );
+  }
+}
+
+/// The small "OP" pill shown next to a reply whose author is the thread's
+/// original poster.
+class _AuthorBadge extends StatelessWidget {
+  const _AuthorBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: AppColors.accentSoft,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Text(
+        l10n.forumsAuthorBadge,
+        style: const TextStyle(
+          color: AppColors.accent,
+          fontSize: 9,
+          fontWeight: FontWeight.w900,
+          letterSpacing: 0.6,
+        ),
+      ),
     );
   }
 }

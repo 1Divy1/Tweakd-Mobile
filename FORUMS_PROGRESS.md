@@ -40,18 +40,42 @@ pass), clean architecture under `lib/features/forums/`, matching the mocks:
 - Wire format is **snake_case** (contract examples are camelCase but illustrative
   only — owner reconfirmed 2026-06-30; see memory `project_backend_camelcase`).
 
-## ⚠️ Features NOT implementable yet (missing backend) — REMIND THE USER
+## ✅ Backend caught up — all 7 gap items now implemented (2026-07-04)
 
-- Thread **Save/bookmark** action (mock shows Save on thread page + cards).
-- **Unread count badges** on shortcut cards (mock: 12 / 34 badges).
-- **Reply sorting** (mock has Hot/New/Active on replies; API is oldest-first only).
-- **Thread counts** anywhere (brand/topic browse cards, hub subtitles "BMW · 1.2k
-  threads", "142 THREADS" header) — no endpoint returns counts; UI slots exist
-  and auto-show once entities get counts.
-- **Popular hubs** curation (mock mixes cars + topics, e.g. "BMW M4", "Supra
-  MK5") — no suggestion endpoint; home derives suggestions from topics only.
-- Forum threads/replies are **not report targets** (report feature covers posts/
-  comments/accounts only).
+The backend added the endpoints below and these are now wired end-to-end.
+**Endpoint-prefix decision:** the owner's contract dropped the `/forums` prefix
+(e.g. `POST /threads/{id}/save`), but every forum endpoint in this app is under
+`/forums/...` (and item 2 said `/shortcuts` was the "unchanged route" =
+existing `/forums/shortcuts`), so all new endpoints use the `/forums/` prefix.
+If a first live run 404s, that prefix is the thing to check.
+
+1. **Save/bookmark** — `viewerHasSaved` on `ForumThreadEntity`; `POST/DELETE
+   /forums/threads/{id}/save`; `GET /forums/threads/saved` (cursor). Save action
+   on the thread page + a bookmark toggle on every card (home feed, hubs).
+   New **Saved threads** screen (`/forums/saved`, bookmark pill in home top bar);
+   `SavedThreadsBloc`; unsave removes from that list.
+2. **Unread badges** — `unreadCount` on `ForumShortcutEntity` (from `/forums/
+   shortcuts`); accent pill on shortcut cards. Opening a thread marks it seen
+   backend-side, and home re-syncs on return, so counts refresh for free.
+3. **Reply sorting** — `ForumReplySort {oldest,newest}` (`sort=old|new`) on
+   both replies endpoints; `ReplySortToggle` in the thread replies header;
+   changing sort resets the lazy tree. Children re-fetch in the same order.
+6. **Author badge** — `isAuthor` on `ForumReplyEntity` (`is_author`); small "OP"
+   pill next to a reply author who is the thread OP.
+4. **Thread counts** — `threadCount` added to `CarBrandEntity`/`CarModelEntity`
+   (+ garage `CarBrand/CarModelModel` parse `thread_count`); topics already had
+   the slot. Rendered on browse brand/topic cards and the hub subtitle
+   ("BMW · 1.2k threads").
+5. **Popular hubs** — `GET /forums/suggestions` → `ForumSuggestionEntity
+   {type,id,name,subtitle,threadCount}`; empty-home chips now show ranked
+   brands/models/topics (model reads "BMW M4"); pinning creates the right
+   brand/model/topic shortcut. (Replaced the old topics-only derivation.)
+7. **Reports** — forum threads/replies are now report targets. Added
+   `ForumThreadReportTarget`/`ForumReplyReportTarget` to the shared report
+   feature, `/forums/threads|posts/report-reasons` + `/report` endpoints, ⋯
+   menus (thread top bar for non-authors, reply tile for non-owners) → existing
+   `showReportSheet`. `forum_thread`/`forum_thread_reply` rows render in
+   My reports.
 
 ## Backend contract (condensed)
 
