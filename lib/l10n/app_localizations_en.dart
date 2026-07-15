@@ -2081,7 +2081,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forumsSaved => 'Saved';
 
   @override
-  String get forumsAuthorBadge => 'OP';
+  String get forumsAuthorBadge => 'Author';
 
   @override
   String get forumsRepliesOldest => 'Oldest';
@@ -2124,4 +2124,106 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get forumsErrorGeneric => 'Something went wrong. Please try again.';
+
+  @override
+  String get messagesTitle => 'MESSAGES';
+
+  @override
+  String get messagesSearchHint => 'Search messages';
+
+  @override
+  String get messagesActiveNow => 'ACTIVE NOW';
+
+  @override
+  String get messagesRequestsTitle => 'Message requests';
+
+  @override
+  String messagesRequestsOthers(String names, int count) {
+    return '$names & $count others';
+  }
+
+  @override
+  String get messagesEmptyTitle => 'No messages yet';
+
+  @override
+  String get messagesEmptyBody =>
+      'Start a conversation with drivers you follow — plan meets, swap specs, share runs.';
+
+  @override
+  String get messagesNewMessage => 'NEW MESSAGE';
+
+  @override
+  String messagesYouPrefix(String text) {
+    return 'You: $text';
+  }
+
+  @override
+  String get messagesSharedPost => 'Shared a post';
+
+  @override
+  String get messagesTimeNow => 'now';
+
+  @override
+  String messagesTimeMinutes(int count) {
+    return '${count}m';
+  }
+
+  @override
+  String messagesTimeHours(int count) {
+    return '${count}h';
+  }
+
+  @override
+  String messagesTimeDays(int count) {
+    return '${count}d';
+  }
+
+  @override
+  String messagesTimeWeeks(int count) {
+    return '${count}w';
+  }
+
+  @override
+  String get messagesActiveNowStatus => 'Active now';
+
+  @override
+  String messagesMutualFollow(String followers) {
+    return 'You both follow each other · $followers followers';
+  }
+
+  @override
+  String messagesDatePill(String time) {
+    return 'TODAY · $time';
+  }
+
+  @override
+  String get messagesSeen => 'Seen';
+
+  @override
+  String get messagesInputHint => 'Message…';
+
+  @override
+  String get messagesEmptyChat => 'No messages yet — say hi 👋';
+
+  @override
+  String get messagesComposeTitle => 'New message';
+
+  @override
+  String get messagesComposeSearchHint => 'Search drivers…';
+
+  @override
+  String get messagesComposeEmpty => 'No drivers found';
+
+  @override
+  String get messagesComingSoon => 'Coming soon';
+
+  @override
+  String get messagesRetry => 'Try again';
+
+  @override
+  String get messagesErrorNetwork =>
+      'No internet connection. Please try again.';
+
+  @override
+  String get messagesErrorGeneric => 'Something went wrong. Please try again.';
 }

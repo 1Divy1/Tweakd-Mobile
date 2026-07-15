@@ -3773,7 +3773,7 @@ abstract class AppLocalizations {
   /// No description provided for @forumsAuthorBadge.
   ///
   /// In en, this message translates to:
-  /// **'OP'**
+  /// **'Author'**
   String get forumsAuthorBadge;
 
   /// No description provided for @forumsRepliesOldest.
@@ -3853,6 +3853,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get forumsErrorGeneric;
+
+  /// No description provided for @messagesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MESSAGES'**
+  String get messagesTitle;
+
+  /// No description provided for @messagesSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search messages'**
+  String get messagesSearchHint;
+
+  /// No description provided for @messagesActiveNow.
+  ///
+  /// In en, this message translates to:
+  /// **'ACTIVE NOW'**
+  String get messagesActiveNow;
+
+  /// No description provided for @messagesRequestsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Message requests'**
+  String get messagesRequestsTitle;
+
+  /// No description provided for @messagesRequestsOthers.
+  ///
+  /// In en, this message translates to:
+  /// **'{names} & {count} others'**
+  String messagesRequestsOthers(String names, int count);
+
+  /// No description provided for @messagesEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet'**
+  String get messagesEmptyTitle;
+
+  /// No description provided for @messagesEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a conversation with drivers you follow — plan meets, swap specs, share runs.'**
+  String get messagesEmptyBody;
+
+  /// No description provided for @messagesNewMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW MESSAGE'**
+  String get messagesNewMessage;
+
+  /// No description provided for @messagesYouPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'You: {text}'**
+  String messagesYouPrefix(String text);
+
+  /// No description provided for @messagesSharedPost.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared a post'**
+  String get messagesSharedPost;
+
+  /// No description provided for @messagesTimeNow.
+  ///
+  /// In en, this message translates to:
+  /// **'now'**
+  String get messagesTimeNow;
+
+  /// No description provided for @messagesTimeMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}m'**
+  String messagesTimeMinutes(int count);
+
+  /// No description provided for @messagesTimeHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}h'**
+  String messagesTimeHours(int count);
+
+  /// No description provided for @messagesTimeDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}d'**
+  String messagesTimeDays(int count);
+
+  /// No description provided for @messagesTimeWeeks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}w'**
+  String messagesTimeWeeks(int count);
+
+  /// No description provided for @messagesActiveNowStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Active now'**
+  String get messagesActiveNowStatus;
+
+  /// No description provided for @messagesMutualFollow.
+  ///
+  /// In en, this message translates to:
+  /// **'You both follow each other · {followers} followers'**
+  String messagesMutualFollow(String followers);
+
+  /// No description provided for @messagesDatePill.
+  ///
+  /// In en, this message translates to:
+  /// **'TODAY · {time}'**
+  String messagesDatePill(String time);
+
+  /// No description provided for @messagesSeen.
+  ///
+  /// In en, this message translates to:
+  /// **'Seen'**
+  String get messagesSeen;
+
+  /// No description provided for @messagesInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Message…'**
+  String get messagesInputHint;
+
+  /// No description provided for @messagesEmptyChat.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet — say hi 👋'**
+  String get messagesEmptyChat;
+
+  /// No description provided for @messagesComposeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New message'**
+  String get messagesComposeTitle;
+
+  /// No description provided for @messagesComposeSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search drivers…'**
+  String get messagesComposeSearchHint;
+
+  /// No description provided for @messagesComposeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No drivers found'**
+  String get messagesComposeEmpty;
+
+  /// No description provided for @messagesComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get messagesComingSoon;
+
+  /// No description provided for @messagesRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get messagesRetry;
+
+  /// No description provided for @messagesErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Please try again.'**
+  String get messagesErrorNetwork;
+
+  /// No description provided for @messagesErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get messagesErrorGeneric;
 }
 
 class _AppLocalizationsDelegate

@@ -2088,7 +2088,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get forumsSaved => 'Salvat';
 
   @override
-  String get forumsAuthorBadge => 'OP';
+  String get forumsAuthorBadge => 'Autor';
 
   @override
   String get forumsRepliesOldest => 'Cele mai vechi';
@@ -2132,4 +2132,106 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get forumsErrorGeneric => 'Ceva n-a mers bine. Încearcă din nou.';
+
+  @override
+  String get messagesTitle => 'MESAJE';
+
+  @override
+  String get messagesSearchHint => 'Caută în mesaje';
+
+  @override
+  String get messagesActiveNow => 'ACTIVI ACUM';
+
+  @override
+  String get messagesRequestsTitle => 'Cereri de mesaje';
+
+  @override
+  String messagesRequestsOthers(String names, int count) {
+    return '$names & încă $count';
+  }
+
+  @override
+  String get messagesEmptyTitle => 'Niciun mesaj încă';
+
+  @override
+  String get messagesEmptyBody =>
+      'Începe o conversație cu șoferii pe care îi urmărești — planificați întâlniri, comparați specificații, împărtășiți ture.';
+
+  @override
+  String get messagesNewMessage => 'MESAJ NOU';
+
+  @override
+  String messagesYouPrefix(String text) {
+    return 'Tu: $text';
+  }
+
+  @override
+  String get messagesSharedPost => 'A distribuit o postare';
+
+  @override
+  String get messagesTimeNow => 'acum';
+
+  @override
+  String messagesTimeMinutes(int count) {
+    return '${count}m';
+  }
+
+  @override
+  String messagesTimeHours(int count) {
+    return '${count}h';
+  }
+
+  @override
+  String messagesTimeDays(int count) {
+    return '${count}z';
+  }
+
+  @override
+  String messagesTimeWeeks(int count) {
+    return '${count}s';
+  }
+
+  @override
+  String get messagesActiveNowStatus => 'Activ acum';
+
+  @override
+  String messagesMutualFollow(String followers) {
+    return 'Vă urmăriți reciproc · $followers urmăritori';
+  }
+
+  @override
+  String messagesDatePill(String time) {
+    return 'AZI · $time';
+  }
+
+  @override
+  String get messagesSeen => 'Văzut';
+
+  @override
+  String get messagesInputHint => 'Mesaj…';
+
+  @override
+  String get messagesEmptyChat => 'Niciun mesaj încă — salută 👋';
+
+  @override
+  String get messagesComposeTitle => 'Mesaj nou';
+
+  @override
+  String get messagesComposeSearchHint => 'Caută șoferi…';
+
+  @override
+  String get messagesComposeEmpty => 'Niciun șofer găsit';
+
+  @override
+  String get messagesComingSoon => 'În curând';
+
+  @override
+  String get messagesRetry => 'Încearcă din nou';
+
+  @override
+  String get messagesErrorNetwork =>
+      'Nu există conexiune la internet. Încearcă din nou.';
+
+  @override
+  String get messagesErrorGeneric => 'Ceva n-a mers bine. Încearcă din nou.';
 }

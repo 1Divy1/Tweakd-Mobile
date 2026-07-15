@@ -45,6 +45,12 @@ import '../../features/garage/presentation/pages/about_car_page.dart';
 import '../../features/garage/presentation/pages/fullscreen_image_page.dart';
 import '../../features/garage/presentation/pages/log_mod_page.dart';
 import '../../features/garage/presentation/pages/register_car_page.dart';
+import '../../features/messages/presentation/bloc/chat/bloc.dart';
+import '../../features/messages/presentation/bloc/chat/event.dart';
+import '../../features/messages/presentation/bloc/inbox/bloc.dart';
+import '../../features/messages/presentation/bloc/inbox/event.dart';
+import '../../features/messages/presentation/pages/chat_page.dart';
+import '../../features/messages/presentation/pages/messages_page.dart';
 import '../../features/onboarding/presentation/bloc/bloc.dart';
 import '../../features/posts/domain/entities/post.dart';
 import '../../features/posts/presentation/bloc/create_post/bloc.dart';
@@ -220,6 +226,27 @@ final appRouter = GoRouter(
           child: const FeedPage(),
         ),
       ),
+    ),
+
+    // ---------- Messages (DMs) ----------
+    GoRoute(
+      path: '/messages',
+      builder: (context, state) => BlocProvider<InboxBloc>(
+        create: (_) => getIt<InboxBloc>()..add(const LoadInbox()),
+        child: const MessagesPage(),
+      ),
+      routes: [
+        GoRoute(
+          path: ':conversationId',
+          builder: (context, state) {
+            final conversationId = state.pathParameters['conversationId']!;
+            return BlocProvider<ChatBloc>(
+              create: (_) => getIt<ChatBloc>()..add(LoadChat(conversationId)),
+              child: ChatPage(conversationId: conversationId),
+            );
+          },
+        ),
+      ],
     ),
 
     // ---------- Forums ----------

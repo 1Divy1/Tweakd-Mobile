@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 
 /// The feed's top bar: the "Tweakd." wordmark on the left and the likes /
-/// direct-messages pill buttons on the right. Those two destinations don't
-/// exist yet, so the buttons are UI-only and surface a "coming soon" notice.
+/// direct-messages pill buttons on the right. Messages opens the DM inbox;
+/// the likes destination doesn't exist yet, so that button is UI-only and
+/// surfaces a "coming soon" notice.
 class FeedTopBar extends StatelessWidget {
   const FeedTopBar({super.key});
 
@@ -45,7 +47,7 @@ class FeedTopBar extends StatelessWidget {
           const SizedBox(width: 10),
           _PillButton(
             icon: Icons.mode_comment_outlined,
-            onTap: () => _comingSoon(context),
+            onTap: () => context.push('/messages'),
           ),
         ],
       ),

@@ -1,0 +1,108 @@
+Date : 2026-07-15 20:59:02
+Directory : /Users/mbpro/Developer/Apps/Car-Social-Media-App
+Total : 53 files,  3357 codes, 250 comments, 510 blanks, all 4117 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Dart     |         52 |      3,247 |        250 |        499 |      3,996 |
+| Markdown |          1 |        110 |          0 |         11 |        121 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                         | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                            |         53 |      3,357 |        250 |        510 |      4,117 |
+| . (Files)                                                                                                                    |          1 |        110 |          0 |         11 |        121 |
+| lib                                                                                                                          |         52 |      3,247 |        250 |        499 |      3,996 |
+| lib/config                                                                                                                   |          1 |         25 |          1 |          1 |         27 |
+| lib/config/routes                                                                                                            |          1 |         25 |          1 |          1 |         27 |
+| lib/core                                                                                                                     |          1 |         54 |          0 |          0 |         54 |
+| lib/core/di                                                                                                                  |          1 |         54 |          0 |          0 |         54 |
+| lib/features                                                                                                                 |         47 |      2,992 |        137 |        414 |      3,543 |
+| lib/features/feed                                                                                                            |          1 |          1 |          1 |          0 |          2 |
+| lib/features/feed/presentation                                                                                               |          1 |          1 |          1 |          0 |          2 |
+| lib/features/feed/presentation/widgets                                                                                       |          1 |          1 |          1 |          0 |          2 |
+| lib/features/messages                                                                                                        |         46 |      2,991 |        136 |        414 |      3,541 |
+| lib/features/messages/data                                                                                                   |          2 |        465 |         16 |         54 |        535 |
+| lib/features/messages/data/datasources                                                                                       |          1 |        405 |         14 |         43 |        462 |
+| lib/features/messages/data/repositories                                                                                      |          1 |         60 |          2 |         11 |         73 |
+| lib/features/messages/domain                                                                                                 |         11 |        267 |         31 |         81 |        379 |
+| lib/features/messages/domain/entities                                                                                        |          5 |        164 |         21 |         42 |        227 |
+| lib/features/messages/domain/repositories                                                                                    |          1 |         20 |          6 |          8 |         34 |
+| lib/features/messages/domain/usecases                                                                                        |          5 |         83 |          4 |         31 |        118 |
+| lib/features/messages/presentation                                                                                           |         33 |      2,259 |         89 |        279 |      2,627 |
+| lib/features/messages/presentation/bloc                                                                                      |          9 |        355 |         19 |         85 |        459 |
+| lib/features/messages/presentation/bloc/chat                                                                                 |          3 |        171 |          8 |         36 |        215 |
+| lib/features/messages/presentation/bloc/compose                                                                              |          3 |         81 |          6 |         20 |        107 |
+| lib/features/messages/presentation/bloc/inbox                                                                                |          3 |        103 |          5 |         29 |        137 |
+| lib/features/messages/presentation/pages                                                                                     |          2 |        346 |         13 |         34 |        393 |
+| lib/features/messages/presentation/utils                                                                                     |          2 |         25 |          5 |          7 |         37 |
+| lib/features/messages/presentation/widgets                                                                                   |         20 |      1,533 |         52 |        153 |      1,738 |
+| lib/features/messages/presentation/widgets/chat                                                                              |          8 |        648 |         22 |         69 |        739 |
+| lib/features/messages/presentation/widgets/inbox                                                                             |          7 |        663 |         17 |         50 |        730 |
+| lib/features/messages/presentation/widgets/shared                                                                            |          5 |        222 |         13 |         34 |        269 |
+| lib/l10n                                                                                                                     |          3 |        176 |        112 |         84 |        372 |
++------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                                                     | language | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/MESSAGES_PROGRESS.md                                                        | Markdown |        110 |          0 |         11 |        121 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/config/routes/app_router.dart                                           | Dart     |         25 |          1 |          1 |         27 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/core/di/injection.config.dart                                           | Dart     |         54 |          0 |          0 |         54 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feed/presentation/widgets/feed_top_bar.dart                    | Dart     |          1 |          1 |          0 |          2 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/data/datasources/messages_data_source.dart            | Dart     |        405 |         14 |         43 |        462 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/data/repositories/messages_repository_impl.dart       | Dart     |         60 |          2 |         11 |         73 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/domain/entities/chat.dart                             | Dart     |         15 |          2 |          5 |         22 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/domain/entities/chat_events.dart                      | Dart     |         22 |          5 |          9 |         36 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/domain/entities/conversation.dart                     | Dart     |         49 |          8 |         13 |         70 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/domain/entities/message.dart                          | Dart     |         49 |          3 |         10 |         62 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/domain/entities/message_user.dart                     | Dart     |         29 |          3 |          5 |         37 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/domain/repositories/messages_repository.dart          | Dart     |         20 |          6 |          8 |         34 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/domain/usecases/compose.dart                          | Dart     |         23 |          2 |          8 |         33 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/domain/usecases/get_chat.dart                         | Dart     |         14 |          0 |          5 |         19 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/domain/usecases/get_inbox.dart                        | Dart     |         14 |          0 |          5 |         19 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/domain/usecases/send_message.dart                     | Dart     |         22 |          0 |          8 |         30 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/domain/usecases/watch_chat.dart                       | Dart     |         10 |          2 |          5 |         17 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/bloc/chat/bloc.dart                      | Dart     |         96 |          3 |         12 |        111 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/bloc/chat/event.dart                     | Dart     |         25 |          2 |         10 |         37 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/bloc/chat/state.dart                     | Dart     |         50 |          3 |         14 |         67 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/bloc/compose/bloc.dart                   | Dart     |         39 |          2 |          6 |         47 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/bloc/compose/event.dart                  | Dart     |         18 |          2 |          7 |         27 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/bloc/compose/state.dart                  | Dart     |         24 |          2 |          7 |         33 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/bloc/inbox/bloc.dart                     | Dart     |         44 |          2 |          7 |         53 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/bloc/inbox/event.dart                    | Dart     |         20 |          2 |          8 |         30 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/bloc/inbox/state.dart                    | Dart     |         39 |          1 |         14 |         54 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/pages/chat_page.dart                     | Dart     |        172 |          8 |         20 |        200 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/pages/messages_page.dart                 | Dart     |        174 |          5 |         14 |        193 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/utils/message_time.dart                  | Dart     |         11 |          2 |          3 |         16 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/utils/messages_error_mapper.dart         | Dart     |         14 |          3 |          4 |         21 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/chat/bubble_entrance.dart        | Dart     |         57 |          3 |          8 |         68 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/chat/chat_date_pill.dart         | Dart     |         29 |          1 |          5 |         35 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/chat/chat_input_bar.dart         | Dart     |        136 |          2 |         10 |        148 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/chat/chat_intro_header.dart      | Dart     |         54 |          2 |          6 |         62 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/chat/chat_top_bar.dart           | Dart     |        118 |          4 |         11 |        133 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/chat/message_bubble.dart         | Dart     |         66 |          4 |          8 |         78 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/chat/shared_post_bubble.dart     | Dart     |        109 |          3 |          9 |        121 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/chat/typing_indicator.dart       | Dart     |         79 |          3 |         12 |         94 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/inbox/active_now_row.dart        | Dart     |         68 |          3 |          6 |         77 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/inbox/conversation_tile.dart     | Dart     |        166 |          5 |         17 |        188 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/inbox/inbox_search_field.dart    | Dart     |         45 |          1 |          5 |         51 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/inbox/message_requests_tile.dart | Dart     |         91 |          2 |          6 |         99 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/inbox/messages_empty_view.dart   | Dart     |         74 |          1 |          5 |         80 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/inbox/messages_top_bar.dart      | Dart     |         38 |          2 |          5 |         45 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/inbox/new_message_sheet.dart     | Dart     |        181 |          3 |          6 |        190 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/shared/message_avatar.dart       | Dart     |         91 |          7 |         11 |        109 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/shared/message_pill_button.dart  | Dart     |         23 |          1 |          5 |         29 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/shared/messages_error_view.dart  | Dart     |         43 |          1 |          5 |         49 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/shared/staggered_entrance.dart   | Dart     |         43 |          3 |          8 |         54 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/shared/verified_badge.dart       | Dart     |         22 |          1 |          5 |         28 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/l10n/app_localizations.dart                                             | Dart     |         28 |        112 |         28 |        168 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/l10n/app_localizations_en.dart                                          | Dart     |         74 |          0 |         28 |        102 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/l10n/app_localizations_ro.dart                                          | Dart     |         74 |          0 |         28 |        102 |
+| Total                                                                                                                        |          |      3,357 |        250 |        510 |      4,117 |
++------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

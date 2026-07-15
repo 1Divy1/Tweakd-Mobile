@@ -735,7 +735,7 @@
   "forumsShare": "Distribuie",
   "forumsSave": "Salvează",
   "forumsSaved": "Salvat",
-  "forumsAuthorBadge": "OP",
+  "forumsAuthorBadge": "Autor",
   "forumsRepliesOldest": "Cele mai vechi",
   "forumsRepliesNewest": "Cele mai noi",
   "forumsReportThreadTitle": "Raportează thread-ul",
@@ -748,5 +748,75 @@
   "forumsErrorNotFound": "Acest conținut nu mai există.",
   "forumsErrorConflict": "Thread-ul este blocat sau conținutul a fost șters.",
   "forumsErrorForbidden": "Poți edita sau șterge doar conținutul tău.",
-  "forumsErrorGeneric": "Ceva n-a mers bine. Încearcă din nou."
+  "forumsErrorGeneric": "Ceva n-a mers bine. Încearcă din nou.",
+
+  "messagesTitle": "MESAJE",
+  "messagesSearchHint": "Caută în mesaje",
+  "messagesActiveNow": "ACTIVI ACUM",
+  "messagesRequestsTitle": "Cereri de mesaje",
+  "messagesRequestsOthers": "{names} & încă {count}",
+  "@messagesRequestsOthers": {
+    "placeholders": {
+      "names": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "messagesEmptyTitle": "Niciun mesaj încă",
+  "messagesEmptyBody": "Începe o conversație cu șoferii pe care îi urmărești — planificați întâlniri, comparați specificații, împărtășiți ture.",
+  "messagesNewMessage": "MESAJ NOU",
+  "messagesYouPrefix": "Tu: {text}",
+  "@messagesYouPrefix": {
+    "placeholders": {
+      "text": {"type": "String"}
+    }
+  },
+  "messagesSharedPost": "A distribuit o postare",
+  "messagesTimeNow": "acum",
+  "messagesTimeMinutes": "{count}m",
+  "@messagesTimeMinutes": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesTimeHours": "{count}h",
+  "@messagesTimeHours": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesTimeDays": "{count}z",
+  "@messagesTimeDays": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesTimeWeeks": "{count}s",
+  "@messagesTimeWeeks": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesActiveNowStatus": "Activ acum",
+  "messagesMutualFollow": "Vă urmăriți reciproc · {followers} urmăritori",
+  "@messagesMutualFollow": {
+    "placeholders": {
+      "followers": {"type": "String"}
+    }
+  },
+  "messagesDatePill": "AZI · {time}",
+  "@messagesDatePill": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "messagesSeen": "Văzut",
+  "messagesInputHint": "Mesaj…",
+  "messagesEmptyChat": "Niciun mesaj încă — salută 👋",
+  "messagesComposeTitle": "Mesaj nou",
+  "messagesComposeSearchHint": "Caută șoferi…",
+  "messagesComposeEmpty": "Niciun șofer găsit",
+  "messagesComingSoon": "În curând",
+  "messagesRetry": "Încearcă din nou",
+  "messagesErrorNetwork": "Nu există conexiune la internet. Încearcă din nou.",
+  "messagesErrorGeneric": "Ceva n-a mers bine. Încearcă din nou."
 }

@@ -132,6 +132,20 @@ import '../../features/garage/presentation/bloc/add_car/bloc.dart' as _i160;
 import '../../features/garage/presentation/bloc/bloc.dart' as _i121;
 import '../../features/garage/presentation/bloc/car_detail/bloc.dart' as _i807;
 import '../../features/garage/presentation/bloc/log_mod/bloc.dart' as _i375;
+import '../../features/messages/data/datasources/messages_data_source.dart'
+    as _i637;
+import '../../features/messages/data/repositories/messages_repository_impl.dart'
+    as _i20;
+import '../../features/messages/domain/repositories/messages_repository.dart'
+    as _i794;
+import '../../features/messages/domain/usecases/compose.dart' as _i231;
+import '../../features/messages/domain/usecases/get_chat.dart' as _i228;
+import '../../features/messages/domain/usecases/get_inbox.dart' as _i134;
+import '../../features/messages/domain/usecases/send_message.dart' as _i162;
+import '../../features/messages/domain/usecases/watch_chat.dart' as _i467;
+import '../../features/messages/presentation/bloc/chat/bloc.dart' as _i269;
+import '../../features/messages/presentation/bloc/compose/bloc.dart' as _i681;
+import '../../features/messages/presentation/bloc/inbox/bloc.dart' as _i245;
 import '../../features/onboarding/data/datasources/onboarding_api_data_source.dart'
     as _i1049;
 import '../../features/onboarding/data/repositories/onboarding_repository_impl.dart'
@@ -240,6 +254,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i792.PushPermissionService>(
       () => _i792.PushPermissionService(),
     );
+    gh.lazySingleton<_i637.MessagesDataSource>(
+      () => _i637.MockMessagesDataSource(),
+    );
     gh.lazySingleton<_i361.Dio>(
       () => dioModule.dio(gh<_i454.SupabaseClient>()),
     );
@@ -251,6 +268,37 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i747.PostsStorageApiDataSource>(
       () => _i747.PostsStorageApiDataSource(gh<_i454.SupabaseClient>()),
+    );
+    gh.lazySingleton<_i794.MessagesRepository>(
+      () => _i20.MessagesRepositoryImpl(gh<_i637.MessagesDataSource>()),
+    );
+    gh.lazySingleton<_i231.GetComposeSuggestionsUseCase>(
+      () => _i231.GetComposeSuggestionsUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i231.StartConversationUseCase>(
+      () => _i231.StartConversationUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i228.GetChatUseCase>(
+      () => _i228.GetChatUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i134.GetInboxUseCase>(
+      () => _i134.GetInboxUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i162.SendMessageUseCase>(
+      () => _i162.SendMessageUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i467.WatchChatUseCase>(
+      () => _i467.WatchChatUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.factory<_i245.InboxBloc>(
+      () => _i245.InboxBloc(getInbox: gh<_i134.GetInboxUseCase>()),
+    );
+    gh.factory<_i269.ChatBloc>(
+      () => _i269.ChatBloc(
+        getChat: gh<_i228.GetChatUseCase>(),
+        sendMessage: gh<_i162.SendMessageUseCase>(),
+        watchChat: gh<_i467.WatchChatUseCase>(),
+      ),
     );
     gh.lazySingleton<_i311.AbstractHTTP>(
       () => _i554.DioHttpClient(gh<_i361.Dio>()),
@@ -287,6 +335,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i592.SearchApiDataSource>(
       () => _i592.SearchApiDataSource(gh<_i311.AbstractHTTP>()),
+    );
+    gh.factory<_i681.ComposeBloc>(
+      () => _i681.ComposeBloc(
+        getSuggestions: gh<_i231.GetComposeSuggestionsUseCase>(),
+        startConversation: gh<_i231.StartConversationUseCase>(),
+      ),
     );
     gh.lazySingleton<_i619.FeedbackRepository>(
       () => _i961.FeedbackRepositoryImpl(gh<_i239.FeedbackApiDataSource>()),

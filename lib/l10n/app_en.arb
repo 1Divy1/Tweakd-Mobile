@@ -931,7 +931,7 @@
   "forumsShare": "Share",
   "forumsSave": "Save",
   "forumsSaved": "Saved",
-  "forumsAuthorBadge": "OP",
+  "forumsAuthorBadge": "Author",
   "forumsRepliesOldest": "Oldest",
   "forumsRepliesNewest": "Newest",
   "forumsReportThreadTitle": "Report thread",
@@ -944,5 +944,75 @@
   "forumsErrorNotFound": "This content doesn't exist anymore.",
   "forumsErrorConflict": "This thread is locked or the content was deleted.",
   "forumsErrorForbidden": "You can only edit or delete your own content.",
-  "forumsErrorGeneric": "Something went wrong. Please try again."
+  "forumsErrorGeneric": "Something went wrong. Please try again.",
+
+  "messagesTitle": "MESSAGES",
+  "messagesSearchHint": "Search messages",
+  "messagesActiveNow": "ACTIVE NOW",
+  "messagesRequestsTitle": "Message requests",
+  "messagesRequestsOthers": "{names} & {count} others",
+  "@messagesRequestsOthers": {
+    "placeholders": {
+      "names": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "messagesEmptyTitle": "No messages yet",
+  "messagesEmptyBody": "Start a conversation with drivers you follow — plan meets, swap specs, share runs.",
+  "messagesNewMessage": "NEW MESSAGE",
+  "messagesYouPrefix": "You: {text}",
+  "@messagesYouPrefix": {
+    "placeholders": {
+      "text": {"type": "String"}
+    }
+  },
+  "messagesSharedPost": "Shared a post",
+  "messagesTimeNow": "now",
+  "messagesTimeMinutes": "{count}m",
+  "@messagesTimeMinutes": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesTimeHours": "{count}h",
+  "@messagesTimeHours": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesTimeDays": "{count}d",
+  "@messagesTimeDays": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesTimeWeeks": "{count}w",
+  "@messagesTimeWeeks": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesActiveNowStatus": "Active now",
+  "messagesMutualFollow": "You both follow each other · {followers} followers",
+  "@messagesMutualFollow": {
+    "placeholders": {
+      "followers": {"type": "String"}
+    }
+  },
+  "messagesDatePill": "TODAY · {time}",
+  "@messagesDatePill": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "messagesSeen": "Seen",
+  "messagesInputHint": "Message…",
+  "messagesEmptyChat": "No messages yet — say hi 👋",
+  "messagesComposeTitle": "New message",
+  "messagesComposeSearchHint": "Search drivers…",
+  "messagesComposeEmpty": "No drivers found",
+  "messagesComingSoon": "Coming soon",
+  "messagesRetry": "Try again",
+  "messagesErrorNetwork": "No internet connection. Please try again.",
+  "messagesErrorGeneric": "Something went wrong. Please try again."
 }
