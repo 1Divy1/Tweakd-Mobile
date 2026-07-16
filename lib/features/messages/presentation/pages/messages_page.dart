@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../domain/entities/conversation.dart';
 import '../../domain/entities/message_user.dart';
 import '../bloc/inbox/bloc.dart';
 import '../bloc/inbox/event.dart';
@@ -21,16 +22,34 @@ import '../widgets/inbox/new_message_sheet.dart';
 import '../widgets/shared/messages_error_view.dart';
 import '../widgets/shared/staggered_entrance.dart';
 
-/// The DM inbox: search, active-now strip, message requests and the
-/// conversation list.
+/// The DM inbox: search, active-now strip and the conversation list.
+/// Chat routes always carry the peer via `extra` — the messages endpoint has
+/// no peer payload, so the header user travels with the navigation.
 class MessagesPage extends StatelessWidget {
   const MessagesPage({super.key});
 
   Future<void> _openCompose(BuildContext context) async {
     final bloc = context.read<InboxBloc>();
-    final conversationId = await showNewMessageSheet(context);
-    if (conversationId == null || !context.mounted) return;
-    await context.push('/messages/$conversationId');
+    final user = await showNewMessageSheet(context);
+    if (user == null || !context.mounted) return;
+
+    // Reuse the existing conversation when one is already loaded; otherwise
+    // open a fresh chat — the first message creates the conversation.
+    final state = bloc.state;
+    ConversationEntity? existing;
+    if (state is InboxLoaded) {
+      for (final conversation in state.inbox.conversations) {
+        if (conversation.user.id == user.id) {
+          existing = conversation;
+          break;
+        }
+      }
+    }
+    if (existing != null) {
+      await context.push('/messages/${existing.id}', extra: existing.user);
+    } else {
+      await context.push('/messages/new', extra: user);
+    }
     bloc.add(const RefreshInbox());
   }
 
@@ -84,7 +103,8 @@ class MessagesPage extends StatelessWidget {
 }
 
 /// The loaded inbox: pull-to-refresh over search + active-now + requests +
-/// conversations. Searching collapses the strips and filters the list.
+/// conversations, with cursor pagination near the bottom. Searching
+/// collapses the strips and filters the loaded list.
 class _InboxList extends StatelessWidget {
   final InboxLoaded state;
 
@@ -96,9 +116,15 @@ class _InboxList extends StatelessWidget {
     await completer.future;
   }
 
-  Future<void> _openConversation(BuildContext context, String id) async {
+  Future<void> _openConversation(
+    BuildContext context,
+    ConversationEntity conversation,
+  ) async {
     final bloc = context.read<InboxBloc>();
-    await context.push('/messages/$id');
+    await context.push(
+      '/messages/${conversation.id}',
+      extra: conversation.user,
+    );
     // Re-pull so cleared unread counts and new previews show up.
     bloc.add(const RefreshInbox());
   }
@@ -107,7 +133,57 @@ class _InboxList extends StatelessWidget {
     final match = state.inbox.conversations
         .where((c) => c.user.id == user.id)
         .toList();
-    if (match.isNotEmpty) _openConversation(context, match.first.id);
+    if (match.isNotEmpty) _openConversation(context, match.first);
+  }
+
+  Future<void> _confirmHide(
+    BuildContext context,
+    ConversationEntity conversation,
+  ) async {
+    final l10n = AppLocalizations.of(context)!;
+    final bloc = context.read<InboxBloc>();
+    final confirmed = await showModalBottomSheet<bool>(
+      context: context,
+      backgroundColor: AppColors.bg,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 14),
+            ListTile(
+              leading: const Icon(
+                Icons.delete_outline_rounded,
+                color: AppColors.accent,
+              ),
+              title: Text(
+                l10n.messagesDeleteChat,
+                style: const TextStyle(
+                  color: AppColors.ink,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              subtitle: Text(
+                l10n.messagesDeleteChatBody,
+                style: const TextStyle(
+                  color: AppColors.mute,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              onTap: () => Navigator.of(sheetContext).pop(true),
+            ),
+            const SizedBox(height: 10),
+          ],
+        ),
+      ),
+    );
+    if (confirmed == true) {
+      bloc.add(HideInboxConversation(conversation.id));
+    }
   }
 
   void _comingSoon(BuildContext context) {
@@ -115,6 +191,13 @@ class _InboxList extends StatelessWidget {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(content: Text(l10n.messagesComingSoon)));
+  }
+
+  bool _onScroll(BuildContext context, ScrollNotification notification) {
+    if (notification.metrics.extentAfter < 300) {
+      context.read<InboxBloc>().add(const LoadMoreInbox());
+    }
+    return false;
   }
 
   @override
@@ -127,65 +210,85 @@ class _InboxList extends StatelessWidget {
     return RefreshIndicator(
       color: AppColors.accent,
       onRefresh: () => _refresh(context),
-      child: ListView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.only(bottom: 24),
-        children: [
-          InboxSearchField(
-            onChanged: (query) =>
-                context.read<InboxBloc>().add(InboxSearchChanged(query)),
-          ),
-          if (showStrips) ...[
-            StaggeredEntrance(
-              index: staggerIndex++,
-              child: ActiveNowRow(
-                users: state.inbox.activeNow,
-                onUserTap: (user) => _openActiveUser(context, user),
-              ),
+      child: NotificationListener<ScrollNotification>(
+        onNotification: (notification) => _onScroll(context, notification),
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.only(bottom: 24),
+          children: [
+            InboxSearchField(
+              onChanged: (query) =>
+                  context.read<InboxBloc>().add(InboxSearchChanged(query)),
             ),
-            if (state.inbox.requestsCount > 0)
-              StaggeredEntrance(
-                index: staggerIndex++,
-                child: Column(
-                  children: [
-                    MessageRequestsTile(
-                      count: state.inbox.requestsCount,
-                      previewNames: state.inbox.requestsPreviewNames,
-                      onTap: () => _comingSoon(context),
-                    ),
-                    const Divider(
-                      height: 1,
-                      thickness: 1,
-                      color: AppColors.line2,
-                    ),
-                  ],
-                ),
-              ),
-          ],
-          if (conversations.isEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: 60),
-              child: Center(
-                child: Text(
-                  l10n.messagesComposeEmpty,
-                  style: const TextStyle(
-                    color: AppColors.mute,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+            if (showStrips) ...[
+              if (state.inbox.activeNow.isNotEmpty)
+                StaggeredEntrance(
+                  index: staggerIndex++,
+                  child: ActiveNowRow(
+                    users: state.inbox.activeNow,
+                    onUserTap: (user) => _openActiveUser(context, user),
                   ),
                 ),
-              ),
-            )
-          else
-            for (final conversation in conversations)
-              StaggeredEntrance(
-                index: staggerIndex++,
-                child: ConversationTile(
-                  conversation: conversation,
-                  onTap: () => _openConversation(context, conversation.id),
+              if (state.inbox.requestsCount > 0)
+                StaggeredEntrance(
+                  index: staggerIndex++,
+                  child: Column(
+                    children: [
+                      MessageRequestsTile(
+                        count: state.inbox.requestsCount,
+                        previewNames: state.inbox.requestsPreviewNames,
+                        onTap: () => _comingSoon(context),
+                      ),
+                      const Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: AppColors.line2,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-        ],
+            ],
+            if (conversations.isEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 60),
+                child: Center(
+                  child: Text(
+                    l10n.messagesComposeEmpty,
+                    style: const TextStyle(
+                      color: AppColors.mute,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              )
+            else ...[
+              for (final conversation in conversations)
+                StaggeredEntrance(
+                  index: staggerIndex++,
+                  child: ConversationTile(
+                    conversation: conversation,
+                    onTap: () => _openConversation(context, conversation),
+                    onLongPress: () => _confirmHide(context, conversation),
+                  ),
+                ),
+              if (state.isLoadingMore)
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Center(
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: AppColors.accent,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ],
+        ),
       ),
     );
   }

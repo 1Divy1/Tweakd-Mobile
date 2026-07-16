@@ -7,15 +7,18 @@ import '../../utils/message_time.dart';
 import '../shared/message_avatar.dart';
 import '../shared/verified_badge.dart';
 
-/// One conversation row of the inbox list.
+/// One conversation row of the inbox list. Long-press offers "Delete chat"
+/// (hides the conversation for the viewer only).
 class ConversationTile extends StatelessWidget {
   final ConversationEntity conversation;
   final VoidCallback onTap;
+  final VoidCallback? onLongPress;
 
   const ConversationTile({
     super.key,
     required this.conversation,
     required this.onTap,
+    this.onLongPress,
   });
 
   bool get _hasUnread => conversation.unreadCount > 0;
@@ -27,6 +30,7 @@ class ConversationTile extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
+      onLongPress: onLongPress,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         child: Row(
@@ -116,6 +120,15 @@ class _PreviewLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (conversation.previewKind == ConversationPreviewKind.deleted) {
+      return Text(
+        l10n.messagesDeletedMessage,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: _style.copyWith(fontStyle: FontStyle.italic),
+      );
+    }
+
     if (conversation.previewKind == ConversationPreviewKind.sharedPost) {
       return Row(
         children: [

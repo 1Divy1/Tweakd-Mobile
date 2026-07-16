@@ -1,21 +1,25 @@
 import 'package:equatable/equatable.dart';
 
 import 'message.dart';
-import 'message_user.dart';
 
-/// A loaded chat: the other participant plus the message history
-/// (oldest first).
-class ChatEntity extends Equatable {
-  final String conversationId;
-  final MessageUserEntity user;
+/// One keyset page of a conversation's history, already normalized to
+/// oldest-first (the wire delivers newest-first).
+class MessagesPageEntity extends Equatable {
   final List<MessageEntity> messages;
 
-  const ChatEntity({
-    required this.conversationId,
-    required this.user,
+  /// Echo back as `?cursor=` for the next (older) page; null = no more.
+  final String? nextCursor;
+
+  /// Read watermark: every message the viewer sent up to and including this
+  /// id has been read by the peer. Null if the peer never read.
+  final String? peerLastReadMessageId;
+
+  const MessagesPageEntity({
     this.messages = const [],
+    this.nextCursor,
+    this.peerLastReadMessageId,
   });
 
   @override
-  List<Object?> get props => [conversationId, user, messages];
+  List<Object?> get props => [messages, nextCursor, peerLastReadMessageId];
 }

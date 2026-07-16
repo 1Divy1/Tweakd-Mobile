@@ -5,19 +5,15 @@ import '../../../domain/usecases/compose.dart';
 import 'event.dart';
 import 'state.dart';
 
-/// Drives the new-message sheet: suggested users filtered as the viewer
-/// types, and opening a conversation with a picked user.
+/// Drives the new-message sheet: user search as the viewer types. Picking a
+/// user is handled by the sheet itself (it pops with the tapped user) —
+/// there is no create-conversation call; the first message creates it.
 @injectable
 class ComposeBloc extends Bloc<ComposeEvent, ComposeState> {
   final GetComposeSuggestionsUseCase getSuggestions;
-  final StartConversationUseCase startConversation;
 
-  ComposeBloc({
-    required this.getSuggestions,
-    required this.startConversation,
-  }) : super(const ComposeState()) {
+  ComposeBloc({required this.getSuggestions}) : super(const ComposeState()) {
     on<ComposeQueryChanged>(_onQueryChanged);
-    on<ComposeUserPicked>(_onUserPicked);
   }
 
   Future<void> _onQueryChanged(
@@ -29,18 +25,6 @@ class ComposeBloc extends Bloc<ComposeEvent, ComposeState> {
     result.fold(
       (_) => emit(state.copyWith(isLoading: false, users: const [])),
       (users) => emit(state.copyWith(isLoading: false, users: users)),
-    );
-  }
-
-  Future<void> _onUserPicked(
-    ComposeUserPicked event,
-    Emitter<ComposeState> emit,
-  ) async {
-    final result = await startConversation(event.userId);
-    result.fold(
-      (_) {},
-      (conversationId) =>
-          emit(state.copyWith(openConversationId: conversationId)),
     );
   }
 }

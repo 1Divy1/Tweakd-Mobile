@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
 
+import 'message.dart';
 import 'message_user.dart';
 
 /// What the last message of a conversation was, for the inbox preview line.
-enum ConversationPreviewKind { text, sharedPost, attachment }
+/// [deleted] = the last message was soft-deleted (wire sends a null preview).
+enum ConversationPreviewKind { text, sharedPost, attachment, deleted }
 
 /// One row of the inbox list.
 class ConversationEntity extends Equatable {
@@ -32,6 +34,18 @@ class ConversationEntity extends Equatable {
     this.lastMessageSeen = false,
   });
 
+  /// Copy with an updated [user] — used when a live presence flip lands.
+  ConversationEntity copyWith({MessageUserEntity? user}) => ConversationEntity(
+        id: id,
+        user: user ?? this.user,
+        preview: preview,
+        previewKind: previewKind,
+        isLastMessageMine: isLastMessageMine,
+        lastMessageAt: lastMessageAt,
+        unreadCount: unreadCount,
+        lastMessageSeen: lastMessageSeen,
+      );
+
   @override
   List<Object?> get props => [
         id,
@@ -51,19 +65,52 @@ class InboxEntity extends Equatable {
   final int requestsCount;
 
   /// Usernames previewed on the requests tile ("vroom_valeria, noctis_nico
-  /// & 2 others").
+  /// & 2 others"). No backend source yet — the tile hides when
+  /// [requestsCount] is 0.
   final List<String> requestsPreviewNames;
   final List<ConversationEntity> conversations;
+
+  /// Keyset cursor for the next page of conversations; null = last page.
+  final String? nextCursor;
 
   const InboxEntity({
     this.activeNow = const [],
     this.requestsCount = 0,
     this.requestsPreviewNames = const [],
     this.conversations = const [],
+    this.nextCursor,
   });
+
+  /// Keeps [nextCursor] — pagination appends construct a new entity instead.
+  InboxEntity copyWith({
+    List<MessageUserEntity>? activeNow,
+    List<ConversationEntity>? conversations,
+  }) =>
+      InboxEntity(
+        activeNow: activeNow ?? this.activeNow,
+        requestsCount: requestsCount,
+        requestsPreviewNames: requestsPreviewNames,
+        conversations: conversations ?? this.conversations,
+        nextCursor: nextCursor,
+      );
 
   @override
   List<Object?> get props =>
-      [activeNow, requestsCount, requestsPreviewNames, conversations];
+      [activeNow, requestsCount, requestsPreviewNames, conversations, nextCursor];
+}
+
+/// A live "new message" ping for the inbox: enough to update one row's
+/// preview/ordering/unread without refetching the list.
+class InboxMessageEvent extends Equatable {
+  final String conversationId;
+  final MessageEntity message;
+
+  const InboxMessageEvent({
+    required this.conversationId,
+    required this.message,
+  });
+
+  @override
+  List<Object?> get props => [conversationId, message];
 }
 

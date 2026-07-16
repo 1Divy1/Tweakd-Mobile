@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/message_user.dart';
+import '../../utils/message_time.dart';
 import '../shared/message_avatar.dart';
 import '../shared/message_pill_button.dart';
 import '../shared/verified_badge.dart';
 
 /// Chat header: back button, the other user's avatar, name + verified badge
-/// and a pulsing "Active now" line when they're online. No call button —
-/// calls are intentionally out of the app's scope.
+/// and a status line — a pulsing "Active now" while the peer is online, or
+/// "Last seen …" once they drop offline (nothing for users never seen
+/// online). No call button — calls are intentionally out of the app's scope.
 class ChatTopBar extends StatelessWidget {
   final MessageUserEntity? user;
   final VoidCallback onBack;
@@ -79,6 +81,20 @@ class ChatTopBar extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ),
+                  ] else if (user.lastSeenAt != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      l10n.messagesLastSeen(
+                        messageCompactAgo(l10n, user.lastSeenAt!),
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: AppColors.mute,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ],
                 ],

@@ -5,11 +5,18 @@ import '../../../../../l10n/app_localizations.dart';
 
 /// The message composer: attach button, rounded text field with an emoji
 /// affordance, and the orange send button (spring-scales on tap).
+/// [onTextChanged] reports every edit — it drives the typing signal.
 class ChatInputBar extends StatefulWidget {
   final ValueChanged<String> onSend;
   final VoidCallback onAttach;
+  final ValueChanged<String>? onTextChanged;
 
-  const ChatInputBar({super.key, required this.onSend, required this.onAttach});
+  const ChatInputBar({
+    super.key,
+    required this.onSend,
+    required this.onAttach,
+    this.onTextChanged,
+  });
 
   @override
   State<ChatInputBar> createState() => _ChatInputBarState();
@@ -34,6 +41,7 @@ class _ChatInputBarState extends State<ChatInputBar>
     final text = _controller.text.trim();
     if (text.isEmpty) return;
     _controller.clear();
+    widget.onTextChanged?.call('');
     widget.onSend(text);
     _sendPop
       ..reset()
@@ -81,6 +89,7 @@ class _ChatInputBarState extends State<ChatInputBar>
                       maxLines: 4,
                       textInputAction: TextInputAction.send,
                       onSubmitted: (_) => _send(),
+                      onChanged: widget.onTextChanged,
                       cursorColor: AppColors.accent,
                       style: const TextStyle(
                         color: AppColors.ink,
@@ -123,7 +132,9 @@ class _ChatInputBarState extends State<ChatInputBar>
                     tween: Tween(begin: 0.82, end: 1), weight: 65),
               ]).animate(CurvedAnimation(
                 parent: _sendPop,
-                curve: Curves.easeOutBack,
+                // TweenSequence asserts t stays in [0,1]; overshooting curves
+                // like easeOutBack would break it. The pop lives in the tween.
+                curve: Curves.easeOut,
               )),
               child: Container(
                 width: 50,

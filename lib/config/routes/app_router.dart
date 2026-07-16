@@ -45,6 +45,7 @@ import '../../features/garage/presentation/pages/about_car_page.dart';
 import '../../features/garage/presentation/pages/fullscreen_image_page.dart';
 import '../../features/garage/presentation/pages/log_mod_page.dart';
 import '../../features/garage/presentation/pages/register_car_page.dart';
+import '../../features/messages/domain/entities/message_user.dart';
 import '../../features/messages/presentation/bloc/chat/bloc.dart';
 import '../../features/messages/presentation/bloc/chat/event.dart';
 import '../../features/messages/presentation/bloc/inbox/bloc.dart';
@@ -236,13 +237,31 @@ final appRouter = GoRouter(
         child: const MessagesPage(),
       ),
       routes: [
+        // Chat routes carry the peer via `extra` — the messages endpoint has
+        // no peer payload, so the header user travels with the navigation.
+        // 'new' = composing to a user with no conversation yet; the first
+        // message creates it (declared before ':conversationId' so the
+        // literal segment wins).
+        GoRoute(
+          path: 'new',
+          builder: (context, state) {
+            final peer = state.extra as MessageUserEntity;
+            return BlocProvider<ChatBloc>(
+              create: (_) => getIt<ChatBloc>()
+                ..add(LoadChat(conversationId: null, peer: peer)),
+              child: ChatPage(conversationId: null, peer: peer),
+            );
+          },
+        ),
         GoRoute(
           path: ':conversationId',
           builder: (context, state) {
             final conversationId = state.pathParameters['conversationId']!;
+            final peer = state.extra as MessageUserEntity;
             return BlocProvider<ChatBloc>(
-              create: (_) => getIt<ChatBloc>()..add(LoadChat(conversationId)),
-              child: ChatPage(conversationId: conversationId),
+              create: (_) => getIt<ChatBloc>()
+                ..add(LoadChat(conversationId: conversationId, peer: peer)),
+              child: ChatPage(conversationId: conversationId, peer: peer),
             );
           },
         ),

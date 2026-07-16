@@ -797,6 +797,12 @@
     }
   },
   "messagesActiveNowStatus": "Activ acum",
+  "messagesLastSeen": "Ultima activitate: {ago}",
+  "@messagesLastSeen": {
+    "placeholders": {
+      "ago": {"type": "String"}
+    }
+  },
   "messagesMutualFollow": "Vă urmăriți reciproc · {followers} urmăritori",
   "@messagesMutualFollow": {
     "placeholders": {
@@ -810,6 +816,11 @@
     }
   },
   "messagesSeen": "Văzut",
+  "messagesDeletedMessage": "Mesaj șters",
+  "messagesDeleteMessage": "Șterge mesajul",
+  "messagesDeleteMessageBody": "Îl elimină pentru amândoi.",
+  "messagesDeleteChat": "Șterge conversația",
+  "messagesDeleteChatBody": "O ascunde doar din lista ta — revine la un mesaj nou.",
   "messagesInputHint": "Mesaj…",
   "messagesEmptyChat": "Niciun mesaj încă — salută 👋",
   "messagesComposeTitle": "Mesaj nou",

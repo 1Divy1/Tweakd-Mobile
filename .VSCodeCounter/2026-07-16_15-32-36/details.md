@@ -1,10 +1,10 @@
 # Details
 
-Date : 2026-07-03 21:48:49
+Date : 2026-07-16 15:32:36
 
 Directory /Users/mbpro/Developer/Apps/Car-Social-Media-App
 
-Total : 522 files,  46776 codes, 4285 comments, 7430 blanks, all 58491 lines
+Total : 583 files,  52108 codes, 4744 comments, 8234 blanks, all 65086 lines
 
 [Summary](results.md) / Details / [Diff Summary](diff.md) / [Diff Details](diff-details.md)
 
@@ -14,7 +14,8 @@ Total : 522 files,  46776 codes, 4285 comments, 7430 blanks, all 58491 lines
 | [.claude/settings.local.json](/.claude/settings.local.json) | JSON | 20 | 0 | 1 | 21 |
 | [CLAUDE.md](/CLAUDE.md) | Markdown | 111 | 0 | 39 | 150 |
 | [CONTEXT.md](/CONTEXT.md) | Markdown | 228 | 0 | 55 | 283 |
-| [FORUMS\_PROGRESS.md](/FORUMS_PROGRESS.md) | Markdown | 132 | 0 | 19 | 151 |
+| [FORUMS\_PROGRESS.md](/FORUMS_PROGRESS.md) | Markdown | 159 | 0 | 21 | 180 |
+| [MESSAGES\_PROGRESS.md](/MESSAGES_PROGRESS.md) | Markdown | 223 | 0 | 18 | 241 |
 | [README.md](/README.md) | Markdown | 11 | 0 | 7 | 18 |
 | [analysis\_options.yaml](/analysis_options.yaml) | YAML | 3 | 22 | 4 | 29 |
 | [android/app/src/debug/AndroidManifest.xml](/android/app/src/debug/AndroidManifest.xml) | XML | 3 | 4 | 1 | 8 |
@@ -41,8 +42,8 @@ Total : 522 files,  46776 codes, 4285 comments, 7430 blanks, all 58491 lines
 | [ios/Runner/SceneDelegate.swift](/ios/Runner/SceneDelegate.swift) | Swift | 4 | 0 | 3 | 7 |
 | [ios/RunnerTests/RunnerTests.swift](/ios/RunnerTests/RunnerTests.swift) | Swift | 7 | 2 | 4 | 13 |
 | [l10n.yaml](/l10n.yaml) | YAML | 3 | 0 | 0 | 3 |
-| [lib/config/routes/app\_router.dart](/lib/config/routes/app_router.dart) | Dart | 400 | 17 | 20 | 437 |
-| [lib/core/di/injection.config.dart](/lib/core/di/injection.config.dart) | Dart | 696 | 9 | 8 | 713 |
+| [lib/config/routes/app\_router.dart](/lib/config/routes/app_router.dart) | Dart | 436 | 18 | 21 | 475 |
+| [lib/core/di/injection.config.dart](/lib/core/di/injection.config.dart) | Dart | 942 | 9 | 8 | 959 |
 | [lib/core/di/injection.dart](/lib/core/di/injection.dart) | Dart | 10 | 0 | 2 | 12 |
 | [lib/core/di/modules/dio\_module.dart](/lib/core/di/modules/dio_module.dart) | Dart | 35 | 2 | 5 | 42 |
 | [lib/core/di/modules/supabase\_module.dart](/lib/core/di/modules/supabase_module.dart) | Dart | 7 | 0 | 1 | 8 |
@@ -51,6 +52,8 @@ Total : 522 files,  46776 codes, 4285 comments, 7430 blanks, all 58491 lines
 | [lib/core/network/abstract\_http.dart](/lib/core/network/abstract_http.dart) | Dart | 37 | 0 | 6 | 43 |
 | [lib/core/network/auth\_interceptor.dart](/lib/core/network/auth_interceptor.dart) | Dart | 14 | 0 | 4 | 18 |
 | [lib/core/network/dio\_http\_client.dart](/lib/core/network/dio_http_client.dart) | Dart | 138 | 0 | 14 | 152 |
+| [lib/core/realtime/dm\_socket\_service.dart](/lib/core/realtime/dm_socket_service.dart) | Dart | 55 | 25 | 15 | 95 |
+| [lib/core/realtime/stomp\_dm\_socket\_service.dart](/lib/core/realtime/stomp_dm_socket_service.dart) | Dart | 136 | 14 | 20 | 170 |
 | [lib/core/services/image\_service.dart](/lib/core/services/image_service.dart) | Dart | 58 | 16 | 9 | 83 |
 | [lib/core/services/push\_permission\_service.dart](/lib/core/services/push_permission_service.dart) | Dart | 26 | 13 | 8 | 47 |
 | [lib/core/shared/entities/image\_ref.dart](/lib/core/shared/entities/image_ref.dart) | Dart | 8 | 4 | 3 | 15 |
@@ -107,7 +110,7 @@ Total : 522 files,  46776 codes, 4285 comments, 7430 blanks, all 58491 lines
 | [lib/features/feed/presentation/widgets/feed\_error\_view.dart](/lib/features/feed/presentation/widgets/feed_error_view.dart) | Dart | 54 | 0 | 5 | 59 |
 | [lib/features/feed/presentation/widgets/feed\_loading\_view.dart](/lib/features/feed/presentation/widgets/feed_loading_view.dart) | Dart | 11 | 0 | 4 | 15 |
 | [lib/features/feed/presentation/widgets/feed\_post\_card.dart](/lib/features/feed/presentation/widgets/feed_post_card.dart) | Dart | 276 | 10 | 19 | 305 |
-| [lib/features/feed/presentation/widgets/feed\_top\_bar.dart](/lib/features/feed/presentation/widgets/feed_top_bar.dart) | Dart | 67 | 4 | 8 | 79 |
+| [lib/features/feed/presentation/widgets/feed\_top\_bar.dart](/lib/features/feed/presentation/widgets/feed_top_bar.dart) | Dart | 68 | 5 | 8 | 81 |
 | [lib/features/feedback/README.md](/lib/features/feedback/README.md) | Markdown | 57 | 0 | 11 | 68 |
 | [lib/features/feedback/data/datasources/feedback\_api\_data\_source.dart](/lib/features/feedback/data/datasources/feedback_api_data_source.dart) | Dart | 41 | 6 | 8 | 55 |
 | [lib/features/feedback/data/models/feedback\_feature\_model.dart](/lib/features/feedback/data/models/feedback_feature_model.dart) | Dart | 13 | 0 | 5 | 18 |
@@ -174,22 +177,25 @@ Total : 522 files,  46776 codes, 4285 comments, 7430 blanks, all 58491 lines
 | [lib/features/follow/presentation/widgets/follow\_results\_view.dart](/lib/features/follow/presentation/widgets/follow_results_view.dart) | Dart | 142 | 0 | 13 | 155 |
 | [lib/features/follow/presentation/widgets/follow\_tab\_switcher.dart](/lib/features/follow/presentation/widgets/follow_tab_switcher.dart) | Dart | 121 | 0 | 12 | 133 |
 | [lib/features/follow/presentation/widgets/follow\_user\_card.dart](/lib/features/follow/presentation/widgets/follow_user_card.dart) | Dart | 246 | 0 | 24 | 270 |
-| [lib/features/forums/data/datasources/forums\_api\_data\_source.dart](/lib/features/forums/data/datasources/forums_api_data_source.dart) | Dart | 168 | 6 | 26 | 200 |
-| [lib/features/forums/data/models/forum\_models.dart](/lib/features/forums/data/models/forum_models.dart) | Dart | 228 | 6 | 42 | 276 |
-| [lib/features/forums/data/repositories/forums\_repository\_impl.dart](/lib/features/forums/data/repositories/forums_repository_impl.dart) | Dart | 217 | 3 | 25 | 245 |
+| [lib/features/forums/data/datasources/forums\_api\_data\_source.dart](/lib/features/forums/data/datasources/forums_api_data_source.dart) | Dart | 194 | 10 | 32 | 236 |
+| [lib/features/forums/data/models/forum\_models.dart](/lib/features/forums/data/models/forum_models.dart) | Dart | 255 | 6 | 47 | 308 |
+| [lib/features/forums/data/repositories/forums\_repository\_impl.dart](/lib/features/forums/data/repositories/forums_repository_impl.dart) | Dart | 246 | 3 | 29 | 278 |
 | [lib/features/forums/domain/entities/forum\_author.dart](/lib/features/forums/domain/entities/forum_author.dart) | Dart | 13 | 2 | 4 | 19 |
 | [lib/features/forums/domain/entities/forum\_filter.dart](/lib/features/forums/domain/entities/forum_filter.dart) | Dart | 22 | 7 | 12 | 41 |
 | [lib/features/forums/domain/entities/forum\_pages.dart](/lib/features/forums/domain/entities/forum_pages.dart) | Dart | 17 | 3 | 8 | 28 |
-| [lib/features/forums/domain/entities/forum\_reply.dart](/lib/features/forums/domain/entities/forum_reply.dart) | Dart | 50 | 4 | 6 | 60 |
-| [lib/features/forums/domain/entities/forum\_shortcut.dart](/lib/features/forums/domain/entities/forum_shortcut.dart) | Dart | 29 | 3 | 7 | 39 |
-| [lib/features/forums/domain/entities/forum\_thread.dart](/lib/features/forums/domain/entities/forum_thread.dart) | Dart | 104 | 6 | 12 | 122 |
+| [lib/features/forums/domain/entities/forum\_reply.dart](/lib/features/forums/domain/entities/forum_reply.dart) | Dart | 61 | 9 | 9 | 79 |
+| [lib/features/forums/domain/entities/forum\_shortcut.dart](/lib/features/forums/domain/entities/forum_shortcut.dart) | Dart | 31 | 5 | 8 | 44 |
+| [lib/features/forums/domain/entities/forum\_suggestion.dart](/lib/features/forums/domain/entities/forum_suggestion.dart) | Dart | 20 | 6 | 6 | 32 |
+| [lib/features/forums/domain/entities/forum\_thread.dart](/lib/features/forums/domain/entities/forum_thread.dart) | Dart | 125 | 10 | 14 | 149 |
 | [lib/features/forums/domain/entities/forum\_topic.dart](/lib/features/forums/domain/entities/forum_topic.dart) | Dart | 27 | 6 | 9 | 42 |
 | [lib/features/forums/domain/failures/forum\_failures.dart](/lib/features/forums/domain/failures/forum_failures.dart) | Dart | 13 | 4 | 5 | 22 |
-| [lib/features/forums/domain/repositories/forums\_repository.dart](/lib/features/forums/domain/repositories/forums_repository.dart) | Dart | 71 | 8 | 20 | 99 |
+| [lib/features/forums/domain/repositories/forums\_repository.dart](/lib/features/forums/domain/repositories/forums_repository.dart) | Dart | 83 | 11 | 23 | 117 |
 | [lib/features/forums/domain/usecases/create\_forum\_reply.dart](/lib/features/forums/domain/usecases/create_forum_reply.dart) | Dart | 31 | 2 | 8 | 41 |
 | [lib/features/forums/domain/usecases/create\_forum\_thread.dart](/lib/features/forums/domain/usecases/create_forum_thread.dart) | Dart | 37 | 2 | 8 | 47 |
+| [lib/features/forums/domain/usecases/forum\_saves.dart](/lib/features/forums/domain/usecases/forum_saves.dart) | Dart | 40 | 2 | 14 | 56 |
 | [lib/features/forums/domain/usecases/forum\_shortcuts.dart](/lib/features/forums/domain/usecases/forum_shortcuts.dart) | Dart | 92 | 2 | 21 | 115 |
-| [lib/features/forums/domain/usecases/get\_forum\_replies.dart](/lib/features/forums/domain/usecases/get_forum_replies.dart) | Dart | 42 | 4 | 10 | 56 |
+| [lib/features/forums/domain/usecases/get\_forum\_replies.dart](/lib/features/forums/domain/usecases/get_forum_replies.dart) | Dart | 51 | 4 | 10 | 65 |
+| [lib/features/forums/domain/usecases/get\_forum\_suggestions.dart](/lib/features/forums/domain/usecases/get_forum_suggestions.dart) | Dart | 22 | 1 | 7 | 30 |
 | [lib/features/forums/domain/usecases/get\_forum\_thread.dart](/lib/features/forums/domain/usecases/get_forum_thread.dart) | Dart | 16 | 0 | 5 | 21 |
 | [lib/features/forums/domain/usecases/get\_forum\_threads.dart](/lib/features/forums/domain/usecases/get_forum_threads.dart) | Dart | 36 | 1 | 7 | 44 |
 | [lib/features/forums/domain/usecases/get\_forum\_topics.dart](/lib/features/forums/domain/usecases/get_forum_topics.dart) | Dart | 16 | 0 | 5 | 21 |
@@ -202,20 +208,24 @@ Total : 522 files,  46776 codes, 4285 comments, 7430 blanks, all 58491 lines
 | [lib/features/forums/presentation/bloc/composer/bloc.dart](/lib/features/forums/presentation/bloc/composer/bloc.dart) | Dart | 180 | 10 | 27 | 217 |
 | [lib/features/forums/presentation/bloc/composer/event.dart](/lib/features/forums/presentation/bloc/composer/event.dart) | Dart | 45 | 8 | 17 | 70 |
 | [lib/features/forums/presentation/bloc/composer/state.dart](/lib/features/forums/presentation/bloc/composer/state.dart) | Dart | 96 | 5 | 11 | 112 |
-| [lib/features/forums/presentation/bloc/home/bloc.dart](/lib/features/forums/presentation/bloc/home/bloc.dart) | Dart | 203 | 7 | 21 | 231 |
-| [lib/features/forums/presentation/bloc/home/event.dart](/lib/features/forums/presentation/bloc/home/event.dart) | Dart | 46 | 11 | 17 | 74 |
+| [lib/features/forums/presentation/bloc/home/bloc.dart](/lib/features/forums/presentation/bloc/home/bloc.dart) | Dart | 231 | 6 | 24 | 261 |
+| [lib/features/forums/presentation/bloc/home/event.dart](/lib/features/forums/presentation/bloc/home/event.dart) | Dart | 52 | 12 | 19 | 83 |
 | [lib/features/forums/presentation/bloc/home/state.dart](/lib/features/forums/presentation/bloc/home/state.dart) | Dart | 75 | 4 | 7 | 86 |
-| [lib/features/forums/presentation/bloc/hub/bloc.dart](/lib/features/forums/presentation/bloc/hub/bloc.dart) | Dart | 148 | 7 | 17 | 172 |
-| [lib/features/forums/presentation/bloc/hub/event.dart](/lib/features/forums/presentation/bloc/hub/event.dart) | Dart | 37 | 6 | 13 | 56 |
+| [lib/features/forums/presentation/bloc/hub/bloc.dart](/lib/features/forums/presentation/bloc/hub/bloc.dart) | Dart | 179 | 7 | 21 | 207 |
+| [lib/features/forums/presentation/bloc/hub/event.dart](/lib/features/forums/presentation/bloc/hub/event.dart) | Dart | 43 | 7 | 15 | 65 |
 | [lib/features/forums/presentation/bloc/hub/state.dart](/lib/features/forums/presentation/bloc/hub/state.dart) | Dart | 100 | 6 | 10 | 116 |
-| [lib/features/forums/presentation/bloc/thread/bloc.dart](/lib/features/forums/presentation/bloc/thread/bloc.dart) | Dart | 380 | 5 | 33 | 418 |
-| [lib/features/forums/presentation/bloc/thread/event.dart](/lib/features/forums/presentation/bloc/thread/event.dart) | Dart | 71 | 14 | 24 | 109 |
-| [lib/features/forums/presentation/bloc/thread/state.dart](/lib/features/forums/presentation/bloc/thread/state.dart) | Dart | 166 | 8 | 15 | 189 |
-| [lib/features/forums/presentation/pages/forum\_hub\_page.dart](/lib/features/forums/presentation/pages/forum_hub_page.dart) | Dart | 336 | 0 | 20 | 356 |
-| [lib/features/forums/presentation/pages/forum\_thread\_page.dart](/lib/features/forums/presentation/pages/forum_thread_page.dart) | Dart | 397 | 1 | 27 | 425 |
-| [lib/features/forums/presentation/pages/forums\_browse\_page.dart](/lib/features/forums/presentation/pages/forums_browse_page.dart) | Dart | 152 | 0 | 19 | 171 |
-| [lib/features/forums/presentation/pages/forums\_home\_page.dart](/lib/features/forums/presentation/pages/forums_home_page.dart) | Dart | 227 | 2 | 17 | 246 |
+| [lib/features/forums/presentation/bloc/saved/bloc.dart](/lib/features/forums/presentation/bloc/saved/bloc.dart) | Dart | 97 | 2 | 10 | 109 |
+| [lib/features/forums/presentation/bloc/saved/event.dart](/lib/features/forums/presentation/bloc/saved/event.dart) | Dart | 25 | 4 | 10 | 39 |
+| [lib/features/forums/presentation/bloc/saved/state.dart](/lib/features/forums/presentation/bloc/saved/state.dart) | Dart | 53 | 2 | 7 | 62 |
+| [lib/features/forums/presentation/bloc/thread/bloc.dart](/lib/features/forums/presentation/bloc/thread/bloc.dart) | Dart | 433 | 8 | 38 | 479 |
+| [lib/features/forums/presentation/bloc/thread/event.dart](/lib/features/forums/presentation/bloc/thread/event.dart) | Dart | 81 | 16 | 28 | 125 |
+| [lib/features/forums/presentation/bloc/thread/state.dart](/lib/features/forums/presentation/bloc/thread/state.dart) | Dart | 171 | 8 | 15 | 194 |
+| [lib/features/forums/presentation/pages/forum\_hub\_page.dart](/lib/features/forums/presentation/pages/forum_hub_page.dart) | Dart | 351 | 0 | 20 | 371 |
+| [lib/features/forums/presentation/pages/forum\_thread\_page.dart](/lib/features/forums/presentation/pages/forum_thread_page.dart) | Dart | 431 | 5 | 30 | 466 |
+| [lib/features/forums/presentation/pages/forums\_browse\_page.dart](/lib/features/forums/presentation/pages/forums_browse_page.dart) | Dart | 156 | 0 | 19 | 175 |
+| [lib/features/forums/presentation/pages/forums\_home\_page.dart](/lib/features/forums/presentation/pages/forums_home_page.dart) | Dart | 230 | 2 | 17 | 249 |
 | [lib/features/forums/presentation/pages/new\_thread\_page.dart](/lib/features/forums/presentation/pages/new_thread_page.dart) | Dart | 242 | 1 | 16 | 259 |
+| [lib/features/forums/presentation/pages/saved\_threads\_page.dart](/lib/features/forums/presentation/pages/saved_threads_page.dart) | Dart | 183 | 0 | 18 | 201 |
 | [lib/features/forums/presentation/utils/forum\_error\_mapper.dart](/lib/features/forums/presentation/utils/forum_error_mapper.dart) | Dart | 21 | 4 | 5 | 30 |
 | [lib/features/forums/presentation/utils/forum\_format.dart](/lib/features/forums/presentation/utils/forum_format.dart) | Dart | 14 | 2 | 3 | 19 |
 | [lib/features/forums/presentation/widgets/browse/browse\_tab\_toggle.dart](/lib/features/forums/presentation/widgets/browse/browse_tab_toggle.dart) | Dart | 71 | 1 | 8 | 80 |
@@ -223,9 +233,9 @@ Total : 522 files,  46776 codes, 4285 comments, 7430 blanks, all 58491 lines
 | [lib/features/forums/presentation/widgets/browse/forum\_topic\_card.dart](/lib/features/forums/presentation/widgets/browse/forum_topic_card.dart) | Dart | 55 | 2 | 6 | 63 |
 | [lib/features/forums/presentation/widgets/composer/car\_tag\_picker.dart](/lib/features/forums/presentation/widgets/composer/car_tag_picker.dart) | Dart | 253 | 2 | 16 | 271 |
 | [lib/features/forums/presentation/widgets/composer/topic\_selector.dart](/lib/features/forums/presentation/widgets/composer/topic_selector.dart) | Dart | 56 | 2 | 9 | 67 |
-| [lib/features/forums/presentation/widgets/home/forum\_shortcuts\_row.dart](/lib/features/forums/presentation/widgets/home/forum_shortcuts_row.dart) | Dart | 197 | 2 | 9 | 208 |
-| [lib/features/forums/presentation/widgets/home/forums\_empty\_view.dart](/lib/features/forums/presentation/widgets/home/forums_empty_view.dart) | Dart | 206 | 2 | 14 | 222 |
-| [lib/features/forums/presentation/widgets/home/forums\_top\_bar.dart](/lib/features/forums/presentation/widgets/home/forums_top_bar.dart) | Dart | 49 | 2 | 5 | 56 |
+| [lib/features/forums/presentation/widgets/home/forum\_shortcuts\_row.dart](/lib/features/forums/presentation/widgets/home/forum_shortcuts_row.dart) | Dart | 225 | 4 | 12 | 241 |
+| [lib/features/forums/presentation/widgets/home/forums\_empty\_view.dart](/lib/features/forums/presentation/widgets/home/forums_empty_view.dart) | Dart | 213 | 2 | 15 | 230 |
+| [lib/features/forums/presentation/widgets/home/forums\_top\_bar.dart](/lib/features/forums/presentation/widgets/home/forums_top_bar.dart) | Dart | 56 | 2 | 5 | 63 |
 | [lib/features/forums/presentation/widgets/hub/save\_shortcut\_sheet.dart](/lib/features/forums/presentation/widgets/hub/save_shortcut_sheet.dart) | Dart | 225 | 2 | 11 | 238 |
 | [lib/features/forums/presentation/widgets/shared/forum\_avatar.dart](/lib/features/forums/presentation/widgets/shared/forum_avatar.dart) | Dart | 45 | 2 | 5 | 52 |
 | [lib/features/forums/presentation/widgets/shared/forum\_chips.dart](/lib/features/forums/presentation/widgets/shared/forum_chips.dart) | Dart | 94 | 4 | 8 | 106 |
@@ -234,12 +244,13 @@ Total : 522 files,  46776 codes, 4285 comments, 7430 blanks, all 58491 lines
 | [lib/features/forums/presentation/widgets/shared/forum\_section\_label.dart](/lib/features/forums/presentation/widgets/shared/forum_section_label.dart) | Dart | 18 | 1 | 5 | 24 |
 | [lib/features/forums/presentation/widgets/shared/forum\_sort\_tabs.dart](/lib/features/forums/presentation/widgets/shared/forum_sort_tabs.dart) | Dart | 72 | 2 | 8 | 82 |
 | [lib/features/forums/presentation/widgets/shared/forum\_sub\_top\_bar.dart](/lib/features/forums/presentation/widgets/shared/forum_sub_top_bar.dart) | Dart | 62 | 3 | 5 | 70 |
-| [lib/features/forums/presentation/widgets/shared/forum\_thread\_card.dart](/lib/features/forums/presentation/widgets/shared/forum_thread_card.dart) | Dart | 191 | 3 | 13 | 207 |
+| [lib/features/forums/presentation/widgets/shared/forum\_thread\_card.dart](/lib/features/forums/presentation/widgets/shared/forum_thread_card.dart) | Dart | 209 | 4 | 14 | 227 |
 | [lib/features/forums/presentation/widgets/shared/forum\_thread\_skeleton.dart](/lib/features/forums/presentation/widgets/shared/forum_thread_skeleton.dart) | Dart | 90 | 3 | 13 | 106 |
 | [lib/features/forums/presentation/widgets/thread/forum\_edit\_sheet.dart](/lib/features/forums/presentation/widgets/thread/forum_edit_sheet.dart) | Dart | 166 | 2 | 11 | 179 |
 | [lib/features/forums/presentation/widgets/thread/reply\_input\_bar.dart](/lib/features/forums/presentation/widgets/thread/reply_input_bar.dart) | Dart | 163 | 3 | 7 | 173 |
-| [lib/features/forums/presentation/widgets/thread/reply\_tile.dart](/lib/features/forums/presentation/widgets/thread/reply_tile.dart) | Dart | 250 | 2 | 10 | 262 |
-| [lib/features/forums/presentation/widgets/thread/thread\_header.dart](/lib/features/forums/presentation/widgets/thread/thread_header.dart) | Dart | 211 | 2 | 12 | 225 |
+| [lib/features/forums/presentation/widgets/thread/reply\_sort\_toggle.dart](/lib/features/forums/presentation/widgets/thread/reply_sort_toggle.dart) | Dart | 71 | 2 | 8 | 81 |
+| [lib/features/forums/presentation/widgets/thread/reply\_tile.dart](/lib/features/forums/presentation/widgets/thread/reply_tile.dart) | Dart | 274 | 4 | 12 | 290 |
+| [lib/features/forums/presentation/widgets/thread/thread\_header.dart](/lib/features/forums/presentation/widgets/thread/thread_header.dart) | Dart | 223 | 2 | 12 | 237 |
 | [lib/features/garage/README.md](/lib/features/garage/README.md) | Markdown | 169 | 0 | 36 | 205 |
 | [lib/features/garage/data/datasources/garage\_api\_data\_source.dart](/lib/features/garage/data/datasources/garage_api_data_source.dart) | Dart | 136 | 8 | 31 | 175 |
 | [lib/features/garage/data/datasources/storage\_api\_data\_source.dart](/lib/features/garage/data/datasources/storage_api_data_source.dart) | Dart | 87 | 0 | 8 | 95 |
@@ -249,7 +260,7 @@ Total : 522 files,  46776 codes, 4285 comments, 7430 blanks, all 58491 lines
 | [lib/features/garage/data/models/car\_summary\_model.dart](/lib/features/garage/data/models/car_summary_model.dart) | Dart | 49 | 0 | 5 | 54 |
 | [lib/features/garage/data/models/create\_car\_response\_model.dart](/lib/features/garage/data/models/create_car_response_model.dart) | Dart | 21 | 4 | 7 | 32 |
 | [lib/features/garage/data/models/garage\_model.dart](/lib/features/garage/data/models/garage_model.dart) | Dart | 32 | 0 | 5 | 37 |
-| [lib/features/garage/data/models/reference\_data\_models.dart](/lib/features/garage/data/models/reference_data_models.dart) | Dart | 95 | 0 | 33 | 128 |
+| [lib/features/garage/data/models/reference\_data\_models.dart](/lib/features/garage/data/models/reference_data_models.dart) | Dart | 112 | 2 | 34 | 148 |
 | [lib/features/garage/data/models/storage\_models.dart](/lib/features/garage/data/models/storage_models.dart) | Dart | 55 | 5 | 13 | 73 |
 | [lib/features/garage/data/repositories/garage\_repository\_impl.dart](/lib/features/garage/data/repositories/garage_repository_impl.dart) | Dart | 461 | 9 | 38 | 508 |
 | [lib/features/garage/domain/entities/car.dart](/lib/features/garage/domain/entities/car.dart) | Dart | 171 | 0 | 6 | 177 |
@@ -258,7 +269,7 @@ Total : 522 files,  46776 codes, 4285 comments, 7430 blanks, all 58491 lines
 | [lib/features/garage/domain/entities/car\_summary.dart](/lib/features/garage/domain/entities/car_summary.dart) | Dart | 24 | 2 | 6 | 32 |
 | [lib/features/garage/domain/entities/create\_car\_result.dart](/lib/features/garage/domain/entities/create_car_result.dart) | Dart | 29 | 4 | 10 | 43 |
 | [lib/features/garage/domain/entities/garage.dart](/lib/features/garage/domain/entities/garage.dart) | Dart | 24 | 0 | 6 | 30 |
-| [lib/features/garage/domain/entities/reference\_data.dart](/lib/features/garage/domain/entities/reference_data.dart) | Dart | 77 | 0 | 27 | 104 |
+| [lib/features/garage/domain/entities/reference\_data.dart](/lib/features/garage/domain/entities/reference_data.dart) | Dart | 84 | 4 | 29 | 117 |
 | [lib/features/garage/domain/failures/garage\_failures.dart](/lib/features/garage/domain/failures/garage_failures.dart) | Dart | 16 | 0 | 6 | 22 |
 | [lib/features/garage/domain/repositories/garage\_repository.dart](/lib/features/garage/domain/repositories/garage_repository.dart) | Dart | 198 | 26 | 34 | 258 |
 | [lib/features/garage/domain/usecases/add\_car.dart](/lib/features/garage/domain/usecases/add_car.dart) | Dart | 15 | 0 | 5 | 20 |
@@ -308,6 +319,56 @@ Total : 522 files,  46776 codes, 4285 comments, 7430 blanks, all 58491 lines
 | [lib/features/garage/presentation/widgets/register\_car/register\_car\_chrome.dart](/lib/features/garage/presentation/widgets/register_car/register_car_chrome.dart) | Dart | 465 | 17 | 33 | 515 |
 | [lib/features/garage/presentation/widgets/register\_car/register\_car\_fields.dart](/lib/features/garage/presentation/widgets/register_car/register_car_fields.dart) | Dart | 612 | 21 | 43 | 676 |
 | [lib/features/garage/presentation/widgets/register\_car/story\_step.dart](/lib/features/garage/presentation/widgets/register_car/story_step.dart) | Dart | 99 | 2 | 8 | 109 |
+| [lib/features/messages/data/datasources/messages\_data\_source.dart](/lib/features/messages/data/datasources/messages_data_source.dart) | Dart | 409 | 15 | 43 | 467 |
+| [lib/features/messages/data/datasources/presence\_data\_source.dart](/lib/features/messages/data/datasources/presence_data_source.dart) | Dart | 36 | 4 | 8 | 48 |
+| [lib/features/messages/data/models/presence\_model.dart](/lib/features/messages/data/models/presence_model.dart) | Dart | 26 | 2 | 5 | 33 |
+| [lib/features/messages/data/repositories/messages\_repository\_impl.dart](/lib/features/messages/data/repositories/messages_repository_impl.dart) | Dart | 86 | 2 | 13 | 101 |
+| [lib/features/messages/domain/entities/chat.dart](/lib/features/messages/domain/entities/chat.dart) | Dart | 14 | 5 | 7 | 26 |
+| [lib/features/messages/domain/entities/chat\_events.dart](/lib/features/messages/domain/entities/chat_events.dart) | Dart | 31 | 8 | 12 | 51 |
+| [lib/features/messages/domain/entities/conversation.dart](/lib/features/messages/domain/entities/conversation.dart) | Dart | 82 | 15 | 19 | 116 |
+| [lib/features/messages/domain/entities/message.dart](/lib/features/messages/domain/entities/message.dart) | Dart | 62 | 8 | 14 | 84 |
+| [lib/features/messages/domain/entities/message\_user.dart](/lib/features/messages/domain/entities/message_user.dart) | Dart | 46 | 8 | 7 | 61 |
+| [lib/features/messages/domain/entities/presence.dart](/lib/features/messages/domain/entities/presence.dart) | Dart | 13 | 3 | 4 | 20 |
+| [lib/features/messages/domain/repositories/messages\_repository.dart](/lib/features/messages/domain/repositories/messages_repository.dart) | Dart | 25 | 9 | 10 | 44 |
+| [lib/features/messages/domain/usecases/compose.dart](/lib/features/messages/domain/usecases/compose.dart) | Dart | 23 | 2 | 8 | 33 |
+| [lib/features/messages/domain/usecases/get\_chat.dart](/lib/features/messages/domain/usecases/get_chat.dart) | Dart | 14 | 0 | 5 | 19 |
+| [lib/features/messages/domain/usecases/get\_inbox.dart](/lib/features/messages/domain/usecases/get_inbox.dart) | Dart | 14 | 0 | 5 | 19 |
+| [lib/features/messages/domain/usecases/presence.dart](/lib/features/messages/domain/usecases/presence.dart) | Dart | 20 | 3 | 8 | 31 |
+| [lib/features/messages/domain/usecases/send\_message.dart](/lib/features/messages/domain/usecases/send_message.dart) | Dart | 22 | 0 | 8 | 30 |
+| [lib/features/messages/domain/usecases/watch\_chat.dart](/lib/features/messages/domain/usecases/watch_chat.dart) | Dart | 10 | 2 | 5 | 17 |
+| [lib/features/messages/presentation/bloc/chat/bloc.dart](/lib/features/messages/presentation/bloc/chat/bloc.dart) | Dart | 137 | 6 | 15 | 158 |
+| [lib/features/messages/presentation/bloc/chat/event.dart](/lib/features/messages/presentation/bloc/chat/event.dart) | Dart | 32 | 5 | 12 | 49 |
+| [lib/features/messages/presentation/bloc/chat/state.dart](/lib/features/messages/presentation/bloc/chat/state.dart) | Dart | 51 | 3 | 14 | 68 |
+| [lib/features/messages/presentation/bloc/compose/bloc.dart](/lib/features/messages/presentation/bloc/compose/bloc.dart) | Dart | 39 | 2 | 6 | 47 |
+| [lib/features/messages/presentation/bloc/compose/event.dart](/lib/features/messages/presentation/bloc/compose/event.dart) | Dart | 18 | 2 | 7 | 27 |
+| [lib/features/messages/presentation/bloc/compose/state.dart](/lib/features/messages/presentation/bloc/compose/state.dart) | Dart | 24 | 2 | 7 | 33 |
+| [lib/features/messages/presentation/bloc/inbox/bloc.dart](/lib/features/messages/presentation/bloc/inbox/bloc.dart) | Dart | 109 | 6 | 15 | 130 |
+| [lib/features/messages/presentation/bloc/inbox/event.dart](/lib/features/messages/presentation/bloc/inbox/event.dart) | Dart | 27 | 4 | 11 | 42 |
+| [lib/features/messages/presentation/bloc/inbox/state.dart](/lib/features/messages/presentation/bloc/inbox/state.dart) | Dart | 39 | 1 | 14 | 54 |
+| [lib/features/messages/presentation/pages/chat\_page.dart](/lib/features/messages/presentation/pages/chat_page.dart) | Dart | 172 | 8 | 20 | 200 |
+| [lib/features/messages/presentation/pages/messages\_page.dart](/lib/features/messages/presentation/pages/messages_page.dart) | Dart | 174 | 5 | 14 | 193 |
+| [lib/features/messages/presentation/utils/message\_time.dart](/lib/features/messages/presentation/utils/message_time.dart) | Dart | 11 | 2 | 3 | 16 |
+| [lib/features/messages/presentation/utils/messages\_error\_mapper.dart](/lib/features/messages/presentation/utils/messages_error_mapper.dart) | Dart | 14 | 3 | 4 | 21 |
+| [lib/features/messages/presentation/widgets/chat/bubble\_entrance.dart](/lib/features/messages/presentation/widgets/chat/bubble_entrance.dart) | Dart | 57 | 3 | 8 | 68 |
+| [lib/features/messages/presentation/widgets/chat/chat\_date\_pill.dart](/lib/features/messages/presentation/widgets/chat/chat_date_pill.dart) | Dart | 29 | 1 | 5 | 35 |
+| [lib/features/messages/presentation/widgets/chat/chat\_input\_bar.dart](/lib/features/messages/presentation/widgets/chat/chat_input_bar.dart) | Dart | 136 | 2 | 10 | 148 |
+| [lib/features/messages/presentation/widgets/chat/chat\_intro\_header.dart](/lib/features/messages/presentation/widgets/chat/chat_intro_header.dart) | Dart | 54 | 2 | 6 | 62 |
+| [lib/features/messages/presentation/widgets/chat/chat\_top\_bar.dart](/lib/features/messages/presentation/widgets/chat/chat_top_bar.dart) | Dart | 133 | 5 | 11 | 149 |
+| [lib/features/messages/presentation/widgets/chat/message\_bubble.dart](/lib/features/messages/presentation/widgets/chat/message_bubble.dart) | Dart | 66 | 4 | 8 | 78 |
+| [lib/features/messages/presentation/widgets/chat/shared\_post\_bubble.dart](/lib/features/messages/presentation/widgets/chat/shared_post_bubble.dart) | Dart | 109 | 3 | 9 | 121 |
+| [lib/features/messages/presentation/widgets/chat/typing\_indicator.dart](/lib/features/messages/presentation/widgets/chat/typing_indicator.dart) | Dart | 79 | 3 | 12 | 94 |
+| [lib/features/messages/presentation/widgets/inbox/active\_now\_row.dart](/lib/features/messages/presentation/widgets/inbox/active_now_row.dart) | Dart | 68 | 3 | 6 | 77 |
+| [lib/features/messages/presentation/widgets/inbox/conversation\_tile.dart](/lib/features/messages/presentation/widgets/inbox/conversation_tile.dart) | Dart | 166 | 5 | 17 | 188 |
+| [lib/features/messages/presentation/widgets/inbox/inbox\_search\_field.dart](/lib/features/messages/presentation/widgets/inbox/inbox_search_field.dart) | Dart | 45 | 1 | 5 | 51 |
+| [lib/features/messages/presentation/widgets/inbox/message\_requests\_tile.dart](/lib/features/messages/presentation/widgets/inbox/message_requests_tile.dart) | Dart | 91 | 2 | 6 | 99 |
+| [lib/features/messages/presentation/widgets/inbox/messages\_empty\_view.dart](/lib/features/messages/presentation/widgets/inbox/messages_empty_view.dart) | Dart | 74 | 1 | 5 | 80 |
+| [lib/features/messages/presentation/widgets/inbox/messages\_top\_bar.dart](/lib/features/messages/presentation/widgets/inbox/messages_top_bar.dart) | Dart | 38 | 2 | 5 | 45 |
+| [lib/features/messages/presentation/widgets/inbox/new\_message\_sheet.dart](/lib/features/messages/presentation/widgets/inbox/new_message_sheet.dart) | Dart | 181 | 3 | 6 | 190 |
+| [lib/features/messages/presentation/widgets/shared/message\_avatar.dart](/lib/features/messages/presentation/widgets/shared/message_avatar.dart) | Dart | 91 | 7 | 11 | 109 |
+| [lib/features/messages/presentation/widgets/shared/message\_pill\_button.dart](/lib/features/messages/presentation/widgets/shared/message_pill_button.dart) | Dart | 23 | 1 | 5 | 29 |
+| [lib/features/messages/presentation/widgets/shared/messages\_error\_view.dart](/lib/features/messages/presentation/widgets/shared/messages_error_view.dart) | Dart | 43 | 1 | 5 | 49 |
+| [lib/features/messages/presentation/widgets/shared/staggered\_entrance.dart](/lib/features/messages/presentation/widgets/shared/staggered_entrance.dart) | Dart | 43 | 3 | 8 | 54 |
+| [lib/features/messages/presentation/widgets/shared/verified\_badge.dart](/lib/features/messages/presentation/widgets/shared/verified_badge.dart) | Dart | 22 | 1 | 5 | 28 |
 | [lib/features/onboarding/data/datasources/onboarding\_api\_data\_source.dart](/lib/features/onboarding/data/datasources/onboarding_api_data_source.dart) | Dart | 58 | 12 | 15 | 85 |
 | [lib/features/onboarding/data/models/onboarding reference/car\_category\_model.dart](/lib/features/onboarding/data/models/onboarding%20reference/car_category_model.dart) | Dart | 13 | 0 | 5 | 18 |
 | [lib/features/onboarding/data/models/onboarding reference/city\_model.dart](/lib/features/onboarding/data/models/onboarding%20reference/city_model.dart) | Dart | 23 | 0 | 5 | 28 |
@@ -454,14 +515,14 @@ Total : 522 files,  46776 codes, 4285 comments, 7430 blanks, all 58491 lines
 | [lib/features/profile/presentation/widgets/shared/profile\_section\_tabs.dart](/lib/features/profile/presentation/widgets/shared/profile_section_tabs.dart) | Dart | 92 | 4 | 9 | 105 |
 | [lib/features/profile/presentation/widgets/shared/profile\_stats\_row.dart](/lib/features/profile/presentation/widgets/shared/profile_stats_row.dart) | Dart | 116 | 1 | 10 | 127 |
 | [lib/features/profile/presentation/widgets/shared/profile\_top\_bar.dart](/lib/features/profile/presentation/widgets/shared/profile_top_bar.dart) | Dart | 73 | 0 | 8 | 81 |
-| [lib/features/report/README.md](/lib/features/report/README.md) | Markdown | 69 | 0 | 15 | 84 |
-| [lib/features/report/data/datasources/report\_api\_data\_source.dart](/lib/features/report/data/datasources/report_api_data_source.dart) | Dart | 46 | 7 | 15 | 68 |
-| [lib/features/report/data/models/my\_report\_model.dart](/lib/features/report/data/models/my_report_model.dart) | Dart | 46 | 2 | 7 | 55 |
+| [lib/features/report/README.md](/lib/features/report/README.md) | Markdown | 73 | 0 | 15 | 88 |
+| [lib/features/report/data/datasources/report\_api\_data\_source.dart](/lib/features/report/data/datasources/report_api_data_source.dart) | Dart | 62 | 7 | 19 | 88 |
+| [lib/features/report/data/models/my\_report\_model.dart](/lib/features/report/data/models/my_report_model.dart) | Dart | 48 | 2 | 7 | 57 |
 | [lib/features/report/data/models/report\_reason\_model.dart](/lib/features/report/data/models/report_reason_model.dart) | Dart | 14 | 0 | 5 | 19 |
-| [lib/features/report/data/repositories/report\_repository\_impl.dart](/lib/features/report/data/repositories/report_repository_impl.dart) | Dart | 90 | 3 | 7 | 100 |
+| [lib/features/report/data/repositories/report\_repository\_impl.dart](/lib/features/report/data/repositories/report_repository_impl.dart) | Dart | 96 | 3 | 7 | 106 |
 | [lib/features/report/domain/entities/my\_report.dart](/lib/features/report/domain/entities/my_report.dart) | Dart | 19 | 5 | 6 | 30 |
 | [lib/features/report/domain/entities/report\_reason.dart](/lib/features/report/domain/entities/report_reason.dart) | Dart | 8 | 2 | 4 | 14 |
-| [lib/features/report/domain/entities/report\_target.dart](/lib/features/report/domain/entities/report_target.dart) | Dart | 25 | 3 | 9 | 37 |
+| [lib/features/report/domain/entities/report\_target.dart](/lib/features/report/domain/entities/report_target.dart) | Dart | 37 | 3 | 13 | 53 |
 | [lib/features/report/domain/failures/report\_failures.dart](/lib/features/report/domain/failures/report_failures.dart) | Dart | 13 | 4 | 5 | 22 |
 | [lib/features/report/domain/repositories/report\_repository.dart](/lib/features/report/domain/repositories/report_repository.dart) | Dart | 15 | 3 | 5 | 23 |
 | [lib/features/report/domain/usecases/get\_my\_reports.dart](/lib/features/report/domain/usecases/get_my_reports.dart) | Dart | 15 | 0 | 5 | 20 |
@@ -476,7 +537,7 @@ Total : 522 files,  46776 codes, 4285 comments, 7430 blanks, all 58491 lines
 | [lib/features/report/presentation/pages/my\_reports\_page.dart](/lib/features/report/presentation/pages/my_reports_page.dart) | Dart | 51 | 2 | 4 | 57 |
 | [lib/features/report/presentation/utils/report\_error\_mapper.dart](/lib/features/report/presentation/utils/report_error_mapper.dart) | Dart | 36 | 5 | 4 | 45 |
 | [lib/features/report/presentation/widgets/my\_reports/my\_report\_status\_chip.dart](/lib/features/report/presentation/widgets/my_reports/my_report_status_chip.dart) | Dart | 45 | 1 | 6 | 52 |
-| [lib/features/report/presentation/widgets/my\_reports/my\_report\_tile.dart](/lib/features/report/presentation/widgets/my_reports/my_report_tile.dart) | Dart | 93 | 2 | 6 | 101 |
+| [lib/features/report/presentation/widgets/my\_reports/my\_report\_tile.dart](/lib/features/report/presentation/widgets/my_reports/my_report_tile.dart) | Dart | 101 | 2 | 6 | 109 |
 | [lib/features/report/presentation/widgets/my\_reports/my\_reports\_empty\_view.dart](/lib/features/report/presentation/widgets/my_reports/my_reports_empty_view.dart) | Dart | 31 | 0 | 4 | 35 |
 | [lib/features/report/presentation/widgets/my\_reports/my\_reports\_error\_view.dart](/lib/features/report/presentation/widgets/my_reports/my_reports_error_view.dart) | Dart | 48 | 0 | 5 | 53 |
 | [lib/features/report/presentation/widgets/my\_reports/my\_reports\_list\_view.dart](/lib/features/report/presentation/widgets/my_reports/my_reports_list_view.dart) | Dart | 16 | 1 | 5 | 22 |
@@ -496,10 +557,10 @@ Total : 522 files,  46776 codes, 4285 comments, 7430 blanks, all 58491 lines
 | [lib/features/settings/presentation/pages/settings\_page.dart](/lib/features/settings/presentation/pages/settings_page.dart) | Dart | 106 | 2 | 6 | 114 |
 | [lib/features/settings/presentation/widgets/logout\_button.dart](/lib/features/settings/presentation/widgets/logout_button.dart) | Dart | 52 | 1 | 5 | 58 |
 | [lib/features/settings/presentation/widgets/settings\_tile.dart](/lib/features/settings/presentation/widgets/settings_tile.dart) | Dart | 45 | 1 | 5 | 51 |
-| [lib/l10n/app\_localizations.dart](/lib/l10n/app_localizations.dart) | Dart | 668 | 2,516 | 629 | 3,813 |
-| [lib/l10n/app\_localizations\_en.dart](/lib/l10n/app_localizations_en.dart) | Dart | 1,469 | 3 | 616 | 2,088 |
-| [lib/l10n/app\_localizations\_ro.dart](/lib/l10n/app_localizations_ro.dart) | Dart | 1,477 | 3 | 616 | 2,096 |
-| [lib/main.dart](/lib/main.dart) | Dart | 50 | 5 | 9 | 64 |
+| [lib/l10n/app\_localizations.dart](/lib/l10n/app_localizations.dart) | Dart | 710 | 2,684 | 671 | 4,065 |
+| [lib/l10n/app\_localizations\_en.dart](/lib/l10n/app_localizations_en.dart) | Dart | 1,574 | 3 | 658 | 2,235 |
+| [lib/l10n/app\_localizations\_ro.dart](/lib/l10n/app_localizations_ro.dart) | Dart | 1,582 | 3 | 658 | 2,243 |
+| [lib/main.dart](/lib/main.dart) | Dart | 66 | 9 | 10 | 85 |
 | [linux/CMakeLists.txt](/linux/CMakeLists.txt) | CMake | 104 | 0 | 25 | 129 |
 | [linux/flutter/CMakeLists.txt](/linux/flutter/CMakeLists.txt) | CMake | 79 | 0 | 10 | 89 |
 | [linux/flutter/generated\_plugin\_registrant.cc](/linux/flutter/generated_plugin_registrant.cc) | C++ | 19 | 4 | 5 | 28 |
@@ -516,7 +577,7 @@ Total : 522 files,  46776 codes, 4285 comments, 7430 blanks, all 58491 lines
 | [macos/Runner/Base.lproj/MainMenu.xib](/macos/Runner/Base.lproj/MainMenu.xib) | XML | 343 | 0 | 1 | 344 |
 | [macos/Runner/MainFlutterWindow.swift](/macos/Runner/MainFlutterWindow.swift) | Swift | 12 | 0 | 4 | 16 |
 | [macos/RunnerTests/RunnerTests.swift](/macos/RunnerTests/RunnerTests.swift) | Swift | 7 | 2 | 4 | 13 |
-| [pubspec.yaml](/pubspec.yaml) | YAML | 47 | 0 | 8 | 55 |
+| [pubspec.yaml](/pubspec.yaml) | YAML | 48 | 0 | 8 | 56 |
 | [web/index.html](/web/index.html) | HTML | 19 | 23 | 5 | 47 |
 | [web/manifest.json](/web/manifest.json) | JSON | 35 | 0 | 1 | 36 |
 | [windows/CMakeLists.txt](/windows/CMakeLists.txt) | CMake | 89 | 0 | 20 | 109 |

@@ -6,28 +6,57 @@ import '../entities/chat_events.dart';
 import '../entities/conversation.dart';
 import '../entities/message.dart';
 import '../entities/message_user.dart';
+import '../entities/presence.dart';
 
 abstract class MessagesRepository {
-  /// Inbox: active-now users, message-requests summary and conversations.
-  Future<Either<Failure, InboxEntity>> getInbox();
+  /// One keyset page of the inbox (most recently active first).
+  /// Pass the previous page's cursor to fetch the next one.
+  Future<Either<Failure, InboxEntity>> getInbox({String? cursor});
 
-  /// Loads a chat and marks its incoming messages as read.
-  Future<Either<Failure, ChatEntity>> getChat(String conversationId);
+  /// One keyset page of a conversation's history, oldest-first.
+  Future<Either<Failure, MessagesPageEntity>> getMessages(
+    String conversationId, {
+    String? cursor,
+  });
 
-  /// Sends a text message; resolves with the persisted message.
-  Future<Either<Failure, MessageEntity>> sendMessage(
-    String conversationId,
+  /// Sends a DM addressed by recipient — the first message between two users
+  /// creates the conversation implicitly (its id is in the result).
+  Future<Either<Failure, SentMessageEntity>> sendMessage(
+    String recipientId,
     String text,
   );
 
-  /// Live events for an open chat: read receipts, typing, incoming messages.
+  /// Soft-deletes the viewer's own message (idempotent server-side).
+  Future<Either<Failure, void>> deleteMessage(String messageId);
+
+  /// Hides ("deletes") a conversation from the viewer's list only.
+  Future<Either<Failure, void>> hideConversation(String conversationId);
+
+  /// Marks the conversation read up to its latest message; the peer gets a
+  /// conversation.read push.
+  Future<Either<Failure, void>> markConversationRead(String conversationId);
+
+  /// Fire-and-forget typing signal over the socket (throttled by callers).
+  void sendTyping(String conversationId, bool isTyping);
+
+  /// Live events for an open chat: read receipts, typing, incoming and
+  /// deleted messages (mapped from the app-wide DM socket).
   Stream<ChatIncomingEvent> chatEvents(String conversationId);
+
+  /// Live "new message" pings for the inbox list.
+  Stream<InboxMessageEvent> inboxMessageEvents();
 
   /// Users the viewer can start a new conversation with (compose sheet).
   Future<Either<Failure, List<MessageUserEntity>>> getComposeSuggestions(
     String query,
   );
 
-  /// Opens (or creates) the conversation with [userId]; returns its id.
-  Future<Either<Failure, String>> startConversation(String userId);
+  /// Batch presence lookup (chat header on open, profile pages later).
+  Future<Either<Failure, List<PresenceEntity>>> getPresence(
+    List<String> userIds,
+  );
+
+  /// Live presence flips for users the viewer shares a conversation with,
+  /// pushed over the app-wide DM socket.
+  Stream<PresenceEntity> presenceUpdates();
 }

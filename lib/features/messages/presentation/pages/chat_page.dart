@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/message.dart';
+import '../../domain/entities/message_user.dart';
 import '../bloc/chat/bloc.dart';
 import '../bloc/chat/event.dart';
 import '../bloc/chat/state.dart';
@@ -19,11 +20,19 @@ import '../widgets/chat/shared_post_bubble.dart';
 import '../widgets/chat/typing_indicator.dart';
 import '../widgets/shared/messages_error_view.dart';
 
-/// One open conversation: history, live bubbles and the composer.
+/// One open conversation: paged history, live bubbles and the composer.
+/// [conversationId] is null when composing to a user with no conversation
+/// yet; [peer] always travels with the route (the messages endpoint has no
+/// peer payload).
 class ChatPage extends StatelessWidget {
-  final String conversationId;
+  final String? conversationId;
+  final MessageUserEntity peer;
 
-  const ChatPage({super.key, required this.conversationId});
+  const ChatPage({
+    super.key,
+    required this.conversationId,
+    required this.peer,
+  });
 
   void _comingSoon(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -37,13 +46,26 @@ class ChatPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: SafeArea(
-        child: BlocBuilder<ChatBloc, ChatState>(
+        child: BlocConsumer<ChatBloc, ChatState>(
+          listenWhen: (previous, current) =>
+              current is ChatLoaded && current.actionError != null,
+          listener: (context, state) {
+            final error = (state as ChatLoaded).actionError!;
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                content: Text(messagesErrorMessage(
+                  AppLocalizations.of(context)!,
+                  error,
+                )),
+              ));
+          },
           builder: (context, state) {
             final loaded = state is ChatLoaded ? state : null;
             return Column(
               children: [
                 ChatTopBar(
-                  user: loaded?.user,
+                  user: loaded?.user ?? peer,
                   onBack: () => context.pop(),
                 ),
                 Expanded(
@@ -63,9 +85,12 @@ class ChatPage extends StatelessWidget {
                           AppLocalizations.of(context)!,
                           code,
                         ),
-                        onRetry: () => context
-                            .read<ChatBloc>()
-                            .add(LoadChat(conversationId)),
+                        onRetry: () => context.read<ChatBloc>().add(
+                              LoadChat(
+                                conversationId: conversationId,
+                                peer: peer,
+                              ),
+                            ),
                       ),
                     ChatLoaded() => _ChatMessagesList(state: state),
                   },
@@ -74,6 +99,9 @@ class ChatPage extends StatelessWidget {
                   onSend: (text) =>
                       context.read<ChatBloc>().add(SendChatMessage(text)),
                   onAttach: () => _comingSoon(context),
+                  onTextChanged: (text) => context.read<ChatBloc>().add(
+                        ChatComposerChanged(hasText: text.trim().isNotEmpty),
+                      ),
                 ),
               ],
             );
@@ -86,7 +114,8 @@ class ChatPage extends StatelessWidget {
 
 /// The scrollable transcript: intro header, date pill, grouped bubbles with
 /// time / seen labels and the typing indicator. Rendered as a reversed list
-/// so it stays pinned to the newest message.
+/// so it stays pinned to the newest message; scrolling toward the oldest
+/// loaded message pulls the next history page.
 class _ChatMessagesList extends StatelessWidget {
   final ChatLoaded state;
 
@@ -102,13 +131,84 @@ class _ChatMessagesList extends StatelessWidget {
         next.sentAt.difference(current.sentAt).inMinutes >= 5;
   }
 
+  bool _onScroll(BuildContext context, ScrollNotification notification) {
+    // Reversed list: extentAfter shrinks while scrolling up into history.
+    if (notification.metrics.extentAfter < 400) {
+      context.read<ChatBloc>().add(const LoadOlderMessages());
+    }
+    return false;
+  }
+
+  Future<void> _confirmDelete(BuildContext context, String messageId) async {
+    final l10n = AppLocalizations.of(context)!;
+    final bloc = context.read<ChatBloc>();
+    final confirmed = await showModalBottomSheet<bool>(
+      context: context,
+      backgroundColor: AppColors.bg,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 14),
+            ListTile(
+              leading: const Icon(
+                Icons.delete_outline_rounded,
+                color: AppColors.accent,
+              ),
+              title: Text(
+                l10n.messagesDeleteMessage,
+                style: const TextStyle(
+                  color: AppColors.ink,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              subtitle: Text(
+                l10n.messagesDeleteMessageBody,
+                style: const TextStyle(
+                  color: AppColors.mute,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              onTap: () => Navigator.of(sheetContext).pop(true),
+            ),
+            const SizedBox(height: 10),
+          ],
+        ),
+      ),
+    );
+    if (confirmed == true) {
+      bloc.add(DeleteChatMessage(messageId));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final messages = state.messages;
 
     final items = <Widget>[
-      ChatIntroHeader(user: state.user),
+      if (state.isLoadingOlder)
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 14),
+          child: Center(
+            child: SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: AppColors.accent,
+              ),
+            ),
+          ),
+        )
+      else if (state.olderCursor == null)
+        // Fully loaded to the beginning — show the intro header on top.
+        ChatIntroHeader(user: state.user),
       if (messages.isEmpty)
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 40),
@@ -123,7 +223,7 @@ class _ChatMessagesList extends StatelessWidget {
             ),
           ),
         )
-      else
+      else if (state.olderCursor == null)
         ChatDatePill(
           label: l10n.messagesDatePill(messageClockTime(messages.first.sentAt)),
         ),
@@ -145,6 +245,7 @@ class _ChatMessagesList extends StatelessWidget {
                 message: message,
                 isGroupEnd: _isGroupEnd(messages, i),
                 animate: animate,
+                onLongPress: () => _confirmDelete(context, message.id),
               ),
       );
 
@@ -157,10 +258,13 @@ class _ChatMessagesList extends StatelessWidget {
       items.add(const TypingIndicator(key: ValueKey('typing')));
     }
 
-    return ListView(
-      reverse: true,
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      children: items.reversed.toList(),
+    return NotificationListener<ScrollNotification>(
+      onNotification: (notification) => _onScroll(context, notification),
+      child: ListView(
+        reverse: true,
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        children: items.reversed.toList(),
+      ),
     );
   }
 }

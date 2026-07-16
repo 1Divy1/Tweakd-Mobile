@@ -4,16 +4,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/di/injection.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
+import '../../../domain/entities/message_user.dart';
 import '../../bloc/compose/bloc.dart';
 import '../../bloc/compose/event.dart';
 import '../../bloc/compose/state.dart';
 import '../shared/message_avatar.dart';
 import '../shared/verified_badge.dart';
 
-/// Opens the "New message" sheet. Resolves with the picked conversation id,
-/// or null if dismissed — the caller navigates.
-Future<String?> showNewMessageSheet(BuildContext context) {
-  return showModalBottomSheet<String>(
+/// Opens the "New message" sheet. Resolves with the picked user, or null if
+/// dismissed — the caller decides which chat route to open (there is no
+/// create-conversation call; the first message creates it).
+Future<MessageUserEntity?> showNewMessageSheet(BuildContext context) {
+  return showModalBottomSheet<MessageUserEntity>(
     context: context,
     isScrollControlled: true,
     backgroundColor: AppColors.bg,
@@ -34,154 +36,145 @@ class _NewMessageSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return BlocListener<ComposeBloc, ComposeState>(
-      listenWhen: (previous, current) =>
-          previous.openConversationId != current.openConversationId &&
-          current.openConversationId != null,
-      listener: (context, state) =>
-          Navigator.of(context).pop(state.openConversationId),
-      child: Padding(
-        // Keep the sheet above the keyboard while searching.
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.62,
-          child: Column(
-            children: [
-              const SizedBox(height: 10),
-              Container(
-                width: 40,
-                height: 4,
+    return Padding(
+      // Keep the sheet above the keyboard while searching.
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.62,
+        child: Column(
+          children: [
+            const SizedBox(height: 10),
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: AppColors.muteSoft,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(height: 18),
+            Text(
+              l10n.messagesComposeTitle,
+              style: const TextStyle(
+                color: AppColors.ink,
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            const SizedBox(height: 14),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Container(
                 decoration: BoxDecoration(
-                  color: AppColors.muteSoft,
-                  borderRadius: BorderRadius.circular(2),
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(22),
+                  border: Border.all(color: AppColors.line),
                 ),
-              ),
-              const SizedBox(height: 18),
-              Text(
-                l10n.messagesComposeTitle,
-                style: const TextStyle(
-                  color: AppColors.ink,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              const SizedBox(height: 14),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.surface,
-                    borderRadius: BorderRadius.circular(22),
-                    border: Border.all(color: AppColors.line),
+                child: TextField(
+                  autofocus: true,
+                  cursorColor: AppColors.accent,
+                  onChanged: (query) => context.read<ComposeBloc>().add(
+                    ComposeQueryChanged(query),
                   ),
-                  child: TextField(
-                    autofocus: true,
-                    cursorColor: AppColors.accent,
-                    onChanged: (query) => context
-                        .read<ComposeBloc>()
-                        .add(ComposeQueryChanged(query)),
-                    style: const TextStyle(
-                      color: AppColors.ink,
+                  style: const TextStyle(
+                    color: AppColors.ink,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: l10n.messagesComposeSearchHint,
+                    hintStyle: const TextStyle(
+                      color: AppColors.muteSoft,
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                     ),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: l10n.messagesComposeSearchHint,
-                      hintStyle: const TextStyle(
-                        color: AppColors.muteSoft,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.search_rounded,
-                        color: AppColors.mute,
-                        size: 22,
-                      ),
-                      contentPadding:
-                          const EdgeInsets.symmetric(vertical: 13),
+                    prefixIcon: const Icon(
+                      Icons.search_rounded,
+                      color: AppColors.mute,
+                      size: 22,
                     ),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 13),
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
-              Expanded(
-                child: BlocBuilder<ComposeBloc, ComposeState>(
-                  builder: (context, state) {
-                    if (state.isLoading && state.users.isEmpty) {
-                      return const Center(
-                        child: SizedBox(
-                          width: 22,
-                          height: 22,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: AppColors.accent,
-                          ),
+            ),
+            const SizedBox(height: 8),
+            Expanded(
+              child: BlocBuilder<ComposeBloc, ComposeState>(
+                builder: (context, state) {
+                  if (state.isLoading && state.users.isEmpty) {
+                    return const Center(
+                      child: SizedBox(
+                        width: 22,
+                        height: 22,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: AppColors.accent,
                         ),
-                      );
-                    }
-                    if (state.users.isEmpty) {
-                      return Center(
-                        child: Text(
-                          l10n.messagesComposeEmpty,
-                          style: const TextStyle(
-                            color: AppColors.mute,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
+                      ),
+                    );
+                  }
+                  if (state.users.isEmpty) {
+                    return Center(
+                      child: Text(
+                        l10n.messagesComposeEmpty,
+                        style: const TextStyle(
+                          color: AppColors.mute,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
                         ),
-                      );
-                    }
-                    return ListView.builder(
-                      padding: const EdgeInsets.only(top: 4, bottom: 24),
-                      itemCount: state.users.length,
-                      itemBuilder: (context, index) {
-                        final user = state.users[index];
-                        return InkWell(
-                          onTap: () => context
-                              .read<ComposeBloc>()
-                              .add(ComposeUserPicked(user.id)),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 10,
-                            ),
-                            child: Row(
-                              children: [
-                                MessageAvatar(
-                                  username: user.username,
-                                  avatarUrl: user.avatarUrl,
-                                  size: 44,
-                                ),
-                                const SizedBox(width: 12),
-                                Flexible(
-                                  child: Text(
-                                    user.username,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      color: AppColors.ink,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700,
-                                    ),
+                      ),
+                    );
+                  }
+                  return ListView.builder(
+                    padding: const EdgeInsets.only(top: 4, bottom: 24),
+                    itemCount: state.users.length,
+                    itemBuilder: (context, index) {
+                      final user = state.users[index];
+                      return InkWell(
+                        onTap: () => Navigator.of(context).pop(user),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 10,
+                          ),
+                          child: Row(
+                            children: [
+                              MessageAvatar(
+                                username: user.username,
+                                avatarUrl: user.avatarUrl,
+                                size: 44,
+                              ),
+                              const SizedBox(width: 12),
+                              Flexible(
+                                child: Text(
+                                  user.username,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    color: AppColors.ink,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                if (user.isVerified) ...const [
-                                  SizedBox(width: 6),
-                                  VerifiedBadge(size: 14),
-                                ],
+                              ),
+                              if (user.isVerified) ...const [
+                                SizedBox(width: 6),
+                                VerifiedBadge(size: 14),
                               ],
-                            ),
+                            ],
                           ),
-                        );
-                      },
-                    );
-                  },
-                ),
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

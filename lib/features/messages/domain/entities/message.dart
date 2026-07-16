@@ -35,6 +35,10 @@ class MessageEntity extends Equatable {
   /// Read receipt for the viewer's own messages ("Seen").
   final bool isSeen;
 
+  /// Soft-deleted by its sender — rendered as a "message deleted"
+  /// placeholder; [text] is empty on the wire.
+  final bool isDeleted;
+
   const MessageEntity({
     required this.id,
     required this.isMine,
@@ -43,9 +47,10 @@ class MessageEntity extends Equatable {
     this.sharedPost,
     required this.sentAt,
     this.isSeen = false,
+    this.isDeleted = false,
   });
 
-  MessageEntity copyWith({bool? isSeen}) => MessageEntity(
+  MessageEntity copyWith({bool? isSeen, bool? isDeleted}) => MessageEntity(
         id: id,
         isMine: isMine,
         kind: kind,
@@ -53,9 +58,26 @@ class MessageEntity extends Equatable {
         sharedPost: sharedPost,
         sentAt: sentAt,
         isSeen: isSeen ?? this.isSeen,
+        isDeleted: isDeleted ?? this.isDeleted,
       );
 
   @override
   List<Object?> get props =>
-      [id, isMine, kind, text, sharedPost, sentAt, isSeen];
+      [id, isMine, kind, text, sharedPost, sentAt, isSeen, isDeleted];
+}
+
+/// Result of sending a DM. The conversation id matters because a first
+/// message between two users creates the conversation implicitly — a chat
+/// opened from compose adopts this id.
+class SentMessageEntity extends Equatable {
+  final String conversationId;
+  final MessageEntity message;
+
+  const SentMessageEntity({
+    required this.conversationId,
+    required this.message,
+  });
+
+  @override
+  List<Object?> get props => [conversationId, message];
 }

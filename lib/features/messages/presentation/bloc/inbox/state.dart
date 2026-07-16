@@ -21,8 +21,13 @@ class InboxLoading extends InboxState {
 class InboxLoaded extends InboxState {
   final InboxEntity inbox;
   final String query;
+  final bool isLoadingMore;
 
-  const InboxLoaded({required this.inbox, this.query = ''});
+  const InboxLoaded({
+    required this.inbox,
+    this.query = '',
+    this.isLoadingMore = false,
+  });
 
   /// Conversations matching the search field (username or preview text).
   List<ConversationEntity> get filteredConversations {
@@ -37,11 +42,19 @@ class InboxLoaded extends InboxState {
 
   bool get isSearching => query.trim().isNotEmpty;
 
-  InboxLoaded copyWith({InboxEntity? inbox, String? query}) =>
-      InboxLoaded(inbox: inbox ?? this.inbox, query: query ?? this.query);
+  InboxLoaded copyWith({
+    InboxEntity? inbox,
+    String? query,
+    bool? isLoadingMore,
+  }) =>
+      InboxLoaded(
+        inbox: inbox ?? this.inbox,
+        query: query ?? this.query,
+        isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+      );
 
   @override
-  List<Object?> get props => [inbox, query];
+  List<Object?> get props => [inbox, query, isLoadingMore];
 }
 
 class InboxError extends InboxState {

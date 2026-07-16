@@ -3950,6 +3950,12 @@ abstract class AppLocalizations {
   /// **'Active now'**
   String get messagesActiveNowStatus;
 
+  /// No description provided for @messagesLastSeen.
+  ///
+  /// In en, this message translates to:
+  /// **'Last seen {ago}'**
+  String messagesLastSeen(String ago);
+
   /// No description provided for @messagesMutualFollow.
   ///
   /// In en, this message translates to:
@@ -3967,6 +3973,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Seen'**
   String get messagesSeen;
+
+  /// No description provided for @messagesDeletedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Message deleted'**
+  String get messagesDeletedMessage;
+
+  /// No description provided for @messagesDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete message'**
+  String get messagesDeleteMessage;
+
+  /// No description provided for @messagesDeleteMessageBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Removes it for both of you.'**
+  String get messagesDeleteMessageBody;
+
+  /// No description provided for @messagesDeleteChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete chat'**
+  String get messagesDeleteChat;
+
+  /// No description provided for @messagesDeleteChatBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Hides it from your list only — it comes back with a new message.'**
+  String get messagesDeleteChatBody;
 
   /// No description provided for @messagesInputHint.
   ///

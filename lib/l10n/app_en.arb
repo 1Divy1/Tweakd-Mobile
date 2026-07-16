@@ -993,6 +993,12 @@
     }
   },
   "messagesActiveNowStatus": "Active now",
+  "messagesLastSeen": "Last seen {ago}",
+  "@messagesLastSeen": {
+    "placeholders": {
+      "ago": {"type": "String"}
+    }
+  },
   "messagesMutualFollow": "You both follow each other · {followers} followers",
   "@messagesMutualFollow": {
     "placeholders": {
@@ -1006,6 +1012,11 @@
     }
   },
   "messagesSeen": "Seen",
+  "messagesDeletedMessage": "Message deleted",
+  "messagesDeleteMessage": "Delete message",
+  "messagesDeleteMessageBody": "Removes it for both of you.",
+  "messagesDeleteChat": "Delete chat",
+  "messagesDeleteChatBody": "Hides it from your list only — it comes back with a new message.",
   "messagesInputHint": "Message…",
   "messagesEmptyChat": "No messages yet — say hi 👋",
   "messagesComposeTitle": "New message",

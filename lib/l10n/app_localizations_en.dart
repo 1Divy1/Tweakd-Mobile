@@ -2187,6 +2187,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get messagesActiveNowStatus => 'Active now';
 
   @override
+  String messagesLastSeen(String ago) {
+    return 'Last seen $ago';
+  }
+
+  @override
   String messagesMutualFollow(String followers) {
     return 'You both follow each other · $followers followers';
   }
@@ -2198,6 +2203,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get messagesSeen => 'Seen';
+
+  @override
+  String get messagesDeletedMessage => 'Message deleted';
+
+  @override
+  String get messagesDeleteMessage => 'Delete message';
+
+  @override
+  String get messagesDeleteMessageBody => 'Removes it for both of you.';
+
+  @override
+  String get messagesDeleteChat => 'Delete chat';
+
+  @override
+  String get messagesDeleteChatBody =>
+      'Hides it from your list only — it comes back with a new message.';
 
   @override
   String get messagesInputHint => 'Message…';

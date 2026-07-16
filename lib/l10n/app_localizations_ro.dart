@@ -2195,6 +2195,11 @@ class AppLocalizationsRo extends AppLocalizations {
   String get messagesActiveNowStatus => 'Activ acum';
 
   @override
+  String messagesLastSeen(String ago) {
+    return 'Ultima activitate: $ago';
+  }
+
+  @override
   String messagesMutualFollow(String followers) {
     return 'Vă urmăriți reciproc · $followers urmăritori';
   }
@@ -2206,6 +2211,22 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get messagesSeen => 'Văzut';
+
+  @override
+  String get messagesDeletedMessage => 'Mesaj șters';
+
+  @override
+  String get messagesDeleteMessage => 'Șterge mesajul';
+
+  @override
+  String get messagesDeleteMessageBody => 'Îl elimină pentru amândoi.';
+
+  @override
+  String get messagesDeleteChat => 'Șterge conversația';
+
+  @override
+  String get messagesDeleteChatBody =>
+      'O ascunde doar din lista ta — revine la un mesaj nou.';
 
   @override
   String get messagesInputHint => 'Mesaj…';

@@ -1,6 +1,7 @@
 import 'package:car_social_media_app/config/routes/app_router.dart';
 import 'package:car_social_media_app/l10n/app_localizations.dart';
 import 'package:car_social_media_app/core/di/injection.dart';
+import 'package:car_social_media_app/core/realtime/dm_socket_service.dart';
 import 'package:car_social_media_app/core/storage/secure_local_storage.dart';
 import 'package:car_social_media_app/core/theme/app_theme.dart';
 import 'package:car_social_media_app/features/authentication/presentation/bloc/bloc.dart';
@@ -36,6 +37,26 @@ void main() async {
 
   // Initialize dependency injection
   configureDependencies();
+
+  // Keep the app-wide DM socket in step with the auth session. It is opened
+  // at app start (not on the DM screen) because "Active now" means "has the
+  // app open", and closed on sign-out so no stale connection outlives the
+  // session.
+  final dmSocket = getIt<DmSocketService>();
+  final auth = Supabase.instance.client.auth;
+  if (auth.currentSession != null) dmSocket.connect();
+  auth.onAuthStateChange.listen((change) {
+    switch (change.event) {
+      case AuthChangeEvent.signedIn:
+      case AuthChangeEvent.initialSession:
+      case AuthChangeEvent.tokenRefreshed:
+        if (auth.currentSession != null) dmSocket.connect();
+      case AuthChangeEvent.signedOut:
+        dmSocket.disconnect();
+      default:
+        break;
+    }
+  });
 
   runApp(const CarSocialMediaApp());
 }

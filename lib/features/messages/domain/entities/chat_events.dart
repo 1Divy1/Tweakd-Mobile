@@ -2,8 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import 'message.dart';
 
-/// Live events pushed into an open chat (read receipts, typing, incoming
-/// messages). Backed by the mock today; a websocket later.
+/// Live events pushed into an open chat, mapped from the DM socket.
 sealed class ChatIncomingEvent extends Equatable {
   const ChatIncomingEvent();
 
@@ -11,9 +10,15 @@ sealed class ChatIncomingEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// The other user has seen the viewer's messages.
+/// The other user read the conversation. [upToMessageId] is their read
+/// watermark — the viewer's messages up to and including it are "Seen".
+/// Null means everything currently loaded (legacy mock semantics).
 class ChatMessagesSeen extends ChatIncomingEvent {
-  const ChatMessagesSeen();
+  final String? upToMessageId;
+  const ChatMessagesSeen({this.upToMessageId});
+
+  @override
+  List<Object?> get props => [upToMessageId];
 }
 
 /// The other user started/stopped typing.
@@ -25,11 +30,21 @@ class ChatPartnerTyping extends ChatIncomingEvent {
   List<Object?> get props => [isTyping];
 }
 
-/// A new message from the other user arrived.
+/// A new message arrived (from the peer, or from the viewer's own other
+/// device — [MessageEntity.isMine] distinguishes them).
 class ChatMessageArrived extends ChatIncomingEvent {
   final MessageEntity message;
   const ChatMessageArrived(this.message);
 
   @override
   List<Object?> get props => [message];
+}
+
+/// A message in this conversation was soft-deleted by its sender.
+class ChatMessageDeleted extends ChatIncomingEvent {
+  final String messageId;
+  const ChatMessageDeleted(this.messageId);
+
+  @override
+  List<Object?> get props => [messageId];
 }

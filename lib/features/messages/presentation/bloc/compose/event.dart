@@ -15,12 +15,3 @@ class ComposeQueryChanged extends ComposeEvent {
   @override
   List<Object?> get props => [query];
 }
-
-/// A user was tapped: open (or create) the conversation with them.
-class ComposeUserPicked extends ComposeEvent {
-  final String userId;
-  const ComposeUserPicked(this.userId);
-
-  @override
-  List<Object?> get props => [userId];
-}
