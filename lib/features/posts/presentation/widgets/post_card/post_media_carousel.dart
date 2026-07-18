@@ -22,7 +22,9 @@ class PostMediaCarousel extends StatefulWidget {
   /// the right with a small gap — the overlapping look from the feed design.
   final bool peek;
 
-  /// Tapped when [enableZoom] is false (the feed card opens the post detail).
+  /// Single-finger tap on the image (the feed card opens the post detail).
+  /// Coexists with [enableZoom]: a tap never has a second pointer, so the
+  /// pinch recognizer leaves it alone.
   final VoidCallback? onTap;
 
   const PostMediaCarousel({
@@ -155,18 +157,21 @@ class _PostMediaCarouselState extends State<PostMediaCarousel> {
       ),
     );
 
+    Widget child = picture;
     if (widget.enableZoom) {
-      return PinchZoom(
+      child = PinchZoom(
         onZoomChanged: (z) => setState(() => _zooming = z),
-        child: picture,
+        child: child,
       );
     }
-
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: widget.onTap,
-      child: picture,
-    );
+    if (widget.onTap != null) {
+      child = GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: widget.onTap,
+        child: child,
+      );
+    }
+    return child;
   }
 }
 

@@ -129,6 +129,18 @@ class _PreviewLine extends StatelessWidget {
       );
     }
 
+    // A blank (non-deleted) preview is a car-only share — the backend keeps
+    // the preview empty for those. Show the same "shared cars" label as the
+    // bubble instead of an empty line.
+    if (conversation.preview.trim().isEmpty) {
+      return Text(
+        l10n.messagesSharedCars,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: _style.copyWith(fontStyle: FontStyle.italic),
+      );
+    }
+
     if (conversation.previewKind == ConversationPreviewKind.sharedPost) {
       return Row(
         children: [

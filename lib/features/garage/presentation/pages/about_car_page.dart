@@ -464,6 +464,7 @@ class _CoverImage extends StatelessWidget {
                   imageUrl: car.coverImage?.url,
                   fit: BoxFit.cover,
                   borderRadius: BorderRadius.circular(20),
+                  enableZoom: true,
                 ),
               ),
               Positioned(

@@ -95,12 +95,14 @@ class MessagesRepositoryImpl implements MessagesRepository {
   @override
   Future<Either<Failure, SentMessageEntity>> sendMessage(
     String recipientId,
-    String text,
-  ) =>
+    String text, {
+    List<String> taggedCarIds = const [],
+  }) =>
       _run('sendMessage', () async {
         final model = await dataSource.sendMessage(
           recipientId: recipientId,
           content: text,
+          taggedCarIds: taggedCarIds,
         );
         return SentMessageEntity(
           conversationId: model.conversationId,
@@ -120,6 +122,10 @@ class MessagesRepositoryImpl implements MessagesRepository {
   @override
   Future<Either<Failure, void>> markConversationRead(String conversationId) =>
       _run('markConversationRead', () => dataSource.markRead(conversationId));
+
+  @override
+  Future<Either<Failure, int>> getUnreadCount() =>
+      _run('getUnreadCount', () => dataSource.getUnreadCount());
 
   @override
   void sendTyping(String conversationId, bool isTyping) =>

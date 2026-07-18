@@ -14,6 +14,7 @@ import '../utils/messages_error_mapper.dart';
 import '../widgets/chat/chat_date_pill.dart';
 import '../widgets/chat/chat_input_bar.dart';
 import '../widgets/chat/chat_intro_header.dart';
+import '../widgets/chat/chat_loading_view.dart';
 import '../widgets/chat/chat_top_bar.dart';
 import '../widgets/chat/message_bubble.dart';
 import '../widgets/chat/shared_post_bubble.dart';
@@ -33,13 +34,6 @@ class ChatPage extends StatelessWidget {
     required this.conversationId,
     required this.peer,
   });
-
-  void _comingSoon(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(l10n.messagesComingSoon)));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,24 +56,21 @@ class ChatPage extends StatelessWidget {
           },
           builder: (context, state) {
             final loaded = state is ChatLoaded ? state : null;
+            final headerUser = loaded?.user ?? peer;
             return Column(
               children: [
                 ChatTopBar(
-                  user: loaded?.user ?? peer,
+                  user: headerUser,
                   onBack: () => context.pop(),
+                  onOpenProfile: () => context.push(
+                    '/users/${headerUser.username}',
+                    extra: headerUser.id,
+                  ),
                 ),
                 Expanded(
                   child: switch (state) {
-                    ChatInitial() || ChatLoading() => const Center(
-                        child: SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: AppColors.accent,
-                          ),
-                        ),
-                      ),
+                    ChatInitial() || ChatLoading() =>
+                      const ChatLoadingView(),
                     ChatError(:final code) => MessagesErrorView(
                         message: messagesErrorMessage(
                           AppLocalizations.of(context)!,
@@ -96,9 +87,12 @@ class ChatPage extends StatelessWidget {
                   },
                 ),
                 ChatInputBar(
-                  onSend: (text) =>
-                      context.read<ChatBloc>().add(SendChatMessage(text)),
-                  onAttach: () => _comingSoon(context),
+                  onSend: (text, cars) => context.read<ChatBloc>().add(
+                        SendChatMessage(
+                          text,
+                          taggedCarIds: [for (final c in cars) c.id],
+                        ),
+                      ),
                   onTextChanged: (text) => context.read<ChatBloc>().add(
                         ChatComposerChanged(hasText: text.trim().isNotEmpty),
                       ),
@@ -246,6 +240,10 @@ class _ChatMessagesList extends StatelessWidget {
                 isGroupEnd: _isGroupEnd(messages, i),
                 animate: animate,
                 onLongPress: () => _confirmDelete(context, message.id),
+                // The about-car route loads any car by id (isOwner=false hides
+                // owner-only edit affordances).
+                onCarTap: (car) =>
+                    context.push('/garage/cars/${car.id}', extra: false),
               ),
       );
 

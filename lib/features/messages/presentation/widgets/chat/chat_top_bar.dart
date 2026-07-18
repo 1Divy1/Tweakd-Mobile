@@ -16,7 +16,15 @@ class ChatTopBar extends StatelessWidget {
   final MessageUserEntity? user;
   final VoidCallback onBack;
 
-  const ChatTopBar({super.key, required this.user, required this.onBack});
+  /// Tapping the peer's avatar or name opens their public profile.
+  final VoidCallback? onOpenProfile;
+
+  const ChatTopBar({
+    super.key,
+    required this.user,
+    required this.onBack,
+    this.onOpenProfile,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,18 +42,24 @@ class ChatTopBar extends StatelessWidget {
           MessagePillButton(icon: Icons.chevron_left_rounded, onTap: onBack),
           const SizedBox(width: 12),
           if (user != null) ...[
-            MessageAvatar(
-              username: user.username,
-              avatarUrl: user.avatarUrl,
-              size: 42,
-              showRing: true,
-              showOnlineDot: user.isOnline,
-            ),
-            const SizedBox(width: 12),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: onOpenProfile,
+                child: Row(
+                  children: [
+                    MessageAvatar(
+                      username: user.username,
+                      avatarUrl: user.avatarUrl,
+                      size: 42,
+                      showRing: true,
+                      showOnlineDot: user.isOnline,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                   Row(
                     children: [
                       Flexible(
@@ -97,7 +111,11 @@ class ChatTopBar extends StatelessWidget {
                       ),
                     ),
                   ],
-                ],
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ] else

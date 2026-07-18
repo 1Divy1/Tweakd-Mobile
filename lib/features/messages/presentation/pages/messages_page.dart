@@ -14,6 +14,7 @@ import '../bloc/inbox/state.dart';
 import '../utils/messages_error_mapper.dart';
 import '../widgets/inbox/active_now_row.dart';
 import '../widgets/inbox/conversation_tile.dart';
+import '../widgets/inbox/inbox_loading_view.dart';
 import '../widgets/inbox/inbox_search_field.dart';
 import '../widgets/inbox/message_requests_tile.dart';
 import '../widgets/inbox/messages_empty_view.dart';
@@ -68,16 +69,8 @@ class MessagesPage extends StatelessWidget {
               child: BlocBuilder<InboxBloc, InboxState>(
                 builder: (context, state) {
                   return switch (state) {
-                    InboxInitial() || InboxLoading() => const Center(
-                        child: SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: AppColors.accent,
-                          ),
-                        ),
-                      ),
+                    InboxInitial() || InboxLoading() =>
+                      const InboxLoadingView(),
                     InboxError(:final code) => MessagesErrorView(
                         message: messagesErrorMessage(
                           AppLocalizations.of(context)!,
@@ -263,13 +256,29 @@ class _InboxList extends StatelessWidget {
                 ),
               )
             else ...[
-              for (final conversation in conversations)
+              for (var i = 0; i < conversations.length; i++)
                 StaggeredEntrance(
                   index: staggerIndex++,
-                  child: ConversationTile(
-                    conversation: conversation,
-                    onTap: () => _openConversation(context, conversation),
-                    onLongPress: () => _confirmHide(context, conversation),
+                  child: Column(
+                    children: [
+                      ConversationTile(
+                        conversation: conversations[i],
+                        onTap: () =>
+                            _openConversation(context, conversations[i]),
+                        onLongPress: () =>
+                            _confirmHide(context, conversations[i]),
+                      ),
+                      // Subtle separator between rows, inset past the avatar.
+                      if (i != conversations.length - 1)
+                        const Padding(
+                          padding: EdgeInsets.only(left: 90, right: 20),
+                          child: Divider(
+                            height: 1,
+                            thickness: 1,
+                            color: AppColors.line,
+                          ),
+                        ),
+                    ],
                   ),
                 ),
               if (state.isLoadingMore)

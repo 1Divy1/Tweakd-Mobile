@@ -28,7 +28,7 @@ class ReportApiDataSource {
       _getReasons('/forums/threads/report-reasons');
 
   Future<List<ReportReasonModel>> getForumReplyReasons() =>
-      _getReasons('/forums/posts/report-reasons');
+      _getReasons('/forums/replies/report-reasons');
 
   Future<List<ReportReasonModel>> _getReasons(String path) async {
     final data = await http.get(path);
@@ -70,7 +70,7 @@ class ReportApiDataSource {
 
   Future<void> reportForumReply(String postId, String reasonId) async {
     await http.post(
-      '/forums/posts/$postId/report',
+      '/forums/replies/$postId/report',
       body: {'reason_id': reasonId},
     );
   }

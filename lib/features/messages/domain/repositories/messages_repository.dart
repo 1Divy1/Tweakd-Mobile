@@ -21,10 +21,13 @@ abstract class MessagesRepository {
 
   /// Sends a DM addressed by recipient — the first message between two users
   /// creates the conversation implicitly (its id is in the result).
+  /// [taggedCarIds] shares cars from the sender's garage; [text] may be blank
+  /// when at least one car is attached.
   Future<Either<Failure, SentMessageEntity>> sendMessage(
     String recipientId,
-    String text,
-  );
+    String text, {
+    List<String> taggedCarIds,
+  });
 
   /// Soft-deletes the viewer's own message (idempotent server-side).
   Future<Either<Failure, void>> deleteMessage(String messageId);
@@ -35,6 +38,9 @@ abstract class MessagesRepository {
   /// Marks the conversation read up to its latest message; the peer gets a
   /// conversation.read push.
   Future<Either<Failure, void>> markConversationRead(String conversationId);
+
+  /// Total unread messages across all conversations (app-level DMs badge).
+  Future<Either<Failure, int>> getUnreadCount();
 
   /// Fire-and-forget typing signal over the socket (throttled by callers).
   void sendTyping(String conversationId, bool isTyping);

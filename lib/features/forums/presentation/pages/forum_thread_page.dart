@@ -17,6 +17,7 @@ import '../widgets/shared/forum_error_view.dart';
 import '../widgets/shared/forum_pill_button.dart';
 import '../widgets/shared/forum_section_label.dart';
 import '../widgets/shared/forum_sub_top_bar.dart';
+import '../widgets/shared/forum_thread_body_skeleton.dart';
 import '../widgets/thread/forum_edit_sheet.dart';
 import '../widgets/thread/reply_input_bar.dart';
 import '../widgets/thread/reply_sort_toggle.dart';
@@ -310,10 +311,7 @@ class _ForumThreadPageState extends State<ForumThreadPage> {
                 ),
                 Expanded(
                   child: switch ((state.isLoading, state.errorCode)) {
-                    (true, _) => const Center(
-                        child:
-                            CircularProgressIndicator(color: AppColors.accent),
-                      ),
+                    (true, _) => const ForumThreadBodySkeleton(),
                     (false, final code?) => ForumErrorView(
                         message: forumErrorMessage(l10n, code),
                         onRetry: () => context
@@ -416,19 +414,7 @@ class _ThreadContent extends StatelessWidget {
           ),
         ),
         if (state.repliesLoading)
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 24),
-            child: Center(
-              child: SizedBox(
-                width: 22,
-                height: 22,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: AppColors.accent,
-                ),
-              ),
-            ),
-          )
+          const ForumReplyListSkeleton()
         else ...[
           for (final node in state.replies)
             ReplyTile(

@@ -23,7 +23,7 @@ dependencies:
   hive: ^2.2.3
   flutter_secure_storage: ^10.0.0
   get_it: ^9.2.1
-  injectable: ^2.7.1+4
+  injectable: ^3.0.0
   shimmer: ^3.0.0
   cached_network_image: ^3.4.1
   supabase_flutter: ^2.12.4
@@ -39,6 +39,7 @@ dependencies:
   flutter_facebook_auth: ^7.1.7
   permission_handler: ^12.0.3
   stomp_dart_client: ^3.0.1
+  emoji_picker_flutter: ^4.4.0
 
 dev_dependencies:
   flutter_test:
@@ -46,7 +47,7 @@ dev_dependencies:
 
   flutter_lints: ^6.0.0
   build_runner: ^2.13.1
-  injectable_generator: ^2.12.1
+  injectable_generator: ^3.0.2
 
 flutter:
   generate: true

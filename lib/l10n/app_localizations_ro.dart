@@ -21,6 +21,17 @@ class AppLocalizationsRo extends AppLocalizations {
   String get languageRomanian => 'Română';
 
   @override
+  String get settingsLanguagePickerTitle => 'Alege limba';
+
+  @override
+  String get settingsLanguageLoadError =>
+      'Nu am putut încărca opțiunile de limbă. Te rugăm să încerci din nou.';
+
+  @override
+  String get settingsLanguageUpdateError =>
+      'Nu am putut actualiza limba. Te rugăm să încerci din nou.';
+
+  @override
   String get commonSave => 'Salvează';
 
   @override
@@ -480,6 +491,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get profileTitle => 'PROFIL';
 
   @override
+  String get profileMessage => 'Mesaj';
+
+  @override
   String get profileStatFollowers => 'URMĂRITORI';
 
   @override
@@ -502,6 +516,49 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get profileErrorGeneric => 'Ceva nu a mers bine. Încearcă din nou.';
+
+  @override
+  String get profileErrorNetwork =>
+      'Fără conexiune la internet. Te rugăm să încerci din nou.';
+
+  @override
+  String get profileEditButton => 'Editează profilul';
+
+  @override
+  String get editProfileTitle => 'EDITEAZĂ PROFILUL';
+
+  @override
+  String get editProfileChangePhoto => 'Schimbă poza';
+
+  @override
+  String get editProfileNameLabel => 'NUME';
+
+  @override
+  String get editProfileNameHint => 'Numele tău afișat';
+
+  @override
+  String get editProfileBioLabel => 'BIO';
+
+  @override
+  String get editProfileBioHint =>
+      'Spune-le altora câteva lucruri despre tine…';
+
+  @override
+  String get editProfileSave => 'Salvează modificările';
+
+  @override
+  String get editProfileSaved => 'Profil actualizat';
+
+  @override
+  String get editProfilePhotoUpdated => 'Poză actualizată';
+
+  @override
+  String get editProfileErrorInvalid =>
+      'Verifică numele și bio-ul, apoi încearcă din nou.';
+
+  @override
+  String get editProfileErrorAvatar =>
+      'Nu am putut actualiza poza. Te rugăm să încerci din nou.';
 
   @override
   String get followActionFollow => 'URMĂREȘTE';
@@ -639,9 +696,6 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get navProfile => 'PROFIL';
-
-  @override
-  String get feedComingSoon => 'În curând';
 
   @override
   String get feedEmptyTitle => 'Feedul tău e liniștit';
@@ -1451,6 +1505,16 @@ class AppLocalizationsRo extends AppLocalizations {
   String get postsCreateFirst => 'CREEAZĂ PRIMA POSTARE';
 
   @override
+  String get savedPostsTitle => 'POSTĂRI SALVATE';
+
+  @override
+  String get savedPostsEmptyTitle => 'Nimic salvat încă';
+
+  @override
+  String get savedPostsEmptyBody =>
+      'Salvează postările care îți plac ca să le găsești aici mai târziu.';
+
+  @override
   String get postDetailTitle => 'POSTARE';
 
   @override
@@ -1668,6 +1732,9 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get reportErrorGeneric =>
       'Raportul nu a putut fi trimis. Încearcă din nou.';
+
+  @override
+  String get settingsSavedPosts => 'Postările tale salvate';
 
   @override
   String get settingsMyReports => 'Rapoartele mele';
@@ -2255,4 +2322,57 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get messagesErrorGeneric => 'Ceva n-a mers bine. Încearcă din nou.';
+
+  @override
+  String get messagesSharedCars => 'Mașini partajate';
+
+  @override
+  String get messagesShareCarsTitle => 'Partajează mașini';
+
+  @override
+  String get messagesShareCarsSubtitle => 'Alege mașini din garajul tău';
+
+  @override
+  String messagesShareCarsLimit(int count) {
+    return 'Poți partaja cel mult $count mașini';
+  }
+
+  @override
+  String get messagesShareCarsEmpty => 'Nu ai încă nicio mașină în garaj';
+
+  @override
+  String get messagesShareCarsError =>
+      'Nu am putut încărca garajul. Încearcă din nou.';
+
+  @override
+  String messagesShareCarsConfirm(int count) {
+    return 'Partajează $count';
+  }
+
+  @override
+  String get messagesShareCarsConfirmEmpty => 'Partajează mașini';
+
+  @override
+  String get notificationsTitle => 'NOTIFICĂRI';
+
+  @override
+  String get notificationsMarkAllRead => 'Marchează toate ca citite';
+
+  @override
+  String get notificationsEmptyTitle => 'Nicio notificare încă';
+
+  @override
+  String get notificationsEmptyBody =>
+      'Aprecierile, comentariile și răspunsurile la postările și discuțiile tale vor apărea aici.';
+
+  @override
+  String get notificationsRetry => 'Încearcă din nou';
+
+  @override
+  String get notificationsErrorNetwork =>
+      'Fără conexiune la internet. Te rugăm să încerci din nou.';
+
+  @override
+  String get notificationsErrorGeneric =>
+      'Ceva nu a funcționat. Te rugăm să încerci din nou.';
 }

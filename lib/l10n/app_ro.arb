@@ -5,6 +5,9 @@
   "settingsLanguage": "Limbă",
   "languageEnglish": "Engleză",
   "languageRomanian": "Română",
+  "settingsLanguagePickerTitle": "Alege limba",
+  "settingsLanguageLoadError": "Nu am putut încărca opțiunile de limbă. Te rugăm să încerci din nou.",
+  "settingsLanguageUpdateError": "Nu am putut actualiza limba. Te rugăm să încerci din nou.",
   "commonSave": "Salvează",
   "commonCancel": "Anulează",
   "commonRetry": "Reîncearcă",
@@ -159,6 +162,7 @@
   "onboardingNotifPriceDropsSubtitle": "Când un articol salvat primește o reducere",
 
   "profileTitle": "PROFIL",
+  "profileMessage": "Mesaj",
   "profileStatFollowers": "URMĂRITORI",
   "profileStatFollowing": "URMĂREȘTE",
 
@@ -167,6 +171,20 @@
   "profileErrorNotFound": "Acest profil nu a putut fi găsit.",
   "profileErrorInvalidUsername": "Acest nume de utilizator nu este valid. Încearcă altul.",
   "profileErrorGeneric": "Ceva nu a mers bine. Încearcă din nou.",
+  "profileErrorNetwork": "Fără conexiune la internet. Te rugăm să încerci din nou.",
+
+  "profileEditButton": "Editează profilul",
+  "editProfileTitle": "EDITEAZĂ PROFILUL",
+  "editProfileChangePhoto": "Schimbă poza",
+  "editProfileNameLabel": "NUME",
+  "editProfileNameHint": "Numele tău afișat",
+  "editProfileBioLabel": "BIO",
+  "editProfileBioHint": "Spune-le altora câteva lucruri despre tine…",
+  "editProfileSave": "Salvează modificările",
+  "editProfileSaved": "Profil actualizat",
+  "editProfilePhotoUpdated": "Poză actualizată",
+  "editProfileErrorInvalid": "Verifică numele și bio-ul, apoi încearcă din nou.",
+  "editProfileErrorAvatar": "Nu am putut actualiza poza. Te rugăm să încerci din nou.",
 
   "followActionFollow": "URMĂREȘTE",
   "followActionUnfollow": "NU MAI URMĂRI",
@@ -210,7 +228,6 @@
   "navCreate": "CREEAZĂ",
   "navProfile": "PROFIL",
 
-  "feedComingSoon": "În curând",
   "feedEmptyTitle": "Feedul tău e liniștit",
   "feedEmptyMessage": "Postările din comunitate vor apărea aici. Revino în curând.",
   "feedErrorNetwork": "Nicio conexiune la internet. Verifică rețeaua și încearcă din nou.",
@@ -492,6 +509,10 @@
   "postsEmptyVisitor": "Nicio postare încă.",
   "postsCreateFirst": "CREEAZĂ PRIMA POSTARE",
 
+  "savedPostsTitle": "POSTĂRI SALVATE",
+  "savedPostsEmptyTitle": "Nimic salvat încă",
+  "savedPostsEmptyBody": "Salvează postările care îți plac ca să le găsești aici mai târziu.",
+
   "postDetailTitle": "POSTARE",
   "postEditAction": "Editează postarea",
   "postDeleteAction": "Șterge postarea",
@@ -603,6 +624,7 @@
   "reportErrorNetwork": "Fără conexiune la internet. Încearcă din nou.",
   "reportErrorGeneric": "Raportul nu a putut fi trimis. Încearcă din nou.",
 
+  "settingsSavedPosts": "Postările tale salvate",
   "settingsMyReports": "Rapoartele mele",
   "myReportsTitle": "RAPOARTELE MELE",
   "myReportsEmpty": "Nu ai trimis încă niciun raport.",
@@ -829,5 +851,30 @@
   "messagesComingSoon": "În curând",
   "messagesRetry": "Încearcă din nou",
   "messagesErrorNetwork": "Nu există conexiune la internet. Încearcă din nou.",
-  "messagesErrorGeneric": "Ceva n-a mers bine. Încearcă din nou."
+  "messagesErrorGeneric": "Ceva n-a mers bine. Încearcă din nou.",
+  "messagesSharedCars": "Mașini partajate",
+  "messagesShareCarsTitle": "Partajează mașini",
+  "messagesShareCarsSubtitle": "Alege mașini din garajul tău",
+  "messagesShareCarsLimit": "Poți partaja cel mult {count} mașini",
+  "@messagesShareCarsLimit": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesShareCarsEmpty": "Nu ai încă nicio mașină în garaj",
+  "messagesShareCarsError": "Nu am putut încărca garajul. Încearcă din nou.",
+  "messagesShareCarsConfirm": "Partajează {count}",
+  "@messagesShareCarsConfirm": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesShareCarsConfirmEmpty": "Partajează mașini",
+  "notificationsTitle": "NOTIFICĂRI",
+  "notificationsMarkAllRead": "Marchează toate ca citite",
+  "notificationsEmptyTitle": "Nicio notificare încă",
+  "notificationsEmptyBody": "Aprecierile, comentariile și răspunsurile la postările și discuțiile tale vor apărea aici.",
+  "notificationsRetry": "Încearcă din nou",
+  "notificationsErrorNetwork": "Fără conexiune la internet. Te rugăm să încerci din nou.",
+  "notificationsErrorGeneric": "Ceva nu a funcționat. Te rugăm să încerci din nou."
 }

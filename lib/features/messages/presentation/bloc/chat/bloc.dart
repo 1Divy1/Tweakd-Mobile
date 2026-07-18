@@ -166,7 +166,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     final current = state;
     if (current is! ChatLoaded) return;
     final text = event.text.trim();
-    if (text.isEmpty) return;
+    // A send needs text, cars, or both — never an empty payload.
+    if (text.isEmpty && event.taggedCarIds.isEmpty) return;
 
     _stopTypingIfActive();
     final hadConversation = current.conversationId != null;
@@ -174,6 +175,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     final result = await sendMessage(SendMessageParams(
       recipientId: current.user.id,
       text: text,
+      taggedCarIds: event.taggedCarIds,
     ));
 
     final latest = state;

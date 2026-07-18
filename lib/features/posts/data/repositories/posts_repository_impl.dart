@@ -180,6 +180,27 @@ class PostsRepositoryImpl implements PostsRepository {
   }
 
   @override
+  Future<Either<Failure, PostPageEntity>> getSavedPosts({
+    String? cursor,
+    int size = 20,
+  }) async {
+    try {
+      final model =
+          await dataSource.getSavedPosts(cursor: cursor, size: size);
+      return Right(model.toEntity());
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('getSavedPosts error: $e');
+      return const Left(UnknownFailure('Failed to load saved posts.'));
+    }
+  }
+
+  @override
   Future<Either<Failure, CommentPageEntity>> getComments(
     String postId, {
     String? cursor,

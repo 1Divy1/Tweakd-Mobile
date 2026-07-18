@@ -14,10 +14,15 @@ abstract class MessagesDataSource {
   Future<DmMessageModel> sendMessage({
     required String recipientId,
     required String content,
+    List<String> taggedCarIds,
   });
   Future<void> deleteMessage(String messageId);
   Future<void> hideConversation(String conversationId);
   Future<void> markRead(String conversationId);
+
+  /// Total unread messages across all conversations — drives the app-level
+  /// DMs badge.
+  Future<int> getUnreadCount();
 
   /// Compose-sheet user search — reuses the profile search endpoint; there
   /// is no DM-specific suggestions endpoint.
@@ -55,12 +60,16 @@ class MessagesApiDataSource implements MessagesDataSource {
   Future<DmMessageModel> sendMessage({
     required String recipientId,
     required String content,
+    List<String> taggedCarIds = const [],
   }) async {
     final data = await http.post(
       '/dms/messages',
       body: {
         'recipient_id': recipientId,
         'content': content,
+        // Omit the field entirely when no cars are attached — never send an
+        // empty array.
+        if (taggedCarIds.isNotEmpty) 'tagged_car_ids': taggedCarIds,
       },
     );
     return DmMessageModel.fromJson(data as Map<String, dynamic>);
@@ -77,6 +86,12 @@ class MessagesApiDataSource implements MessagesDataSource {
   @override
   Future<void> markRead(String conversationId) =>
       http.post('/dms/conversations/$conversationId/read');
+
+  @override
+  Future<int> getUnreadCount() async {
+    final data = await http.get('/dms/unread-count');
+    return (data as Map<String, dynamic>)['unread'] as int? ?? 0;
+  }
 
   @override
   Future<List<DmPeerModel>> searchUsers(String query) async {

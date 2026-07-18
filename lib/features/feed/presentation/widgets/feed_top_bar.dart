@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/shared/bloc/unread_count_cubit.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../l10n/app_localizations.dart';
+import '../../../messages/presentation/bloc/unread/cubit.dart';
+import '../../../notifications/presentation/bloc/unread/cubit.dart';
 
-/// The feed's top bar: the "Tweakd." wordmark on the left and the likes /
-/// direct-messages pill buttons on the right. Messages opens the DM inbox;
-/// the likes destination doesn't exist yet, so that button is UI-only and
-/// surfaces a "coming soon" notice.
+/// The feed's top bar: the "Tweakd." wordmark on the left and the
+/// notifications / direct-messages pill buttons on the right. Both carry an
+/// unread badge and refresh their count when the feed mounts and on returning
+/// from their destination.
 class FeedTopBar extends StatelessWidget {
   const FeedTopBar({super.key});
-
-  void _comingSoon(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(l10n.feedComingSoon)));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,16 +36,56 @@ class FeedTopBar extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          _PillButton(
-            icon: Icons.favorite_border_rounded,
-            onTap: () => _comingSoon(context),
+          const _UnreadPillButton<NotificationsUnreadCubit>(
+            icon: Icons.notifications_none_rounded,
+            route: '/notifications',
           ),
           const SizedBox(width: 10),
-          _PillButton(
+          const _UnreadPillButton<DmUnreadCubit>(
             icon: Icons.mode_comment_outlined,
-            onTap: () => context.push('/messages'),
+            route: '/messages',
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// A pill button backed by an [UnreadCountCubit] badge. Refreshes the count
+/// when the feed mounts and again on returning from [route] (where reads
+/// clear it server-side) — so any unread surface gets refresh-on-return for
+/// free.
+class _UnreadPillButton<C extends UnreadCountCubit> extends StatefulWidget {
+  final IconData icon;
+  final String route;
+
+  const _UnreadPillButton({required this.icon, required this.route});
+
+  @override
+  State<_UnreadPillButton<C>> createState() => _UnreadPillButtonState<C>();
+}
+
+class _UnreadPillButtonState<C extends UnreadCountCubit>
+    extends State<_UnreadPillButton<C>> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<C>().refresh();
+  }
+
+  Future<void> _open() async {
+    await context.push(widget.route);
+    if (mounted) context.read<C>().refresh();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _PillButton(
+      icon: widget.icon,
+      onTap: _open,
+      badge: BlocBuilder<C, int>(
+        builder: (context, count) =>
+            count > 0 ? _UnreadBadge(count: count) : const SizedBox.shrink(),
       ),
     );
   }
@@ -58,22 +94,61 @@ class FeedTopBar extends StatelessWidget {
 class _PillButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
+  final Widget? badge;
 
-  const _PillButton({required this.icon, required this.onTap});
+  const _PillButton({required this.icon, required this.onTap, this.badge});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        width: 44,
-        height: 44,
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.line),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: AppColors.line),
+            ),
+            child: Icon(icon, color: AppColors.ink, size: 22),
+          ),
+          if (badge != null) Positioned(top: -5, right: -5, child: badge!),
+        ],
+      ),
+    );
+  }
+}
+
+/// Small accent count chip on an unread pill. Caps at "99+".
+class _UnreadBadge extends StatelessWidget {
+  final int count;
+
+  const _UnreadBadge({required this.count});
+
+  @override
+  Widget build(BuildContext context) {
+    final label = count > 99 ? '99+' : '$count';
+    return Container(
+      constraints: const BoxConstraints(minWidth: 18),
+      height: 18,
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      decoration: BoxDecoration(
+        color: AppColors.accent,
+        borderRadius: BorderRadius.circular(9),
+        border: Border.all(color: AppColors.bg, width: 2),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        label,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 10,
+          fontWeight: FontWeight.w800,
+          height: 1,
         ),
-        child: Icon(icon, color: AppColors.ink, size: 22),
       ),
     );
   }

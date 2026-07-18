@@ -122,6 +122,24 @@ abstract class AppLocalizations {
   /// **'Romanian'**
   String get languageRomanian;
 
+  /// Title of the language picker bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your language'**
+  String get settingsLanguagePickerTitle;
+
+  /// Shown in the language picker when fetching the option list fails
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t load the language options. Please try again.'**
+  String get settingsLanguageLoadError;
+
+  /// Snackbar shown when picking a language fails to save
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t update your language. Please try again.'**
+  String get settingsLanguageUpdateError;
+
   /// No description provided for @commonSave.
   ///
   /// In en, this message translates to:
@@ -932,6 +950,12 @@ abstract class AppLocalizations {
   /// **'PROFILE'**
   String get profileTitle;
 
+  /// No description provided for @profileMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get profileMessage;
+
   /// No description provided for @profileStatFollowers.
   ///
   /// In en, this message translates to:
@@ -973,6 +997,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get profileErrorGeneric;
+
+  /// No description provided for @profileErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Please try again.'**
+  String get profileErrorNetwork;
+
+  /// No description provided for @profileEditButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile'**
+  String get profileEditButton;
+
+  /// No description provided for @editProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'EDIT PROFILE'**
+  String get editProfileTitle;
+
+  /// No description provided for @editProfileChangePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Change photo'**
+  String get editProfileChangePhoto;
+
+  /// No description provided for @editProfileNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'NAME'**
+  String get editProfileNameLabel;
+
+  /// No description provided for @editProfileNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your display name'**
+  String get editProfileNameHint;
+
+  /// No description provided for @editProfileBioLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'BIO'**
+  String get editProfileBioLabel;
+
+  /// No description provided for @editProfileBioHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell others a few things about yourself…'**
+  String get editProfileBioHint;
+
+  /// No description provided for @editProfileSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get editProfileSave;
+
+  /// No description provided for @editProfileSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated'**
+  String get editProfileSaved;
+
+  /// No description provided for @editProfilePhotoUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo updated'**
+  String get editProfilePhotoUpdated;
+
+  /// No description provided for @editProfileErrorInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check your name and bio, then try again.'**
+  String get editProfileErrorInvalid;
+
+  /// No description provided for @editProfileErrorAvatar.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t update your photo. Please try again.'**
+  String get editProfileErrorAvatar;
 
   /// No description provided for @followActionFollow.
   ///
@@ -1189,12 +1291,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PROFILE'**
   String get navProfile;
-
-  /// No description provided for @feedComingSoon.
-  ///
-  /// In en, this message translates to:
-  /// **'Coming soon'**
-  String get feedComingSoon;
 
   /// No description provided for @feedEmptyTitle.
   ///
@@ -2720,6 +2816,24 @@ abstract class AppLocalizations {
   /// **'CREATE YOUR FIRST POST'**
   String get postsCreateFirst;
 
+  /// No description provided for @savedPostsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVED POSTS'**
+  String get savedPostsTitle;
+
+  /// No description provided for @savedPostsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing saved yet'**
+  String get savedPostsEmptyTitle;
+
+  /// No description provided for @savedPostsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Save posts you like to find them here later.'**
+  String get savedPostsEmptyBody;
+
   /// No description provided for @postDetailTitle.
   ///
   /// In en, this message translates to:
@@ -3037,6 +3151,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t submit your report. Please try again.'**
   String get reportErrorGeneric;
+
+  /// No description provided for @settingsSavedPosts.
+  ///
+  /// In en, this message translates to:
+  /// **'Your saved posts'**
+  String get settingsSavedPosts;
 
   /// No description provided for @settingsMyReports.
   ///
@@ -4057,6 +4177,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get messagesErrorGeneric;
+
+  /// No description provided for @messagesSharedCars.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared cars'**
+  String get messagesSharedCars;
+
+  /// No description provided for @messagesShareCarsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share cars'**
+  String get messagesShareCarsTitle;
+
+  /// No description provided for @messagesShareCarsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick cars from your garage'**
+  String get messagesShareCarsSubtitle;
+
+  /// No description provided for @messagesShareCarsLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'You can share up to {count} cars'**
+  String messagesShareCarsLimit(int count);
+
+  /// No description provided for @messagesShareCarsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No cars in your garage yet'**
+  String get messagesShareCarsEmpty;
+
+  /// No description provided for @messagesShareCarsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load your garage. Please try again.'**
+  String get messagesShareCarsError;
+
+  /// No description provided for @messagesShareCarsConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Share {count}'**
+  String messagesShareCarsConfirm(int count);
+
+  /// No description provided for @messagesShareCarsConfirmEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Share cars'**
+  String get messagesShareCarsConfirmEmpty;
+
+  /// No description provided for @notificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'NOTIFICATIONS'**
+  String get notificationsTitle;
+
+  /// No description provided for @notificationsMarkAllRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all as read'**
+  String get notificationsMarkAllRead;
+
+  /// No description provided for @notificationsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet'**
+  String get notificationsEmptyTitle;
+
+  /// No description provided for @notificationsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Likes, comments and replies on your posts and threads will show up here.'**
+  String get notificationsEmptyBody;
+
+  /// No description provided for @notificationsRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get notificationsRetry;
+
+  /// No description provided for @notificationsErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Please try again.'**
+  String get notificationsErrorNetwork;
+
+  /// No description provided for @notificationsErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get notificationsErrorGeneric;
 }
 
 class _AppLocalizationsDelegate

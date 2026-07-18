@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/config/routes/app_router.dart';
+import 'package:car_social_media_app/core/routes/app_router.dart';
 import 'package:car_social_media_app/l10n/app_localizations.dart';
 import 'package:car_social_media_app/core/di/injection.dart';
 import 'package:car_social_media_app/core/realtime/dm_socket_service.dart';
@@ -6,6 +6,9 @@ import 'package:car_social_media_app/core/storage/secure_local_storage.dart';
 import 'package:car_social_media_app/core/theme/app_theme.dart';
 import 'package:car_social_media_app/features/authentication/presentation/bloc/bloc.dart';
 import 'package:car_social_media_app/features/authentication/presentation/bloc/event.dart';
+import 'package:car_social_media_app/features/messages/presentation/bloc/unread/cubit.dart';
+import 'package:car_social_media_app/features/notifications/presentation/bloc/unread/cubit.dart';
+import 'package:car_social_media_app/features/profile/presentation/bloc/locale/cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,14 +74,37 @@ class CarSocialMediaApp extends StatelessWidget {
         BlocProvider<AuthBloc>(
           create: (context) => getIt<AuthBloc>()..add(CheckAuthStatus()),
         ),
+        // App-level DMs unread counter — the feed top bar reads it, and its
+        // socket subscription must outlive individual pages.
+        // No eager refresh here: the feed top-bar pills fetch the counts when
+        // they mount, which happens right after startup anyway — fetching at
+        // root too would just duplicate both requests on every cold start.
+        BlocProvider<DmUnreadCubit>(
+          create: (context) => getIt<DmUnreadCubit>(),
+        ),
+        // App-level notifications unread counter — the feed top bar reads it.
+        // No socket (notifications have no live channel): it refreshes on feed
+        // appear and when returning from the notifications page.
+        BlocProvider<NotificationsUnreadCubit>(
+          create: (context) => getIt<NotificationsUnreadCubit>(),
+        ),
+        // App-level active locale (null = follow system). Seeded from local
+        // secure storage; the settings language picker and the profile-fetch
+        // sync rule both flip it live via LocaleCubit.setLocale/syncFromBackend.
+        BlocProvider<LocaleCubit>(
+          create: (context) => getIt<LocaleCubit>()..loadPersisted(),
+        ),
       ],
-      child: MaterialApp.router(
-        onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.light(),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        routerConfig: appRouter,
+      child: BlocBuilder<LocaleCubit, Locale?>(
+        builder: (context, locale) => MaterialApp.router(
+          onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.light(),
+          locale: locale,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          routerConfig: appRouter,
+        ),
       ),
     );
   }

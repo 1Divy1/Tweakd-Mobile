@@ -21,6 +21,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageRomanian => 'Romanian';
 
   @override
+  String get settingsLanguagePickerTitle => 'Choose your language';
+
+  @override
+  String get settingsLanguageLoadError =>
+      'We couldn\'t load the language options. Please try again.';
+
+  @override
+  String get settingsLanguageUpdateError =>
+      'We couldn\'t update your language. Please try again.';
+
+  @override
   String get commonSave => 'Save';
 
   @override
@@ -479,6 +490,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileTitle => 'PROFILE';
 
   @override
+  String get profileMessage => 'Message';
+
+  @override
   String get profileStatFollowers => 'FOLLOWERS';
 
   @override
@@ -501,6 +515,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileErrorGeneric => 'Something went wrong. Please try again.';
+
+  @override
+  String get profileErrorNetwork => 'No internet connection. Please try again.';
+
+  @override
+  String get profileEditButton => 'Edit profile';
+
+  @override
+  String get editProfileTitle => 'EDIT PROFILE';
+
+  @override
+  String get editProfileChangePhoto => 'Change photo';
+
+  @override
+  String get editProfileNameLabel => 'NAME';
+
+  @override
+  String get editProfileNameHint => 'Your display name';
+
+  @override
+  String get editProfileBioLabel => 'BIO';
+
+  @override
+  String get editProfileBioHint => 'Tell others a few things about yourself…';
+
+  @override
+  String get editProfileSave => 'Save changes';
+
+  @override
+  String get editProfileSaved => 'Profile updated';
+
+  @override
+  String get editProfilePhotoUpdated => 'Photo updated';
+
+  @override
+  String get editProfileErrorInvalid =>
+      'Please check your name and bio, then try again.';
+
+  @override
+  String get editProfileErrorAvatar =>
+      'We couldn\'t update your photo. Please try again.';
 
   @override
   String get followActionFollow => 'FOLLOW';
@@ -638,9 +693,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get navProfile => 'PROFILE';
-
-  @override
-  String get feedComingSoon => 'Coming soon';
 
   @override
   String get feedEmptyTitle => 'Your feed is quiet';
@@ -1447,6 +1499,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get postsCreateFirst => 'CREATE YOUR FIRST POST';
 
   @override
+  String get savedPostsTitle => 'SAVED POSTS';
+
+  @override
+  String get savedPostsEmptyTitle => 'Nothing saved yet';
+
+  @override
+  String get savedPostsEmptyBody =>
+      'Save posts you like to find them here later.';
+
+  @override
   String get postDetailTitle => 'POST';
 
   @override
@@ -1662,6 +1724,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get reportErrorGeneric =>
       'Couldn\'t submit your report. Please try again.';
+
+  @override
+  String get settingsSavedPosts => 'Your saved posts';
 
   @override
   String get settingsMyReports => 'My reports';
@@ -2247,4 +2312,57 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get messagesErrorGeneric => 'Something went wrong. Please try again.';
+
+  @override
+  String get messagesSharedCars => 'Shared cars';
+
+  @override
+  String get messagesShareCarsTitle => 'Share cars';
+
+  @override
+  String get messagesShareCarsSubtitle => 'Pick cars from your garage';
+
+  @override
+  String messagesShareCarsLimit(int count) {
+    return 'You can share up to $count cars';
+  }
+
+  @override
+  String get messagesShareCarsEmpty => 'No cars in your garage yet';
+
+  @override
+  String get messagesShareCarsError =>
+      'Couldn\'t load your garage. Please try again.';
+
+  @override
+  String messagesShareCarsConfirm(int count) {
+    return 'Share $count';
+  }
+
+  @override
+  String get messagesShareCarsConfirmEmpty => 'Share cars';
+
+  @override
+  String get notificationsTitle => 'NOTIFICATIONS';
+
+  @override
+  String get notificationsMarkAllRead => 'Mark all as read';
+
+  @override
+  String get notificationsEmptyTitle => 'No notifications yet';
+
+  @override
+  String get notificationsEmptyBody =>
+      'Likes, comments and replies on your posts and threads will show up here.';
+
+  @override
+  String get notificationsRetry => 'Try again';
+
+  @override
+  String get notificationsErrorNetwork =>
+      'No internet connection. Please try again.';
+
+  @override
+  String get notificationsErrorGeneric =>
+      'Something went wrong. Please try again.';
 }

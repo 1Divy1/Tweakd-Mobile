@@ -31,10 +31,15 @@ class LoadOlderMessages extends ChatEvent {
 
 class SendChatMessage extends ChatEvent {
   final String text;
-  const SendChatMessage(this.text);
+
+  /// Ids of cars shared from the viewer's garage (max 10). [text] may be blank
+  /// when this is non-empty.
+  final List<String> taggedCarIds;
+
+  const SendChatMessage(this.text, {this.taggedCarIds = const []});
 
   @override
-  List<Object?> get props => [text];
+  List<Object?> get props => [text, taggedCarIds];
 }
 
 /// Soft-deletes the viewer's own message.

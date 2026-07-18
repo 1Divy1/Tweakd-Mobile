@@ -56,6 +56,17 @@ class PostsApiDataSource {
     return PostPageModel.fromJson(data as Map<String, dynamic>);
   }
 
+  Future<PostPageModel> getSavedPosts({String? cursor, int size = 20}) async {
+    final data = await http.get(
+      '/posts/saved',
+      queryParameters: {
+        'cursor': ?cursor,
+        'size': size,
+      },
+    );
+    return PostPageModel.fromJson(data as Map<String, dynamic>);
+  }
+
   Future<PostModel> updatePost(
     String postId,
     Map<String, dynamic> body,

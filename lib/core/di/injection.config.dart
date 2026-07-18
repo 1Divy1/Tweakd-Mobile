@@ -143,14 +143,36 @@ import '../../features/messages/domain/repositories/messages_repository.dart'
 import '../../features/messages/domain/usecases/compose.dart' as _i231;
 import '../../features/messages/domain/usecases/get_inbox.dart' as _i134;
 import '../../features/messages/domain/usecases/get_messages.dart' as _i15;
+import '../../features/messages/domain/usecases/get_unread_count.dart' as _i915;
 import '../../features/messages/domain/usecases/message_actions.dart' as _i680;
 import '../../features/messages/domain/usecases/presence.dart' as _i583;
 import '../../features/messages/domain/usecases/send_message.dart' as _i162;
 import '../../features/messages/domain/usecases/watch_chat.dart' as _i467;
 import '../../features/messages/domain/usecases/watch_inbox.dart' as _i839;
+import '../../features/messages/presentation/bloc/car_picker/cubit.dart'
+    as _i439;
 import '../../features/messages/presentation/bloc/chat/bloc.dart' as _i269;
 import '../../features/messages/presentation/bloc/compose/bloc.dart' as _i681;
 import '../../features/messages/presentation/bloc/inbox/bloc.dart' as _i245;
+import '../../features/messages/presentation/bloc/unread/cubit.dart' as _i409;
+import '../../features/notifications/data/datasources/notifications_api_data_source.dart'
+    as _i830;
+import '../../features/notifications/data/repositories/notifications_repository_impl.dart'
+    as _i201;
+import '../../features/notifications/domain/repositories/notifications_repository.dart'
+    as _i563;
+import '../../features/notifications/domain/usecases/get_notifications.dart'
+    as _i163;
+import '../../features/notifications/domain/usecases/get_unread_notifications_count.dart'
+    as _i43;
+import '../../features/notifications/domain/usecases/mark_all_notifications_read.dart'
+    as _i852;
+import '../../features/notifications/domain/usecases/mark_notification_read.dart'
+    as _i29;
+import '../../features/notifications/presentation/bloc/notifications/bloc.dart'
+    as _i887;
+import '../../features/notifications/presentation/bloc/unread/cubit.dart'
+    as _i816;
 import '../../features/onboarding/data/datasources/onboarding_api_data_source.dart'
     as _i1049;
 import '../../features/onboarding/data/repositories/onboarding_repository_impl.dart'
@@ -191,6 +213,7 @@ import '../../features/posts/domain/usecases/get_post_comments.dart' as _i235;
 import '../../features/posts/domain/usecases/get_post_likers.dart' as _i528;
 import '../../features/posts/domain/usecases/get_posts_by_username.dart'
     as _i677;
+import '../../features/posts/domain/usecases/get_saved_posts.dart' as _i742;
 import '../../features/posts/domain/usecases/post_like.dart' as _i111;
 import '../../features/posts/domain/usecases/post_save.dart' as _i584;
 import '../../features/posts/domain/usecases/save_image_keys.dart' as _i913;
@@ -204,21 +227,35 @@ import '../../features/posts/presentation/bloc/likers/bloc.dart' as _i905;
 import '../../features/posts/presentation/bloc/post_detail/bloc.dart' as _i486;
 import '../../features/posts/presentation/bloc/profile_posts/bloc.dart'
     as _i274;
+import '../../features/posts/presentation/bloc/saved_posts/bloc.dart' as _i937;
 import '../../features/posts/presentation/bloc/share_post/bloc.dart' as _i690;
 import '../../features/posts/presentation/bloc/tag_picker/bloc.dart' as _i200;
+import '../../features/profile/data/datasource/avatar_storage_api_data_source.dart'
+    as _i347;
 import '../../features/profile/data/datasource/profile_api_data_source.dart'
     as _i77;
 import '../../features/profile/data/repositories/profile_repository_impl.dart'
     as _i334;
+import '../../features/profile/domain/entities/profile.dart' as _i57;
 import '../../features/profile/domain/repositories/profile_repository.dart'
     as _i894;
+import '../../features/profile/domain/usecases/change_profile_avatar.dart'
+    as _i717;
 import '../../features/profile/domain/usecases/get_current_user_profile.dart'
     as _i424;
+import '../../features/profile/domain/usecases/get_language_options.dart'
+    as _i437;
 import '../../features/profile/domain/usecases/get_profile_by_username.dart'
     as _i320;
+import '../../features/profile/domain/usecases/set_app_language.dart' as _i856;
 import '../../features/profile/domain/usecases/submit_onboarding.dart'
     as _i1055;
+import '../../features/profile/domain/usecases/update_profile.dart' as _i78;
 import '../../features/profile/presentation/bloc/bloc.dart' as _i180;
+import '../../features/profile/presentation/bloc/edit_profile/bloc.dart' as _i0;
+import '../../features/profile/presentation/bloc/language_picker/bloc.dart'
+    as _i959;
+import '../../features/profile/presentation/bloc/locale/cubit.dart' as _i516;
 import '../../features/report/data/datasources/report_api_data_source.dart'
     as _i398;
 import '../../features/report/data/repositories/report_repository_impl.dart'
@@ -244,6 +281,7 @@ import '../realtime/dm_socket_service.dart' as _i300;
 import '../realtime/stomp_dm_socket_service.dart' as _i801;
 import '../services/image_service.dart' as _i768;
 import '../services/push_permission_service.dart' as _i792;
+import '../storage/locale_local_storage.dart' as _i1069;
 import 'modules/dio_module.dart' as _i983;
 import 'modules/supabase_module.dart' as _i388;
 
@@ -261,6 +299,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i792.PushPermissionService>(
       () => _i792.PushPermissionService(),
     );
+    gh.lazySingleton<_i1069.LocaleLocalStorage>(
+      () => _i1069.LocaleLocalStorage(),
+    );
     gh.lazySingleton<_i300.DmSocketService>(
       () => _i801.StompDmSocketService(gh<_i454.SupabaseClient>()),
     );
@@ -275,6 +316,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i747.PostsStorageApiDataSource>(
       () => _i747.PostsStorageApiDataSource(gh<_i454.SupabaseClient>()),
+    );
+    gh.lazySingleton<_i347.AvatarStorageApiDataSource>(
+      () => _i347.AvatarStorageApiDataSource(gh<_i454.SupabaseClient>()),
+    );
+    gh.factory<_i516.LocaleCubit>(
+      () => _i516.LocaleCubit(gh<_i1069.LocaleLocalStorage>()),
     );
     gh.lazySingleton<_i311.AbstractHTTP>(
       () => _i554.DioHttpClient(gh<_i361.Dio>()),
@@ -315,8 +362,18 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i592.SearchApiDataSource>(
       () => _i592.SearchApiDataSource(gh<_i311.AbstractHTTP>()),
     );
+    gh.lazySingleton<_i830.NotificationsDataSource>(
+      () => _i830.NotificationsApiDataSource(gh<_i311.AbstractHTTP>()),
+    );
     gh.lazySingleton<_i619.FeedbackRepository>(
       () => _i961.FeedbackRepositoryImpl(gh<_i239.FeedbackApiDataSource>()),
+    );
+    gh.lazySingleton<_i894.ProfileRepository>(
+      () => _i334.ProfileRepositoryImpl(
+        gh<_i77.ProfileApiDataSource>(),
+        gh<_i347.AvatarStorageApiDataSource>(),
+        gh<_i768.ImageService>(),
+      ),
     );
     gh.lazySingleton<_i511.GarageRepository>(
       () => _i107.GarageRepositoryImpl(
@@ -324,6 +381,27 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i526.StorageApiDataSource>(),
         gh<_i768.ImageService>(),
       ),
+    );
+    gh.lazySingleton<_i717.ChangeProfileAvatarUseCase>(
+      () => _i717.ChangeProfileAvatarUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i424.GetCurrentUserProfileUseCase>(
+      () => _i424.GetCurrentUserProfileUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i437.GetLanguageOptionsUseCase>(
+      () => _i437.GetLanguageOptionsUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i320.GetProfileByUsernameUseCase>(
+      () => _i320.GetProfileByUsernameUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i856.SetAppLanguageUseCase>(
+      () => _i856.SetAppLanguageUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i1055.SubmitOnboardingUseCase>(
+      () => _i1055.SubmitOnboardingUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i78.UpdateProfileUseCase>(
+      () => _i78.UpdateProfileUseCase(gh<_i894.ProfileRepository>()),
     );
     gh.lazySingleton<_i192.CheckAuthStatusUseCase>(
       () => _i192.CheckAuthStatusUseCase(gh<_i742.AuthRepository>()),
@@ -336,6 +414,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i920.GoogleSignIn>(
       () => _i920.GoogleSignIn(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i563.NotificationsRepository>(
+      () => _i201.NotificationsRepositoryImpl(
+        gh<_i830.NotificationsDataSource>(),
+      ),
     );
     gh.lazySingleton<_i760.FollowRepository>(
       () => _i299.FollowRepositoryImpl(gh<_i587.FollowApiDataSource>()),
@@ -350,6 +433,30 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i10.ForumsRepository>(
       () => _i737.ForumsRepositoryImpl(gh<_i789.ForumsApiDataSource>()),
+    );
+    gh.factory<_i180.ProfileBloc>(
+      () => _i180.ProfileBloc(
+        getCurrentUserProfile: gh<_i424.GetCurrentUserProfileUseCase>(),
+        getProfileByUsername: gh<_i320.GetProfileByUsernameUseCase>(),
+        submitOnboarding: gh<_i1055.SubmitOnboardingUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i163.GetNotificationsUseCase>(
+      () => _i163.GetNotificationsUseCase(gh<_i563.NotificationsRepository>()),
+    );
+    gh.lazySingleton<_i43.GetUnreadNotificationsCountUseCase>(
+      () => _i43.GetUnreadNotificationsCountUseCase(
+        gh<_i563.NotificationsRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i852.MarkAllNotificationsReadUseCase>(
+      () => _i852.MarkAllNotificationsReadUseCase(
+        gh<_i563.NotificationsRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i29.MarkNotificationReadUseCase>(
+      () =>
+          _i29.MarkNotificationReadUseCase(gh<_i563.NotificationsRepository>()),
     );
     gh.lazySingleton<_i972.PresenceDataSource>(
       () => _i972.PresenceApiDataSource(gh<_i311.AbstractHTTP>()),
@@ -398,9 +505,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i31.UnfollowUserUseCase>(
       () => _i31.UnfollowUserUseCase(gh<_i760.FollowRepository>()),
     );
-    gh.lazySingleton<_i894.ProfileRepository>(
-      () => _i334.ProfileRepositoryImpl(gh<_i77.ProfileApiDataSource>()),
-    );
     gh.lazySingleton<_i75.GetMyReportsUseCase>(
       () => _i75.GetMyReportsUseCase(gh<_i23.ReportRepository>()),
     );
@@ -409,6 +513,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i535.SubmitReportUseCase>(
       () => _i535.SubmitReportUseCase(gh<_i23.ReportRepository>()),
+    );
+    gh.factory<_i959.LanguagePickerBloc>(
+      () => _i959.LanguagePickerBloc(
+        getLanguageOptions: gh<_i437.GetLanguageOptionsUseCase>(),
+        setAppLanguage: gh<_i856.SetAppLanguageUseCase>(),
+      ),
     );
     gh.lazySingleton<_i430.OnboardingRepository>(
       () =>
@@ -541,6 +651,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i345.SubmitFeedbackUseCase>(
       () => _i345.SubmitFeedbackUseCase(gh<_i619.FeedbackRepository>()),
     );
+    gh.factoryParam<_i0.EditProfileBloc, _i57.ProfileEntity, dynamic>(
+      (profile, _) => _i0.EditProfileBloc(
+        updateProfile: gh<_i78.UpdateProfileUseCase>(),
+        changeProfileAvatar: gh<_i717.ChangeProfileAvatarUseCase>(),
+        profile: profile,
+      ),
+    );
     gh.lazySingleton<_i231.GetComposeSuggestionsUseCase>(
       () => _i231.GetComposeSuggestionsUseCase(gh<_i794.MessagesRepository>()),
     );
@@ -549,6 +666,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i15.GetMessagesUseCase>(
       () => _i15.GetMessagesUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i915.GetUnreadCountUseCase>(
+      () => _i915.GetUnreadCountUseCase(gh<_i794.MessagesRepository>()),
     );
     gh.lazySingleton<_i680.DeleteMessageUseCase>(
       () => _i680.DeleteMessageUseCase(gh<_i794.MessagesRepository>()),
@@ -580,14 +700,21 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i199.GetGlobalFeedUseCase>(
       () => _i199.GetGlobalFeedUseCase(gh<_i430.FeedRepository>()),
     );
-    gh.lazySingleton<_i424.GetCurrentUserProfileUseCase>(
-      () => _i424.GetCurrentUserProfileUseCase(gh<_i894.ProfileRepository>()),
+    gh.factory<_i409.DmUnreadCubit>(
+      () => _i409.DmUnreadCubit(
+        getUnreadCount: gh<_i915.GetUnreadCountUseCase>(),
+        watchInboxMessages: gh<_i839.WatchInboxMessagesUseCase>(),
+      ),
     );
-    gh.lazySingleton<_i320.GetProfileByUsernameUseCase>(
-      () => _i320.GetProfileByUsernameUseCase(gh<_i894.ProfileRepository>()),
+    gh.factory<_i887.NotificationsBloc>(
+      () => _i887.NotificationsBloc(
+        getNotifications: gh<_i163.GetNotificationsUseCase>(),
+        markNotificationRead: gh<_i29.MarkNotificationReadUseCase>(),
+        markAllNotificationsRead: gh<_i852.MarkAllNotificationsReadUseCase>(),
+      ),
     );
-    gh.lazySingleton<_i1055.SubmitOnboardingUseCase>(
-      () => _i1055.SubmitOnboardingUseCase(gh<_i894.ProfileRepository>()),
+    gh.factory<_i439.GarageCarsCubit>(
+      () => _i439.GarageCarsCubit(getMyGarage: gh<_i391.GetMyGarageUseCase>()),
     );
     gh.factory<_i807.CarDetailBloc>(
       () => _i807.CarDetailBloc(
@@ -710,11 +837,9 @@ extension GetItInjectableX on _i174.GetIt {
         imageService: gh<_i768.ImageService>(),
       ),
     );
-    gh.factory<_i180.ProfileBloc>(
-      () => _i180.ProfileBloc(
-        getCurrentUserProfile: gh<_i424.GetCurrentUserProfileUseCase>(),
-        getProfileByUsername: gh<_i320.GetProfileByUsernameUseCase>(),
-        submitOnboarding: gh<_i1055.SubmitOnboardingUseCase>(),
+    gh.factory<_i816.NotificationsUnreadCubit>(
+      () => _i816.NotificationsUnreadCubit(
+        getUnreadCount: gh<_i43.GetUnreadNotificationsCountUseCase>(),
       ),
     );
     gh.factory<_i681.ComposeBloc>(
@@ -799,6 +924,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i677.GetPostsByUsernameUseCase>(
       () => _i677.GetPostsByUsernameUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i742.GetSavedPostsUseCase>(
+      () => _i742.GetSavedPostsUseCase(gh<_i245.PostsRepository>()),
     );
     gh.lazySingleton<_i111.LikePostUseCase>(
       () => _i111.LikePostUseCase(gh<_i245.PostsRepository>()),
@@ -911,6 +1039,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i905.LikersBloc>(
       () => _i905.LikersBloc(getLikers: gh<_i528.GetPostLikersUseCase>()),
+    );
+    gh.factory<_i937.SavedPostsBloc>(
+      () =>
+          _i937.SavedPostsBloc(getSavedPosts: gh<_i742.GetSavedPostsUseCase>()),
     );
     gh.factory<_i382.ForumThreadBloc>(
       () => _i382.ForumThreadBloc(

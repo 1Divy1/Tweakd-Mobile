@@ -49,6 +49,12 @@ abstract class PostsRepository {
     int size,
   });
 
+  /// The signed-in user's saved posts, newest-saved first (server-ordered).
+  Future<Either<Failure, PostPageEntity>> getSavedPosts({
+    String? cursor,
+    int size,
+  });
+
   Future<Either<Failure, CommentPageEntity>> getComments(
     String postId, {
     String? cursor,

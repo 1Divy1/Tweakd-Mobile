@@ -112,6 +112,41 @@ class DmConversationsPageModel {
       );
 }
 
+/// A car shared into a DM, from `tagged_cars[]` on a message. Same sub-shapes
+/// as the garage endpoints (`cover_image {key, url}`); parsed defensively so a
+/// missing cover or malformed entry never breaks a message.
+class DmTaggedCarModel {
+  final String id;
+  final String brand;
+  final String model;
+  final String? coverImageUrl;
+
+  const DmTaggedCarModel({
+    required this.id,
+    required this.brand,
+    required this.model,
+    this.coverImageUrl,
+  });
+
+  factory DmTaggedCarModel.fromJson(Map<String, dynamic> json) {
+    final cover = json['cover_image'];
+    return DmTaggedCarModel(
+      id: json['id'] as String,
+      brand: json['brand'] as String? ?? '',
+      model: json['model'] as String? ?? '',
+      coverImageUrl:
+          cover is Map<String, dynamic> ? cover['url'] as String? : null,
+    );
+  }
+
+  DmTaggedCarEntity toEntity() => DmTaggedCarEntity(
+        id: id,
+        brand: brand,
+        model: model,
+        coverImageUrl: coverImageUrl,
+      );
+}
+
 /// A message on the wire — REST responses and `message.created` pushes share
 /// this shape.
 class DmMessageModel {
@@ -120,6 +155,7 @@ class DmMessageModel {
   final String senderId;
   final String content;
   final bool deleted;
+  final List<DmTaggedCarModel> taggedCars;
   final DateTime createdAt;
 
   const DmMessageModel({
@@ -128,6 +164,7 @@ class DmMessageModel {
     required this.senderId,
     required this.content,
     required this.deleted,
+    this.taggedCars = const [],
     required this.createdAt,
   });
 
@@ -137,6 +174,10 @@ class DmMessageModel {
         senderId: json['sender_id'] as String? ?? '',
         content: json['content'] as String? ?? '',
         deleted: json['deleted'] as bool? ?? false,
+        taggedCars: [
+          for (final car in json['tagged_cars'] as List? ?? const [])
+            if (car is Map<String, dynamic>) DmTaggedCarModel.fromJson(car),
+        ],
         createdAt: _parseInstant(json['created_at']),
       );
 
@@ -144,6 +185,7 @@ class DmMessageModel {
         id: id,
         isMine: senderId == myId,
         text: content,
+        taggedCars: [for (final car in taggedCars) car.toEntity()],
         sentAt: createdAt,
         isDeleted: deleted,
       );
