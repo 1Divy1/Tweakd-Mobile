@@ -23,7 +23,8 @@ class NewThreadPage extends StatefulWidget {
 class _NewThreadPageState extends State<NewThreadPage> {
   final _titleController = TextEditingController();
   final _bodyController = TextEditingController();
-  final _carSearchController = TextEditingController();
+  final _brandSearchController = TextEditingController();
+  final _modelSearchController = TextEditingController();
 
   @override
   void initState() {
@@ -36,7 +37,8 @@ class _NewThreadPageState extends State<NewThreadPage> {
   void dispose() {
     _titleController.dispose();
     _bodyController.dispose();
-    _carSearchController.dispose();
+    _brandSearchController.dispose();
+    _modelSearchController.dispose();
     super.dispose();
   }
 
@@ -57,7 +59,8 @@ class _NewThreadPageState extends State<NewThreadPage> {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
-                    SnackBar(content: Text(l10n.forumsThreadPosted)));
+                  SnackBar(content: Text(l10n.forumsThreadPosted)),
+                );
               context.pushReplacement(
                 '/forums/threads/${state.createdThreadId}',
               );
@@ -66,14 +69,19 @@ class _NewThreadPageState extends State<NewThreadPage> {
             if (state.actionError != null) {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
-                ..showSnackBar(SnackBar(
-                  content: Text(forumErrorMessage(l10n, state.actionError!)),
-                ));
+                ..showSnackBar(
+                  SnackBar(
+                    content: Text(forumErrorMessage(l10n, state.actionError!)),
+                  ),
+                );
             }
           },
           builder: (context, state) {
+            // A title and a brand are required; the model is optional.
             final canPost =
-                _titleController.text.trim().isNotEmpty && !state.isSubmitting;
+                _titleController.text.trim().isNotEmpty &&
+                state.hasBrand &&
+                !state.isSubmitting;
 
             return Column(
               children: [
@@ -84,31 +92,31 @@ class _NewThreadPageState extends State<NewThreadPage> {
                     enabled: canPost,
                     submitting: state.isSubmitting,
                     onTap: () => context.read<NewThreadBloc>().add(
-                          SubmitNewThread(
-                            title: _titleController.text,
-                            content: _bodyController.text,
-                          ),
-                        ),
+                      SubmitNewThread(
+                        title: _titleController.text,
+                        content: _bodyController.text,
+                      ),
+                    ),
                   ),
                 ),
                 Expanded(
                   child: switch ((state.isLoadingRefs, state.refsError)) {
                     (true, _) => const Center(
-                        child:
-                            CircularProgressIndicator(color: AppColors.accent),
-                      ),
+                      child: CircularProgressIndicator(color: AppColors.accent),
+                    ),
                     (false, final code?) => ForumErrorView(
-                        message: forumErrorMessage(l10n, code),
-                        onRetry: () => context
-                            .read<NewThreadBloc>()
-                            .add(const LoadNewThreadRefs()),
+                      message: forumErrorMessage(l10n, code),
+                      onRetry: () => context.read<NewThreadBloc>().add(
+                        const LoadNewThreadRefs(),
                       ),
+                    ),
                     _ => _ComposerForm(
-                        state: state,
-                        titleController: _titleController,
-                        bodyController: _bodyController,
-                        carSearchController: _carSearchController,
-                      ),
+                      state: state,
+                      titleController: _titleController,
+                      bodyController: _bodyController,
+                      brandSearchController: _brandSearchController,
+                      modelSearchController: _modelSearchController,
+                    ),
                   },
                 ),
               ],
@@ -124,13 +132,15 @@ class _ComposerForm extends StatelessWidget {
   final NewThreadState state;
   final TextEditingController titleController;
   final TextEditingController bodyController;
-  final TextEditingController carSearchController;
+  final TextEditingController brandSearchController;
+  final TextEditingController modelSearchController;
 
   const _ComposerForm({
     required this.state,
     required this.titleController,
     required this.bodyController,
-    required this.carSearchController,
+    required this.brandSearchController,
+    required this.modelSearchController,
   });
 
   @override
@@ -191,18 +201,37 @@ class _ComposerForm extends StatelessWidget {
         const SizedBox(height: 20),
         CarTagPicker(
           state: state,
-          searchController: carSearchController,
-          onQueryChanged: (q) => bloc.add(NewThreadCarQueryChanged(q)),
-          onSelect: (option) {
-            carSearchController.clear();
-            bloc.add(SelectNewThreadCar(option));
+          brandSearchController: brandSearchController,
+          modelSearchController: modelSearchController,
+          onBrandQueryChanged: (q) => bloc.add(NewThreadBrandQueryChanged(q)),
+          onSelectBrand: (brand) {
+            brandSearchController.clear();
+            modelSearchController.clear();
+            bloc.add(SelectNewThreadBrand(brand));
           },
-          onSelectGarageCar: (car) => bloc.add(SelectGarageCar(car)),
-          onClear: () => bloc.add(const ClearNewThreadCar()),
+          onClearBrand: () {
+            brandSearchController.clear();
+            modelSearchController.clear();
+            bloc.add(const ClearNewThreadBrand());
+          },
+          onModelQueryChanged: (q) => bloc.add(NewThreadModelQueryChanged(q)),
+          onSelectModel: (model) {
+            modelSearchController.clear();
+            bloc.add(SelectNewThreadModel(model));
+          },
+          onClearModel: () {
+            modelSearchController.clear();
+            bloc.add(const ClearNewThreadModel());
+          },
+          onSelectGarageCar: (car) {
+            brandSearchController.clear();
+            modelSearchController.clear();
+            bloc.add(SelectGarageCar(car));
+          },
         ),
         const SizedBox(height: 24),
         TopicSelector(
-          topicGroups: state.topicGroups,
+          topics: state.topics,
           selectedTopicIds: state.selectedTopicIds,
           onToggle: (id) => bloc.add(ToggleNewThreadTopic(id)),
         ),

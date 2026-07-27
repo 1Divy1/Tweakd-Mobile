@@ -11,7 +11,7 @@ import '../entities/forum_thread.dart';
 import '../entities/forum_topic.dart';
 
 abstract class ForumsRepository {
-  Future<Either<Failure, List<ForumTopicGroupEntity>>> getTopics();
+  Future<Either<Failure, List<ForumTopicEntity>>> getTopics();
 
   /// Thread lists. An empty/null [filter] hits the global forums feed;
   /// otherwise the brand / model / topic endpoint matching the filter.

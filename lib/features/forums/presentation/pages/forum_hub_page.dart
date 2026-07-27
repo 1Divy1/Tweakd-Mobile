@@ -90,9 +90,8 @@ class _ForumHubPageState extends State<ForumHubPage> {
           },
           builder: (context, state) {
             final filter = state.baseFilter;
-            final count = filter.model?.threadCount ??
-                filter.brand?.threadCount ??
-                filter.topic?.threadCount;
+            final count =
+                filter.model?.threadCount ?? filter.brand?.threadCount;
             final countLabel = count == null
                 ? null
                 : l10n
@@ -196,12 +195,13 @@ class _HubContent extends StatelessWidget {
           ),
           const SizedBox(height: 14),
         ],
-        if (state.showsTopicChips && state.topics.isNotEmpty) ...[
-          if (isBrandHub)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-              child: ForumSectionLabel(label: l10n.forumsRefineByTopic),
-            ),
+        if (state.topics.isNotEmpty) ...[
+          // Same chips whether this is a brand hub (level 1) or a model hub
+          // (level 2) — the endpoint takes ?topic= either way.
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: ForumSectionLabel(label: l10n.forumsRefineByTopic),
+          ),
           SizedBox(
             height: 38,
             child: ListView.separated(

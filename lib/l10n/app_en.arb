@@ -861,8 +861,6 @@
   "forumsShortcutRemoved": "Shortcut removed.",
 
   "forumsBrowseTitle": "BROWSE",
-  "forumsByCar": "By car",
-  "forumsByTopic": "By topic",
   "forumsBrandsCount": "{count, plural, =1{1 BRAND} other{{count} BRANDS}}",
   "@forumsBrandsCount": {
     "placeholders": {
@@ -875,8 +873,6 @@
       "count": {"type": "int"}
     }
   },
-  "forumsByComponent": "BY COMPONENT",
-  "forumsByFormat": "BY FORMAT",
 
   "forumsModels": "MODELS",
   "forumsRefineByTopic": "REFINE BY TOPIC",
@@ -955,11 +951,15 @@
       "car": {"type": "String"}
     }
   },
-  "forumsSearchCarHint": "Search a model…",
-  "forumsTagCarHelper": "Brand is set automatically from the model. Leave empty for a general thread.",
+  "forumsBrandRequiredLabel": "BRAND · REQUIRED",
+  "forumsModelOptionalLabel": "MODEL · OPTIONAL",
+  "forumsSearchBrandHint": "Search a brand…",
+  "forumsSearchModelHint": "Search a model…",
+  "forumsNoBrandMatches": "No brands match that search.",
+  "forumsNoModelMatches": "No models match that search.",
+  "forumsNoModelsForBrand": "No models listed for this brand.",
+  "forumsTagCarHelper": "Pick a brand so your thread shows up in the right hub. Adding the exact model is recommended unless your question applies to the whole brand.",
   "forumsTopics": "TOPICS",
-  "forumsComponentLabel": "COMPONENT",
-  "forumsFormatLabel": "FORMAT",
   "forumsThreadPosted": "Thread posted.",
 
   "forumsShare": "Share",

@@ -52,10 +52,10 @@ class ForumsRepositoryImpl implements ForumsRepository {
   }
 
   @override
-  Future<Either<Failure, List<ForumTopicGroupEntity>>> getTopics() =>
+  Future<Either<Failure, List<ForumTopicEntity>>> getTopics() =>
       _run('getTopics', () async {
-        final groups = await dataSource.getTopics();
-        return groups.map((g) => g.toEntity()).toList();
+        final topics = await dataSource.getTopics();
+        return topics.map((t) => t.toEntity()).toList();
       });
 
   @override
@@ -198,7 +198,11 @@ class ForumsRepositoryImpl implements ForumsRepository {
   Future<Either<Failure, List<ForumShortcutEntity>>> getShortcuts() =>
       _run('getShortcuts', () async {
         final models = await dataSource.getShortcuts();
-        return models.map((m) => m.toEntity()).toList();
+        // Legacy topic-only pins have no hub to open any more — drop them.
+        return models
+            .map((m) => m.toEntity())
+            .where((s) => s.isCarRooted)
+            .toList();
       });
 
   @override
@@ -240,7 +244,10 @@ class ForumsRepositoryImpl implements ForumsRepository {
           List<String> orderedIds) =>
       _run('reorderShortcuts', () async {
         final models = await dataSource.reorderShortcuts(orderedIds);
-        return models.map((m) => m.toEntity()).toList();
+        return models
+            .map((m) => m.toEntity())
+            .where((s) => s.isCarRooted)
+            .toList();
       });
 
   @override

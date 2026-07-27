@@ -3530,18 +3530,6 @@ abstract class AppLocalizations {
   /// **'BROWSE'**
   String get forumsBrowseTitle;
 
-  /// No description provided for @forumsByCar.
-  ///
-  /// In en, this message translates to:
-  /// **'By car'**
-  String get forumsByCar;
-
-  /// No description provided for @forumsByTopic.
-  ///
-  /// In en, this message translates to:
-  /// **'By topic'**
-  String get forumsByTopic;
-
   /// No description provided for @forumsBrandsCount.
   ///
   /// In en, this message translates to:
@@ -3553,18 +3541,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 thread} other{{count} threads}}'**
   String forumsThreadsCount(int count);
-
-  /// No description provided for @forumsByComponent.
-  ///
-  /// In en, this message translates to:
-  /// **'BY COMPONENT'**
-  String get forumsByComponent;
-
-  /// No description provided for @forumsByFormat.
-  ///
-  /// In en, this message translates to:
-  /// **'BY FORMAT'**
-  String get forumsByFormat;
 
   /// No description provided for @forumsModels.
   ///
@@ -3836,16 +3812,52 @@ abstract class AppLocalizations {
   /// **'From your garage · {car}'**
   String forumsFromYourGarage(String car);
 
-  /// No description provided for @forumsSearchCarHint.
+  /// No description provided for @forumsBrandRequiredLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'BRAND · REQUIRED'**
+  String get forumsBrandRequiredLabel;
+
+  /// No description provided for @forumsModelOptionalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'MODEL · OPTIONAL'**
+  String get forumsModelOptionalLabel;
+
+  /// No description provided for @forumsSearchBrandHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search a brand…'**
+  String get forumsSearchBrandHint;
+
+  /// No description provided for @forumsSearchModelHint.
   ///
   /// In en, this message translates to:
   /// **'Search a model…'**
-  String get forumsSearchCarHint;
+  String get forumsSearchModelHint;
+
+  /// No description provided for @forumsNoBrandMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'No brands match that search.'**
+  String get forumsNoBrandMatches;
+
+  /// No description provided for @forumsNoModelMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'No models match that search.'**
+  String get forumsNoModelMatches;
+
+  /// No description provided for @forumsNoModelsForBrand.
+  ///
+  /// In en, this message translates to:
+  /// **'No models listed for this brand.'**
+  String get forumsNoModelsForBrand;
 
   /// No description provided for @forumsTagCarHelper.
   ///
   /// In en, this message translates to:
-  /// **'Brand is set automatically from the model. Leave empty for a general thread.'**
+  /// **'Pick a brand so your thread shows up in the right hub. Adding the exact model is recommended unless your question applies to the whole brand.'**
   String get forumsTagCarHelper;
 
   /// No description provided for @forumsTopics.
@@ -3853,18 +3865,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'TOPICS'**
   String get forumsTopics;
-
-  /// No description provided for @forumsComponentLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'COMPONENT'**
-  String get forumsComponentLabel;
-
-  /// No description provided for @forumsFormatLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'FORMAT'**
-  String get forumsFormatLabel;
 
   /// No description provided for @forumsThreadPosted.
   ///

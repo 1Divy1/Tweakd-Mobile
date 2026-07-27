@@ -7,9 +7,10 @@ import '../../../domain/entities/forum_thread.dart';
 import '../../../domain/entities/forum_topic.dart';
 import '../../utils/forum_error_mapper.dart';
 
-/// State of one hub page. [baseFilter] is what the page was opened with; the
-/// chip row narrows it further via [refinedTopic] without navigating.
-/// One-shot signals ([savedTick], [actionErrorTick]) drive snackbars.
+/// State of one hub page. [baseFilter] is the car the hub is about (a brand,
+/// or a brand + model); the chip row narrows it via [refinedTopic] without
+/// navigating. One-shot signals ([savedTick], [actionErrorTick]) drive
+/// snackbars.
 class ForumHubState extends Equatable {
   final ForumFilter baseFilter;
   final ForumTopicEntity? refinedTopic;
@@ -45,15 +46,11 @@ class ForumHubState extends Equatable {
     this.actionErrorTick = 0,
   });
 
-  /// What the thread list actually queries: the base filter, narrowed by the
-  /// chip selection when the base has no topic of its own.
-  ForumFilter get effectiveFilter =>
-      baseFilter.topic != null ? baseFilter : baseFilter.withTopic(refinedTopic);
+  /// What the thread list actually queries: the hub's car, narrowed by the
+  /// chip selection.
+  ForumFilter get effectiveFilter => baseFilter.withTopic(refinedTopic);
 
   bool get hasMore => nextCursor != null;
-
-  /// Chips are shown for car hubs only (a topic hub can't refine further).
-  bool get showsTopicChips => baseFilter.topic == null;
 
   ForumHubState copyWith({
     ForumFilter? baseFilter,

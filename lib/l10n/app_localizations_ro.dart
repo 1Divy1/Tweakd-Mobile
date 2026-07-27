@@ -1929,12 +1929,6 @@ class AppLocalizationsRo extends AppLocalizations {
   String get forumsBrowseTitle => 'EXPLOREAZĂ';
 
   @override
-  String get forumsByCar => 'După mașină';
-
-  @override
-  String get forumsByTopic => 'După subiect';
-
-  @override
   String forumsBrandsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -1955,12 +1949,6 @@ class AppLocalizationsRo extends AppLocalizations {
     );
     return '$_temp0';
   }
-
-  @override
-  String get forumsByComponent => 'DUPĂ COMPONENTĂ';
-
-  @override
-  String get forumsByFormat => 'DUPĂ FORMAT';
 
   @override
   String get forumsModels => 'MODELE';
@@ -2127,20 +2115,33 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get forumsSearchCarHint => 'Caută un model…';
+  String get forumsBrandRequiredLabel => 'MARCĂ · OBLIGATORIU';
+
+  @override
+  String get forumsModelOptionalLabel => 'MODEL · OPȚIONAL';
+
+  @override
+  String get forumsSearchBrandHint => 'Caută o marcă…';
+
+  @override
+  String get forumsSearchModelHint => 'Caută un model…';
+
+  @override
+  String get forumsNoBrandMatches => 'Nicio marcă nu corespunde căutării.';
+
+  @override
+  String get forumsNoModelMatches => 'Niciun model nu corespunde căutării.';
+
+  @override
+  String get forumsNoModelsForBrand =>
+      'Niciun model listat pentru această marcă.';
 
   @override
   String get forumsTagCarHelper =>
-      'Marca se setează automat din model. Lasă gol pentru un thread general.';
+      'Alege o marcă pentru ca thread-ul tău să apară în hub-ul potrivit. Este recomandat să adaugi și modelul exact, dacă întrebarea nu se referă la întreaga marcă.';
 
   @override
   String get forumsTopics => 'SUBIECTE';
-
-  @override
-  String get forumsComponentLabel => 'COMPONENTĂ';
-
-  @override
-  String get forumsFormatLabel => 'FORMAT';
 
   @override
   String get forumsThreadPosted => 'Thread postat.';

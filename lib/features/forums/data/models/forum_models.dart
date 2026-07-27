@@ -11,13 +11,9 @@ import '../../domain/entities/forum_topic.dart';
 /// Wire models for `/forums/*`. All JSON keys are snake_case (the backend is
 /// snake_case everywhere; camelCase in API docs is illustrative only).
 
-ForumTopicKind _topicKindFromJson(String? value) =>
-    value == 'format' ? ForumTopicKind.format : ForumTopicKind.component;
-
 class ForumTopicModel {
   final String id;
   final String name;
-  final ForumTopicKind kind;
   final int sortOrder;
   final String? color;
   final int? threadCount;
@@ -25,7 +21,6 @@ class ForumTopicModel {
   const ForumTopicModel({
     required this.id,
     required this.name,
-    required this.kind,
     required this.sortOrder,
     this.color,
     this.threadCount,
@@ -35,10 +30,8 @@ class ForumTopicModel {
     return ForumTopicModel(
       id: json['id'] as String,
       name: json['name'] as String,
-      kind: _topicKindFromJson(json['kind'] as String?),
       sortOrder: (json['sort_order'] as num?)?.toInt() ?? 0,
       color: json['color'] as String?,
-      // Not in the contract yet — picked up automatically if added.
       threadCount: (json['thread_count'] as num?)?.toInt(),
     );
   }
@@ -46,31 +39,9 @@ class ForumTopicModel {
   ForumTopicEntity toEntity() => ForumTopicEntity(
         id: id,
         name: name,
-        kind: kind,
         sortOrder: sortOrder,
         color: color,
         threadCount: threadCount,
-      );
-}
-
-class ForumTopicGroupModel {
-  final ForumTopicKind kind;
-  final List<ForumTopicModel> topics;
-
-  const ForumTopicGroupModel({required this.kind, required this.topics});
-
-  factory ForumTopicGroupModel.fromJson(Map<String, dynamic> json) {
-    return ForumTopicGroupModel(
-      kind: _topicKindFromJson(json['kind'] as String?),
-      topics: ((json['topics'] as List<dynamic>?) ?? const [])
-          .map((e) => ForumTopicModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  ForumTopicGroupEntity toEntity() => ForumTopicGroupEntity(
-        kind: kind,
-        topics: topics.map((t) => t.toEntity()).toList(),
       );
 }
 
@@ -298,10 +269,8 @@ class ForumSuggestionModel {
 
   ForumSuggestionEntity toEntity() => entity;
 
+  /// Only "brand" and "model" are issued now; anything else falls back to a
+  /// brand suggestion.
   static ForumSuggestionType _suggestionTypeFromJson(String? value) =>
-      switch (value) {
-        'brand' => ForumSuggestionType.brand,
-        'model' => ForumSuggestionType.model,
-        _ => ForumSuggestionType.topic,
-      };
+      value == 'model' ? ForumSuggestionType.model : ForumSuggestionType.brand;
 }

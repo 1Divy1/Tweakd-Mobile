@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 
 import 'package:car_social_media_app/features/garage/domain/entities/reference_data.dart';
 
-import '../../../domain/entities/forum_topic.dart';
 import '../../utils/forum_error_mapper.dart';
 
 sealed class ForumBrowseState extends Equatable {
@@ -22,12 +21,11 @@ class ForumBrowseLoading extends ForumBrowseState {
 
 class ForumBrowseLoaded extends ForumBrowseState {
   final List<CarBrandEntity> brands;
-  final List<ForumTopicGroupEntity> topicGroups;
 
-  const ForumBrowseLoaded({required this.brands, required this.topicGroups});
+  const ForumBrowseLoaded({required this.brands});
 
   @override
-  List<Object?> get props => [brands, topicGroups];
+  List<Object?> get props => [brands];
 }
 
 class ForumBrowseError extends ForumBrowseState {

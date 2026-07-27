@@ -15,15 +15,17 @@ class ForumsApiDataSource {
 
   ForumsApiDataSource(this.http);
 
-  Future<List<ForumTopicGroupModel>> getTopics() async {
+  /// Flat list, already ordered by `sort_order`.
+  Future<List<ForumTopicModel>> getTopics() async {
     final data = await http.get('/forums/topics');
     return (data as List<dynamic>)
-        .map((e) => ForumTopicGroupModel.fromJson(e as Map<String, dynamic>))
+        .map((e) => ForumTopicModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
 
   /// Picks the list endpoint from the filter: model beats brand, a topic
-  /// narrows via query params, and no filter at all is the global feed.
+  /// narrows either of them via `?topic=`, and no car at all is the global
+  /// feed. A topic on its own has no endpoint — it always rides on a hub.
   Future<ForumThreadPageModel> getThreads({
     ForumFilter? filter,
     required ForumThreadSort sort,
@@ -39,14 +41,11 @@ class ForumsApiDataSource {
     final String path;
     if (filter == null || filter.isEmpty) {
       path = '/forums/feed';
-    } else if (filter.model != null) {
-      path = '/forums/models/${filter.model!.id}/threads';
-      if (filter.topic != null) query['topic'] = filter.topic!.id;
-    } else if (filter.topic != null) {
-      path = '/forums/topics/${filter.topic!.id}/threads';
-      if (filter.brand != null) query['brand'] = filter.brand!.id;
     } else {
-      path = '/forums/brands/${filter.brand!.id}/threads';
+      path = filter.model != null
+          ? '/forums/models/${filter.model!.id}/threads'
+          : '/forums/brands/${filter.brand!.id}/threads';
+      if (filter.topic != null) query['topic'] = filter.topic!.id;
     }
 
     final data = await http.get(path, queryParameters: query);

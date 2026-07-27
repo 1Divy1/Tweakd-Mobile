@@ -1921,12 +1921,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forumsBrowseTitle => 'BROWSE';
 
   @override
-  String get forumsByCar => 'By car';
-
-  @override
-  String get forumsByTopic => 'By topic';
-
-  @override
   String forumsBrandsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -1947,12 +1941,6 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
-
-  @override
-  String get forumsByComponent => 'BY COMPONENT';
-
-  @override
-  String get forumsByFormat => 'BY FORMAT';
 
   @override
   String get forumsModels => 'MODELS';
@@ -2118,20 +2106,32 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get forumsSearchCarHint => 'Search a model…';
+  String get forumsBrandRequiredLabel => 'BRAND · REQUIRED';
+
+  @override
+  String get forumsModelOptionalLabel => 'MODEL · OPTIONAL';
+
+  @override
+  String get forumsSearchBrandHint => 'Search a brand…';
+
+  @override
+  String get forumsSearchModelHint => 'Search a model…';
+
+  @override
+  String get forumsNoBrandMatches => 'No brands match that search.';
+
+  @override
+  String get forumsNoModelMatches => 'No models match that search.';
+
+  @override
+  String get forumsNoModelsForBrand => 'No models listed for this brand.';
 
   @override
   String get forumsTagCarHelper =>
-      'Brand is set automatically from the model. Leave empty for a general thread.';
+      'Pick a brand so your thread shows up in the right hub. Adding the exact model is recommended unless your question applies to the whole brand.';
 
   @override
   String get forumsTopics => 'TOPICS';
-
-  @override
-  String get forumsComponentLabel => 'COMPONENT';
-
-  @override
-  String get forumsFormatLabel => 'FORMAT';
 
   @override
   String get forumsThreadPosted => 'Thread posted.';

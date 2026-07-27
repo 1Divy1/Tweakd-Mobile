@@ -847,6 +847,9 @@ extension GetItInjectableX on _i174.GetIt {
         getSuggestions: gh<_i231.GetComposeSuggestionsUseCase>(),
       ),
     );
+    gh.factory<_i813.ForumBrowseBloc>(
+      () => _i813.ForumBrowseBloc(getBrands: gh<_i408.GetBrandsUseCase>()),
+    );
     gh.factory<_i236.FollowBloc>(
       () => _i236.FollowBloc(
         getFollowStatus: gh<_i28.GetFollowStatusUseCase>(),
@@ -875,12 +878,6 @@ extension GetItInjectableX on _i174.GetIt {
         getBrands: gh<_i408.GetBrandsUseCase>(),
         getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
         submitOnboarding: gh<_i1016.SubmitOnboardingUseCase>(),
-      ),
-    );
-    gh.factory<_i813.ForumBrowseBloc>(
-      () => _i813.ForumBrowseBloc(
-        getBrands: gh<_i408.GetBrandsUseCase>(),
-        getTopics: gh<_i354.GetForumTopicsUseCase>(),
       ),
     );
     gh.factory<_i462.SearchBloc>(
