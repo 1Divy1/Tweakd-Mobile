@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/shared/widgets/app_pill_button.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/forum_filter.dart';
@@ -13,7 +14,6 @@ import '../utils/forum_format.dart';
 import '../widgets/hub/save_shortcut_sheet.dart';
 import '../widgets/shared/forum_chips.dart';
 import '../widgets/shared/forum_error_view.dart';
-import '../widgets/shared/forum_pill_button.dart';
 import '../widgets/shared/forum_section_label.dart';
 import '../widgets/shared/forum_sort_tabs.dart';
 import '../widgets/shared/forum_sub_top_bar.dart';
@@ -106,7 +106,7 @@ class _ForumHubPageState extends State<ForumHubPage> {
                 ForumSubTopBar(
                   title: filter.title.toUpperCase(),
                   subtitle: subtitle.isEmpty ? null : subtitle,
-                  trailing: ForumPillButton(
+                  trailing: AppPillButton(
                     icon: Icons.notifications_none_rounded,
                     onTap: () => _openSaveSheet(notifyDefault: true),
                   ),

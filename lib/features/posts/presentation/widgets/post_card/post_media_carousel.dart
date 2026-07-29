@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../domain/entities/post_image.dart';
 import '../post_detail/pinch_zoom.dart';
+import 'post_image_viewer.dart';
 
 /// Shared post media: a swipeable image carousel with a `1/n` counter pill and
 /// page dots. Reused by the feed card (cover fit, rounded, with the design's
@@ -22,9 +23,10 @@ class PostMediaCarousel extends StatefulWidget {
   /// the right with a small gap — the overlapping look from the feed design.
   final bool peek;
 
-  /// Single-finger tap on the image (the feed card opens the post detail).
-  /// Coexists with [enableZoom]: a tap never has a second pointer, so the
-  /// pinch recognizer leaves it alone.
+  /// Single-finger tap on the image. Coexists with [enableZoom]: a tap never
+  /// has a second pointer, so the pinch recognizer leaves it alone. When null
+  /// (the default), tapping opens the full-screen image viewer popup over the
+  /// current screen, starting at the tapped page.
   final VoidCallback? onTap;
 
   const PostMediaCarousel({
@@ -116,7 +118,7 @@ class _PostMediaCarouselState extends State<PostMediaCarousel> {
                   ),
                   child: ClipRRect(
                     borderRadius: widget.borderRadius,
-                    child: _buildImage(images[i]),
+                    child: _buildImage(images[i], i),
                   ),
                 ),
               ),
@@ -140,7 +142,15 @@ class _PostMediaCarouselState extends State<PostMediaCarousel> {
     );
   }
 
-  Widget _buildImage(PostImageEntity image) {
+  void _openFullScreen(int index) {
+    showPostImageViewer(
+      context,
+      images: widget.images,
+      initialIndex: index,
+    );
+  }
+
+  Widget _buildImage(PostImageEntity image, int index) {
     final picture = CachedNetworkImage(
       imageUrl: image.imageUrl,
       fit: widget.fit,
@@ -164,13 +174,11 @@ class _PostMediaCarouselState extends State<PostMediaCarousel> {
         child: child,
       );
     }
-    if (widget.onTap != null) {
-      child = GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: widget.onTap,
-        child: child,
-      );
-    }
+    child = GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: widget.onTap ?? () => _openFullScreen(index),
+      child: child,
+    );
     return child;
   }
 }

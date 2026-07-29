@@ -42,8 +42,7 @@ class MyReportTile extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.line),
+        borderRadius: BorderRadius.circular(18),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +52,7 @@ class MyReportTile extends StatelessWidget {
             height: 40,
             decoration: BoxDecoration(
               color: AppColors.bg,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(18),
             ),
             child: Icon(icon, color: AppColors.mute, size: 20),
           ),

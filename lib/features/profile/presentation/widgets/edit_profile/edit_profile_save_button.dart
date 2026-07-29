@@ -27,7 +27,7 @@ class EditProfileSaveButton extends StatelessWidget {
         height: 52,
         decoration: BoxDecoration(
           color: active ? AppColors.accent : AppColors.line,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(18),
         ),
         alignment: Alignment.center,
         child: isLoading

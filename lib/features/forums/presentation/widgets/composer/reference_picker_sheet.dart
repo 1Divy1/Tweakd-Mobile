@@ -191,7 +191,6 @@ class _SheetSearchField extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.bg,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.line),
       ),
       child: Row(
         children: [
@@ -210,6 +209,7 @@ class _SheetSearchField extends StatelessWidget {
               ),
               decoration: InputDecoration(
                 border: InputBorder.none,
+                filled: false,
                 hintText: hint,
                 hintStyle: const TextStyle(
                   color: AppColors.muteSoft,

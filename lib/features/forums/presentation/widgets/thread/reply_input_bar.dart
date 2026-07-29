@@ -43,7 +43,10 @@ class ReplyInputBar extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
         color: AppColors.surface,
-        border: Border(top: BorderSide(color: AppColors.line)),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(28),
+          topRight: Radius.circular(28),
+        ),
       ),
       child: SafeArea(
         top: false,
@@ -94,32 +97,24 @@ class ReplyInputBar extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      decoration: BoxDecoration(
-                        color: AppColors.bgSoft,
-                        borderRadius: BorderRadius.circular(999),
-                        border: Border.all(color: AppColors.line),
+                    child: TextField(
+                      controller: controller,
+                      focusNode: focusNode,
+                      minLines: 1,
+                      maxLines: 4,
+                      cursorColor: AppColors.accent,
+                      style: const TextStyle(
+                        color: AppColors.ink,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
                       ),
-                      child: TextField(
-                        controller: controller,
-                        focusNode: focusNode,
-                        minLines: 1,
-                        maxLines: 4,
-                        cursorColor: AppColors.accent,
-                        style: const TextStyle(
-                          color: AppColors.ink,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: l10n.forumsAddReply,
+                        hintStyle: const TextStyle(
+                          color: AppColors.muteSoft,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
-                        ),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: l10n.forumsAddReply,
-                          hintStyle: const TextStyle(
-                            color: AppColors.muteSoft,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
                         ),
                       ),
                     ),
@@ -130,9 +125,10 @@ class ReplyInputBar extends StatelessWidget {
                     child: Container(
                       width: 44,
                       height: 44,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: AppColors.accent,
-                        shape: BoxShape.circle,
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(18),
                       ),
                       child: isSubmitting
                           ? const Padding(
@@ -183,7 +179,6 @@ class _TagButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: active ? AppColors.accentSoft : AppColors.bgSoft,
             shape: BoxShape.circle,
-            border: Border.all(color: AppColors.line),
           ),
           child: Icon(
             Icons.person_add_alt_1_rounded,

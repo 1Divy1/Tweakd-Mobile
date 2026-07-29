@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/shared/bloc/unread_count_cubit.dart';
+import '../../../../core/shared/widgets/app_pill_button.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../messages/presentation/bloc/unread/cubit.dart';
 import '../../../notifications/presentation/bloc/unread/cubit.dart';
@@ -100,24 +101,12 @@ class _PillButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: Icon(icon, color: AppColors.ink, size: 22),
-          ),
-          if (badge != null) Positioned(top: -5, right: -5, child: badge!),
-        ],
-      ),
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        AppPillButton(icon: icon, onTap: onTap),
+        if (badge != null) Positioned(top: -5, right: -5, child: badge!),
+      ],
     );
   }
 }

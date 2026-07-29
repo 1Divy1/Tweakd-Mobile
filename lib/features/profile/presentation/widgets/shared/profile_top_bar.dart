@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/shared/widgets/app_pill_button.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 class ProfileTopBar extends StatelessWidget {
@@ -24,8 +25,8 @@ class ProfileTopBar extends StatelessWidget {
           SizedBox(
             width: 44,
             child: showBackButton
-                ? _PillIconButton(
-                    icon: Icons.chevron_left,
+                ? AppPillButton(
+                    icon: Icons.chevron_left_rounded,
                     onTap: () {
                       if (context.canPop()) {
                         context.pop();
@@ -49,31 +50,6 @@ class ProfileTopBar extends StatelessWidget {
           ),
           SizedBox(width: 44, child: trailing),
         ],
-      ),
-    );
-  }
-}
-
-class _PillIconButton extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback onTap;
-
-  const _PillIconButton({required this.icon, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
-        width: 44,
-        height: 36,
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.line),
-        ),
-        child: Icon(icon, color: AppColors.ink, size: 20),
       ),
     );
   }

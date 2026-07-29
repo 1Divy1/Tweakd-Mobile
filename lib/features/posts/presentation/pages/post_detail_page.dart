@@ -356,8 +356,7 @@ class _PillButton extends StatelessWidget {
         height: 36,
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.line),
+          borderRadius: BorderRadius.circular(18),
         ),
         child: Center(child: child),
       ),

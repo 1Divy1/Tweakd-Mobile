@@ -302,15 +302,15 @@
   "followActionRequested": "REQUESTED",
 
   "garageSectionEyebrow": "THE GARAGE",
-  "garageMachineCount": "{count, plural, =0{0 Machines} =1{1 Machine} other{{count} Machines}}",
+  "garageMachineCount": "{count, plural, =0{0 Cars} =1{1 Car} other{{count} Cars}}",
   "@garageMachineCount": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
   "garageAddButton": "+ ADD",
-  "garageEmptyOwner": "Your garage is empty. Add your first machine.",
-  "garageEmptyVisitor": "No machines yet.",
+  "garageEmptyOwner": "Your garage is empty. Add your first car.",
+  "garageEmptyVisitor": "No cars yet.",
 
   "followActionFollowing": "FOLLOWING",
   "followRemove": "REMOVE",
@@ -385,7 +385,7 @@
   "garageErrorPhotoUploadFailed": "Photo upload failed. Please try again.",
   "garageErrorEditSaveFailed": "Some changes could not be saved. Please try again.",
 
-  "garagePhaseCreating": "Creating machine…",
+  "garagePhaseCreating": "Creating car",
   "garagePhaseUploadingPhotos": "Uploading photos…",
   "garagePhaseSavingChanges": "Saving changes…",
   "garagePhaseSavingPhotos": "Saving photos…",
@@ -521,7 +521,7 @@
   "garageModLogHeading": "MODIFICATION LOG",
   "garageEditCar": "Edit car",
   "garageDeleteCar": "Delete car",
-  "garageDeleteMachineTitle": "Delete machine?",
+  "garageDeleteMachineTitle": "Delete car?",
   "garageDeleteMachineBody": "This will permanently remove this car and all of its modifications from your garage. This action cannot be undone.",
   "garageDialogCancel": "Cancel",
   "garageDialogDelete": "Delete",
@@ -530,7 +530,7 @@
   "garageDeleteModTitle": "Delete modification?",
   "garageDeleteModBody": "This will permanently remove this modification and its photos from the build log. This action cannot be undone.",
   "garageDeleteModMenu": "Delete modification",
-  "garageCarRegistered": "Machine registered!",
+  "garageCarRegistered": "Car registered!",
   "garageChangesSaved": "Changes saved!",
 
   "garageValCoverPhoto": "Please pick a cover photo.",
@@ -547,7 +547,7 @@
   "garageValMileageUnit": "Please select a mileage unit.",
   "garageValStatus": "Please select a status.",
   "garageDiscardTitle": "Discard this build?",
-  "garageDiscardBody": "You haven't registered this machine yet. If you leave now, everything you entered will be lost.",
+  "garageDiscardBody": "You haven't registered this car yet. If you leave now, everything you entered will be lost.",
   "garageKeepEditing": "Keep editing",
   "garageDiscard": "Discard",
 

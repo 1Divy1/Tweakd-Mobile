@@ -580,9 +580,9 @@ class AppLocalizationsEn extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count Machines',
-      one: '1 Machine',
-      zero: '0 Machines',
+      other: '$count Cars',
+      one: '1 Car',
+      zero: '0 Cars',
     );
     return '$_temp0';
   }
@@ -591,11 +591,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageAddButton => '+ ADD';
 
   @override
-  String get garageEmptyOwner =>
-      'Your garage is empty. Add your first machine.';
+  String get garageEmptyOwner => 'Your garage is empty. Add your first car.';
 
   @override
-  String get garageEmptyVisitor => 'No machines yet.';
+  String get garageEmptyVisitor => 'No cars yet.';
 
   @override
   String get followActionFollowing => 'FOLLOWING';
@@ -750,7 +749,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Some changes could not be saved. Please try again.';
 
   @override
-  String get garagePhaseCreating => 'Creating machine…';
+  String get garagePhaseCreating => 'Creating car';
 
   @override
   String get garagePhaseUploadingPhotos => 'Uploading photos…';
@@ -1106,7 +1105,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageDeleteCar => 'Delete car';
 
   @override
-  String get garageDeleteMachineTitle => 'Delete machine?';
+  String get garageDeleteMachineTitle => 'Delete car?';
 
   @override
   String get garageDeleteMachineBody =>
@@ -1136,7 +1135,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageDeleteModMenu => 'Delete modification';
 
   @override
-  String get garageCarRegistered => 'Machine registered!';
+  String get garageCarRegistered => 'Car registered!';
 
   @override
   String get garageChangesSaved => 'Changes saved!';
@@ -1185,7 +1184,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get garageDiscardBody =>
-      'You haven\'t registered this machine yet. If you leave now, everything you entered will be lost.';
+      'You haven\'t registered this car yet. If you leave now, everything you entered will be lost.';
 
   @override
   String get garageKeepEditing => 'Keep editing';

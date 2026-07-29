@@ -1115,7 +1115,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageMachineCount.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =0{0 Machines} =1{1 Machine} other{{count} Machines}}'**
+  /// **'{count, plural, =0{0 Cars} =1{1 Car} other{{count} Cars}}'**
   String garageMachineCount(int count);
 
   /// No description provided for @garageAddButton.
@@ -1127,13 +1127,13 @@ abstract class AppLocalizations {
   /// No description provided for @garageEmptyOwner.
   ///
   /// In en, this message translates to:
-  /// **'Your garage is empty. Add your first machine.'**
+  /// **'Your garage is empty. Add your first car.'**
   String get garageEmptyOwner;
 
   /// No description provided for @garageEmptyVisitor.
   ///
   /// In en, this message translates to:
-  /// **'No machines yet.'**
+  /// **'No cars yet.'**
   String get garageEmptyVisitor;
 
   /// No description provided for @followActionFollowing.
@@ -1391,7 +1391,7 @@ abstract class AppLocalizations {
   /// No description provided for @garagePhaseCreating.
   ///
   /// In en, this message translates to:
-  /// **'Creating machine…'**
+  /// **'Creating car'**
   String get garagePhaseCreating;
 
   /// No description provided for @garagePhaseUploadingPhotos.
@@ -2087,7 +2087,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageDeleteMachineTitle.
   ///
   /// In en, this message translates to:
-  /// **'Delete machine?'**
+  /// **'Delete car?'**
   String get garageDeleteMachineTitle;
 
   /// No description provided for @garageDeleteMachineBody.
@@ -2141,7 +2141,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageCarRegistered.
   ///
   /// In en, this message translates to:
-  /// **'Machine registered!'**
+  /// **'Car registered!'**
   String get garageCarRegistered;
 
   /// No description provided for @garageChangesSaved.
@@ -2237,7 +2237,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageDiscardBody.
   ///
   /// In en, this message translates to:
-  /// **'You haven\'t registered this machine yet. If you leave now, everything you entered will be lost.'**
+  /// **'You haven\'t registered this car yet. If you leave now, everything you entered will be lost.'**
   String get garageDiscardBody;
 
   /// No description provided for @garageKeepEditing.

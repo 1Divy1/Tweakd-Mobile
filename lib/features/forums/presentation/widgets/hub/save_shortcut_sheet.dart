@@ -116,11 +116,10 @@ class _SaveShortcutSheetState extends State<_SaveShortcutSheet> {
           ForumSectionLabel(label: l10n.forumsShortcutNameLabel),
           const SizedBox(height: 8),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
               color: AppColors.bgSoft,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AppColors.line),
+              borderRadius: BorderRadius.circular(18),
             ),
             child: TextField(
               controller: _nameController,
@@ -133,6 +132,7 @@ class _SaveShortcutSheetState extends State<_SaveShortcutSheet> {
               ),
               decoration: const InputDecoration(
                 border: InputBorder.none,
+                filled: false,
                 counterText: '',
               ),
             ),
