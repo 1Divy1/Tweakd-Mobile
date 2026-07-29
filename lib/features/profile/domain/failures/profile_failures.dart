@@ -24,3 +24,27 @@ class InvalidUsernameFailure extends Failure {
         'Username can only contain lowercase letters, numbers, dots and underscores.',
   ]) : super(message: message);
 }
+
+/// The backend rejected an edit-profile payload (name/bio over the length
+/// limits, or an invalid avatar key) with a 400.
+class ProfileUpdateValidationFailure extends Failure {
+  const ProfileUpdateValidationFailure([
+    String message = 'Please check your name and bio and try again.',
+  ]) : super(message: message);
+}
+
+/// The 3-step avatar pipeline failed (compression, presigned PUT to R2, or the
+/// commit call) for a reason other than a validation error.
+class AvatarUploadFailure extends Failure {
+  const AvatarUploadFailure([
+    String message = 'We could not update your photo. Please try again.',
+  ]) : super(message: message);
+}
+
+/// `PATCH /profile/me/language` was rejected (unknown language code) or
+/// otherwise failed.
+class LanguageUpdateFailure extends Failure {
+  const LanguageUpdateFailure([
+    String message = 'We could not update your language. Please try again.',
+  ]) : super(message: message);
+}

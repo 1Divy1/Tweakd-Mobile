@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import 'package:car_social_media_app/features/garage/domain/entities/car_summary.dart';
 import 'package:car_social_media_app/features/garage/domain/entities/reference_data.dart';
 
 import 'forum_author.dart';
@@ -37,6 +38,13 @@ class ForumThreadEntity extends Equatable {
   /// thread card and on the thread detail.
   final bool viewerHasSaved;
 
+  /// People tagged in the OP. Anonymized threads keep their tags.
+  final List<ForumAuthorEntity> taggedPeople;
+
+  /// Cars tagged in the OP — the same summary shape the garage uses, so the
+  /// owner travels with the car.
+  final List<CarSummaryEntity> taggedCars;
+
   const ForumThreadEntity({
     required this.id,
     required this.title,
@@ -51,6 +59,8 @@ class ForumThreadEntity extends Equatable {
     this.locked = false,
     this.deleted = false,
     this.viewerHasSaved = false,
+    this.taggedPeople = const [],
+    this.taggedCars = const [],
   });
 
   @override
@@ -68,6 +78,8 @@ class ForumThreadEntity extends Equatable {
         locked,
         deleted,
         viewerHasSaved,
+        taggedPeople,
+        taggedCars,
       ];
 
   /// Returns a copy with the viewer's save state flipped — used to reflect an
@@ -86,6 +98,8 @@ class ForumThreadEntity extends Equatable {
         locked: locked,
         deleted: deleted,
         viewerHasSaved: saved,
+        taggedPeople: taggedPeople,
+        taggedCars: taggedCars,
       );
 }
 
@@ -110,6 +124,8 @@ class ForumThreadDetailEntity extends ForumThreadEntity {
     super.locked,
     super.deleted,
     super.viewerHasSaved,
+    super.taggedPeople,
+    super.taggedCars,
     this.content,
     required this.createdAt,
     this.viewerHasLiked = false,
@@ -121,6 +137,8 @@ class ForumThreadDetailEntity extends ForumThreadEntity {
     bool? viewerHasLiked,
     bool? viewerHasSaved,
     String? content,
+    List<ForumAuthorEntity>? taggedPeople,
+    List<CarSummaryEntity>? taggedCars,
   }) {
     return ForumThreadDetailEntity(
       id: id,
@@ -136,6 +154,8 @@ class ForumThreadDetailEntity extends ForumThreadEntity {
       locked: locked,
       deleted: deleted,
       viewerHasSaved: viewerHasSaved ?? this.viewerHasSaved,
+      taggedPeople: taggedPeople ?? this.taggedPeople,
+      taggedCars: taggedCars ?? this.taggedCars,
       content: content ?? this.content,
       createdAt: createdAt,
       viewerHasLiked: viewerHasLiked ?? this.viewerHasLiked,

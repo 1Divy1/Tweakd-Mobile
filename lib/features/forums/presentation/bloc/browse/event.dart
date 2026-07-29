@@ -7,7 +7,7 @@ sealed class ForumBrowseEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Loads the brand catalog and the topic groups for the two browse tabs.
+/// Loads the brand catalog shown on the browse page.
 class LoadForumBrowse extends ForumBrowseEvent {
   const LoadForumBrowse();
 }

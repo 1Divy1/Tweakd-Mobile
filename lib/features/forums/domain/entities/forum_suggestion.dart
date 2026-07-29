@@ -2,11 +2,11 @@ import 'package:equatable/equatable.dart';
 
 /// What a popular-hub suggestion points at. Drives navigation and which id
 /// field is sent when the suggestion is pinned as a shortcut.
-enum ForumSuggestionType { brand, model, topic }
+enum ForumSuggestionType { brand, model }
 
-/// One entry from `GET /forums/suggestions`: the most active brands, models and
-/// topics, merged and ranked by thread count. [subtitle] carries a model's
-/// brand (so "M4" reads "BMW M4"); it's null for brands and topics.
+/// One entry from `GET /forums/suggestions`: the most active brands and models,
+/// merged and ranked by thread count. [subtitle] carries a model's brand (so
+/// "M4" reads "BMW M4"); it's null for brands.
 class ForumSuggestionEntity extends Equatable {
   final ForumSuggestionType type;
   final String id;
@@ -22,7 +22,7 @@ class ForumSuggestionEntity extends Equatable {
     this.threadCount = 0,
   });
 
-  /// Display label, e.g. "BMW M4" for a model, "BMW" / "Engine" otherwise.
+  /// Display label, e.g. "BMW M4" for a model, "BMW" for a brand.
   String get displayName =>
       subtitle != null && subtitle!.isNotEmpty ? '$subtitle $name' : name;
 

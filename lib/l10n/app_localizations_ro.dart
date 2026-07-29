@@ -21,6 +21,17 @@ class AppLocalizationsRo extends AppLocalizations {
   String get languageRomanian => 'Română';
 
   @override
+  String get settingsLanguagePickerTitle => 'Alege limba';
+
+  @override
+  String get settingsLanguageLoadError =>
+      'Nu am putut încărca opțiunile de limbă. Te rugăm să încerci din nou.';
+
+  @override
+  String get settingsLanguageUpdateError =>
+      'Nu am putut actualiza limba. Te rugăm să încerci din nou.';
+
+  @override
   String get commonSave => 'Salvează';
 
   @override
@@ -477,7 +488,17 @@ class AppLocalizationsRo extends AppLocalizations {
       'Când un articol salvat primește o reducere';
 
   @override
+  String get onboardingNotifTagsTitle => 'Etichetări';
+
+  @override
+  String get onboardingNotifTagsSubtitle =>
+      'Când cineva te etichetează pe tine sau mașina ta';
+
+  @override
   String get profileTitle => 'PROFIL';
+
+  @override
+  String get profileMessage => 'Mesaj';
 
   @override
   String get profileStatFollowers => 'URMĂRITORI';
@@ -502,6 +523,49 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get profileErrorGeneric => 'Ceva nu a mers bine. Încearcă din nou.';
+
+  @override
+  String get profileErrorNetwork =>
+      'Fără conexiune la internet. Te rugăm să încerci din nou.';
+
+  @override
+  String get profileEditButton => 'Editează profilul';
+
+  @override
+  String get editProfileTitle => 'EDITEAZĂ PROFILUL';
+
+  @override
+  String get editProfileChangePhoto => 'Schimbă poza';
+
+  @override
+  String get editProfileNameLabel => 'NUME';
+
+  @override
+  String get editProfileNameHint => 'Numele tău afișat';
+
+  @override
+  String get editProfileBioLabel => 'BIO';
+
+  @override
+  String get editProfileBioHint =>
+      'Spune-le altora câteva lucruri despre tine…';
+
+  @override
+  String get editProfileSave => 'Salvează modificările';
+
+  @override
+  String get editProfileSaved => 'Profil actualizat';
+
+  @override
+  String get editProfilePhotoUpdated => 'Poză actualizată';
+
+  @override
+  String get editProfileErrorInvalid =>
+      'Verifică numele și bio-ul, apoi încearcă din nou.';
+
+  @override
+  String get editProfileErrorAvatar =>
+      'Nu am putut actualiza poza. Te rugăm să încerci din nou.';
 
   @override
   String get followActionFollow => 'URMĂREȘTE';
@@ -639,9 +703,6 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get navProfile => 'PROFIL';
-
-  @override
-  String get feedComingSoon => 'În curând';
 
   @override
   String get feedEmptyTitle => 'Feedul tău e liniștit';
@@ -1451,6 +1512,16 @@ class AppLocalizationsRo extends AppLocalizations {
   String get postsCreateFirst => 'CREEAZĂ PRIMA POSTARE';
 
   @override
+  String get savedPostsTitle => 'POSTĂRI SALVATE';
+
+  @override
+  String get savedPostsEmptyTitle => 'Nimic salvat încă';
+
+  @override
+  String get savedPostsEmptyBody =>
+      'Salvează postările care îți plac ca să le găsești aici mai târziu.';
+
+  @override
   String get postDetailTitle => 'POSTARE';
 
   @override
@@ -1670,6 +1741,9 @@ class AppLocalizationsRo extends AppLocalizations {
       'Raportul nu a putut fi trimis. Încearcă din nou.';
 
   @override
+  String get settingsSavedPosts => 'Postările tale salvate';
+
+  @override
   String get settingsMyReports => 'Rapoartele mele';
 
   @override
@@ -1862,12 +1936,6 @@ class AppLocalizationsRo extends AppLocalizations {
   String get forumsBrowseTitle => 'EXPLOREAZĂ';
 
   @override
-  String get forumsByCar => 'După mașină';
-
-  @override
-  String get forumsByTopic => 'După subiect';
-
-  @override
   String forumsBrandsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -1888,12 +1956,6 @@ class AppLocalizationsRo extends AppLocalizations {
     );
     return '$_temp0';
   }
-
-  @override
-  String get forumsByComponent => 'DUPĂ COMPONENTĂ';
-
-  @override
-  String get forumsByFormat => 'DUPĂ FORMAT';
 
   @override
   String get forumsModels => 'MODELE';
@@ -2052,28 +2114,39 @@ class AppLocalizationsRo extends AppLocalizations {
       'Împărtășește detalii, întrebări sau writeup-ul tău…';
 
   @override
-  String get forumsTagACar => 'ETICHETEAZĂ O MAȘINĂ';
+  String get forumsBrandRequiredLabel => 'MARCĂ · OBLIGATORIU';
 
   @override
-  String forumsFromYourGarage(String car) {
-    return 'Din garajul tău · $car';
-  }
+  String get forumsModelOptionalLabel => 'MODEL · OPȚIONAL';
 
   @override
-  String get forumsSearchCarHint => 'Caută un model…';
+  String get forumsSearchBrandHint => 'Caută o marcă…';
+
+  @override
+  String get forumsSearchModelHint => 'Caută un model…';
+
+  @override
+  String get forumsChooseBrand => 'Alege o marcă';
+
+  @override
+  String get forumsChooseModel => 'Alege un model';
+
+  @override
+  String get forumsNoBrandMatches => 'Nicio marcă nu corespunde căutării.';
+
+  @override
+  String get forumsNoModelMatches => 'Niciun model nu corespunde căutării.';
+
+  @override
+  String get forumsNoModelsForBrand =>
+      'Niciun model listat pentru această marcă.';
 
   @override
   String get forumsTagCarHelper =>
-      'Marca se setează automat din model. Lasă gol pentru un thread general.';
+      'Alege o marcă pentru ca thread-ul tău să apară în hub-ul potrivit. Este recomandat să adaugi și modelul exact, dacă întrebarea nu se referă la întreaga marcă.';
 
   @override
   String get forumsTopics => 'SUBIECTE';
-
-  @override
-  String get forumsComponentLabel => 'COMPONENTĂ';
-
-  @override
-  String get forumsFormatLabel => 'FORMAT';
 
   @override
   String get forumsThreadPosted => 'Thread postat.';
@@ -2088,7 +2161,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get forumsSaved => 'Salvat';
 
   @override
-  String get forumsAuthorBadge => 'OP';
+  String get forumsAuthorBadge => 'Autor';
 
   @override
   String get forumsRepliesOldest => 'Cele mai vechi';
@@ -2132,4 +2205,245 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get forumsErrorGeneric => 'Ceva n-a mers bine. Încearcă din nou.';
+
+  @override
+  String get forumsErrorInvalidTags =>
+      'Unul dintre profilurile sau mașinile etichetate nu mai este disponibil.';
+
+  @override
+  String get forumsTagPeopleAndCars => 'ETICHETEAZĂ PERSOANE ȘI MAȘINI';
+
+  @override
+  String get forumsTagPeople => 'PERSOANE';
+
+  @override
+  String get forumsTagCars => 'MAȘINI';
+
+  @override
+  String get forumsTagHelper =>
+      'Menționează pe cineva ca să alegi mașini din garajul lui. Mașinile tale pot fi etichetate fără să te menționezi.';
+
+  @override
+  String get forumsTagPeopleHint => 'Caută un nume de utilizator…';
+
+  @override
+  String get forumsTagAddCar => 'Etichetează o mașină';
+
+  @override
+  String get forumsTagChoosePerson => 'A cui mașină?';
+
+  @override
+  String get forumsTagChooseCar => 'Alege o mașină';
+
+  @override
+  String get forumsTagYourGarage => 'Garajul tău';
+
+  @override
+  String get forumsTagNoPeopleFound => 'Niciun profil nu se potrivește.';
+
+  @override
+  String get forumsTagLoadError => 'Nu s-a putut încărca. Încearcă din nou.';
+
+  @override
+  String get forumsTagNoCars => 'Persoana nu are mașini de etichetat.';
+
+  @override
+  String get forumsTagNoOwnCars => 'Garajul tău este gol.';
+
+  @override
+  String get forumsTagPersonFirst =>
+      'Menționează întâi pe cineva ca să-i etichetezi o mașină.';
+
+  @override
+  String forumsTagLimitReached(int limit) {
+    return 'Poți eticheta cel mult $limit deodată.';
+  }
+
+  @override
+  String get forumsTagsSheetTitle => 'Etichete';
+
+  @override
+  String get forumsTagsDone => 'Gata';
+
+  @override
+  String get forumsAddTagsTooltip => 'Etichetează persoane și mașini';
+
+  @override
+  String get forumsTagsSectionLabel => 'ETICHETE';
+
+  @override
+  String get messagesTitle => 'MESAJE';
+
+  @override
+  String get messagesSearchHint => 'Caută în mesaje';
+
+  @override
+  String get messagesActiveNow => 'ACTIVI ACUM';
+
+  @override
+  String get messagesRequestsTitle => 'Cereri de mesaje';
+
+  @override
+  String messagesRequestsOthers(String names, int count) {
+    return '$names & încă $count';
+  }
+
+  @override
+  String get messagesEmptyTitle => 'Niciun mesaj încă';
+
+  @override
+  String get messagesEmptyBody =>
+      'Începe o conversație cu șoferii pe care îi urmărești — planificați întâlniri, comparați specificații, împărtășiți ture.';
+
+  @override
+  String get messagesNewMessage => 'MESAJ NOU';
+
+  @override
+  String messagesYouPrefix(String text) {
+    return 'Tu: $text';
+  }
+
+  @override
+  String get messagesSharedPost => 'A distribuit o postare';
+
+  @override
+  String get messagesTimeNow => 'acum';
+
+  @override
+  String messagesTimeMinutes(int count) {
+    return '${count}m';
+  }
+
+  @override
+  String messagesTimeHours(int count) {
+    return '${count}h';
+  }
+
+  @override
+  String messagesTimeDays(int count) {
+    return '${count}z';
+  }
+
+  @override
+  String messagesTimeWeeks(int count) {
+    return '${count}s';
+  }
+
+  @override
+  String get messagesActiveNowStatus => 'Activ acum';
+
+  @override
+  String messagesLastSeen(String ago) {
+    return 'Ultima activitate: $ago';
+  }
+
+  @override
+  String messagesMutualFollow(String followers) {
+    return 'Vă urmăriți reciproc · $followers urmăritori';
+  }
+
+  @override
+  String messagesDatePill(String time) {
+    return 'AZI · $time';
+  }
+
+  @override
+  String get messagesSeen => 'Văzut';
+
+  @override
+  String get messagesDeletedMessage => 'Mesaj șters';
+
+  @override
+  String get messagesDeleteMessage => 'Șterge mesajul';
+
+  @override
+  String get messagesDeleteMessageBody => 'Îl elimină pentru amândoi.';
+
+  @override
+  String get messagesDeleteChat => 'Șterge conversația';
+
+  @override
+  String get messagesDeleteChatBody =>
+      'O ascunde doar din lista ta — revine la un mesaj nou.';
+
+  @override
+  String get messagesInputHint => 'Mesaj…';
+
+  @override
+  String get messagesEmptyChat => 'Niciun mesaj încă — salută 👋';
+
+  @override
+  String get messagesComposeTitle => 'Mesaj nou';
+
+  @override
+  String get messagesComposeSearchHint => 'Caută șoferi…';
+
+  @override
+  String get messagesComposeEmpty => 'Niciun șofer găsit';
+
+  @override
+  String get messagesComingSoon => 'În curând';
+
+  @override
+  String get messagesRetry => 'Încearcă din nou';
+
+  @override
+  String get messagesErrorNetwork =>
+      'Nu există conexiune la internet. Încearcă din nou.';
+
+  @override
+  String get messagesErrorGeneric => 'Ceva n-a mers bine. Încearcă din nou.';
+
+  @override
+  String get messagesSharedCars => 'Mașini partajate';
+
+  @override
+  String get messagesShareCarsTitle => 'Partajează mașini';
+
+  @override
+  String get messagesShareCarsSubtitle => 'Alege mașini din garajul tău';
+
+  @override
+  String messagesShareCarsLimit(int count) {
+    return 'Poți partaja cel mult $count mașini';
+  }
+
+  @override
+  String get messagesShareCarsEmpty => 'Nu ai încă nicio mașină în garaj';
+
+  @override
+  String get messagesShareCarsError =>
+      'Nu am putut încărca garajul. Încearcă din nou.';
+
+  @override
+  String messagesShareCarsConfirm(int count) {
+    return 'Partajează $count';
+  }
+
+  @override
+  String get messagesShareCarsConfirmEmpty => 'Partajează mașini';
+
+  @override
+  String get notificationsTitle => 'NOTIFICĂRI';
+
+  @override
+  String get notificationsMarkAllRead => 'Marchează toate ca citite';
+
+  @override
+  String get notificationsEmptyTitle => 'Nicio notificare încă';
+
+  @override
+  String get notificationsEmptyBody =>
+      'Aprecierile, comentariile și răspunsurile la postările și discuțiile tale vor apărea aici.';
+
+  @override
+  String get notificationsRetry => 'Încearcă din nou';
+
+  @override
+  String get notificationsErrorNetwork =>
+      'Fără conexiune la internet. Te rugăm să încerci din nou.';
+
+  @override
+  String get notificationsErrorGeneric =>
+      'Ceva nu a funcționat. Te rugăm să încerci din nou.';
 }

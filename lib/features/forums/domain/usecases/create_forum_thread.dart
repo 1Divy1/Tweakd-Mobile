@@ -8,20 +8,26 @@ import '../repositories/forums_repository.dart';
 
 class CreateForumThreadParams {
   final String title;
-  final String? content;
-
-  /// When set, the brand is derived by the backend; [brandId] is used only
-  /// when [modelId] is null.
+  final String brandId;
+  final String content;
   final String? modelId;
-  final String? brandId;
   final List<String> topicIds;
+
+  /// Profile ids tagged in the OP (max 30, deduplicated server-side).
+  final List<String> taggedPeople;
+
+  /// Car ids tagged in the OP (max 30). Every tagged car's owner must also be
+  /// in [taggedPeople] — the author's own cars are exempt.
+  final List<String> taggedCars;
 
   const CreateForumThreadParams({
     required this.title,
-    this.content,
+    required this.brandId,
+    required this.content,
     this.modelId,
-    this.brandId,
     this.topicIds = const [],
+    this.taggedPeople = const [],
+    this.taggedCars = const [],
   });
 }
 
@@ -34,13 +40,16 @@ class CreateForumThreadUseCase
 
   @override
   Future<Either<Failure, ForumThreadDetailEntity>> call(
-      CreateForumThreadParams params) {
+    CreateForumThreadParams params,
+  ) {
     return repository.createThread(
       title: params.title,
       content: params.content,
       modelId: params.modelId,
-      brandId: params.modelId == null ? params.brandId : null,
+      brandId: params.brandId,
       topicIds: params.topicIds,
+      taggedPeople: params.taggedPeople,
+      taggedCars: params.taggedCars,
     );
   }
 }

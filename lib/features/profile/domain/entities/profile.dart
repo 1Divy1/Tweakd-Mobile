@@ -11,6 +11,7 @@ class ProfileEntity {
   final bool isVerified;
   final bool isBusiness;
   final bool requiresOnboarding;
+  final String appLanguage;
 
   const ProfileEntity({
     required this.id,
@@ -25,6 +26,7 @@ class ProfileEntity {
     required this.isVerified,
     required this.isBusiness,
     required this.requiresOnboarding,
+    required this.appLanguage,
   });
 
   ProfileEntity copyWith({int? followersCount}) {
@@ -41,6 +43,7 @@ class ProfileEntity {
       isVerified: isVerified,
       isBusiness: isBusiness,
       requiresOnboarding: requiresOnboarding,
+      appLanguage: appLanguage,
     );
   }
 }

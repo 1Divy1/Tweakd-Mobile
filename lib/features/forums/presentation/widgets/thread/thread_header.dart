@@ -6,6 +6,7 @@ import '../../../domain/entities/forum_thread.dart';
 import '../../utils/forum_format.dart';
 import '../shared/forum_avatar.dart';
 import '../shared/forum_chips.dart';
+import '../shared/forum_tag_row.dart';
 
 /// The OP block of the thread page: status banner, title, author line, body,
 /// tags and the like / replies / share action row.
@@ -124,6 +125,14 @@ class ThreadHeader extends StatelessWidget {
                 ForumTagChip(label: topic.name),
             ],
           ),
+          if (thread.taggedPeople.isNotEmpty ||
+              thread.taggedCars.isNotEmpty) ...[
+            const SizedBox(height: 10),
+            ForumTagRow(
+              people: thread.taggedPeople,
+              cars: thread.taggedCars,
+            ),
+          ],
           const SizedBox(height: 16),
           const Divider(color: AppColors.line, height: 1),
           const SizedBox(height: 10),

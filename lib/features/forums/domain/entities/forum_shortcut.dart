@@ -5,9 +5,10 @@ import 'package:car_social_media_app/features/garage/domain/entities/reference_d
 import 'forum_filter.dart';
 import 'forum_topic.dart';
 
-/// A pinned filter on the forums home ("your paddock"). At least one of
-/// [brand] / [model] / [topic] is set; the filter itself is immutable on the
-/// backend (delete + recreate to change it).
+/// A pinned filter on the forums home ("your paddock"). Always car-rooted:
+/// [brand] is set (plus [model] for a model shortcut), with [topic] as an
+/// optional refinement. The filter itself is immutable on the backend
+/// (delete + recreate to change it).
 class ForumShortcutEntity extends Equatable {
   final String id;
   final String name;
@@ -36,6 +37,10 @@ class ForumShortcutEntity extends Equatable {
 
   ForumFilter get filter =>
       ForumFilter(brand: brand, model: model, topic: topic);
+
+  /// Topic-only shortcuts are a leftover of the old topic hubs — there is no
+  /// endpoint to open them any more, so they are dropped on the way in.
+  bool get isCarRooted => brand != null || model != null;
 
   @override
   List<Object?> get props =>

@@ -10,7 +10,16 @@ class EditForumReplyParams {
   final String postId;
   final String content;
 
-  const EditForumReplyParams({required this.postId, required this.content});
+  /// Replace-all tag sets; null leaves that set untouched, empty clears it.
+  final List<String>? taggedPeople;
+  final List<String>? taggedCars;
+
+  const EditForumReplyParams({
+    required this.postId,
+    required this.content,
+    this.taggedPeople,
+    this.taggedCars,
+  });
 }
 
 @lazySingleton
@@ -22,7 +31,12 @@ class EditForumReplyUseCase
 
   @override
   Future<Either<Failure, ForumReplyEntity>> call(EditForumReplyParams params) {
-    return repository.editReply(params.postId, content: params.content);
+    return repository.editReply(
+      params.postId,
+      content: params.content,
+      taggedPeople: params.taggedPeople,
+      taggedCars: params.taggedCars,
+    );
   }
 }
 

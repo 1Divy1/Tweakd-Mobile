@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/shared/widgets/app_shimmer.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 /// Placeholder card shown while a thread list loads (matches the loading
@@ -17,31 +18,33 @@ class ForumThreadCardSkeleton extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: AppColors.line),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const _Bar(widthFactor: 0.9, height: 14),
-          const SizedBox(height: 8),
-          const _Bar(widthFactor: 0.55, height: 14),
-          const SizedBox(height: 14),
-          Row(
-            children: const [
-              _Circle(size: 18),
-              SizedBox(width: 8),
-              _Bar(width: 120, height: 10),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Row(
-            children: const [
-              _Bar(width: 48, height: 20),
-              SizedBox(width: 6),
-              _Bar(width: 48, height: 20),
-              SizedBox(width: 6),
-              _Bar(width: 48, height: 20),
-            ],
-          ),
-        ],
+      child: AppShimmer(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const _Bar(widthFactor: 0.9, height: 14),
+            const SizedBox(height: 8),
+            const _Bar(widthFactor: 0.55, height: 14),
+            const SizedBox(height: 14),
+            Row(
+              children: const [
+                _Circle(size: 18),
+                SizedBox(width: 8),
+                _Bar(width: 120, height: 10),
+              ],
+            ),
+            const SizedBox(height: 14),
+            Row(
+              children: const [
+                _Bar(width: 48, height: 20),
+                SizedBox(width: 6),
+                _Bar(width: 48, height: 20),
+                SizedBox(width: 6),
+                _Bar(width: 48, height: 20),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

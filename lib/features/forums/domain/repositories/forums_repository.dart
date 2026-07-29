@@ -11,7 +11,7 @@ import '../entities/forum_thread.dart';
 import '../entities/forum_topic.dart';
 
 abstract class ForumsRepository {
-  Future<Either<Failure, List<ForumTopicGroupEntity>>> getTopics();
+  Future<Either<Failure, List<ForumTopicEntity>>> getTopics();
 
   /// Thread lists. An empty/null [filter] hits the global forums feed;
   /// otherwise the brand / model / topic endpoint matching the filter.
@@ -42,16 +42,22 @@ abstract class ForumsRepository {
 
   Future<Either<Failure, ForumThreadDetailEntity>> createThread({
     required String title,
-    String? content,
+    required String content,
+    required String brandId,
     String? modelId,
-    String? brandId,
     List<String> topicIds,
+    List<String> taggedPeople,
+    List<String> taggedCars,
   });
 
-  /// Author-only edit of the OP body (title/topics/car are immutable).
+  /// Author-only edit of the OP body and its tags (title/topics/car are
+  /// immutable). A null tag list leaves that set unchanged; a non-null one
+  /// replaces it (empty clears it).
   Future<Either<Failure, ForumThreadDetailEntity>> editThread(
     String threadId, {
     required String content,
+    List<String>? taggedPeople,
+    List<String>? taggedCars,
   });
 
   Future<Either<Failure, void>> deleteThread(String threadId);
@@ -60,11 +66,16 @@ abstract class ForumsRepository {
     String threadId, {
     required String content,
     String? parentPostId,
+    List<String> taggedPeople,
+    List<String> taggedCars,
   });
 
+  /// Same tag semantics as [editThread]; [content] must be non-blank.
   Future<Either<Failure, ForumReplyEntity>> editReply(
     String postId, {
     required String content,
+    List<String>? taggedPeople,
+    List<String>? taggedCars,
   });
 
   Future<Either<Failure, void>> deleteReply(String postId);

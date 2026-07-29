@@ -64,11 +64,15 @@ class ImageService {
     try {
       await _uploader.putUri(
         Uri.parse(uploadUrl),
-        data: Stream.fromIterable([bytes]),
+        // Send the raw bytes directly (NOT wrapped in a Stream). Dio then sets a
+        // correct fixed Content-Length and sends a non-chunked body — a presigned
+        // R2 PUT rejects `Transfer-Encoding: chunked`, which is what a streamed
+        // body produces when Dio can't infer the length from `options`.
+        data: bytes,
         options: Options(
           headers: {
             'Content-Type': contentType,
-            'Content-Length': bytes.length,
+            Headers.contentLengthHeader: bytes.length,
           },
         ),
       );

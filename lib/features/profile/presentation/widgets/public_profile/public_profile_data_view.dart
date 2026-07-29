@@ -25,6 +25,7 @@ import '../shared/profile_section_tabs.dart';
 import '../shared/profile_stats_row.dart';
 import '../shared/profile_top_bar.dart';
 import 'follow_button.dart';
+import 'message_button.dart';
 import 'profile_options_sheet.dart';
 
 class PublicProfileDataView extends StatefulWidget {
@@ -110,7 +111,15 @@ class _PublicProfileDataViewState extends State<PublicProfileDataView> {
                     const SizedBox(height: 14),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: FollowButton(username: profile.username),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: FollowButton(username: profile.username),
+                          ),
+                          const SizedBox(width: 10),
+                          MessageButton(profile: profile),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 22),
                     ProfileSectionTabs(

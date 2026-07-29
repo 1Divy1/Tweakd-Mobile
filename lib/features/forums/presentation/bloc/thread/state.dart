@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
+
 import '../../../domain/entities/forum_reply.dart';
 import '../../../domain/entities/forum_thread.dart';
 import '../../utils/forum_error_mapper.dart';
@@ -105,6 +107,11 @@ class ForumThreadState extends Equatable {
   final bool isSubmitting;
   final String? replyingToId;
   final String? replyingToUsername;
+
+  /// Tags attached to the reply being composed, cleared once it is sent.
+  final List<TaggedPerson> replyTaggedPeople;
+  final List<TaggedCar> replyTaggedCars;
+
   final int replySentTick;
   final bool threadDeleted;
   final ForumErrorCode? actionError;
@@ -122,6 +129,8 @@ class ForumThreadState extends Equatable {
     this.isSubmitting = false,
     this.replyingToId,
     this.replyingToUsername,
+    this.replyTaggedPeople = const [],
+    this.replyTaggedCars = const [],
     this.replySentTick = 0,
     this.threadDeleted = false,
     this.actionError,
@@ -144,6 +153,9 @@ class ForumThreadState extends Equatable {
     String? replyingToId,
     String? replyingToUsername,
     bool clearReplyTarget = false,
+    List<TaggedPerson>? replyTaggedPeople,
+    List<TaggedCar>? replyTaggedCars,
+    bool clearReplyTags = false,
     bool bumpReplySent = false,
     bool? threadDeleted,
     ForumErrorCode? actionError,
@@ -164,6 +176,12 @@ class ForumThreadState extends Equatable {
       replyingToUsername: clearReplyTarget
           ? null
           : (replyingToUsername ?? this.replyingToUsername),
+      replyTaggedPeople: clearReplyTags
+          ? const []
+          : (replyTaggedPeople ?? this.replyTaggedPeople),
+      replyTaggedCars: clearReplyTags
+          ? const []
+          : (replyTaggedCars ?? this.replyTaggedCars),
       replySentTick: bumpReplySent ? replySentTick + 1 : replySentTick,
       threadDeleted: threadDeleted ?? this.threadDeleted,
       actionError: actionError ?? this.actionError,
@@ -185,6 +203,8 @@ class ForumThreadState extends Equatable {
         isSubmitting,
         replyingToId,
         replyingToUsername,
+        replyTaggedPeople,
+        replyTaggedCars,
         replySentTick,
         threadDeleted,
         actionError,

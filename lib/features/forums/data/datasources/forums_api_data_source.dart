@@ -15,15 +15,17 @@ class ForumsApiDataSource {
 
   ForumsApiDataSource(this.http);
 
-  Future<List<ForumTopicGroupModel>> getTopics() async {
+  /// Flat list, already ordered by `sort_order`.
+  Future<List<ForumTopicModel>> getTopics() async {
     final data = await http.get('/forums/topics');
     return (data as List<dynamic>)
-        .map((e) => ForumTopicGroupModel.fromJson(e as Map<String, dynamic>))
+        .map((e) => ForumTopicModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
 
   /// Picks the list endpoint from the filter: model beats brand, a topic
-  /// narrows via query params, and no filter at all is the global feed.
+  /// narrows either of them via `?topic=`, and no car at all is the global
+  /// feed. A topic on its own has no endpoint — it always rides on a hub.
   Future<ForumThreadPageModel> getThreads({
     ForumFilter? filter,
     required ForumThreadSort sort,
@@ -39,14 +41,11 @@ class ForumsApiDataSource {
     final String path;
     if (filter == null || filter.isEmpty) {
       path = '/forums/feed';
-    } else if (filter.model != null) {
-      path = '/forums/models/${filter.model!.id}/threads';
-      if (filter.topic != null) query['topic'] = filter.topic!.id;
-    } else if (filter.topic != null) {
-      path = '/forums/topics/${filter.topic!.id}/threads';
-      if (filter.brand != null) query['brand'] = filter.brand!.id;
     } else {
-      path = '/forums/brands/${filter.brand!.id}/threads';
+      path = filter.model != null
+          ? '/forums/models/${filter.model!.id}/threads'
+          : '/forums/brands/${filter.brand!.id}/threads';
+      if (filter.topic != null) query['topic'] = filter.topic!.id;
     }
 
     final data = await http.get(path, queryParameters: query);
@@ -66,7 +65,11 @@ class ForumsApiDataSource {
   }) async {
     final data = await http.get(
       '/forums/threads/$threadId/replies',
-      queryParameters: {'sort': sort.apiValue, 'cursor': ?cursor, 'size': ?size},
+      queryParameters: {
+        'sort': sort.apiValue,
+        'cursor': ?cursor,
+        'size': ?size,
+      },
     );
     return ForumReplyPageModel.fromJson(data as Map<String, dynamic>);
   }
@@ -79,34 +82,55 @@ class ForumsApiDataSource {
   }) async {
     final data = await http.get(
       '/forums/replies/$postId/replies',
-      queryParameters: {'sort': sort.apiValue, 'cursor': ?cursor, 'size': ?size},
+      queryParameters: {
+        'sort': sort.apiValue,
+        'cursor': ?cursor,
+        'size': ?size,
+      },
     );
     return ForumReplyPageModel.fromJson(data as Map<String, dynamic>);
   }
 
   Future<ForumThreadDetailModel> createThread({
     required String title,
-    String? content,
+    required String content,
+    required String brandId,
     String? modelId,
-    String? brandId,
     List<String> topicIds = const [],
+    List<String> taggedPeople = const [],
+    List<String> taggedCars = const [],
   }) async {
-    final data = await http.post('/forums/threads', body: {
-      'title': title,
-      'content': ?content,
-      'model_id': ?modelId,
-      'brand_id': ?brandId,
-      if (topicIds.isNotEmpty) 'topic_ids': topicIds,
-    });
+    final data = await http.post(
+      '/forums/threads',
+      body: {
+        'title': title,
+        'content': content,
+        'brand_id': brandId,
+        'model_id': ?modelId,
+        if (topicIds.isNotEmpty) 'topic_ids': topicIds,
+        if (taggedPeople.isNotEmpty) 'tagged_people': taggedPeople,
+        if (taggedCars.isNotEmpty) 'tagged_cars': taggedCars,
+      },
+    );
     return ForumThreadDetailModel.fromJson(data as Map<String, dynamic>);
   }
 
+  /// PATCH semantics for the tag lists: a null list is omitted (unchanged),
+  /// a non-null one replaces the whole set (empty clears it).
   Future<ForumThreadDetailModel> editThread(
     String threadId, {
     required String content,
+    List<String>? taggedPeople,
+    List<String>? taggedCars,
   }) async {
-    final data = await http
-        .patch('/forums/threads/$threadId', body: {'content': content});
+    final data = await http.patch(
+      '/forums/threads/$threadId',
+      body: {
+        'content': content,
+        'tagged_people': ?taggedPeople,
+        'tagged_cars': ?taggedCars,
+      },
+    );
     return ForumThreadDetailModel.fromJson(data as Map<String, dynamic>);
   }
 
@@ -117,20 +141,36 @@ class ForumsApiDataSource {
     String threadId, {
     required String content,
     String? parentPostId,
+    List<String> taggedPeople = const [],
+    List<String> taggedCars = const [],
   }) async {
-    final data = await http.post('/forums/threads/$threadId/replies', body: {
-      'content': content,
-      'parent_post_id': ?parentPostId,
-    });
+    final data = await http.post(
+      '/forums/threads/$threadId/replies',
+      body: {
+        'content': content,
+        'parent_post_id': ?parentPostId,
+        if (taggedPeople.isNotEmpty) 'tagged_people': taggedPeople,
+        if (taggedCars.isNotEmpty) 'tagged_cars': taggedCars,
+      },
+    );
     return ForumReplyModel.fromJson(data as Map<String, dynamic>);
   }
 
+  /// Same PATCH semantics as [editThread]; [content] must be non-blank.
   Future<ForumReplyModel> editReply(
     String postId, {
     required String content,
+    List<String>? taggedPeople,
+    List<String>? taggedCars,
   }) async {
-    final data =
-        await http.patch('/forums/replies/$postId', body: {'content': content});
+    final data = await http.patch(
+      '/forums/replies/$postId',
+      body: {
+        'content': content,
+        'tagged_people': ?taggedPeople,
+        'tagged_cars': ?taggedCars,
+      },
+    );
     return ForumReplyModel.fromJson(data as Map<String, dynamic>);
   }
 
@@ -163,13 +203,16 @@ class ForumsApiDataSource {
     String? topicId,
     bool notify = false,
   }) async {
-    final data = await http.post('/forums/shortcuts', body: {
-      'name': name,
-      'brand_id': ?brandId,
-      'model_id': ?modelId,
-      'topic_id': ?topicId,
-      'notify': notify,
-    });
+    final data = await http.post(
+      '/forums/shortcuts',
+      body: {
+        'name': name,
+        'brand_id': ?brandId,
+        'model_id': ?modelId,
+        'topic_id': ?topicId,
+        'notify': notify,
+      },
+    );
     return ForumShortcutModel.fromJson(data as Map<String, dynamic>);
   }
 
@@ -179,15 +222,16 @@ class ForumsApiDataSource {
     String? name,
     bool? notify,
   }) async {
-    final data = await http.patch('/forums/shortcuts/$shortcutId', body: {
-      'name': ?name,
-      'notify': ?notify,
-    });
+    final data = await http.patch(
+      '/forums/shortcuts/$shortcutId',
+      body: {'name': ?name, 'notify': ?notify},
+    );
     return ForumShortcutModel.fromJson(data as Map<String, dynamic>);
   }
 
   Future<List<ForumShortcutModel>> reorderShortcuts(
-      List<String> orderedIds) async {
+    List<String> orderedIds,
+  ) async {
     final data = await http.patch(
       '/forums/shortcuts/reorder',
       body: {'ordered_ids': orderedIds},

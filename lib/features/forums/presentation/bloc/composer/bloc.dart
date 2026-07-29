@@ -2,27 +2,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import 'package:car_social_media_app/features/garage/domain/entities/reference_data.dart';
-import 'package:car_social_media_app/features/garage/domain/usecases/get_my_garage.dart';
 import 'package:car_social_media_app/features/garage/domain/usecases/get_reference_data.dart';
 
 import '../../../../../core/usecases/usecase.dart';
 import '../../../domain/usecases/create_forum_thread.dart';
 import '../../../domain/usecases/get_forum_topics.dart';
 import '../../utils/forum_error_mapper.dart';
+import '../../utils/forum_tags.dart';
 import 'event.dart';
 import 'state.dart';
 
-/// Drives the new-thread composer: reference data (topics, brand catalog,
-/// garage), the model autocomplete, topic chips and the create call.
+/// Drives the new-thread composer: reference data (topics, brand catalog), the
+/// brand → model picker, topic chips, the tag selection and the create call.
 ///
-/// The catalog has no cross-brand model search endpoint, so the first query
-/// fetches every brand's models once and caches them for the session.
+/// Brands come down in one call and are searched inside the picker sheet;
+/// models are fetched per brand the first time that brand is picked and cached
+/// for the session.
 @injectable
 class NewThreadBloc extends Bloc<NewThreadEvent, NewThreadState> {
   final GetForumTopicsUseCase getTopics;
   final GetBrandsUseCase getBrands;
   final GetModelsByBrandUseCase getModelsByBrand;
-  final GetMyGarageUseCase getMyGarage;
   final CreateForumThreadUseCase createThread;
 
   final Map<String, List<CarModelEntity>> _modelsByBrand = {};
@@ -31,15 +31,18 @@ class NewThreadBloc extends Bloc<NewThreadEvent, NewThreadState> {
     required this.getTopics,
     required this.getBrands,
     required this.getModelsByBrand,
-    required this.getMyGarage,
     required this.createThread,
   }) : super(const NewThreadState()) {
     on<LoadNewThreadRefs>(_onLoadRefs);
-    on<NewThreadCarQueryChanged>(_onQueryChanged);
-    on<SelectNewThreadCar>(_onSelectCar);
-    on<SelectGarageCar>(_onSelectGarageCar);
-    on<ClearNewThreadCar>(_onClearCar);
+    on<SelectNewThreadBrand>(_onSelectBrand);
+    on<ClearNewThreadBrand>(_onClearBrand);
+    on<SelectNewThreadModel>(_onSelectModel);
+    on<ClearNewThreadModel>(_onClearModel);
     on<ToggleNewThreadTopic>(_onToggleTopic);
+    on<AddNewThreadTagPerson>(_onAddTagPerson);
+    on<RemoveNewThreadTagPerson>(_onRemoveTagPerson);
+    on<AddNewThreadTagCar>(_onAddTagCar);
+    on<RemoveNewThreadTagCar>(_onRemoveTagCar);
     on<SubmitNewThread>(_onSubmit);
   }
 
@@ -51,12 +54,10 @@ class NewThreadBloc extends Bloc<NewThreadEvent, NewThreadState> {
 
     final topicsFuture = getTopics(NoParams());
     final brandsFuture = getBrands(NoParams());
-    final garageFuture = getMyGarage(NoParams());
     final topicsResult = await topicsFuture;
     final brandsResult = await brandsFuture;
-    final garageResult = await garageFuture;
 
-    // Topics and brands make the form; the garage suggestion is optional.
+    // Topics and brands both make the form; either failing is fatal.
     ForumErrorCode? fatal;
     topicsResult.fold((f) => fatal = ForumErrorMapper.getCode(f), (_) {});
     brandsResult.fold((f) => fatal ??= ForumErrorMapper.getCode(f), (_) {});
@@ -65,113 +66,70 @@ class NewThreadBloc extends Bloc<NewThreadEvent, NewThreadState> {
       return;
     }
 
-    emit(NewThreadState(
-      isLoadingRefs: false,
-      topicGroups: topicsResult.getOrElse(() => const []),
-      brands: brandsResult.getOrElse(() => const []),
-      garageCars: garageResult.fold((_) => const [], (g) => g.cars),
-    ));
+    emit(
+      NewThreadState(
+        isLoadingRefs: false,
+        topics: topicsResult.getOrElse(() => const []),
+        brands: brandsResult.getOrElse(() => const []),
+      ),
+    );
   }
 
-  Future<void> _onQueryChanged(
-    NewThreadCarQueryChanged event,
+  Future<void> _onSelectBrand(
+    SelectNewThreadBrand event,
     Emitter<NewThreadState> emit,
   ) async {
-    final query = event.query.trim().toLowerCase();
-    if (query.length < 2) {
-      emit(state.copyWith(
-        carQuery: event.query,
-        suggestions: const [],
-        isSearching: false,
-      ));
-      return;
-    }
+    emit(
+      state.copyWith(
+        selectedBrand: event.brand,
+        clearSelectedModel: true,
+        models: const [],
+        isLoadingModels: !_modelsByBrand.containsKey(event.brand.id),
+      ),
+    );
 
-    emit(state.copyWith(carQuery: event.query, isSearching: true));
-    await _ensureAllModelsLoaded();
+    final models = await _loadModels(event.brand.id);
 
-    // The user may have kept typing while models were being fetched.
-    if (state.carQuery.trim().toLowerCase() != query) return;
-
-    final matches = <ComposerCarOption>[];
-    for (final brand in state.brands) {
-      for (final model in _modelsByBrand[brand.id] ?? const []) {
-        final label = '${brand.name} ${model.model}'.toLowerCase();
-        if (label.contains(query) ||
-            model.model.toLowerCase().contains(query)) {
-          matches.add(ComposerCarOption(brand: brand, model: model));
-        }
-      }
-    }
-    matches.sort((a, b) => a.label.compareTo(b.label));
-
-    emit(state.copyWith(
-      isSearching: false,
-      suggestions: matches.take(8).toList(),
-    ));
+    // The user may have changed brand while the models were loading.
+    if (state.selectedBrand?.id != event.brand.id) return;
+    emit(state.copyWith(models: models, isLoadingModels: false));
   }
 
-  Future<void> _ensureAllModelsLoaded() async {
-    final missing =
-        state.brands.where((b) => !_modelsByBrand.containsKey(b.id)).toList();
-    if (missing.isEmpty) return;
-
-    final results = await Future.wait(missing.map(
-        (b) => getModelsByBrand(GetModelsByBrandParams(brandId: b.id))));
-    for (var i = 0; i < missing.length; i++) {
-      results[i].fold(
-        // Leave failed brands out of the cache so a later search retries them.
-        (_) {},
-        (models) => _modelsByBrand[missing[i].id] = models,
-      );
-    }
+  void _onClearBrand(ClearNewThreadBrand event, Emitter<NewThreadState> emit) {
+    emit(
+      state.copyWith(
+        clearSelectedBrand: true,
+        clearSelectedModel: true,
+        models: const [],
+        isLoadingModels: false,
+      ),
+    );
   }
 
-  void _onSelectCar(SelectNewThreadCar event, Emitter<NewThreadState> emit) {
-    emit(state.copyWith(
-      selectedCar: event.option,
-      suggestions: const [],
-      carQuery: '',
-    ));
-  }
-
-  Future<void> _onSelectGarageCar(
-    SelectGarageCar event,
+  void _onSelectModel(
+    SelectNewThreadModel event,
     Emitter<NewThreadState> emit,
-  ) async {
-    // Garage cars carry brand/model names only — resolve them against the
-    // catalog to get the model id the backend needs.
-    final brand = state.brands.where(
-      (b) => b.name.toLowerCase() == event.car.brand.toLowerCase(),
-    );
-    if (brand.isEmpty) {
-      emit(state.copyWith(actionError: ForumErrorCode.generic));
-      return;
-    }
-
-    if (!_modelsByBrand.containsKey(brand.first.id)) {
-      final result = await getModelsByBrand(
-          GetModelsByBrandParams(brandId: brand.first.id));
-      result.fold((_) {}, (m) => _modelsByBrand[brand.first.id] = m);
-    }
-
-    final model = (_modelsByBrand[brand.first.id] ?? const []).where(
-      (m) => m.model.toLowerCase() == event.car.model.toLowerCase(),
-    );
-    if (model.isEmpty) {
-      emit(state.copyWith(actionError: ForumErrorCode.generic));
-      return;
-    }
-
-    emit(state.copyWith(
-      selectedCar: ComposerCarOption(brand: brand.first, model: model.first),
-      suggestions: const [],
-      carQuery: '',
-    ));
+  ) {
+    emit(state.copyWith(selectedModel: event.model));
   }
 
-  void _onClearCar(ClearNewThreadCar event, Emitter<NewThreadState> emit) {
-    emit(state.copyWith(clearSelectedCar: true));
+  void _onClearModel(ClearNewThreadModel event, Emitter<NewThreadState> emit) {
+    emit(state.copyWith(clearSelectedModel: true));
+  }
+
+  /// Models for [brandId], from cache when possible. A failed fetch yields an
+  /// empty list and is left out of the cache so a later pick retries it.
+  Future<List<CarModelEntity>> _loadModels(String brandId) async {
+    final cached = _modelsByBrand[brandId];
+    if (cached != null) return cached;
+
+    final result = await getModelsByBrand(
+      GetModelsByBrandParams(brandId: brandId),
+    );
+    return result.fold((_) => const [], (models) {
+      _modelsByBrand[brandId] = models;
+      return models;
+    });
   }
 
   void _onToggleTopic(
@@ -186,31 +144,96 @@ class NewThreadBloc extends Bloc<NewThreadEvent, NewThreadState> {
     emit(state.copyWith(selectedTopicIds: selected));
   }
 
+  void _onAddTagPerson(
+    AddNewThreadTagPerson event,
+    Emitter<NewThreadState> emit,
+  ) {
+    final people = state.taggedPeople;
+    if (people.length >= kForumTagLimit ||
+        people.any((p) => p.id == event.person.id)) {
+      return;
+    }
+    emit(state.copyWith(taggedPeople: [...people, event.person]));
+  }
+
+  void _onRemoveTagPerson(
+    RemoveNewThreadTagPerson event,
+    Emitter<NewThreadState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        taggedPeople: [
+          for (final p in state.taggedPeople)
+            if (p.id != event.personId) p,
+        ],
+        // A car whose owner is no longer tagged would be rejected on submit.
+        taggedCars: forumCarsWithoutOwner(state.taggedCars, event.personId),
+      ),
+    );
+  }
+
+  void _onAddTagCar(AddNewThreadTagCar event, Emitter<NewThreadState> emit) {
+    final cars = state.taggedCars;
+    if (cars.length >= kForumTagLimit || cars.any((c) => c.id == event.car.id)) {
+      return;
+    }
+    emit(state.copyWith(taggedCars: [...cars, event.car]));
+  }
+
+  void _onRemoveTagCar(
+    RemoveNewThreadTagCar event,
+    Emitter<NewThreadState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        taggedCars: [
+          for (final c in state.taggedCars)
+            if (c.id != event.carId) c,
+        ],
+      ),
+    );
+  }
+
   Future<void> _onSubmit(
     SubmitNewThread event,
     Emitter<NewThreadState> emit,
   ) async {
     final title = event.title.trim();
     final content = event.content.trim();
-    if (title.isEmpty || state.isSubmitting) return;
+    // The Post button mirrors these guards; title, body and brand are all
+    // required, the model isn't.
+    if (title.isEmpty ||
+        content.isEmpty ||
+        state.selectedBrand == null ||
+        state.isSubmitting) {
+      return;
+    }
 
     emit(state.copyWith(isSubmitting: true));
 
-    final result = await createThread(CreateForumThreadParams(
-      title: title,
-      content: content.isEmpty ? null : content,
-      modelId: state.selectedCar?.model.id,
-      topicIds: state.selectedTopicIds.toList(),
-    ));
+    final result = await createThread(
+      CreateForumThreadParams(
+        title: title,
+        content: content,
+        modelId: state.selectedModel?.id,
+        brandId: state.selectedBrand!.id,
+        topicIds: state.selectedTopicIds.toList(),
+        taggedPeople: [for (final p in state.taggedPeople) p.id],
+        taggedCars: [for (final c in state.taggedCars) c.id],
+      ),
+    );
     result.fold(
-      (f) => emit(state.copyWith(
-        isSubmitting: false,
-        actionError: ForumErrorMapper.getCode(f),
-      )),
-      (thread) => emit(state.copyWith(
-        isSubmitting: false,
-        createdThreadId: thread.id,
-      )),
+      (f) => emit(
+        state.copyWith(
+          isSubmitting: false,
+          actionError: ForumErrorMapper.getCode(
+            f,
+            validationCode: ForumErrorCode.invalidTags,
+          ),
+        ),
+      ),
+      (thread) =>
+          emit(state.copyWith(isSubmitting: false, createdThreadId: thread.id)),
     );
   }
 }

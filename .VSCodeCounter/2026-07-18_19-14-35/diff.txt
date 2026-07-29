@@ -1,0 +1,69 @@
+Date : 2026-07-18 19:14:35
+Directory : /Users/mbpro/Developer/Apps/Car-Social-Media-App
+Total : 15 files,  521 codes, 50 comments, 63 blanks, all 634 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Dart     |         15 |        521 |         50 |         63 |        634 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                             | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                                |         15 |        521 |         50 |         63 |        634 |
+| lib                                                                                                                              |         15 |        521 |         50 |         63 |        634 |
+| lib/config                                                                                                                       |          1 |       -484 |        -25 |        -23 |       -532 |
+| lib/config/routes                                                                                                                |          1 |       -484 |        -25 |        -23 |       -532 |
+| lib/core                                                                                                                         |          3 |        499 |         36 |         28 |        563 |
+| lib/core/routes                                                                                                                  |          1 |        484 |         25 |         23 |        532 |
+| lib/core/services                                                                                                                |          1 |          0 |          4 |          0 |          4 |
+| lib/core/shared                                                                                                                  |          1 |         15 |          7 |          5 |         27 |
+| lib/core/shared/widgets                                                                                                          |          1 |         15 |          7 |          5 |         27 |
+| lib/features                                                                                                                     |         11 |        506 |         39 |         58 |        603 |
+| lib/features/feed                                                                                                                |          1 |        119 |          8 |          8 |        135 |
+| lib/features/feed/presentation                                                                                                   |          1 |        119 |          8 |          8 |        135 |
+| lib/features/feed/presentation/widgets                                                                                           |          1 |        119 |          8 |          8 |        135 |
+| lib/features/forums                                                                                                              |          3 |        154 |         10 |         18 |        182 |
+| lib/features/forums/presentation                                                                                                 |          3 |        154 |         10 |         18 |        182 |
+| lib/features/forums/presentation/pages                                                                                           |          1 |        -14 |          0 |          0 |        -14 |
+| lib/features/forums/presentation/widgets                                                                                         |          2 |        168 |         10 |         18 |        196 |
+| lib/features/forums/presentation/widgets/shared                                                                                  |          2 |        168 |         10 |         18 |        196 |
+| lib/features/messages                                                                                                            |          4 |        122 |          8 |         20 |        150 |
+| lib/features/messages/presentation                                                                                               |          4 |        122 |          8 |         20 |        150 |
+| lib/features/messages/presentation/pages                                                                                         |          2 |        -14 |          0 |          0 |        -14 |
+| lib/features/messages/presentation/widgets                                                                                       |          2 |        136 |          8 |         20 |        164 |
+| lib/features/messages/presentation/widgets/chat                                                                                  |          1 |         54 |          5 |          8 |         67 |
+| lib/features/messages/presentation/widgets/inbox                                                                                 |          1 |         82 |          3 |         12 |         97 |
+| lib/features/profile                                                                                                             |          3 |        111 |         13 |         12 |        136 |
+| lib/features/profile/data                                                                                                        |          1 |          1 |          2 |          1 |          4 |
+| lib/features/profile/data/repositories                                                                                           |          1 |          1 |          2 |          1 |          4 |
+| lib/features/profile/domain                                                                                                      |          1 |         -1 |          0 |          0 |         -1 |
+| lib/features/profile/domain/usecases                                                                                             |          1 |         -1 |          0 |          0 |         -1 |
+| lib/features/profile/presentation                                                                                                |          1 |        111 |         11 |         11 |        133 |
+| lib/features/profile/presentation/widgets                                                                                        |          1 |        111 |         11 |         11 |        133 |
++----------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                                                         | language | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/config/routes/app_router.dart                                               | Dart     |       -484 |        -25 |        -23 |       -532 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/core/routes/app_router.dart                                                 | Dart     |        484 |         25 |         23 |        532 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/core/services/image_service.dart                                            | Dart     |          0 |          4 |          0 |          4 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/core/shared/widgets/app_shimmer.dart                                        | Dart     |         15 |          7 |          5 |         27 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feed/presentation/widgets/feed_loading_view.dart                   | Dart     |        119 |          8 |          8 |        135 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/forums/presentation/pages/forum_thread_page.dart                   | Dart     |        -14 |          0 |          0 |        -14 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/forums/presentation/widgets/shared/forum_thread_body_skeleton.dart | Dart     |        165 |         10 |         18 |        193 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/forums/presentation/widgets/shared/forum_thread_skeleton.dart      | Dart     |          3 |          0 |          0 |          3 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/pages/chat_page.dart                         | Dart     |         -7 |          0 |          0 |         -7 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/pages/messages_page.dart                     | Dart     |         -7 |          0 |          0 |         -7 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/chat/chat_loading_view.dart          | Dart     |         54 |          5 |          8 |         67 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/messages/presentation/widgets/inbox/inbox_loading_view.dart        | Dart     |         82 |          3 |         12 |         97 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/profile/data/repositories/profile_repository_impl.dart             | Dart     |          1 |          2 |          1 |          4 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/profile/domain/usecases/change_profile_avatar.dart                 | Dart     |         -1 |          0 |          0 |         -1 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/profile/presentation/widgets/profile_loading_view.dart             | Dart     |        111 |         11 |         11 |        133 |
+| Total                                                                                                                            |          |        521 |         50 |         63 |        634 |
++----------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

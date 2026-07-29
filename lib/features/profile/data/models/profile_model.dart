@@ -13,6 +13,7 @@ class ProfileModel {
   final bool isVerified;
   final bool isBusiness;
   final bool requiresOnboarding;
+  final String appLanguage;
 
   const ProfileModel({
     required this.id,
@@ -27,6 +28,7 @@ class ProfileModel {
     required this.isVerified,
     required this.isBusiness,
     required this.requiresOnboarding,
+    required this.appLanguage,
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
@@ -43,6 +45,7 @@ class ProfileModel {
       isVerified: json['is_verified'] as bool? ?? false,
       isBusiness: json['is_business'] as bool? ?? false,
       requiresOnboarding: json['requires_onboarding'] as bool? ?? false,
+      appLanguage: json['app_language'] as String? ?? 'en',
     );
   }
 
@@ -60,6 +63,7 @@ class ProfileModel {
       isVerified: isVerified,
       isBusiness: isBusiness,
       requiresOnboarding: requiresOnboarding,
+      appLanguage: appLanguage,
     );
   }
 }

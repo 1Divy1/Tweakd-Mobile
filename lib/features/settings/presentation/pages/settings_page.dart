@@ -8,6 +8,8 @@ import '../../../authentication/presentation/bloc/bloc.dart';
 import '../../../authentication/presentation/bloc/event.dart';
 import '../../../authentication/presentation/bloc/state.dart';
 import '../../../authentication/presentation/utils/auth_error_mapper.dart';
+import '../../../profile/presentation/bloc/locale/cubit.dart';
+import '../../../profile/presentation/widgets/settings/language_picker_sheet.dart';
 import '../../../profile/presentation/widgets/shared/profile_top_bar.dart';
 import '../widgets/logout_button.dart';
 import '../widgets/settings_tile.dart';
@@ -78,6 +80,12 @@ class SettingsPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         SettingsTile(
+                          icon: Icons.bookmark_border_rounded,
+                          label: l10n.settingsSavedPosts,
+                          onTap: () => context.push('/saved-posts'),
+                        ),
+                        const SizedBox(height: 12),
+                        SettingsTile(
                           icon: Icons.flag_outlined,
                           label: l10n.settingsMyReports,
                           onTap: () => context.push('/reports'),
@@ -93,6 +101,24 @@ class SettingsPage extends StatelessWidget {
                           icon: Icons.campaign_outlined,
                           label: l10n.settingsSendFeedback,
                           onTap: () => context.push('/feedback'),
+                        ),
+                        const SizedBox(height: 12),
+                        BlocBuilder<LocaleCubit, Locale?>(
+                          builder: (context, locale) {
+                            final code = locale?.languageCode ?? 'en';
+                            final label = code == 'ro'
+                                ? l10n.languageRomanian
+                                : l10n.languageEnglish;
+                            return SettingsTile(
+                              icon: Icons.language_rounded,
+                              label: l10n.settingsLanguage,
+                              trailingLabel: label,
+                              onTap: () => showLanguagePickerSheet(
+                                context,
+                                currentCode: code,
+                              ),
+                            );
+                          },
                         ),
                         const SizedBox(height: 12),
                         LogoutButton(
