@@ -7,6 +7,7 @@ import 'package:car_social_media_app/features/report/domain/entities/report_targ
 import 'package:car_social_media_app/features/report/presentation/widgets/report_reason_sheet.dart';
 
 import '../../../../core/di/injection.dart';
+import '../../../../core/shared/widgets/app_pill_button.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../bloc/thread/bloc.dart';
@@ -14,7 +15,6 @@ import '../bloc/thread/event.dart';
 import '../bloc/thread/state.dart';
 import '../utils/forum_error_mapper.dart';
 import '../widgets/shared/forum_error_view.dart';
-import '../widgets/shared/forum_pill_button.dart';
 import '../widgets/shared/forum_section_label.dart';
 import '../widgets/shared/forum_sub_top_bar.dart';
 import '../widgets/shared/forum_thread_body_skeleton.dart';
@@ -288,6 +288,7 @@ class _ForumThreadPageState extends State<ForumThreadPage> {
       backgroundColor: AppColors.bg,
       resizeToAvoidBottomInset: true,
       body: SafeArea(
+        bottom: false,
         child: BlocConsumer<ForumThreadBloc, ForumThreadState>(
           listenWhen: (prev, curr) =>
               prev.replySentTick != curr.replySentTick ||
@@ -326,7 +327,7 @@ class _ForumThreadPageState extends State<ForumThreadPage> {
                 ForumSubTopBar(
                   title: l10n.forumsThreadTitle,
                   trailing: (thread != null && !thread.deleted)
-                      ? ForumPillButton(
+                      ? AppPillButton(
                           icon: Icons.more_horiz,
                           onTap: () => _openThreadMenu(isAuthor),
                         )

@@ -22,33 +22,25 @@ class ProfileSectionTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Container(
-      decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(color: AppColors.line),
-          bottom: BorderSide(color: AppColors.line),
+    return Row(
+      children: [
+        Expanded(
+          child: _Tab(
+            icon: Icons.grid_on_rounded,
+            label: l10n.profileTabPosts,
+            isActive: active == ProfileSection.posts,
+            onTap: () => onChanged(ProfileSection.posts),
+          ),
         ),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: _Tab(
-              icon: Icons.grid_on_rounded,
-              label: l10n.profileTabPosts,
-              isActive: active == ProfileSection.posts,
-              onTap: () => onChanged(ProfileSection.posts),
-            ),
+        Expanded(
+          child: _Tab(
+            icon: Icons.garage_rounded,
+            label: l10n.profileTabGarage,
+            isActive: active == ProfileSection.garage,
+            onTap: () => onChanged(ProfileSection.garage),
           ),
-          Expanded(
-            child: _Tab(
-              icon: Icons.garage_rounded,
-              label: l10n.profileTabGarage,
-              isActive: active == ProfileSection.garage,
-              onTap: () => onChanged(ProfileSection.garage),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

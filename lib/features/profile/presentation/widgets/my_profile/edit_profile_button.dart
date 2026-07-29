@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 
-/// Outlined "Edit profile" pill on the own-profile page. Sits below the stats
-/// row (the same slot where the public profile shows Follow / Message).
+/// The "Edit profile" pill on the own-profile page. Sits below the stats row
+/// (the same slot where the public profile shows Follow / Message).
 class EditProfileButton extends StatelessWidget {
   final VoidCallback onTap;
 
@@ -21,8 +21,7 @@ class EditProfileButton extends StatelessWidget {
           height: 44,
           decoration: BoxDecoration(
             color: AppColors.surface,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppColors.line),
+            borderRadius: BorderRadius.circular(18),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

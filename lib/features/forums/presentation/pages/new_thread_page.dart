@@ -150,6 +150,7 @@ class _ComposerForm extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
       children: [
         _ComposerField(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: TextField(
             controller: titleController,
             maxLength: 200,
@@ -234,17 +235,20 @@ class _ComposerForm extends StatelessWidget {
 /// composer's inputs.
 class _ComposerField extends StatelessWidget {
   final Widget child;
+  final EdgeInsetsGeometry padding;
 
-  const _ComposerField({required this.child});
+  const _ComposerField({
+    required this.child,
+    this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      padding: padding,
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.line),
       ),
       child: child,
     );
@@ -273,7 +277,7 @@ class _PostButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 11),
         decoration: BoxDecoration(
           color: enabled ? AppColors.accent : AppColors.line,
-          borderRadius: BorderRadius.circular(999),
+          borderRadius: BorderRadius.circular(18),
         ),
         child: submitting
             ? const SizedBox(

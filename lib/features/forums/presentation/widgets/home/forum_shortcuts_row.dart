@@ -55,7 +55,7 @@ class ForumShortcutsRow extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         SizedBox(
-          height: 92,
+          height: 46,
           child: isEditing
               ? ReorderableListView.builder(
                   scrollDirection: Axis.horizontal,
@@ -115,93 +115,61 @@ class _ShortcutCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final filterParts = [
-      shortcut.brand?.name,
-      shortcut.model?.model,
-      shortcut.topic?.name,
-    ].whereType<String>().join(' · ');
-
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 150,
         margin: const EdgeInsets.only(right: 10),
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        constraints: const BoxConstraints(minWidth: 108, maxWidth: 168),
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.line),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        // One row, vertically centred: the handle and the badge sit either
+        // side of the name instead of stacking above it.
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.drag_indicator,
-                  size: 16,
-                  color: isEditing ? AppColors.ink2 : AppColors.muteSoft,
-                ),
-                const Spacer(),
-                if (!isEditing && shortcut.unreadCount > 0)
-                  _UnreadBadge(count: shortcut.unreadCount),
-                if (isEditing && onRemove != null)
-                  GestureDetector(
-                    onTap: onRemove,
-                    child: Container(
-                      width: 22,
-                      height: 22,
-                      decoration: BoxDecoration(
-                        color: AppColors.bgSoft,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.line),
-                      ),
-                      child: const Icon(
-                        Icons.close,
-                        size: 13,
-                        color: AppColors.ink,
-                      ),
-                    ),
-                  ),
-              ],
+            Icon(
+              Icons.drag_indicator,
+              size: 16,
+              color: isEditing ? AppColors.ink2 : AppColors.muteSoft,
             ),
-            const Spacer(),
-            Text(
-              shortcut.name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: AppColors.ink,
-                fontSize: 14,
-                fontWeight: FontWeight.w800,
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Text(
+                  shortcut.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: AppColors.ink,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
               ),
             ),
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                Container(
-                  width: 5,
-                  height: 5,
-                  decoration: const BoxDecoration(
-                    color: AppColors.accent,
+            if (!isEditing && shortcut.unreadCount > 0)
+              _UnreadBadge(count: shortcut.unreadCount)
+            else if (isEditing && onRemove != null)
+              GestureDetector(
+                onTap: onRemove,
+                child: Container(
+                  width: 22,
+                  height: 22,
+                  decoration: BoxDecoration(
+                    color: AppColors.bgSoft,
                     shape: BoxShape.circle,
+                    border: Border.all(color: AppColors.line),
+                  ),
+                  child: const Icon(
+                    Icons.close,
+                    size: 13,
+                    color: AppColors.ink,
                   ),
                 ),
-                const SizedBox(width: 5),
-                Expanded(
-                  child: Text(
-                    filterParts,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: AppColors.mute,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
           ],
         ),
       ),

@@ -38,9 +38,9 @@ class ForumThreadCard extends StatelessWidget {
 
     final tags = <Widget>[
       if (!hideBrandTag && thread.brand != null)
-        ForumTagChip(label: thread.brand!.name, showDot: true),
+        ForumTagChip(label: thread.brand!.name, showDot: false),
       if (!hideModelTag && thread.model != null)
-        ForumTagChip(label: thread.model!.model, showDot: true),
+        ForumTagChip(label: thread.model!.model, showDot: false),
       for (final topic in thread.topics) ForumTagChip(label: topic.name),
     ];
 
@@ -52,7 +52,6 @@ class ForumThreadCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: AppColors.line),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,7 +119,7 @@ class ForumThreadCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '  ·  ${forumActiveAgo(l10n, thread.lastActivityAt)}',
+                  '     ${forumActiveAgo(l10n, thread.lastActivityAt)}',
                   style: const TextStyle(
                     color: AppColors.mute,
                     fontSize: 12,

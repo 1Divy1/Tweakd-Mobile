@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/shared/widgets/app_pill_button.dart';
 import '../widgets/car_image.dart';
 
 class FullscreenImagePage extends StatelessWidget {
@@ -16,10 +17,12 @@ class FullscreenImagePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          // TODO: create a custom reusable back button similar to iOS style
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
-          onPressed: () => context.pop(),
+        leading: Padding(
+          padding: const EdgeInsets.all(6),
+          child: AppPillButton(
+            icon: Icons.chevron_left_rounded,
+            onTap: () => context.pop(),
+          ),
         ),
       ),
       body: Center(

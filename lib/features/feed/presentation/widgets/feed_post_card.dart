@@ -46,7 +46,6 @@ class FeedPostCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.line),
       ),
       clipBehavior: Clip.hardEdge,
       child: Column(

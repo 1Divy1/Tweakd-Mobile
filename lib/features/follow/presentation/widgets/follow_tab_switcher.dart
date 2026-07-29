@@ -24,8 +24,7 @@ class FollowTabSwitcher extends StatelessWidget {
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.line),
+        borderRadius: BorderRadius.circular(18),
       ),
       child: Row(
         children: [
@@ -73,7 +72,7 @@ class _FollowTab extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 12),
         decoration: BoxDecoration(
           color: isActive ? AppColors.ink : Colors.transparent,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(18),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -108,9 +107,10 @@ class _CountChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
       decoration: BoxDecoration(
-        color: isActive ? const Color(0xFF222222) : Colors.transparent,
-        borderRadius: BorderRadius.circular(6),
-        border: isActive ? null : Border.all(color: AppColors.line),
+        // The inactive chip sat on a transparent fill and was defined only by
+        // its outline; without one it needs a tint to still read as a chip.
+        color: isActive ? const Color(0xFF222222) : AppColors.bg,
+        borderRadius: BorderRadius.circular(18),
       ),
       child: Text(
         _formatCount(count),

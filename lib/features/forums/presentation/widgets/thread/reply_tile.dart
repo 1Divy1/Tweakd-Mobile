@@ -232,13 +232,13 @@ class _AuthorBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
-        color: AppColors.accentSoft,
+        color: AppColors.bgSoft,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
         l10n.forumsAuthorBadge,
         style: const TextStyle(
-          color: AppColors.accent,
+          color: AppColors.ink,
           fontSize: 9,
           fontWeight: FontWeight.w900,
           letterSpacing: 0.6,

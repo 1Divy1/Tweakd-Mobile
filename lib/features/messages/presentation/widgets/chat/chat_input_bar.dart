@@ -140,120 +140,127 @@ class _ChatInputBarState extends State<ChatInputBar>
         if (_selectedCars.isNotEmpty)
           TaggedCarChips(cars: _selectedCars, onRemove: _removeCar),
         Container(
-          padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-          color: AppColors.bg,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              GestureDetector(
-                onTap: _openCarPicker,
-                child: Container(
-                  width: 46,
-                  height: 46,
-                  decoration: const BoxDecoration(
-                    color: AppColors.surface,
-                    shape: BoxShape.circle,
+          decoration: const BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(28),
+              topRight: Radius.circular(28),
+            ),
+          ),
+          child: SafeArea(
+            top: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: _openCarPicker,
+                    child: Container(
+                      width: 46,
+                      height: 46,
+                      decoration: const BoxDecoration(
+                        color: AppColors.bgSoft,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.directions_car_outlined,
+                          color: AppColors.ink, size: 24),
+                    ),
                   ),
-                  child: const Icon(Icons.directions_car_outlined,
-                      color: AppColors.ink, size: 24),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.surface,
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: AppColors.line),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: _controller,
-                          focusNode: _focusNode,
-                          minLines: 1,
-                          maxLines: 4,
-                          textInputAction: TextInputAction.send,
-                          onSubmitted: (_) => _send(),
-                          onChanged: _onTextChanged,
-                          onTap: () {
-                            if (_showEmoji) {
-                              setState(() => _showEmoji = false);
-                            }
-                          },
-                          cursorColor: AppColors.accent,
-                          style: const TextStyle(
-                            color: AppColors.ink,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: l10n.messagesInputHint,
-                            hintStyle: const TextStyle(
-                              color: AppColors.muteSoft,
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: _controller,
+                            focusNode: _focusNode,
+                            minLines: 1,
+                            maxLines: 4,
+                            textInputAction: TextInputAction.send,
+                            onSubmitted: (_) => _send(),
+                            onChanged: _onTextChanged,
+                            onTap: () {
+                              if (_showEmoji) {
+                                setState(() => _showEmoji = false);
+                              }
+                            },
+                            cursorColor: AppColors.accent,
+                            style: const TextStyle(
+                              color: AppColors.ink,
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
                             ),
-                            contentPadding:
-                                const EdgeInsets.fromLTRB(18, 12, 4, 12),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: l10n.messagesInputHint,
+                              hintStyle: const TextStyle(
+                                color: AppColors.muteSoft,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              contentPadding:
+                                  const EdgeInsets.fromLTRB(4, 12, 4, 12),
+                            ),
                           ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: _toggleEmoji,
-                        behavior: HitTestBehavior.opaque,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 12, bottom: 12),
-                          child: Icon(
-                            _showEmoji
-                                ? Icons.keyboard_outlined
-                                : Icons.sentiment_satisfied_alt_outlined,
-                            color: _showEmoji
-                                ? AppColors.accent
-                                : AppColors.mute,
-                            size: 22,
+                        GestureDetector(
+                          onTap: _toggleEmoji,
+                          behavior: HitTestBehavior.opaque,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(right: 4, bottom: 12),
+                            child: Icon(
+                              _showEmoji
+                                  ? Icons.keyboard_outlined
+                                  : Icons.sentiment_satisfied_alt_outlined,
+                              color: _showEmoji
+                                  ? AppColors.accent
+                                  : AppColors.mute,
+                              size: 22,
+                            ),
                           ),
                         ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  GestureDetector(
+                    onTap: _canSend ? _send : null,
+                    child: ScaleTransition(
+                      scale: TweenSequence<double>([
+                        TweenSequenceItem(
+                            tween: Tween(begin: 1, end: 0.82), weight: 35),
+                        TweenSequenceItem(
+                            tween: Tween(begin: 0.82, end: 1), weight: 65),
+                      ]).animate(CurvedAnimation(
+                        parent: _sendPop,
+                        // TweenSequence asserts t stays in [0,1]; overshooting
+                        // curves like easeOutBack would break it. The pop
+                        // lives in the tween.
+                        curve: Curves.easeOut,
+                      )),
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: _canSend
+                              ? AppColors.accent
+                              : AppColors.muteSoft,
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        child: const Icon(
+                          Icons.near_me_rounded,
+                          color: Colors.white,
+                          size: 24,
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              GestureDetector(
-                onTap: _canSend ? _send : null,
-                child: ScaleTransition(
-                  scale: TweenSequence<double>([
-                    TweenSequenceItem(
-                        tween: Tween(begin: 1, end: 0.82), weight: 35),
-                    TweenSequenceItem(
-                        tween: Tween(begin: 0.82, end: 1), weight: 65),
-                  ]).animate(CurvedAnimation(
-                    parent: _sendPop,
-                    // TweenSequence asserts t stays in [0,1]; overshooting
-                    // curves like easeOutBack would break it. The pop lives in
-                    // the tween.
-                    curve: Curves.easeOut,
-                  )),
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: _canSend ? AppColors.accent : AppColors.muteSoft,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.near_me_rounded,
-                      color: Colors.white,
-                      size: 24,
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
         if (_showEmoji) _EmojiPanel(controller: _controller, onChanged: _onEmojiChanged),

@@ -34,7 +34,6 @@ class ForumBrandCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: AppColors.line),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +44,6 @@ class ForumBrandCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColors.bgSoft,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.line),
               ),
               alignment: Alignment.center,
               child: Text(

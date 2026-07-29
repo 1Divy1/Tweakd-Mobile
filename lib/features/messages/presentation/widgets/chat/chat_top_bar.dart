@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/shared/widgets/app_pill_button.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/message_user.dart';
 import '../../utils/message_time.dart';
 import '../shared/message_avatar.dart';
-import '../shared/message_pill_button.dart';
 import '../shared/verified_badge.dart';
 
 /// Chat header: back button, the other user's avatar, name + verified badge
@@ -35,11 +35,10 @@ class ChatTopBar extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
       decoration: const BoxDecoration(
         color: AppColors.bg,
-        border: Border(bottom: BorderSide(color: AppColors.line2)),
       ),
       child: Row(
         children: [
-          MessagePillButton(icon: Icons.chevron_left_rounded, onTap: onBack),
+          AppPillButton(icon: Icons.chevron_left_rounded, onTap: onBack),
           const SizedBox(width: 12),
           if (user != null) ...[
             Expanded(

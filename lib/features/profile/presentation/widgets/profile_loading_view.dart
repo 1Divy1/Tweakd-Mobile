@@ -46,7 +46,7 @@ class ProfileLoadingView extends StatelessWidget {
                   height: 44,
                   decoration: BoxDecoration(
                     color: AppColors.line2,
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(18),
                   ),
                 ),
               ),

@@ -170,14 +170,13 @@ class _ProfileMenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => _openMenu(context),
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(18),
       child: Container(
         width: 44,
         height: 36,
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.line),
+          borderRadius: BorderRadius.circular(18),
         ),
         child: const Icon(Icons.more_horiz, color: AppColors.ink, size: 20),
       ),
