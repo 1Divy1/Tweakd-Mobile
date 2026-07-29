@@ -22,7 +22,6 @@ class TaggedCarCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.line),
         ),
         clipBehavior: Clip.antiAlias,
         child: Column(

@@ -40,6 +40,7 @@ class ChatPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: SafeArea(
+        bottom: false,
         child: BlocConsumer<ChatBloc, ChatState>(
           listenWhen: (previous, current) =>
               current is ChatLoaded && current.actionError != null,

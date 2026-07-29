@@ -85,12 +85,11 @@ class MessageBubble extends StatelessWidget {
                 : const EdgeInsets.symmetric(horizontal: 18, vertical: 13),
             decoration: BoxDecoration(
               color: deleted
-                  ? Colors.transparent
+                  ? AppColors.bgSoft
                   : mine
                       ? AppColors.ink
                       : AppColors.surface,
               borderRadius: _radius,
-              border: deleted ? Border.all(color: AppColors.line) : null,
             ),
             child: _content(context, l10n, mine, deleted, hasCars, hasText),
           ),

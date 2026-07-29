@@ -168,7 +168,6 @@ class _PeopleResults extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.surface,
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppColors.line),
           ),
           child: switch (state.peopleStatus) {
             TagLoadStatus.loading => const Padding(
@@ -256,9 +255,8 @@ class _PeopleSearchField extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14),
       decoration: BoxDecoration(
-        color: AppColors.bgSoft,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.line),
       ),
       child: Row(
         children: [
@@ -277,6 +275,7 @@ class _PeopleSearchField extends StatelessWidget {
               ),
               decoration: InputDecoration(
                 border: InputBorder.none,
+                filled: false,
                 isDense: true,
                 contentPadding: const EdgeInsets.symmetric(vertical: 13),
                 hintText: hint,
@@ -347,7 +346,6 @@ class _AddCarTile extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.line),
         ),
         child: Row(
           children: [
@@ -393,7 +391,6 @@ class _PersonChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.line),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -434,7 +431,6 @@ class _CarChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.line),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -502,7 +498,6 @@ class _RemoveButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.bg,
           borderRadius: BorderRadius.circular(6),
-          border: Border.all(color: AppColors.line),
         ),
         child: const Icon(Icons.close_rounded, size: 13, color: AppColors.mute),
       ),

@@ -15,9 +15,8 @@ class ForumTagChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.bgSoft,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppColors.line),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -73,7 +72,6 @@ class ForumChoiceChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: selected ? AppColors.ink : AppColors.surface,
           borderRadius: BorderRadius.circular(999),
-          border: Border.all(color: selected ? AppColors.ink : AppColors.line),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,

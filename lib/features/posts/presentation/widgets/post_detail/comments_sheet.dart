@@ -161,7 +161,6 @@ class _CommentsSheetState extends State<_CommentsSheet> {
             ),
           ),
           const SizedBox(height: 8),
-          const Divider(height: 1, color: AppColors.line),
           Expanded(
             child: BlocBuilder<CommentsBloc, CommentsState>(
               builder: (context, state) {
@@ -579,7 +578,6 @@ class _CommentInput extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(16, 10, 16, 12 + bottomInset),
       decoration: const BoxDecoration(
         color: AppColors.surface,
-        border: Border(top: BorderSide(color: AppColors.line)),
       ),
       child: SafeArea(
         top: false,
@@ -615,10 +613,8 @@ class _CommentInput extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppColors.bg,
-                      borderRadius: BorderRadius.circular(24),
-                      border: Border.all(color: AppColors.line),
+                      borderRadius: BorderRadius.circular(18),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: TextField(
                       controller: controller,
                       focusNode: focusNode,
@@ -634,14 +630,17 @@ class _CommentInput extends StatelessWidget {
                       ),
                       decoration: InputDecoration(
                         isDense: true,
+                        filled: false,
                         hintText: l10n.postCommentHint,
                         hintStyle: const TextStyle(
                           color: AppColors.muteSoft,
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                         ),
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 12),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
                         border: InputBorder.none,
                       ),
                     ),

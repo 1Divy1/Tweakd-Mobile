@@ -65,14 +65,13 @@ class _StripChip extends StatelessWidget {
       margin: const EdgeInsets.only(right: 6),
       padding: const EdgeInsets.fromLTRB(9, 4, 5, 4),
       decoration: BoxDecoration(
-        color: AppColors.accentSoft,
+        color: AppColors.bgSoft,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.line),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 13, color: AppColors.accent),
+          Icon(icon, size: 13, color: AppColors.ink),
           const SizedBox(width: 5),
           Text(
             label,

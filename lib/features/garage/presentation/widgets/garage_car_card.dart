@@ -17,8 +17,7 @@ class GarageCarCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.line),
+          borderRadius: BorderRadius.circular(18),
         ),
         clipBehavior: Clip.hardEdge,
         child: Column(
@@ -80,7 +79,7 @@ class _StatusBadge extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: AppColors.ink,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(18),
       ),
       child: Text(
         status.toUpperCase(),

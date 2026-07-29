@@ -47,9 +47,9 @@ class MessageButton extends StatelessWidget {
             backgroundColor: AppColors.surface,
             foregroundColor: AppColors.ink,
             padding: EdgeInsets.zero,
-            side: const BorderSide(color: AppColors.line),
+            side: BorderSide.none,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(18),
             ),
           ),
           child: const Icon(

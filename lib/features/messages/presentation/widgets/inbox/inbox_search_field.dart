@@ -13,12 +13,11 @@ class InboxSearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(22),
-          border: Border.all(color: AppColors.line),
+          borderRadius: BorderRadius.circular(18),
         ),
         child: TextField(
           onChanged: onChanged,
@@ -30,6 +29,7 @@ class InboxSearchField extends StatelessWidget {
           ),
           decoration: InputDecoration(
             border: InputBorder.none,
+            filled: false,
             hintText: l10n.messagesSearchHint,
             hintStyle: const TextStyle(
               color: AppColors.muteSoft,

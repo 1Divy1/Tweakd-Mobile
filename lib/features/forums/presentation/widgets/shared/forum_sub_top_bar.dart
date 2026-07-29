@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/shared/widgets/app_pill_button.dart';
 import '../../../../../core/theme/app_colors.dart';
-import 'forum_pill_button.dart';
 
 /// Top bar for pushed forum pages: back button, centered title (with an
 /// optional subtitle) and an optional trailing widget. The trailing side is
@@ -25,7 +25,7 @@ class ForumSubTopBar extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
       child: Row(
         children: [
-          ForumPillButton(
+          AppPillButton(
             icon: Icons.chevron_left_rounded,
             onTap: () => context.pop(),
           ),

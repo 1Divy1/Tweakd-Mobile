@@ -18,6 +18,7 @@ class MyProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: BlocConsumer<ProfileBloc, ProfileState>(
           // The backend is the cross-device source of truth for the app
           // language: whenever the own profile is (re)fetched, adopt its

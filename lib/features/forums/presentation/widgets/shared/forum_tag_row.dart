@@ -75,14 +75,13 @@ class _TagChip extends StatelessWidget {
           vertical: dense ? 4 : 6,
         ),
         decoration: BoxDecoration(
-          color: AppColors.accentSoft,
+          color: AppColors.line2,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.line),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: dense ? 12 : 14, color: AppColors.accent),
+            Icon(icon, size: dense ? 12 : 14, color: AppColors.ink),
             SizedBox(width: dense ? 4 : 6),
             Text(
               label,

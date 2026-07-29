@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/shared/widgets/app_pill_button.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
-import '../shared/message_pill_button.dart';
 
 /// Inbox header: back button, letterspaced "MESSAGES" title and the compose
 /// (new message) button.
@@ -23,7 +23,7 @@ class MessagesTopBar extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
       child: Row(
         children: [
-          MessagePillButton(icon: Icons.chevron_left_rounded, onTap: onBack),
+          AppPillButton(icon: Icons.chevron_left_rounded, onTap: onBack),
           Expanded(
             child: Text(
               l10n.messagesTitle,
@@ -36,7 +36,7 @@ class MessagesTopBar extends StatelessWidget {
               ),
             ),
           ),
-          MessagePillButton(icon: Icons.edit_outlined, onTap: onCompose),
+          AppPillButton(icon: Icons.edit_outlined, onTap: onCompose),
         ],
       ),
     );

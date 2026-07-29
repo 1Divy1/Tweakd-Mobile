@@ -108,8 +108,7 @@ class _LoadMoreButton extends StatelessWidget {
         height: 46,
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.line),
+          borderRadius: BorderRadius.circular(18),
         ),
         child: Center(
           child: isLoading
@@ -149,8 +148,7 @@ class _PostsEmptyView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 36, horizontal: 20),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.line),
+        borderRadius: BorderRadius.circular(18),
       ),
       child: Column(
         children: [
@@ -174,7 +172,7 @@ class _PostsEmptyView extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                 decoration: BoxDecoration(
                   color: AppColors.accent,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(18),
                 ),
                 child: Text(
                   l10n.postsCreateFirst,
@@ -213,7 +211,7 @@ class _PostsLoadingView extends StatelessWidget {
       itemBuilder: (_, _) => Container(
         decoration: BoxDecoration(
           color: AppColors.line,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(18),
         ),
       ),
     );
@@ -232,8 +230,7 @@ class _PostsErrorView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.line),
+        borderRadius: BorderRadius.circular(18),
       ),
       child: Text(
         message,

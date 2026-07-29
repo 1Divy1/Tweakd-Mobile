@@ -16,7 +16,6 @@ class ForumThreadCardSkeleton extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.line),
       ),
       child: AppShimmer(
         child: Column(

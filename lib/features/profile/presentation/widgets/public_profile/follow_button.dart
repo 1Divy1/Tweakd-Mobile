@@ -66,7 +66,6 @@ class FollowButton extends StatelessWidget {
         backgroundColor: AppColors.surface,
         textColor: AppColors.ink,
         iconColor: AppColors.ink,
-        borderColor: AppColors.line,
         isLoading: state.isUpdating,
         onPressed: () =>
             context.read<FollowBloc>().add(ToggleFollow(username)),
@@ -80,7 +79,6 @@ class FollowButton extends StatelessWidget {
         backgroundColor: AppColors.surface,
         textColor: AppColors.mute,
         iconColor: AppColors.mute,
-        borderColor: AppColors.line,
         isLoading: state.isUpdating,
         onPressed: () =>
             context.read<FollowBloc>().add(ToggleFollow(username)),
@@ -104,7 +102,6 @@ class _FollowButtonShell extends StatelessWidget {
   final Color backgroundColor;
   final Color textColor;
   final Color iconColor;
-  final Color? borderColor;
   final bool isLoading;
   final bool enabled;
   final VoidCallback? onPressed;
@@ -115,7 +112,6 @@ class _FollowButtonShell extends StatelessWidget {
     required this.backgroundColor,
     this.textColor = Colors.white,
     this.iconColor = Colors.white,
-    this.borderColor,
     this.isLoading = false,
     this.enabled = true,
     this.onPressed,
@@ -151,10 +147,7 @@ class _FollowButtonShell extends StatelessWidget {
           backgroundColor: backgroundColor,
           disabledBackgroundColor: backgroundColor.withValues(alpha: 0.6),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: borderColor != null
-                ? BorderSide(color: borderColor!)
-                : BorderSide.none,
+            borderRadius: BorderRadius.circular(18),
           ),
           elevation: 0,
         ),

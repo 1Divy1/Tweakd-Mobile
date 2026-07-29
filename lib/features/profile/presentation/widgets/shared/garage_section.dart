@@ -107,8 +107,7 @@ class _GarageHeader extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: AppColors.surface,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: AppColors.line),
+                    borderRadius: BorderRadius.circular(18),
                   ),
                   child: Text(
                     l10n.garageAddButton,
@@ -140,8 +139,7 @@ class _GarageEmptyView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 36, horizontal: 20),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.line),
+        borderRadius: BorderRadius.circular(18),
       ),
       child: Column(
         children: [
@@ -180,9 +178,9 @@ class _GarageLoadingView extends StatelessWidget {
         const SizedBox(height: 8),
         _ShimmerBox(width: 160, height: 24, radius: 4),
         const SizedBox(height: 14),
-        _ShimmerBox(width: double.infinity, height: 220, radius: 12),
+        _ShimmerBox(width: double.infinity, height: 220, radius: 18),
         const SizedBox(height: 12),
-        _ShimmerBox(width: double.infinity, height: 220, radius: 12),
+        _ShimmerBox(width: double.infinity, height: 220, radius: 18),
       ],
     );
   }
@@ -224,8 +222,7 @@ class _GarageErrorView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.line),
+        borderRadius: BorderRadius.circular(18),
       ),
       child: Text(
         message,
