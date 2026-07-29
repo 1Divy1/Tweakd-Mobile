@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:car_social_media_app/features/garage/domain/usecases/get_reference_data.dart';
 
 import '../../../../../core/usecases/usecase.dart';
+import '../../../domain/entities/forum_filter.dart';
 import '../../../domain/entities/forum_thread.dart';
 import '../../../domain/usecases/forum_saves.dart';
 import '../../../domain/usecases/forum_shortcuts.dart';
@@ -13,9 +14,9 @@ import '../../utils/forum_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
 
-/// Drives one hub page: threads with sort + cursor paging, in-page topic
-/// refinement, the models row for brand hubs, and saving the filter as a
-/// shortcut.
+/// Drives one hub page (a brand or a brand + model): threads with sort +
+/// cursor paging, in-page topic refinement, the models row for brand hubs, and
+/// saving the filter as a shortcut.
 @injectable
 class ForumHubBloc extends Bloc<ForumHubEvent, ForumHubState> {
   final GetForumThreadsUseCase getThreads;
@@ -42,18 +43,29 @@ class ForumHubBloc extends Bloc<ForumHubEvent, ForumHubState> {
   }
 
   Future<void> _onLoad(LoadForumHub event, Emitter<ForumHubState> emit) async {
-    emit(ForumHubState(baseFilter: event.filter, isLoading: true));
+    // The hub itself is the car; a topic on the incoming filter (a brand +
+    // topic shortcut, or one carried over from the brand hub) starts life as
+    // the selected refine chip so it can still be changed here.
+    final filter = ForumFilter(
+      brand: event.filter.brand,
+      model: event.filter.model,
+    );
+    emit(ForumHubState(
+      baseFilter: filter,
+      refinedTopic: event.filter.topic,
+      isLoading: true,
+    ));
 
-    final filter = event.filter;
-    final threadsFuture =
-        getThreads(GetForumThreadsParams(filter: filter, sort: state.sort));
+    final threadsFuture = getThreads(
+      GetForumThreadsParams(filter: state.effectiveFilter, sort: state.sort),
+    );
     // Models only matter on a brand hub (no model picked yet); topics feed the
-    // refine chips of any car hub.
+    // refine chips of every hub.
     final wantsModels = filter.brand != null && filter.model == null;
     final modelsFuture = wantsModels
         ? getModelsByBrand(GetModelsByBrandParams(brandId: filter.brand!.id))
         : null;
-    final topicsFuture = filter.topic == null ? getTopics(NoParams()) : null;
+    final topicsFuture = getTopics(NoParams());
 
     final threadsResult = await threadsFuture;
     final modelsResult = await modelsFuture;
@@ -71,12 +83,7 @@ class ForumHubBloc extends Bloc<ForumHubEvent, ForumHubState> {
       threads: threadsResult.fold((_) => const [], (p) => p.items),
       nextCursor: threadsResult.fold((_) => null, (p) => p.nextCursor),
       models: modelsResult?.fold((_) => const [], (m) => m) ?? const [],
-      topics: topicsResult?.fold(
-            (_) => const [],
-            (groups) => [for (final g in groups) ...g.topics]
-              ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder)),
-          ) ??
-          const [],
+      topics: topicsResult.fold((_) => const [], (t) => t),
     ));
   }
 

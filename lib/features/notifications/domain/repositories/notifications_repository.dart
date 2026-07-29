@@ -1,0 +1,24 @@
+import 'package:dartz/dartz.dart';
+
+import '../../../../core/error/base_failures.dart';
+import '../entities/notification.dart';
+
+/// Notifications data contract. Implementations map data-layer exceptions to
+/// [Failure]s and never leak SDK/HTTP exceptions.
+abstract class NotificationsRepository {
+  /// One cursor page of notifications (newest first). Echo [cursor] back from
+  /// the previous page's `next_cursor`.
+  Future<Either<Failure, NotificationPageEntity>> getNotifications({
+    String? cursor,
+    int size,
+  });
+
+  /// The viewer's unread notification count — drives the feed top-bar badge.
+  Future<Either<Failure, int>> getUnreadCount();
+
+  /// Marks a single notification read.
+  Future<Either<Failure, void>> markRead(String id);
+
+  /// Marks every notification read; resolves with the number updated.
+  Future<Either<Failure, int>> markAllRead();
+}

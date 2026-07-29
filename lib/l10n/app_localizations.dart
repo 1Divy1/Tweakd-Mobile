@@ -122,6 +122,24 @@ abstract class AppLocalizations {
   /// **'Romanian'**
   String get languageRomanian;
 
+  /// Title of the language picker bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your language'**
+  String get settingsLanguagePickerTitle;
+
+  /// Shown in the language picker when fetching the option list fails
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t load the language options. Please try again.'**
+  String get settingsLanguageLoadError;
+
+  /// Snackbar shown when picking a language fails to save
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t update your language. Please try again.'**
+  String get settingsLanguageUpdateError;
+
   /// No description provided for @commonSave.
   ///
   /// In en, this message translates to:
@@ -926,11 +944,29 @@ abstract class AppLocalizations {
   /// **'When a saved item gets a discount'**
   String get onboardingNotifPriceDropsSubtitle;
 
+  /// No description provided for @onboardingNotifTagsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get onboardingNotifTagsTitle;
+
+  /// No description provided for @onboardingNotifTagsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When someone tags you or your car'**
+  String get onboardingNotifTagsSubtitle;
+
   /// No description provided for @profileTitle.
   ///
   /// In en, this message translates to:
   /// **'PROFILE'**
   String get profileTitle;
+
+  /// No description provided for @profileMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get profileMessage;
 
   /// No description provided for @profileStatFollowers.
   ///
@@ -973,6 +1009,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get profileErrorGeneric;
+
+  /// No description provided for @profileErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Please try again.'**
+  String get profileErrorNetwork;
+
+  /// No description provided for @profileEditButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile'**
+  String get profileEditButton;
+
+  /// No description provided for @editProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'EDIT PROFILE'**
+  String get editProfileTitle;
+
+  /// No description provided for @editProfileChangePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Change photo'**
+  String get editProfileChangePhoto;
+
+  /// No description provided for @editProfileNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'NAME'**
+  String get editProfileNameLabel;
+
+  /// No description provided for @editProfileNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your display name'**
+  String get editProfileNameHint;
+
+  /// No description provided for @editProfileBioLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'BIO'**
+  String get editProfileBioLabel;
+
+  /// No description provided for @editProfileBioHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell others a few things about yourself…'**
+  String get editProfileBioHint;
+
+  /// No description provided for @editProfileSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get editProfileSave;
+
+  /// No description provided for @editProfileSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated'**
+  String get editProfileSaved;
+
+  /// No description provided for @editProfilePhotoUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo updated'**
+  String get editProfilePhotoUpdated;
+
+  /// No description provided for @editProfileErrorInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check your name and bio, then try again.'**
+  String get editProfileErrorInvalid;
+
+  /// No description provided for @editProfileErrorAvatar.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t update your photo. Please try again.'**
+  String get editProfileErrorAvatar;
 
   /// No description provided for @followActionFollow.
   ///
@@ -1189,12 +1303,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PROFILE'**
   String get navProfile;
-
-  /// No description provided for @feedComingSoon.
-  ///
-  /// In en, this message translates to:
-  /// **'Coming soon'**
-  String get feedComingSoon;
 
   /// No description provided for @feedEmptyTitle.
   ///
@@ -2720,6 +2828,24 @@ abstract class AppLocalizations {
   /// **'CREATE YOUR FIRST POST'**
   String get postsCreateFirst;
 
+  /// No description provided for @savedPostsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVED POSTS'**
+  String get savedPostsTitle;
+
+  /// No description provided for @savedPostsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing saved yet'**
+  String get savedPostsEmptyTitle;
+
+  /// No description provided for @savedPostsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Save posts you like to find them here later.'**
+  String get savedPostsEmptyBody;
+
   /// No description provided for @postDetailTitle.
   ///
   /// In en, this message translates to:
@@ -3037,6 +3163,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t submit your report. Please try again.'**
   String get reportErrorGeneric;
+
+  /// No description provided for @settingsSavedPosts.
+  ///
+  /// In en, this message translates to:
+  /// **'Your saved posts'**
+  String get settingsSavedPosts;
 
   /// No description provided for @settingsMyReports.
   ///
@@ -3410,18 +3542,6 @@ abstract class AppLocalizations {
   /// **'BROWSE'**
   String get forumsBrowseTitle;
 
-  /// No description provided for @forumsByCar.
-  ///
-  /// In en, this message translates to:
-  /// **'By car'**
-  String get forumsByCar;
-
-  /// No description provided for @forumsByTopic.
-  ///
-  /// In en, this message translates to:
-  /// **'By topic'**
-  String get forumsByTopic;
-
   /// No description provided for @forumsBrandsCount.
   ///
   /// In en, this message translates to:
@@ -3433,18 +3553,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 thread} other{{count} threads}}'**
   String forumsThreadsCount(int count);
-
-  /// No description provided for @forumsByComponent.
-  ///
-  /// In en, this message translates to:
-  /// **'BY COMPONENT'**
-  String get forumsByComponent;
-
-  /// No description provided for @forumsByFormat.
-  ///
-  /// In en, this message translates to:
-  /// **'BY FORMAT'**
-  String get forumsByFormat;
 
   /// No description provided for @forumsModels.
   ///
@@ -3704,28 +3812,64 @@ abstract class AppLocalizations {
   /// **'Share the details, questions, or your writeup…'**
   String get forumsThreadBodyHint;
 
-  /// No description provided for @forumsTagACar.
+  /// No description provided for @forumsBrandRequiredLabel.
   ///
   /// In en, this message translates to:
-  /// **'TAG A CAR'**
-  String get forumsTagACar;
+  /// **'BRAND · REQUIRED'**
+  String get forumsBrandRequiredLabel;
 
-  /// No description provided for @forumsFromYourGarage.
+  /// No description provided for @forumsModelOptionalLabel.
   ///
   /// In en, this message translates to:
-  /// **'From your garage · {car}'**
-  String forumsFromYourGarage(String car);
+  /// **'MODEL · OPTIONAL'**
+  String get forumsModelOptionalLabel;
 
-  /// No description provided for @forumsSearchCarHint.
+  /// No description provided for @forumsSearchBrandHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search a brand…'**
+  String get forumsSearchBrandHint;
+
+  /// No description provided for @forumsSearchModelHint.
   ///
   /// In en, this message translates to:
   /// **'Search a model…'**
-  String get forumsSearchCarHint;
+  String get forumsSearchModelHint;
+
+  /// No description provided for @forumsChooseBrand.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a brand'**
+  String get forumsChooseBrand;
+
+  /// No description provided for @forumsChooseModel.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a model'**
+  String get forumsChooseModel;
+
+  /// No description provided for @forumsNoBrandMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'No brands match that search.'**
+  String get forumsNoBrandMatches;
+
+  /// No description provided for @forumsNoModelMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'No models match that search.'**
+  String get forumsNoModelMatches;
+
+  /// No description provided for @forumsNoModelsForBrand.
+  ///
+  /// In en, this message translates to:
+  /// **'No models listed for this brand.'**
+  String get forumsNoModelsForBrand;
 
   /// No description provided for @forumsTagCarHelper.
   ///
   /// In en, this message translates to:
-  /// **'Brand is set automatically from the model. Leave empty for a general thread.'**
+  /// **'Pick a brand so your thread shows up in the right hub. Adding the exact model is recommended unless your question applies to the whole brand.'**
   String get forumsTagCarHelper;
 
   /// No description provided for @forumsTopics.
@@ -3733,18 +3877,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'TOPICS'**
   String get forumsTopics;
-
-  /// No description provided for @forumsComponentLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'COMPONENT'**
-  String get forumsComponentLabel;
-
-  /// No description provided for @forumsFormatLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'FORMAT'**
-  String get forumsFormatLabel;
 
   /// No description provided for @forumsThreadPosted.
   ///
@@ -3773,7 +3905,7 @@ abstract class AppLocalizations {
   /// No description provided for @forumsAuthorBadge.
   ///
   /// In en, this message translates to:
-  /// **'OP'**
+  /// **'Author'**
   String get forumsAuthorBadge;
 
   /// No description provided for @forumsRepliesOldest.
@@ -3853,6 +3985,420 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get forumsErrorGeneric;
+
+  /// No description provided for @forumsErrorInvalidTags.
+  ///
+  /// In en, this message translates to:
+  /// **'One of the tagged profiles or cars is no longer available.'**
+  String get forumsErrorInvalidTags;
+
+  /// No description provided for @forumsTagPeopleAndCars.
+  ///
+  /// In en, this message translates to:
+  /// **'TAG PEOPLE & CARS'**
+  String get forumsTagPeopleAndCars;
+
+  /// No description provided for @forumsTagPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'PEOPLE'**
+  String get forumsTagPeople;
+
+  /// No description provided for @forumsTagCars.
+  ///
+  /// In en, this message translates to:
+  /// **'CARS'**
+  String get forumsTagCars;
+
+  /// No description provided for @forumsTagHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Mention someone to pull cars from their garage. Your own cars can be tagged without mentioning yourself.'**
+  String get forumsTagHelper;
+
+  /// No description provided for @forumsTagPeopleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search a username…'**
+  String get forumsTagPeopleHint;
+
+  /// No description provided for @forumsTagAddCar.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag a car'**
+  String get forumsTagAddCar;
+
+  /// No description provided for @forumsTagChoosePerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Whose car?'**
+  String get forumsTagChoosePerson;
+
+  /// No description provided for @forumsTagChooseCar.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a car'**
+  String get forumsTagChooseCar;
+
+  /// No description provided for @forumsTagYourGarage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your garage'**
+  String get forumsTagYourGarage;
+
+  /// No description provided for @forumsTagNoPeopleFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No profiles match that search.'**
+  String get forumsTagNoPeopleFound;
+
+  /// No description provided for @forumsTagLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t load that. Please try again.'**
+  String get forumsTagLoadError;
+
+  /// No description provided for @forumsTagNoCars.
+  ///
+  /// In en, this message translates to:
+  /// **'This person has no cars to tag.'**
+  String get forumsTagNoCars;
+
+  /// No description provided for @forumsTagNoOwnCars.
+  ///
+  /// In en, this message translates to:
+  /// **'Your garage is empty.'**
+  String get forumsTagNoOwnCars;
+
+  /// No description provided for @forumsTagPersonFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Mention someone first to tag one of their cars.'**
+  String get forumsTagPersonFirst;
+
+  /// No description provided for @forumsTagLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'You can tag up to {limit} at a time.'**
+  String forumsTagLimitReached(int limit);
+
+  /// No description provided for @forumsTagsSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get forumsTagsSheetTitle;
+
+  /// No description provided for @forumsTagsDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get forumsTagsDone;
+
+  /// No description provided for @forumsAddTagsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag people & cars'**
+  String get forumsAddTagsTooltip;
+
+  /// No description provided for @forumsTagsSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'TAGS'**
+  String get forumsTagsSectionLabel;
+
+  /// No description provided for @messagesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MESSAGES'**
+  String get messagesTitle;
+
+  /// No description provided for @messagesSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search messages'**
+  String get messagesSearchHint;
+
+  /// No description provided for @messagesActiveNow.
+  ///
+  /// In en, this message translates to:
+  /// **'ACTIVE NOW'**
+  String get messagesActiveNow;
+
+  /// No description provided for @messagesRequestsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Message requests'**
+  String get messagesRequestsTitle;
+
+  /// No description provided for @messagesRequestsOthers.
+  ///
+  /// In en, this message translates to:
+  /// **'{names} & {count} others'**
+  String messagesRequestsOthers(String names, int count);
+
+  /// No description provided for @messagesEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet'**
+  String get messagesEmptyTitle;
+
+  /// No description provided for @messagesEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a conversation with drivers you follow — plan meets, swap specs, share runs.'**
+  String get messagesEmptyBody;
+
+  /// No description provided for @messagesNewMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW MESSAGE'**
+  String get messagesNewMessage;
+
+  /// No description provided for @messagesYouPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'You: {text}'**
+  String messagesYouPrefix(String text);
+
+  /// No description provided for @messagesSharedPost.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared a post'**
+  String get messagesSharedPost;
+
+  /// No description provided for @messagesTimeNow.
+  ///
+  /// In en, this message translates to:
+  /// **'now'**
+  String get messagesTimeNow;
+
+  /// No description provided for @messagesTimeMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}m'**
+  String messagesTimeMinutes(int count);
+
+  /// No description provided for @messagesTimeHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}h'**
+  String messagesTimeHours(int count);
+
+  /// No description provided for @messagesTimeDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}d'**
+  String messagesTimeDays(int count);
+
+  /// No description provided for @messagesTimeWeeks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}w'**
+  String messagesTimeWeeks(int count);
+
+  /// No description provided for @messagesActiveNowStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Active now'**
+  String get messagesActiveNowStatus;
+
+  /// No description provided for @messagesLastSeen.
+  ///
+  /// In en, this message translates to:
+  /// **'Last seen {ago}'**
+  String messagesLastSeen(String ago);
+
+  /// No description provided for @messagesMutualFollow.
+  ///
+  /// In en, this message translates to:
+  /// **'You both follow each other · {followers} followers'**
+  String messagesMutualFollow(String followers);
+
+  /// No description provided for @messagesDatePill.
+  ///
+  /// In en, this message translates to:
+  /// **'TODAY · {time}'**
+  String messagesDatePill(String time);
+
+  /// No description provided for @messagesSeen.
+  ///
+  /// In en, this message translates to:
+  /// **'Seen'**
+  String get messagesSeen;
+
+  /// No description provided for @messagesDeletedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Message deleted'**
+  String get messagesDeletedMessage;
+
+  /// No description provided for @messagesDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete message'**
+  String get messagesDeleteMessage;
+
+  /// No description provided for @messagesDeleteMessageBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Removes it for both of you.'**
+  String get messagesDeleteMessageBody;
+
+  /// No description provided for @messagesDeleteChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete chat'**
+  String get messagesDeleteChat;
+
+  /// No description provided for @messagesDeleteChatBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Hides it from your list only — it comes back with a new message.'**
+  String get messagesDeleteChatBody;
+
+  /// No description provided for @messagesInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Message…'**
+  String get messagesInputHint;
+
+  /// No description provided for @messagesEmptyChat.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet — say hi 👋'**
+  String get messagesEmptyChat;
+
+  /// No description provided for @messagesComposeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New message'**
+  String get messagesComposeTitle;
+
+  /// No description provided for @messagesComposeSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search drivers…'**
+  String get messagesComposeSearchHint;
+
+  /// No description provided for @messagesComposeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No drivers found'**
+  String get messagesComposeEmpty;
+
+  /// No description provided for @messagesComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get messagesComingSoon;
+
+  /// No description provided for @messagesRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get messagesRetry;
+
+  /// No description provided for @messagesErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Please try again.'**
+  String get messagesErrorNetwork;
+
+  /// No description provided for @messagesErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get messagesErrorGeneric;
+
+  /// No description provided for @messagesSharedCars.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared cars'**
+  String get messagesSharedCars;
+
+  /// No description provided for @messagesShareCarsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share cars'**
+  String get messagesShareCarsTitle;
+
+  /// No description provided for @messagesShareCarsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick cars from your garage'**
+  String get messagesShareCarsSubtitle;
+
+  /// No description provided for @messagesShareCarsLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'You can share up to {count} cars'**
+  String messagesShareCarsLimit(int count);
+
+  /// No description provided for @messagesShareCarsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No cars in your garage yet'**
+  String get messagesShareCarsEmpty;
+
+  /// No description provided for @messagesShareCarsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load your garage. Please try again.'**
+  String get messagesShareCarsError;
+
+  /// No description provided for @messagesShareCarsConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Share {count}'**
+  String messagesShareCarsConfirm(int count);
+
+  /// No description provided for @messagesShareCarsConfirmEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Share cars'**
+  String get messagesShareCarsConfirmEmpty;
+
+  /// No description provided for @notificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'NOTIFICATIONS'**
+  String get notificationsTitle;
+
+  /// No description provided for @notificationsMarkAllRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all as read'**
+  String get notificationsMarkAllRead;
+
+  /// No description provided for @notificationsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet'**
+  String get notificationsEmptyTitle;
+
+  /// No description provided for @notificationsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Likes, comments and replies on your posts and threads will show up here.'**
+  String get notificationsEmptyBody;
+
+  /// No description provided for @notificationsRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get notificationsRetry;
+
+  /// No description provided for @notificationsErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Please try again.'**
+  String get notificationsErrorNetwork;
+
+  /// No description provided for @notificationsErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get notificationsErrorGeneric;
 }
 
 class _AppLocalizationsDelegate

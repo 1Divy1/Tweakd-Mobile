@@ -9,6 +9,10 @@ class NotificationPreferences extends Equatable {
   final bool organizedEventsEnabled;
   final bool priceDropsEnabled;
 
+  /// Tags on posts, forum threads and forum replies. Required by
+  /// `PUT /profile/me/notifications` — the payload replaces every flag.
+  final bool tagsEnabled;
+
   const NotificationPreferences({
     required this.likesEnabled,
     required this.commentsEnabled,
@@ -17,6 +21,7 @@ class NotificationPreferences extends Equatable {
     required this.flashMeetsEnabled,
     required this.organizedEventsEnabled,
     required this.priceDropsEnabled,
+    required this.tagsEnabled,
   });
 
   /// Sensible opt-in defaults shown when the Notifications step first opens.
@@ -28,6 +33,7 @@ class NotificationPreferences extends Equatable {
         flashMeetsEnabled: true,
         organizedEventsEnabled: true,
         priceDropsEnabled: true,
+        tagsEnabled: true,
       );
 
   NotificationPreferences copyWith({
@@ -38,6 +44,7 @@ class NotificationPreferences extends Equatable {
     bool? flashMeetsEnabled,
     bool? organizedEventsEnabled,
     bool? priceDropsEnabled,
+    bool? tagsEnabled,
   }) {
     return NotificationPreferences(
       likesEnabled: likesEnabled ?? this.likesEnabled,
@@ -48,6 +55,7 @@ class NotificationPreferences extends Equatable {
       organizedEventsEnabled:
           organizedEventsEnabled ?? this.organizedEventsEnabled,
       priceDropsEnabled: priceDropsEnabled ?? this.priceDropsEnabled,
+      tagsEnabled: tagsEnabled ?? this.tagsEnabled,
     );
   }
 
@@ -59,6 +67,7 @@ class NotificationPreferences extends Equatable {
         'flash_meets_enabled': flashMeetsEnabled,
         'organized_events_enabled': organizedEventsEnabled,
         'price_drops_enabled': priceDropsEnabled,
+        'tags_enabled': tagsEnabled,
       };
 
   @override
@@ -70,5 +79,6 @@ class NotificationPreferences extends Equatable {
         flashMeetsEnabled,
         organizedEventsEnabled,
         priceDropsEnabled,
+        tagsEnabled,
       ];
 }

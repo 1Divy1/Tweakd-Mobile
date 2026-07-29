@@ -21,6 +21,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageRomanian => 'Romanian';
 
   @override
+  String get settingsLanguagePickerTitle => 'Choose your language';
+
+  @override
+  String get settingsLanguageLoadError =>
+      'We couldn\'t load the language options. Please try again.';
+
+  @override
+  String get settingsLanguageUpdateError =>
+      'We couldn\'t update your language. Please try again.';
+
+  @override
   String get commonSave => 'Save';
 
   @override
@@ -476,7 +487,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'When a saved item gets a discount';
 
   @override
+  String get onboardingNotifTagsTitle => 'Tags';
+
+  @override
+  String get onboardingNotifTagsSubtitle => 'When someone tags you or your car';
+
+  @override
   String get profileTitle => 'PROFILE';
+
+  @override
+  String get profileMessage => 'Message';
 
   @override
   String get profileStatFollowers => 'FOLLOWERS';
@@ -501,6 +521,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileErrorGeneric => 'Something went wrong. Please try again.';
+
+  @override
+  String get profileErrorNetwork => 'No internet connection. Please try again.';
+
+  @override
+  String get profileEditButton => 'Edit profile';
+
+  @override
+  String get editProfileTitle => 'EDIT PROFILE';
+
+  @override
+  String get editProfileChangePhoto => 'Change photo';
+
+  @override
+  String get editProfileNameLabel => 'NAME';
+
+  @override
+  String get editProfileNameHint => 'Your display name';
+
+  @override
+  String get editProfileBioLabel => 'BIO';
+
+  @override
+  String get editProfileBioHint => 'Tell others a few things about yourself…';
+
+  @override
+  String get editProfileSave => 'Save changes';
+
+  @override
+  String get editProfileSaved => 'Profile updated';
+
+  @override
+  String get editProfilePhotoUpdated => 'Photo updated';
+
+  @override
+  String get editProfileErrorInvalid =>
+      'Please check your name and bio, then try again.';
+
+  @override
+  String get editProfileErrorAvatar =>
+      'We couldn\'t update your photo. Please try again.';
 
   @override
   String get followActionFollow => 'FOLLOW';
@@ -638,9 +699,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get navProfile => 'PROFILE';
-
-  @override
-  String get feedComingSoon => 'Coming soon';
 
   @override
   String get feedEmptyTitle => 'Your feed is quiet';
@@ -1447,6 +1505,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get postsCreateFirst => 'CREATE YOUR FIRST POST';
 
   @override
+  String get savedPostsTitle => 'SAVED POSTS';
+
+  @override
+  String get savedPostsEmptyTitle => 'Nothing saved yet';
+
+  @override
+  String get savedPostsEmptyBody =>
+      'Save posts you like to find them here later.';
+
+  @override
   String get postDetailTitle => 'POST';
 
   @override
@@ -1664,6 +1732,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Couldn\'t submit your report. Please try again.';
 
   @override
+  String get settingsSavedPosts => 'Your saved posts';
+
+  @override
   String get settingsMyReports => 'My reports';
 
   @override
@@ -1856,12 +1927,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forumsBrowseTitle => 'BROWSE';
 
   @override
-  String get forumsByCar => 'By car';
-
-  @override
-  String get forumsByTopic => 'By topic';
-
-  @override
   String forumsBrandsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -1882,12 +1947,6 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
-
-  @override
-  String get forumsByComponent => 'BY COMPONENT';
-
-  @override
-  String get forumsByFormat => 'BY FORMAT';
 
   @override
   String get forumsModels => 'MODELS';
@@ -2045,28 +2104,38 @@ class AppLocalizationsEn extends AppLocalizations {
       'Share the details, questions, or your writeup…';
 
   @override
-  String get forumsTagACar => 'TAG A CAR';
+  String get forumsBrandRequiredLabel => 'BRAND · REQUIRED';
 
   @override
-  String forumsFromYourGarage(String car) {
-    return 'From your garage · $car';
-  }
+  String get forumsModelOptionalLabel => 'MODEL · OPTIONAL';
 
   @override
-  String get forumsSearchCarHint => 'Search a model…';
+  String get forumsSearchBrandHint => 'Search a brand…';
+
+  @override
+  String get forumsSearchModelHint => 'Search a model…';
+
+  @override
+  String get forumsChooseBrand => 'Choose a brand';
+
+  @override
+  String get forumsChooseModel => 'Choose a model';
+
+  @override
+  String get forumsNoBrandMatches => 'No brands match that search.';
+
+  @override
+  String get forumsNoModelMatches => 'No models match that search.';
+
+  @override
+  String get forumsNoModelsForBrand => 'No models listed for this brand.';
 
   @override
   String get forumsTagCarHelper =>
-      'Brand is set automatically from the model. Leave empty for a general thread.';
+      'Pick a brand so your thread shows up in the right hub. Adding the exact model is recommended unless your question applies to the whole brand.';
 
   @override
   String get forumsTopics => 'TOPICS';
-
-  @override
-  String get forumsComponentLabel => 'COMPONENT';
-
-  @override
-  String get forumsFormatLabel => 'FORMAT';
 
   @override
   String get forumsThreadPosted => 'Thread posted.';
@@ -2081,7 +2150,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forumsSaved => 'Saved';
 
   @override
-  String get forumsAuthorBadge => 'OP';
+  String get forumsAuthorBadge => 'Author';
 
   @override
   String get forumsRepliesOldest => 'Oldest';
@@ -2124,4 +2193,245 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get forumsErrorGeneric => 'Something went wrong. Please try again.';
+
+  @override
+  String get forumsErrorInvalidTags =>
+      'One of the tagged profiles or cars is no longer available.';
+
+  @override
+  String get forumsTagPeopleAndCars => 'TAG PEOPLE & CARS';
+
+  @override
+  String get forumsTagPeople => 'PEOPLE';
+
+  @override
+  String get forumsTagCars => 'CARS';
+
+  @override
+  String get forumsTagHelper =>
+      'Mention someone to pull cars from their garage. Your own cars can be tagged without mentioning yourself.';
+
+  @override
+  String get forumsTagPeopleHint => 'Search a username…';
+
+  @override
+  String get forumsTagAddCar => 'Tag a car';
+
+  @override
+  String get forumsTagChoosePerson => 'Whose car?';
+
+  @override
+  String get forumsTagChooseCar => 'Pick a car';
+
+  @override
+  String get forumsTagYourGarage => 'Your garage';
+
+  @override
+  String get forumsTagNoPeopleFound => 'No profiles match that search.';
+
+  @override
+  String get forumsTagLoadError => 'Couldn’t load that. Please try again.';
+
+  @override
+  String get forumsTagNoCars => 'This person has no cars to tag.';
+
+  @override
+  String get forumsTagNoOwnCars => 'Your garage is empty.';
+
+  @override
+  String get forumsTagPersonFirst =>
+      'Mention someone first to tag one of their cars.';
+
+  @override
+  String forumsTagLimitReached(int limit) {
+    return 'You can tag up to $limit at a time.';
+  }
+
+  @override
+  String get forumsTagsSheetTitle => 'Tags';
+
+  @override
+  String get forumsTagsDone => 'Done';
+
+  @override
+  String get forumsAddTagsTooltip => 'Tag people & cars';
+
+  @override
+  String get forumsTagsSectionLabel => 'TAGS';
+
+  @override
+  String get messagesTitle => 'MESSAGES';
+
+  @override
+  String get messagesSearchHint => 'Search messages';
+
+  @override
+  String get messagesActiveNow => 'ACTIVE NOW';
+
+  @override
+  String get messagesRequestsTitle => 'Message requests';
+
+  @override
+  String messagesRequestsOthers(String names, int count) {
+    return '$names & $count others';
+  }
+
+  @override
+  String get messagesEmptyTitle => 'No messages yet';
+
+  @override
+  String get messagesEmptyBody =>
+      'Start a conversation with drivers you follow — plan meets, swap specs, share runs.';
+
+  @override
+  String get messagesNewMessage => 'NEW MESSAGE';
+
+  @override
+  String messagesYouPrefix(String text) {
+    return 'You: $text';
+  }
+
+  @override
+  String get messagesSharedPost => 'Shared a post';
+
+  @override
+  String get messagesTimeNow => 'now';
+
+  @override
+  String messagesTimeMinutes(int count) {
+    return '${count}m';
+  }
+
+  @override
+  String messagesTimeHours(int count) {
+    return '${count}h';
+  }
+
+  @override
+  String messagesTimeDays(int count) {
+    return '${count}d';
+  }
+
+  @override
+  String messagesTimeWeeks(int count) {
+    return '${count}w';
+  }
+
+  @override
+  String get messagesActiveNowStatus => 'Active now';
+
+  @override
+  String messagesLastSeen(String ago) {
+    return 'Last seen $ago';
+  }
+
+  @override
+  String messagesMutualFollow(String followers) {
+    return 'You both follow each other · $followers followers';
+  }
+
+  @override
+  String messagesDatePill(String time) {
+    return 'TODAY · $time';
+  }
+
+  @override
+  String get messagesSeen => 'Seen';
+
+  @override
+  String get messagesDeletedMessage => 'Message deleted';
+
+  @override
+  String get messagesDeleteMessage => 'Delete message';
+
+  @override
+  String get messagesDeleteMessageBody => 'Removes it for both of you.';
+
+  @override
+  String get messagesDeleteChat => 'Delete chat';
+
+  @override
+  String get messagesDeleteChatBody =>
+      'Hides it from your list only — it comes back with a new message.';
+
+  @override
+  String get messagesInputHint => 'Message…';
+
+  @override
+  String get messagesEmptyChat => 'No messages yet — say hi 👋';
+
+  @override
+  String get messagesComposeTitle => 'New message';
+
+  @override
+  String get messagesComposeSearchHint => 'Search drivers…';
+
+  @override
+  String get messagesComposeEmpty => 'No drivers found';
+
+  @override
+  String get messagesComingSoon => 'Coming soon';
+
+  @override
+  String get messagesRetry => 'Try again';
+
+  @override
+  String get messagesErrorNetwork =>
+      'No internet connection. Please try again.';
+
+  @override
+  String get messagesErrorGeneric => 'Something went wrong. Please try again.';
+
+  @override
+  String get messagesSharedCars => 'Shared cars';
+
+  @override
+  String get messagesShareCarsTitle => 'Share cars';
+
+  @override
+  String get messagesShareCarsSubtitle => 'Pick cars from your garage';
+
+  @override
+  String messagesShareCarsLimit(int count) {
+    return 'You can share up to $count cars';
+  }
+
+  @override
+  String get messagesShareCarsEmpty => 'No cars in your garage yet';
+
+  @override
+  String get messagesShareCarsError =>
+      'Couldn\'t load your garage. Please try again.';
+
+  @override
+  String messagesShareCarsConfirm(int count) {
+    return 'Share $count';
+  }
+
+  @override
+  String get messagesShareCarsConfirmEmpty => 'Share cars';
+
+  @override
+  String get notificationsTitle => 'NOTIFICATIONS';
+
+  @override
+  String get notificationsMarkAllRead => 'Mark all as read';
+
+  @override
+  String get notificationsEmptyTitle => 'No notifications yet';
+
+  @override
+  String get notificationsEmptyBody =>
+      'Likes, comments and replies on your posts and threads will show up here.';
+
+  @override
+  String get notificationsRetry => 'Try again';
+
+  @override
+  String get notificationsErrorNetwork =>
+      'No internet connection. Please try again.';
+
+  @override
+  String get notificationsErrorGeneric =>
+      'Something went wrong. Please try again.';
 }

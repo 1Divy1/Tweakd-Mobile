@@ -14,10 +14,19 @@ class CreateForumReplyParams {
   /// to the same thread).
   final String? parentPostId;
 
+  /// Profile ids tagged in the reply (max 30).
+  final List<String> taggedPeople;
+
+  /// Car ids tagged in the reply (max 30); each car's owner must be tagged
+  /// too, unless the car is the author's own.
+  final List<String> taggedCars;
+
   const CreateForumReplyParams({
     required this.threadId,
     required this.content,
     this.parentPostId,
+    this.taggedPeople = const [],
+    this.taggedCars = const [],
   });
 }
 
@@ -35,6 +44,8 @@ class CreateForumReplyUseCase
       params.threadId,
       content: params.content,
       parentPostId: params.parentPostId,
+      taggedPeople: params.taggedPeople,
+      taggedCars: params.taggedCars,
     );
   }
 }

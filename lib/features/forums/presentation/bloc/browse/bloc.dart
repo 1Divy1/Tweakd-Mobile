@@ -4,20 +4,17 @@ import 'package:injectable/injectable.dart';
 import 'package:car_social_media_app/features/garage/domain/usecases/get_reference_data.dart';
 
 import '../../../../../core/usecases/usecase.dart';
-import '../../../domain/usecases/get_forum_topics.dart';
 import '../../utils/forum_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
 
-/// Loads the browse page's two tabs: the car brand catalog (reused from the
-/// garage reference data) and the forum topic groups.
+/// Loads the browse page: the car brand catalog, reused from the garage
+/// reference data. Brands (and their models) are the only forum categories.
 @injectable
 class ForumBrowseBloc extends Bloc<ForumBrowseEvent, ForumBrowseState> {
   final GetBrandsUseCase getBrands;
-  final GetForumTopicsUseCase getTopics;
 
-  ForumBrowseBloc({required this.getBrands, required this.getTopics})
-      : super(const ForumBrowseInitial()) {
+  ForumBrowseBloc({required this.getBrands}) : super(const ForumBrowseInitial()) {
     on<LoadForumBrowse>(_onLoad);
   }
 
@@ -27,18 +24,11 @@ class ForumBrowseBloc extends Bloc<ForumBrowseEvent, ForumBrowseState> {
   ) async {
     emit(const ForumBrowseLoading());
 
-    final brandsFuture = getBrands(NoParams());
-    final topicsFuture = getTopics(NoParams());
-    final brandsResult = await brandsFuture;
-    final topicsResult = await topicsFuture;
+    final brandsResult = await getBrands(NoParams());
 
     brandsResult.fold(
       (f) => emit(ForumBrowseError(ForumErrorMapper.getCode(f))),
-      (brands) => topicsResult.fold(
-        (f) => emit(ForumBrowseError(ForumErrorMapper.getCode(f))),
-        (groups) =>
-            emit(ForumBrowseLoaded(brands: brands, topicGroups: groups)),
-      ),
+      (brands) => emit(ForumBrowseLoaded(brands: brands)),
     );
   }
 }

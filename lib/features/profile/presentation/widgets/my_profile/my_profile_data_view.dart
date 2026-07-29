@@ -23,6 +23,7 @@ import '../shared/profile_identity.dart';
 import '../shared/profile_section_tabs.dart';
 import '../shared/profile_stats_row.dart';
 import '../shared/profile_top_bar.dart';
+import 'edit_profile_button.dart';
 import 'settings_button.dart';
 
 class MyProfileDataView extends StatefulWidget {
@@ -36,6 +37,14 @@ class MyProfileDataView extends StatefulWidget {
 
 class _MyProfileDataViewState extends State<MyProfileDataView> {
   ProfileSection _section = ProfileSection.posts;
+
+  Future<void> _openEditProfile(BuildContext context) async {
+    final bloc = context.read<ProfileBloc>();
+    await context.push('/profile/edit', extra: widget.profile);
+    // The repository cache is already refreshed by a successful edit; force a
+    // remote fetch anyway so the profile always reflects the latest on return.
+    bloc.add(const FetchUserProfileData(fetchFromRemote: true));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +116,8 @@ class _MyProfileDataViewState extends State<MyProfileDataView> {
                       following: profile.followingCount,
                       isOwnProfile: true,
                     ),
+                    const SizedBox(height: 18),
+                    EditProfileButton(onTap: () => _openEditProfile(context)),
                     const SizedBox(height: 22),
                     ProfileSectionTabs(
                       active: _section,

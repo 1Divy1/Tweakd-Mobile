@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 
+import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
+
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
+import '../tagging/forum_tag_strip.dart';
 
 /// Bottom composer of the thread page. Shows a "replying to @user" strip when
-/// targeting a reply; replaced by [LockedBar] on locked threads.
+/// targeting a reply, the tags picked for the reply, and a button that opens
+/// the tag sheet; replaced by [LockedBar] on locked threads.
 class ReplyInputBar extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
   final bool isSubmitting;
   final String? replyingToUsername;
+  final List<TaggedPerson> taggedPeople;
+  final List<TaggedCar> taggedCars;
   final VoidCallback onSend;
   final VoidCallback onCancelTarget;
+  final VoidCallback onOpenTags;
+  final ValueChanged<String> onRemoveTaggedPerson;
+  final ValueChanged<String> onRemoveTaggedCar;
 
   const ReplyInputBar({
     super.key,
@@ -19,8 +28,13 @@ class ReplyInputBar extends StatelessWidget {
     required this.focusNode,
     required this.isSubmitting,
     this.replyingToUsername,
+    this.taggedPeople = const [],
+    this.taggedCars = const [],
     required this.onSend,
     required this.onCancelTarget,
+    required this.onOpenTags,
+    required this.onRemoveTaggedPerson,
+    required this.onRemoveTaggedCar,
   });
 
   @override
@@ -65,8 +79,20 @@ class ReplyInputBar extends StatelessWidget {
                     ],
                   ),
                 ),
+              ForumTagStrip(
+                people: taggedPeople,
+                cars: taggedCars,
+                onRemovePerson: onRemoveTaggedPerson,
+                onRemoveCar: onRemoveTaggedCar,
+              ),
               Row(
                 children: [
+                  _TagButton(
+                    active: taggedPeople.isNotEmpty || taggedCars.isNotEmpty,
+                    tooltip: l10n.forumsAddTagsTooltip,
+                    onTap: onOpenTags,
+                  ),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -126,6 +152,43 @@ class ReplyInputBar extends StatelessWidget {
                 ],
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Opens the tag sheet; tinted while the reply carries tags.
+class _TagButton extends StatelessWidget {
+  final bool active;
+  final String tooltip;
+  final VoidCallback onTap;
+
+  const _TagButton({
+    required this.active,
+    required this.tooltip,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: tooltip,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: active ? AppColors.accentSoft : AppColors.bgSoft,
+            shape: BoxShape.circle,
+            border: Border.all(color: AppColors.line),
+          ),
+          child: Icon(
+            Icons.person_add_alt_1_rounded,
+            size: 19,
+            color: active ? AppColors.accent : AppColors.mute,
           ),
         ),
       ),

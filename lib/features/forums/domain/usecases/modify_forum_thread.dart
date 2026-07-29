@@ -9,13 +9,24 @@ import '../repositories/forums_repository.dart';
 class EditForumThreadParams {
   final String threadId;
 
-  /// The new OP body; an empty string clears it.
+  /// The new OP body. Required and non-blank — a thread always keeps a body.
   final String content;
 
-  const EditForumThreadParams({required this.threadId, required this.content});
+  /// Replace-all tag sets. Null leaves that set untouched; an empty list
+  /// clears it.
+  final List<String>? taggedPeople;
+  final List<String>? taggedCars;
+
+  const EditForumThreadParams({
+    required this.threadId,
+    required this.content,
+    this.taggedPeople,
+    this.taggedCars,
+  });
 }
 
-/// Author-only edit of the OP body (title/topics/car are immutable).
+/// Author-only edit of the OP body and its tags (title/topics/car are
+/// immutable).
 @lazySingleton
 class EditForumThreadUseCase
     implements UseCase<ForumThreadDetailEntity, EditForumThreadParams> {
@@ -26,7 +37,12 @@ class EditForumThreadUseCase
   @override
   Future<Either<Failure, ForumThreadDetailEntity>> call(
       EditForumThreadParams params) {
-    return repository.editThread(params.threadId, content: params.content);
+    return repository.editThread(
+      params.threadId,
+      content: params.content,
+      taggedPeople: params.taggedPeople,
+      taggedCars: params.taggedCars,
+    );
   }
 }
 

@@ -6,7 +6,7 @@ import '../../../domain/entities/forum_suggestion.dart';
 import '../shared/forum_section_label.dart';
 
 /// Empty-paddock home: the pin explainer, pinnable popular-hub suggestions
-/// (brands, models, topics) and the start-first-thread CTA.
+/// (brands and models) and the start-first-thread CTA.
 class ForumsEmptyView extends StatelessWidget {
   final List<ForumSuggestionEntity> suggestions;
   final ValueChanged<ForumSuggestionEntity> onPin;
@@ -118,7 +118,6 @@ class _PinnableHubChip extends StatelessWidget {
   IconData get _icon => switch (suggestion.type) {
         ForumSuggestionType.brand => Icons.directions_car_filled_outlined,
         ForumSuggestionType.model => Icons.garage_outlined,
-        ForumSuggestionType.topic => Icons.tag_rounded,
       };
 
   @override

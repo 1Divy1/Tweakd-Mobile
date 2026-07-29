@@ -6,6 +6,7 @@ import '../../../domain/entities/forum_thread.dart';
 import '../../utils/forum_format.dart';
 import 'forum_avatar.dart';
 import 'forum_chips.dart';
+import 'forum_tag_row.dart';
 
 /// A thread in a list (home feed, hubs). The excerpt is optional (refined
 /// hubs show it, dense lists don't); car tags already implied by the hub's
@@ -131,6 +132,15 @@ class ForumThreadCard extends StatelessWidget {
             if (tags.isNotEmpty) ...[
               const SizedBox(height: 10),
               Wrap(spacing: 6, runSpacing: 6, children: tags),
+            ],
+            if (thread.taggedPeople.isNotEmpty ||
+                thread.taggedCars.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              ForumTagRow(
+                people: thread.taggedPeople,
+                cars: thread.taggedCars,
+                dense: true,
+              ),
             ],
             const SizedBox(height: 12),
             Row(

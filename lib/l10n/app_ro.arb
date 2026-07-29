@@ -5,6 +5,9 @@
   "settingsLanguage": "Limbă",
   "languageEnglish": "Engleză",
   "languageRomanian": "Română",
+  "settingsLanguagePickerTitle": "Alege limba",
+  "settingsLanguageLoadError": "Nu am putut încărca opțiunile de limbă. Te rugăm să încerci din nou.",
+  "settingsLanguageUpdateError": "Nu am putut actualiza limba. Te rugăm să încerci din nou.",
   "commonSave": "Salvează",
   "commonCancel": "Anulează",
   "commonRetry": "Reîncearcă",
@@ -157,8 +160,11 @@
   "onboardingNotifEventsSubtitle": "Expoziții, zile pe circuit și cars-and-coffee",
   "onboardingNotifPriceDropsTitle": "Scăderi de preț",
   "onboardingNotifPriceDropsSubtitle": "Când un articol salvat primește o reducere",
+  "onboardingNotifTagsTitle": "Etichetări",
+  "onboardingNotifTagsSubtitle": "Când cineva te etichetează pe tine sau mașina ta",
 
   "profileTitle": "PROFIL",
+  "profileMessage": "Mesaj",
   "profileStatFollowers": "URMĂRITORI",
   "profileStatFollowing": "URMĂREȘTE",
 
@@ -167,6 +173,20 @@
   "profileErrorNotFound": "Acest profil nu a putut fi găsit.",
   "profileErrorInvalidUsername": "Acest nume de utilizator nu este valid. Încearcă altul.",
   "profileErrorGeneric": "Ceva nu a mers bine. Încearcă din nou.",
+  "profileErrorNetwork": "Fără conexiune la internet. Te rugăm să încerci din nou.",
+
+  "profileEditButton": "Editează profilul",
+  "editProfileTitle": "EDITEAZĂ PROFILUL",
+  "editProfileChangePhoto": "Schimbă poza",
+  "editProfileNameLabel": "NUME",
+  "editProfileNameHint": "Numele tău afișat",
+  "editProfileBioLabel": "BIO",
+  "editProfileBioHint": "Spune-le altora câteva lucruri despre tine…",
+  "editProfileSave": "Salvează modificările",
+  "editProfileSaved": "Profil actualizat",
+  "editProfilePhotoUpdated": "Poză actualizată",
+  "editProfileErrorInvalid": "Verifică numele și bio-ul, apoi încearcă din nou.",
+  "editProfileErrorAvatar": "Nu am putut actualiza poza. Te rugăm să încerci din nou.",
 
   "followActionFollow": "URMĂREȘTE",
   "followActionUnfollow": "NU MAI URMĂRI",
@@ -210,7 +230,6 @@
   "navCreate": "CREEAZĂ",
   "navProfile": "PROFIL",
 
-  "feedComingSoon": "În curând",
   "feedEmptyTitle": "Feedul tău e liniștit",
   "feedEmptyMessage": "Postările din comunitate vor apărea aici. Revino în curând.",
   "feedErrorNetwork": "Nicio conexiune la internet. Verifică rețeaua și încearcă din nou.",
@@ -492,6 +511,10 @@
   "postsEmptyVisitor": "Nicio postare încă.",
   "postsCreateFirst": "CREEAZĂ PRIMA POSTARE",
 
+  "savedPostsTitle": "POSTĂRI SALVATE",
+  "savedPostsEmptyTitle": "Nimic salvat încă",
+  "savedPostsEmptyBody": "Salvează postările care îți plac ca să le găsești aici mai târziu.",
+
   "postDetailTitle": "POSTARE",
   "postEditAction": "Editează postarea",
   "postDeleteAction": "Șterge postarea",
@@ -603,6 +626,7 @@
   "reportErrorNetwork": "Fără conexiune la internet. Încearcă din nou.",
   "reportErrorGeneric": "Raportul nu a putut fi trimis. Încearcă din nou.",
 
+  "settingsSavedPosts": "Postările tale salvate",
   "settingsMyReports": "Rapoartele mele",
   "myReportsTitle": "RAPOARTELE MELE",
   "myReportsEmpty": "Nu ai trimis încă niciun raport.",
@@ -671,12 +695,8 @@
   "forumsShortcutRemoved": "Scurtătură ștearsă.",
 
   "forumsBrowseTitle": "EXPLOREAZĂ",
-  "forumsByCar": "După mașină",
-  "forumsByTopic": "După subiect",
   "forumsBrandsCount": "{count, plural, =1{1 MARCĂ} other{{count} MĂRCI}}",
   "forumsThreadsCount": "{count, plural, =1{1 thread} other{{count} thread-uri}}",
-  "forumsByComponent": "DUPĂ COMPONENTĂ",
-  "forumsByFormat": "DUPĂ FORMAT",
 
   "forumsModels": "MODELE",
   "forumsRefineByTopic": "FILTREAZĂ DUPĂ SUBIECT",
@@ -723,19 +743,23 @@
   "forumsPost": "Postează",
   "forumsThreadTitleHint": "Titlu",
   "forumsThreadBodyHint": "Împărtășește detalii, întrebări sau writeup-ul tău…",
-  "forumsTagACar": "ETICHETEAZĂ O MAȘINĂ",
-  "forumsFromYourGarage": "Din garajul tău · {car}",
-  "forumsSearchCarHint": "Caută un model…",
-  "forumsTagCarHelper": "Marca se setează automat din model. Lasă gol pentru un thread general.",
+  "forumsBrandRequiredLabel": "MARCĂ · OBLIGATORIU",
+  "forumsModelOptionalLabel": "MODEL · OPȚIONAL",
+  "forumsSearchBrandHint": "Caută o marcă…",
+  "forumsSearchModelHint": "Caută un model…",
+  "forumsChooseBrand": "Alege o marcă",
+  "forumsChooseModel": "Alege un model",
+  "forumsNoBrandMatches": "Nicio marcă nu corespunde căutării.",
+  "forumsNoModelMatches": "Niciun model nu corespunde căutării.",
+  "forumsNoModelsForBrand": "Niciun model listat pentru această marcă.",
+  "forumsTagCarHelper": "Alege o marcă pentru ca thread-ul tău să apară în hub-ul potrivit. Este recomandat să adaugi și modelul exact, dacă întrebarea nu se referă la întreaga marcă.",
   "forumsTopics": "SUBIECTE",
-  "forumsComponentLabel": "COMPONENTĂ",
-  "forumsFormatLabel": "FORMAT",
   "forumsThreadPosted": "Thread postat.",
 
   "forumsShare": "Distribuie",
   "forumsSave": "Salvează",
   "forumsSaved": "Salvat",
-  "forumsAuthorBadge": "OP",
+  "forumsAuthorBadge": "Autor",
   "forumsRepliesOldest": "Cele mai vechi",
   "forumsRepliesNewest": "Cele mai noi",
   "forumsReportThreadTitle": "Raportează thread-ul",
@@ -748,5 +772,137 @@
   "forumsErrorNotFound": "Acest conținut nu mai există.",
   "forumsErrorConflict": "Thread-ul este blocat sau conținutul a fost șters.",
   "forumsErrorForbidden": "Poți edita sau șterge doar conținutul tău.",
-  "forumsErrorGeneric": "Ceva n-a mers bine. Încearcă din nou."
+  "forumsErrorGeneric": "Ceva n-a mers bine. Încearcă din nou.",
+  "forumsErrorInvalidTags": "Unul dintre profilurile sau mașinile etichetate nu mai este disponibil.",
+
+  "forumsTagPeopleAndCars": "ETICHETEAZĂ PERSOANE ȘI MAȘINI",
+  "forumsTagPeople": "PERSOANE",
+  "forumsTagCars": "MAȘINI",
+  "forumsTagHelper": "Menționează pe cineva ca să alegi mașini din garajul lui. Mașinile tale pot fi etichetate fără să te menționezi.",
+  "forumsTagPeopleHint": "Caută un nume de utilizator…",
+  "forumsTagAddCar": "Etichetează o mașină",
+  "forumsTagChoosePerson": "A cui mașină?",
+  "forumsTagChooseCar": "Alege o mașină",
+  "forumsTagYourGarage": "Garajul tău",
+  "forumsTagNoPeopleFound": "Niciun profil nu se potrivește.",
+  "forumsTagLoadError": "Nu s-a putut încărca. Încearcă din nou.",
+  "forumsTagNoCars": "Persoana nu are mașini de etichetat.",
+  "forumsTagNoOwnCars": "Garajul tău este gol.",
+  "forumsTagPersonFirst": "Menționează întâi pe cineva ca să-i etichetezi o mașină.",
+  "forumsTagLimitReached": "Poți eticheta cel mult {limit} deodată.",
+  "@forumsTagLimitReached": {
+    "placeholders": {
+      "limit": {"type": "int"}
+    }
+  },
+  "forumsTagsSheetTitle": "Etichete",
+  "forumsTagsDone": "Gata",
+  "forumsAddTagsTooltip": "Etichetează persoane și mașini",
+  "forumsTagsSectionLabel": "ETICHETE",
+
+  "messagesTitle": "MESAJE",
+  "messagesSearchHint": "Caută în mesaje",
+  "messagesActiveNow": "ACTIVI ACUM",
+  "messagesRequestsTitle": "Cereri de mesaje",
+  "messagesRequestsOthers": "{names} & încă {count}",
+  "@messagesRequestsOthers": {
+    "placeholders": {
+      "names": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "messagesEmptyTitle": "Niciun mesaj încă",
+  "messagesEmptyBody": "Începe o conversație cu șoferii pe care îi urmărești — planificați întâlniri, comparați specificații, împărtășiți ture.",
+  "messagesNewMessage": "MESAJ NOU",
+  "messagesYouPrefix": "Tu: {text}",
+  "@messagesYouPrefix": {
+    "placeholders": {
+      "text": {"type": "String"}
+    }
+  },
+  "messagesSharedPost": "A distribuit o postare",
+  "messagesTimeNow": "acum",
+  "messagesTimeMinutes": "{count}m",
+  "@messagesTimeMinutes": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesTimeHours": "{count}h",
+  "@messagesTimeHours": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesTimeDays": "{count}z",
+  "@messagesTimeDays": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesTimeWeeks": "{count}s",
+  "@messagesTimeWeeks": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesActiveNowStatus": "Activ acum",
+  "messagesLastSeen": "Ultima activitate: {ago}",
+  "@messagesLastSeen": {
+    "placeholders": {
+      "ago": {"type": "String"}
+    }
+  },
+  "messagesMutualFollow": "Vă urmăriți reciproc · {followers} urmăritori",
+  "@messagesMutualFollow": {
+    "placeholders": {
+      "followers": {"type": "String"}
+    }
+  },
+  "messagesDatePill": "AZI · {time}",
+  "@messagesDatePill": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "messagesSeen": "Văzut",
+  "messagesDeletedMessage": "Mesaj șters",
+  "messagesDeleteMessage": "Șterge mesajul",
+  "messagesDeleteMessageBody": "Îl elimină pentru amândoi.",
+  "messagesDeleteChat": "Șterge conversația",
+  "messagesDeleteChatBody": "O ascunde doar din lista ta — revine la un mesaj nou.",
+  "messagesInputHint": "Mesaj…",
+  "messagesEmptyChat": "Niciun mesaj încă — salută 👋",
+  "messagesComposeTitle": "Mesaj nou",
+  "messagesComposeSearchHint": "Caută șoferi…",
+  "messagesComposeEmpty": "Niciun șofer găsit",
+  "messagesComingSoon": "În curând",
+  "messagesRetry": "Încearcă din nou",
+  "messagesErrorNetwork": "Nu există conexiune la internet. Încearcă din nou.",
+  "messagesErrorGeneric": "Ceva n-a mers bine. Încearcă din nou.",
+  "messagesSharedCars": "Mașini partajate",
+  "messagesShareCarsTitle": "Partajează mașini",
+  "messagesShareCarsSubtitle": "Alege mașini din garajul tău",
+  "messagesShareCarsLimit": "Poți partaja cel mult {count} mașini",
+  "@messagesShareCarsLimit": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesShareCarsEmpty": "Nu ai încă nicio mașină în garaj",
+  "messagesShareCarsError": "Nu am putut încărca garajul. Încearcă din nou.",
+  "messagesShareCarsConfirm": "Partajează {count}",
+  "@messagesShareCarsConfirm": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesShareCarsConfirmEmpty": "Partajează mașini",
+  "notificationsTitle": "NOTIFICĂRI",
+  "notificationsMarkAllRead": "Marchează toate ca citite",
+  "notificationsEmptyTitle": "Nicio notificare încă",
+  "notificationsEmptyBody": "Aprecierile, comentariile și răspunsurile la postările și discuțiile tale vor apărea aici.",
+  "notificationsRetry": "Încearcă din nou",
+  "notificationsErrorNetwork": "Fără conexiune la internet. Te rugăm să încerci din nou.",
+  "notificationsErrorGeneric": "Ceva nu a funcționat. Te rugăm să încerci din nou."
 }

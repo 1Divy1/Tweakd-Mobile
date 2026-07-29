@@ -14,8 +14,8 @@ import 'event.dart';
 import 'state.dart';
 
 /// Drives the forums home: the shortcuts row (pin / remove / reorder), the
-/// global "hot in your forums" list with sort + cursor paging, and the topic
-/// suggestions shown while the paddock is empty.
+/// global "hot in your forums" list with sort + cursor paging, and the popular
+/// brand / model hub suggestions shown while the paddock is empty.
 @injectable
 class ForumsHomeBloc extends Bloc<ForumsHomeEvent, ForumsHomeState> {
   final GetForumShortcutsUseCase getShortcuts;
@@ -174,7 +174,6 @@ class ForumsHomeBloc extends Bloc<ForumsHomeEvent, ForumsHomeState> {
       name: s.displayName,
       brandId: s.type == ForumSuggestionType.brand ? s.id : null,
       modelId: s.type == ForumSuggestionType.model ? s.id : null,
-      topicId: s.type == ForumSuggestionType.topic ? s.id : null,
     ));
     result.fold(
       (f) => emit(state.copyWith(actionError: ForumErrorMapper.getCode(f))),

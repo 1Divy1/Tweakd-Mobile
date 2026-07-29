@@ -11,6 +11,10 @@ enum ProfileErrorCode {
   sessionExpired,
   notFound,
   invalidUsername,
+  invalidInput,
+  avatarUploadFailed,
+  languageUpdateFailed,
+  network,
   generic,
 }
 
@@ -28,6 +32,18 @@ class ProfileErrorMapper {
     if (failure is InvalidUsernameFailure) {
       return ProfileErrorCode.invalidUsername;
     }
+    if (failure is ProfileUpdateValidationFailure) {
+      return ProfileErrorCode.invalidInput;
+    }
+    if (failure is AvatarUploadFailure) {
+      return ProfileErrorCode.avatarUploadFailed;
+    }
+    if (failure is LanguageUpdateFailure) {
+      return ProfileErrorCode.languageUpdateFailed;
+    }
+    if (failure is NetworkFailure) {
+      return ProfileErrorCode.network;
+    }
     return ProfileErrorCode.generic;
   }
 }
@@ -40,5 +56,9 @@ String profileErrorMessage(AppLocalizations l10n, ProfileErrorCode code) =>
       ProfileErrorCode.sessionExpired => l10n.profileErrorSessionExpired,
       ProfileErrorCode.notFound => l10n.profileErrorNotFound,
       ProfileErrorCode.invalidUsername => l10n.profileErrorInvalidUsername,
+      ProfileErrorCode.invalidInput => l10n.editProfileErrorInvalid,
+      ProfileErrorCode.avatarUploadFailed => l10n.editProfileErrorAvatar,
+      ProfileErrorCode.languageUpdateFailed => l10n.settingsLanguageUpdateError,
+      ProfileErrorCode.network => l10n.profileErrorNetwork,
       ProfileErrorCode.generic => l10n.profileErrorGeneric,
     };

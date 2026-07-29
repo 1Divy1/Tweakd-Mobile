@@ -1,3 +1,5 @@
+import 'package:car_social_media_app/features/garage/data/models/car_summary_model.dart';
+import 'package:car_social_media_app/features/garage/domain/entities/car_summary.dart';
 import 'package:car_social_media_app/features/garage/domain/entities/reference_data.dart';
 
 import '../../domain/entities/forum_author.dart';
@@ -11,13 +13,9 @@ import '../../domain/entities/forum_topic.dart';
 /// Wire models for `/forums/*`. All JSON keys are snake_case (the backend is
 /// snake_case everywhere; camelCase in API docs is illustrative only).
 
-ForumTopicKind _topicKindFromJson(String? value) =>
-    value == 'format' ? ForumTopicKind.format : ForumTopicKind.component;
-
 class ForumTopicModel {
   final String id;
   final String name;
-  final ForumTopicKind kind;
   final int sortOrder;
   final String? color;
   final int? threadCount;
@@ -25,7 +23,6 @@ class ForumTopicModel {
   const ForumTopicModel({
     required this.id,
     required this.name,
-    required this.kind,
     required this.sortOrder,
     this.color,
     this.threadCount,
@@ -35,10 +32,8 @@ class ForumTopicModel {
     return ForumTopicModel(
       id: json['id'] as String,
       name: json['name'] as String,
-      kind: _topicKindFromJson(json['kind'] as String?),
       sortOrder: (json['sort_order'] as num?)?.toInt() ?? 0,
       color: json['color'] as String?,
-      // Not in the contract yet — picked up automatically if added.
       threadCount: (json['thread_count'] as num?)?.toInt(),
     );
   }
@@ -46,31 +41,9 @@ class ForumTopicModel {
   ForumTopicEntity toEntity() => ForumTopicEntity(
         id: id,
         name: name,
-        kind: kind,
         sortOrder: sortOrder,
         color: color,
         threadCount: threadCount,
-      );
-}
-
-class ForumTopicGroupModel {
-  final ForumTopicKind kind;
-  final List<ForumTopicModel> topics;
-
-  const ForumTopicGroupModel({required this.kind, required this.topics});
-
-  factory ForumTopicGroupModel.fromJson(Map<String, dynamic> json) {
-    return ForumTopicGroupModel(
-      kind: _topicKindFromJson(json['kind'] as String?),
-      topics: ((json['topics'] as List<dynamic>?) ?? const [])
-          .map((e) => ForumTopicModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  ForumTopicGroupEntity toEntity() => ForumTopicGroupEntity(
-        kind: kind,
-        topics: topics.map((t) => t.toEntity()).toList(),
       );
 }
 
@@ -105,6 +78,23 @@ CarBrandEntity forumBrandFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     threadCount: (json['thread_count'] as num?)?.toInt(),
   );
+}
+
+/// `tagged_people` — `[{id, username, avatar_url}]`, the author shape reused.
+List<ForumAuthorEntity> forumTaggedPeopleFromJson(dynamic json) {
+  return ((json as List<dynamic>?) ?? const [])
+      .map((e) =>
+          ForumAuthorModel.fromJson(e as Map<String, dynamic>).toEntity())
+      .toList();
+}
+
+/// `tagged_cars` — the backend sends the garage car summary shape
+/// (`{id, brand, model, cover_image, status, owner}`), so it is parsed with the
+/// garage's own model instead of a forum-local copy.
+List<CarSummaryEntity> forumTaggedCarsFromJson(dynamic json) {
+  return ((json as List<dynamic>?) ?? const [])
+      .map((e) => CarSummaryModel.fromJson(e as Map<String, dynamic>).toEntity())
+      .toList();
 }
 
 /// `{id, brand_id, model, thread_count?}` model reference.
@@ -147,6 +137,8 @@ class ForumThreadModel {
       locked: json['locked'] as bool? ?? false,
       deleted: json['deleted'] as bool? ?? false,
       viewerHasSaved: json['viewer_has_saved'] as bool? ?? false,
+      taggedPeople: forumTaggedPeopleFromJson(json['tagged_people']),
+      taggedCars: forumTaggedCarsFromJson(json['tagged_cars']),
     ));
   }
 
@@ -174,6 +166,8 @@ class ForumThreadDetailModel {
       locked: card.locked,
       deleted: card.deleted,
       viewerHasSaved: card.viewerHasSaved,
+      taggedPeople: card.taggedPeople,
+      taggedCars: card.taggedCars,
       content: json['content'] as String?,
       createdAt: DateTime.parse(json['created_at'] as String),
       viewerHasLiked: json['viewer_has_liked'] as bool? ?? false,
@@ -202,6 +196,8 @@ class ForumReplyModel {
       viewerHasLiked: json['viewer_has_liked'] as bool? ?? false,
       isAuthor: json['is_author'] as bool? ?? false,
       createdAt: DateTime.parse(json['created_at'] as String),
+      taggedPeople: forumTaggedPeopleFromJson(json['tagged_people']),
+      taggedCars: forumTaggedCarsFromJson(json['tagged_cars']),
     ));
   }
 
@@ -298,10 +294,8 @@ class ForumSuggestionModel {
 
   ForumSuggestionEntity toEntity() => entity;
 
+  /// Only "brand" and "model" are issued now; anything else falls back to a
+  /// brand suggestion.
   static ForumSuggestionType _suggestionTypeFromJson(String? value) =>
-      switch (value) {
-        'brand' => ForumSuggestionType.brand,
-        'model' => ForumSuggestionType.model,
-        _ => ForumSuggestionType.topic,
-      };
+      value == 'model' ? ForumSuggestionType.model : ForumSuggestionType.brand;
 }

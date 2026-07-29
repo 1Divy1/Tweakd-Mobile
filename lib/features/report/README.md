@@ -30,7 +30,7 @@ Request bodies are snake_case (`{ "reason_id": "…" }`); the report POSTs retur
 | comment       | `/posts/comments/report-reasons`  | `/posts/{postId}/comments/{commentId}/report`  |
 | profile       | `/profile/report-reasons`         | `/profile/{username}/report`                   |
 | forum thread  | `/forums/threads/report-reasons`  | `/forums/threads/{threadId}/report`            |
-| forum reply   | `/forums/posts/report-reasons`    | `/forums/posts/{postId}/report`                |
+| forum reply   | `/forums/replies/report-reasons`  | `/forums/replies/{postId}/report`              |
 
 `GET report-reasons` returns `[{ id, reason }]`; `id` is echoed back as
 `reason_id`.

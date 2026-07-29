@@ -75,6 +75,13 @@ class NotificationsStep extends StatelessWidget {
           value: prefs.sharesEnabled,
           onChanged: (v) => onChanged(prefs.copyWith(sharesEnabled: v)),
         ),
+        _ToggleRow(
+          icon: Icons.local_offer_rounded,
+          title: l10n.onboardingNotifTagsTitle,
+          subtitle: l10n.onboardingNotifTagsSubtitle,
+          value: prefs.tagsEnabled,
+          onChanged: (v) => onChanged(prefs.copyWith(tagsEnabled: v)),
+        ),
         const SizedBox(height: 18),
         _GroupLabel(l10n.onboardingNotifGroupMessages),
         _ToggleRow(

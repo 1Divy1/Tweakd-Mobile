@@ -3,15 +3,19 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 
 /// A full-width tappable settings row: leading icon, label, trailing chevron.
+/// [trailingLabel], if set, renders small muted text just before the chevron
+/// (e.g. the current value of a setting).
 class SettingsTile extends StatelessWidget {
   final IconData icon;
   final String label;
+  final String? trailingLabel;
   final VoidCallback onTap;
 
   const SettingsTile({
     super.key,
     required this.icon,
     required this.label,
+    this.trailingLabel,
     required this.onTap,
   });
 
@@ -41,6 +45,17 @@ class SettingsTile extends StatelessWidget {
               ),
             ),
             const Spacer(),
+            if (trailingLabel != null) ...[
+              Text(
+                trailingLabel!,
+                style: const TextStyle(
+                  color: AppColors.mute,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(width: 8),
+            ],
             const Icon(Icons.chevron_right, color: AppColors.muteSoft, size: 20),
           ],
         ),

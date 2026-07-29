@@ -174,6 +174,17 @@ class _PinchZoomState extends State<PinchZoom>
 /// gesture once a second pointer joins (a real pinch).
 class _TwoFingerScaleRecognizer extends ScaleGestureRecognizer {
   @override
+  void addAllowedPointer(PointerDownEvent event) {
+    super.addAllowedPointer(event);
+    if (pointerCount >= 2) {
+      // A second finger is a pinch — claim the arena immediately, before an
+      // ancestor scroll view's drag recognizer (e.g. the feed's vertical
+      // ListView) can win it and scroll instead of zooming.
+      resolve(GestureDisposition.accepted);
+    }
+  }
+
+  @override
   void handleEvent(PointerEvent event) {
     if (event is PointerMoveEvent && pointerCount < 2) {
       // Drop single-finger drag so the PageView can win the gesture arena.

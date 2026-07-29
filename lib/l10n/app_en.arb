@@ -14,6 +14,21 @@
   "languageEnglish": "English",
   "languageRomanian": "Romanian",
 
+  "settingsLanguagePickerTitle": "Choose your language",
+  "@settingsLanguagePickerTitle": {
+    "description": "Title of the language picker bottom sheet"
+  },
+
+  "settingsLanguageLoadError": "We couldn't load the language options. Please try again.",
+  "@settingsLanguageLoadError": {
+    "description": "Shown in the language picker when fetching the option list fails"
+  },
+
+  "settingsLanguageUpdateError": "We couldn't update your language. Please try again.",
+  "@settingsLanguageUpdateError": {
+    "description": "Snackbar shown when picking a language fails to save"
+  },
+
   "commonSave": "Save",
   "commonCancel": "Cancel",
   "commonRetry": "Retry",
@@ -254,8 +269,11 @@
   "onboardingNotifEventsSubtitle": "Shows, track days & cars-and-coffee",
   "onboardingNotifPriceDropsTitle": "Price drops",
   "onboardingNotifPriceDropsSubtitle": "When a saved item gets a discount",
+  "onboardingNotifTagsTitle": "Tags",
+  "onboardingNotifTagsSubtitle": "When someone tags you or your car",
 
   "profileTitle": "PROFILE",
+  "profileMessage": "Message",
   "profileStatFollowers": "FOLLOWERS",
   "profileStatFollowing": "FOLLOWING",
 
@@ -264,6 +282,20 @@
   "profileErrorNotFound": "This profile could not be found.",
   "profileErrorInvalidUsername": "That username isn't valid. Please try another.",
   "profileErrorGeneric": "Something went wrong. Please try again.",
+  "profileErrorNetwork": "No internet connection. Please try again.",
+
+  "profileEditButton": "Edit profile",
+  "editProfileTitle": "EDIT PROFILE",
+  "editProfileChangePhoto": "Change photo",
+  "editProfileNameLabel": "NAME",
+  "editProfileNameHint": "Your display name",
+  "editProfileBioLabel": "BIO",
+  "editProfileBioHint": "Tell others a few things about yourself…",
+  "editProfileSave": "Save changes",
+  "editProfileSaved": "Profile updated",
+  "editProfilePhotoUpdated": "Photo updated",
+  "editProfileErrorInvalid": "Please check your name and bio, then try again.",
+  "editProfileErrorAvatar": "We couldn't update your photo. Please try again.",
 
   "followActionFollow": "FOLLOW",
   "followActionUnfollow": "UNFOLLOW",
@@ -337,7 +369,6 @@
   "navCreate": "CREATE",
   "navProfile": "PROFILE",
 
-  "feedComingSoon": "Coming soon",
   "feedEmptyTitle": "Your feed is quiet",
   "feedEmptyMessage": "Posts from the community will show up here. Check back soon.",
   "feedErrorNetwork": "No internet connection. Check your network and try again.",
@@ -648,6 +679,10 @@
   "postsEmptyVisitor": "No posts yet.",
   "postsCreateFirst": "CREATE YOUR FIRST POST",
 
+  "savedPostsTitle": "SAVED POSTS",
+  "savedPostsEmptyTitle": "Nothing saved yet",
+  "savedPostsEmptyBody": "Save posts you like to find them here later.",
+
   "postDetailTitle": "POST",
   "postEditAction": "Edit post",
   "postDeleteAction": "Delete post",
@@ -759,6 +794,7 @@
   "reportErrorNetwork": "No internet connection. Please try again.",
   "reportErrorGeneric": "Couldn't submit your report. Please try again.",
 
+  "settingsSavedPosts": "Your saved posts",
   "settingsMyReports": "My reports",
   "myReportsTitle": "MY REPORTS",
   "myReportsEmpty": "You haven't submitted any reports yet.",
@@ -827,8 +863,6 @@
   "forumsShortcutRemoved": "Shortcut removed.",
 
   "forumsBrowseTitle": "BROWSE",
-  "forumsByCar": "By car",
-  "forumsByTopic": "By topic",
   "forumsBrandsCount": "{count, plural, =1{1 BRAND} other{{count} BRANDS}}",
   "@forumsBrandsCount": {
     "placeholders": {
@@ -841,8 +875,6 @@
       "count": {"type": "int"}
     }
   },
-  "forumsByComponent": "BY COMPONENT",
-  "forumsByFormat": "BY FORMAT",
 
   "forumsModels": "MODELS",
   "forumsRefineByTopic": "REFINE BY TOPIC",
@@ -914,24 +946,23 @@
   "forumsPost": "Post",
   "forumsThreadTitleHint": "Title",
   "forumsThreadBodyHint": "Share the details, questions, or your writeup…",
-  "forumsTagACar": "TAG A CAR",
-  "forumsFromYourGarage": "From your garage · {car}",
-  "@forumsFromYourGarage": {
-    "placeholders": {
-      "car": {"type": "String"}
-    }
-  },
-  "forumsSearchCarHint": "Search a model…",
-  "forumsTagCarHelper": "Brand is set automatically from the model. Leave empty for a general thread.",
+  "forumsBrandRequiredLabel": "BRAND · REQUIRED",
+  "forumsModelOptionalLabel": "MODEL · OPTIONAL",
+  "forumsSearchBrandHint": "Search a brand…",
+  "forumsSearchModelHint": "Search a model…",
+  "forumsChooseBrand": "Choose a brand",
+  "forumsChooseModel": "Choose a model",
+  "forumsNoBrandMatches": "No brands match that search.",
+  "forumsNoModelMatches": "No models match that search.",
+  "forumsNoModelsForBrand": "No models listed for this brand.",
+  "forumsTagCarHelper": "Pick a brand so your thread shows up in the right hub. Adding the exact model is recommended unless your question applies to the whole brand.",
   "forumsTopics": "TOPICS",
-  "forumsComponentLabel": "COMPONENT",
-  "forumsFormatLabel": "FORMAT",
   "forumsThreadPosted": "Thread posted.",
 
   "forumsShare": "Share",
   "forumsSave": "Save",
   "forumsSaved": "Saved",
-  "forumsAuthorBadge": "OP",
+  "forumsAuthorBadge": "Author",
   "forumsRepliesOldest": "Oldest",
   "forumsRepliesNewest": "Newest",
   "forumsReportThreadTitle": "Report thread",
@@ -944,5 +975,137 @@
   "forumsErrorNotFound": "This content doesn't exist anymore.",
   "forumsErrorConflict": "This thread is locked or the content was deleted.",
   "forumsErrorForbidden": "You can only edit or delete your own content.",
-  "forumsErrorGeneric": "Something went wrong. Please try again."
+  "forumsErrorGeneric": "Something went wrong. Please try again.",
+  "forumsErrorInvalidTags": "One of the tagged profiles or cars is no longer available.",
+
+  "forumsTagPeopleAndCars": "TAG PEOPLE & CARS",
+  "forumsTagPeople": "PEOPLE",
+  "forumsTagCars": "CARS",
+  "forumsTagHelper": "Mention someone to pull cars from their garage. Your own cars can be tagged without mentioning yourself.",
+  "forumsTagPeopleHint": "Search a username…",
+  "forumsTagAddCar": "Tag a car",
+  "forumsTagChoosePerson": "Whose car?",
+  "forumsTagChooseCar": "Pick a car",
+  "forumsTagYourGarage": "Your garage",
+  "forumsTagNoPeopleFound": "No profiles match that search.",
+  "forumsTagLoadError": "Couldn’t load that. Please try again.",
+  "forumsTagNoCars": "This person has no cars to tag.",
+  "forumsTagNoOwnCars": "Your garage is empty.",
+  "forumsTagPersonFirst": "Mention someone first to tag one of their cars.",
+  "forumsTagLimitReached": "You can tag up to {limit} at a time.",
+  "@forumsTagLimitReached": {
+    "placeholders": {
+      "limit": {"type": "int"}
+    }
+  },
+  "forumsTagsSheetTitle": "Tags",
+  "forumsTagsDone": "Done",
+  "forumsAddTagsTooltip": "Tag people & cars",
+  "forumsTagsSectionLabel": "TAGS",
+
+  "messagesTitle": "MESSAGES",
+  "messagesSearchHint": "Search messages",
+  "messagesActiveNow": "ACTIVE NOW",
+  "messagesRequestsTitle": "Message requests",
+  "messagesRequestsOthers": "{names} & {count} others",
+  "@messagesRequestsOthers": {
+    "placeholders": {
+      "names": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "messagesEmptyTitle": "No messages yet",
+  "messagesEmptyBody": "Start a conversation with drivers you follow — plan meets, swap specs, share runs.",
+  "messagesNewMessage": "NEW MESSAGE",
+  "messagesYouPrefix": "You: {text}",
+  "@messagesYouPrefix": {
+    "placeholders": {
+      "text": {"type": "String"}
+    }
+  },
+  "messagesSharedPost": "Shared a post",
+  "messagesTimeNow": "now",
+  "messagesTimeMinutes": "{count}m",
+  "@messagesTimeMinutes": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesTimeHours": "{count}h",
+  "@messagesTimeHours": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesTimeDays": "{count}d",
+  "@messagesTimeDays": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesTimeWeeks": "{count}w",
+  "@messagesTimeWeeks": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesActiveNowStatus": "Active now",
+  "messagesLastSeen": "Last seen {ago}",
+  "@messagesLastSeen": {
+    "placeholders": {
+      "ago": {"type": "String"}
+    }
+  },
+  "messagesMutualFollow": "You both follow each other · {followers} followers",
+  "@messagesMutualFollow": {
+    "placeholders": {
+      "followers": {"type": "String"}
+    }
+  },
+  "messagesDatePill": "TODAY · {time}",
+  "@messagesDatePill": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "messagesSeen": "Seen",
+  "messagesDeletedMessage": "Message deleted",
+  "messagesDeleteMessage": "Delete message",
+  "messagesDeleteMessageBody": "Removes it for both of you.",
+  "messagesDeleteChat": "Delete chat",
+  "messagesDeleteChatBody": "Hides it from your list only — it comes back with a new message.",
+  "messagesInputHint": "Message…",
+  "messagesEmptyChat": "No messages yet — say hi 👋",
+  "messagesComposeTitle": "New message",
+  "messagesComposeSearchHint": "Search drivers…",
+  "messagesComposeEmpty": "No drivers found",
+  "messagesComingSoon": "Coming soon",
+  "messagesRetry": "Try again",
+  "messagesErrorNetwork": "No internet connection. Please try again.",
+  "messagesErrorGeneric": "Something went wrong. Please try again.",
+  "messagesSharedCars": "Shared cars",
+  "messagesShareCarsTitle": "Share cars",
+  "messagesShareCarsSubtitle": "Pick cars from your garage",
+  "messagesShareCarsLimit": "You can share up to {count} cars",
+  "@messagesShareCarsLimit": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesShareCarsEmpty": "No cars in your garage yet",
+  "messagesShareCarsError": "Couldn't load your garage. Please try again.",
+  "messagesShareCarsConfirm": "Share {count}",
+  "@messagesShareCarsConfirm": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "messagesShareCarsConfirmEmpty": "Share cars",
+  "notificationsTitle": "NOTIFICATIONS",
+  "notificationsMarkAllRead": "Mark all as read",
+  "notificationsEmptyTitle": "No notifications yet",
+  "notificationsEmptyBody": "Likes, comments and replies on your posts and threads will show up here.",
+  "notificationsRetry": "Try again",
+  "notificationsErrorNetwork": "No internet connection. Please try again.",
+  "notificationsErrorGeneric": "Something went wrong. Please try again."
 }
