@@ -18,9 +18,11 @@ import '../widgets/shared/forum_pill_button.dart';
 import '../widgets/shared/forum_section_label.dart';
 import '../widgets/shared/forum_sub_top_bar.dart';
 import '../widgets/shared/forum_thread_body_skeleton.dart';
+import '../utils/forum_tags.dart';
 import '../widgets/thread/forum_edit_sheet.dart';
 import '../widgets/thread/reply_input_bar.dart';
 import '../widgets/thread/reply_sort_toggle.dart';
+import '../widgets/thread/reply_tag_sheet.dart';
 import '../widgets/thread/reply_tile.dart';
 import '../widgets/thread/thread_header.dart';
 
@@ -99,13 +101,24 @@ class _ForumThreadPageState extends State<ForumThreadPage> {
     if (!mounted || action == null) return;
 
     if (action == _MenuAction.edit) {
-      final text = await showForumEditSheet(
+      final edit = await showForumEditSheet(
         context,
         title: l10n.forumsEditThread,
         initialText: thread.content ?? '',
-        allowEmpty: true, // an empty body clears the OP text
+        initialPeople: forumTaggedPeopleToSelection(thread.taggedPeople),
+        initialCars: forumTaggedCarsToSelection(
+          thread.taggedCars,
+          currentUserId: _currentUserId,
+        ),
+        allowEmpty: false, // a thread must keep a body
       );
-      if (text != null) bloc.add(EditForumThreadBody(text));
+      if (edit != null) {
+        bloc.add(EditForumThreadBody(
+          edit.text,
+          taggedPeople: edit.taggedPeople,
+          taggedCars: edit.taggedCars,
+        ));
+      }
     } else {
       final confirmed = await _confirm(
         title: l10n.forumsDeleteThreadConfirmTitle,
@@ -137,13 +150,23 @@ class _ForumThreadPageState extends State<ForumThreadPage> {
     if (!mounted || action == null) return;
 
     if (action == _MenuAction.edit) {
-      final text = await showForumEditSheet(
+      final edit = await showForumEditSheet(
         context,
         title: l10n.forumsEditReply,
         initialText: node.reply.content ?? '',
+        initialPeople: forumTaggedPeopleToSelection(node.reply.taggedPeople),
+        initialCars: forumTaggedCarsToSelection(
+          node.reply.taggedCars,
+          currentUserId: _currentUserId,
+        ),
       );
-      if (text != null && text.isNotEmpty) {
-        bloc.add(EditForumReplyBody(node.reply.id, text));
+      if (edit != null && edit.text.isNotEmpty) {
+        bloc.add(EditForumReplyBody(
+          node.reply.id,
+          edit.text,
+          taggedPeople: edit.taggedPeople,
+          taggedCars: edit.taggedCars,
+        ));
       }
     } else {
       final confirmed = await _confirm(
@@ -342,12 +365,21 @@ class _ForumThreadPageState extends State<ForumThreadPage> {
                           focusNode: _replyFocus,
                           isSubmitting: state.isSubmitting,
                           replyingToUsername: state.replyingToUsername,
+                          taggedPeople: state.replyTaggedPeople,
+                          taggedCars: state.replyTaggedCars,
                           onSend: () => context
                               .read<ForumThreadBloc>()
                               .add(SubmitForumReply(_replyController.text)),
                           onCancelTarget: () => context
                               .read<ForumThreadBloc>()
                               .add(const StartReplyTo()),
+                          onOpenTags: () => showForumReplyTagSheet(context),
+                          onRemoveTaggedPerson: (id) => context
+                              .read<ForumThreadBloc>()
+                              .add(RemoveReplyTagPerson(id)),
+                          onRemoveTaggedCar: (id) => context
+                              .read<ForumThreadBloc>()
+                              .add(RemoveReplyTagCar(id)),
                         ),
               ],
             );

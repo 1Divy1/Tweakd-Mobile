@@ -16,12 +16,19 @@ class TagPickerState extends Equatable {
   final List<CarSummaryEntity> ownerCars;
   final String? ownerUsername;
 
+  /// The viewer's own garage, loaded on demand by [MyCarsRequested]. Kept
+  /// separate from [ownerCars] so switching between people doesn't drop it.
+  final TagLoadStatus myCarsStatus;
+  final List<CarSummaryEntity> myCars;
+
   const TagPickerState({
     this.peopleStatus = TagLoadStatus.idle,
     this.peopleResults = const [],
     this.carsStatus = TagLoadStatus.idle,
     this.ownerCars = const [],
     this.ownerUsername,
+    this.myCarsStatus = TagLoadStatus.idle,
+    this.myCars = const [],
   });
 
   TagPickerState copyWith({
@@ -30,6 +37,8 @@ class TagPickerState extends Equatable {
     TagLoadStatus? carsStatus,
     List<CarSummaryEntity>? ownerCars,
     String? ownerUsername,
+    TagLoadStatus? myCarsStatus,
+    List<CarSummaryEntity>? myCars,
   }) {
     return TagPickerState(
       peopleStatus: peopleStatus ?? this.peopleStatus,
@@ -37,6 +46,8 @@ class TagPickerState extends Equatable {
       carsStatus: carsStatus ?? this.carsStatus,
       ownerCars: ownerCars ?? this.ownerCars,
       ownerUsername: ownerUsername ?? this.ownerUsername,
+      myCarsStatus: myCarsStatus ?? this.myCarsStatus,
+      myCars: myCars ?? this.myCars,
     );
   }
 
@@ -47,5 +58,7 @@ class TagPickerState extends Equatable {
         carsStatus,
         ownerCars,
         ownerUsername,
+        myCarsStatus,
+        myCars,
       ];
 }

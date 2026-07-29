@@ -1,3 +1,5 @@
+import 'package:car_social_media_app/features/garage/data/models/car_summary_model.dart';
+import 'package:car_social_media_app/features/garage/domain/entities/car_summary.dart';
 import 'package:car_social_media_app/features/garage/domain/entities/reference_data.dart';
 
 import '../../domain/entities/forum_author.dart';
@@ -78,6 +80,23 @@ CarBrandEntity forumBrandFromJson(Map<String, dynamic> json) {
   );
 }
 
+/// `tagged_people` — `[{id, username, avatar_url}]`, the author shape reused.
+List<ForumAuthorEntity> forumTaggedPeopleFromJson(dynamic json) {
+  return ((json as List<dynamic>?) ?? const [])
+      .map((e) =>
+          ForumAuthorModel.fromJson(e as Map<String, dynamic>).toEntity())
+      .toList();
+}
+
+/// `tagged_cars` — the backend sends the garage car summary shape
+/// (`{id, brand, model, cover_image, status, owner}`), so it is parsed with the
+/// garage's own model instead of a forum-local copy.
+List<CarSummaryEntity> forumTaggedCarsFromJson(dynamic json) {
+  return ((json as List<dynamic>?) ?? const [])
+      .map((e) => CarSummaryModel.fromJson(e as Map<String, dynamic>).toEntity())
+      .toList();
+}
+
 /// `{id, brand_id, model, thread_count?}` model reference.
 CarModelEntity forumModelFromJson(Map<String, dynamic> json) {
   return CarModelEntity(
@@ -118,6 +137,8 @@ class ForumThreadModel {
       locked: json['locked'] as bool? ?? false,
       deleted: json['deleted'] as bool? ?? false,
       viewerHasSaved: json['viewer_has_saved'] as bool? ?? false,
+      taggedPeople: forumTaggedPeopleFromJson(json['tagged_people']),
+      taggedCars: forumTaggedCarsFromJson(json['tagged_cars']),
     ));
   }
 
@@ -145,6 +166,8 @@ class ForumThreadDetailModel {
       locked: card.locked,
       deleted: card.deleted,
       viewerHasSaved: card.viewerHasSaved,
+      taggedPeople: card.taggedPeople,
+      taggedCars: card.taggedCars,
       content: json['content'] as String?,
       createdAt: DateTime.parse(json['created_at'] as String),
       viewerHasLiked: json['viewer_has_liked'] as bool? ?? false,
@@ -173,6 +196,8 @@ class ForumReplyModel {
       viewerHasLiked: json['viewer_has_liked'] as bool? ?? false,
       isAuthor: json['is_author'] as bool? ?? false,
       createdAt: DateTime.parse(json['created_at'] as String),
+      taggedPeople: forumTaggedPeopleFromJson(json['tagged_people']),
+      taggedCars: forumTaggedCarsFromJson(json['tagged_cars']),
     ));
   }
 

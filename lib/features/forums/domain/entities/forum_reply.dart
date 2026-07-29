@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import 'package:car_social_media_app/features/garage/domain/entities/car_summary.dart';
+
 import 'forum_author.dart';
 
 /// Order for a reply list (the Oldest / Newest toggle). The backend defaults
@@ -32,6 +34,13 @@ class ForumReplyEntity extends Equatable {
   final bool isAuthor;
   final DateTime createdAt;
 
+  /// People tagged in this reply. Soft-deleted replies come back with empty
+  /// tag lists.
+  final List<ForumAuthorEntity> taggedPeople;
+
+  /// Cars tagged in this reply (garage car summaries, owner included).
+  final List<CarSummaryEntity> taggedCars;
+
   const ForumReplyEntity({
     required this.id,
     this.author,
@@ -42,6 +51,8 @@ class ForumReplyEntity extends Equatable {
     this.viewerHasLiked = false,
     this.isAuthor = false,
     required this.createdAt,
+    this.taggedPeople = const [],
+    this.taggedCars = const [],
   });
 
   ForumReplyEntity copyWith({
@@ -49,6 +60,8 @@ class ForumReplyEntity extends Equatable {
     int? likesCount,
     int? replyCount,
     bool? viewerHasLiked,
+    List<ForumAuthorEntity>? taggedPeople,
+    List<CarSummaryEntity>? taggedCars,
   }) {
     return ForumReplyEntity(
       id: id,
@@ -60,6 +73,8 @@ class ForumReplyEntity extends Equatable {
       viewerHasLiked: viewerHasLiked ?? this.viewerHasLiked,
       isAuthor: isAuthor,
       createdAt: createdAt,
+      taggedPeople: taggedPeople ?? this.taggedPeople,
+      taggedCars: taggedCars ?? this.taggedCars,
     );
   }
 
@@ -74,5 +89,7 @@ class ForumReplyEntity extends Equatable {
         viewerHasLiked,
         isAuthor,
         createdAt,
+        taggedPeople,
+        taggedCars,
       ];
 }

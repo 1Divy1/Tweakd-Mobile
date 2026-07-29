@@ -103,13 +103,16 @@ class NotificationTile extends StatelessWidget {
         return _NotificationIconKind.comment;
       case NotificationType.postShare:
         return _NotificationIconKind.share;
+      case NotificationType.forumThreadTag:
+      case NotificationType.forumReplyTag:
+        return _NotificationIconKind.tag;
       case NotificationType.unknown:
         return _NotificationIconKind.generic;
     }
   }
 }
 
-enum _NotificationIconKind { like, comment, share, generic }
+enum _NotificationIconKind { like, comment, share, tag, generic }
 
 /// The tinted round icon badge leading each row. Likes use the accent palette;
 /// comments/replies and shares use a neutral ink-on-surface treatment.
@@ -135,6 +138,11 @@ class _LeadingIcon extends StatelessWidget {
           Icons.ios_share_rounded,
           AppColors.ink2,
           AppColors.line,
+        ),
+      _NotificationIconKind.tag => (
+          Icons.local_offer_rounded,
+          AppColors.accent,
+          AppColors.accentSoft,
         ),
       _NotificationIconKind.generic => (
           Icons.notifications_rounded,

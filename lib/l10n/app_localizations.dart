@@ -944,6 +944,18 @@ abstract class AppLocalizations {
   /// **'When a saved item gets a discount'**
   String get onboardingNotifPriceDropsSubtitle;
 
+  /// No description provided for @onboardingNotifTagsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get onboardingNotifTagsTitle;
+
+  /// No description provided for @onboardingNotifTagsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When someone tags you or your car'**
+  String get onboardingNotifTagsSubtitle;
+
   /// No description provided for @profileTitle.
   ///
   /// In en, this message translates to:
@@ -3800,18 +3812,6 @@ abstract class AppLocalizations {
   /// **'Share the details, questions, or your writeup…'**
   String get forumsThreadBodyHint;
 
-  /// No description provided for @forumsTagACar.
-  ///
-  /// In en, this message translates to:
-  /// **'TAG A CAR'**
-  String get forumsTagACar;
-
-  /// No description provided for @forumsFromYourGarage.
-  ///
-  /// In en, this message translates to:
-  /// **'From your garage · {car}'**
-  String forumsFromYourGarage(String car);
-
   /// No description provided for @forumsBrandRequiredLabel.
   ///
   /// In en, this message translates to:
@@ -3835,6 +3835,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search a model…'**
   String get forumsSearchModelHint;
+
+  /// No description provided for @forumsChooseBrand.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a brand'**
+  String get forumsChooseBrand;
+
+  /// No description provided for @forumsChooseModel.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a model'**
+  String get forumsChooseModel;
 
   /// No description provided for @forumsNoBrandMatches.
   ///
@@ -3973,6 +3985,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get forumsErrorGeneric;
+
+  /// No description provided for @forumsErrorInvalidTags.
+  ///
+  /// In en, this message translates to:
+  /// **'One of the tagged profiles or cars is no longer available.'**
+  String get forumsErrorInvalidTags;
+
+  /// No description provided for @forumsTagPeopleAndCars.
+  ///
+  /// In en, this message translates to:
+  /// **'TAG PEOPLE & CARS'**
+  String get forumsTagPeopleAndCars;
+
+  /// No description provided for @forumsTagPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'PEOPLE'**
+  String get forumsTagPeople;
+
+  /// No description provided for @forumsTagCars.
+  ///
+  /// In en, this message translates to:
+  /// **'CARS'**
+  String get forumsTagCars;
+
+  /// No description provided for @forumsTagHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Mention someone to pull cars from their garage. Your own cars can be tagged without mentioning yourself.'**
+  String get forumsTagHelper;
+
+  /// No description provided for @forumsTagPeopleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search a username…'**
+  String get forumsTagPeopleHint;
+
+  /// No description provided for @forumsTagAddCar.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag a car'**
+  String get forumsTagAddCar;
+
+  /// No description provided for @forumsTagChoosePerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Whose car?'**
+  String get forumsTagChoosePerson;
+
+  /// No description provided for @forumsTagChooseCar.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a car'**
+  String get forumsTagChooseCar;
+
+  /// No description provided for @forumsTagYourGarage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your garage'**
+  String get forumsTagYourGarage;
+
+  /// No description provided for @forumsTagNoPeopleFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No profiles match that search.'**
+  String get forumsTagNoPeopleFound;
+
+  /// No description provided for @forumsTagLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t load that. Please try again.'**
+  String get forumsTagLoadError;
+
+  /// No description provided for @forumsTagNoCars.
+  ///
+  /// In en, this message translates to:
+  /// **'This person has no cars to tag.'**
+  String get forumsTagNoCars;
+
+  /// No description provided for @forumsTagNoOwnCars.
+  ///
+  /// In en, this message translates to:
+  /// **'Your garage is empty.'**
+  String get forumsTagNoOwnCars;
+
+  /// No description provided for @forumsTagPersonFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Mention someone first to tag one of their cars.'**
+  String get forumsTagPersonFirst;
+
+  /// No description provided for @forumsTagLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'You can tag up to {limit} at a time.'**
+  String forumsTagLimitReached(int limit);
+
+  /// No description provided for @forumsTagsSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get forumsTagsSheetTitle;
+
+  /// No description provided for @forumsTagsDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get forumsTagsDone;
+
+  /// No description provided for @forumsAddTagsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag people & cars'**
+  String get forumsAddTagsTooltip;
+
+  /// No description provided for @forumsTagsSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'TAGS'**
+  String get forumsTagsSectionLabel;
 
   /// No description provided for @messagesTitle.
   ///

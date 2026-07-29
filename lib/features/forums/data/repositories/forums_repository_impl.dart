@@ -64,22 +64,22 @@ class ForumsRepositoryImpl implements ForumsRepository {
     required ForumThreadSort sort,
     String? cursor,
     int? size,
-  }) =>
-      _run('getThreads', () async {
-        final page = await dataSource.getThreads(
-          filter: filter,
-          sort: sort,
-          cursor: cursor,
-          size: size,
-        );
-        return page.toEntity();
-      });
+  }) => _run('getThreads', () async {
+    final page = await dataSource.getThreads(
+      filter: filter,
+      sort: sort,
+      cursor: cursor,
+      size: size,
+    );
+    return page.toEntity();
+  });
 
   @override
-  Future<Either<Failure, ForumThreadDetailEntity>> getThread(
-          String threadId) =>
-      _run('getThread',
-          () async => (await dataSource.getThread(threadId)).toEntity());
+  Future<Either<Failure, ForumThreadDetailEntity>> getThread(String threadId) =>
+      _run(
+        'getThread',
+        () async => (await dataSource.getThread(threadId)).toEntity(),
+      );
 
   @override
   Future<Either<Failure, ForumReplyPageEntity>> getThreadReplies(
@@ -87,16 +87,15 @@ class ForumsRepositoryImpl implements ForumsRepository {
     ForumReplySort sort = ForumReplySort.oldest,
     String? cursor,
     int? size,
-  }) =>
-      _run('getThreadReplies', () async {
-        final page = await dataSource.getThreadReplies(
-          threadId,
-          sort: sort,
-          cursor: cursor,
-          size: size,
-        );
-        return page.toEntity();
-      });
+  }) => _run('getThreadReplies', () async {
+    final page = await dataSource.getThreadReplies(
+      threadId,
+      sort: sort,
+      cursor: cursor,
+      size: size,
+    );
+    return page.toEntity();
+  });
 
   @override
   Future<Either<Failure, ForumReplyPageEntity>> getReplyChildren(
@@ -104,46 +103,53 @@ class ForumsRepositoryImpl implements ForumsRepository {
     ForumReplySort sort = ForumReplySort.oldest,
     String? cursor,
     int? size,
-  }) =>
-      _run('getReplyChildren', () async {
-        final page = await dataSource.getReplyChildren(
-          postId,
-          sort: sort,
-          cursor: cursor,
-          size: size,
-        );
-        return page.toEntity();
-      });
+  }) => _run('getReplyChildren', () async {
+    final page = await dataSource.getReplyChildren(
+      postId,
+      sort: sort,
+      cursor: cursor,
+      size: size,
+    );
+    return page.toEntity();
+  });
 
   @override
   Future<Either<Failure, ForumThreadDetailEntity>> createThread({
     required String title,
-    String? content,
+    required String content,
+    required String brandId,
     String? modelId,
-    String? brandId,
     List<String> topicIds = const [],
-  }) =>
-      _run('createThread', () async {
-        final model = await dataSource.createThread(
-          title: title,
-          content: content,
-          modelId: modelId,
-          brandId: brandId,
-          topicIds: topicIds,
-        );
-        return model.toEntity();
-      });
+    List<String> taggedPeople = const [],
+    List<String> taggedCars = const [],
+  }) => _run('createThread', () async {
+    final model = await dataSource.createThread(
+      title: title,
+      content: content,
+      modelId: modelId,
+      brandId: brandId,
+      topicIds: topicIds,
+      taggedPeople: taggedPeople,
+      taggedCars: taggedCars,
+    );
+    return model.toEntity();
+  });
 
   @override
   Future<Either<Failure, ForumThreadDetailEntity>> editThread(
     String threadId, {
     required String content,
-  }) =>
-      _run(
-          'editThread',
-          () async =>
-              (await dataSource.editThread(threadId, content: content))
-                  .toEntity());
+    List<String>? taggedPeople,
+    List<String>? taggedCars,
+  }) => _run(
+    'editThread',
+    () async => (await dataSource.editThread(
+      threadId,
+      content: content,
+      taggedPeople: taggedPeople,
+      taggedCars: taggedCars,
+    )).toEntity(),
+  );
 
   @override
   Future<Either<Failure, void>> deleteThread(String threadId) =>
@@ -154,25 +160,34 @@ class ForumsRepositoryImpl implements ForumsRepository {
     String threadId, {
     required String content,
     String? parentPostId,
-  }) =>
-      _run('createReply', () async {
-        final model = await dataSource.createReply(
-          threadId,
-          content: content,
-          parentPostId: parentPostId,
-        );
-        return model.toEntity();
-      });
+    List<String> taggedPeople = const [],
+    List<String> taggedCars = const [],
+  }) => _run('createReply', () async {
+    final model = await dataSource.createReply(
+      threadId,
+      content: content,
+      parentPostId: parentPostId,
+      taggedPeople: taggedPeople,
+      taggedCars: taggedCars,
+    );
+    return model.toEntity();
+  });
 
   @override
   Future<Either<Failure, ForumReplyEntity>> editReply(
     String postId, {
     required String content,
-  }) =>
-      _run(
-          'editReply',
-          () async => (await dataSource.editReply(postId, content: content))
-              .toEntity());
+    List<String>? taggedPeople,
+    List<String>? taggedCars,
+  }) => _run(
+    'editReply',
+    () async => (await dataSource.editReply(
+      postId,
+      content: content,
+      taggedPeople: taggedPeople,
+      taggedCars: taggedCars,
+    )).toEntity(),
+  );
 
   @override
   Future<Either<Failure, void>> deleteReply(String postId) =>
@@ -212,43 +227,38 @@ class ForumsRepositoryImpl implements ForumsRepository {
     String? modelId,
     String? topicId,
     bool notify = false,
-  }) =>
-      _run('createShortcut', () async {
-        final model = await dataSource.createShortcut(
-          name: name,
-          brandId: brandId,
-          modelId: modelId,
-          topicId: topicId,
-          notify: notify,
-        );
-        return model.toEntity();
-      });
+  }) => _run('createShortcut', () async {
+    final model = await dataSource.createShortcut(
+      name: name,
+      brandId: brandId,
+      modelId: modelId,
+      topicId: topicId,
+      notify: notify,
+    );
+    return model.toEntity();
+  });
 
   @override
   Future<Either<Failure, ForumShortcutEntity>> updateShortcut(
     String shortcutId, {
     String? name,
     bool? notify,
-  }) =>
-      _run('updateShortcut', () async {
-        final model = await dataSource.updateShortcut(
-          shortcutId,
-          name: name,
-          notify: notify,
-        );
-        return model.toEntity();
-      });
+  }) => _run('updateShortcut', () async {
+    final model = await dataSource.updateShortcut(
+      shortcutId,
+      name: name,
+      notify: notify,
+    );
+    return model.toEntity();
+  });
 
   @override
   Future<Either<Failure, List<ForumShortcutEntity>>> reorderShortcuts(
-          List<String> orderedIds) =>
-      _run('reorderShortcuts', () async {
-        final models = await dataSource.reorderShortcuts(orderedIds);
-        return models
-            .map((m) => m.toEntity())
-            .where((s) => s.isCarRooted)
-            .toList();
-      });
+    List<String> orderedIds,
+  ) => _run('reorderShortcuts', () async {
+    final models = await dataSource.reorderShortcuts(orderedIds);
+    return models.map((m) => m.toEntity()).where((s) => s.isCarRooted).toList();
+  });
 
   @override
   Future<Either<Failure, void>> deleteShortcut(String shortcutId) =>
@@ -266,19 +276,16 @@ class ForumsRepositoryImpl implements ForumsRepository {
   Future<Either<Failure, ForumThreadPageEntity>> getSavedThreads({
     String? cursor,
     int? size,
-  }) =>
-      _run('getSavedThreads', () async {
-        final page =
-            await dataSource.getSavedThreads(cursor: cursor, size: size);
-        return page.toEntity();
-      });
+  }) => _run('getSavedThreads', () async {
+    final page = await dataSource.getSavedThreads(cursor: cursor, size: size);
+    return page.toEntity();
+  });
 
   @override
   Future<Either<Failure, List<ForumSuggestionEntity>>> getSuggestions({
     int? limit,
-  }) =>
-      _run('getSuggestions', () async {
-        final models = await dataSource.getSuggestions(limit: limit);
-        return models.map((m) => m.toEntity()).toList();
-      });
+  }) => _run('getSuggestions', () async {
+    final models = await dataSource.getSuggestions(limit: limit);
+    return models.map((m) => m.toEntity()).toList();
+  });
 }

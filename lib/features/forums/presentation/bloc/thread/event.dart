@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
+
 import '../../../domain/entities/forum_reply.dart';
 
 sealed class ForumThreadEvent extends Equatable {
@@ -80,6 +82,42 @@ class StartReplyTo extends ForumThreadEvent {
   List<Object?> get props => [postId, username];
 }
 
+/// Mentions a person in the reply being composed (capped at 30).
+class AddReplyTagPerson extends ForumThreadEvent {
+  final TaggedPerson person;
+  const AddReplyTagPerson(this.person);
+
+  @override
+  List<Object?> get props => [person.id];
+}
+
+/// Un-mentions a person, dropping their cars with them (own cars stay).
+class RemoveReplyTagPerson extends ForumThreadEvent {
+  final String personId;
+  const RemoveReplyTagPerson(this.personId);
+
+  @override
+  List<Object?> get props => [personId];
+}
+
+/// Tags a car on the reply being composed.
+class AddReplyTagCar extends ForumThreadEvent {
+  final TaggedCar car;
+  const AddReplyTagCar(this.car);
+
+  @override
+  List<Object?> get props => [car.id];
+}
+
+/// Removes one tagged car from the reply being composed.
+class RemoveReplyTagCar extends ForumThreadEvent {
+  final String carId;
+  const RemoveReplyTagCar(this.carId);
+
+  @override
+  List<Object?> get props => [carId];
+}
+
 /// Sends the composer's content to the current reply target.
 class SubmitForumReply extends ForumThreadEvent {
   final String content;
@@ -89,13 +127,17 @@ class SubmitForumReply extends ForumThreadEvent {
   List<Object?> get props => [content];
 }
 
-/// Author-only: replaces the OP body.
+/// Author-only: replaces the OP body and its tag sets. A null tag list leaves
+/// that set unchanged; an empty one clears it.
 class EditForumThreadBody extends ForumThreadEvent {
   final String content;
-  const EditForumThreadBody(this.content);
+  final List<String>? taggedPeople;
+  final List<String>? taggedCars;
+
+  const EditForumThreadBody(this.content, {this.taggedPeople, this.taggedCars});
 
   @override
-  List<Object?> get props => [content];
+  List<Object?> get props => [content, taggedPeople, taggedCars];
 }
 
 /// Author-only: deletes the thread (anonymized if it has replies).
@@ -103,14 +145,23 @@ class DeleteForumThreadRequested extends ForumThreadEvent {
   const DeleteForumThreadRequested();
 }
 
-/// Author-only: replaces one reply's content.
+/// Author-only: replaces one reply's content and its tag sets (same null /
+/// empty semantics as [EditForumThreadBody]).
 class EditForumReplyBody extends ForumThreadEvent {
   final String postId;
   final String content;
-  const EditForumReplyBody(this.postId, this.content);
+  final List<String>? taggedPeople;
+  final List<String>? taggedCars;
+
+  const EditForumReplyBody(
+    this.postId,
+    this.content, {
+    this.taggedPeople,
+    this.taggedCars,
+  });
 
   @override
-  List<Object?> get props => [postId, content];
+  List<Object?> get props => [postId, content, taggedPeople, taggedCars];
 }
 
 /// Author-only: deletes one reply ("[deleted]" placeholder if it has

@@ -66,7 +66,7 @@ import '../../features/posts/presentation/bloc/profile_posts/event.dart';
 import '../../features/posts/presentation/bloc/saved_posts/bloc.dart';
 import '../../features/posts/presentation/bloc/saved_posts/event.dart';
 import '../../features/posts/presentation/bloc/share_post/bloc.dart';
-import '../../features/posts/presentation/bloc/tag_picker/bloc.dart';
+import '../shared/bloc/tag_picker/bloc.dart';
 import '../../features/posts/presentation/pages/create_post_page.dart';
 import '../../features/posts/presentation/pages/edit_post_page.dart';
 import '../../features/posts/presentation/pages/post_detail_page.dart';
@@ -347,11 +347,20 @@ final appRouter = GoRouter(
             );
           },
         ),
+        // Both the composer and the thread page tag people & cars, so each
+        // gets a TagPickerBloc alongside its own bloc.
         GoRoute(
           path: 'new',
-          builder: (context, state) => BlocProvider<NewThreadBloc>(
-            create: (_) =>
-                getIt<NewThreadBloc>()..add(const LoadNewThreadRefs()),
+          builder: (context, state) => MultiBlocProvider(
+            providers: [
+              BlocProvider<NewThreadBloc>(
+                create: (_) =>
+                    getIt<NewThreadBloc>()..add(const LoadNewThreadRefs()),
+              ),
+              BlocProvider<TagPickerBloc>(
+                create: (_) => getIt<TagPickerBloc>(),
+              ),
+            ],
             child: const NewThreadPage(),
           ),
         ),
@@ -359,9 +368,16 @@ final appRouter = GoRouter(
           path: 'threads/:threadId',
           builder: (context, state) {
             final threadId = state.pathParameters['threadId']!;
-            return BlocProvider<ForumThreadBloc>(
-              create: (_) =>
-                  getIt<ForumThreadBloc>()..add(LoadForumThread(threadId)),
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider<ForumThreadBloc>(
+                  create: (_) =>
+                      getIt<ForumThreadBloc>()..add(LoadForumThread(threadId)),
+                ),
+                BlocProvider<TagPickerBloc>(
+                  create: (_) => getIt<TagPickerBloc>(),
+                ),
+              ],
               child: ForumThreadPage(threadId: threadId),
             );
           },

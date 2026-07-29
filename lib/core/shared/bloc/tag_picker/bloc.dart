@@ -4,7 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import 'package:car_social_media_app/core/usecases/usecase.dart';
 import 'package:car_social_media_app/features/garage/domain/usecases/get_garage_by_username.dart';
+import 'package:car_social_media_app/features/garage/domain/usecases/get_my_garage.dart';
 import 'package:car_social_media_app/features/search/domain/usecases/search_users.dart';
 import 'event.dart';
 import 'state.dart';
@@ -21,6 +23,7 @@ const _minQueryLength = 2;
 class TagPickerBloc extends Bloc<TagPickerEvent, TagPickerState> {
   final SearchUsersUseCase searchUsers;
   final GetGarageByUsernameUseCase getGarageByUsername;
+  final GetMyGarageUseCase getMyGarage;
 
   Timer? _debounceTimer;
   CancelToken? _activeToken;
@@ -28,11 +31,13 @@ class TagPickerBloc extends Bloc<TagPickerEvent, TagPickerState> {
   TagPickerBloc({
     required this.searchUsers,
     required this.getGarageByUsername,
+    required this.getMyGarage,
   }) : super(const TagPickerState()) {
     on<PeopleQueryChanged>(_onQueryChanged);
     on<PeopleSearchRequested>(_onSearchRequested);
     on<PeopleResultsCleared>(_onResultsCleared);
     on<OwnerCarsRequested>(_onOwnerCarsRequested);
+    on<MyCarsRequested>(_onMyCarsRequested);
   }
 
   @override
@@ -119,6 +124,27 @@ class TagPickerBloc extends Bloc<TagPickerEvent, TagPickerState> {
       (garage) => emit(state.copyWith(
         carsStatus: TagLoadStatus.success,
         ownerCars: garage.cars,
+      )),
+    );
+  }
+
+  Future<void> _onMyCarsRequested(
+    MyCarsRequested event,
+    Emitter<TagPickerState> emit,
+  ) async {
+    // Loaded once — the viewer's garage doesn't change while a composer is open.
+    if (state.myCarsStatus == TagLoadStatus.success ||
+        state.myCarsStatus == TagLoadStatus.loading) {
+      return;
+    }
+    emit(state.copyWith(myCarsStatus: TagLoadStatus.loading));
+
+    final result = await getMyGarage(NoParams());
+    result.fold(
+      (_) => emit(state.copyWith(myCarsStatus: TagLoadStatus.failure)),
+      (garage) => emit(state.copyWith(
+        myCarsStatus: TagLoadStatus.success,
+        myCars: garage.cars,
       )),
     );
   }

@@ -7,6 +7,7 @@ import '../../../../../l10n/app_localizations.dart';
 import '../../bloc/thread/state.dart';
 import '../../utils/forum_format.dart';
 import '../shared/forum_avatar.dart';
+import '../shared/forum_tag_row.dart';
 
 /// One reply and (when expanded) its lazily-loaded children, indented one
 /// level per depth (visually capped so deep chains stay readable).
@@ -116,6 +117,16 @@ class ReplyTile extends StatelessWidget {
                         height: 1.4,
                       ),
                     ),
+                    if (!reply.deleted &&
+                        (reply.taggedPeople.isNotEmpty ||
+                            reply.taggedCars.isNotEmpty)) ...[
+                      const SizedBox(height: 8),
+                      ForumTagRow(
+                        people: reply.taggedPeople,
+                        cars: reply.taggedCars,
+                        dense: true,
+                      ),
+                    ],
                     const SizedBox(height: 6),
                     Row(
                       children: [

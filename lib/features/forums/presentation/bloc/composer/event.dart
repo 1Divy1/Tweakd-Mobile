@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'package:car_social_media_app/features/garage/domain/entities/car_summary.dart';
+import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
 import 'package:car_social_media_app/features/garage/domain/entities/reference_data.dart';
 
 sealed class NewThreadEvent extends Equatable {
@@ -10,19 +10,9 @@ sealed class NewThreadEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Loads the composer's reference data: topics, the brand catalog and the
-/// user's garage (for the "from your garage" suggestion).
+/// Loads the composer's reference data: topics and the brand catalog.
 class LoadNewThreadRefs extends NewThreadEvent {
   const LoadNewThreadRefs();
-}
-
-/// Filters the brand list (local, the catalog is already loaded).
-class NewThreadBrandQueryChanged extends NewThreadEvent {
-  final String query;
-  const NewThreadBrandQueryChanged(this.query);
-
-  @override
-  List<Object?> get props => [query];
 }
 
 /// Picks a brand and loads that brand's models.
@@ -39,15 +29,6 @@ class ClearNewThreadBrand extends NewThreadEvent {
   const ClearNewThreadBrand();
 }
 
-/// Filters the selected brand's model list (local).
-class NewThreadModelQueryChanged extends NewThreadEvent {
-  final String query;
-  const NewThreadModelQueryChanged(this.query);
-
-  @override
-  List<Object?> get props => [query];
-}
-
 /// Picks a model of the selected brand (optional refinement).
 class SelectNewThreadModel extends NewThreadEvent {
   final CarModelEntity model;
@@ -62,15 +43,6 @@ class ClearNewThreadModel extends NewThreadEvent {
   const ClearNewThreadModel();
 }
 
-/// Picks one of the user's garage cars (resolved against the catalog).
-class SelectGarageCar extends NewThreadEvent {
-  final CarSummaryEntity car;
-  const SelectGarageCar(this.car);
-
-  @override
-  List<Object?> get props => [car];
-}
-
 /// Toggles a topic chip, capped at 10 selections.
 class ToggleNewThreadTopic extends NewThreadEvent {
   final String topicId;
@@ -78,6 +50,42 @@ class ToggleNewThreadTopic extends NewThreadEvent {
 
   @override
   List<Object?> get props => [topicId];
+}
+
+/// Mentions a person in the thread. Ignored past the backend's 30-tag cap.
+class AddNewThreadTagPerson extends NewThreadEvent {
+  final TaggedPerson person;
+  const AddNewThreadTagPerson(this.person);
+
+  @override
+  List<Object?> get props => [person.id];
+}
+
+/// Un-mentions a person — their cars go with them (own cars stay).
+class RemoveNewThreadTagPerson extends NewThreadEvent {
+  final String personId;
+  const RemoveNewThreadTagPerson(this.personId);
+
+  @override
+  List<Object?> get props => [personId];
+}
+
+/// Tags a car picked from a mentioned person's garage, or from the viewer's.
+class AddNewThreadTagCar extends NewThreadEvent {
+  final TaggedCar car;
+  const AddNewThreadTagCar(this.car);
+
+  @override
+  List<Object?> get props => [car.id];
+}
+
+/// Removes one tagged car.
+class RemoveNewThreadTagCar extends NewThreadEvent {
+  final String carId;
+  const RemoveNewThreadTagCar(this.carId);
+
+  @override
+  List<Object?> get props => [carId];
 }
 
 /// Creates the thread.

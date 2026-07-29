@@ -487,6 +487,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'When a saved item gets a discount';
 
   @override
+  String get onboardingNotifTagsTitle => 'Tags';
+
+  @override
+  String get onboardingNotifTagsSubtitle => 'When someone tags you or your car';
+
+  @override
   String get profileTitle => 'PROFILE';
 
   @override
@@ -2098,14 +2104,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Share the details, questions, or your writeup…';
 
   @override
-  String get forumsTagACar => 'TAG A CAR';
-
-  @override
-  String forumsFromYourGarage(String car) {
-    return 'From your garage · $car';
-  }
-
-  @override
   String get forumsBrandRequiredLabel => 'BRAND · REQUIRED';
 
   @override
@@ -2116,6 +2114,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get forumsSearchModelHint => 'Search a model…';
+
+  @override
+  String get forumsChooseBrand => 'Choose a brand';
+
+  @override
+  String get forumsChooseModel => 'Choose a model';
 
   @override
   String get forumsNoBrandMatches => 'No brands match that search.';
@@ -2189,6 +2193,71 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get forumsErrorGeneric => 'Something went wrong. Please try again.';
+
+  @override
+  String get forumsErrorInvalidTags =>
+      'One of the tagged profiles or cars is no longer available.';
+
+  @override
+  String get forumsTagPeopleAndCars => 'TAG PEOPLE & CARS';
+
+  @override
+  String get forumsTagPeople => 'PEOPLE';
+
+  @override
+  String get forumsTagCars => 'CARS';
+
+  @override
+  String get forumsTagHelper =>
+      'Mention someone to pull cars from their garage. Your own cars can be tagged without mentioning yourself.';
+
+  @override
+  String get forumsTagPeopleHint => 'Search a username…';
+
+  @override
+  String get forumsTagAddCar => 'Tag a car';
+
+  @override
+  String get forumsTagChoosePerson => 'Whose car?';
+
+  @override
+  String get forumsTagChooseCar => 'Pick a car';
+
+  @override
+  String get forumsTagYourGarage => 'Your garage';
+
+  @override
+  String get forumsTagNoPeopleFound => 'No profiles match that search.';
+
+  @override
+  String get forumsTagLoadError => 'Couldn’t load that. Please try again.';
+
+  @override
+  String get forumsTagNoCars => 'This person has no cars to tag.';
+
+  @override
+  String get forumsTagNoOwnCars => 'Your garage is empty.';
+
+  @override
+  String get forumsTagPersonFirst =>
+      'Mention someone first to tag one of their cars.';
+
+  @override
+  String forumsTagLimitReached(int limit) {
+    return 'You can tag up to $limit at a time.';
+  }
+
+  @override
+  String get forumsTagsSheetTitle => 'Tags';
+
+  @override
+  String get forumsTagsDone => 'Done';
+
+  @override
+  String get forumsAddTagsTooltip => 'Tag people & cars';
+
+  @override
+  String get forumsTagsSectionLabel => 'TAGS';
 
   @override
   String get messagesTitle => 'MESSAGES';

@@ -38,3 +38,10 @@ class OwnerCarsRequested extends TagPickerEvent {
   @override
   List<Object?> get props => [username];
 }
+
+/// Loads the viewer's own garage. Own cars can be tagged without tagging
+/// yourself — the backend exempts the author's cars from the
+/// owner-must-be-tagged rule. Loaded once and kept for the session.
+class MyCarsRequested extends TagPickerEvent {
+  const MyCarsRequested();
+}

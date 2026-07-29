@@ -1,27 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:car_social_media_app/core/shared/bloc/tag_picker/bloc.dart';
+import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
+import '../../utils/forum_tags.dart';
+import '../shared/forum_section_label.dart';
+import '../tagging/forum_tag_editor.dart';
 
-/// Bottom sheet with a text area, used to edit the OP body or a reply.
-/// Resolves to the new text on save, null on cancel.
-Future<String?> showForumEditSheet(
+/// What an edit sheet resolves to: the new body plus the replace-all tag sets
+/// (always non-null — the sheet always shows the current tags, so whatever is
+/// left in it is what the content should end up with).
+class ForumEditResult {
+  final String text;
+  final List<String> taggedPeople;
+  final List<String> taggedCars;
+
+  const ForumEditResult({
+    required this.text,
+    required this.taggedPeople,
+    required this.taggedCars,
+  });
+}
+
+/// Bottom sheet with a text area and the tag editor, used to edit the OP body
+/// or a reply. Resolves to the new content on save, null on cancel. Must be
+/// called from a context that can read a [TagPickerBloc].
+Future<ForumEditResult?> showForumEditSheet(
   BuildContext context, {
   required String title,
   required String initialText,
+  required List<TaggedPerson> initialPeople,
+  required List<TaggedCar> initialCars,
   bool allowEmpty = false,
 }) {
-  return showModalBottomSheet<String>(
+  final tagBloc = context.read<TagPickerBloc>();
+  return showModalBottomSheet<ForumEditResult>(
     context: context,
     isScrollControlled: true,
     backgroundColor: AppColors.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
     ),
-    builder: (context) => _ForumEditSheet(
-      title: title,
-      initialText: initialText,
-      allowEmpty: allowEmpty,
+    builder: (context) => BlocProvider<TagPickerBloc>.value(
+      value: tagBloc,
+      child: _ForumEditSheet(
+        title: title,
+        initialText: initialText,
+        initialPeople: initialPeople,
+        initialCars: initialCars,
+        allowEmpty: allowEmpty,
+      ),
     ),
   );
 }
@@ -29,11 +60,15 @@ Future<String?> showForumEditSheet(
 class _ForumEditSheet extends StatefulWidget {
   final String title;
   final String initialText;
+  final List<TaggedPerson> initialPeople;
+  final List<TaggedCar> initialCars;
   final bool allowEmpty;
 
   const _ForumEditSheet({
     required this.title,
     required this.initialText,
+    required this.initialPeople,
+    required this.initialCars,
     required this.allowEmpty,
   });
 
@@ -43,17 +78,23 @@ class _ForumEditSheet extends StatefulWidget {
 
 class _ForumEditSheetState extends State<_ForumEditSheet> {
   late final TextEditingController _controller;
+  final _peopleSearchController = TextEditingController();
+  late List<TaggedPerson> _people;
+  late List<TaggedCar> _cars;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.initialText);
     _controller.addListener(() => setState(() {}));
+    _people = [...widget.initialPeople];
+    _cars = [...widget.initialCars];
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _peopleSearchController.dispose();
     super.dispose();
   }
 
@@ -115,6 +156,47 @@ class _ForumEditSheetState extends State<_ForumEditSheet> {
               decoration: const InputDecoration(border: InputBorder.none),
             ),
           ),
+          const SizedBox(height: 20),
+          ForumSectionLabel(label: l10n.forumsTagsSectionLabel),
+          const SizedBox(height: 10),
+          Flexible(
+            child: SingleChildScrollView(
+              child: ForumTagEditor(
+                people: _people,
+                cars: _cars,
+                peopleSearchController: _peopleSearchController,
+                showHeader: false,
+                onAddPerson: (person) {
+                  if (_people.length >= kForumTagLimit ||
+                      _people.any((p) => p.id == person.id)) {
+                    return;
+                  }
+                  setState(() => _people = [..._people, person]);
+                },
+                onRemovePerson: (id) => setState(() {
+                  _people = [
+                    for (final p in _people)
+                      if (p.id != id) p,
+                  ];
+                  // Keep the owner-must-be-tagged rule satisfied.
+                  _cars = forumCarsWithoutOwner(_cars, id);
+                }),
+                onAddCar: (car) {
+                  if (_cars.length >= kForumTagLimit ||
+                      _cars.any((c) => c.id == car.id)) {
+                    return;
+                  }
+                  setState(() => _cars = [..._cars, car]);
+                },
+                onRemoveCar: (id) => setState(() {
+                  _cars = [
+                    for (final c in _cars)
+                      if (c.id != id) c,
+                  ];
+                }),
+              ),
+            ),
+          ),
           const SizedBox(height: 16),
           Row(
             children: [
@@ -146,8 +228,13 @@ class _ForumEditSheetState extends State<_ForumEditSheet> {
                   height: 52,
                   child: ElevatedButton(
                     onPressed: canSave
-                        ? () =>
-                            Navigator.of(context).pop(_controller.text.trim())
+                        ? () => Navigator.of(context).pop(
+                            ForumEditResult(
+                              text: _controller.text.trim(),
+                              taggedPeople: [for (final p in _people) p.id],
+                              taggedCars: [for (final c in _cars) c.id],
+                            ),
+                          )
                         : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.accent,

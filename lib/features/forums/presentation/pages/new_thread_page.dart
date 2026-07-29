@@ -8,10 +8,11 @@ import '../bloc/composer/bloc.dart';
 import '../bloc/composer/event.dart';
 import '../bloc/composer/state.dart';
 import '../utils/forum_error_mapper.dart';
-import '../widgets/composer/car_tag_picker.dart';
+import '../widgets/composer/thread_category_picker.dart';
 import '../widgets/composer/topic_selector.dart';
 import '../widgets/shared/forum_error_view.dart';
 import '../widgets/shared/forum_sub_top_bar.dart';
+import '../widgets/tagging/forum_tag_editor.dart';
 
 class NewThreadPage extends StatefulWidget {
   const NewThreadPage({super.key});
@@ -23,22 +24,21 @@ class NewThreadPage extends StatefulWidget {
 class _NewThreadPageState extends State<NewThreadPage> {
   final _titleController = TextEditingController();
   final _bodyController = TextEditingController();
-  final _brandSearchController = TextEditingController();
-  final _modelSearchController = TextEditingController();
+  final _peopleSearchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    // The Post button enables with a non-empty title.
+    // The Post button enables with a non-empty title and body.
     _titleController.addListener(() => setState(() {}));
+    _bodyController.addListener(() => setState(() {}));
   }
 
   @override
   void dispose() {
     _titleController.dispose();
     _bodyController.dispose();
-    _brandSearchController.dispose();
-    _modelSearchController.dispose();
+    _peopleSearchController.dispose();
     super.dispose();
   }
 
@@ -77,9 +77,10 @@ class _NewThreadPageState extends State<NewThreadPage> {
             }
           },
           builder: (context, state) {
-            // A title and a brand are required; the model is optional.
+            // A title, a body and a brand are required; the model is optional.
             final canPost =
                 _titleController.text.trim().isNotEmpty &&
+                _bodyController.text.trim().isNotEmpty &&
                 state.hasBrand &&
                 !state.isSubmitting;
 
@@ -114,8 +115,7 @@ class _NewThreadPageState extends State<NewThreadPage> {
                       state: state,
                       titleController: _titleController,
                       bodyController: _bodyController,
-                      brandSearchController: _brandSearchController,
-                      modelSearchController: _modelSearchController,
+                      peopleSearchController: _peopleSearchController,
                     ),
                   },
                 ),
@@ -132,15 +132,13 @@ class _ComposerForm extends StatelessWidget {
   final NewThreadState state;
   final TextEditingController titleController;
   final TextEditingController bodyController;
-  final TextEditingController brandSearchController;
-  final TextEditingController modelSearchController;
+  final TextEditingController peopleSearchController;
 
   const _ComposerForm({
     required this.state,
     required this.titleController,
     required this.bodyController,
-    required this.brandSearchController,
-    required this.modelSearchController,
+    required this.peopleSearchController,
   });
 
   @override
@@ -151,83 +149,75 @@ class _ComposerForm extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
       children: [
-        TextField(
-          controller: titleController,
-          maxLength: 200,
-          maxLines: null,
-          cursorColor: AppColors.accent,
-          style: const TextStyle(
-            color: AppColors.ink,
-            fontSize: 22,
-            fontWeight: FontWeight.w800,
-            height: 1.25,
-          ),
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            counterText: '',
-            hintText: l10n.forumsThreadTitleHint,
-            hintStyle: const TextStyle(
-              color: AppColors.muteSoft,
-              fontSize: 22,
+        _ComposerField(
+          child: TextField(
+            controller: titleController,
+            maxLength: 200,
+            maxLines: null,
+            cursorColor: AppColors.accent,
+            style: const TextStyle(
+              color: AppColors.ink,
+              fontSize: 20,
               fontWeight: FontWeight.w800,
+              height: 1.25,
+            ),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              isCollapsed: true,
+              counterText: '',
+              hintText: l10n.forumsThreadTitleHint,
+              hintStyle: const TextStyle(
+                color: AppColors.muteSoft,
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
         ),
-        const Divider(color: AppColors.line, height: 1),
-        const SizedBox(height: 8),
-        TextField(
-          controller: bodyController,
-          minLines: 3,
-          maxLines: null,
-          maxLength: 20000,
-          cursorColor: AppColors.accent,
-          style: const TextStyle(
-            color: AppColors.ink2,
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-            height: 1.4,
-          ),
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            counterText: '',
-            hintText: l10n.forumsThreadBodyHint,
-            hintStyle: const TextStyle(
-              color: AppColors.muteSoft,
+        const SizedBox(height: 12),
+        _ComposerField(
+          child: TextField(
+            controller: bodyController,
+            minLines: 5,
+            maxLines: null,
+            maxLength: 20000,
+            cursorColor: AppColors.accent,
+            style: const TextStyle(
+              color: AppColors.ink2,
               fontSize: 15,
               fontWeight: FontWeight.w500,
+              height: 1.4,
+            ),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              isCollapsed: true,
+              counterText: '',
+              hintText: l10n.forumsThreadBodyHint,
+              hintStyle: const TextStyle(
+                color: AppColors.muteSoft,
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ),
-        const SizedBox(height: 20),
-        CarTagPicker(
+        const SizedBox(height: 24),
+        ThreadCategoryPicker(
           state: state,
-          brandSearchController: brandSearchController,
-          modelSearchController: modelSearchController,
-          onBrandQueryChanged: (q) => bloc.add(NewThreadBrandQueryChanged(q)),
-          onSelectBrand: (brand) {
-            brandSearchController.clear();
-            modelSearchController.clear();
-            bloc.add(SelectNewThreadBrand(brand));
-          },
-          onClearBrand: () {
-            brandSearchController.clear();
-            modelSearchController.clear();
-            bloc.add(const ClearNewThreadBrand());
-          },
-          onModelQueryChanged: (q) => bloc.add(NewThreadModelQueryChanged(q)),
-          onSelectModel: (model) {
-            modelSearchController.clear();
-            bloc.add(SelectNewThreadModel(model));
-          },
-          onClearModel: () {
-            modelSearchController.clear();
-            bloc.add(const ClearNewThreadModel());
-          },
-          onSelectGarageCar: (car) {
-            brandSearchController.clear();
-            modelSearchController.clear();
-            bloc.add(SelectGarageCar(car));
-          },
+          onSelectBrand: (brand) => bloc.add(SelectNewThreadBrand(brand)),
+          onClearBrand: () => bloc.add(const ClearNewThreadBrand()),
+          onSelectModel: (model) => bloc.add(SelectNewThreadModel(model)),
+          onClearModel: () => bloc.add(const ClearNewThreadModel()),
+        ),
+        const SizedBox(height: 24),
+        ForumTagEditor(
+          people: state.taggedPeople,
+          cars: state.taggedCars,
+          peopleSearchController: peopleSearchController,
+          onAddPerson: (person) => bloc.add(AddNewThreadTagPerson(person)),
+          onRemovePerson: (id) => bloc.add(RemoveNewThreadTagPerson(id)),
+          onAddCar: (car) => bloc.add(AddNewThreadTagCar(car)),
+          onRemoveCar: (id) => bloc.add(RemoveNewThreadTagCar(id)),
         ),
         const SizedBox(height: 24),
         TopicSelector(
@@ -236,6 +226,27 @@ class _ComposerForm extends StatelessWidget {
           onToggle: (id) => bloc.add(ToggleNewThreadTopic(id)),
         ),
       ],
+    );
+  }
+}
+
+/// Rounded card the title and body fields sit in, matching the rest of the
+/// composer's inputs.
+class _ComposerField extends StatelessWidget {
+  final Widget child;
+
+  const _ComposerField({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.line),
+      ),
+      child: child,
     );
   }
 }

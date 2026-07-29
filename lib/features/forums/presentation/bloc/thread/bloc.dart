@@ -10,6 +10,7 @@ import '../../../domain/usecases/modify_forum_reply.dart';
 import '../../../domain/usecases/modify_forum_thread.dart';
 import '../../../domain/usecases/toggle_forum_likes.dart';
 import '../../utils/forum_error_mapper.dart';
+import '../../utils/forum_tags.dart';
 import 'event.dart';
 import 'state.dart';
 
@@ -60,6 +61,10 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
     on<ToggleForumThreadSave>(_onToggleThreadSave);
     on<ToggleForumReplyLike>(_onToggleReplyLike);
     on<StartReplyTo>(_onStartReplyTo);
+    on<AddReplyTagPerson>(_onAddReplyTagPerson);
+    on<RemoveReplyTagPerson>(_onRemoveReplyTagPerson);
+    on<AddReplyTagCar>(_onAddReplyTagCar);
+    on<RemoveReplyTagCar>(_onRemoveReplyTagCar);
     on<SubmitForumReply>(_onSubmitReply);
     on<EditForumThreadBody>(_onEditThread);
     on<DeleteForumThreadRequested>(_onDeleteThread);
@@ -341,6 +346,56 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
     ));
   }
 
+  void _onAddReplyTagPerson(
+    AddReplyTagPerson event,
+    Emitter<ForumThreadState> emit,
+  ) {
+    final people = state.replyTaggedPeople;
+    if (people.length >= kForumTagLimit ||
+        people.any((p) => p.id == event.person.id)) {
+      return;
+    }
+    emit(state.copyWith(replyTaggedPeople: [...people, event.person]));
+  }
+
+  void _onRemoveReplyTagPerson(
+    RemoveReplyTagPerson event,
+    Emitter<ForumThreadState> emit,
+  ) {
+    emit(state.copyWith(
+      replyTaggedPeople: [
+        for (final p in state.replyTaggedPeople)
+          if (p.id != event.personId) p,
+      ],
+      // The backend rejects a car whose owner isn't tagged (own cars aside).
+      replyTaggedCars:
+          forumCarsWithoutOwner(state.replyTaggedCars, event.personId),
+    ));
+  }
+
+  void _onAddReplyTagCar(
+    AddReplyTagCar event,
+    Emitter<ForumThreadState> emit,
+  ) {
+    final cars = state.replyTaggedCars;
+    if (cars.length >= kForumTagLimit || cars.any((c) => c.id == event.car.id)) {
+      return;
+    }
+    emit(state.copyWith(replyTaggedCars: [...cars, event.car]));
+  }
+
+  void _onRemoveReplyTagCar(
+    RemoveReplyTagCar event,
+    Emitter<ForumThreadState> emit,
+  ) {
+    emit(state.copyWith(
+      replyTaggedCars: [
+        for (final c in state.replyTaggedCars)
+          if (c.id != event.carId) c,
+      ],
+    ));
+  }
+
   Future<void> _onSubmitReply(
     SubmitForumReply event,
     Emitter<ForumThreadState> emit,
@@ -356,11 +411,16 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
       threadId: _threadId,
       content: content,
       parentPostId: parentId,
+      taggedPeople: [for (final p in state.replyTaggedPeople) p.id],
+      taggedCars: [for (final c in state.replyTaggedCars) c.id],
     ));
     result.fold(
       (f) => emit(state.copyWith(
         isSubmitting: false,
-        actionError: ForumErrorMapper.getCode(f),
+        actionError: ForumErrorMapper.getCode(
+          f,
+          validationCode: ForumErrorCode.invalidTags,
+        ),
       )),
       (reply) {
         final node = ReplyNode(reply: reply);
@@ -381,6 +441,7 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
           replies: replies,
           thread: thread.copyWith(replyCount: thread.replyCount + 1),
           clearReplyTarget: true,
+          clearReplyTags: true,
           bumpReplySent: true,
         ));
       },
@@ -391,16 +452,30 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
     EditForumThreadBody event,
     Emitter<ForumThreadState> emit,
   ) async {
+    // The edit sheet mirrors this guard; a thread always keeps a body.
+    final content = event.content.trim();
+    if (content.isEmpty) return;
+
     final result = await editThread(EditForumThreadParams(
       threadId: _threadId,
-      content: event.content,
+      content: content,
+      taggedPeople: event.taggedPeople,
+      taggedCars: event.taggedCars,
     ));
     result.fold(
-      (f) => emit(state.copyWith(actionError: ForumErrorMapper.getCode(f))),
-      (updated) =>
-          emit(state.copyWith(thread: state.thread?.copyWith(
-        content: updated.content,
-      ))),
+      (f) => emit(state.copyWith(
+        actionError: ForumErrorMapper.getCode(
+          f,
+          validationCode: ForumErrorCode.invalidTags,
+        ),
+      )),
+      (updated) => emit(state.copyWith(
+        thread: state.thread?.copyWith(
+          content: updated.content,
+          taggedPeople: updated.taggedPeople,
+          taggedCars: updated.taggedCars,
+        ),
+      )),
     );
   }
 
@@ -422,12 +497,28 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
     final result = await editReply(EditForumReplyParams(
       postId: event.postId,
       content: event.content,
+      taggedPeople: event.taggedPeople,
+      taggedCars: event.taggedCars,
     ));
     result.fold(
-      (f) => emit(state.copyWith(actionError: ForumErrorMapper.getCode(f))),
+      (f) => emit(state.copyWith(
+        actionError: ForumErrorMapper.getCode(
+          f,
+          validationCode: ForumErrorCode.invalidTags,
+        ),
+      )),
       (updated) => emit(state.copyWith(
-        replies: updateReplyNode(state.replies, event.postId,
-            (n) => n.copyWith(reply: n.reply.copyWith(content: updated.content))),
+        replies: updateReplyNode(
+          state.replies,
+          event.postId,
+          (n) => n.copyWith(
+            reply: n.reply.copyWith(
+              content: updated.content,
+              taggedPeople: updated.taggedPeople,
+              taggedCars: updated.taggedCars,
+            ),
+          ),
+        ),
       )),
     );
   }

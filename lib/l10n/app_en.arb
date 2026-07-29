@@ -269,6 +269,8 @@
   "onboardingNotifEventsSubtitle": "Shows, track days & cars-and-coffee",
   "onboardingNotifPriceDropsTitle": "Price drops",
   "onboardingNotifPriceDropsSubtitle": "When a saved item gets a discount",
+  "onboardingNotifTagsTitle": "Tags",
+  "onboardingNotifTagsSubtitle": "When someone tags you or your car",
 
   "profileTitle": "PROFILE",
   "profileMessage": "Message",
@@ -944,17 +946,12 @@
   "forumsPost": "Post",
   "forumsThreadTitleHint": "Title",
   "forumsThreadBodyHint": "Share the details, questions, or your writeup…",
-  "forumsTagACar": "TAG A CAR",
-  "forumsFromYourGarage": "From your garage · {car}",
-  "@forumsFromYourGarage": {
-    "placeholders": {
-      "car": {"type": "String"}
-    }
-  },
   "forumsBrandRequiredLabel": "BRAND · REQUIRED",
   "forumsModelOptionalLabel": "MODEL · OPTIONAL",
   "forumsSearchBrandHint": "Search a brand…",
   "forumsSearchModelHint": "Search a model…",
+  "forumsChooseBrand": "Choose a brand",
+  "forumsChooseModel": "Choose a model",
   "forumsNoBrandMatches": "No brands match that search.",
   "forumsNoModelMatches": "No models match that search.",
   "forumsNoModelsForBrand": "No models listed for this brand.",
@@ -979,6 +976,32 @@
   "forumsErrorConflict": "This thread is locked or the content was deleted.",
   "forumsErrorForbidden": "You can only edit or delete your own content.",
   "forumsErrorGeneric": "Something went wrong. Please try again.",
+  "forumsErrorInvalidTags": "One of the tagged profiles or cars is no longer available.",
+
+  "forumsTagPeopleAndCars": "TAG PEOPLE & CARS",
+  "forumsTagPeople": "PEOPLE",
+  "forumsTagCars": "CARS",
+  "forumsTagHelper": "Mention someone to pull cars from their garage. Your own cars can be tagged without mentioning yourself.",
+  "forumsTagPeopleHint": "Search a username…",
+  "forumsTagAddCar": "Tag a car",
+  "forumsTagChoosePerson": "Whose car?",
+  "forumsTagChooseCar": "Pick a car",
+  "forumsTagYourGarage": "Your garage",
+  "forumsTagNoPeopleFound": "No profiles match that search.",
+  "forumsTagLoadError": "Couldn’t load that. Please try again.",
+  "forumsTagNoCars": "This person has no cars to tag.",
+  "forumsTagNoOwnCars": "Your garage is empty.",
+  "forumsTagPersonFirst": "Mention someone first to tag one of their cars.",
+  "forumsTagLimitReached": "You can tag up to {limit} at a time.",
+  "@forumsTagLimitReached": {
+    "placeholders": {
+      "limit": {"type": "int"}
+    }
+  },
+  "forumsTagsSheetTitle": "Tags",
+  "forumsTagsDone": "Done",
+  "forumsAddTagsTooltip": "Tag people & cars",
+  "forumsTagsSectionLabel": "TAGS",
 
   "messagesTitle": "MESSAGES",
   "messagesSearchHint": "Search messages",

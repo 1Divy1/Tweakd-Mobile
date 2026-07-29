@@ -488,6 +488,13 @@ class AppLocalizationsRo extends AppLocalizations {
       'Când un articol salvat primește o reducere';
 
   @override
+  String get onboardingNotifTagsTitle => 'Etichetări';
+
+  @override
+  String get onboardingNotifTagsSubtitle =>
+      'Când cineva te etichetează pe tine sau mașina ta';
+
+  @override
   String get profileTitle => 'PROFIL';
 
   @override
@@ -2107,14 +2114,6 @@ class AppLocalizationsRo extends AppLocalizations {
       'Împărtășește detalii, întrebări sau writeup-ul tău…';
 
   @override
-  String get forumsTagACar => 'ETICHETEAZĂ O MAȘINĂ';
-
-  @override
-  String forumsFromYourGarage(String car) {
-    return 'Din garajul tău · $car';
-  }
-
-  @override
   String get forumsBrandRequiredLabel => 'MARCĂ · OBLIGATORIU';
 
   @override
@@ -2125,6 +2124,12 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get forumsSearchModelHint => 'Caută un model…';
+
+  @override
+  String get forumsChooseBrand => 'Alege o marcă';
+
+  @override
+  String get forumsChooseModel => 'Alege un model';
 
   @override
   String get forumsNoBrandMatches => 'Nicio marcă nu corespunde căutării.';
@@ -2200,6 +2205,71 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get forumsErrorGeneric => 'Ceva n-a mers bine. Încearcă din nou.';
+
+  @override
+  String get forumsErrorInvalidTags =>
+      'Unul dintre profilurile sau mașinile etichetate nu mai este disponibil.';
+
+  @override
+  String get forumsTagPeopleAndCars => 'ETICHETEAZĂ PERSOANE ȘI MAȘINI';
+
+  @override
+  String get forumsTagPeople => 'PERSOANE';
+
+  @override
+  String get forumsTagCars => 'MAȘINI';
+
+  @override
+  String get forumsTagHelper =>
+      'Menționează pe cineva ca să alegi mașini din garajul lui. Mașinile tale pot fi etichetate fără să te menționezi.';
+
+  @override
+  String get forumsTagPeopleHint => 'Caută un nume de utilizator…';
+
+  @override
+  String get forumsTagAddCar => 'Etichetează o mașină';
+
+  @override
+  String get forumsTagChoosePerson => 'A cui mașină?';
+
+  @override
+  String get forumsTagChooseCar => 'Alege o mașină';
+
+  @override
+  String get forumsTagYourGarage => 'Garajul tău';
+
+  @override
+  String get forumsTagNoPeopleFound => 'Niciun profil nu se potrivește.';
+
+  @override
+  String get forumsTagLoadError => 'Nu s-a putut încărca. Încearcă din nou.';
+
+  @override
+  String get forumsTagNoCars => 'Persoana nu are mașini de etichetat.';
+
+  @override
+  String get forumsTagNoOwnCars => 'Garajul tău este gol.';
+
+  @override
+  String get forumsTagPersonFirst =>
+      'Menționează întâi pe cineva ca să-i etichetezi o mașină.';
+
+  @override
+  String forumsTagLimitReached(int limit) {
+    return 'Poți eticheta cel mult $limit deodată.';
+  }
+
+  @override
+  String get forumsTagsSheetTitle => 'Etichete';
+
+  @override
+  String get forumsTagsDone => 'Gata';
+
+  @override
+  String get forumsAddTagsTooltip => 'Etichetează persoane și mașini';
+
+  @override
+  String get forumsTagsSectionLabel => 'ETICHETE';
 
   @override
   String get messagesTitle => 'MESAJE';

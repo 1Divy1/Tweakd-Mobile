@@ -229,7 +229,6 @@ import '../../features/posts/presentation/bloc/profile_posts/bloc.dart'
     as _i274;
 import '../../features/posts/presentation/bloc/saved_posts/bloc.dart' as _i937;
 import '../../features/posts/presentation/bloc/share_post/bloc.dart' as _i690;
-import '../../features/posts/presentation/bloc/tag_picker/bloc.dart' as _i200;
 import '../../features/profile/data/datasource/avatar_storage_api_data_source.dart'
     as _i347;
 import '../../features/profile/data/datasource/profile_api_data_source.dart'
@@ -281,6 +280,7 @@ import '../realtime/dm_socket_service.dart' as _i300;
 import '../realtime/stomp_dm_socket_service.dart' as _i801;
 import '../services/image_service.dart' as _i768;
 import '../services/push_permission_service.dart' as _i792;
+import '../shared/bloc/tag_picker/bloc.dart' as _i155;
 import '../storage/locale_local_storage.dart' as _i1069;
 import 'modules/dio_module.dart' as _i983;
 import 'modules/supabase_module.dart' as _i388;
@@ -805,12 +805,6 @@ extension GetItInjectableX on _i174.GetIt {
         checkUsername: gh<_i842.CheckUsernameAvailabilityUseCase>(),
       ),
     );
-    gh.factory<_i200.TagPickerBloc>(
-      () => _i200.TagPickerBloc(
-        searchUsers: gh<_i14.SearchUsersUseCase>(),
-        getGarageByUsername: gh<_i543.GetGarageByUsernameUseCase>(),
-      ),
-    );
     gh.factory<_i160.AddCarBloc>(
       () => _i160.AddCarBloc(
         getBrands: gh<_i408.GetBrandsUseCase>(),
@@ -835,6 +829,13 @@ extension GetItInjectableX on _i174.GetIt {
         patchModification: gh<_i49.PatchModificationUseCase>(),
         deleteModification: gh<_i621.DeleteModificationUseCase>(),
         imageService: gh<_i768.ImageService>(),
+      ),
+    );
+    gh.factory<_i155.TagPickerBloc>(
+      () => _i155.TagPickerBloc(
+        searchUsers: gh<_i14.SearchUsersUseCase>(),
+        getGarageByUsername: gh<_i543.GetGarageByUsernameUseCase>(),
+        getMyGarage: gh<_i391.GetMyGarageUseCase>(),
       ),
     );
     gh.factory<_i816.NotificationsUnreadCubit>(
@@ -981,6 +982,14 @@ extension GetItInjectableX on _i174.GetIt {
         watchPresence: gh<_i583.WatchPresenceUseCase>(),
       ),
     );
+    gh.factory<_i188.NewThreadBloc>(
+      () => _i188.NewThreadBloc(
+        getTopics: gh<_i354.GetForumTopicsUseCase>(),
+        getBrands: gh<_i408.GetBrandsUseCase>(),
+        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
+        createThread: gh<_i605.CreateForumThreadUseCase>(),
+      ),
+    );
     gh.factory<_i197.ForumsHomeBloc>(
       () => _i197.ForumsHomeBloc(
         getShortcuts: gh<_i846.GetForumShortcutsUseCase>(),
@@ -1057,15 +1066,6 @@ extension GetItInjectableX on _i174.GetIt {
         deleteReply: gh<_i492.DeleteForumReplyUseCase>(),
         saveThread: gh<_i302.SaveForumThreadUseCase>(),
         unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
-      ),
-    );
-    gh.factory<_i188.NewThreadBloc>(
-      () => _i188.NewThreadBloc(
-        getTopics: gh<_i354.GetForumTopicsUseCase>(),
-        getBrands: gh<_i408.GetBrandsUseCase>(),
-        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
-        getMyGarage: gh<_i391.GetMyGarageUseCase>(),
-        createThread: gh<_i605.CreateForumThreadUseCase>(),
       ),
     );
     gh.factory<_i274.ProfilePostsBloc>(

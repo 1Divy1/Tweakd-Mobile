@@ -2,45 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:car_social_media_app/core/shared/bloc/tag_picker/bloc.dart';
+import 'package:car_social_media_app/core/shared/bloc/tag_picker/event.dart';
+import 'package:car_social_media_app/core/shared/bloc/tag_picker/state.dart';
 import 'package:car_social_media_app/core/shared/entities/search_result.dart';
+import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
-import '../../bloc/tag_picker/bloc.dart';
-import '../../bloc/tag_picker/event.dart';
-import '../../bloc/tag_picker/state.dart';
 import 'create_post_fields.dart';
-
-/// A car linked to the post, surfaced as a chip on the tags step. [ownerId] is
-/// the tagged person who owns it — kept so the car is removed when its owner is
-/// untagged (the backend rejects a car whose owner isn't also tagged).
-class TaggedCar {
-  final String id;
-  final String name;
-  final String ownerId;
-  final String ownerHandle;
-  final String? imageUrl;
-
-  const TaggedCar({
-    required this.id,
-    required this.name,
-    required this.ownerId,
-    required this.ownerHandle,
-    this.imageUrl,
-  });
-}
-
-/// A person tagged in the post, surfaced as a chip on the tags step.
-class TaggedPerson {
-  final String id;
-  final String username;
-  final String? avatarUrl;
-
-  const TaggedPerson({
-    required this.id,
-    required this.username,
-    this.avatarUrl,
-  });
-}
 
 /// Step 3 — tag people (live username search) and link cars from a tagged
 /// person's garage. People are tagged first; a car can only be picked from a

@@ -11,6 +11,8 @@ enum NotificationType {
   forumReplyReply,
   forumThreadLike,
   forumReplyLike,
+  forumThreadTag,
+  forumReplyTag,
   unknown;
 
   /// Maps a raw wire `type` string to a [NotificationType], defaulting to
@@ -31,6 +33,10 @@ enum NotificationType {
         return NotificationType.forumThreadLike;
       case 'forum_reply_like':
         return NotificationType.forumReplyLike;
+      case 'forum_thread_tag':
+        return NotificationType.forumThreadTag;
+      case 'forum_reply_tag':
+        return NotificationType.forumReplyTag;
       default:
         return NotificationType.unknown;
     }
@@ -45,7 +51,14 @@ enum NotificationType {
       this == NotificationType.forumThreadReply ||
       this == NotificationType.forumReplyReply ||
       this == NotificationType.forumThreadLike ||
-      this == NotificationType.forumReplyLike;
+      this == NotificationType.forumReplyLike ||
+      this == NotificationType.forumThreadTag ||
+      this == NotificationType.forumReplyTag;
+
+  /// Tag notifications, whose payload also carries `car_tagged`.
+  bool get isTag =>
+      this == NotificationType.forumThreadTag ||
+      this == NotificationType.forumReplyTag;
 }
 
 /// A single notification. The typed [type] drives the leading icon and tap
