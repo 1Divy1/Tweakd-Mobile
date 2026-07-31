@@ -455,41 +455,44 @@ class _CoverImage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 14),
-          Stack(
-            children: [
-              AspectRatio(
-                aspectRatio: 16 / 11,
-                child: CarImage(
-                  imageUrl: car.coverImage?.url,
-                  fit: BoxFit.cover,
-                  borderRadius: BorderRadius.circular(20),
-                  enableZoom: true,
-                ),
-              ),
-              Positioned(
-                top: 12,
-                right: 12,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.surface,
+          GestureDetector(
+            onTap: () => context.push('/full-screen-image', extra: car.coverImage?.url),
+            child: Stack(
+              children: [
+                AspectRatio(
+                  aspectRatio: 16 / 11,
+                  child: CarImage(
+                    imageUrl: car.coverImage?.url,
+                    fit: BoxFit.cover,
                     borderRadius: BorderRadius.circular(20),
+                    enableZoom: true,
                   ),
-                  child: Text(
-                    '${car.year} · ${car.colorName}'.toUpperCase(),
-                    style: const TextStyle(
-                      color: AppColors.ink,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 0.8,
+                ),
+                Positioned(
+                  top: 12,
+                  right: 12,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      '${car.year} · ${car.colorName}'.toUpperCase(),
+                      style: const TextStyle(
+                        color: AppColors.ink,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.8,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
@@ -575,7 +578,6 @@ class _SpecCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.line),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -648,7 +650,6 @@ class _InfoTable extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.line),
       ),
       child: Column(
         children: [
@@ -715,13 +716,12 @@ class _StorySection extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.surface,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.line),
             ),
             child: Text(
               story,
               style: const TextStyle(
                 color: AppColors.ink2,
-                fontSize: 17,
+                fontSize: 15,
                 height: 1.5,
                 fontWeight: FontWeight.w500,
               ),
@@ -909,15 +909,6 @@ class _ModificationsList extends StatelessWidget {
               fontWeight: FontWeight.w900,
             ),
           ),
-          const SizedBox(height: 4),
-          // Text(
-          //   '${mods.length} ${mods.length == 1 ? 'Modification' : 'Modifications'}',
-          //   style: const TextStyle(
-          //     color: AppColors.ink,
-          //     fontSize: 20,
-          //     fontWeight: FontWeight.w800,
-          //   ),
-          // ),
           const SizedBox(height: 12),
           for (int i = 0; i < mods.length; i++)
             _TimelineEntry(
@@ -975,7 +966,7 @@ class _TimelineEntry extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: AppColors.bg,
-                      border: Border.all(color: AppColors.accent, width: 3),
+                      border: Border.all(color: AppColors.accent, width: 2),
                     ),
                   ),
                 ),
@@ -1016,7 +1007,6 @@ class _ModCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.line),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1041,8 +1031,7 @@ class _ModCard extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: AppColors.bg,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: AppColors.line),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
                       _formatPrice(mod.price!),

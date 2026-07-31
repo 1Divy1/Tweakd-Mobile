@@ -11,6 +11,8 @@ class PostCommentModel {
   final int likeCount;
   final bool viewerHasLiked;
   final int replyCount;
+  final List<PostUserModel> taggedPeople;
+  final List<PostTaggedCarModel> taggedCars;
   final DateTime createdAt;
 
   const PostCommentModel({
@@ -22,10 +24,19 @@ class PostCommentModel {
     required this.likeCount,
     required this.viewerHasLiked,
     required this.replyCount,
+    this.taggedPeople = const [],
+    this.taggedCars = const [],
     required this.createdAt,
   });
 
   factory PostCommentModel.fromJson(Map<String, dynamic> json) {
+    // Tags are parsed defensively: a backend that doesn't serve comment tags
+    // yet simply omits the keys, which reads as "no tags".
+    List<T> list<T>(String key, T Function(Map<String, dynamic>) of) =>
+        (json[key] as List<dynamic>? ?? [])
+            .map((e) => of(e as Map<String, dynamic>))
+            .toList();
+
     return PostCommentModel(
       id: json['id'] as String,
       author: PostUserModel.fromJson(json['author'] as Map<String, dynamic>),
@@ -35,6 +46,8 @@ class PostCommentModel {
       likeCount: (json['like_count'] as num?)?.toInt() ?? 0,
       viewerHasLiked: json['viewer_has_liked'] as bool? ?? false,
       replyCount: (json['reply_count'] as num?)?.toInt() ?? 0,
+      taggedPeople: list('tagged_people', PostUserModel.fromJson),
+      taggedCars: list('tagged_cars', PostTaggedCarModel.fromJson),
       createdAt: DateTime.parse(json['created_at'] as String),
     );
   }
@@ -48,6 +61,8 @@ class PostCommentModel {
         likeCount: likeCount,
         viewerHasLiked: viewerHasLiked,
         replyCount: replyCount,
+        taggedPeople: taggedPeople.map((p) => p.toEntity()).toList(),
+        taggedCars: taggedCars.map((c) => c.toEntity()).toList(),
         createdAt: createdAt,
       );
 }

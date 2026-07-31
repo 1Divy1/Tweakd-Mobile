@@ -12,6 +12,10 @@ import '../../../../garage/presentation/bloc/state.dart';
 import '../../../../posts/presentation/bloc/profile_posts/bloc.dart';
 import '../../../../posts/presentation/bloc/profile_posts/event.dart';
 import '../../../../posts/presentation/bloc/profile_posts/state.dart';
+import '../../../../tags/presentation/bloc/tags/bloc.dart';
+import '../../../../tags/presentation/bloc/tags/event.dart';
+import '../../../../tags/presentation/bloc/tags/state.dart';
+import '../../../../tags/presentation/widgets/tags_section.dart';
 import '../../../domain/entities/profile.dart';
 import '../../bloc/bloc.dart';
 import '../../bloc/event.dart';
@@ -65,6 +69,13 @@ class _PublicProfileDataViewState extends State<PublicProfileDataView> {
                 context
                     .read<ProfilePostsBloc>()
                     .add(LoadPostsByUsername(profile.username));
+                // Tags load lazily, so only refresh them once the tab has
+                // actually been opened — otherwise pull-to-refresh would
+                // trigger the very fetch the lazy load is avoiding.
+                final tagsBloc = context.read<TagsBloc>();
+                if (tagsBloc.state is! TagsInitial) {
+                  tagsBloc.add(const RefreshTags());
+                }
                 // Keep the refresh spinner up until the fetches settle.
                 await Future.wait([
                   context.read<ProfileBloc>().stream.firstWhere(
@@ -132,6 +143,10 @@ class _PublicProfileDataViewState extends State<PublicProfileDataView> {
                         const PostsSection(isOwner: false),
                       ProfileSection.garage =>
                         const GarageSection(isOwner: false),
+                      ProfileSection.tags => TagsSection(
+                          isOwner: false,
+                          username: profile.username,
+                        ),
                     },
                     const SizedBox(height: 24),
                   ],

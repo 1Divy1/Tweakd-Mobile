@@ -4,7 +4,7 @@ import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
-import '../tagging/forum_tag_strip.dart';
+import 'package:car_social_media_app/core/shared/widgets/tagging/tag_strip.dart';
 
 /// Bottom composer of the thread page. Shows a "replying to @user" strip when
 /// targeting a reply, the tags picked for the reply, and a button that opens
@@ -82,7 +82,7 @@ class ReplyInputBar extends StatelessWidget {
                     ],
                   ),
                 ),
-              ForumTagStrip(
+              TagStrip(
                 people: taggedPeople,
                 cars: taggedCars,
                 onRemovePerson: onRemoveTaggedPerson,

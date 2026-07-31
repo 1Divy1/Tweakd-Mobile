@@ -2804,6 +2804,12 @@ abstract class AppLocalizations {
   /// **'GARAGE'**
   String get profileTabGarage;
 
+  /// No description provided for @profileTabTags.
+  ///
+  /// In en, this message translates to:
+  /// **'TAGS'**
+  String get profileTabTags;
+
   /// No description provided for @postsLoadMore.
   ///
   /// In en, this message translates to:
@@ -4399,6 +4405,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get notificationsErrorGeneric;
+
+  /// No description provided for @tagsKindPost.
+  ///
+  /// In en, this message translates to:
+  /// **'TAGGED IN A POST'**
+  String get tagsKindPost;
+
+  /// No description provided for @tagsKindComment.
+  ///
+  /// In en, this message translates to:
+  /// **'TAGGED IN A COMMENT'**
+  String get tagsKindComment;
+
+  /// No description provided for @tagsKindThread.
+  ///
+  /// In en, this message translates to:
+  /// **'TAGGED IN A THREAD'**
+  String get tagsKindThread;
+
+  /// No description provided for @tagsKindReply.
+  ///
+  /// In en, this message translates to:
+  /// **'TAGGED IN A REPLY'**
+  String get tagsKindReply;
+
+  /// No description provided for @tagsOnPostBy.
+  ///
+  /// In en, this message translates to:
+  /// **'on @{author}\'s post'**
+  String tagsOnPostBy(String author);
+
+  /// No description provided for @tagsLoadMore.
+  ///
+  /// In en, this message translates to:
+  /// **'LOAD MORE'**
+  String get tagsLoadMore;
+
+  /// No description provided for @tagsEmptyOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t been tagged yet.'**
+  String get tagsEmptyOwner;
+
+  /// No description provided for @tagsEmptyVisitor.
+  ///
+  /// In en, this message translates to:
+  /// **'No tags yet.'**
+  String get tagsEmptyVisitor;
+
+  /// No description provided for @tagsRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove tag'**
+  String get tagsRemove;
+
+  /// No description provided for @tagsRemoveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove tag?'**
+  String get tagsRemoveTitle;
+
+  /// No description provided for @tagsRemoveBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll be removed from this content for everyone, along with any of your cars tagged on it. Only the author can tag you again.'**
+  String get tagsRemoveBody;
+
+  /// No description provided for @tagsRemoveConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get tagsRemoveConfirm;
+
+  /// No description provided for @tagsErrorContentGone.
+  ///
+  /// In en, this message translates to:
+  /// **'This content no longer exists.'**
+  String get tagsErrorContentGone;
+
+  /// No description provided for @tagsErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get tagsErrorGeneric;
 }
 
 class _AppLocalizationsDelegate

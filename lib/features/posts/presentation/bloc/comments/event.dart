@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
+
 sealed class CommentsEvent extends Equatable {
   const CommentsEvent();
 
@@ -85,4 +87,43 @@ class ToggleCommentLike extends CommentsEvent {
 
   @override
   List<Object?> get props => [commentId];
+}
+
+// ── Pending tag selection ──────────────────────────────────────────────────
+// The selection for the comment being composed lives in the bloc (not in the
+// sheet's local state) so it survives the tag sheet closing and is sent along
+// with the comment, mirroring the forum reply composer.
+
+class AddCommentTagPerson extends CommentsEvent {
+  final TaggedPerson person;
+  const AddCommentTagPerson(this.person);
+
+  @override
+  List<Object?> get props => [person.id];
+}
+
+/// Removes a person and, with them, any of their cars — the backend rejects a
+/// car whose owner isn't tagged.
+class RemoveCommentTagPerson extends CommentsEvent {
+  final String personId;
+  const RemoveCommentTagPerson(this.personId);
+
+  @override
+  List<Object?> get props => [personId];
+}
+
+class AddCommentTagCar extends CommentsEvent {
+  final TaggedCar car;
+  const AddCommentTagCar(this.car);
+
+  @override
+  List<Object?> get props => [car.id];
+}
+
+class RemoveCommentTagCar extends CommentsEvent {
+  final String carId;
+  const RemoveCommentTagCar(this.carId);
+
+  @override
+  List<Object?> get props => [carId];
 }

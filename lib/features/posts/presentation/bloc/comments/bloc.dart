@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
+
 import '../../../domain/entities/post_comment.dart';
 import '../../../domain/usecases/add_comment.dart';
 import '../../../domain/usecases/comment_actions.dart';
@@ -43,6 +45,10 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
     on<RemoveComment>(_onRemove);
     on<HideComment>(_onHide);
     on<ToggleCommentLike>(_onToggleLike);
+    on<AddCommentTagPerson>(_onAddTagPerson);
+    on<RemoveCommentTagPerson>(_onRemoveTagPerson);
+    on<AddCommentTagCar>(_onAddTagCar);
+    on<RemoveCommentTagCar>(_onRemoveTagCar);
   }
 
   /// Removes a reported comment from the viewer's view. Unlike [RemoveComment]
@@ -124,9 +130,12 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
 
     emit(state.copyWith(isSubmitting: true, clearActionError: true));
 
-    final result = await addComment(
-      AddCommentParams(postId: _postId, content: content),
-    );
+    final result = await addComment(AddCommentParams(
+      postId: _postId,
+      content: content,
+      taggedPeople: _pendingPeopleIds,
+      taggedCars: _pendingCarIds,
+    ));
     result.fold(
       (failure) => emit(state.copyWith(
         isSubmitting: false,
@@ -136,6 +145,9 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
         isSubmitting: false,
         comments: [comment, ...state.comments],
         totalCount: state.totalCount + 1,
+        // The tags travelled with the comment — start the next one clean.
+        pendingTaggedPeople: const [],
+        pendingTaggedCars: const [],
       )),
     );
   }
@@ -153,6 +165,8 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
       postId: _postId,
       content: content,
       parentCommentId: event.parentCommentId,
+      taggedPeople: _pendingPeopleIds,
+      taggedCars: _pendingCarIds,
     ));
 
     result.fold(
@@ -172,10 +186,65 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
           isSubmitting: false,
           replies: _putThread(parentId, updatedThread),
           comments: _bumpReplyCount(parentId, 1),
+          pendingTaggedPeople: const [],
+          pendingTaggedCars: const [],
         ));
       },
     );
   }
+
+  // ── Pending tag selection ──────────────────────────────────────────────────
+
+  void _onAddTagPerson(
+    AddCommentTagPerson event,
+    Emitter<CommentsState> emit,
+  ) {
+    final people = state.pendingTaggedPeople;
+    if (people.length >= kTagSelectionLimit ||
+        people.any((p) => p.id == event.person.id)) {
+      return;
+    }
+    emit(state.copyWith(pendingTaggedPeople: [...people, event.person]));
+  }
+
+  void _onRemoveTagPerson(
+    RemoveCommentTagPerson event,
+    Emitter<CommentsState> emit,
+  ) {
+    emit(state.copyWith(
+      pendingTaggedPeople: [
+        for (final p in state.pendingTaggedPeople)
+          if (p.id != event.personId) p,
+      ],
+      // The backend rejects a car whose owner isn't tagged (own cars aside).
+      pendingTaggedCars:
+          tagCarsWithoutOwner(state.pendingTaggedCars, event.personId),
+    ));
+  }
+
+  void _onAddTagCar(AddCommentTagCar event, Emitter<CommentsState> emit) {
+    final cars = state.pendingTaggedCars;
+    if (cars.length >= kTagSelectionLimit ||
+        cars.any((c) => c.id == event.car.id)) {
+      return;
+    }
+    emit(state.copyWith(pendingTaggedCars: [...cars, event.car]));
+  }
+
+  void _onRemoveTagCar(RemoveCommentTagCar event, Emitter<CommentsState> emit) {
+    emit(state.copyWith(
+      pendingTaggedCars: [
+        for (final c in state.pendingTaggedCars)
+          if (c.id != event.carId) c,
+      ],
+    ));
+  }
+
+  List<String> get _pendingPeopleIds =>
+      [for (final p in state.pendingTaggedPeople) p.id];
+
+  List<String> get _pendingCarIds =>
+      [for (final c in state.pendingTaggedCars) c.id];
 
   Future<void> _onToggleReplies(
     ToggleReplies event,

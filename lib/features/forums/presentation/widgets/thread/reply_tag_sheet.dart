@@ -8,7 +8,7 @@ import '../../../../../l10n/app_localizations.dart';
 import '../../bloc/thread/bloc.dart';
 import '../../bloc/thread/event.dart';
 import '../../bloc/thread/state.dart';
-import '../tagging/forum_tag_editor.dart';
+import 'package:car_social_media_app/core/shared/widgets/tagging/tag_editor.dart';
 
 /// Tag sheet for the reply composer. The selection lives in [ForumThreadBloc]
 /// (so it survives the sheet closing and is sent with the reply), which is why
@@ -118,7 +118,7 @@ class _ReplyTagSheetState extends State<_ReplyTagSheet> {
               buildWhen: (a, b) =>
                   a.replyTaggedPeople != b.replyTaggedPeople ||
                   a.replyTaggedCars != b.replyTaggedCars,
-              builder: (context, state) => ForumTagEditor(
+              builder: (context, state) => TagEditor(
                 people: state.replyTaggedPeople,
                 cars: state.replyTaggedCars,
                 peopleSearchController: _searchController,
