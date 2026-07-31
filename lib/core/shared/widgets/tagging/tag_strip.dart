@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
+import 'package:car_social_media_app/core/theme/app_colors.dart';
 
-import '../../../../../core/theme/app_colors.dart';
-
-/// Compact, horizontally scrolling strip of the tags attached to a reply that
-/// is being composed. Sits above the reply input bar; each chip removes itself.
-class ForumTagStrip extends StatelessWidget {
+/// Compact, horizontally scrolling strip of the tags attached to the message
+/// being composed (a forum reply, a post comment). Sits above the input bar;
+/// each chip removes itself.
+class TagStrip extends StatelessWidget {
   final List<TaggedPerson> people;
   final List<TaggedCar> cars;
   final ValueChanged<String> onRemovePerson;
   final ValueChanged<String> onRemoveCar;
 
-  const ForumTagStrip({
+  const TagStrip({
     super.key,
     required this.people,
     required this.cars,

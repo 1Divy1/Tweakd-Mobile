@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
+
 import '../../../domain/entities/post_comment.dart';
 import '../../utils/post_error_mapper.dart';
 
@@ -60,6 +62,13 @@ class CommentsState extends Equatable {
   /// Set transiently when an action fails, so the UI can surface a message.
   final PostErrorCode? actionError;
 
+  /// People tagged on the comment currently being composed. Cleared once it is
+  /// posted.
+  final List<TaggedPerson> pendingTaggedPeople;
+
+  /// Cars tagged on the comment currently being composed.
+  final List<TaggedCar> pendingTaggedCars;
+
   const CommentsState({
     this.status = CommentsStatus.loading,
     this.comments = const [],
@@ -69,6 +78,8 @@ class CommentsState extends Equatable {
     this.totalCount = 0,
     this.replies = const {},
     this.actionError,
+    this.pendingTaggedPeople = const [],
+    this.pendingTaggedCars = const [],
   });
 
   bool get hasMore => nextCursor != null;
@@ -83,6 +94,8 @@ class CommentsState extends Equatable {
     Map<String, ReplyThread>? replies,
     PostErrorCode? actionError,
     bool clearActionError = false,
+    List<TaggedPerson>? pendingTaggedPeople,
+    List<TaggedCar>? pendingTaggedCars,
   }) {
     return CommentsState(
       status: status ?? this.status,
@@ -93,6 +106,8 @@ class CommentsState extends Equatable {
       totalCount: totalCount ?? this.totalCount,
       replies: replies ?? this.replies,
       actionError: clearActionError ? null : (actionError ?? this.actionError),
+      pendingTaggedPeople: pendingTaggedPeople ?? this.pendingTaggedPeople,
+      pendingTaggedCars: pendingTaggedCars ?? this.pendingTaggedCars,
     );
   }
 
@@ -106,5 +121,7 @@ class CommentsState extends Equatable {
         totalCount,
         replies,
         actionError,
+        pendingTaggedPeople,
+        pendingTaggedCars,
       ];
 }

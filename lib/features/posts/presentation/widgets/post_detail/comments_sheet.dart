@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'package:car_social_media_app/core/shared/bloc/tag_picker/bloc.dart';
+import 'package:car_social_media_app/core/shared/widgets/tagging/tag_strip.dart';
+
 import '../../../../../core/di/injection.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
@@ -13,6 +16,8 @@ import '../../../domain/entities/post_comment.dart';
 import '../../bloc/comments/bloc.dart';
 import '../../bloc/comments/event.dart';
 import '../../bloc/comments/state.dart';
+import '../post_card/post_tags.dart';
+import 'comment_tag_sheet.dart';
 import 'post_time.dart';
 
 /// Opens the comments bottom sheet for [postId]. [onCountChanged] is called
@@ -33,9 +38,17 @@ Future<void> showCommentsSheet(
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
-    builder: (_) => BlocProvider<CommentsBloc>(
-      create: (_) => getIt<CommentsBloc>()
-        ..add(LoadComments(postId, initialCount: initialCount)),
+    // TagPickerBloc backs the composer's "tag people & their cars" flow; it is
+    // provided here rather than on the route because the sheet is opened from
+    // both the feed and the post detail page.
+    builder: (_) => MultiBlocProvider(
+      providers: [
+        BlocProvider<CommentsBloc>(
+          create: (_) => getIt<CommentsBloc>()
+            ..add(LoadComments(postId, initialCount: initialCount)),
+        ),
+        BlocProvider<TagPickerBloc>(create: (_) => getIt<TagPickerBloc>()),
+      ],
       child: BlocListener<CommentsBloc, CommentsState>(
         listenWhen: (a, b) => a.totalCount != b.totalCount,
         listener: (_, state) => onCountChanged(state.totalCount),
@@ -207,6 +220,7 @@ class _CommentsSheetState extends State<_CommentsSheet> {
             replyingTo: _replyTarget?.username,
             onCancelReply: _cancelReply,
             onSend: _submit,
+            onOpenTags: () => showCommentTagSheet(context),
           ),
         ],
       ),
@@ -434,6 +448,15 @@ class _CommentBody extends StatelessWidget {
                     ],
                   ),
                 ),
+                if (!comment.deleted &&
+                    (comment.taggedPeople.isNotEmpty ||
+                        comment.taggedCars.isNotEmpty)) ...[
+                  const SizedBox(height: 8),
+                  PostTags(
+                    people: comment.taggedPeople,
+                    cars: comment.taggedCars,
+                  ),
+                ],
                 const SizedBox(height: 4),
                 Row(
                   children: [
@@ -561,6 +584,7 @@ class _CommentInput extends StatelessWidget {
   final String? replyingTo;
   final VoidCallback onCancelReply;
   final VoidCallback onSend;
+  final VoidCallback onOpenTags;
 
   const _CommentInput({
     required this.controller,
@@ -569,6 +593,7 @@ class _CommentInput extends StatelessWidget {
     required this.replyingTo,
     required this.onCancelReply,
     required this.onSend,
+    required this.onOpenTags,
   });
 
   @override
@@ -607,8 +632,33 @@ class _CommentInput extends StatelessWidget {
                   ],
                 ),
               ),
+            BlocBuilder<CommentsBloc, CommentsState>(
+              buildWhen: (a, b) =>
+                  a.pendingTaggedPeople != b.pendingTaggedPeople ||
+                  a.pendingTaggedCars != b.pendingTaggedCars,
+              builder: (context, state) => TagStrip(
+                people: state.pendingTaggedPeople,
+                cars: state.pendingTaggedCars,
+                onRemovePerson: (id) =>
+                    context.read<CommentsBloc>().add(RemoveCommentTagPerson(id)),
+                onRemoveCar: (id) =>
+                    context.read<CommentsBloc>().add(RemoveCommentTagCar(id)),
+              ),
+            ),
             Row(
               children: [
+                BlocBuilder<CommentsBloc, CommentsState>(
+                  buildWhen: (a, b) =>
+                      a.pendingTaggedPeople != b.pendingTaggedPeople ||
+                      a.pendingTaggedCars != b.pendingTaggedCars,
+                  builder: (_, state) => _TagButton(
+                    active: state.pendingTaggedPeople.isNotEmpty ||
+                        state.pendingTaggedCars.isNotEmpty,
+                    tooltip: l10n.forumsAddTagsTooltip,
+                    onTap: onOpenTags,
+                  ),
+                ),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -674,6 +724,42 @@ class _CommentInput extends StatelessWidget {
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Opens the tag sheet; tinted while the comment being composed carries tags.
+class _TagButton extends StatelessWidget {
+  final bool active;
+  final String tooltip;
+  final VoidCallback onTap;
+
+  const _TagButton({
+    required this.active,
+    required this.tooltip,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: tooltip,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: active ? AppColors.accentSoft : AppColors.bg,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            Icons.person_add_alt_1_rounded,
+            size: 19,
+            color: active ? AppColors.accent : AppColors.mute,
+          ),
         ),
       ),
     );

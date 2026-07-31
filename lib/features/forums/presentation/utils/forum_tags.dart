@@ -3,8 +3,10 @@ import 'package:car_social_media_app/features/garage/domain/entities/car_summary
 
 import '../../domain/entities/forum_author.dart';
 
-/// Per-list cap the backend enforces on `tagged_people` / `tagged_cars`.
-const int kForumTagLimit = 30;
+// The tag limit and the owner-removal rule are app-wide (posts, comments,
+// forums), so they live with the shared selection models.
+export 'package:car_social_media_app/core/shared/entities/tag_selection.dart'
+    show kTagSelectionLimit, tagCarsWithoutOwner;
 
 /// Tagged people as the composer's selection model.
 List<TaggedPerson> forumTaggedPeopleToSelection(
@@ -32,14 +34,5 @@ List<TaggedCar> forumTaggedCarsToSelection(
         imageUrl: c.coverImage?.url,
         isOwn: currentUserId != null && c.ownerId == currentUserId,
       ),
-  ];
-}
-
-/// Drops the cars that belonged to an untagged person — the backend rejects a
-/// car whose owner isn't tagged, own cars excepted.
-List<TaggedCar> forumCarsWithoutOwner(List<TaggedCar> cars, String ownerId) {
-  return [
-    for (final c in cars)
-      if (c.isOwn || c.ownerId != ownerId) c,
   ];
 }

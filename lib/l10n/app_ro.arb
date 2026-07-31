@@ -505,6 +505,7 @@
 
   "profileTabPosts": "POSTĂRI",
   "profileTabGarage": "GARAJ",
+  "profileTabTags": "ETICHETE",
 
   "postsLoadMore": "ÎNCARCĂ MAI MULT",
   "postsEmptyOwner": "Încă nu ai postat nimic.",
@@ -904,5 +905,25 @@
   "notificationsEmptyBody": "Aprecierile, comentariile și răspunsurile la postările și discuțiile tale vor apărea aici.",
   "notificationsRetry": "Încearcă din nou",
   "notificationsErrorNetwork": "Fără conexiune la internet. Te rugăm să încerci din nou.",
-  "notificationsErrorGeneric": "Ceva nu a funcționat. Te rugăm să încerci din nou."
+  "notificationsErrorGeneric": "Ceva nu a funcționat. Te rugăm să încerci din nou.",
+
+  "tagsKindPost": "ETICHETAT ÎNTR-O POSTARE",
+  "tagsKindComment": "ETICHETAT ÎNTR-UN COMENTARIU",
+  "tagsKindThread": "ETICHETAT ÎNTR-O DISCUȚIE",
+  "tagsKindReply": "ETICHETAT ÎNTR-UN RĂSPUNS",
+  "tagsOnPostBy": "la postarea lui @{author}",
+  "@tagsOnPostBy": {
+    "placeholders": {
+      "author": { "type": "String" }
+    }
+  },
+  "tagsLoadMore": "ÎNCARCĂ MAI MULT",
+  "tagsEmptyOwner": "Nu ai fost etichetat încă.",
+  "tagsEmptyVisitor": "Nicio etichetă încă.",
+  "tagsRemove": "Elimină eticheta",
+  "tagsRemoveTitle": "Elimini eticheta?",
+  "tagsRemoveBody": "Vei fi eliminat din acest conținut pentru toată lumea, împreună cu mașinile tale etichetate acolo. Doar autorul te poate eticheta din nou.",
+  "tagsRemoveConfirm": "Elimină",
+  "tagsErrorContentGone": "Acest conținut nu mai există.",
+  "tagsErrorGeneric": "Ceva nu a funcționat. Te rugăm să încerci din nou."
 }

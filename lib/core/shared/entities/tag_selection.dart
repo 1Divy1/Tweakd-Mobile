@@ -1,6 +1,9 @@
 // Selection models shared by every "tag people & their cars" composer
-// (create/edit post, new forum thread, forum replies). They are UI-side
-// selections, not wire models — only the ids are ever sent.
+// (create/edit post, new forum thread, forum replies, post comments). They are
+// UI-side selections, not wire models — only the ids are ever sent.
+
+/// Per-list cap the backend enforces on `tagged_people` / `tagged_cars`.
+const int kTagSelectionLimit = 30;
 
 /// A person tagged in a post/thread/reply, surfaced as a chip in composers.
 class TaggedPerson {
@@ -38,4 +41,13 @@ class TaggedCar {
     this.imageUrl,
     this.isOwn = false,
   });
+}
+
+/// Drops the cars that belonged to an untagged person — the backend rejects a
+/// car whose owner isn't tagged, own cars excepted.
+List<TaggedCar> tagCarsWithoutOwner(List<TaggedCar> cars, String ownerId) {
+  return [
+    for (final c in cars)
+      if (c.isOwn || c.ownerId != ownerId) c,
+  ];
 }

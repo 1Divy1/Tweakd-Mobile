@@ -673,6 +673,7 @@
 
   "profileTabPosts": "POSTS",
   "profileTabGarage": "GARAGE",
+  "profileTabTags": "TAGS",
 
   "postsLoadMore": "LOAD MORE",
   "postsEmptyOwner": "You haven't posted yet.",
@@ -1107,5 +1108,25 @@
   "notificationsEmptyBody": "Likes, comments and replies on your posts and threads will show up here.",
   "notificationsRetry": "Try again",
   "notificationsErrorNetwork": "No internet connection. Please try again.",
-  "notificationsErrorGeneric": "Something went wrong. Please try again."
+  "notificationsErrorGeneric": "Something went wrong. Please try again.",
+
+  "tagsKindPost": "TAGGED IN A POST",
+  "tagsKindComment": "TAGGED IN A COMMENT",
+  "tagsKindThread": "TAGGED IN A THREAD",
+  "tagsKindReply": "TAGGED IN A REPLY",
+  "tagsOnPostBy": "on @{author}'s post",
+  "@tagsOnPostBy": {
+    "placeholders": {
+      "author": { "type": "String" }
+    }
+  },
+  "tagsLoadMore": "LOAD MORE",
+  "tagsEmptyOwner": "You haven't been tagged yet.",
+  "tagsEmptyVisitor": "No tags yet.",
+  "tagsRemove": "Remove tag",
+  "tagsRemoveTitle": "Remove tag?",
+  "tagsRemoveBody": "You'll be removed from this content for everyone, along with any of your cars tagged on it. Only the author can tag you again.",
+  "tagsRemoveConfirm": "Remove",
+  "tagsErrorContentGone": "This content no longer exists.",
+  "tagsErrorGeneric": "Something went wrong. Please try again."
 }

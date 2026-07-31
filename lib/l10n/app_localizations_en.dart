@@ -1492,6 +1492,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileTabGarage => 'GARAGE';
 
   @override
+  String get profileTabTags => 'TAGS';
+
+  @override
   String get postsLoadMore => 'LOAD MORE';
 
   @override
@@ -2433,4 +2436,49 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get notificationsErrorGeneric =>
       'Something went wrong. Please try again.';
+
+  @override
+  String get tagsKindPost => 'TAGGED IN A POST';
+
+  @override
+  String get tagsKindComment => 'TAGGED IN A COMMENT';
+
+  @override
+  String get tagsKindThread => 'TAGGED IN A THREAD';
+
+  @override
+  String get tagsKindReply => 'TAGGED IN A REPLY';
+
+  @override
+  String tagsOnPostBy(String author) {
+    return 'on @$author\'s post';
+  }
+
+  @override
+  String get tagsLoadMore => 'LOAD MORE';
+
+  @override
+  String get tagsEmptyOwner => 'You haven\'t been tagged yet.';
+
+  @override
+  String get tagsEmptyVisitor => 'No tags yet.';
+
+  @override
+  String get tagsRemove => 'Remove tag';
+
+  @override
+  String get tagsRemoveTitle => 'Remove tag?';
+
+  @override
+  String get tagsRemoveBody =>
+      'You\'ll be removed from this content for everyone, along with any of your cars tagged on it. Only the author can tag you again.';
+
+  @override
+  String get tagsRemoveConfirm => 'Remove';
+
+  @override
+  String get tagsErrorContentGone => 'This content no longer exists.';
+
+  @override
+  String get tagsErrorGeneric => 'Something went wrong. Please try again.';
 }

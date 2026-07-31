@@ -92,10 +92,15 @@ abstract class PostsRepository {
 
   // ── Comments ─────────────────────────────────────────────────────────────────
 
+  /// Adds a comment (or a reply when [parentCommentId] is set). [taggedPeople]
+  /// and [taggedCars] are profile/car ids; every tagged car's owner must also
+  /// be tagged unless the car belongs to the commenter.
   Future<Either<Failure, PostCommentEntity>> addComment(
     String postId, {
     required String content,
     String? parentCommentId,
+    List<String> taggedPeople = const [],
+    List<String> taggedCars = const [],
   });
 
   /// Direct replies to [commentId] on [postId], newest first.

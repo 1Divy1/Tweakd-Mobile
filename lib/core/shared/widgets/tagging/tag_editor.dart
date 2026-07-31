@@ -7,22 +7,24 @@ import 'package:car_social_media_app/core/shared/bloc/tag_picker/event.dart';
 import 'package:car_social_media_app/core/shared/bloc/tag_picker/state.dart';
 import 'package:car_social_media_app/core/shared/entities/search_result.dart';
 import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
+import 'package:car_social_media_app/core/theme/app_colors.dart';
+import 'package:car_social_media_app/l10n/app_localizations.dart';
 
-import '../../../../../core/theme/app_colors.dart';
-import '../../../../../l10n/app_localizations.dart';
-import '../../utils/forum_tags.dart';
-import '../shared/forum_avatar.dart';
-import '../shared/forum_section_label.dart';
-import 'forum_car_picker_sheet.dart';
+import 'car_picker_sheet.dart';
+import 'tag_avatar.dart';
 
-/// "Tag people & cars" block, shared by the thread composer, the reply tag
-/// sheet and the edit sheet. It is fully controlled — the caller owns the
-/// selection and decides where it lives (bloc state or local state).
+/// "Tag people & cars" block, shared by the forum thread composer, the forum
+/// reply/edit sheets and the post comments composer. It is fully controlled —
+/// the caller owns the selection and decides where it lives (bloc state or
+/// local state).
 ///
 /// People are mentioned first; cars are then picked from a mentioned person's
 /// garage (or the viewer's own), which keeps the backend's
 /// owner-must-be-tagged rule satisfied by construction.
-class ForumTagEditor extends StatelessWidget {
+///
+/// The `forumsTag*` l10n keys are reused verbatim by every consumer — the
+/// copy is generic, only the key names carry the forums origin.
+class TagEditor extends StatelessWidget {
   final List<TaggedPerson> people;
   final List<TaggedCar> cars;
   final TextEditingController peopleSearchController;
@@ -35,7 +37,7 @@ class ForumTagEditor extends StatelessWidget {
   /// sheets, which carry their own title.
   final bool showHeader;
 
-  const ForumTagEditor({
+  const TagEditor({
     super.key,
     required this.people,
     required this.cars,
@@ -55,7 +57,7 @@ class ForumTagEditor extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (showHeader) ...[
-          ForumSectionLabel(label: l10n.forumsTagPeopleAndCars),
+          _SectionLabel(label: l10n.forumsTagPeopleAndCars),
           const SizedBox(height: 6),
           Text(
             l10n.forumsTagHelper,
@@ -70,8 +72,8 @@ class ForumTagEditor extends StatelessWidget {
         ],
         _MiniLabel('${l10n.forumsTagPeople} · ${people.length}'),
         const SizedBox(height: 8),
-        if (people.length >= kForumTagLimit)
-          _ResultMessage(l10n.forumsTagLimitReached(kForumTagLimit))
+        if (people.length >= kTagSelectionLimit)
+          _ResultMessage(l10n.forumsTagLimitReached(kTagSelectionLimit))
         else ...[
           _PeopleSearchField(
             controller: peopleSearchController,
@@ -109,13 +111,13 @@ class ForumTagEditor extends StatelessWidget {
         const SizedBox(height: 18),
         _MiniLabel('${l10n.forumsTagCars} · ${cars.length}'),
         const SizedBox(height: 8),
-        if (cars.length >= kForumTagLimit)
-          _ResultMessage(l10n.forumsTagLimitReached(kForumTagLimit))
+        if (cars.length >= kTagSelectionLimit)
+          _ResultMessage(l10n.forumsTagLimitReached(kTagSelectionLimit))
         else
           _AddCarTile(
             label: l10n.forumsTagAddCar,
             onTap: () async {
-              final car = await showForumCarPickerSheet(
+              final car = await showCarPickerSheet(
                 context,
                 people: people,
                 takenCarIds: {for (final c in cars) c.id},
@@ -219,7 +221,7 @@ class _PersonResultRow extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
         child: Row(
           children: [
-            ForumAvatar(
+            TagAvatar(
               username: result.username,
               avatarUrl: result.avatarUrl,
               size: 32,
@@ -288,6 +290,25 @@ class _PeopleSearchField extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Small uppercase section header shown above the editor.
+class _SectionLabel extends StatelessWidget {
+  final String label;
+  const _SectionLabel({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      label,
+      style: const TextStyle(
+        color: AppColors.mute,
+        fontSize: 11,
+        fontWeight: FontWeight.w800,
+        letterSpacing: 1.4,
       ),
     );
   }
@@ -395,7 +416,7 @@ class _PersonChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ForumAvatar(
+          TagAvatar(
             username: person.username,
             avatarUrl: person.avatarUrl,
             size: 26,

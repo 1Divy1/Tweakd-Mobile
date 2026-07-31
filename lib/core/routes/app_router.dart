@@ -92,6 +92,7 @@ import '../../features/report/presentation/bloc/my_reports/bloc.dart';
 import '../../features/report/presentation/bloc/my_reports/event.dart';
 import '../../features/report/presentation/pages/my_reports_page.dart';
 import '../../features/search/presentation/bloc/bloc.dart';
+import '../../features/tags/presentation/bloc/tags/bloc.dart';
 import '../../features/search/presentation/pages/search_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 
@@ -134,6 +135,9 @@ final appRouter = GoRouter(
               create: (_) =>
                   getIt<ProfilePostsBloc>()..add(const LoadMyPosts()),
             ),
+            // No event dispatched: the tags feed is fetched the first time the
+            // Tags tab is opened, so a profile visit doesn't pay for it.
+            BlocProvider<TagsBloc>(create: (_) => getIt<TagsBloc>()),
           ],
           child: const MyProfilePage(),
         ),
@@ -184,6 +188,8 @@ final appRouter = GoRouter(
               create: (_) => getIt<ProfilePostsBloc>()
                 ..add(LoadPostsByUsername(username)),
             ),
+            // Loaded lazily on the first Tags tab open — see the /profile route.
+            BlocProvider<TagsBloc>(create: (_) => getIt<TagsBloc>()),
           ],
           child: PublicProfilePage(username: username),
         );

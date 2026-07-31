@@ -6,11 +6,11 @@ import 'package:car_social_media_app/core/shared/bloc/tag_picker/bloc.dart';
 import 'package:car_social_media_app/core/shared/bloc/tag_picker/event.dart';
 import 'package:car_social_media_app/core/shared/bloc/tag_picker/state.dart';
 import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
+import 'package:car_social_media_app/core/theme/app_colors.dart';
 import 'package:car_social_media_app/features/garage/domain/entities/car_summary.dart';
+import 'package:car_social_media_app/l10n/app_localizations.dart';
 
-import '../../../../../core/theme/app_colors.dart';
-import '../../../../../l10n/app_localizations.dart';
-import '../shared/forum_avatar.dart';
+import 'tag_avatar.dart';
 
 /// Opens the two-step car picker: pick a garage (your own, or a mentioned
 /// person's), then a car from it. Resolves to the picked car, or null when the
@@ -18,7 +18,7 @@ import '../shared/forum_avatar.dart';
 ///
 /// Must be called from a context that can read a [TagPickerBloc] — it is passed
 /// down so the sheet reuses the composer's already-loaded garages.
-Future<TaggedCar?> showForumCarPickerSheet(
+Future<TaggedCar?> showCarPickerSheet(
   BuildContext context, {
   required List<TaggedPerson> people,
   required Set<String> takenCarIds,
@@ -33,22 +33,22 @@ Future<TaggedCar?> showForumCarPickerSheet(
     ),
     builder: (_) => BlocProvider<TagPickerBloc>.value(
       value: bloc,
-      child: _ForumCarPickerSheet(people: people, takenCarIds: takenCarIds),
+      child: _CarPickerSheet(people: people, takenCarIds: takenCarIds),
     ),
   );
 }
 
-class _ForumCarPickerSheet extends StatefulWidget {
+class _CarPickerSheet extends StatefulWidget {
   final List<TaggedPerson> people;
   final Set<String> takenCarIds;
 
-  const _ForumCarPickerSheet({required this.people, required this.takenCarIds});
+  const _CarPickerSheet({required this.people, required this.takenCarIds});
 
   @override
-  State<_ForumCarPickerSheet> createState() => _ForumCarPickerSheetState();
+  State<_CarPickerSheet> createState() => _CarPickerSheetState();
 }
 
-class _ForumCarPickerSheetState extends State<_ForumCarPickerSheet> {
+class _CarPickerSheetState extends State<_CarPickerSheet> {
   /// Null = the garage chooser; [_ownGarage] = the viewer's own garage;
   /// otherwise the mentioned person whose garage is open.
   TaggedPerson? _selected;
@@ -225,7 +225,7 @@ class _GarageChooser extends StatelessWidget {
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-              leading: ForumAvatar(
+              leading: TagAvatar(
                 username: person.username,
                 avatarUrl: person.avatarUrl,
                 size: 36,

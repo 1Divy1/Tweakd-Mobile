@@ -3,12 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:car_social_media_app/core/shared/bloc/tag_picker/bloc.dart';
 import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
+import 'package:car_social_media_app/core/shared/widgets/tagging/tag_editor.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
-import '../../utils/forum_tags.dart';
 import '../shared/forum_section_label.dart';
-import '../tagging/forum_tag_editor.dart';
 
 /// What an edit sheet resolves to: the new body plus the replace-all tag sets
 /// (always non-null — the sheet always shows the current tags, so whatever is
@@ -161,13 +160,13 @@ class _ForumEditSheetState extends State<_ForumEditSheet> {
           const SizedBox(height: 10),
           Flexible(
             child: SingleChildScrollView(
-              child: ForumTagEditor(
+              child: TagEditor(
                 people: _people,
                 cars: _cars,
                 peopleSearchController: _peopleSearchController,
                 showHeader: false,
                 onAddPerson: (person) {
-                  if (_people.length >= kForumTagLimit ||
+                  if (_people.length >= kTagSelectionLimit ||
                       _people.any((p) => p.id == person.id)) {
                     return;
                   }
@@ -179,10 +178,10 @@ class _ForumEditSheetState extends State<_ForumEditSheet> {
                       if (p.id != id) p,
                   ];
                   // Keep the owner-must-be-tagged rule satisfied.
-                  _cars = forumCarsWithoutOwner(_cars, id);
+                  _cars = tagCarsWithoutOwner(_cars, id);
                 }),
                 onAddCar: (car) {
-                  if (_cars.length >= kForumTagLimit ||
+                  if (_cars.length >= kTagSelectionLimit ||
                       _cars.any((c) => c.id == car.id)) {
                     return;
                   }
