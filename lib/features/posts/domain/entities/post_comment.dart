@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import 'post_tagged_car.dart';
 import 'post_user.dart';
 
 /// A comment on a post. Soft-deleted comments are kept to anchor replies:
@@ -18,6 +19,14 @@ class PostCommentEntity extends Equatable {
   /// (replies aren't nested beyond one level). Defaults to 0 when the backend
   /// omits it.
   final int replyCount;
+
+  /// People tagged in the comment. Empty on a soft-deleted comment, and empty
+  /// on any payload from a backend that doesn't serve comment tags yet.
+  final List<PostUserEntity> taggedPeople;
+
+  /// Cars tagged in the comment — each one's owner is in [taggedPeople], except
+  /// the comment author's own cars.
+  final List<PostTaggedCarEntity> taggedCars;
   final DateTime createdAt;
 
   const PostCommentEntity({
@@ -29,6 +38,8 @@ class PostCommentEntity extends Equatable {
     required this.likeCount,
     required this.viewerHasLiked,
     this.replyCount = 0,
+    this.taggedPeople = const [],
+    this.taggedCars = const [],
     required this.createdAt,
   });
 
@@ -40,6 +51,8 @@ class PostCommentEntity extends Equatable {
     int? likeCount,
     bool? viewerHasLiked,
     int? replyCount,
+    List<PostUserEntity>? taggedPeople,
+    List<PostTaggedCarEntity>? taggedCars,
   }) {
     return PostCommentEntity(
       id: id,
@@ -50,6 +63,8 @@ class PostCommentEntity extends Equatable {
       likeCount: likeCount ?? this.likeCount,
       viewerHasLiked: viewerHasLiked ?? this.viewerHasLiked,
       replyCount: replyCount ?? this.replyCount,
+      taggedPeople: taggedPeople ?? this.taggedPeople,
+      taggedCars: taggedCars ?? this.taggedCars,
       createdAt: createdAt,
     );
   }
@@ -64,6 +79,8 @@ class PostCommentEntity extends Equatable {
         likeCount,
         viewerHasLiked,
         replyCount,
+        taggedPeople,
+        taggedCars,
         createdAt,
       ];
 }

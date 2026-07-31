@@ -351,7 +351,7 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
     Emitter<ForumThreadState> emit,
   ) {
     final people = state.replyTaggedPeople;
-    if (people.length >= kForumTagLimit ||
+    if (people.length >= kTagSelectionLimit ||
         people.any((p) => p.id == event.person.id)) {
       return;
     }
@@ -369,7 +369,7 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
       ],
       // The backend rejects a car whose owner isn't tagged (own cars aside).
       replyTaggedCars:
-          forumCarsWithoutOwner(state.replyTaggedCars, event.personId),
+          tagCarsWithoutOwner(state.replyTaggedCars, event.personId),
     ));
   }
 
@@ -378,7 +378,7 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
     Emitter<ForumThreadState> emit,
   ) {
     final cars = state.replyTaggedCars;
-    if (cars.length >= kForumTagLimit || cars.any((c) => c.id == event.car.id)) {
+    if (cars.length >= kTagSelectionLimit || cars.any((c) => c.id == event.car.id)) {
       return;
     }
     emit(state.copyWith(replyTaggedCars: [...cars, event.car]));

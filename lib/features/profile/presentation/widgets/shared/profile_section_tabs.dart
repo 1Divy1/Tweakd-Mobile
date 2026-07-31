@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 
-/// The two sections a profile body can show. Posts is the default (left) tab,
-/// Garage sits on the right — mirroring Instagram's posts / reels switcher.
-enum ProfileSection { posts, garage }
+/// The three sections a profile body can show. Posts is the default (left)
+/// tab, then Garage, then Tags — everything this user (or one of their cars)
+/// was tagged in elsewhere.
+enum ProfileSection { posts, garage, tags }
 
-/// The Posts | Garage tab switcher shown between the profile header and the
-/// active section. Only one section is visible at a time.
+/// The Posts | Garage | Tags tab switcher shown between the profile header and
+/// the active section. Only one section is visible at a time.
 class ProfileSectionTabs extends StatelessWidget {
   final ProfileSection active;
   final ValueChanged<ProfileSection> onChanged;
@@ -38,6 +39,14 @@ class ProfileSectionTabs extends StatelessWidget {
             label: l10n.profileTabGarage,
             isActive: active == ProfileSection.garage,
             onTap: () => onChanged(ProfileSection.garage),
+          ),
+        ),
+        Expanded(
+          child: _Tab(
+            icon: Icons.sell_rounded,
+            label: l10n.profileTabTags,
+            isActive: active == ProfileSection.tags,
+            onTap: () => onChanged(ProfileSection.tags),
           ),
         ),
       ],
@@ -79,13 +88,19 @@ class _Tab extends StatelessWidget {
           children: [
             Icon(icon, size: 18, color: color),
             const SizedBox(width: 8),
-            Text(
-              label,
-              style: TextStyle(
-                color: color,
-                fontSize: 12,
-                fontWeight: FontWeight.w800,
-                letterSpacing: 1.2,
+            // Three tabs share the row now, so a long localized label
+            // ellipsizes instead of overflowing on narrow screens.
+            Flexible(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: color,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.2,
+                ),
               ),
             ),
           ],

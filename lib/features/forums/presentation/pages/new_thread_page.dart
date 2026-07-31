@@ -12,7 +12,7 @@ import '../widgets/composer/thread_category_picker.dart';
 import '../widgets/composer/topic_selector.dart';
 import '../widgets/shared/forum_error_view.dart';
 import '../widgets/shared/forum_sub_top_bar.dart';
-import '../widgets/tagging/forum_tag_editor.dart';
+import 'package:car_social_media_app/core/shared/widgets/tagging/tag_editor.dart';
 
 class NewThreadPage extends StatefulWidget {
   const NewThreadPage({super.key});
@@ -211,7 +211,7 @@ class _ComposerForm extends StatelessWidget {
           onClearModel: () => bloc.add(const ClearNewThreadModel()),
         ),
         const SizedBox(height: 24),
-        ForumTagEditor(
+        TagEditor(
           people: state.taggedPeople,
           cars: state.taggedCars,
           peopleSearchController: peopleSearchController,

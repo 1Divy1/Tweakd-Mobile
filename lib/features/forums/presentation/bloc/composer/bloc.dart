@@ -149,7 +149,7 @@ class NewThreadBloc extends Bloc<NewThreadEvent, NewThreadState> {
     Emitter<NewThreadState> emit,
   ) {
     final people = state.taggedPeople;
-    if (people.length >= kForumTagLimit ||
+    if (people.length >= kTagSelectionLimit ||
         people.any((p) => p.id == event.person.id)) {
       return;
     }
@@ -167,14 +167,14 @@ class NewThreadBloc extends Bloc<NewThreadEvent, NewThreadState> {
             if (p.id != event.personId) p,
         ],
         // A car whose owner is no longer tagged would be rejected on submit.
-        taggedCars: forumCarsWithoutOwner(state.taggedCars, event.personId),
+        taggedCars: tagCarsWithoutOwner(state.taggedCars, event.personId),
       ),
     );
   }
 
   void _onAddTagCar(AddNewThreadTagCar event, Emitter<NewThreadState> emit) {
     final cars = state.taggedCars;
-    if (cars.length >= kForumTagLimit || cars.any((c) => c.id == event.car.id)) {
+    if (cars.length >= kTagSelectionLimit || cars.any((c) => c.id == event.car.id)) {
       return;
     }
     emit(state.copyWith(taggedCars: [...cars, event.car]));

@@ -139,16 +139,22 @@ class PostsApiDataSource {
 
   // ── Comments ─────────────────────────────────────────────────────────────────
 
+  /// Tag ids are only sent when non-empty, so an untagged comment keeps the
+  /// exact body shape the backend has always received.
   Future<PostCommentModel> addComment(
     String postId, {
     required String content,
     String? parentCommentId,
+    List<String> taggedPeople = const [],
+    List<String> taggedCars = const [],
   }) async {
     final data = await http.post(
       '/posts/$postId/comments',
       body: {
         'content': content,
         'parent_comment_id': ?parentCommentId,
+        if (taggedPeople.isNotEmpty) 'tagged_people': taggedPeople,
+        if (taggedCars.isNotEmpty) 'tagged_cars': taggedCars,
       },
     );
     return PostCommentModel.fromJson(data as Map<String, dynamic>);

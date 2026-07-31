@@ -355,12 +355,16 @@ class PostsRepositoryImpl implements PostsRepository {
     String postId, {
     required String content,
     String? parentCommentId,
+    List<String> taggedPeople = const [],
+    List<String> taggedCars = const [],
   }) async {
     try {
       final model = await dataSource.addComment(
         postId,
         content: content,
         parentCommentId: parentCommentId,
+        taggedPeople: taggedPeople,
+        taggedCars: taggedCars,
       );
       return Right(model.toEntity());
     } on UnauthenticatedException catch (e) {

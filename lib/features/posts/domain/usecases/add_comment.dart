@@ -13,10 +13,19 @@ class AddCommentParams {
   /// Null for a root comment; set to reply to another comment on the same post.
   final String? parentCommentId;
 
+  /// Profile ids tagged in the comment.
+  final List<String> taggedPeople;
+
+  /// Car ids tagged in the comment; each car's owner must be in [taggedPeople]
+  /// unless the car belongs to the commenter.
+  final List<String> taggedCars;
+
   const AddCommentParams({
     required this.postId,
     required this.content,
     this.parentCommentId,
+    this.taggedPeople = const [],
+    this.taggedCars = const [],
   });
 }
 
@@ -32,6 +41,8 @@ class AddCommentUseCase implements UseCase<PostCommentEntity, AddCommentParams> 
       params.postId,
       content: params.content,
       parentCommentId: params.parentCommentId,
+      taggedPeople: params.taggedPeople,
+      taggedCars: params.taggedCars,
     );
   }
 }

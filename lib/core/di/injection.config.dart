@@ -274,6 +274,15 @@ import '../../features/search/domain/repositories/search_repository.dart'
     as _i357;
 import '../../features/search/domain/usecases/search_users.dart' as _i14;
 import '../../features/search/presentation/bloc/bloc.dart' as _i462;
+import '../../features/tags/data/datasources/tags_api_data_source.dart'
+    as _i446;
+import '../../features/tags/data/repositories/tags_repository_impl.dart'
+    as _i160;
+import '../../features/tags/domain/repositories/tags_repository.dart' as _i1070;
+import '../../features/tags/domain/usecases/get_my_tags.dart' as _i227;
+import '../../features/tags/domain/usecases/get_tags_by_username.dart' as _i198;
+import '../../features/tags/domain/usecases/remove_tag.dart' as _i369;
+import '../../features/tags/presentation/bloc/tags/bloc.dart' as _i853;
 import '../network/abstract_http.dart' as _i311;
 import '../network/dio_http_client.dart' as _i554;
 import '../realtime/dm_socket_service.dart' as _i300;
@@ -361,6 +370,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i592.SearchApiDataSource>(
       () => _i592.SearchApiDataSource(gh<_i311.AbstractHTTP>()),
+    );
+    gh.lazySingleton<_i446.TagsApiDataSource>(
+      () => _i446.TagsApiDataSource(gh<_i311.AbstractHTTP>()),
     );
     gh.lazySingleton<_i830.NotificationsDataSource>(
       () => _i830.NotificationsApiDataSource(gh<_i311.AbstractHTTP>()),
@@ -524,6 +536,9 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i452.OnboardingRepositoryImpl(gh<_i1049.OnboardingApiDataSource>()),
     );
+    gh.lazySingleton<_i1070.TagsRepository>(
+      () => _i160.TagsRepositoryImpl(gh<_i446.TagsApiDataSource>()),
+    );
     gh.lazySingleton<_i842.CheckUsernameAvailabilityUseCase>(
       () => _i842.CheckUsernameAvailabilityUseCase(
         gh<_i430.OnboardingRepository>(),
@@ -638,6 +653,15 @@ extension GetItInjectableX on _i174.GetIt {
         getReasons: gh<_i935.GetReportReasonsUseCase>(),
         submitReport: gh<_i535.SubmitReportUseCase>(),
       ),
+    );
+    gh.lazySingleton<_i227.GetMyTagsUseCase>(
+      () => _i227.GetMyTagsUseCase(gh<_i1070.TagsRepository>()),
+    );
+    gh.lazySingleton<_i198.GetTagsByUsernameUseCase>(
+      () => _i198.GetTagsByUsernameUseCase(gh<_i1070.TagsRepository>()),
+    );
+    gh.lazySingleton<_i369.RemoveTagUseCase>(
+      () => _i369.RemoveTagUseCase(gh<_i1070.TagsRepository>()),
     );
     gh.lazySingleton<_i383.GetFeedbackFeaturesUseCase>(
       () => _i383.GetFeedbackFeaturesUseCase(gh<_i619.FeedbackRepository>()),
@@ -869,6 +893,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i370.MyReportsBloc>(
       () => _i370.MyReportsBloc(getMyReports: gh<_i75.GetMyReportsUseCase>()),
+    );
+    gh.factory<_i853.TagsBloc>(
+      () => _i853.TagsBloc(
+        getMyTags: gh<_i227.GetMyTagsUseCase>(),
+        getTagsByUsername: gh<_i198.GetTagsByUsernameUseCase>(),
+        removeTag: gh<_i369.RemoveTagUseCase>(),
+      ),
     );
     gh.factory<_i797.OnboardingBloc>(
       () => _i797.OnboardingBloc(

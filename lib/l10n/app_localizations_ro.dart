@@ -1500,6 +1500,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get profileTabGarage => 'GARAJ';
 
   @override
+  String get profileTabTags => 'ETICHETE';
+
+  @override
   String get postsLoadMore => 'ÎNCARCĂ MAI MULT';
 
   @override
@@ -2445,5 +2448,51 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get notificationsErrorGeneric =>
+      'Ceva nu a funcționat. Te rugăm să încerci din nou.';
+
+  @override
+  String get tagsKindPost => 'ETICHETAT ÎNTR-O POSTARE';
+
+  @override
+  String get tagsKindComment => 'ETICHETAT ÎNTR-UN COMENTARIU';
+
+  @override
+  String get tagsKindThread => 'ETICHETAT ÎNTR-O DISCUȚIE';
+
+  @override
+  String get tagsKindReply => 'ETICHETAT ÎNTR-UN RĂSPUNS';
+
+  @override
+  String tagsOnPostBy(String author) {
+    return 'la postarea lui @$author';
+  }
+
+  @override
+  String get tagsLoadMore => 'ÎNCARCĂ MAI MULT';
+
+  @override
+  String get tagsEmptyOwner => 'Nu ai fost etichetat încă.';
+
+  @override
+  String get tagsEmptyVisitor => 'Nicio etichetă încă.';
+
+  @override
+  String get tagsRemove => 'Elimină eticheta';
+
+  @override
+  String get tagsRemoveTitle => 'Elimini eticheta?';
+
+  @override
+  String get tagsRemoveBody =>
+      'Vei fi eliminat din acest conținut pentru toată lumea, împreună cu mașinile tale etichetate acolo. Doar autorul te poate eticheta din nou.';
+
+  @override
+  String get tagsRemoveConfirm => 'Elimină';
+
+  @override
+  String get tagsErrorContentGone => 'Acest conținut nu mai există.';
+
+  @override
+  String get tagsErrorGeneric =>
       'Ceva nu a funcționat. Te rugăm să încerci din nou.';
 }
