@@ -1051,12 +1051,6 @@
     }
   },
   "messagesActiveNowStatus": "Active now",
-  "messagesLastSeen": "Last seen {ago}",
-  "@messagesLastSeen": {
-    "placeholders": {
-      "ago": {"type": "String"}
-    }
-  },
   "messagesMutualFollow": "You both follow each other · {followers} followers",
   "@messagesMutualFollow": {
     "placeholders": {

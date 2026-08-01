@@ -15,9 +15,9 @@ import 'event.dart';
 import 'state.dart';
 
 /// Drives the messages inbox: cursor-paged load, pull-to-refresh,
-/// client-side search, hide ("delete chat"), plus live socket updates —
-/// presence flips (online dots + ACTIVE NOW strip) and new-message pings
-/// (row preview / ordering / unread badge).
+/// client-side search, hide ("delete chat"), plus live Supabase Realtime
+/// updates — presence flips (online dots + ACTIVE NOW strip) and new-message
+/// broadcasts (row preview / ordering / unread badge).
 @injectable
 class InboxBloc extends Bloc<InboxEvent, InboxState> {
   final GetInboxUseCase getInbox;
@@ -160,13 +160,19 @@ class InboxBloc extends Bloc<InboxEvent, InboxState> {
     if (current is! InboxLoaded) return;
     final presence = event.presence;
 
+    // The presence channel is global, so most flips are about people the
+    // viewer has no conversation with — and the first sync after connecting
+    // announces everyone at once. Bail before rebuilding the list.
+    final affectsInbox = current.inbox.conversations
+        .any((conversation) => conversation.user.id == presence.userId);
+    if (!affectsInbox) return;
+
     final conversations = [
       for (final conversation in current.inbox.conversations)
         conversation.user.id == presence.userId
             ? conversation.copyWith(
                 user: conversation.user.withPresence(
                   isOnline: presence.online,
-                  lastSeenAt: presence.lastSeenAt,
                 ),
               )
             : conversation,

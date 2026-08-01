@@ -14,17 +14,19 @@ class SendMessageParams extends Equatable {
   final String text;
 
   /// Cars shared from the sender's garage (max 10). [text] may be blank when
-  /// this is non-empty.
-  final List<String> taggedCarIds;
+  /// this is non-empty. Full entities rather than ids: only the ids reach the
+  /// database, but the cover images ride along in the broadcast that renders
+  /// the peer's copy of the message.
+  final List<DmTaggedCarEntity> taggedCars;
 
   const SendMessageParams({
     required this.recipientId,
     required this.text,
-    this.taggedCarIds = const [],
+    this.taggedCars = const [],
   });
 
   @override
-  List<Object?> get props => [recipientId, text, taggedCarIds];
+  List<Object?> get props => [recipientId, text, taggedCars];
 }
 
 @lazySingleton
@@ -39,6 +41,6 @@ class SendMessageUseCase
       repository.sendMessage(
         params.recipientId,
         params.text,
-        taggedCarIds: params.taggedCarIds,
+        taggedCars: params.taggedCars,
       );
 }

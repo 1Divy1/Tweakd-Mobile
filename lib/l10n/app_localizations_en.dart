@@ -2323,11 +2323,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get messagesActiveNowStatus => 'Active now';
 
   @override
-  String messagesLastSeen(String ago) {
-    return 'Last seen $ago';
-  }
-
-  @override
   String messagesMutualFollow(String followers) {
     return 'You both follow each other · $followers followers';
   }

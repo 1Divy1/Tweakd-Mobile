@@ -134,8 +134,6 @@ import '../../features/garage/presentation/bloc/car_detail/bloc.dart' as _i807;
 import '../../features/garage/presentation/bloc/log_mod/bloc.dart' as _i375;
 import '../../features/messages/data/datasources/messages_data_source.dart'
     as _i637;
-import '../../features/messages/data/datasources/presence_data_source.dart'
-    as _i972;
 import '../../features/messages/data/repositories/messages_repository_impl.dart'
     as _i20;
 import '../../features/messages/domain/repositories/messages_repository.dart'
@@ -285,8 +283,10 @@ import '../../features/tags/domain/usecases/remove_tag.dart' as _i369;
 import '../../features/tags/presentation/bloc/tags/bloc.dart' as _i853;
 import '../network/abstract_http.dart' as _i311;
 import '../network/dio_http_client.dart' as _i554;
-import '../realtime/dm_socket_service.dart' as _i300;
-import '../realtime/stomp_dm_socket_service.dart' as _i801;
+import '../realtime/dm_realtime_service.dart' as _i511;
+import '../realtime/presence_service.dart' as _i784;
+import '../realtime/supabase_dm_realtime_service.dart' as _i543;
+import '../realtime/supabase_presence_service.dart' as _i1029;
 import '../services/image_service.dart' as _i768;
 import '../services/push_permission_service.dart' as _i792;
 import '../shared/bloc/tag_picker/bloc.dart' as _i155;
@@ -311,8 +311,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1069.LocaleLocalStorage>(
       () => _i1069.LocaleLocalStorage(),
     );
-    gh.lazySingleton<_i300.DmSocketService>(
-      () => _i801.StompDmSocketService(gh<_i454.SupabaseClient>()),
+    gh.lazySingleton<_i511.DmRealtimeService>(
+      () => _i543.SupabaseDmRealtimeService(gh<_i454.SupabaseClient>()),
+    );
+    gh.lazySingleton<_i784.PresenceService>(
+      () => _i1029.SupabasePresenceService(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i361.Dio>(
       () => dioModule.dio(gh<_i454.SupabaseClient>()),
@@ -339,7 +342,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i317.AuthRepositoryImpl(gh<_i981.SupabaseAuthDataSource>()),
     );
     gh.lazySingleton<_i637.MessagesDataSource>(
-      () => _i637.MessagesApiDataSource(gh<_i311.AbstractHTTP>()),
+      () => _i637.MessagesApiDataSource(
+        gh<_i311.AbstractHTTP>(),
+        gh<_i454.SupabaseClient>(),
+      ),
     );
     gh.lazySingleton<_i194.FeedApiDataSource>(
       () => _i194.FeedApiDataSource(gh<_i311.AbstractHTTP>()),
@@ -453,6 +459,14 @@ extension GetItInjectableX on _i174.GetIt {
         submitOnboarding: gh<_i1055.SubmitOnboardingUseCase>(),
       ),
     );
+    gh.lazySingleton<_i794.MessagesRepository>(
+      () => _i20.MessagesRepositoryImpl(
+        gh<_i637.MessagesDataSource>(),
+        gh<_i511.DmRealtimeService>(),
+        gh<_i784.PresenceService>(),
+        gh<_i454.SupabaseClient>(),
+      ),
+    );
     gh.lazySingleton<_i163.GetNotificationsUseCase>(
       () => _i163.GetNotificationsUseCase(gh<_i563.NotificationsRepository>()),
     );
@@ -469,17 +483,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i29.MarkNotificationReadUseCase>(
       () =>
           _i29.MarkNotificationReadUseCase(gh<_i563.NotificationsRepository>()),
-    );
-    gh.lazySingleton<_i972.PresenceDataSource>(
-      () => _i972.PresenceApiDataSource(gh<_i311.AbstractHTTP>()),
-    );
-    gh.lazySingleton<_i794.MessagesRepository>(
-      () => _i20.MessagesRepositoryImpl(
-        gh<_i637.MessagesDataSource>(),
-        gh<_i972.PresenceDataSource>(),
-        gh<_i300.DmSocketService>(),
-        gh<_i454.SupabaseClient>(),
-      ),
     );
     gh.lazySingleton<_i357.SearchRepository>(
       () => _i1017.SearchRepositoryImpl(gh<_i592.SearchApiDataSource>()),

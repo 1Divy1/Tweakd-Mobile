@@ -702,7 +702,7 @@ packages:
     source: hosted
     version: "4.4.0"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       sha256: "87721a4a50b19c7f1d49001e51409bddc46303966ce89a65af4f4e6004896412"
@@ -1370,14 +1370,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.12.1"
-  stomp_dart_client:
-    dependency: "direct main"
-    description:
-      name: stomp_dart_client
-      sha256: "54a73fd73f160a2956036fa39539e283f58535c3e84bff3a40e16003dd320123"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.1"
   storage_client:
     dependency: transitive
     description:

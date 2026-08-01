@@ -1,0 +1,156 @@
+Date : 2026-07-31 23:09:43
+Directory : /Users/mbpro/Developer/Apps/Car-Social-Media-App
+Total : 62 files,  2404 codes, 247 comments, 345 blanks, all 2996 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Dart     |         59 |      2,174 |        247 |        299 |      2,720 |
+| Markdown |          3 |        230 |          0 |         46 |        276 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                                    | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                                       |         62 |      2,404 |        247 |        345 |      2,996 |
+| . (Files)                                                                                                                               |          2 |        165 |          0 |         34 |        199 |
+| lib                                                                                                                                     |         60 |      2,239 |        247 |        311 |      2,797 |
+| lib/core                                                                                                                                |          7 |      1,002 |         37 |         80 |      1,119 |
+| lib/core/di                                                                                                                             |          1 |         31 |          0 |          0 |         31 |
+| lib/core/routes                                                                                                                         |          1 |          3 |          3 |          0 |          6 |
+| lib/core/shared                                                                                                                         |          5 |        968 |         34 |         80 |      1,082 |
+| lib/core/shared/entities                                                                                                                |          1 |          7 |          3 |          2 |         12 |
+| lib/core/shared/widgets                                                                                                                 |          4 |        961 |         31 |         78 |      1,070 |
+| lib/core/shared/widgets/tagging                                                                                                         |          4 |        961 |         31 |         78 |      1,070 |
+| lib/features                                                                                                                            |         50 |      1,155 |        150 |        186 |      1,491 |
+| lib/features/feedback                                                                                                                   |          4 |         -7 |          0 |          0 |         -7 |
+| lib/features/feedback/presentation                                                                                                      |          4 |         -7 |          0 |          0 |         -7 |
+| lib/features/feedback/presentation/widgets                                                                                              |          4 |         -7 |          0 |          0 |         -7 |
+| lib/features/feedback/presentation/widgets (Files)                                                                                      |          3 |         -3 |          0 |          0 |         -3 |
+| lib/features/feedback/presentation/widgets/my_feedback                                                                                  |          1 |         -4 |          0 |          0 |         -4 |
+| lib/features/forums                                                                                                                     |          6 |       -910 |        -24 |        -73 |     -1,007 |
+| lib/features/forums/presentation                                                                                                        |          6 |       -910 |        -24 |        -73 |     -1,007 |
+| lib/features/forums/presentation/utils                                                                                                  |          1 |         -5 |         -1 |         -1 |         -7 |
+| lib/features/forums/presentation/widgets                                                                                                |          5 |       -905 |        -23 |        -72 |     -1,000 |
+| lib/features/forums/presentation/widgets/home                                                                                           |          1 |         -2 |          0 |          0 |         -2 |
+| lib/features/forums/presentation/widgets/tagging                                                                                        |          3 |       -902 |        -23 |        -72 |       -997 |
+| lib/features/forums/presentation/widgets/thread                                                                                         |          1 |         -1 |          0 |          0 |         -1 |
+| lib/features/garage                                                                                                                     |          1 |         -3 |         -8 |          0 |        -11 |
+| lib/features/garage/presentation                                                                                                        |          1 |         -3 |         -8 |          0 |        -11 |
+| lib/features/garage/presentation/pages                                                                                                  |          1 |         -3 |         -8 |          0 |        -11 |
+| lib/features/posts                                                                                                                      |         11 |        335 |         34 |         41 |        410 |
+| lib/features/posts/data                                                                                                                 |          3 |         20 |          4 |          1 |         25 |
+| lib/features/posts/data/datasources                                                                                                     |          1 |          4 |          2 |          0 |          6 |
+| lib/features/posts/data/models                                                                                                          |          1 |         12 |          2 |          1 |         15 |
+| lib/features/posts/data/repositories                                                                                                    |          1 |          4 |          0 |          0 |          4 |
+| lib/features/posts/domain                                                                                                               |          3 |         19 |         10 |          4 |         33 |
+| lib/features/posts/domain/entities                                                                                                      |          1 |         11 |          4 |          2 |         17 |
+| lib/features/posts/domain/repositories                                                                                                  |          1 |          2 |          3 |          0 |          5 |
+| lib/features/posts/domain/usecases                                                                                                      |          1 |          6 |          3 |          2 |         11 |
+| lib/features/posts/presentation                                                                                                         |          5 |        296 |         20 |         36 |        352 |
+| lib/features/posts/presentation/bloc                                                                                                    |          3 |         94 |         12 |         21 |        127 |
+| lib/features/posts/presentation/bloc/comments                                                                                           |          3 |         94 |         12 |         21 |        127 |
+| lib/features/posts/presentation/widgets                                                                                                 |          2 |        202 |          8 |         15 |        225 |
+| lib/features/posts/presentation/widgets/post_detail                                                                                     |          2 |        202 |          8 |         15 |        225 |
+| lib/features/profile                                                                                                                    |          3 |         36 |          9 |          0 |         45 |
+| lib/features/profile/presentation                                                                                                       |          3 |         36 |          9 |          0 |         45 |
+| lib/features/profile/presentation/widgets                                                                                               |          3 |         36 |          9 |          0 |         45 |
+| lib/features/profile/presentation/widgets/my_profile                                                                                    |          1 |         12 |          3 |          0 |         15 |
+| lib/features/profile/presentation/widgets/public_profile                                                                                |          1 |         12 |          3 |          0 |         15 |
+| lib/features/profile/presentation/widgets/shared                                                                                        |          1 |         12 |          3 |          0 |         15 |
+| lib/features/report                                                                                                                     |          1 |         -1 |          0 |          0 |         -1 |
+| lib/features/report/presentation                                                                                                        |          1 |         -1 |          0 |          0 |         -1 |
+| lib/features/report/presentation/widgets                                                                                                |          1 |         -1 |          0 |          0 |         -1 |
+| lib/features/report/presentation/widgets/my_reports                                                                                     |          1 |         -1 |          0 |          0 |         -1 |
+| lib/features/settings                                                                                                                   |          2 |         -2 |          0 |          0 |         -2 |
+| lib/features/settings/presentation                                                                                                      |          2 |         -2 |          0 |          0 |         -2 |
+| lib/features/settings/presentation/widgets                                                                                              |          2 |         -2 |          0 |          0 |         -2 |
+| lib/features/tags                                                                                                                       |         22 |      1,707 |        139 |        218 |      2,064 |
+| lib/features/tags (Files)                                                                                                               |          1 |         65 |          0 |         12 |         77 |
+| lib/features/tags/data                                                                                                                  |          3 |        159 |         18 |         28 |        205 |
+| lib/features/tags/data/datasources                                                                                                      |          1 |         35 |          5 |          7 |         47 |
+| lib/features/tags/data/models                                                                                                           |          1 |         50 |          8 |         13 |         71 |
+| lib/features/tags/data/repositories                                                                                                     |          1 |         74 |          5 |          8 |         87 |
+| lib/features/tags/domain                                                                                                                |          6 |        138 |         34 |         38 |        210 |
+| lib/features/tags/domain/entities                                                                                                       |          1 |         42 |         25 |         11 |         78 |
+| lib/features/tags/domain/failures                                                                                                       |          1 |          8 |          5 |          3 |         16 |
+| lib/features/tags/domain/repositories                                                                                                   |          1 |         15 |          4 |          6 |         25 |
+| lib/features/tags/domain/usecases                                                                                                       |          3 |         73 |          0 |         18 |         91 |
+| lib/features/tags/presentation                                                                                                          |         12 |      1,345 |         87 |        140 |      1,572 |
+| lib/features/tags/presentation/bloc                                                                                                     |          3 |        214 |         30 |         43 |        287 |
+| lib/features/tags/presentation/bloc/tags                                                                                                |          3 |        214 |         30 |         43 |        287 |
+| lib/features/tags/presentation/utils                                                                                                    |          1 |         17 |          5 |          5 |         27 |
+| lib/features/tags/presentation/widgets                                                                                                  |          8 |      1,114 |         52 |         92 |      1,258 |
+| lib/l10n                                                                                                                                |          3 |         82 |         60 |         45 |        187 |
++-----------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                                                                | language | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/COMMENT_TAGGING_PROGRESS.md                                                            | Markdown |         75 |          0 |         14 |         89 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/TAGS_PROGRESS.md                                                                       | Markdown |         90 |          0 |         20 |        110 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/core/di/injection.config.dart                                                      | Dart     |         31 |          0 |          0 |         31 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/core/routes/app_router.dart                                                        | Dart     |          3 |          3 |          0 |          6 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/core/shared/entities/tag_selection.dart                                            | Dart     |          7 |          3 |          2 |         12 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/core/shared/widgets/tagging/car_picker_sheet.dart                                  | Dart     |        353 |         11 |         28 |        392 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/core/shared/widgets/tagging/tag_avatar.dart                                        | Dart     |         45 |          2 |          5 |         52 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/core/shared/widgets/tagging/tag_editor.dart                                        | Dart     |        477 |         15 |         36 |        528 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/core/shared/widgets/tagging/tag_strip.dart                                         | Dart     |         86 |          3 |          9 |         98 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/feedback_dropdown_field.dart                | Dart     |         -1 |          0 |          0 |         -1 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/feedback_form.dart                          | Dart     |         -1 |          0 |          0 |         -1 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/feedback_top_bar.dart                       | Dart     |         -1 |          0 |          0 |         -1 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/feedback/presentation/widgets/my_feedback/my_feedback_tile.dart           | Dart     |         -4 |          0 |          0 |         -4 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/forums/presentation/utils/forum_tags.dart                                 | Dart     |         -5 |         -1 |         -1 |         -7 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/forums/presentation/widgets/home/forum_shortcuts_row.dart                 | Dart     |         -2 |          0 |          0 |         -2 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/forums/presentation/widgets/tagging/forum_car_picker_sheet.dart           | Dart     |       -353 |        -11 |        -28 |       -392 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/forums/presentation/widgets/tagging/forum_tag_editor.dart                 | Dart     |       -463 |        -10 |        -34 |       -507 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/forums/presentation/widgets/tagging/forum_tag_strip.dart                  | Dart     |        -86 |         -2 |        -10 |        -98 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/forums/presentation/widgets/thread/forum_edit_sheet.dart                  | Dart     |         -1 |          0 |          0 |         -1 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/garage/presentation/pages/about_car_page.dart                             | Dart     |         -3 |         -8 |          0 |        -11 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/posts/data/datasources/posts_api_data_source.dart                         | Dart     |          4 |          2 |          0 |          6 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/posts/data/models/post_comment_models.dart                                | Dart     |         12 |          2 |          1 |         15 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/posts/data/repositories/posts_repository_impl.dart                        | Dart     |          4 |          0 |          0 |          4 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/posts/domain/entities/post_comment.dart                                   | Dart     |         11 |          4 |          2 |         17 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/posts/domain/repositories/posts_repository.dart                           | Dart     |          2 |          3 |          0 |          5 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/posts/domain/usecases/add_comment.dart                                    | Dart     |          6 |          3 |          2 |         11 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/posts/presentation/bloc/comments/bloc.dart                                | Dart     |         58 |          3 |          8 |         69 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/posts/presentation/bloc/comments/event.dart                               | Dart     |         25 |          6 |         10 |         41 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/posts/presentation/bloc/comments/state.dart                               | Dart     |         11 |          3 |          3 |         17 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/posts/presentation/widgets/post_detail/comment_tag_sheet.dart             | Dart     |        124 |          4 |         11 |        139 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/posts/presentation/widgets/post_detail/comments_sheet.dart                | Dart     |         78 |          4 |          4 |         86 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/profile/presentation/widgets/my_profile/my_profile_data_view.dart         | Dart     |         12 |          3 |          0 |         15 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/profile/presentation/widgets/public_profile/public_profile_data_view.dart | Dart     |         12 |          3 |          0 |         15 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/profile/presentation/widgets/shared/profile_section_tabs.dart             | Dart     |         12 |          3 |          0 |         15 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/report/presentation/widgets/my_reports/my_report_tile.dart                | Dart     |         -1 |          0 |          0 |         -1 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/settings/presentation/widgets/logout_button.dart                          | Dart     |         -1 |          0 |          0 |         -1 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/settings/presentation/widgets/settings_tile.dart                          | Dart     |         -1 |          0 |          0 |         -1 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/README.md                                                            | Markdown |         65 |          0 |         12 |         77 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/data/datasources/tags_api_data_source.dart                           | Dart     |         35 |          5 |          7 |         47 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/data/models/tagged_item_models.dart                                  | Dart     |         50 |          8 |         13 |         71 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/data/repositories/tags_repository_impl.dart                          | Dart     |         74 |          5 |          8 |         87 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/domain/entities/tagged_item.dart                                     | Dart     |         42 |         25 |         11 |         78 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/domain/failures/tag_failures.dart                                    | Dart     |          8 |          5 |          3 |         16 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/domain/repositories/tags_repository.dart                             | Dart     |         15 |          4 |          6 |         25 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/domain/usecases/get_my_tags.dart                                     | Dart     |         21 |          0 |          6 |         27 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/domain/usecases/get_tags_by_username.dart                            | Dart     |         32 |          0 |          6 |         38 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/domain/usecases/remove_tag.dart                                      | Dart     |         20 |          0 |          6 |         26 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/presentation/bloc/tags/bloc.dart                                     | Dart     |        132 |         13 |         19 |        164 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/presentation/bloc/tags/event.dart                                    | Dart     |         28 |         10 |         11 |         49 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/presentation/bloc/tags/state.dart                                    | Dart     |         54 |          7 |         13 |         74 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/presentation/utils/tag_error_mapper.dart                             | Dart     |         17 |          5 |          5 |         27 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/presentation/widgets/tag_item_menu.dart                              | Dart     |        149 |          7 |          8 |        164 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/presentation/widgets/tag_static_counters.dart                        | Dart     |         61 |          7 |         11 |         79 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/presentation/widgets/tagged_comment_card.dart                        | Dart     |        154 |          3 |         10 |        167 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/presentation/widgets/tagged_item_card.dart                           | Dart     |        155 |         14 |         16 |        185 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/presentation/widgets/tagged_post_card.dart                           | Dart     |        115 |          4 |          7 |        126 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/presentation/widgets/tagged_reply_card.dart                          | Dart     |        135 |          2 |          7 |        144 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/presentation/widgets/tagged_thread_card.dart                         | Dart     |        139 |          3 |         11 |        153 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/features/tags/presentation/widgets/tags_section.dart                               | Dart     |        206 |         12 |         22 |        240 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/l10n/app_localizations.dart                                                        | Dart     |         15 |         60 |         15 |         90 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/l10n/app_localizations_en.dart                                                     | Dart     |         33 |          0 |         15 |         48 |
+| /Users/mbpro/Developer/Apps/Car-Social-Media-App/lib/l10n/app_localizations_ro.dart                                                     | Dart     |         34 |          0 |         15 |         49 |
+| Total                                                                                                                                   |          |      2,404 |        247 |        345 |      2,996 |
++-----------------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
