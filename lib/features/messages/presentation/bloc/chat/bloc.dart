@@ -15,11 +15,11 @@ import '../../utils/messages_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
 
-/// Drives one open conversation against the real backend: paged history,
-/// sending (which may create the conversation), read receipts via the peer's
-/// watermark, deletions, and the live socket stream (typing, incoming and
-/// deleted messages). The peer's presence is fetched once on open and then
-/// kept live from the socket.
+/// Drives one open conversation: paged history from Spring, sending through
+/// the Supabase RPC (which may create the conversation), read receipts via the
+/// peer's watermark, deletions, and the live broadcast stream (typing,
+/// incoming and deleted messages). The peer's online state is read off the
+/// presence channel on open and then kept live from it.
 @injectable
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final GetMessagesUseCase getMessages;
@@ -35,7 +35,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   StreamSubscription<PresenceEntity>? _presenceSubscription;
 
   /// Typing throttle: resend `typing: true` at most every [_typingResend].
-  static const _typingResend = Duration(milliseconds: 2500);
+  static const _typingResend = Duration(milliseconds: 1000);
   DateTime? _lastTypingSentAt;
   bool _typingActive = false;
 
@@ -76,7 +76,11 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     if (_typingActive && current is ChatLoaded) {
       final conversationId = current.conversationId;
       if (conversationId != null) {
-        sendTyping(conversationId, isTyping: false);
+        sendTyping(
+          conversationId,
+          isTyping: false,
+          peerId: current.user.id,
+        );
       }
     }
     _typingActive = false;
@@ -96,7 +100,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         user: event.peer,
         messages: const [],
       ));
-      unawaited(_refreshPeerPresence(event.peer.id));
+      _refreshPeerPresence(event.peer.id);
       return;
     }
 
@@ -114,11 +118,17 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           peerLastReadMessageId: page.peerLastReadMessageId,
         ));
         _watchConversation(conversationId);
-        unawaited(markConversationRead(conversationId));
-        unawaited(_refreshPeerPresence(event.peer.id));
+        unawaited(_markRead(conversationId, event.peer.id));
+        _refreshPeerPresence(event.peer.id);
       },
     );
   }
+
+  Future<void> _markRead(String conversationId, String peerId) =>
+      markConversationRead(MarkConversationReadParams(
+        conversationId: conversationId,
+        peerId: peerId,
+      ));
 
   Future<void> _onLoadOlder(
     LoadOlderMessages event,
@@ -167,7 +177,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     if (current is! ChatLoaded) return;
     final text = event.text.trim();
     // A send needs text, cars, or both — never an empty payload.
-    if (text.isEmpty && event.taggedCarIds.isEmpty) return;
+    if (text.isEmpty && event.taggedCars.isEmpty) return;
 
     _stopTypingIfActive();
     final hadConversation = current.conversationId != null;
@@ -175,7 +185,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     final result = await sendMessage(SendMessageParams(
       recipientId: current.user.id,
       text: text,
-      taggedCarIds: event.taggedCarIds,
+      taggedCars: event.taggedCars,
     ));
 
     final latest = state;
@@ -252,8 +262,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ) async {
     final current = state;
     if (current is! ChatLoaded) return;
+    final conversationId = current.conversationId;
+    if (conversationId == null) return;
 
-    final result = await deleteMessage(event.messageId);
+    final result = await deleteMessage(DeleteMessageParams(
+      messageId: event.messageId,
+      conversationId: conversationId,
+      peerId: current.user.id,
+    ));
     final latest = state;
     if (latest is! ChatLoaded) return;
     result.fold(
@@ -278,12 +294,20 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       if (!_typingActive ||
           last == null ||
           now.difference(last) >= _typingResend) {
-        sendTyping(conversationId, isTyping: true);
+        sendTyping(
+          conversationId,
+          isTyping: true,
+          peerId: current.user.id,
+        );
         _lastTypingSentAt = now;
         _typingActive = true;
       }
     } else if (_typingActive) {
-      sendTyping(conversationId, isTyping: false);
+      sendTyping(
+        conversationId,
+        isTyping: false,
+        peerId: current.user.id,
+      );
       _typingActive = false;
     }
   }
@@ -311,7 +335,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       case ChatPartnerTyping(:final isTyping):
         _partnerTypingTimeout?.cancel();
         if (isTyping) {
-          _partnerTypingTimeout = Timer(const Duration(seconds: 8), () {
+          _partnerTypingTimeout = Timer(const Duration(seconds: 3), () {
             if (!isClosed) {
               add(const ChatStreamEventReceived(ChatPartnerTyping(false)));
             }
@@ -328,7 +352,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         final conversationId = current.conversationId;
         if (!message.isMine && conversationId != null) {
           // Viewer has the chat open — flip the peer's "Seen" immediately.
-          unawaited(markConversationRead(conversationId));
+          unawaited(_markRead(conversationId, current.user.id));
         }
       case ChatMessageDeleted(:final messageId):
         emit(current.copyWith(
@@ -346,10 +370,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     if (event.presence.userId != current.user.id) return;
 
     emit(current.copyWith(
-      user: current.user.withPresence(
-        isOnline: event.presence.online,
-        lastSeenAt: event.presence.lastSeenAt,
-      ),
+      user: current.user.withPresence(isOnline: event.presence.online),
     ));
   }
 
@@ -368,18 +389,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         .listen((presence) => add(ChatPeerPresenceChanged(presence)));
   }
 
-  Future<void> _refreshPeerPresence(String userId) async {
-    final result = await getPresence([userId]);
-    result.fold(
-      (_) {}, // presence is cosmetic — swallow lookup failures
-      (entries) {
-        for (final presence in entries) {
-          if (presence.userId == userId && !isClosed) {
-            add(ChatPeerPresenceChanged(presence));
-          }
-        }
-      },
-    );
+  /// Seeds the header from the presence channel's current state — no request,
+  /// so nothing here can fail or delay the chat.
+  void _refreshPeerPresence(String userId) {
+    for (final presence in getPresence([userId])) {
+      if (presence.userId == userId && !isClosed) {
+        add(ChatPeerPresenceChanged(presence));
+      }
+    }
   }
 
   /// Marks the viewer's messages read up to the watermark id ([markAll]

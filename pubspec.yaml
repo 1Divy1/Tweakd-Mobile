@@ -20,6 +20,9 @@ dependencies:
   equatable: ^2.0.8
   go_router: ^17.2.1
   dio: ^5.9.2
+  # Direct only so the Supabase data layer can catch http's ClientException
+  # (connectivity errors) and re-throw it as the app's NetworkException.
+  http: ^1.6.0
   hive: ^2.2.3
   flutter_secure_storage: ^10.0.0
   get_it: ^9.2.1
@@ -38,7 +41,6 @@ dependencies:
   crypto: ^3.0.7
   flutter_facebook_auth: ^7.1.7
   permission_handler: ^12.0.3
-  stomp_dart_client: ^3.0.1
   emoji_picker_flutter: ^4.4.0
 
 dev_dependencies:

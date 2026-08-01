@@ -21,32 +21,46 @@ abstract class MessagesRepository {
 
   /// Sends a DM addressed by recipient — the first message between two users
   /// creates the conversation implicitly (its id is in the result).
-  /// [taggedCarIds] shares cars from the sender's garage; [text] may be blank
-  /// when at least one car is attached.
+  /// [taggedCars] shares cars from the sender's garage; [text] may be blank
+  /// when at least one car is attached. The cars travel as full entities, not
+  /// ids, because the peer's copy of the message is broadcast from here and
+  /// has to carry cover images with it.
   Future<Either<Failure, SentMessageEntity>> sendMessage(
     String recipientId,
     String text, {
-    List<String> taggedCarIds,
+    List<DmTaggedCarEntity> taggedCars,
   });
 
-  /// Soft-deletes the viewer's own message (idempotent server-side).
-  Future<Either<Failure, void>> deleteMessage(String messageId);
+  /// Soft-deletes the viewer's own message (idempotent server-side) and tells
+  /// [peerId] so their open chat swaps in the deleted placeholder.
+  Future<Either<Failure, void>> deleteMessage(
+    String messageId, {
+    required String conversationId,
+    required String peerId,
+  });
 
   /// Hides ("deletes") a conversation from the viewer's list only.
   Future<Either<Failure, void>> hideConversation(String conversationId);
 
-  /// Marks the conversation read up to its latest message; the peer gets a
-  /// conversation.read push.
-  Future<Either<Failure, void>> markConversationRead(String conversationId);
+  /// Marks the conversation read up to its latest message and pushes the new
+  /// watermark to [peerId], flipping their messages to "Seen".
+  Future<Either<Failure, void>> markConversationRead(
+    String conversationId, {
+    required String peerId,
+  });
 
   /// Total unread messages across all conversations (app-level DMs badge).
   Future<Either<Failure, int>> getUnreadCount();
 
-  /// Fire-and-forget typing signal over the socket (throttled by callers).
-  void sendTyping(String conversationId, bool isTyping);
+  /// Fire-and-forget typing signal to [peerId] (throttled by callers).
+  void sendTyping(
+    String conversationId,
+    bool isTyping, {
+    required String peerId,
+  });
 
   /// Live events for an open chat: read receipts, typing, incoming and
-  /// deleted messages (mapped from the app-wide DM socket).
+  /// deleted messages (from the viewer's realtime topic).
   Stream<ChatIncomingEvent> chatEvents(String conversationId);
 
   /// Live "new message" pings for the inbox list.
@@ -57,12 +71,10 @@ abstract class MessagesRepository {
     String query,
   );
 
-  /// Batch presence lookup (chat header on open, profile pages later).
-  Future<Either<Failure, List<PresenceEntity>>> getPresence(
-    List<String> userIds,
-  );
+  /// Who of [userIds] is online right now, read straight off the global
+  /// presence channel — no request leaves the device.
+  List<PresenceEntity> getPresence(List<String> userIds);
 
-  /// Live presence flips for users the viewer shares a conversation with,
-  /// pushed over the app-wide DM socket.
+  /// Live online/offline flips from the global presence channel.
   Stream<PresenceEntity> presenceUpdates();
 }

@@ -89,10 +89,7 @@ class ChatPage extends StatelessWidget {
                 ),
                 ChatInputBar(
                   onSend: (text, cars) => context.read<ChatBloc>().add(
-                        SendChatMessage(
-                          text,
-                          taggedCarIds: [for (final c in cars) c.id],
-                        ),
+                        SendChatMessage(text, taggedCars: cars),
                       ),
                   onTextChanged: (text) => context.read<ChatBloc>().add(
                         ChatComposerChanged(hasText: text.trim().isNotEmpty),

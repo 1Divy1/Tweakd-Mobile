@@ -10,12 +10,12 @@ import '../../../domain/usecases/watch_inbox.dart';
 
 /// App-level unread-DM counter behind the feed top bar's DMs badge. State is
 /// the total unread count. Provided once at the app root so it survives page
-/// changes and keeps its socket subscription alive for the whole session.
+/// changes and keeps its realtime subscription alive for the whole session.
 ///
 /// Design: [refresh] pulls the authoritative count from the backend (called
 /// on feed appear and when returning from the inbox, where reads clear
-/// server-side). Between refreshes, live `message.created` pings from the
-/// socket increment it optimistically for messages the viewer didn't send.
+/// server-side). Between refreshes, `message.created` broadcasts increment it
+/// optimistically for messages the viewer didn't send.
 @injectable
 class DmUnreadCubit extends UnreadCountCubit {
   final GetUnreadCountUseCase getUnreadCount;
