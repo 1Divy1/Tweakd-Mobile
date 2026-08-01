@@ -4208,12 +4208,6 @@ abstract class AppLocalizations {
   /// **'Active now'**
   String get messagesActiveNowStatus;
 
-  /// No description provided for @messagesLastSeen.
-  ///
-  /// In en, this message translates to:
-  /// **'Last seen {ago}'**
-  String messagesLastSeen(String ago);
-
   /// No description provided for @messagesMutualFollow.
   ///
   /// In en, this message translates to:

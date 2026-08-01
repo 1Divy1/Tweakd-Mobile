@@ -1,19 +1,19 @@
 import 'package:equatable/equatable.dart';
 
-/// One user's presence: online right now, or last seen at [lastSeenAt].
-/// [lastSeenAt] is null while online, and also null for users who were never
-/// seen online (in which case nothing is rendered).
+/// One user's live online state, observed on the global presence channel.
+///
+/// There is no last-seen timestamp: Supabase Presence reports who is connected
+/// right now and nothing about the past, so the UI shows "Active now" or
+/// nothing at all.
 class PresenceEntity extends Equatable {
   final String userId;
   final bool online;
-  final DateTime? lastSeenAt;
 
   const PresenceEntity({
     required this.userId,
     required this.online,
-    this.lastSeenAt,
   });
 
   @override
-  List<Object?> get props => [userId, online, lastSeenAt];
+  List<Object?> get props => [userId, online];
 }

@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/chat.dart';
 import '../../../domain/entities/chat_events.dart';
+import '../../../domain/entities/message.dart';
 import '../../../domain/entities/message_user.dart';
 import '../../../domain/entities/presence.dart';
 
@@ -32,14 +33,16 @@ class LoadOlderMessages extends ChatEvent {
 class SendChatMessage extends ChatEvent {
   final String text;
 
-  /// Ids of cars shared from the viewer's garage (max 10). [text] may be blank
-  /// when this is non-empty.
-  final List<String> taggedCarIds;
+  /// Cars shared from the viewer's garage (max 10). [text] may be blank when
+  /// this is non-empty. The composer passes whole cars, not ids: only the ids
+  /// are stored, but the cover images travel in the broadcast that renders the
+  /// peer's copy of the message.
+  final List<DmTaggedCarEntity> taggedCars;
 
-  const SendChatMessage(this.text, {this.taggedCarIds = const []});
+  const SendChatMessage(this.text, {this.taggedCars = const []});
 
   @override
-  List<Object?> get props => [text, taggedCarIds];
+  List<Object?> get props => [text, taggedCars];
 }
 
 /// Soft-deletes the viewer's own message.

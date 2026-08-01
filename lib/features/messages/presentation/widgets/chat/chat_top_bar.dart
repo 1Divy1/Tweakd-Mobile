@@ -4,7 +4,6 @@ import '../../../../../core/shared/widgets/app_pill_button.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/message_user.dart';
-import '../../utils/message_time.dart';
 import '../shared/message_avatar.dart';
 import '../shared/verified_badge.dart';
 
@@ -95,21 +94,10 @@ class ChatTopBar extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ] else if (user.lastSeenAt != null) ...[
-                    const SizedBox(height: 2),
-                    Text(
-                      l10n.messagesLastSeen(
-                        messageCompactAgo(l10n, user.lastSeenAt!),
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: AppColors.mute,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ],
+                  // Nothing is rendered when the peer is offline: Supabase
+                  // Presence reports who is connected now and keeps no
+                  // last-seen history.
                         ],
                       ),
                     ),

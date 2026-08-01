@@ -5,7 +5,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/error/base_failures.dart';
-import '../../../../core/realtime/dm_socket_service.dart';
+import '../../../../core/realtime/dm_realtime_service.dart';
+import '../../../../core/realtime/presence_service.dart';
 import '../../domain/entities/chat.dart';
 import '../../domain/entities/chat_events.dart';
 import '../../domain/entities/conversation.dart';
@@ -14,20 +15,22 @@ import '../../domain/entities/message_user.dart';
 import '../../domain/entities/presence.dart';
 import '../../domain/repositories/messages_repository.dart';
 import '../datasources/messages_data_source.dart';
-import '../datasources/presence_data_source.dart';
 import '../models/dm_models.dart';
 
+/// Reads come from Spring REST; sending goes through the Supabase
+/// `dm_send_message` RPC; every live update is a Supabase Broadcast this
+/// client publishes right after its own write succeeds.
 @LazySingleton(as: MessagesRepository)
 class MessagesRepositoryImpl implements MessagesRepository {
   final MessagesDataSource dataSource;
-  final PresenceDataSource presenceDataSource;
-  final DmSocketService socketService;
+  final DmRealtimeService realtimeService;
+  final PresenceService presenceService;
   final SupabaseClient supabaseClient;
 
   MessagesRepositoryImpl(
     this.dataSource,
-    this.presenceDataSource,
-    this.socketService,
+    this.realtimeService,
+    this.presenceService,
     this.supabaseClient,
   );
 
@@ -60,8 +63,13 @@ class MessagesRepositoryImpl implements MessagesRepository {
       _run('getInbox', () async {
         final page = await dataSource.getConversations(cursor: cursor);
         final myId = _myId;
+        // The REST payload's peer_online is a leftover of the Spring presence
+        // that this build replaced — online state comes from the presence
+        // channel now, and is applied on top here.
+        final online = presenceService.onlineUserIds;
         final conversations = [
-          for (final row in page.items) row.toEntity(myId),
+          for (final row in page.items)
+            row.toEntity(myId, isPeerOnline: online.contains(row.peer.id)),
         ];
         return InboxEntity(
           activeNow: [
@@ -96,13 +104,24 @@ class MessagesRepositoryImpl implements MessagesRepository {
   Future<Either<Failure, SentMessageEntity>> sendMessage(
     String recipientId,
     String text, {
-    List<String> taggedCarIds = const [],
+    List<DmTaggedCarEntity> taggedCars = const [],
   }) =>
       _run('sendMessage', () async {
+        final cars = [
+          for (final car in taggedCars) DmTaggedCarModel.fromEntity(car),
+        ];
         final model = await dataSource.sendMessage(
           recipientId: recipientId,
           content: text,
-          taggedCarIds: taggedCarIds,
+          taggedCars: cars,
+        );
+        // Hand the peer the fully hydrated message: their client renders it
+        // as-is, car chips included. The durable copy is already in the
+        // database and comes back from Spring on any history load.
+        realtimeService.broadcastMessageCreated(
+          peerId: recipientId,
+          conversationId: model.conversationId,
+          message: model.toJson(),
         );
         return SentMessageEntity(
           conversationId: model.conversationId,
@@ -111,8 +130,19 @@ class MessagesRepositoryImpl implements MessagesRepository {
       });
 
   @override
-  Future<Either<Failure, void>> deleteMessage(String messageId) =>
-      _run('deleteMessage', () => dataSource.deleteMessage(messageId));
+  Future<Either<Failure, void>> deleteMessage(
+    String messageId, {
+    required String conversationId,
+    required String peerId,
+  }) =>
+      _run('deleteMessage', () async {
+        await dataSource.deleteMessage(messageId);
+        realtimeService.broadcastMessageDeleted(
+          peerId: peerId,
+          conversationId: conversationId,
+          messageId: messageId,
+        );
+      });
 
   @override
   Future<Either<Failure, void>> hideConversation(String conversationId) =>
@@ -120,22 +150,37 @@ class MessagesRepositoryImpl implements MessagesRepository {
           () => dataSource.hideConversation(conversationId));
 
   @override
-  Future<Either<Failure, void>> markConversationRead(String conversationId) =>
-      _run('markConversationRead', () => dataSource.markRead(conversationId));
+  Future<Either<Failure, void>> markConversationRead(
+    String conversationId, {
+    required String peerId,
+  }) =>
+      _run('markConversationRead', () async {
+        final lastReadMessageId = await dataSource.markRead(conversationId);
+        realtimeService.broadcastConversationRead(
+          peerId: peerId,
+          conversationId: conversationId,
+          lastReadMessageId: lastReadMessageId,
+        );
+      });
 
   @override
   Future<Either<Failure, int>> getUnreadCount() =>
       _run('getUnreadCount', () => dataSource.getUnreadCount());
 
   @override
-  void sendTyping(String conversationId, bool isTyping) =>
-      socketService.sendTyping(
+  void sendTyping(
+    String conversationId,
+    bool isTyping, {
+    required String peerId,
+  }) =>
+      realtimeService.sendTyping(
+        peerId: peerId,
         conversationId: conversationId,
         isTyping: isTyping,
       );
 
-  /// Decodes a pushed message payload; null (skip) on malformed input so one
-  /// bad frame can never tear down a live stream subscription.
+  /// Decodes a broadcast message payload; null (skip) on malformed input so
+  /// one bad event can never tear down a live stream subscription.
   MessageEntity? _decodePushedMessage(Map<String, dynamic> json) {
     try {
       return DmMessageModel.fromJson(json).toEntity(_myId);
@@ -147,7 +192,7 @@ class MessagesRepositoryImpl implements MessagesRepository {
 
   @override
   Stream<ChatIncomingEvent> chatEvents(String conversationId) async* {
-    await for (final event in socketService.events) {
+    await for (final event in realtimeService.events) {
       final myId = _myId;
       switch (event) {
         case DmMessageCreatedEvent(:final message)
@@ -173,7 +218,7 @@ class MessagesRepositoryImpl implements MessagesRepository {
 
   @override
   Stream<InboxMessageEvent> inboxMessageEvents() async* {
-    await for (final event in socketService.events) {
+    await for (final event in realtimeService.events) {
       if (event is DmMessageCreatedEvent) {
         final entity = _decodePushedMessage(event.message);
         if (entity != null) {
@@ -193,28 +238,28 @@ class MessagesRepositoryImpl implements MessagesRepository {
       _run('getComposeSuggestions', () async {
         final peers = await dataSource.searchUsers(query);
         final myId = _myId;
+        final online = presenceService.onlineUserIds;
         return [
           for (final peer in peers)
-            if (peer.id != myId) peer.toEntity(),
+            if (peer.id != myId)
+              peer.toEntity(isOnline: online.contains(peer.id)),
         ];
       });
 
   @override
-  Future<Either<Failure, List<PresenceEntity>>> getPresence(
-    List<String> userIds,
-  ) =>
-      _run('getPresence', () async {
-        final models = await presenceDataSource.getPresence(userIds);
-        return [for (final model in models) model.toEntity()];
-      });
+  List<PresenceEntity> getPresence(List<String> userIds) {
+    final online = presenceService.onlineUserIds;
+    return [
+      for (final userId in userIds)
+        PresenceEntity(userId: userId, online: online.contains(userId)),
+    ];
+  }
 
   @override
-  Stream<PresenceEntity> presenceUpdates() => socketService.events
-      .where((event) => event is DmPresenceEvent)
-      .cast<DmPresenceEvent>()
-      .map((event) => PresenceEntity(
-            userId: event.userId,
-            online: event.online,
-            lastSeenAt: event.lastSeenAt,
-          ));
+  Stream<PresenceEntity> presenceUpdates() => presenceService.updates.map(
+        (update) => PresenceEntity(
+          userId: update.userId,
+          online: update.online,
+        ),
+      );
 }

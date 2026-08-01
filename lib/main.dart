@@ -1,7 +1,8 @@
 import 'package:car_social_media_app/core/routes/app_router.dart';
 import 'package:car_social_media_app/l10n/app_localizations.dart';
 import 'package:car_social_media_app/core/di/injection.dart';
-import 'package:car_social_media_app/core/realtime/dm_socket_service.dart';
+import 'package:car_social_media_app/core/realtime/dm_realtime_service.dart';
+import 'package:car_social_media_app/core/realtime/presence_service.dart';
 import 'package:car_social_media_app/core/storage/secure_local_storage.dart';
 import 'package:car_social_media_app/core/theme/app_theme.dart';
 import 'package:car_social_media_app/features/authentication/presentation/bloc/bloc.dart';
@@ -41,21 +42,29 @@ void main() async {
   // Initialize dependency injection
   configureDependencies();
 
-  // Keep the app-wide DM socket in step with the auth session. It is opened
-  // at app start (not on the DM screen) because "Active now" means "has the
-  // app open", and closed on sign-out so no stale connection outlives the
-  // session.
-  final dmSocket = getIt<DmSocketService>();
+  // Keep the app-wide Supabase Realtime channels in step with the auth
+  // session: the viewer's DM topic (`user:<id>`) and the global presence
+  // channel. Both are opened at app start rather than on the DM screen —
+  // "Active now" means "has the app open" — and torn down on sign-out so no
+  // stale subscription outlives the session.
+  final dmRealtime = getIt<DmRealtimeService>();
+  final presence = getIt<PresenceService>();
+  void connectRealtime() {
+    dmRealtime.connect();
+    presence.connect();
+  }
+
   final auth = Supabase.instance.client.auth;
-  if (auth.currentSession != null) dmSocket.connect();
+  if (auth.currentSession != null) connectRealtime();
   auth.onAuthStateChange.listen((change) {
     switch (change.event) {
       case AuthChangeEvent.signedIn:
       case AuthChangeEvent.initialSession:
       case AuthChangeEvent.tokenRefreshed:
-        if (auth.currentSession != null) dmSocket.connect();
+        if (auth.currentSession != null) connectRealtime();
       case AuthChangeEvent.signedOut:
-        dmSocket.disconnect();
+        dmRealtime.disconnect();
+        presence.disconnect();
       default:
         break;
     }

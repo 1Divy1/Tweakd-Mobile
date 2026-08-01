@@ -8,10 +8,6 @@ class MessageUserEntity extends Equatable {
   final bool isVerified;
   final bool isOnline;
 
-  /// When the user was last online. Null while [isOnline] is true, and also
-  /// null for users never seen online (no "Last seen" line rendered).
-  final DateTime? lastSeenAt;
-
   /// Whether the viewer and this user follow each other — drives the
   /// "You both follow each other" line on the chat intro header.
   final bool isMutualFollow;
@@ -23,25 +19,18 @@ class MessageUserEntity extends Equatable {
     this.avatarUrl,
     this.isVerified = false,
     this.isOnline = false,
-    this.lastSeenAt,
     this.isMutualFollow = false,
     this.followersCount = 0,
   });
 
-  /// Copy with fresh presence. Online and last-seen always change together
-  /// (online ⇒ lastSeenAt is null), hence one method instead of a copyWith
-  /// that can't express "set lastSeenAt back to null".
-  MessageUserEntity withPresence({
-    required bool isOnline,
-    required DateTime? lastSeenAt,
-  }) =>
+  /// Copy with fresh presence.
+  MessageUserEntity withPresence({required bool isOnline}) =>
       MessageUserEntity(
         id: id,
         username: username,
         avatarUrl: avatarUrl,
         isVerified: isVerified,
         isOnline: isOnline,
-        lastSeenAt: isOnline ? null : lastSeenAt,
         isMutualFollow: isMutualFollow,
         followersCount: followersCount,
       );
@@ -53,7 +42,6 @@ class MessageUserEntity extends Equatable {
         avatarUrl,
         isVerified,
         isOnline,
-        lastSeenAt,
         isMutualFollow,
         followersCount,
       ];
