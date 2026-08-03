@@ -104,11 +104,20 @@ class _Avatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final initial =
         username.isNotEmpty ? username.characters.first.toUpperCase() : '?';
+    // Cap decode resolution to the on-screen avatar size — full-resolution
+    // source images decoded for a 42px circle waste memory/CPU on every
+    // scroll pass through a feed.
+    final cachePx = (42 * MediaQuery.devicePixelRatioOf(context)).round();
     final avatar = CircleAvatar(
       radius: 21,
       backgroundColor: AppColors.accentSoft,
-      backgroundImage:
-          avatarUrl != null ? CachedNetworkImageProvider(avatarUrl!) : null,
+      backgroundImage: avatarUrl != null
+          ? ResizeImage(
+              CachedNetworkImageProvider(avatarUrl!),
+              width: cachePx,
+              height: cachePx,
+            )
+          : null,
       child: avatarUrl == null
           ? Text(
               initial,

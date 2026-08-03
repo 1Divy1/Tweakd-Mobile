@@ -118,7 +118,7 @@ class _PostMediaCarouselState extends State<PostMediaCarousel> {
                   ),
                   child: ClipRRect(
                     borderRadius: widget.borderRadius,
-                    child: _buildImage(images[i], i),
+                    child: _buildImage(images[i], i, width),
                   ),
                 ),
               ),
@@ -150,12 +150,18 @@ class _PostMediaCarouselState extends State<PostMediaCarousel> {
     );
   }
 
-  Widget _buildImage(PostImageEntity image, int index) {
+  Widget _buildImage(PostImageEntity image, int index, double viewportWidth) {
+    // Cap decode resolution to what the carousel actually displays — full
+    // source-resolution images decoded for a feed-sized thumbnail is a real
+    // memory/jank cost during fast scrolling.
+    final cacheWidth =
+        (viewportWidth * MediaQuery.devicePixelRatioOf(context)).round();
     final picture = CachedNetworkImage(
       imageUrl: image.imageUrl,
       fit: widget.fit,
       width: double.infinity,
       height: double.infinity,
+      memCacheWidth: cacheWidth,
       fadeInDuration: const Duration(milliseconds: 150),
       placeholder: (_, _) => const ColoredBox(color: AppColors.bg),
       errorWidget: (_, _, _) => const ColoredBox(
