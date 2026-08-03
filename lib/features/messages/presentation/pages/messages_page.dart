@@ -200,89 +200,114 @@ class _InboxList extends StatelessWidget {
     final showStrips = !state.isSearching;
     var staggerIndex = 0;
 
+    final stripsIndex = staggerIndex;
+    if (showStrips) {
+      if (state.inbox.activeNow.isNotEmpty) staggerIndex++;
+      if (state.inbox.requestsCount > 0) staggerIndex++;
+    }
+    final conversationsBaseIndex = staggerIndex;
+
     return RefreshIndicator(
       color: AppColors.accent,
       onRefresh: () => _refresh(context),
       child: NotificationListener<ScrollNotification>(
         onNotification: (notification) => _onScroll(context, notification),
-        child: ListView(
+        child: CustomScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.only(bottom: 24),
-          children: [
-            InboxSearchField(
-              onChanged: (query) =>
-                  context.read<InboxBloc>().add(InboxSearchChanged(query)),
+          slivers: [
+            SliverToBoxAdapter(
+              child: InboxSearchField(
+                onChanged: (query) =>
+                    context.read<InboxBloc>().add(InboxSearchChanged(query)),
+              ),
             ),
             if (showStrips) ...[
               if (state.inbox.activeNow.isNotEmpty)
-                StaggeredEntrance(
-                  index: staggerIndex++,
-                  child: ActiveNowRow(
-                    users: state.inbox.activeNow,
-                    onUserTap: (user) => _openActiveUser(context, user),
+                SliverToBoxAdapter(
+                  child: StaggeredEntrance(
+                    index: stripsIndex,
+                    child: ActiveNowRow(
+                      users: state.inbox.activeNow,
+                      onUserTap: (user) => _openActiveUser(context, user),
+                    ),
                   ),
                 ),
               if (state.inbox.requestsCount > 0)
-                StaggeredEntrance(
-                  index: staggerIndex++,
-                  child: Column(
-                    children: [
-                      MessageRequestsTile(
-                        count: state.inbox.requestsCount,
-                        previewNames: state.inbox.requestsPreviewNames,
-                        onTap: () => _comingSoon(context),
-                      ),
-                      const Divider(
-                        height: 1,
-                        thickness: 1,
-                        color: AppColors.line2,
-                      ),
-                    ],
+                SliverToBoxAdapter(
+                  child: StaggeredEntrance(
+                    index: state.inbox.activeNow.isNotEmpty
+                        ? stripsIndex + 1
+                        : stripsIndex,
+                    child: Column(
+                      children: [
+                        MessageRequestsTile(
+                          count: state.inbox.requestsCount,
+                          previewNames: state.inbox.requestsPreviewNames,
+                          onTap: () => _comingSoon(context),
+                        ),
+                        const Divider(
+                          height: 1,
+                          thickness: 1,
+                          color: AppColors.line2,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
             ],
             if (conversations.isEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 60),
-                child: Center(
-                  child: Text(
-                    l10n.messagesComposeEmpty,
-                    style: const TextStyle(
-                      color: AppColors.mute,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 60),
+                  child: Center(
+                    child: Text(
+                      l10n.messagesComposeEmpty,
+                      style: const TextStyle(
+                        color: AppColors.mute,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),
               )
-            else ...[
-              for (var i = 0; i < conversations.length; i++)
-                StaggeredEntrance(
-                  index: staggerIndex++,
-                  child: Column(
-                    children: [
-                      ConversationTile(
-                        conversation: conversations[i],
-                        onTap: () =>
-                            _openConversation(context, conversations[i]),
-                        onLongPress: () =>
-                            _confirmHide(context, conversations[i]),
-                      ),
-                      // Subtle separator between rows, inset past the avatar.
-                      if (i != conversations.length - 1)
-                        const Padding(
-                          padding: EdgeInsets.only(left: 90, right: 20),
-                          child: Divider(
-                            height: 1,
-                            thickness: 1,
-                            color: AppColors.line,
+            else
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final conversation = conversations[index];
+                    return StaggeredEntrance(
+                      key: ValueKey(conversation.id),
+                      index: conversationsBaseIndex + index,
+                      child: Column(
+                        children: [
+                          ConversationTile(
+                            conversation: conversation,
+                            onTap: () =>
+                                _openConversation(context, conversation),
+                            onLongPress: () =>
+                                _confirmHide(context, conversation),
                           ),
-                        ),
-                    ],
-                  ),
+                          // Subtle separator between rows, inset past the avatar.
+                          if (index != conversations.length - 1)
+                            const Padding(
+                              padding: EdgeInsets.only(left: 90, right: 20),
+                              child: Divider(
+                                height: 1,
+                                thickness: 1,
+                                color: AppColors.line,
+                              ),
+                            ),
+                        ],
+                      ),
+                    );
+                  },
+                  childCount: conversations.length,
                 ),
-              if (state.isLoadingMore)
-                const Padding(
+              ),
+            if (conversations.isNotEmpty && state.isLoadingMore)
+              const SliverToBoxAdapter(
+                child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 16),
                   child: Center(
                     child: SizedBox(
@@ -295,7 +320,8 @@ class _InboxList extends StatelessWidget {
                     ),
                   ),
                 ),
-            ],
+              ),
+            const SliverToBoxAdapter(child: SizedBox(height: 24)),
           ],
         ),
       ),

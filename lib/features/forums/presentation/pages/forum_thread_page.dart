@@ -418,53 +418,70 @@ class _ThreadContent extends StatelessWidget {
     final bloc = context.read<ForumThreadBloc>();
     final thread = state.thread!;
 
-    return ListView(
+    return CustomScrollView(
       controller: scrollController,
-      padding: const EdgeInsets.only(top: 4, bottom: 24),
-      children: [
-        ThreadHeader(
-          thread: thread,
-          onToggleLike: () => bloc.add(const ToggleForumThreadLike()),
-          onToggleSave: () => bloc.add(const ToggleForumThreadSave()),
-          onReply: onFocusComposer,
-          onShare: onShare,
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 14, 16, 4),
-          child: Row(
-            children: [
-              Expanded(
-                child: ForumSectionLabel(
-                  label: l10n.forumsRepliesHeader(thread.replyCount),
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.only(top: 4),
+          sliver: SliverToBoxAdapter(
+            child: Column(
+              children: [
+                ThreadHeader(
+                  thread: thread,
+                  onToggleLike: () => bloc.add(const ToggleForumThreadLike()),
+                  onToggleSave: () => bloc.add(const ToggleForumThreadSave()),
+                  onReply: onFocusComposer,
+                  onShare: onShare,
                 ),
-              ),
-              if (thread.replyCount > 0)
-                ReplySortToggle(
-                  active: state.replySort,
-                  onChanged: (sort) => bloc.add(ChangeReplySort(sort)),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 14, 16, 4),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: ForumSectionLabel(
+                          label: l10n.forumsRepliesHeader(thread.replyCount),
+                        ),
+                      ),
+                      if (thread.replyCount > 0)
+                        ReplySortToggle(
+                          active: state.replySort,
+                          onChanged: (sort) => bloc.add(ChangeReplySort(sort)),
+                        ),
+                    ],
+                  ),
                 ),
-            ],
+              ],
+            ),
           ),
         ),
         if (state.repliesLoading)
-          const ForumReplyListSkeleton()
-        else ...[
-          for (final node in state.replies)
-            ReplyTile(
-              node: node,
-              locked: thread.locked,
-              currentUserId: currentUserId,
-              onToggleLike: (n) =>
-                  bloc.add(ToggleForumReplyLike(n.reply.id)),
-              onReply: onStartReply,
-              onToggleChildren: (n) =>
-                  bloc.add(ToggleReplyChildren(n.reply.id)),
-              onLoadMoreChildren: (n) =>
-                  bloc.add(LoadMoreReplyChildren(n.reply.id)),
-              onMenu: onReplyMenu,
+          const SliverToBoxAdapter(child: ForumReplyListSkeleton())
+        else
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                final node = state.replies[index];
+                return ReplyTile(
+                  key: ValueKey(node.reply.id),
+                  node: node,
+                  locked: thread.locked,
+                  currentUserId: currentUserId,
+                  onToggleLike: (n) =>
+                      bloc.add(ToggleForumReplyLike(n.reply.id)),
+                  onReply: onStartReply,
+                  onToggleChildren: (n) =>
+                      bloc.add(ToggleReplyChildren(n.reply.id)),
+                  onLoadMoreChildren: (n) =>
+                      bloc.add(LoadMoreReplyChildren(n.reply.id)),
+                  onMenu: onReplyMenu,
+                );
+              },
+              childCount: state.replies.length,
             ),
-          if (state.isLoadingMoreReplies)
-            const Padding(
+          ),
+        if (!state.repliesLoading && state.isLoadingMoreReplies)
+          const SliverToBoxAdapter(
+            child: Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
               child: Center(
                 child: SizedBox(
@@ -477,7 +494,8 @@ class _ThreadContent extends StatelessWidget {
                 ),
               ),
             ),
-        ],
+          ),
+        const SliverToBoxAdapter(child: SizedBox(height: 24)),
       ],
     );
   }

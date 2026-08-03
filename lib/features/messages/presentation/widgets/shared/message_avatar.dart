@@ -44,6 +44,10 @@ class MessageAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final url = avatarUrl;
+    // Cap decode resolution to the on-screen avatar size — otherwise every
+    // full-resolution source image gets decoded for a small circle on every
+    // inbox/chat row built while scrolling.
+    final cachePx = (size * MediaQuery.devicePixelRatioOf(context)).round();
 
     Widget avatar = Container(
       width: size,
@@ -54,7 +58,11 @@ class MessageAvatar extends StatelessWidget {
         image: url == null
             ? null
             : DecorationImage(
-                image: CachedNetworkImageProvider(url),
+                image: ResizeImage(
+                  CachedNetworkImageProvider(url),
+                  width: cachePx,
+                  height: cachePx,
+                ),
                 fit: BoxFit.cover,
               ),
       ),

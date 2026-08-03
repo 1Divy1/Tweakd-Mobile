@@ -154,120 +154,141 @@ class _HubContent extends StatelessWidget {
     final filter = state.baseFilter;
     final isBrandHub = filter.brand != null && filter.model == null;
 
-    return ListView(
+    return CustomScrollView(
       controller: scrollController,
-      padding: const EdgeInsets.only(top: 8, bottom: 24),
-      children: [
-        if (state.effectiveFilter.isRefined) ...[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-            child: _SaveShortcutButton(onTap: onSaveShortcut),
-          ),
-        ],
-        if (isBrandHub && state.models.isNotEmpty) ...[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
-            child: ForumSectionLabel(label: l10n.forumsModels),
-          ),
-          SizedBox(
-            height: 38,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: state.models.length,
-              separatorBuilder: (_, _) => const SizedBox(width: 8),
-              itemBuilder: (context, index) {
-                final model = state.models[index];
-                return ForumChoiceChip(
-                  label: model.model,
-                  selected: false,
-                  onTap: () => context.push(
-                    '/forums/hub',
-                    extra: ForumFilter(
-                      brand: filter.brand,
-                      model: model,
-                      topic: state.refinedTopic,
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.only(top: 8),
+          sliver: SliverToBoxAdapter(
+            child: Column(
+              children: [
+                if (state.effectiveFilter.isRefined) ...[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                    child: _SaveShortcutButton(onTap: onSaveShortcut),
+                  ),
+                ],
+                if (isBrandHub && state.models.isNotEmpty) ...[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+                    child: ForumSectionLabel(label: l10n.forumsModels),
+                  ),
+                  SizedBox(
+                    height: 38,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemCount: state.models.length,
+                      separatorBuilder: (_, _) => const SizedBox(width: 8),
+                      itemBuilder: (context, index) {
+                        final model = state.models[index];
+                        return ForumChoiceChip(
+                          label: model.model,
+                          selected: false,
+                          onTap: () => context.push(
+                            '/forums/hub',
+                            extra: ForumFilter(
+                              brand: filter.brand,
+                              model: model,
+                              topic: state.refinedTopic,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 14),
-        ],
-        if (state.topics.isNotEmpty) ...[
-          // Same chips whether this is a brand hub (level 1) or a model hub
-          // (level 2) — the endpoint takes ?topic= either way.
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-            child: ForumSectionLabel(label: l10n.forumsRefineByTopic),
-          ),
-          SizedBox(
-            height: 38,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: state.topics.length + 1,
-              separatorBuilder: (_, _) => const SizedBox(width: 8),
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return ForumChoiceChip(
-                    label: l10n.forumsAllTopics,
-                    selected: state.refinedTopic == null,
-                    onTap: () => bloc.add(const SelectForumHubTopic(null)),
-                  );
-                }
-                final topic = state.topics[index - 1];
-                return ForumChoiceChip(
-                  label: topic.name,
-                  selected: state.refinedTopic?.id == topic.id,
-                  onTap: () => bloc.add(SelectForumHubTopic(topic)),
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 14),
-        ],
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            children: [
-              Expanded(
-                child: ForumSectionLabel(
-                  label: state.effectiveFilter.isRefined
-                      ? l10n.forumsThreadsLabel
-                      : l10n.forumsHotIn(filter.title.toUpperCase()),
+                  const SizedBox(height: 14),
+                ],
+                if (state.topics.isNotEmpty) ...[
+                  // Same chips whether this is a brand hub (level 1) or a model
+                  // hub (level 2) — the endpoint takes ?topic= either way.
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                    child: ForumSectionLabel(label: l10n.forumsRefineByTopic),
+                  ),
+                  SizedBox(
+                    height: 38,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemCount: state.topics.length + 1,
+                      separatorBuilder: (_, _) => const SizedBox(width: 8),
+                      itemBuilder: (context, index) {
+                        if (index == 0) {
+                          return ForumChoiceChip(
+                            label: l10n.forumsAllTopics,
+                            selected: state.refinedTopic == null,
+                            onTap: () =>
+                                bloc.add(const SelectForumHubTopic(null)),
+                          );
+                        }
+                        final topic = state.topics[index - 1];
+                        return ForumChoiceChip(
+                          label: topic.name,
+                          selected: state.refinedTopic?.id == topic.id,
+                          onTap: () => bloc.add(SelectForumHubTopic(topic)),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: ForumSectionLabel(
+                          label: state.effectiveFilter.isRefined
+                              ? l10n.forumsThreadsLabel
+                              : l10n.forumsHotIn(filter.title.toUpperCase()),
+                        ),
+                      ),
+                      ForumSortTabs(
+                        active: state.sort,
+                        onChanged: (sort) => bloc.add(ChangeForumHubSort(sort)),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              ForumSortTabs(
-                active: state.sort,
-                onChanged: (sort) => bloc.add(ChangeForumHubSort(sort)),
-              ),
-            ],
+                const SizedBox(height: 8),
+              ],
+            ),
           ),
         ),
-        const SizedBox(height: 8),
         if (state.isThreadsLoading)
-          const Column(children: [
-            ForumThreadCardSkeleton(),
-            ForumThreadCardSkeleton(),
-            ForumThreadCardSkeleton(),
-          ])
+          const SliverToBoxAdapter(
+            child: Column(children: [
+              ForumThreadCardSkeleton(),
+              ForumThreadCardSkeleton(),
+              ForumThreadCardSkeleton(),
+            ]),
+          )
         else if (state.threads.isEmpty)
-          _EmptyHub(l10n: l10n)
-        else ...[
-          for (final thread in state.threads)
-            ForumThreadCard(
-              thread: thread,
-              showExcerpt: state.effectiveFilter.isRefined,
-              hideBrandTag: filter.brand != null,
-              hideModelTag: filter.model != null,
-              onTap: () => context.push('/forums/threads/${thread.id}'),
-              onToggleSave: () =>
-                  bloc.add(ToggleForumHubSave(thread.id)),
+          SliverToBoxAdapter(child: _EmptyHub(l10n: l10n))
+        else
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                final thread = state.threads[index];
+                return ForumThreadCard(
+                  key: ValueKey(thread.id),
+                  thread: thread,
+                  showExcerpt: state.effectiveFilter.isRefined,
+                  hideBrandTag: filter.brand != null,
+                  hideModelTag: filter.model != null,
+                  onTap: () => context.push('/forums/threads/${thread.id}'),
+                  onToggleSave: () => bloc.add(ToggleForumHubSave(thread.id)),
+                );
+              },
+              childCount: state.threads.length,
             ),
-          if (state.isLoadingMore)
-            const Padding(
+          ),
+        if (!state.isThreadsLoading &&
+            state.threads.isNotEmpty &&
+            state.isLoadingMore)
+          const SliverToBoxAdapter(
+            child: Padding(
               padding: EdgeInsets.symmetric(vertical: 20),
               child: Center(
                 child: SizedBox(
@@ -280,7 +301,8 @@ class _HubContent extends StatelessWidget {
                 ),
               ),
             ),
-        ],
+          ),
+        const SliverToBoxAdapter(child: SizedBox(height: 24)),
       ],
     );
   }

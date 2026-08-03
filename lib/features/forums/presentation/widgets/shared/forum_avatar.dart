@@ -20,6 +20,10 @@ class ForumAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final url = avatarUrl;
+    // Cap decode resolution to the on-screen avatar size — otherwise every
+    // full-resolution source image gets decoded for a small circle on every
+    // thread card built while scrolling.
+    final cachePx = (size * MediaQuery.devicePixelRatioOf(context)).round();
     return Container(
       width: size,
       height: size,
@@ -29,7 +33,11 @@ class ForumAvatar extends StatelessWidget {
         image: url == null
             ? null
             : DecorationImage(
-                image: CachedNetworkImageProvider(url),
+                image: ResizeImage(
+                  CachedNetworkImageProvider(url),
+                  width: cachePx,
+                  height: cachePx,
+                ),
                 fit: BoxFit.cover,
               ),
       ),

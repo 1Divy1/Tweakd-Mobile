@@ -178,14 +178,48 @@ class _ChatMessagesList extends StatelessWidget {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+  /// Cheap row descriptors (no widget construction) so building the full
+  /// list shape stays O(n) even though actual bubble widgets — with their
+  /// keys and callbacks — are only ever constructed for rows `itemBuilder`
+  /// is asked for (the visible window). This is what keeps a typing/presence
+  /// tick from reconstructing every bubble in a long conversation.
+  List<_ChatRow> _buildRows(AppLocalizations l10n) {
     final messages = state.messages;
-
-    final items = <Widget>[
+    final rows = <_ChatRow>[
       if (state.isLoadingOlder)
-        const Padding(
+        const _LoadingOlderRow()
+      else if (state.olderCursor == null)
+        // Fully loaded to the beginning — show the intro header on top.
+        const _IntroHeaderRow(),
+      if (messages.isEmpty)
+        const _EmptyRow()
+      else if (state.olderCursor == null)
+        _DatePillRow(messageClockTime(messages.first.sentAt)),
+    ];
+
+    for (var i = 0; i < messages.length; i++) {
+      final message = messages[i];
+      final isGroupEnd = _isGroupEnd(messages, i);
+      rows.add(_MessageRow(
+        message: message,
+        isGroupEnd: isGroupEnd,
+        animate: state.animatedMessageIds.contains(message.id),
+      ));
+      if (isGroupEnd) {
+        rows.add(_TimeLabelRow(message));
+      }
+    }
+
+    if (state.partnerTyping) {
+      rows.add(const _TypingRow());
+    }
+
+    return rows;
+  }
+
+  Widget _buildRow(BuildContext context, _ChatRow row, AppLocalizations l10n) {
+    return switch (row) {
+      _LoadingOlderRow() => const Padding(
           padding: EdgeInsets.symmetric(vertical: 14),
           child: Center(
             child: SizedBox(
@@ -197,12 +231,9 @@ class _ChatMessagesList extends StatelessWidget {
               ),
             ),
           ),
-        )
-      else if (state.olderCursor == null)
-        // Fully loaded to the beginning — show the intro header on top.
-        ChatIntroHeader(user: state.user),
-      if (messages.isEmpty)
-        Padding(
+        ),
+      _IntroHeaderRow() => ChatIntroHeader(user: state.user),
+      _EmptyRow() => Padding(
           padding: const EdgeInsets.symmetric(vertical: 40),
           child: Center(
             child: Text(
@@ -214,18 +245,10 @@ class _ChatMessagesList extends StatelessWidget {
               ),
             ),
           ),
-        )
-      else if (state.olderCursor == null)
-        ChatDatePill(
-          label: l10n.messagesDatePill(messageClockTime(messages.first.sentAt)),
         ),
-    ];
-
-    for (var i = 0; i < messages.length; i++) {
-      final message = messages[i];
-      final animate = state.animatedMessageIds.contains(message.id);
-
-      items.add(
+      _DatePillRow(:final clockTime) =>
+        ChatDatePill(label: l10n.messagesDatePill(clockTime)),
+      _MessageRow(:final message, :final isGroupEnd, :final animate) =>
         message.kind == MessageKind.sharedPost
             ? SharedPostBubble(
                 key: ValueKey(message.id),
@@ -235,7 +258,7 @@ class _ChatMessagesList extends StatelessWidget {
             : MessageBubble(
                 key: ValueKey(message.id),
                 message: message,
-                isGroupEnd: _isGroupEnd(messages, i),
+                isGroupEnd: isGroupEnd,
                 animate: animate,
                 onLongPress: () => _confirmDelete(context, message.id),
                 // The about-car route loads any car by id (isOwner=false hides
@@ -243,26 +266,69 @@ class _ChatMessagesList extends StatelessWidget {
                 onCarTap: (car) =>
                     context.push('/garage/cars/${car.id}', extra: false),
               ),
-      );
+      _TimeLabelRow(:final message) =>
+        _GroupTimeLabel(message: message, l10n: l10n),
+      _TypingRow() => const TypingIndicator(key: ValueKey('typing')),
+    };
+  }
 
-      if (_isGroupEnd(messages, i)) {
-        items.add(_GroupTimeLabel(message: message, l10n: l10n));
-      }
-    }
-
-    if (state.partnerTyping) {
-      items.add(const TypingIndicator(key: ValueKey('typing')));
-    }
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final rows = _buildRows(l10n);
 
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) => _onScroll(context, notification),
-      child: ListView(
+      child: ListView.builder(
         reverse: true,
         padding: const EdgeInsets.symmetric(vertical: 10),
-        children: items.reversed.toList(),
+        itemCount: rows.length,
+        itemBuilder: (context, index) =>
+            _buildRow(context, rows[rows.length - 1 - index], l10n),
       ),
     );
   }
+}
+
+sealed class _ChatRow {
+  const _ChatRow();
+}
+
+class _LoadingOlderRow extends _ChatRow {
+  const _LoadingOlderRow();
+}
+
+class _IntroHeaderRow extends _ChatRow {
+  const _IntroHeaderRow();
+}
+
+class _EmptyRow extends _ChatRow {
+  const _EmptyRow();
+}
+
+class _DatePillRow extends _ChatRow {
+  final String clockTime;
+  const _DatePillRow(this.clockTime);
+}
+
+class _MessageRow extends _ChatRow {
+  final MessageEntity message;
+  final bool isGroupEnd;
+  final bool animate;
+  const _MessageRow({
+    required this.message,
+    required this.isGroupEnd,
+    required this.animate,
+  });
+}
+
+class _TimeLabelRow extends _ChatRow {
+  final MessageEntity message;
+  const _TimeLabelRow(this.message);
+}
+
+class _TypingRow extends _ChatRow {
+  const _TypingRow();
 }
 
 /// "8:12" under the other user's bubble group; "8:15 · Seen" under the
