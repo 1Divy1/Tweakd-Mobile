@@ -178,6 +178,7 @@ class _FeedListState extends State<_FeedList> {
           }
           final post = posts[index];
           return FeedPostCard(
+            key: ValueKey(post.id),
             post: post,
             onToggleLike: () =>
                 context.read<FeedBloc>().add(ToggleLikeFeedPost(post.id)),
