@@ -45,6 +45,9 @@ import '../../features/garage/presentation/pages/about_car_page.dart';
 import '../../features/garage/presentation/pages/fullscreen_image_page.dart';
 import '../../features/garage/presentation/pages/log_mod_page.dart';
 import '../../features/garage/presentation/pages/register_car_page.dart';
+import '../../features/map/presentation/bloc/map/bloc.dart';
+import '../../features/map/presentation/bloc/map/event.dart';
+import '../../features/map/presentation/pages/map_page.dart';
 import '../../features/messages/domain/entities/message_user.dart';
 import '../../features/messages/presentation/bloc/chat/bloc.dart';
 import '../../features/messages/presentation/bloc/chat/event.dart';
@@ -259,6 +262,17 @@ final appRouter = GoRouter(
         child: BlocProvider<FeedBloc>(
           create: (_) => getIt<FeedBloc>()..add(const LoadFeed()),
           child: const FeedPage(),
+        ),
+      ),
+    ),
+
+    // ---------- Map ----------
+    GoRoute(
+      path: '/map',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: BlocProvider<MapBloc>(
+          create: (_) => getIt<MapBloc>()..add(const MapStarted()),
+          child: const MapPage(),
         ),
       ),
     ),

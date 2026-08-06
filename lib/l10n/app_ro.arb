@@ -919,5 +919,44 @@
   "tagsRemoveBody": "Vei fi eliminat din acest conținut pentru toată lumea, împreună cu mașinile tale etichetate acolo. Doar autorul te poate eticheta din nou.",
   "tagsRemoveConfirm": "Elimină",
   "tagsErrorContentGone": "Acest conținut nu mai există.",
-  "tagsErrorGeneric": "Ceva nu a funcționat. Te rugăm să încerci din nou."
+  "tagsErrorGeneric": "Ceva nu a funcționat. Te rugăm să încerci din nou.",
+
+  "mapOpenNow": "Deschis acum",
+  "mapClosedNow": "Închis",
+  "mapNoReviews": "Nicio recenzie încă",
+  "mapReviewCount": "{count, plural, =1{o recenzie} other{{count} recenzii}}",
+  "@mapReviewCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapFollowerCount": "{count, plural, =1{un urmăritor} other{{count} urmăritori}}",
+  "@mapFollowerCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapDistanceKm": "la {distance} km",
+  "@mapDistanceKm": {
+    "placeholders": {
+      "distance": { "type": "String" }
+    }
+  },
+  "mapHoursTitle": "PROGRAM",
+  "mapHoursClosed": "Închis",
+  "mapHoursNextDay": "(ziua următoare)",
+  "mapWeekdayMonday": "Luni",
+  "mapWeekdayTuesday": "Marți",
+  "mapWeekdayWednesday": "Miercuri",
+  "mapWeekdayThursday": "Joi",
+  "mapWeekdayFriday": "Vineri",
+  "mapWeekdaySaturday": "Sâmbătă",
+  "mapWeekdaySunday": "Duminică",
+  "mapPopupClose": "Închide",
+  "mapRecentre": "Centrează pe locația mea",
+  "mapRetry": "ÎNCEARCĂ DIN NOU",
+  "mapErrorNetwork": "Fără conexiune la internet. Te rugăm să încerci din nou.",
+  "mapErrorBusinessNotFound": "Acest business nu mai este disponibil.",
+  "mapErrorLocationUnavailable": "Nu am putut obține locația ta. Verifică dacă locația este activată pentru Tweakd.",
+  "mapErrorGeneric": "Ceva nu a funcționat. Te rugăm să încerci din nou."
 }

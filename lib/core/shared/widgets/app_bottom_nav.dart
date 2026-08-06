@@ -44,7 +44,7 @@ class AppBottomNav extends StatelessWidget {
               icon: Icons.map_outlined,
               isActive: activeTab == AppBottomNavTab.map,
               onTap: () {
-                // Map route to be implemented later.
+                if (activeTab != AppBottomNavTab.map) context.go('/map');
               },
             ),
             _NavItem(

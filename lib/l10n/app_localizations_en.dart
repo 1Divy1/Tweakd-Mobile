@@ -2476,4 +2476,93 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tagsErrorGeneric => 'Something went wrong. Please try again.';
+
+  @override
+  String get mapOpenNow => 'Open now';
+
+  @override
+  String get mapClosedNow => 'Closed';
+
+  @override
+  String get mapNoReviews => 'No reviews yet';
+
+  @override
+  String mapReviewCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reviews',
+      one: '1 review',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mapFollowerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count followers',
+      one: '1 follower',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mapDistanceKm(String distance) {
+    return '$distance km away';
+  }
+
+  @override
+  String get mapHoursTitle => 'OPENING HOURS';
+
+  @override
+  String get mapHoursClosed => 'Closed';
+
+  @override
+  String get mapHoursNextDay => '(next day)';
+
+  @override
+  String get mapWeekdayMonday => 'Monday';
+
+  @override
+  String get mapWeekdayTuesday => 'Tuesday';
+
+  @override
+  String get mapWeekdayWednesday => 'Wednesday';
+
+  @override
+  String get mapWeekdayThursday => 'Thursday';
+
+  @override
+  String get mapWeekdayFriday => 'Friday';
+
+  @override
+  String get mapWeekdaySaturday => 'Saturday';
+
+  @override
+  String get mapWeekdaySunday => 'Sunday';
+
+  @override
+  String get mapPopupClose => 'Close';
+
+  @override
+  String get mapRecentre => 'Centre on my location';
+
+  @override
+  String get mapRetry => 'TRY AGAIN';
+
+  @override
+  String get mapErrorNetwork => 'No internet connection. Please try again.';
+
+  @override
+  String get mapErrorBusinessNotFound =>
+      'This business isn\'t available anymore.';
+
+  @override
+  String get mapErrorLocationUnavailable =>
+      'We couldn\'t get your location. Check that location is turned on for Tweakd.';
+
+  @override
+  String get mapErrorGeneric => 'Something went wrong. Please try again.';
 }

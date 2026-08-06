@@ -132,6 +132,16 @@ import '../../features/garage/presentation/bloc/add_car/bloc.dart' as _i160;
 import '../../features/garage/presentation/bloc/bloc.dart' as _i121;
 import '../../features/garage/presentation/bloc/car_detail/bloc.dart' as _i807;
 import '../../features/garage/presentation/bloc/log_mod/bloc.dart' as _i375;
+import '../../features/map/data/datasources/business_api_data_source.dart'
+    as _i979;
+import '../../features/map/data/datasources/device_location_data_source.dart'
+    as _i178;
+import '../../features/map/data/repositories/map_repository_impl.dart' as _i457;
+import '../../features/map/domain/repositories/map_repository.dart' as _i973;
+import '../../features/map/domain/usecases/get_business_detail.dart' as _i107;
+import '../../features/map/domain/usecases/get_current_position.dart' as _i958;
+import '../../features/map/domain/usecases/get_nearby_businesses.dart' as _i642;
+import '../../features/map/presentation/bloc/map/bloc.dart' as _i465;
 import '../../features/messages/data/datasources/messages_data_source.dart'
     as _i637;
 import '../../features/messages/data/repositories/messages_repository_impl.dart'
@@ -311,6 +321,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1069.LocaleLocalStorage>(
       () => _i1069.LocaleLocalStorage(),
     );
+    gh.lazySingleton<_i178.DeviceLocationDataSource>(
+      () => _i178.DeviceLocationDataSource(),
+    );
     gh.lazySingleton<_i511.DmRealtimeService>(
       () => _i543.SupabaseDmRealtimeService(gh<_i454.SupabaseClient>()),
     );
@@ -361,6 +374,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i879.GarageApiDataSource>(
       () => _i879.GarageApiDataSource(gh<_i311.AbstractHTTP>()),
+    );
+    gh.lazySingleton<_i979.BusinessApiDataSource>(
+      () => _i979.BusinessApiDataSource(gh<_i311.AbstractHTTP>()),
     );
     gh.lazySingleton<_i1049.OnboardingApiDataSource>(
       () => _i1049.OnboardingApiDataSource(gh<_i311.AbstractHTTP>()),
@@ -484,6 +500,12 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i29.MarkNotificationReadUseCase(gh<_i563.NotificationsRepository>()),
     );
+    gh.lazySingleton<_i973.MapRepository>(
+      () => _i457.MapRepositoryImpl(
+        gh<_i979.BusinessApiDataSource>(),
+        gh<_i178.DeviceLocationDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i357.SearchRepository>(
       () => _i1017.SearchRepositoryImpl(gh<_i592.SearchApiDataSource>()),
     );
@@ -561,6 +583,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1016.SubmitOnboardingUseCase>(
       () => _i1016.SubmitOnboardingUseCase(gh<_i430.OnboardingRepository>()),
+    );
+    gh.lazySingleton<_i107.GetBusinessDetailUseCase>(
+      () => _i107.GetBusinessDetailUseCase(gh<_i973.MapRepository>()),
+    );
+    gh.lazySingleton<_i958.GetCurrentPositionUseCase>(
+      () => _i958.GetCurrentPositionUseCase(gh<_i973.MapRepository>()),
+    );
+    gh.lazySingleton<_i642.GetNearbyBusinessesUseCase>(
+      () => _i642.GetNearbyBusinessesUseCase(gh<_i973.MapRepository>()),
     );
     gh.lazySingleton<_i292.AddCarUseCase>(
       () => _i292.AddCarUseCase(gh<_i511.GarageRepository>()),
@@ -677,6 +708,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i345.SubmitFeedbackUseCase>(
       () => _i345.SubmitFeedbackUseCase(gh<_i619.FeedbackRepository>()),
+    );
+    gh.factory<_i465.MapBloc>(
+      () => _i465.MapBloc(
+        getNearbyBusinesses: gh<_i642.GetNearbyBusinessesUseCase>(),
+        getBusinessDetail: gh<_i107.GetBusinessDetailUseCase>(),
+        getCurrentPosition: gh<_i958.GetCurrentPositionUseCase>(),
+      ),
     );
     gh.factoryParam<_i0.EditProfileBloc, _i57.ProfileEntity, dynamic>(
       (profile, _) => _i0.EditProfileBloc(

@@ -1122,5 +1122,44 @@
   "tagsRemoveBody": "You'll be removed from this content for everyone, along with any of your cars tagged on it. Only the author can tag you again.",
   "tagsRemoveConfirm": "Remove",
   "tagsErrorContentGone": "This content no longer exists.",
-  "tagsErrorGeneric": "Something went wrong. Please try again."
+  "tagsErrorGeneric": "Something went wrong. Please try again.",
+
+  "mapOpenNow": "Open now",
+  "mapClosedNow": "Closed",
+  "mapNoReviews": "No reviews yet",
+  "mapReviewCount": "{count, plural, =1{1 review} other{{count} reviews}}",
+  "@mapReviewCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapFollowerCount": "{count, plural, =1{1 follower} other{{count} followers}}",
+  "@mapFollowerCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapDistanceKm": "{distance} km away",
+  "@mapDistanceKm": {
+    "placeholders": {
+      "distance": { "type": "String" }
+    }
+  },
+  "mapHoursTitle": "OPENING HOURS",
+  "mapHoursClosed": "Closed",
+  "mapHoursNextDay": "(next day)",
+  "mapWeekdayMonday": "Monday",
+  "mapWeekdayTuesday": "Tuesday",
+  "mapWeekdayWednesday": "Wednesday",
+  "mapWeekdayThursday": "Thursday",
+  "mapWeekdayFriday": "Friday",
+  "mapWeekdaySaturday": "Saturday",
+  "mapWeekdaySunday": "Sunday",
+  "mapPopupClose": "Close",
+  "mapRecentre": "Centre on my location",
+  "mapRetry": "TRY AGAIN",
+  "mapErrorNetwork": "No internet connection. Please try again.",
+  "mapErrorBusinessNotFound": "This business isn't available anymore.",
+  "mapErrorLocationUnavailable": "We couldn't get your location. Check that location is turned on for Tweakd.",
+  "mapErrorGeneric": "Something went wrong. Please try again."
 }

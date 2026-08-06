@@ -68,6 +68,8 @@
 	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow access to your photo library so you can add photos and videos to your posts and car builds.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow access to your location so the map can show car businesses, meets and roads near you.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

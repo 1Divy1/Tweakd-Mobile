@@ -4483,6 +4483,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get tagsErrorGeneric;
+
+  /// No description provided for @mapOpenNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Open now'**
+  String get mapOpenNow;
+
+  /// No description provided for @mapClosedNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get mapClosedNow;
+
+  /// No description provided for @mapNoReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'No reviews yet'**
+  String get mapNoReviews;
+
+  /// No description provided for @mapReviewCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 review} other{{count} reviews}}'**
+  String mapReviewCount(int count);
+
+  /// No description provided for @mapFollowerCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 follower} other{{count} followers}}'**
+  String mapFollowerCount(int count);
+
+  /// No description provided for @mapDistanceKm.
+  ///
+  /// In en, this message translates to:
+  /// **'{distance} km away'**
+  String mapDistanceKm(String distance);
+
+  /// No description provided for @mapHoursTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'OPENING HOURS'**
+  String get mapHoursTitle;
+
+  /// No description provided for @mapHoursClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get mapHoursClosed;
+
+  /// No description provided for @mapHoursNextDay.
+  ///
+  /// In en, this message translates to:
+  /// **'(next day)'**
+  String get mapHoursNextDay;
+
+  /// No description provided for @mapWeekdayMonday.
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get mapWeekdayMonday;
+
+  /// No description provided for @mapWeekdayTuesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get mapWeekdayTuesday;
+
+  /// No description provided for @mapWeekdayWednesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get mapWeekdayWednesday;
+
+  /// No description provided for @mapWeekdayThursday.
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get mapWeekdayThursday;
+
+  /// No description provided for @mapWeekdayFriday.
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get mapWeekdayFriday;
+
+  /// No description provided for @mapWeekdaySaturday.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get mapWeekdaySaturday;
+
+  /// No description provided for @mapWeekdaySunday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get mapWeekdaySunday;
+
+  /// No description provided for @mapPopupClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get mapPopupClose;
+
+  /// No description provided for @mapRecentre.
+  ///
+  /// In en, this message translates to:
+  /// **'Centre on my location'**
+  String get mapRecentre;
+
+  /// No description provided for @mapRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'TRY AGAIN'**
+  String get mapRetry;
+
+  /// No description provided for @mapErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Please try again.'**
+  String get mapErrorNetwork;
+
+  /// No description provided for @mapErrorBusinessNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This business isn\'t available anymore.'**
+  String get mapErrorBusinessNotFound;
+
+  /// No description provided for @mapErrorLocationUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t get your location. Check that location is turned on for Tweakd.'**
+  String get mapErrorLocationUnavailable;
+
+  /// No description provided for @mapErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get mapErrorGeneric;
 }
 
 class _AppLocalizationsDelegate

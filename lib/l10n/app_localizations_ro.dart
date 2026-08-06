@@ -2490,4 +2490,95 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get tagsErrorGeneric =>
       'Ceva nu a funcționat. Te rugăm să încerci din nou.';
+
+  @override
+  String get mapOpenNow => 'Deschis acum';
+
+  @override
+  String get mapClosedNow => 'Închis';
+
+  @override
+  String get mapNoReviews => 'Nicio recenzie încă';
+
+  @override
+  String mapReviewCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count recenzii',
+      one: 'o recenzie',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mapFollowerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count urmăritori',
+      one: 'un urmăritor',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mapDistanceKm(String distance) {
+    return 'la $distance km';
+  }
+
+  @override
+  String get mapHoursTitle => 'PROGRAM';
+
+  @override
+  String get mapHoursClosed => 'Închis';
+
+  @override
+  String get mapHoursNextDay => '(ziua următoare)';
+
+  @override
+  String get mapWeekdayMonday => 'Luni';
+
+  @override
+  String get mapWeekdayTuesday => 'Marți';
+
+  @override
+  String get mapWeekdayWednesday => 'Miercuri';
+
+  @override
+  String get mapWeekdayThursday => 'Joi';
+
+  @override
+  String get mapWeekdayFriday => 'Vineri';
+
+  @override
+  String get mapWeekdaySaturday => 'Sâmbătă';
+
+  @override
+  String get mapWeekdaySunday => 'Duminică';
+
+  @override
+  String get mapPopupClose => 'Închide';
+
+  @override
+  String get mapRecentre => 'Centrează pe locația mea';
+
+  @override
+  String get mapRetry => 'ÎNCEARCĂ DIN NOU';
+
+  @override
+  String get mapErrorNetwork =>
+      'Fără conexiune la internet. Te rugăm să încerci din nou.';
+
+  @override
+  String get mapErrorBusinessNotFound =>
+      'Acest business nu mai este disponibil.';
+
+  @override
+  String get mapErrorLocationUnavailable =>
+      'Nu am putut obține locația ta. Verifică dacă locația este activată pentru Tweakd.';
+
+  @override
+  String get mapErrorGeneric =>
+      'Ceva nu a funcționat. Te rugăm să încerci din nou.';
 }
