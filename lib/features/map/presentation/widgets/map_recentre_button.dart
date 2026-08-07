@@ -32,12 +32,12 @@ class MapRecentreButton extends StatelessWidget {
           onTap: onTap,
           customBorder: const CircleBorder(),
           child: SizedBox(
-            width: 46,
-            height: 46,
+            width: 55,
+            height: 55,
             child: Icon(
               isActive ? Icons.my_location_rounded : Icons.location_searching,
-              size: 21,
-              color: isActive ? AppColors.accent : AppColors.ink2,
+              size: 25,
+              color: isActive ? Colors.blue[600] : AppColors.ink2,
             ),
           ),
         ),

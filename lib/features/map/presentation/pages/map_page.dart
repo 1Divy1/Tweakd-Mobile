@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart' show MapboxMap;
 
-import '../../../../core/shared/widgets/app_bottom_nav.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../bloc/map/bloc.dart';
 import '../bloc/map/event.dart';
 import '../bloc/map/state.dart';
-import '../widgets/business_popup.dart';
+import '../widgets/businesses/business_popup.dart';
 import '../widgets/map_error_banner.dart';
 import '../widgets/map_layer_controller.dart';
 import '../widgets/map_recentre_button.dart';
@@ -15,9 +14,8 @@ import '../widgets/map_view.dart';
 
 /// The virtual map tab.
 ///
-/// The map runs full-bleed with the nav bar floating over it, rather than the
-/// `Column` + `AppBottomNav` layout the other tabs use — a map wants every
-/// pixel, and the nav bar's rounded top already reads as an overlay.
+/// The map runs full-bleed, unlike the `Column` + `AppBottomNav` layout the
+/// other tabs use — a map wants every pixel.
 ///
 /// This is the one page in the app where state doesn't drive the main widget:
 /// [MapView] never rebuilds, and [MapLayerController] pushes bloc state into
@@ -32,9 +30,6 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   MapLayerController? _layers;
-
-  /// Height of [AppBottomNav]: 10 + 4 + 30 icon + 6 + 3 marker + 4 + 10.
-  static const _navBarHeight = 67.0;
 
   @override
   void dispose() {
@@ -83,7 +78,7 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.paddingOf(context).bottom;
-    final chromeBottom = _navBarHeight + bottomInset + 12;
+    final chromeBottom = bottomInset;
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -94,6 +89,9 @@ class _MapPageState extends State<MapPage> {
       // map to 0x0 under the Scaffold's loose constraints.
       body: MultiBlocListener(
         listeners: [
+          // Trigger: if the list of businesses is different (a - old state, b - new state)
+          // Action: update the list with b's state
+          // Notes: selectedBusinessId remains untouched; the listenWhen doesn't care about it
           BlocListener<MapBloc, MapState>(
             listenWhen: (a, b) => a.businesses != b.businesses,
             listener: (context, state) => _layers?.setBusinesses(
@@ -101,11 +99,19 @@ class _MapPageState extends State<MapPage> {
               selectedId: state.selectedBusinessId,
             ),
           ),
+          // Trigger: user selects a different business pin point
+          // Action: update the selected business on the map
           BlocListener<MapBloc, MapState>(
             listenWhen: (a, b) => a.selectedBusinessId != b.selectedBusinessId,
             listener: (context, state) =>
                 _layers?.setSelected(state.selectedBusinessId),
           ),
+          // Trigger: a fresh camera command (seq bump — the target may repeat).
+          // Action: flies the native camera to the command's target.
+          // Notes: only catches commands emitted after this listener is
+          // mounted; _onMapReady replays whatever command already landed
+          // while the style was still loading, since a slow style load can
+          // delay the map past MapStarted resolving a position.
           BlocListener<MapBloc, MapState>(
             listenWhen: (a, b) => a.cameraCommand != b.cameraCommand,
             listener: (context, state) {
@@ -113,6 +119,9 @@ class _MapPageState extends State<MapPage> {
               if (command != null) _layers?.flyTo(command.target);
             },
           ),
+          // Trigger: hasDeviceLocation flips (fix granted/lost via MapStarted
+          // or a recentre request).
+          // Action: shows or hides the blue location puck.
           BlocListener<MapBloc, MapState>(
             listenWhen: (a, b) => a.hasDeviceLocation != b.hasDeviceLocation,
             listener: (context, state) =>
@@ -126,15 +135,7 @@ class _MapPageState extends State<MapPage> {
           fit: StackFit.expand,
           children: [
             MapView(onMapReady: _onMapReady, onMapIdle: _onMapIdle),
-
-            _MapChrome(chromeBottom: chromeBottom),
-
-            const Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: AppBottomNav(activeTab: AppBottomNavTab.map),
-            ),
+            _MapFlutterOverlays(chromeBottom: chromeBottom),
           ],
         ),
       ),
@@ -145,10 +146,14 @@ class _MapPageState extends State<MapPage> {
 /// Everything drawn *over* the map: error banner, recentre button and the
 /// business popup. Split out so the map surface itself stays out of the
 /// rebuild path.
-class _MapChrome extends StatelessWidget {
+class _MapFlutterOverlays extends StatelessWidget {
   final double chromeBottom;
 
-  const _MapChrome({required this.chromeBottom});
+  const _MapFlutterOverlays({required this.chromeBottom});
+
+  /// Height to clear Mapbox's default bottom-right attribution ("i") icon
+  /// plus its own margin, so the recentre button doesn't sit on top of it.
+  static const _attributionClearance = 50.0;
 
   @override
   Widget build(BuildContext context) {
@@ -173,10 +178,14 @@ class _MapChrome extends StatelessWidget {
             // Tapping the map itself closes the popup — handled natively in
             // MapLayerController, not with a Flutter barrier, so panning and
             // zooming keep working while the popup is up.
+            //
+            // Lifted above chromeBottom by _attributionClearance so it
+            // doesn't sit on top of Mapbox's default bottom-right attribution
+            // ("i") icon, which must stay visible and tappable.
             if (!state.isPopupOpen)
               Positioned(
                 right: 14,
-                bottom: chromeBottom,
+                bottom: chromeBottom + _attributionClearance,
                 child: MapRecentreButton(
                   isActive: state.hasDeviceLocation,
                   onTap: () => bloc.add(const MapRecentreRequested()),

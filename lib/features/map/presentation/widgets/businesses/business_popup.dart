@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../l10n/app_localizations.dart';
-import '../../domain/entities/business_pin_entity.dart';
-import '../bloc/map/state.dart';
-import '../utils/map_error_mapper.dart';
+import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
+import '../../../domain/entities/business_pin_entity.dart';
+import '../../bloc/map/state.dart';
+import '../../utils/map_error_mapper.dart';
 import 'business_popup_content.dart';
 
 /// The floating card that opens over the map when a business pin is tapped.
@@ -34,7 +34,7 @@ class BusinessPopup extends StatelessWidget {
       constraints: BoxConstraints(maxHeight: maxHeight),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(40),
         boxShadow: const [
           BoxShadow(
             color: Color(0x1F000000),

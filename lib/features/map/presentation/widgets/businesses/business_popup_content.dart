@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../l10n/app_localizations.dart';
-import '../../domain/entities/business_detail_entity.dart';
+import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
+import '../../../domain/entities/business_detail_entity.dart';
 import 'business_hours_list.dart';
 
 /// The loaded body of the business popup.

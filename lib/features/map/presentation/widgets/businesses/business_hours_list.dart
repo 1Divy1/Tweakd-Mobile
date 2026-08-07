@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../l10n/app_localizations.dart';
-import '../../domain/entities/business_detail_entity.dart';
+import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
+import '../../../domain/entities/business_detail_entity.dart';
 
 /// The business's weekly schedule, always all seven days.
 ///
