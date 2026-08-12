@@ -1,3 +1,6 @@
+import 'package:car_social_media_app/features/map_events/presentation/bloc/event_detail/bloc.dart';
+import 'package:car_social_media_app/features/map_events/presentation/bloc/event_detail/event.dart';
+import 'package:car_social_media_app/features/map_events/presentation/bloc/event_detail/state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart' show MapboxMap;
@@ -6,10 +9,8 @@ import '../../../../core/theme/app_colors.dart';
 import '../bloc/map/bloc.dart';
 import '../bloc/map/event.dart';
 import '../bloc/map/state.dart';
-import '../widgets/businesses/business_popup.dart';
-import '../widgets/map_error_banner.dart';
+import '../widgets/map_flutter_overlays.dart';
 import '../widgets/map_layer_controller.dart';
-import '../widgets/map_recentre_button.dart';
 import '../widgets/map_view.dart';
 
 /// The virtual map tab.
@@ -46,8 +47,15 @@ class _MapPageState extends State<MapPage> {
     _layers = layers;
 
     await layers.installLayers(
-      onBusinessTapped: (id) {
-        if (mounted) context.read<MapBloc>().add(MapBusinessSelected(id));
+      onPinTapped: (kind, id) {
+        if (!mounted) return;
+        switch (kind) {
+          case MapPinKind.business:
+            context.read<MapBloc>().add(MapBusinessSelected(id));
+          case MapPinKind.event:
+            context.read<MapBloc>().add(MapEventPinSelected(id));
+            context.read<MapEventDetailBloc>().add(LoadMapEvent(id));
+        }
       },
       onMapTapped: () {
         if (mounted) context.read<MapBloc>().add(const MapBusinessDismissed());
@@ -66,6 +74,12 @@ class _MapPageState extends State<MapPage> {
     await layers.setBusinesses(
       state.businesses,
       selectedId: state.selectedBusinessId,
+      centre: state.fetchCentre,
+    );
+    await layers.setEvents(
+      state.events,
+      selectedId: state.selectedEventId,
+      centre: state.fetchCentre,
     );
   }
 
@@ -97,14 +111,31 @@ class _MapPageState extends State<MapPage> {
             listener: (context, state) => _layers?.setBusinesses(
               state.businesses,
               selectedId: state.selectedBusinessId,
+              centre: state.fetchCentre,
             ),
           ),
-          // Trigger: user selects a different business pin point
-          // Action: update the selected business on the map
+          // Trigger: the events layer changed (new fetch, or a popup action
+          // patched a pin's counters).
           BlocListener<MapBloc, MapState>(
-            listenWhen: (a, b) => a.selectedBusinessId != b.selectedBusinessId,
-            listener: (context, state) =>
-                _layers?.setSelected(state.selectedBusinessId),
+            listenWhen: (a, b) => a.events != b.events,
+            listener: (context, state) => _layers?.setEvents(
+              state.events,
+              selectedId: state.selectedEventId,
+              centre: state.fetchCentre,
+            ),
+          ),
+          // Trigger: the user selects a different pin (of either kind)
+          // Action: move the highlight. Both ids go in together because
+          // selection is mutually exclusive — opening one popup closes the
+          // other, and that's two source updates in one gesture.
+          BlocListener<MapBloc, MapState>(
+            listenWhen: (a, b) =>
+                a.selectedBusinessId != b.selectedBusinessId ||
+                a.selectedEventId != b.selectedEventId,
+            listener: (context, state) => _layers?.setSelected(
+              businessId: state.selectedBusinessId,
+              eventId: state.selectedEventId,
+            ),
           ),
           // Trigger: a fresh camera command (seq bump — the target may repeat).
           // Action: flies the native camera to the command's target.
@@ -127,6 +158,24 @@ class _MapPageState extends State<MapPage> {
             listener: (context, state) =>
                 _layers?.setLocationPuckEnabled(state.hasDeviceLocation),
           ),
+          // Trigger: the open popup's counters changed — the viewer RSVP'd or
+          // registered a car without leaving the map.
+          // Action: patch the pin's own copy so the two agree. Cheaper and
+          // steadier than refetching the whole nearby ring for one number.
+          BlocListener<MapEventDetailBloc, MapEventDetailState>(
+            listenWhen: (a, b) =>
+                b.event != null &&
+                (a.event?.attendeesCount != b.event?.attendeesCount ||
+                    a.event?.attendingCarsCount != b.event?.attendingCarsCount),
+            listener: (context, state) {
+              final event = state.event!;
+              context.read<MapBloc>().add(MapEventPinRefreshed(
+                    eventId: event.id,
+                    attendeesCount: event.attendeesCount,
+                    attendingCarsCount: event.attendingCarsCount,
+                  ));
+            },
+          ),
         ],
         // Every child below is positioned, so the Stack takes the biggest size
         // the Scaffold allows. `expand` states that intent instead of leaving
@@ -135,93 +184,10 @@ class _MapPageState extends State<MapPage> {
           fit: StackFit.expand,
           children: [
             MapView(onMapReady: _onMapReady, onMapIdle: _onMapIdle),
-            _MapFlutterOverlays(chromeBottom: chromeBottom),
+            MapFlutterOverlays(chromeBottom: chromeBottom),
           ],
         ),
       ),
-    );
-  }
-}
-
-/// Everything drawn *over* the map: error banner, recentre button and the
-/// business popup. Split out so the map surface itself stays out of the
-/// rebuild path.
-class _MapFlutterOverlays extends StatelessWidget {
-  final double chromeBottom;
-
-  const _MapFlutterOverlays({required this.chromeBottom});
-
-  /// Height to clear Mapbox's default bottom-right attribution ("i") icon
-  /// plus its own margin, so the recentre button doesn't sit on top of it.
-  static const _attributionClearance = 50.0;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<MapBloc, MapState>(
-      builder: (context, state) {
-        final bloc = context.read<MapBloc>();
-        final errorCode = state.errorCode;
-
-        return Stack(
-          children: [
-            if (errorCode != null)
-              Positioned(
-                left: 12,
-                right: 12,
-                top: MediaQuery.paddingOf(context).top + 12,
-                child: MapErrorBanner(
-                  code: errorCode,
-                  onDismiss: () => bloc.add(const MapErrorDismissed()),
-                ),
-              ),
-
-            // Tapping the map itself closes the popup — handled natively in
-            // MapLayerController, not with a Flutter barrier, so panning and
-            // zooming keep working while the popup is up.
-            //
-            // Lifted above chromeBottom by _attributionClearance so it
-            // doesn't sit on top of Mapbox's default bottom-right attribution
-            // ("i") icon, which must stay visible and tappable.
-            if (!state.isPopupOpen)
-              Positioned(
-                right: 14,
-                bottom: chromeBottom + _attributionClearance,
-                child: MapRecentreButton(
-                  isActive: state.hasDeviceLocation,
-                  onTap: () => bloc.add(const MapRecentreRequested()),
-                ),
-              ),
-
-            Positioned(
-              left: 12,
-              right: 12,
-              bottom: chromeBottom,
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 180),
-                transitionBuilder: (child, animation) => FadeTransition(
-                  opacity: animation,
-                  child: SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0, 0.12),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: child,
-                  ),
-                ),
-                child: state.isPopupOpen
-                    ? BusinessPopup(
-                        key: ValueKey(state.selectedBusinessId),
-                        state: state,
-                        onClose: () => bloc.add(const MapBusinessDismissed()),
-                        onRetry: () =>
-                            bloc.add(const MapBusinessDetailRetried()),
-                      )
-                    : const SizedBox.shrink(),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }

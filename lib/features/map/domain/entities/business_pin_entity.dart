@@ -5,6 +5,10 @@ import 'geo_position.dart';
 /// A business as it appears *on the map* — the lightweight shape returned by
 /// `GET /businesses/nearby`. Tapping one fetches the full
 /// [BusinessDetailEntity]; this carries only what a pin needs to draw.
+///
+/// No distance field: the backend dropped `distance_km`, so distance is derived
+/// from [position] against the map's fetch centre wherever it's needed —
+/// `GeoPosition.distanceKmTo` does it in one line.
 class BusinessPinEntity extends Equatable {
   final String id;
   final String name;
@@ -25,9 +29,6 @@ class BusinessPinEntity extends Equatable {
   final int reviewCount;
   final bool isOpenNow;
 
-  /// Distance from the query centre, as computed by the backend.
-  final double distanceKm;
-
   const BusinessPinEntity({
     required this.id,
     required this.name,
@@ -38,7 +39,6 @@ class BusinessPinEntity extends Equatable {
     required this.averageRating,
     required this.reviewCount,
     required this.isOpenNow,
-    required this.distanceKm,
   });
 
   bool get hasRating => reviewCount > 0;
@@ -54,6 +54,5 @@ class BusinessPinEntity extends Equatable {
         averageRating,
         reviewCount,
         isOpenNow,
-        distanceKm,
       ];
 }

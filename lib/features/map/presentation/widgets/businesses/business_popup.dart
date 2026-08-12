@@ -5,6 +5,7 @@ import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/business_pin_entity.dart';
 import '../../bloc/map/state.dart';
 import '../../utils/map_error_mapper.dart';
+import '../navigation/navigate_button.dart';
 import 'business_popup_content.dart';
 
 /// The floating card that opens over the map when a business pin is tapped.
@@ -30,6 +31,22 @@ class BusinessPopup extends StatelessWidget {
     final pin = state.selectedPin;
     final maxHeight = MediaQuery.sizeOf(context).height * 0.62;
 
+    // The pin already carries coordinates, so the destination is known before
+    // `GET /businesses/{id}` lands — the bar is live from the first frame.
+    // It's hidden on failure only: offering directions to a business the popup
+    // just said is gone would contradict itself.
+    final business = state.selectedBusiness;
+    final destination = business?.position ?? pin?.position;
+    final detailFailed = state.detailStatus == BusinessDetailStatus.failure;
+
+    // `/businesses/nearby` no longer returns a distance, so it's derived here:
+    // straight line from the centre the pins were fetched around. Null until
+    // the first fetch lands, which is also when there'd be no pin to show.
+    final centre = state.fetchCentre;
+    final distanceKm = (centre != null && destination != null)
+        ? centre.distanceKmTo(destination)
+        : null;
+
     return Container(
       constraints: BoxConstraints(maxHeight: maxHeight),
       decoration: BoxDecoration(
@@ -46,23 +63,43 @@ class BusinessPopup extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: Stack(
         children: [
-          SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(18, 18, 18, 20),
-            child: switch (state.detailStatus) {
-              BusinessDetailStatus.loaded => BusinessPopupContent(
-                  business: state.selectedBusiness!,
-                  distanceKm: pin?.distanceKm,
+          // The details scroll; the Navigate bar is pinned below them so it
+          // stays reachable at the popup's bottom edge however far down a long
+          // description or a full week of opening hours has been scrolled.
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(18, 18, 18, 16),
+                  child: switch (state.detailStatus) {
+                    BusinessDetailStatus.loaded => BusinessPopupContent(
+                        business: business!,
+                        distanceKm: distanceKm,
+                      ),
+                    BusinessDetailStatus.failure => _PopupError(
+                        code: state.detailErrorCode ?? MapErrorCode.generic,
+                        onRetry: onRetry,
+                      ),
+                    _ => _PopupLoading(pin: pin),
+                  },
                 ),
-              BusinessDetailStatus.failure => _PopupError(
-                  code: state.detailErrorCode ?? MapErrorCode.generic,
-                  onRetry: onRetry,
+              ),
+              if (destination != null && !detailFailed) ...[
+                const Divider(color: AppColors.line2, height: 1),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(18, 14, 18, 18),
+                  child: NavigateButton(
+                    position: destination,
+                    label: business?.name ?? pin?.name ?? '',
+                  ),
                 ),
-              _ => _PopupLoading(pin: pin),
-            },
+              ],
+            ],
           ),
           Positioned(
-            top: 6,
-            right: 6,
+            top: 10,
+            right: 10,
             child: _CloseButton(onTap: onClose),
           ),
         ],

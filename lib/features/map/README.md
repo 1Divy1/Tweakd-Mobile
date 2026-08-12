@@ -386,10 +386,104 @@ selects, a miss dismisses the popup. One interaction, so nothing depends on
 Mapbox's evaluation order between a pin interaction and a dismiss interaction —
 and no Flutter barrier, so the map stays pannable while the popup is open.
 
-### 6.1 Car meets (clustered points)
+**Turn-by-turn navigation** is the popup's one action. A pinned bar at the
+bottom of the card (outside the scroll area, so it survives a long description)
+opens a sheet listing Waze, Google Maps and — on iOS only — Apple Maps; tapping
+an installed one deep-links straight into guidance, tapping a missing one opens
+its store page. Details in §6.0b.
 
-One source per kind, `cluster: true`, three layers per source (cluster circles,
-cluster count, unclustered pins):
+### 6.0b Navigating to a pin
+
+`NavigationLauncherService` ([lib/core/services/navigation_launcher_service.dart](../../core/services/navigation_launcher_service.dart))
+lives in `core/` rather than the map feature, because it is a device capability
+like `ImageService`/`PushPermissionService` — and because meets, roads and
+anything else with a coordinate will want it. It is injected with
+`getIt<NavigationLauncherService>()` straight from the widget; there is no use
+case, no `Either`, no bloc. Launching an external app is a UI side effect with a
+boolean outcome, not domain logic, and routing it through the error pipeline
+would buy nothing.
+
+The UI is two widgets under `presentation/widgets/navigation/`:
+
+| Widget | Role |
+|---|---|
+| `NavigateButton(position, label)` | Full-width accent button. Takes a bare `GeoPosition` + label, **not** a business — a car meet drops it in unchanged. |
+| `showNavigationAppSheet(context, lat, lng, destinationLabel)` | The chooser. Probes what's installed, launches or sends to the store. |
+
+Things that will bite if changed carelessly:
+
+- **Deep links carry coordinates only, never the name or address.** A name makes
+  the target app run its own search, which happily routes the driver to a
+  different branch of the same chain.
+- **Every link asks for navigation, not a preview** — `navigate=yes` (Waze),
+  `google.navigation:q=…&mode=d` (Android), `dirflg=d` /
+  `directionsmode=driving` (Apple / Google iOS). iOS Google Maps has no
+  start-immediately parameter, so it lands on the directions screen with a Start
+  button; that's the platform's ceiling, not a bug.
+- **No origin is sent.** The navigation app uses its own live GPS fix, which is
+  fresher than ours and needs no location permission from us.
+- **`canLaunchUrl` is gated by the manifests.** iOS needs the scheme in
+  `LSApplicationQueriesSchemes` (`comgooglemaps`, `waze`, `maps`), Android needs
+  the package in `<queries>` (`com.waze`,
+  `com.google.android.apps.maps`). Miss one and an installed app reports as
+  missing — the failure is silent and looks like a probe bug.
+- **Never probe Android with `geo:`.** Every maps app claims it, so Google Maps
+  would report installed whenever *any* maps app is. Hence
+  `google.navigation:q=0,0` as the probe.
+- **Apple Maps is probed, not assumed.** It's been deletable since iOS 10.
+
+### 6.1 Map events — as actually built
+
+Events (car meets, with more categories to come) ship as the second pin layer.
+They live in their own feature module, `lib/features/map_events/` — read
+[its README](../map_events/README.md) for the domain, the backend contract and
+the popup/detail/create screens. What follows is only the **map-side** half.
+
+**Same machinery as businesses, two cosmetic differences.** `MapLayerController`
+now carries both layers through one shared `_PinLayer` description (source id,
+layer id, placeholder image id, image-id prefix) and one
+`MapMarkerFactory` — the generalised `BusinessMarkerFactory`, which grew a
+per-call ring colour and placeholder glyph so a single factory serves every
+layer. Event markers show the event's **cover photo**, and the ring turns
+**accent orange while the event is live**.
+
+> The ring colour is baked into the bitmap, so it has to be part of the style
+> image id (`map-event-cover-<id>-live`). Miss that and an event that goes live
+> keeps the white-ringed image it was first registered with.
+
+**Ordering and taps.** The events layer is installed *after* businesses, so it
+draws on top; the single map-wide `TapInteraction` queries the event layer
+first, then businesses, then falls through to "dismiss". A tap that hits both
+belongs to the event.
+
+**Independent failure.** `MapBloc` fires both `/nearby` requests on the same
+camera-settled trigger and folds them separately: whichever succeeds updates its
+pins, and only a failure of *both* raises the banner. One dead endpoint emptying
+the other's layer would read as "there's nothing here" rather than "something
+broke".
+
+**No `distance_km` any more.** The backend dropped it from both nearby
+endpoints. `setBusinesses`/`setEvents` take the fetch centre and compute
+`symbol-sort-key` (collision priority) with `GeoPosition.distanceKmTo`; the
+popups compute their displayed distance the same way, in km.
+
+**The popup is the events feature's.** `MapFlutterOverlays` renders either
+`BusinessPopup` or `MapEventPopup` — selection is mutually exclusive, so one
+`AnimatedSwitcher` cross-fades between them. The event popup reads
+`MapEventDetailBloc`, which the `/map` route provides alongside `MapBloc` and
+which the full `/map-events/:id` page shares, so RSVP and participation logic
+exists once.
+
+**Top bar.** A static search row (pure UI, owner's call — deliberately *not* a
+disabled `TextField`, which would eat keystrokes and look broken) plus the
+orange **+** that opens the create-event flow.
+
+### 6.1b Clustering, if a layer ever needs it
+
+Neither shipped layer clusters — clusters would hide the logos and covers that
+are the whole point, and `iconAllowOverlap: false` already declutters for free.
+Should a future layer want it: one source per kind, `cluster: true`, three
+layers per source (cluster circles, cluster count, unclustered pins):
 
 ```dart
 await style.addSource(GeoJsonSource(
@@ -423,8 +517,10 @@ never remove and re-add the source, that flickers.
 Clustering helpers you get for free: `getGeoJsonClusterExpansionZoom` (zoom to
 fit on cluster tap), `getGeoJsonClusterLeaves` (list the members in a sheet).
 
-Car meets are the same shape plus a **time** dimension: colour/filter by
-`starts_at` via an expression, and let `MapBloc` drop past meets.
+Events already carry a **time** dimension, currently expressed as a ring colour
+per liveness (§6.1). Filtering by `starts_at` with a style expression — so the
+map can hide anything that's already over without a refetch — is the obvious
+next step if the pin count ever gets uncomfortable.
 
 ### 6.2 Driving roads (lines)
 
@@ -589,7 +685,7 @@ mapper.
 3. `MapLayerController` + `MapBloc` + debounced camera → businesses source,
    clustered, with a detail sheet on tap. **This is the reference pattern**;
    every later layer is a copy.
-4. Car meets (same shape + time filter).
+4. ~~Car meets~~ **done** — see §6.1 and `lib/features/map_events/README.md`.
 5. Driving roads (`LineLayer`, casing + line, detail sheet).
 6. 3D: swap the puck for the car model, `lightPreset` by time of day.
 7. Live users / convoys (Supabase Realtime + `ModelLayer` + interpolation).

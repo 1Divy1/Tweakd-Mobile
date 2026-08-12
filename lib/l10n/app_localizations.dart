@@ -4621,6 +4621,1092 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get mapErrorGeneric;
+
+  /// No description provided for @mapNavigate.
+  ///
+  /// In en, this message translates to:
+  /// **'Navigate'**
+  String get mapNavigate;
+
+  /// No description provided for @mapNavigateSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a navigation app'**
+  String get mapNavigateSheetTitle;
+
+  /// No description provided for @mapNavigateInstall.
+  ///
+  /// In en, this message translates to:
+  /// **'INSTALL'**
+  String get mapNavigateInstall;
+
+  /// No description provided for @mapNavigateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t open that app.'**
+  String get mapNavigateFailed;
+
+  /// No description provided for @mapEventsErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Please try again.'**
+  String get mapEventsErrorNetwork;
+
+  /// No description provided for @mapEventsErrorNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This event isn\'t available anymore.'**
+  String get mapEventsErrorNotFound;
+
+  /// No description provided for @mapEventsErrorForbidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the organizers can do that.'**
+  String get mapEventsErrorForbidden;
+
+  /// No description provided for @mapEventsErrorConflict.
+  ///
+  /// In en, this message translates to:
+  /// **'That isn\'t possible for this event right now.'**
+  String get mapEventsErrorConflict;
+
+  /// No description provided for @mapEventsErrorInvalidInput.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check the details and try again.'**
+  String get mapEventsErrorInvalidInput;
+
+  /// No description provided for @mapEventsErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get mapEventsErrorGeneric;
+
+  /// No description provided for @mapEventsStatusUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'UPCOMING'**
+  String get mapEventsStatusUpcoming;
+
+  /// No description provided for @mapEventsStatusLive.
+  ///
+  /// In en, this message translates to:
+  /// **'LIVE NOW'**
+  String get mapEventsStatusLive;
+
+  /// No description provided for @mapEventsStatusPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'PAST'**
+  String get mapEventsStatusPrevious;
+
+  /// No description provided for @mapEventsStatusHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'HIDDEN'**
+  String get mapEventsStatusHidden;
+
+  /// No description provided for @mapEventsStatusCanceled.
+  ///
+  /// In en, this message translates to:
+  /// **'CANCELED'**
+  String get mapEventsStatusCanceled;
+
+  /// No description provided for @mapEventsApprovalPending.
+  ///
+  /// In en, this message translates to:
+  /// **'PENDING REVIEW'**
+  String get mapEventsApprovalPending;
+
+  /// No description provided for @mapEventsApprovalAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'APPROVED'**
+  String get mapEventsApprovalAccepted;
+
+  /// No description provided for @mapEventsApprovalRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'REJECTED'**
+  String get mapEventsApprovalRejected;
+
+  /// No description provided for @mapEventsRejectionReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason: {reason}'**
+  String mapEventsRejectionReason(String reason);
+
+  /// No description provided for @mapEventsClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get mapEventsClose;
+
+  /// No description provided for @mapEventsShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get mapEventsShare;
+
+  /// No description provided for @mapEventsStatAttendees.
+  ///
+  /// In en, this message translates to:
+  /// **'ATTENDEES'**
+  String get mapEventsStatAttendees;
+
+  /// No description provided for @mapEventsStatCars.
+  ///
+  /// In en, this message translates to:
+  /// **'CARS'**
+  String get mapEventsStatCars;
+
+  /// No description provided for @mapEventsStatAway.
+  ///
+  /// In en, this message translates to:
+  /// **'AWAY'**
+  String get mapEventsStatAway;
+
+  /// No description provided for @mapEventsStatStarts.
+  ///
+  /// In en, this message translates to:
+  /// **'STARTS'**
+  String get mapEventsStatStarts;
+
+  /// No description provided for @mapEventsStatStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'STARTED'**
+  String get mapEventsStatStarted;
+
+  /// No description provided for @mapEventsDistanceKm.
+  ///
+  /// In en, this message translates to:
+  /// **'{distance} km'**
+  String mapEventsDistanceKm(String distance);
+
+  /// No description provided for @mapEventsGoingCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 going} other{{count} going}}'**
+  String mapEventsGoingCount(int count);
+
+  /// No description provided for @mapEventsRoleOrganizer.
+  ///
+  /// In en, this message translates to:
+  /// **'organizer'**
+  String get mapEventsRoleOrganizer;
+
+  /// No description provided for @mapEventsRoleCreator.
+  ///
+  /// In en, this message translates to:
+  /// **'creator'**
+  String get mapEventsRoleCreator;
+
+  /// No description provided for @mapEventsChipIndividual.
+  ///
+  /// In en, this message translates to:
+  /// **'INDIVIDUAL'**
+  String get mapEventsChipIndividual;
+
+  /// No description provided for @mapEventsChipBusiness.
+  ///
+  /// In en, this message translates to:
+  /// **'BUSINESS'**
+  String get mapEventsChipBusiness;
+
+  /// No description provided for @mapEventsAttending.
+  ///
+  /// In en, this message translates to:
+  /// **'ATTENDING'**
+  String get mapEventsAttending;
+
+  /// No description provided for @mapEventsInterested.
+  ///
+  /// In en, this message translates to:
+  /// **'INTERESTED'**
+  String get mapEventsInterested;
+
+  /// No description provided for @mapEventsWantToParticipate.
+  ///
+  /// In en, this message translates to:
+  /// **'WANT TO PARTICIPATE?'**
+  String get mapEventsWantToParticipate;
+
+  /// No description provided for @mapEventsParticipateShort.
+  ///
+  /// In en, this message translates to:
+  /// **'PARTICIPATE?'**
+  String get mapEventsParticipateShort;
+
+  /// No description provided for @mapEventsParticipating.
+  ///
+  /// In en, this message translates to:
+  /// **'PARTICIPATING'**
+  String get mapEventsParticipating;
+
+  /// No description provided for @mapEventsParticipationPending.
+  ///
+  /// In en, this message translates to:
+  /// **'PENDING'**
+  String get mapEventsParticipationPending;
+
+  /// No description provided for @mapEventsWithdrawAction.
+  ///
+  /// In en, this message translates to:
+  /// **'WITHDRAW'**
+  String get mapEventsWithdrawAction;
+
+  /// No description provided for @mapEventsCarOnEntryList.
+  ///
+  /// In en, this message translates to:
+  /// **'Your {car} is on the entry list'**
+  String mapEventsCarOnEntryList(String car);
+
+  /// No description provided for @mapEventsViewEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'VIEW EVENT'**
+  String get mapEventsViewEvent;
+
+  /// No description provided for @mapEventsCapacityOf.
+  ///
+  /// In en, this message translates to:
+  /// **'of {capacity}'**
+  String mapEventsCapacityOf(int capacity);
+
+  /// No description provided for @mapEventsTabOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'OVERVIEW'**
+  String get mapEventsTabOverview;
+
+  /// No description provided for @mapEventsTabCars.
+  ///
+  /// In en, this message translates to:
+  /// **'CARS · {count}'**
+  String mapEventsTabCars(int count);
+
+  /// No description provided for @mapEventsEntryListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'On the entry list'**
+  String get mapEventsEntryListTitle;
+
+  /// No description provided for @mapEventsApprovedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} APPROVED'**
+  String mapEventsApprovedCount(int count);
+
+  /// No description provided for @mapEventsSectionAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'ABOUT THIS EVENT'**
+  String get mapEventsSectionAbout;
+
+  /// No description provided for @mapEventsSectionOrganizers.
+  ///
+  /// In en, this message translates to:
+  /// **'ORGANIZERS'**
+  String get mapEventsSectionOrganizers;
+
+  /// No description provided for @mapEventsSectionRules.
+  ///
+  /// In en, this message translates to:
+  /// **'NOTES FROM THE ORGANIZER'**
+  String get mapEventsSectionRules;
+
+  /// No description provided for @mapEventsSectionContests.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTESTS'**
+  String get mapEventsSectionContests;
+
+  /// No description provided for @mapEventsSectionAttendees.
+  ///
+  /// In en, this message translates to:
+  /// **'ATTENDEES'**
+  String get mapEventsSectionAttendees;
+
+  /// No description provided for @mapEventsSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'SOON'**
+  String get mapEventsSoon;
+
+  /// No description provided for @mapEventsContestsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contests'**
+  String get mapEventsContestsTitle;
+
+  /// No description provided for @mapEventsContestsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Organizers will be able to run votes inside a meet — best build, cleanest bay, loudest exhaust.'**
+  String get mapEventsContestsBody;
+
+  /// No description provided for @mapEventsSeeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'SEE ALL'**
+  String get mapEventsSeeAll;
+
+  /// No description provided for @mapEventsSeeAllAttendees.
+  ///
+  /// In en, this message translates to:
+  /// **'SEE ALL ATTENDEES'**
+  String get mapEventsSeeAllAttendees;
+
+  /// No description provided for @mapEventsSeeAllCars.
+  ///
+  /// In en, this message translates to:
+  /// **'SEE ALL {count} CARS'**
+  String mapEventsSeeAllCars(int count);
+
+  /// No description provided for @mapEventsRegisterBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'Register your car before {deadline}'**
+  String mapEventsRegisterBefore(String deadline);
+
+  /// No description provided for @mapEventsRegistrationClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration has closed for this event.'**
+  String get mapEventsRegistrationClosed;
+
+  /// No description provided for @mapEventsCapacityFull.
+  ///
+  /// In en, this message translates to:
+  /// **'The entry list is full.'**
+  String get mapEventsCapacityFull;
+
+  /// No description provided for @mapEventsGarageLink.
+  ///
+  /// In en, this message translates to:
+  /// **'GARAGE'**
+  String get mapEventsGarageLink;
+
+  /// No description provided for @mapEventsEntryListEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No cars on the entry list yet.'**
+  String get mapEventsEntryListEmpty;
+
+  /// No description provided for @mapEventsAttendeesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody has RSVP\'d yet.'**
+  String get mapEventsAttendeesEmpty;
+
+  /// No description provided for @mapEventsRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'TRY AGAIN'**
+  String get mapEventsRetry;
+
+  /// No description provided for @mapEventsStripPendingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Request pending'**
+  String get mapEventsStripPendingTitle;
+
+  /// No description provided for @mapEventsStripPendingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The organizers will approve or decline your entry.'**
+  String get mapEventsStripPendingBody;
+
+  /// No description provided for @mapEventsStripDeclinedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry declined'**
+  String get mapEventsStripDeclinedTitle;
+
+  /// No description provided for @mapEventsStripDeclinedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The organizers declined this car for this event.'**
+  String get mapEventsStripDeclinedBody;
+
+  /// No description provided for @mapEventsStripWithdrawnTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawal requested'**
+  String get mapEventsStripWithdrawnTitle;
+
+  /// No description provided for @mapEventsStripWithdrawnBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The organizers are reviewing your request to leave. You can\'t take it back.'**
+  String get mapEventsStripWithdrawnBody;
+
+  /// No description provided for @mapEventsStripUnknownTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration in progress'**
+  String get mapEventsStripUnknownTitle;
+
+  /// No description provided for @mapEventsStripUnknownBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You have a car registered for this event. Its status isn\'t visible here yet.'**
+  String get mapEventsStripUnknownBody;
+
+  /// No description provided for @mapEventsTryAnotherCar.
+  ///
+  /// In en, this message translates to:
+  /// **'TRY ANOTHER CAR'**
+  String get mapEventsTryAnotherCar;
+
+  /// No description provided for @mapEventsCancelRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'CANCEL REQUEST'**
+  String get mapEventsCancelRequest;
+
+  /// No description provided for @mapEventsPickCarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Which car are you bringing?'**
+  String get mapEventsPickCarTitle;
+
+  /// No description provided for @mapEventsPickCarEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your garage is empty'**
+  String get mapEventsPickCarEmptyTitle;
+
+  /// No description provided for @mapEventsPickCarEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a car to your garage first, then register it for an event.'**
+  String get mapEventsPickCarEmptyBody;
+
+  /// No description provided for @mapEventsPickCarAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD A CAR'**
+  String get mapEventsPickCarAdd;
+
+  /// No description provided for @mapEventsCarYear.
+  ///
+  /// In en, this message translates to:
+  /// **'{year}'**
+  String mapEventsCarYear(String year);
+
+  /// No description provided for @mapEventsWithdrawTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw from this event?'**
+  String get mapEventsWithdrawTitle;
+
+  /// No description provided for @mapEventsWithdrawBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll ask the organizers to take you off the entry list, and off any contests running inside this event. Once sent, the request can\'t be taken back.'**
+  String get mapEventsWithdrawBody;
+
+  /// No description provided for @mapEventsWithdrawNoteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'NOTE FOR ORGANIZERS (OPTIONAL)'**
+  String get mapEventsWithdrawNoteLabel;
+
+  /// No description provided for @mapEventsWithdrawNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Let them know why, if you\'d like…'**
+  String get mapEventsWithdrawNoteHint;
+
+  /// No description provided for @mapEventsCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'CANCEL'**
+  String get mapEventsCancel;
+
+  /// No description provided for @mapEventsAttendeesPageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Attendees'**
+  String get mapEventsAttendeesPageTitle;
+
+  /// No description provided for @mapEventsFilterAttending.
+  ///
+  /// In en, this message translates to:
+  /// **'ATTENDING'**
+  String get mapEventsFilterAttending;
+
+  /// No description provided for @mapEventsFilterInterested.
+  ///
+  /// In en, this message translates to:
+  /// **'INTERESTED'**
+  String get mapEventsFilterInterested;
+
+  /// No description provided for @mapEventsCreateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW EVENT'**
+  String get mapEventsCreateTitle;
+
+  /// No description provided for @mapEventsEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'EDIT EVENT'**
+  String get mapEventsEditTitle;
+
+  /// No description provided for @mapEventsCoverAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD COVER PHOTO'**
+  String get mapEventsCoverAdd;
+
+  /// No description provided for @mapEventsCoverHint.
+  ///
+  /// In en, this message translates to:
+  /// **'1600 × 900 recommended'**
+  String get mapEventsCoverHint;
+
+  /// No description provided for @mapEventsCoverChange.
+  ///
+  /// In en, this message translates to:
+  /// **'CHANGE COVER'**
+  String get mapEventsCoverChange;
+
+  /// No description provided for @mapEventsFieldTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'EVENT TITLE'**
+  String get mapEventsFieldTitle;
+
+  /// No description provided for @mapEventsFieldTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Casino Square Cars & Coffee'**
+  String get mapEventsFieldTitleHint;
+
+  /// No description provided for @mapEventsFieldCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'EVENT CATEGORY'**
+  String get mapEventsFieldCategory;
+
+  /// No description provided for @mapEventsCategoriesSoonNote.
+  ///
+  /// In en, this message translates to:
+  /// **'More categories are coming soon.'**
+  String get mapEventsCategoriesSoonNote;
+
+  /// No description provided for @mapEventsCategoryTrackDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Track Day'**
+  String get mapEventsCategoryTrackDay;
+
+  /// No description provided for @mapEventsCategoryCarShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Car Show'**
+  String get mapEventsCategoryCarShow;
+
+  /// No description provided for @mapEventsCategoryCruise.
+  ///
+  /// In en, this message translates to:
+  /// **'Cruise'**
+  String get mapEventsCategoryCruise;
+
+  /// No description provided for @mapEventsFieldDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'DESCRIPTION'**
+  String get mapEventsFieldDescription;
+
+  /// No description provided for @mapEventsFieldDescriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s the event about, who\'s it for, anything people should know before showing up…'**
+  String get mapEventsFieldDescriptionHint;
+
+  /// No description provided for @mapEventsFieldLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'LOCATION'**
+  String get mapEventsFieldLocation;
+
+  /// No description provided for @mapEventsFieldVenueHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue name — e.g. Place du Casino'**
+  String get mapEventsFieldVenueHint;
+
+  /// No description provided for @mapEventsSetLocationOnMap.
+  ///
+  /// In en, this message translates to:
+  /// **'SET LOCATION ON MAP'**
+  String get mapEventsSetLocationOnMap;
+
+  /// No description provided for @mapEventsLocationSet.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN PLACED · TAP TO MOVE'**
+  String get mapEventsLocationSet;
+
+  /// No description provided for @mapEventsFieldDateTime.
+  ///
+  /// In en, this message translates to:
+  /// **'DATE & TIME'**
+  String get mapEventsFieldDateTime;
+
+  /// No description provided for @mapEventsStartsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts'**
+  String get mapEventsStartsLabel;
+
+  /// No description provided for @mapEventsEndsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ends'**
+  String get mapEventsEndsLabel;
+
+  /// No description provided for @mapEventsEndBlankHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave the end blank for an open-ended event.'**
+  String get mapEventsEndBlankHint;
+
+  /// No description provided for @mapEventsClearEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'CLEAR END'**
+  String get mapEventsClearEnd;
+
+  /// No description provided for @mapEventsFieldCapacity.
+  ///
+  /// In en, this message translates to:
+  /// **'MAX CAPACITY'**
+  String get mapEventsFieldCapacity;
+
+  /// No description provided for @mapEventsOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'OPTIONAL'**
+  String get mapEventsOptional;
+
+  /// No description provided for @mapEventsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'REQUIRED'**
+  String get mapEventsRequired;
+
+  /// No description provided for @mapEventsCapacityHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No limit — e.g. 40 spots'**
+  String get mapEventsCapacityHint;
+
+  /// No description provided for @mapEventsCapacityLockedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A capacity can be raised later, but not removed.'**
+  String get mapEventsCapacityLockedHint;
+
+  /// No description provided for @mapEventsApprovalToggleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Require approval to join'**
+  String get mapEventsApprovalToggleTitle;
+
+  /// No description provided for @mapEventsApprovalToggleBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You and your co-organizers review each request before a participant is added to the entry list.'**
+  String get mapEventsApprovalToggleBody;
+
+  /// No description provided for @mapEventsFieldDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'REGISTRATION DEADLINE'**
+  String get mapEventsFieldDeadline;
+
+  /// No description provided for @mapEventsFieldRules.
+  ///
+  /// In en, this message translates to:
+  /// **'RULES & GUIDELINES'**
+  String get mapEventsFieldRules;
+
+  /// No description provided for @mapEventsAddRule.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD A RULE'**
+  String get mapEventsAddRule;
+
+  /// No description provided for @mapEventsRuleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. No revving or burnouts.'**
+  String get mapEventsRuleHint;
+
+  /// No description provided for @mapEventsRemoveRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove rule'**
+  String get mapEventsRemoveRule;
+
+  /// No description provided for @mapEventsFieldOrganizers.
+  ///
+  /// In en, this message translates to:
+  /// **'ORGANIZERS'**
+  String get mapEventsFieldOrganizers;
+
+  /// No description provided for @mapEventsOrganizersHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re the creator. Add other individual or certified business accounts to co-organize with you.'**
+  String get mapEventsOrganizersHint;
+
+  /// No description provided for @mapEventsYouCreator.
+  ///
+  /// In en, this message translates to:
+  /// **'YOU · CREATOR'**
+  String get mapEventsYouCreator;
+
+  /// No description provided for @mapEventsAddOrganizer.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD ORGANIZER'**
+  String get mapEventsAddOrganizer;
+
+  /// No description provided for @mapEventsRemoveOrganizer.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove organizer'**
+  String get mapEventsRemoveOrganizer;
+
+  /// No description provided for @mapEventsCreateCta.
+  ///
+  /// In en, this message translates to:
+  /// **'CREATE EVENT'**
+  String get mapEventsCreateCta;
+
+  /// No description provided for @mapEventsCreateCtaIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD TITLE, LOCATION & START TIME'**
+  String get mapEventsCreateCtaIncomplete;
+
+  /// No description provided for @mapEventsCreateCtaDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD A REGISTRATION DEADLINE'**
+  String get mapEventsCreateCtaDeadline;
+
+  /// No description provided for @mapEventsSaveCta.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE CHANGES'**
+  String get mapEventsSaveCta;
+
+  /// No description provided for @mapEventsSubmitting.
+  ///
+  /// In en, this message translates to:
+  /// **'Just a moment…'**
+  String get mapEventsSubmitting;
+
+  /// No description provided for @mapEventsValidationEndBeforeStart.
+  ///
+  /// In en, this message translates to:
+  /// **'The end time has to be after the start time.'**
+  String get mapEventsValidationEndBeforeStart;
+
+  /// No description provided for @mapEventsValidationDeadlineAfterStart.
+  ///
+  /// In en, this message translates to:
+  /// **'The registration deadline has to be before the event starts.'**
+  String get mapEventsValidationDeadlineAfterStart;
+
+  /// No description provided for @mapEventsValidationCapacity.
+  ///
+  /// In en, this message translates to:
+  /// **'Capacity has to be at least 1.'**
+  String get mapEventsValidationCapacity;
+
+  /// No description provided for @mapEventsPendingReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent for review'**
+  String get mapEventsPendingReviewTitle;
+
+  /// No description provided for @mapEventsPendingReviewBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Our team checks every new event before it shows up on the map. You\'ll find it under Events on your profile in the meantime.'**
+  String get mapEventsPendingReviewBody;
+
+  /// No description provided for @mapEventsDone.
+  ///
+  /// In en, this message translates to:
+  /// **'DONE'**
+  String get mapEventsDone;
+
+  /// No description provided for @mapEventsCoverUploadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The event was created, but the cover photo didn\'t upload. You can add it from My events.'**
+  String get mapEventsCoverUploadFailed;
+
+  /// No description provided for @mapEventsPickLocationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Place the pin'**
+  String get mapEventsPickLocationTitle;
+
+  /// No description provided for @mapEventsPickLocationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Move the map so the pin sits where the event happens.'**
+  String get mapEventsPickLocationHint;
+
+  /// No description provided for @mapEventsUseThisLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'USE THIS LOCATION'**
+  String get mapEventsUseThisLocation;
+
+  /// No description provided for @mapEventsSearchOrganizersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an organizer'**
+  String get mapEventsSearchOrganizersTitle;
+
+  /// No description provided for @mapEventsSearchOrganizersHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search people and businesses'**
+  String get mapEventsSearchOrganizersHint;
+
+  /// No description provided for @mapEventsSearchOrganizersEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody matched that.'**
+  String get mapEventsSearchOrganizersEmpty;
+
+  /// No description provided for @mapEventsSearchOrganizersPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Start typing a name to find people and certified businesses.'**
+  String get mapEventsSearchOrganizersPrompt;
+
+  /// No description provided for @profileTabEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'EVENTS'**
+  String get profileTabEvents;
+
+  /// No description provided for @mapEventsMineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My events'**
+  String get mapEventsMineTitle;
+
+  /// No description provided for @mapEventsMineEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No events yet'**
+  String get mapEventsMineEmptyTitle;
+
+  /// No description provided for @mapEventsMineEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Events you create show up here — including the ones still waiting for review.'**
+  String get mapEventsMineEmptyBody;
+
+  /// No description provided for @mapEventsMineCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'CREATE AN EVENT'**
+  String get mapEventsMineCreate;
+
+  /// No description provided for @mapEventsManageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage event'**
+  String get mapEventsManageTitle;
+
+  /// No description provided for @mapEventsManageEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'ENTRY REQUESTS'**
+  String get mapEventsManageEntries;
+
+  /// No description provided for @mapEventsManageWithdrawals.
+  ///
+  /// In en, this message translates to:
+  /// **'WITHDRAWAL REQUESTS'**
+  String get mapEventsManageWithdrawals;
+
+  /// No description provided for @mapEventsManageOrganizers.
+  ///
+  /// In en, this message translates to:
+  /// **'ORGANIZERS'**
+  String get mapEventsManageOrganizers;
+
+  /// No description provided for @mapEventsManageDanger.
+  ///
+  /// In en, this message translates to:
+  /// **'EVENT'**
+  String get mapEventsManageDanger;
+
+  /// No description provided for @mapEventsNoPendingEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'No entry requests waiting.'**
+  String get mapEventsNoPendingEntries;
+
+  /// No description provided for @mapEventsNoWithdrawals.
+  ///
+  /// In en, this message translates to:
+  /// **'No withdrawal requests waiting.'**
+  String get mapEventsNoWithdrawals;
+
+  /// No description provided for @mapEventsAccept.
+  ///
+  /// In en, this message translates to:
+  /// **'ACCEPT'**
+  String get mapEventsAccept;
+
+  /// No description provided for @mapEventsDecline.
+  ///
+  /// In en, this message translates to:
+  /// **'DECLINE'**
+  String get mapEventsDecline;
+
+  /// No description provided for @mapEventsLetThemOut.
+  ///
+  /// In en, this message translates to:
+  /// **'LET THEM OUT'**
+  String get mapEventsLetThemOut;
+
+  /// No description provided for @mapEventsKeepThemIn.
+  ///
+  /// In en, this message translates to:
+  /// **'KEEP THEM IN'**
+  String get mapEventsKeepThemIn;
+
+  /// No description provided for @mapEventsWithdrawalNoteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Their note'**
+  String get mapEventsWithdrawalNoteLabel;
+
+  /// No description provided for @mapEventsEditEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'EDIT EVENT'**
+  String get mapEventsEditEvent;
+
+  /// No description provided for @mapEventsCancelEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'CANCEL EVENT'**
+  String get mapEventsCancelEvent;
+
+  /// No description provided for @mapEventsFinishEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'FINISH EVENT'**
+  String get mapEventsFinishEvent;
+
+  /// No description provided for @mapEventsDeleteEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'DELETE EVENT'**
+  String get mapEventsDeleteEvent;
+
+  /// No description provided for @mapEventsEditLockedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'An event can only be edited while it\'s waiting for review or after it\'s been rejected.'**
+  String get mapEventsEditLockedHint;
+
+  /// No description provided for @mapEventsConfirmCancelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel this event?'**
+  String get mapEventsConfirmCancelTitle;
+
+  /// No description provided for @mapEventsConfirmCancelBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It stays visible but is marked as canceled, and nobody can register a car anymore.'**
+  String get mapEventsConfirmCancelBody;
+
+  /// No description provided for @mapEventsConfirmFinishTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish this event?'**
+  String get mapEventsConfirmFinishTitle;
+
+  /// No description provided for @mapEventsConfirmFinishBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It moves to your past events. RSVPs and the entry list stay as they are.'**
+  String get mapEventsConfirmFinishBody;
+
+  /// No description provided for @mapEventsConfirmDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this event?'**
+  String get mapEventsConfirmDeleteTitle;
+
+  /// No description provided for @mapEventsConfirmDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This can\'t be undone. The entry list and every RSVP go with it.'**
+  String get mapEventsConfirmDeleteBody;
+
+  /// No description provided for @mapEventsConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'CONFIRM'**
+  String get mapEventsConfirm;
+
+  /// No description provided for @mapEventsDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'DELETE'**
+  String get mapEventsDelete;
+
+  /// No description provided for @mapEventsWithdrawalCarsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 car} other{{count} cars}}'**
+  String mapEventsWithdrawalCarsCount(int count);
+
+  /// No description provided for @mapSearchPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Search meets, shops, cities…'**
+  String get mapSearchPlaceholder;
+
+  /// No description provided for @mapCreateEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an event'**
+  String get mapCreateEvent;
+
+  /// No description provided for @mapEventsCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Event details copied.'**
+  String get mapEventsCopied;
+
+  /// No description provided for @mapEventsDateCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When'**
+  String get mapEventsDateCardTitle;
 }
 
 class _AppLocalizationsDelegate

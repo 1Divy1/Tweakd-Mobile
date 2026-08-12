@@ -81,5 +81,15 @@
 			</array>
 		</dict>
 	</array>
+	<!-- Navigation apps the map's "Navigate" sheet probes for with
+	     canLaunchUrl. Without an entry here the probe answers "not installed"
+	     for an app that is installed. `maps` is Apple Maps, which is deletable
+	     since iOS 10 and so has to be probed like any other. -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>comgooglemaps</string>
+		<string>waze</string>
+		<string>maps</string>
+	</array>
 </dict>
 </plist>

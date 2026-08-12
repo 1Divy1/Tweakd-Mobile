@@ -10,8 +10,9 @@ import 'business_hours_list.dart';
 class BusinessPopupContent extends StatelessWidget {
   final BusinessDetailEntity business;
 
-  /// Straight-line distance from the map's query centre, carried over from the
-  /// pin — `GET /businesses/{id}` doesn't return one.
+  /// Straight-line distance from the map's query centre, computed by the
+  /// caller — neither `/businesses/nearby` nor `GET /businesses/{id}` returns
+  /// one any more.
   final double? distanceKm;
 
   const BusinessPopupContent({
@@ -76,6 +77,8 @@ class BusinessPopupContent extends StatelessWidget {
   }
 }
 
+// ----- Widgets -----
+
 class _Header extends StatelessWidget {
   final BusinessDetailEntity business;
 
@@ -110,8 +113,8 @@ class _Header extends StatelessWidget {
                     const SizedBox(width: 6),
                     const Icon(
                       Icons.verified_rounded,
-                      size: 17,
-                      color: AppColors.accent,
+                      size: 22.5,
+                      color: Colors.blue,
                     ),
                   ],
                 ],

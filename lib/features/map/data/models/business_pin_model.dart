@@ -2,6 +2,11 @@ import '../../domain/entities/business_pin_entity.dart';
 import '../../domain/entities/geo_position.dart';
 
 /// One item of `GET /businesses/nearby`. snake_case on the wire, as everywhere.
+///
+/// No `distance_km`: the backend removed it from this endpoint (and from
+/// `/map-events/nearby`) because a straight-line distance is something the
+/// client can compute for itself. Anything the UI shows — or sorts by — is
+/// derived from [lat]/[lng] against the centre the map queried around.
 class BusinessPinModel {
   final String id;
   final String name;
@@ -13,7 +18,6 @@ class BusinessPinModel {
   final double averageRating;
   final int reviewCount;
   final bool isOpenNow;
-  final double distanceKm;
 
   const BusinessPinModel({
     required this.id,
@@ -26,7 +30,6 @@ class BusinessPinModel {
     required this.averageRating,
     required this.reviewCount,
     required this.isOpenNow,
-    required this.distanceKm,
   });
 
   factory BusinessPinModel.fromJson(Map<String, dynamic> json) {
@@ -41,7 +44,6 @@ class BusinessPinModel {
       averageRating: (json['average_rating'] as num?)?.toDouble() ?? 0,
       reviewCount: (json['review_count'] as num?)?.toInt() ?? 0,
       isOpenNow: json['is_open_now'] as bool? ?? false,
-      distanceKm: (json['distance_km'] as num?)?.toDouble() ?? 0,
     );
   }
 
@@ -56,7 +58,6 @@ class BusinessPinModel {
       averageRating: averageRating,
       reviewCount: reviewCount,
       isOpenNow: isOpenNow,
-      distanceKm: distanceKm,
     );
   }
 }

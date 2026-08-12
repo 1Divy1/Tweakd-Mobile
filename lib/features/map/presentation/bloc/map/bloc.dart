@@ -1,3 +1,5 @@
+import 'package:car_social_media_app/features/map_events/domain/usecases/map_event_reads.dart';
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -13,25 +15,32 @@ import '../../utils/map_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
 
-/// Drives the map's data: where to look, which businesses are near there, and
-/// the profile behind a tapped pin.
+/// Drives the map's data: where to look, which businesses and events are near
+/// there, and the profile behind a tapped business pin.
 ///
 /// Map data is **viewport-scoped**, not cursor-paginated, so this bloc looks
-/// nothing like the app's list blocs. Two rules keep it honest:
+/// nothing like the app's list blocs. Three rules keep it honest:
 ///
 /// * a settled camera only triggers a fetch once it has moved
 ///   [kMapRefetchDistanceKm] from the last one — `onMapIdle` fires after every
 ///   pan and refetching on each would hammer the backend;
 /// * a failed fetch never clears the pins already on screen. The page shows a
-///   dismissible banner over a still-usable map instead of an error view.
+///   dismissible banner over a still-usable map instead of an error view;
+/// * the two layers fail independently — a broken events endpoint must still
+///   leave the businesses on the map, and vice versa.
+///
+/// The tapped *event* deliberately doesn't live here: its detail, RSVP and
+/// participation state is `MapEventDetailBloc`'s, which the popup shares with
+/// the full detail page so that logic exists once.
 @injectable
 class MapBloc extends Bloc<MapEvent, MapState> {
   final GetNearbyBusinessesUseCase getNearbyBusinesses;
   final GetBusinessDetailUseCase getBusinessDetail;
   final GetCurrentPositionUseCase getCurrentPosition;
+  final GetNearbyMapEventsUseCase getNearbyEvents;
 
-  /// Cancels the in-flight nearby request when a newer one supersedes it, so a
-  /// slow response for an old centre can't overwrite fresher pins.
+  /// Cancels the in-flight nearby requests when a newer one supersedes them, so
+  /// a slow response for an old centre can't overwrite fresher pins.
   CancelToken? _nearbyCancelToken;
 
   /// Cancels the profile request when the popup closes before it lands.
@@ -43,12 +52,15 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     required this.getNearbyBusinesses,
     required this.getBusinessDetail,
     required this.getCurrentPosition,
+    required this.getNearbyEvents,
   }) : super(const MapState()) {
     on<MapStarted>(_onStarted);
     on<MapCameraSettled>(_onCameraSettled);
     on<MapBusinessSelected>(_onBusinessSelected);
+    on<MapEventPinSelected>(_onEventSelected);
     on<MapBusinessDismissed>(_onBusinessDismissed);
     on<MapBusinessDetailRetried>(_onDetailRetried);
+    on<MapEventPinRefreshed>(_onEventPinRefreshed);
     on<MapRecentreRequested>(_onRecentreRequested);
     on<MapErrorDismissed>(_onErrorDismissed);
   }
@@ -125,13 +137,48 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     final cancelToken = CancelToken();
     _detailCancelToken = cancelToken;
 
-    emit(state.copyWith(
+    // clearSelection first so an open event popup closes: one card at a time.
+    emit(state.copyWith(clearSelection: true).copyWith(
       selectedBusinessId: event.businessId,
       detailStatus: BusinessDetailStatus.loading,
       clearDetail: true,
     ));
 
     await _fetchDetail(event.businessId, cancelToken, emit);
+  }
+
+  void _onEventSelected(MapEventPinSelected event, Emitter<MapState> emit) {
+    // An event popup replaces a business one, so the in-flight business fetch
+    // is no longer wanted.
+    _detailCancelToken?.cancel();
+    _detailCancelToken = null;
+
+    emit(state
+        .copyWith(clearSelection: true)
+        .copyWith(selectedEventId: event.eventId));
+  }
+
+  /// Keeps a pin's counters in step with what the popup did, without spending a
+  /// `/nearby` round trip on a change we already know the answer to.
+  void _onEventPinRefreshed(
+    MapEventPinRefreshed event,
+    Emitter<MapState> emit,
+  ) {
+    var changed = false;
+    final events = [
+      for (final e in state.events)
+        if (e.id == event.eventId)
+          () {
+            changed = true;
+            return e.copyWith(
+              attendeesCount: event.attendeesCount,
+              attendingCarsCount: event.attendingCarsCount,
+            );
+          }()
+        else
+          e,
+    ];
+    if (changed) emit(state.copyWith(events: events));
   }
 
   Future<void> _onDetailRetried(
@@ -166,6 +213,12 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     emit(state.copyWith(clearError: true));
   }
 
+  /// Loads both layers around [centre] in one pass.
+  ///
+  /// The two requests go out together and are folded independently: whichever
+  /// succeeds updates its pins, and only a failure of *both* raises the banner.
+  /// One dead endpoint emptying the other's layer would look like "there's
+  /// nothing here" rather than "something broke".
   Future<void> _fetchAround(GeoPosition centre, Emitter<MapState> emit) async {
     _nearbyCancelToken?.cancel();
     final cancelToken = CancelToken();
@@ -173,7 +226,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
     emit(state.copyWith(status: MapStatus.loading, clearError: true));
 
-    final result = await getNearbyBusinesses(
+    // Both futures are started before either is awaited, so the two requests
+    // overlap instead of running back to back.
+    final businessRequest = getNearbyBusinesses(
       GetNearbyBusinessesParams(
         centre: centre,
         radiusKm: kMapSearchRadiusKm,
@@ -181,25 +236,48 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         cancelToken: cancelToken,
       ),
     );
+    final eventRequest = getNearbyEvents(
+      GetNearbyMapEventsParams(
+        centre: centre,
+        radiusKm: kMapSearchRadiusKm,
+        limit: kMapSearchLimit,
+        cancelToken: cancelToken,
+      ),
+    );
+
+    final businessResult = await businessRequest;
+    final eventResult = await eventRequest;
 
     if (cancelToken != _nearbyCancelToken) return;
 
-    result.fold(
-      (failure) {
-        // A superseded request isn't a failure the user should hear about.
-        if (failure is RequestCancelledFailure) return;
-        emit(state.copyWith(
-          status: MapStatus.failure,
-          errorCode: MapErrorMapper.getCode(failure),
-        ));
-      },
-      (businesses) => emit(state.copyWith(
-        status: MapStatus.loaded,
-        businesses: businesses,
-        fetchCentre: centre,
-        clearError: true,
-      )),
-    );
+    // A superseded request isn't a failure the user should hear about, so it
+    // counts as neither a success nor a reason to raise the banner.
+    Failure? reportable(Either<Failure, Object> result) => result.fold(
+          (f) => f is RequestCancelledFailure ? null : f,
+          (_) => null,
+        );
+
+    final businessFailure = reportable(businessResult);
+    final eventFailure = reportable(eventResult);
+
+    // Both layers down: that's worth a banner. One of them down just leaves
+    // that layer's previous pins in place — an empty map would read as "there's
+    // nothing here" rather than "something broke".
+    if (businessFailure != null && eventFailure != null) {
+      emit(state.copyWith(
+        status: MapStatus.failure,
+        errorCode: MapErrorMapper.getCode(businessFailure),
+      ));
+      return;
+    }
+
+    emit(state.copyWith(
+      status: MapStatus.loaded,
+      businesses: businessResult.getOrElse(() => state.businesses),
+      events: eventResult.getOrElse(() => state.events),
+      fetchCentre: centre,
+      clearError: true,
+    ));
   }
 
   Future<void> _fetchDetail(

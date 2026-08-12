@@ -1,3 +1,4 @@
+import 'package:car_social_media_app/features/map_events/domain/entities/map_event_pin.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/business_detail_entity.dart';
@@ -41,6 +42,11 @@ class MapState extends Equatable {
 
   final List<BusinessPinEntity> businesses;
 
+  /// Event pins around [fetchCentre]. Fetched alongside the businesses on the
+  /// same camera-settled trigger, and failing independently of them — one layer
+  /// being down shouldn't empty the other.
+  final List<MapEventPinEntity> events;
+
   /// Banner over the map. Never replaces the map itself.
   final MapErrorCode? errorCode;
 
@@ -51,20 +57,40 @@ class MapState extends Equatable {
   final BusinessDetailEntity? selectedBusiness;
   final MapErrorCode? detailErrorCode;
 
+  /// The tapped event pin. Mutually exclusive with [selectedBusinessId] — one
+  /// popup at a time — and the event's own detail lives in
+  /// `MapEventDetailBloc`, not here, because the detail *page* needs exactly
+  /// the same state and actions.
+  final String? selectedEventId;
+
   const MapState({
     this.status = MapStatus.initial,
     this.fetchCentre,
     this.hasDeviceLocation = false,
     this.businesses = const [],
+    this.events = const [],
     this.errorCode,
     this.cameraCommand,
     this.selectedBusinessId,
     this.detailStatus = BusinessDetailStatus.idle,
     this.selectedBusiness,
     this.detailErrorCode,
+    this.selectedEventId,
   });
 
-  bool get isPopupOpen => selectedBusinessId != null;
+  bool get isPopupOpen => selectedBusinessId != null || selectedEventId != null;
+
+  /// The tapped event, straight from the already-loaded pins, so the popup can
+  /// show a cover, a title and the counts while `GET /map-events/{id}` is
+  /// still in flight.
+  MapEventPinEntity? get selectedEventPin {
+    final id = selectedEventId;
+    if (id == null) return null;
+    for (final e in events) {
+      if (e.id == id) return e;
+    }
+    return null;
+  }
 
   /// The tapped pin, available immediately from the already-loaded list so the
   /// popup can show a name and logo while the full profile is still in flight.
@@ -82,6 +108,7 @@ class MapState extends Equatable {
     GeoPosition? fetchCentre,
     bool? hasDeviceLocation,
     List<BusinessPinEntity>? businesses,
+    List<MapEventPinEntity>? events,
     MapErrorCode? errorCode,
     bool clearError = false,
     MapCameraCommand? cameraCommand,
@@ -89,6 +116,7 @@ class MapState extends Equatable {
     BusinessDetailStatus? detailStatus,
     BusinessDetailEntity? selectedBusiness,
     MapErrorCode? detailErrorCode,
+    String? selectedEventId,
     bool clearSelection = false,
     bool clearDetail = false,
   }) {
@@ -98,6 +126,7 @@ class MapState extends Equatable {
       fetchCentre: fetchCentre ?? this.fetchCentre,
       hasDeviceLocation: hasDeviceLocation ?? this.hasDeviceLocation,
       businesses: businesses ?? this.businesses,
+      events: events ?? this.events,
       errorCode: clearError ? null : (errorCode ?? this.errorCode),
       cameraCommand: cameraCommand ?? this.cameraCommand,
       selectedBusinessId:
@@ -109,6 +138,8 @@ class MapState extends Equatable {
           dropDetail ? selectedBusiness : (selectedBusiness ?? this.selectedBusiness),
       detailErrorCode:
           dropDetail ? detailErrorCode : (detailErrorCode ?? this.detailErrorCode),
+      selectedEventId:
+          clearSelection ? null : (selectedEventId ?? this.selectedEventId),
     );
   }
 
@@ -118,11 +149,13 @@ class MapState extends Equatable {
         fetchCentre,
         hasDeviceLocation,
         businesses,
+        events,
         errorCode,
         cameraCommand,
         selectedBusinessId,
         detailStatus,
         selectedBusiness,
         detailErrorCode,
+        selectedEventId,
       ];
 }

@@ -48,6 +48,22 @@ import '../../features/garage/presentation/pages/register_car_page.dart';
 import '../../features/map/presentation/bloc/map/bloc.dart';
 import '../../features/map/presentation/bloc/map/event.dart';
 import '../../features/map/presentation/pages/map_page.dart';
+import '../../features/map_events/domain/entities/map_event.dart';
+import '../../features/map_events/presentation/bloc/attendees/bloc.dart';
+import '../../features/map_events/presentation/bloc/attendees/event.dart';
+import '../../features/map_events/presentation/bloc/create_event/bloc.dart';
+import '../../features/map_events/presentation/bloc/create_event/event.dart';
+import '../../features/map_events/presentation/bloc/event_detail/bloc.dart';
+import '../../features/map_events/presentation/bloc/event_detail/event.dart';
+import '../../features/map_events/presentation/bloc/manage_event/bloc.dart';
+import '../../features/map_events/presentation/bloc/manage_event/event.dart';
+import '../../features/map_events/presentation/bloc/my_events/bloc.dart';
+import '../../features/map_events/presentation/bloc/my_events/event.dart';
+import '../../features/map_events/presentation/pages/create_map_event_page.dart';
+import '../../features/map_events/presentation/pages/manage_map_event_page.dart';
+import '../../features/map_events/presentation/pages/map_event_attendees_page.dart';
+import '../../features/map_events/presentation/pages/map_event_detail_page.dart';
+import '../../features/map_events/presentation/pages/my_map_events_page.dart';
 import '../../features/messages/domain/entities/message_user.dart';
 import '../../features/messages/presentation/bloc/chat/bloc.dart';
 import '../../features/messages/presentation/bloc/chat/event.dart';
@@ -141,6 +157,10 @@ final appRouter = GoRouter(
             // No event dispatched: the tags feed is fetched the first time the
             // Tags tab is opened, so a profile visit doesn't pay for it.
             BlocProvider<TagsBloc>(create: (_) => getIt<TagsBloc>()),
+            // Same lazy contract for the Events tab.
+            BlocProvider<MyMapEventsBloc>(
+              create: (_) => getIt<MyMapEventsBloc>(),
+            ),
           ],
           child: const MyProfilePage(),
         ),
@@ -267,14 +287,93 @@ final appRouter = GoRouter(
     ),
 
     // ---------- Map ----------
+    // Pushed (not go'd) from the bottom nav, so — unlike the other tabs —
+    // it keeps the platform's default push/pop transition instead of
+    // NoTransitionPage.
+    //
+    // MapEventDetailBloc rides along because the event popup is the same bloc
+    // the /map-events/:id page uses; no event is dispatched here, it loads when
+    // a pin is tapped.
     GoRoute(
       path: '/map',
-      pageBuilder: (context, state) => NoTransitionPage(
-        child: BlocProvider<MapBloc>(
-          create: (_) => getIt<MapBloc>()..add(const MapStarted()),
-          child: const MapPage(),
-        ),
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider<MapBloc>(
+            create: (_) => getIt<MapBloc>()..add(const MapStarted()),
+          ),
+          BlocProvider<MapEventDetailBloc>(
+            create: (_) => getIt<MapEventDetailBloc>(),
+          ),
+        ],
+        child: const MapPage(),
       ),
+    ),
+
+    // ---------- Map events ----------
+    GoRoute(
+      path: '/map-events/create',
+      builder: (context, state) => BlocProvider<CreateMapEventBloc>(
+        create: (_) =>
+            getIt<CreateMapEventBloc>()..add(const LoadCreateEventRefs()),
+        child: const CreateMapEventPage(),
+      ),
+    ),
+    GoRoute(
+      path: '/map-events/mine',
+      builder: (context, state) => BlocProvider<MyMapEventsBloc>(
+        create: (_) => getIt<MyMapEventsBloc>()..add(const LoadMyMapEvents()),
+        child: const MyMapEventsPage(),
+      ),
+    ),
+    GoRoute(
+      path: '/map-events/:eventId',
+      builder: (context, state) {
+        final eventId = state.pathParameters['eventId']!;
+        return BlocProvider<MapEventDetailBloc>(
+          create: (_) =>
+              getIt<MapEventDetailBloc>()..add(LoadMapEvent(eventId)),
+          child: MapEventDetailPage(eventId: eventId),
+        );
+      },
+      routes: [
+        GoRoute(
+          path: 'attendees',
+          builder: (context, state) {
+            final eventId = state.pathParameters['eventId']!;
+            return BlocProvider<MapEventAttendeesBloc>(
+              create: (_) => getIt<MapEventAttendeesBloc>()
+                ..add(LoadMapEventAttendees(eventId)),
+              child: const MapEventAttendeesPage(),
+            );
+          },
+        ),
+        // Organizer tools. The event travels as `extra` so the page opens with
+        // its title and permissions already known; deep-linked without one it
+        // still works, just with a plainer header until the bloc loads.
+        GoRoute(
+          path: 'manage',
+          builder: (context, state) {
+            final eventId = state.pathParameters['eventId']!;
+            final event = state.extra as MapEventEntity?;
+            return BlocProvider<ManageMapEventBloc>(
+              create: (_) => getIt<ManageMapEventBloc>()
+                ..add(LoadMapEventManagement(eventId)),
+              child: ManageMapEventPage(eventId: eventId, event: event),
+            );
+          },
+        ),
+        GoRoute(
+          path: 'edit',
+          builder: (context, state) {
+            final event = state.extra as MapEventEntity;
+            return BlocProvider<CreateMapEventBloc>(
+              create: (_) => getIt<CreateMapEventBloc>()
+                ..add(LoadCreateEventRefs(editEvent: event)),
+              child: CreateMapEventPage(editEvent: event),
+            );
+          },
+        ),
+      ],
     ),
 
     // ---------- Notifications ----------

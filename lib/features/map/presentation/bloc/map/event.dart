@@ -28,6 +28,18 @@ class MapCameraSettled extends MapEvent {
   List<Object?> get props => [centre];
 }
 
+/// An event pin was tapped: open the event preview popup. Loading the event
+/// itself is `MapEventDetailBloc`'s job — the popup and the detail page share
+/// it — so this only moves the selection.
+class MapEventPinSelected extends MapEvent {
+  final String eventId;
+
+  const MapEventPinSelected(this.eventId);
+
+  @override
+  List<Object?> get props => [eventId];
+}
+
 /// A pin was tapped: open the popup and fetch that business's full profile.
 class MapBusinessSelected extends MapEvent {
   final String businessId;
@@ -38,9 +50,27 @@ class MapBusinessSelected extends MapEvent {
   List<Object?> get props => [businessId];
 }
 
-/// The popup was dismissed (tap outside, close button, back).
+/// Whichever popup is open was dismissed (tap outside, close button, back).
 class MapBusinessDismissed extends MapEvent {
   const MapBusinessDismissed();
+}
+
+/// The map's own copy of an event pin is stale — its counts changed because the
+/// viewer just RSVP'd or registered a car from the popup. Patches the pin in
+/// place rather than refetching the whole ring.
+class MapEventPinRefreshed extends MapEvent {
+  final String eventId;
+  final int attendeesCount;
+  final int attendingCarsCount;
+
+  const MapEventPinRefreshed({
+    required this.eventId,
+    required this.attendeesCount,
+    required this.attendingCarsCount,
+  });
+
+  @override
+  List<Object?> get props => [eventId, attendeesCount, attendingCarsCount];
 }
 
 /// Retry after a failed business fetch, from the popup's error state.

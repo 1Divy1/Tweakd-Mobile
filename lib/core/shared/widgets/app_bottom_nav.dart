@@ -44,7 +44,8 @@ class AppBottomNav extends StatelessWidget {
               icon: Icons.map_outlined,
               isActive: activeTab == AppBottomNavTab.map,
               onTap: () {
-                if (activeTab != AppBottomNavTab.map) context.go('/map');
+                // Map takes fullscreen, so it's pushed into the existing navigation stack
+                if (activeTab != AppBottomNavTab.map) context.push('/map');
               },
             ),
             _NavItem(

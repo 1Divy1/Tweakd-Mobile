@@ -2565,4 +2565,608 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mapErrorGeneric => 'Something went wrong. Please try again.';
+
+  @override
+  String get mapNavigate => 'Navigate';
+
+  @override
+  String get mapNavigateSheetTitle => 'Choose a navigation app';
+
+  @override
+  String get mapNavigateInstall => 'INSTALL';
+
+  @override
+  String get mapNavigateFailed => 'We couldn\'t open that app.';
+
+  @override
+  String get mapEventsErrorNetwork =>
+      'No internet connection. Please try again.';
+
+  @override
+  String get mapEventsErrorNotFound => 'This event isn\'t available anymore.';
+
+  @override
+  String get mapEventsErrorForbidden => 'Only the organizers can do that.';
+
+  @override
+  String get mapEventsErrorConflict =>
+      'That isn\'t possible for this event right now.';
+
+  @override
+  String get mapEventsErrorInvalidInput =>
+      'Please check the details and try again.';
+
+  @override
+  String get mapEventsErrorGeneric => 'Something went wrong. Please try again.';
+
+  @override
+  String get mapEventsStatusUpcoming => 'UPCOMING';
+
+  @override
+  String get mapEventsStatusLive => 'LIVE NOW';
+
+  @override
+  String get mapEventsStatusPrevious => 'PAST';
+
+  @override
+  String get mapEventsStatusHidden => 'HIDDEN';
+
+  @override
+  String get mapEventsStatusCanceled => 'CANCELED';
+
+  @override
+  String get mapEventsApprovalPending => 'PENDING REVIEW';
+
+  @override
+  String get mapEventsApprovalAccepted => 'APPROVED';
+
+  @override
+  String get mapEventsApprovalRejected => 'REJECTED';
+
+  @override
+  String mapEventsRejectionReason(String reason) {
+    return 'Reason: $reason';
+  }
+
+  @override
+  String get mapEventsClose => 'Close';
+
+  @override
+  String get mapEventsShare => 'Share';
+
+  @override
+  String get mapEventsStatAttendees => 'ATTENDEES';
+
+  @override
+  String get mapEventsStatCars => 'CARS';
+
+  @override
+  String get mapEventsStatAway => 'AWAY';
+
+  @override
+  String get mapEventsStatStarts => 'STARTS';
+
+  @override
+  String get mapEventsStatStarted => 'STARTED';
+
+  @override
+  String mapEventsDistanceKm(String distance) {
+    return '$distance km';
+  }
+
+  @override
+  String mapEventsGoingCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count going',
+      one: '1 going',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mapEventsRoleOrganizer => 'organizer';
+
+  @override
+  String get mapEventsRoleCreator => 'creator';
+
+  @override
+  String get mapEventsChipIndividual => 'INDIVIDUAL';
+
+  @override
+  String get mapEventsChipBusiness => 'BUSINESS';
+
+  @override
+  String get mapEventsAttending => 'ATTENDING';
+
+  @override
+  String get mapEventsInterested => 'INTERESTED';
+
+  @override
+  String get mapEventsWantToParticipate => 'WANT TO PARTICIPATE?';
+
+  @override
+  String get mapEventsParticipateShort => 'PARTICIPATE?';
+
+  @override
+  String get mapEventsParticipating => 'PARTICIPATING';
+
+  @override
+  String get mapEventsParticipationPending => 'PENDING';
+
+  @override
+  String get mapEventsWithdrawAction => 'WITHDRAW';
+
+  @override
+  String mapEventsCarOnEntryList(String car) {
+    return 'Your $car is on the entry list';
+  }
+
+  @override
+  String get mapEventsViewEvent => 'VIEW EVENT';
+
+  @override
+  String mapEventsCapacityOf(int capacity) {
+    return 'of $capacity';
+  }
+
+  @override
+  String get mapEventsTabOverview => 'OVERVIEW';
+
+  @override
+  String mapEventsTabCars(int count) {
+    return 'CARS · $count';
+  }
+
+  @override
+  String get mapEventsEntryListTitle => 'On the entry list';
+
+  @override
+  String mapEventsApprovedCount(int count) {
+    return '$count APPROVED';
+  }
+
+  @override
+  String get mapEventsSectionAbout => 'ABOUT THIS EVENT';
+
+  @override
+  String get mapEventsSectionOrganizers => 'ORGANIZERS';
+
+  @override
+  String get mapEventsSectionRules => 'NOTES FROM THE ORGANIZER';
+
+  @override
+  String get mapEventsSectionContests => 'CONTESTS';
+
+  @override
+  String get mapEventsSectionAttendees => 'ATTENDEES';
+
+  @override
+  String get mapEventsSoon => 'SOON';
+
+  @override
+  String get mapEventsContestsTitle => 'Contests';
+
+  @override
+  String get mapEventsContestsBody =>
+      'Organizers will be able to run votes inside a meet — best build, cleanest bay, loudest exhaust.';
+
+  @override
+  String get mapEventsSeeAll => 'SEE ALL';
+
+  @override
+  String get mapEventsSeeAllAttendees => 'SEE ALL ATTENDEES';
+
+  @override
+  String mapEventsSeeAllCars(int count) {
+    return 'SEE ALL $count CARS';
+  }
+
+  @override
+  String mapEventsRegisterBefore(String deadline) {
+    return 'Register your car before $deadline';
+  }
+
+  @override
+  String get mapEventsRegistrationClosed =>
+      'Registration has closed for this event.';
+
+  @override
+  String get mapEventsCapacityFull => 'The entry list is full.';
+
+  @override
+  String get mapEventsGarageLink => 'GARAGE';
+
+  @override
+  String get mapEventsEntryListEmpty => 'No cars on the entry list yet.';
+
+  @override
+  String get mapEventsAttendeesEmpty => 'Nobody has RSVP\'d yet.';
+
+  @override
+  String get mapEventsRetry => 'TRY AGAIN';
+
+  @override
+  String get mapEventsStripPendingTitle => 'Request pending';
+
+  @override
+  String get mapEventsStripPendingBody =>
+      'The organizers will approve or decline your entry.';
+
+  @override
+  String get mapEventsStripDeclinedTitle => 'Entry declined';
+
+  @override
+  String get mapEventsStripDeclinedBody =>
+      'The organizers declined this car for this event.';
+
+  @override
+  String get mapEventsStripWithdrawnTitle => 'Withdrawal requested';
+
+  @override
+  String get mapEventsStripWithdrawnBody =>
+      'The organizers are reviewing your request to leave. You can\'t take it back.';
+
+  @override
+  String get mapEventsStripUnknownTitle => 'Registration in progress';
+
+  @override
+  String get mapEventsStripUnknownBody =>
+      'You have a car registered for this event. Its status isn\'t visible here yet.';
+
+  @override
+  String get mapEventsTryAnotherCar => 'TRY ANOTHER CAR';
+
+  @override
+  String get mapEventsCancelRequest => 'CANCEL REQUEST';
+
+  @override
+  String get mapEventsPickCarTitle => 'Which car are you bringing?';
+
+  @override
+  String get mapEventsPickCarEmptyTitle => 'Your garage is empty';
+
+  @override
+  String get mapEventsPickCarEmptyBody =>
+      'Add a car to your garage first, then register it for an event.';
+
+  @override
+  String get mapEventsPickCarAdd => 'ADD A CAR';
+
+  @override
+  String mapEventsCarYear(String year) {
+    return '$year';
+  }
+
+  @override
+  String get mapEventsWithdrawTitle => 'Withdraw from this event?';
+
+  @override
+  String get mapEventsWithdrawBody =>
+      'You\'ll ask the organizers to take you off the entry list, and off any contests running inside this event. Once sent, the request can\'t be taken back.';
+
+  @override
+  String get mapEventsWithdrawNoteLabel => 'NOTE FOR ORGANIZERS (OPTIONAL)';
+
+  @override
+  String get mapEventsWithdrawNoteHint => 'Let them know why, if you\'d like…';
+
+  @override
+  String get mapEventsCancel => 'CANCEL';
+
+  @override
+  String get mapEventsAttendeesPageTitle => 'Attendees';
+
+  @override
+  String get mapEventsFilterAttending => 'ATTENDING';
+
+  @override
+  String get mapEventsFilterInterested => 'INTERESTED';
+
+  @override
+  String get mapEventsCreateTitle => 'NEW EVENT';
+
+  @override
+  String get mapEventsEditTitle => 'EDIT EVENT';
+
+  @override
+  String get mapEventsCoverAdd => 'ADD COVER PHOTO';
+
+  @override
+  String get mapEventsCoverHint => '1600 × 900 recommended';
+
+  @override
+  String get mapEventsCoverChange => 'CHANGE COVER';
+
+  @override
+  String get mapEventsFieldTitle => 'EVENT TITLE';
+
+  @override
+  String get mapEventsFieldTitleHint => 'e.g. Casino Square Cars & Coffee';
+
+  @override
+  String get mapEventsFieldCategory => 'EVENT CATEGORY';
+
+  @override
+  String get mapEventsCategoriesSoonNote => 'More categories are coming soon.';
+
+  @override
+  String get mapEventsCategoryTrackDay => 'Track Day';
+
+  @override
+  String get mapEventsCategoryCarShow => 'Car Show';
+
+  @override
+  String get mapEventsCategoryCruise => 'Cruise';
+
+  @override
+  String get mapEventsFieldDescription => 'DESCRIPTION';
+
+  @override
+  String get mapEventsFieldDescriptionHint =>
+      'What\'s the event about, who\'s it for, anything people should know before showing up…';
+
+  @override
+  String get mapEventsFieldLocation => 'LOCATION';
+
+  @override
+  String get mapEventsFieldVenueHint => 'Venue name — e.g. Place du Casino';
+
+  @override
+  String get mapEventsSetLocationOnMap => 'SET LOCATION ON MAP';
+
+  @override
+  String get mapEventsLocationSet => 'PIN PLACED · TAP TO MOVE';
+
+  @override
+  String get mapEventsFieldDateTime => 'DATE & TIME';
+
+  @override
+  String get mapEventsStartsLabel => 'Starts';
+
+  @override
+  String get mapEventsEndsLabel => 'Ends';
+
+  @override
+  String get mapEventsEndBlankHint =>
+      'Leave the end blank for an open-ended event.';
+
+  @override
+  String get mapEventsClearEnd => 'CLEAR END';
+
+  @override
+  String get mapEventsFieldCapacity => 'MAX CAPACITY';
+
+  @override
+  String get mapEventsOptional => 'OPTIONAL';
+
+  @override
+  String get mapEventsRequired => 'REQUIRED';
+
+  @override
+  String get mapEventsCapacityHint => 'No limit — e.g. 40 spots';
+
+  @override
+  String get mapEventsCapacityLockedHint =>
+      'A capacity can be raised later, but not removed.';
+
+  @override
+  String get mapEventsApprovalToggleTitle => 'Require approval to join';
+
+  @override
+  String get mapEventsApprovalToggleBody =>
+      'You and your co-organizers review each request before a participant is added to the entry list.';
+
+  @override
+  String get mapEventsFieldDeadline => 'REGISTRATION DEADLINE';
+
+  @override
+  String get mapEventsFieldRules => 'RULES & GUIDELINES';
+
+  @override
+  String get mapEventsAddRule => 'ADD A RULE';
+
+  @override
+  String get mapEventsRuleHint => 'e.g. No revving or burnouts.';
+
+  @override
+  String get mapEventsRemoveRule => 'Remove rule';
+
+  @override
+  String get mapEventsFieldOrganizers => 'ORGANIZERS';
+
+  @override
+  String get mapEventsOrganizersHint =>
+      'You\'re the creator. Add other individual or certified business accounts to co-organize with you.';
+
+  @override
+  String get mapEventsYouCreator => 'YOU · CREATOR';
+
+  @override
+  String get mapEventsAddOrganizer => 'ADD ORGANIZER';
+
+  @override
+  String get mapEventsRemoveOrganizer => 'Remove organizer';
+
+  @override
+  String get mapEventsCreateCta => 'CREATE EVENT';
+
+  @override
+  String get mapEventsCreateCtaIncomplete => 'ADD TITLE, LOCATION & START TIME';
+
+  @override
+  String get mapEventsCreateCtaDeadline => 'ADD A REGISTRATION DEADLINE';
+
+  @override
+  String get mapEventsSaveCta => 'SAVE CHANGES';
+
+  @override
+  String get mapEventsSubmitting => 'Just a moment…';
+
+  @override
+  String get mapEventsValidationEndBeforeStart =>
+      'The end time has to be after the start time.';
+
+  @override
+  String get mapEventsValidationDeadlineAfterStart =>
+      'The registration deadline has to be before the event starts.';
+
+  @override
+  String get mapEventsValidationCapacity => 'Capacity has to be at least 1.';
+
+  @override
+  String get mapEventsPendingReviewTitle => 'Sent for review';
+
+  @override
+  String get mapEventsPendingReviewBody =>
+      'Our team checks every new event before it shows up on the map. You\'ll find it under Events on your profile in the meantime.';
+
+  @override
+  String get mapEventsDone => 'DONE';
+
+  @override
+  String get mapEventsCoverUploadFailed =>
+      'The event was created, but the cover photo didn\'t upload. You can add it from My events.';
+
+  @override
+  String get mapEventsPickLocationTitle => 'Place the pin';
+
+  @override
+  String get mapEventsPickLocationHint =>
+      'Move the map so the pin sits where the event happens.';
+
+  @override
+  String get mapEventsUseThisLocation => 'USE THIS LOCATION';
+
+  @override
+  String get mapEventsSearchOrganizersTitle => 'Add an organizer';
+
+  @override
+  String get mapEventsSearchOrganizersHint => 'Search people and businesses';
+
+  @override
+  String get mapEventsSearchOrganizersEmpty => 'Nobody matched that.';
+
+  @override
+  String get mapEventsSearchOrganizersPrompt =>
+      'Start typing a name to find people and certified businesses.';
+
+  @override
+  String get profileTabEvents => 'EVENTS';
+
+  @override
+  String get mapEventsMineTitle => 'My events';
+
+  @override
+  String get mapEventsMineEmptyTitle => 'No events yet';
+
+  @override
+  String get mapEventsMineEmptyBody =>
+      'Events you create show up here — including the ones still waiting for review.';
+
+  @override
+  String get mapEventsMineCreate => 'CREATE AN EVENT';
+
+  @override
+  String get mapEventsManageTitle => 'Manage event';
+
+  @override
+  String get mapEventsManageEntries => 'ENTRY REQUESTS';
+
+  @override
+  String get mapEventsManageWithdrawals => 'WITHDRAWAL REQUESTS';
+
+  @override
+  String get mapEventsManageOrganizers => 'ORGANIZERS';
+
+  @override
+  String get mapEventsManageDanger => 'EVENT';
+
+  @override
+  String get mapEventsNoPendingEntries => 'No entry requests waiting.';
+
+  @override
+  String get mapEventsNoWithdrawals => 'No withdrawal requests waiting.';
+
+  @override
+  String get mapEventsAccept => 'ACCEPT';
+
+  @override
+  String get mapEventsDecline => 'DECLINE';
+
+  @override
+  String get mapEventsLetThemOut => 'LET THEM OUT';
+
+  @override
+  String get mapEventsKeepThemIn => 'KEEP THEM IN';
+
+  @override
+  String get mapEventsWithdrawalNoteLabel => 'Their note';
+
+  @override
+  String get mapEventsEditEvent => 'EDIT EVENT';
+
+  @override
+  String get mapEventsCancelEvent => 'CANCEL EVENT';
+
+  @override
+  String get mapEventsFinishEvent => 'FINISH EVENT';
+
+  @override
+  String get mapEventsDeleteEvent => 'DELETE EVENT';
+
+  @override
+  String get mapEventsEditLockedHint =>
+      'An event can only be edited while it\'s waiting for review or after it\'s been rejected.';
+
+  @override
+  String get mapEventsConfirmCancelTitle => 'Cancel this event?';
+
+  @override
+  String get mapEventsConfirmCancelBody =>
+      'It stays visible but is marked as canceled, and nobody can register a car anymore.';
+
+  @override
+  String get mapEventsConfirmFinishTitle => 'Finish this event?';
+
+  @override
+  String get mapEventsConfirmFinishBody =>
+      'It moves to your past events. RSVPs and the entry list stay as they are.';
+
+  @override
+  String get mapEventsConfirmDeleteTitle => 'Delete this event?';
+
+  @override
+  String get mapEventsConfirmDeleteBody =>
+      'This can\'t be undone. The entry list and every RSVP go with it.';
+
+  @override
+  String get mapEventsConfirm => 'CONFIRM';
+
+  @override
+  String get mapEventsDelete => 'DELETE';
+
+  @override
+  String mapEventsWithdrawalCarsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count cars',
+      one: '1 car',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mapSearchPlaceholder => 'Search meets, shops, cities…';
+
+  @override
+  String get mapCreateEvent => 'Create an event';
+
+  @override
+  String get mapEventsCopied => 'Event details copied.';
+
+  @override
+  String get mapEventsDateCardTitle => 'When';
 }
