@@ -2509,11 +2509,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String mapDistanceKm(String distance) {
-    return '$distance km away';
-  }
-
-  @override
   String get mapHoursTitle => 'OPENING HOURS';
 
   @override
@@ -2641,18 +2636,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsStatCars => 'CARS';
 
   @override
-  String get mapEventsStatAway => 'AWAY';
-
-  @override
   String get mapEventsStatStarts => 'STARTS';
 
   @override
   String get mapEventsStatStarted => 'STARTED';
-
-  @override
-  String mapEventsDistanceKm(String distance) {
-    return '$distance km';
-  }
 
   @override
   String mapEventsGoingCount(int count) {
@@ -2809,11 +2796,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'The organizers are reviewing your request to leave. You can\'t take it back.';
 
   @override
-  String get mapEventsStripUnknownTitle => 'Registration in progress';
-
-  @override
-  String get mapEventsStripUnknownBody =>
-      'You have a car registered for this event. Its status isn\'t visible here yet.';
+  String get mapEventsDeclineReasonHeading => 'WHY';
 
   @override
   String get mapEventsTryAnotherCar => 'TRY ANOTHER CAR';
@@ -2845,6 +2828,19 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get mapEventsWithdrawBody =>
       'You\'ll ask the organizers to take you off the entry list, and off any contests running inside this event. Once sent, the request can\'t be taken back.';
+
+  @override
+  String mapEventsWithdrawAllCars(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'All $count of your cars leave the entry list together — there\'s no way to withdraw just one. An organizer has to approve it first.',
+      one:
+          'Your car leaves the entry list — an organizer has to approve it first.',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get mapEventsWithdrawNoteLabel => 'NOTE FOR ORGANIZERS (OPTIONAL)';
@@ -3094,6 +3090,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mapEventsDecline => 'DECLINE';
+
+  @override
+  String get mapEventsDeclineTitle => 'Decline this entry?';
+
+  @override
+  String mapEventsDeclineBody(String car) {
+    return '$car won\'t be on the entry list. The owner sees your reason, so make it something they can act on.';
+  }
+
+  @override
+  String get mapEventsDeclineReasonLabel => 'REASON (REQUIRED)';
+
+  @override
+  String get mapEventsDeclineReasonHint =>
+      'Wrong category for a JDM-only meet…';
 
   @override
   String get mapEventsLetThemOut => 'LET THEM OUT';

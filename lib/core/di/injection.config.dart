@@ -874,6 +874,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i997.GetMapEventCarsUseCase>(
       () => _i997.GetMapEventCarsUseCase(gh<_i365.MapEventsRepository>()),
     );
+    gh.lazySingleton<_i997.GetMyMapEventCarsUseCase>(
+      () => _i997.GetMyMapEventCarsUseCase(gh<_i365.MapEventsRepository>()),
+    );
     gh.lazySingleton<_i295.WithdrawFromMapEventUseCase>(
       () => _i295.WithdrawFromMapEventUseCase(gh<_i365.MapEventsRepository>()),
     );
@@ -1103,6 +1106,19 @@ extension GetItInjectableX on _i174.GetIt {
         submitOnboarding: gh<_i1016.SubmitOnboardingUseCase>(),
       ),
     );
+    gh.factory<_i506.MapEventDetailBloc>(
+      () => _i506.MapEventDetailBloc(
+        getEvent: gh<_i997.GetMapEventUseCase>(),
+        getAttendees: gh<_i997.GetMapEventAttendeesUseCase>(),
+        getCars: gh<_i997.GetMapEventCarsUseCase>(),
+        getMyCars: gh<_i997.GetMyMapEventCarsUseCase>(),
+        setAttendance: gh<_i192.SetMapEventAttendanceUseCase>(),
+        clearAttendance: gh<_i192.ClearMapEventAttendanceUseCase>(),
+        registerCar: gh<_i414.RegisterCarForMapEventUseCase>(),
+        cancelCarRegistration: gh<_i414.CancelCarRegistrationUseCase>(),
+        withdraw: gh<_i295.WithdrawFromMapEventUseCase>(),
+      ),
+    );
     gh.factory<_i462.SearchBloc>(
       () => _i462.SearchBloc(searchUsers: gh<_i14.SearchUsersUseCase>()),
     );
@@ -1207,18 +1223,6 @@ extension GetItInjectableX on _i174.GetIt {
         watchChat: gh<_i467.WatchChatUseCase>(),
         getPresence: gh<_i583.GetPresenceUseCase>(),
         watchPresence: gh<_i583.WatchPresenceUseCase>(),
-      ),
-    );
-    gh.factory<_i506.MapEventDetailBloc>(
-      () => _i506.MapEventDetailBloc(
-        getEvent: gh<_i997.GetMapEventUseCase>(),
-        getAttendees: gh<_i997.GetMapEventAttendeesUseCase>(),
-        getCars: gh<_i997.GetMapEventCarsUseCase>(),
-        setAttendance: gh<_i192.SetMapEventAttendanceUseCase>(),
-        clearAttendance: gh<_i192.ClearMapEventAttendanceUseCase>(),
-        registerCar: gh<_i414.RegisterCarForMapEventUseCase>(),
-        cancelCarRegistration: gh<_i414.CancelCarRegistrationUseCase>(),
-        withdraw: gh<_i295.WithdrawFromMapEventUseCase>(),
       ),
     );
     gh.factory<_i340.ManageMapEventBloc>(

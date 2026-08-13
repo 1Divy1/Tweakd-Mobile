@@ -100,11 +100,7 @@ class _DetailContent extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          // The distance is null here on purpose: the page can be opened from
-          // anywhere (a deep link, My events), and only the map knows what
-          // centre a distance would be measured from. The popup, which does,
-          // shows it.
-          MapEventHero(event: event, distanceLabel: null),
+          MapEventHero(event: event),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: Column(
@@ -194,7 +190,12 @@ class _DetailContent extends StatelessWidget {
 
   Future<void> _withdraw(BuildContext context) async {
     final bloc = context.read<MapEventDetailBloc>();
-    final note = await showWithdrawEventDialog(context);
+    // `POST /withdraw` takes out every car at once, so the dialog counts the
+    // ones actually at stake — accepted and pending alike.
+    final note = await showWithdrawEventDialog(
+      context,
+      carCount: state.withdrawableCarCount,
+    );
     if (note != null) {
       bloc.add(SubmitEventWithdrawal(note.isEmpty ? null : note));
     }

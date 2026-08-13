@@ -66,6 +66,14 @@ abstract class MapEventsRepository {
     int size,
   });
 
+  /// The caller's own entries for an event, whatever their status, in one
+  /// unpaginated list. The only way a plain participant can read their own
+  /// pending or rejected row — [getCars] keeps those slices to organizers.
+  Future<Either<Failure, List<MapEventParticipantEntity>>> getMyCars(
+    String eventId, {
+    CancelToken? cancelToken,
+  });
+
   Future<Either<Failure, List<OrganizerCandidateEntity>>> searchOrganizers(
     String query, {
     CancelToken? cancelToken,
@@ -159,40 +167,47 @@ abstract class MapEventsRepository {
 
   Future<Either<Failure, MapEventEntity>> clearAttendance(String eventId);
 
-  Future<Either<Failure, MapEventParticipantEntity>> registerCar(
+  /// Every participation write answers with the whole event, so the counts and
+  /// viewer flags a write moves come back in the same response. Only the
+  /// caller's own entry rows still need [getMyCars] afterwards.
+  Future<Either<Failure, MapEventEntity>> registerCar(
     String eventId,
     String carId,
   );
 
   /// Cancels a **not yet accepted** registration. An accepted entry must go
   /// through [withdraw] instead — calling this on one errors.
-  Future<Either<Failure, Unit>> cancelCarRegistration(
+  Future<Either<Failure, MapEventEntity>> cancelCarRegistration(
     String eventId,
     String carId,
   );
 
-  /// Organizer only: accept or reject a pending car entry.
-  Future<Either<Failure, MapEventParticipantEntity>> reviewCarRegistration(
+  /// Organizer only: accept or reject a pending car entry. [reason] is
+  /// required when [status] is [MapEventParticipation.rejected] — the backend
+  /// 400s without one — and ignored otherwise.
+  Future<Either<Failure, MapEventEntity>> reviewCarRegistration(
     String eventId,
     String carId,
-    MapEventParticipation status,
-  );
+    MapEventParticipation status, {
+    String? reason,
+  });
 
-  /// Flags **all** the caller's accepted cars as `withdrawn`, pending organizer
-  /// review. One-way: nothing lets the participant take it back.
-  Future<Either<Failure, List<MapEventParticipantEntity>>> withdraw(
+  /// Flags **all** the caller's cars in the event as `withdrawn`, pending
+  /// organizer review. One-way: nothing lets the participant take it back, and
+  /// there is no way to withdraw a single car.
+  Future<Either<Failure, MapEventEntity>> withdraw(
     String eventId, {
     String? note,
   });
 
   /// Organizer only. Hard-deletes the owner's rows.
-  Future<Either<Failure, Unit>> approveWithdrawal(
+  Future<Either<Failure, MapEventEntity>> approveWithdrawal(
     String eventId,
     String ownerId,
   );
 
   /// Organizer only. Reverts the owner's rows to `accepted`.
-  Future<Either<Failure, List<MapEventParticipantEntity>>> rejectWithdrawal(
+  Future<Either<Failure, MapEventEntity>> rejectWithdrawal(
     String eventId,
     String ownerId,
   );

@@ -156,6 +156,10 @@ class MapEventOrganizerModel {
   final String? role;
   final String referenceId;
   final String name;
+
+  /// Individuals only — always null for a business organizer.
+  final String? username;
+
   final String? imageUrl;
 
   const MapEventOrganizerModel({
@@ -164,6 +168,7 @@ class MapEventOrganizerModel {
     required this.role,
     required this.referenceId,
     required this.name,
+    required this.username,
     required this.imageUrl,
   });
 
@@ -174,6 +179,7 @@ class MapEventOrganizerModel {
       role: json['role'] as String?,
       referenceId: json['reference_id'] as String? ?? '',
       name: json['name'] as String? ?? '',
+      username: parseNullableString(json['username']),
       imageUrl: parseNullableString(json['image_url']),
     );
   }
@@ -185,6 +191,7 @@ class MapEventOrganizerModel {
       role: MapEventOrganizerRole.fromApi(role),
       referenceId: referenceId,
       name: name,
+      username: username,
       imageUrl: imageUrl,
     );
   }

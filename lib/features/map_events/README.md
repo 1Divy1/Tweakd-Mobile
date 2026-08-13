@@ -20,8 +20,8 @@ web dashboard and are deliberately **not** consumed here.
 | Role | Actions |
 |---|---|
 | Anyone nearby | See the pin, open the preview popup, RSVP `attending` / `interested`, register a garage car for the entry list, navigate to it |
-| Participant | Withdraw — a **request** organizers approve, not an instant removal |
-| Organizer | Accept/decline car entries, review withdrawals, add/remove co-organizers, cancel / finish the event |
+| Participant | See their own entries and why one was declined; withdraw — a **request** organizers approve, and it takes out every car at once |
+| Organizer | Accept car entries, decline them **with a reason**, review withdrawals, add/remove co-organizers, cancel / finish the event |
 | Creator | Everything an organizer can, plus delete, and edit while the event is pending or rejected |
 
 ---
@@ -63,41 +63,53 @@ They look nothing alike but need the same data and the same actions, so RSVP,
 car registration and withdrawal exist once. The map route provides it alongside
 `MapBloc`; the detail route provides its own instance.
 
-### Writes return the event — except the participation ones
+### Every write returns the event
 
-`PUT`/`DELETE /attendance` answer with a fresh `MapEventDto`, so an RSVP is
-optimistic-then-authoritative with no refetch. `POST /cars`, `DELETE
-/cars/{id}` and `POST /withdraw` answer with participant rows (or 204), so
-those **do** refetch to pick up the new counts and viewer flags.
+RSVP, registration, cancellation, withdrawal, the organizer's accept/decline
+and both withdrawal decisions all answer with a fresh `MapEventDto`. So a write
+is optimistic-then-authoritative and never needs a follow-up `GET` for counts
+or viewer flags. The only thing a participation write still triggers is a
+re-read of the two lists it can move — the accepted entry list and
+`/cars/mine`.
 
-### The viewer has no per-car status
+### The viewer's own entries come from `/cars/mine`
 
-`viewer.my_registered_car_ids` lists the caller's cars whatever their status,
-with no status alongside. Working out which is which means cross-referencing
-against `GET /{id}/cars` — and its `pending` / `rejected` slices are
-**organizer-only**. So a participant's own pending request is unreadable on a
-cold open. Anything unresolvable goes in `unresolvedRegisteredCarIds` and the UI
-says "registration in progress" instead of guessing. `MAP_EVENTS_NOTES.md` §1.2
-has the proposed fix.
+`GET /{id}/cars/mine` returns every entry the caller has in the event, whatever
+its status, with a `rejection_reason` on the declined ones. That's what every
+"your entry" strip is built on. `viewer.my_registered_car_ids` is still parsed
+but nothing reads it: it carries ids without statuses, and the status slices it
+would have to be cross-referenced against are organizer-only.
 
-### Withdrawal is one-way
+### Withdrawal is one-way, and all-or-nothing
 
-`POST /withdraw` flags every accepted car as `withdrawn` and waits for an
-organizer. There is **no endpoint to cancel it**, so nothing in the UI offers an
-undo. Withdrawn cars stay publicly visible until an organizer approves (hard
-delete) or rejects (back to accepted).
+`POST /withdraw` flags **every** car the caller has as `withdrawn` and waits for
+an organizer — there is no per-car variant, so the confirmation dialog counts
+them and says so. There is **no endpoint to cancel it** either, so nothing in
+the UI offers an undo. Withdrawn cars stay publicly visible until an organizer
+approves (hard delete) or rejects (back to accepted).
+
+### Declining an entry needs a reason
+
+`PATCH /{id}/cars/{car_id}` 400s on a rejection without one, and the owner is
+shown it verbatim. So the organizer console asks for it in a dialog whose
+confirm button is disabled until it's typed, rather than letting the request go
+out and come back a 400.
 
 ### The entry list queries `?status=accepted` explicitly
 
 The unfiltered endpoint returns accepted **and** withdrawn rows together, which
 is not the "N APPROVED" list the design asks for.
 
-### Distances are computed on the client
+### The app shows no distances at all
 
-`distance_km` was removed from `/map-events/nearby` (and `/businesses/nearby`).
-Everything shown is a straight line from the centre the map queried around, via
-`GeoPosition.distanceKmTo`, in **km**. Pin collision priority uses the same
-number — see `MapLayerController`.
+Not on the pin popup, not on the event page, not on the business popup. A
+straight line is not a distance anyone can drive, and road distance would need
+a directions API — the owner's call is to show nothing rather than a number
+that has to be mentally discounted (`MAP_EVENTS_NOTES.md` §2.3). The popup's
+third stat tile shows the start time instead.
+
+`GeoPosition.distanceKmTo` survives for two invisible jobs only: pin collision
+priority in `MapLayerController` and the map's refetch threshold in `MapBloc`.
 
 ### 409s show the server's message
 

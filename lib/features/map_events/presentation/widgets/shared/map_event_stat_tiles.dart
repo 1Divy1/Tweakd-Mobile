@@ -80,7 +80,6 @@ class MapEventStatRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (var i = 0; i < tiles.length; i++) ...[
           if (i > 0) const SizedBox(width: 8),

@@ -195,3 +195,34 @@ class GetMapEventCarsUseCase
     );
   }
 }
+
+// ── The viewer's own entries ───────────────────────────────────────────────
+
+class GetMyMapEventCarsParams {
+  final String eventId;
+  final CancelToken? cancelToken;
+
+  const GetMyMapEventCarsParams({required this.eventId, this.cancelToken});
+}
+
+/// `GET /{id}/cars/mine` — every car the caller entered, whatever its status,
+/// with a `rejection_reason` on the declined ones. Unpaginated: nobody enters
+/// enough cars in one event for a cursor to earn its keep.
+@lazySingleton
+class GetMyMapEventCarsUseCase
+    implements
+        UseCase<List<MapEventParticipantEntity>, GetMyMapEventCarsParams> {
+  final MapEventsRepository repository;
+
+  GetMyMapEventCarsUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, List<MapEventParticipantEntity>>> call(
+    GetMyMapEventCarsParams params,
+  ) {
+    return repository.getMyCars(
+      params.eventId,
+      cancelToken: params.cancelToken,
+    );
+  }
+}

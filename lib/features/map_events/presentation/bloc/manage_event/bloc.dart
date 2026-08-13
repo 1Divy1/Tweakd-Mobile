@@ -126,28 +126,28 @@ class ManageMapEventBloc
         status: event.accept
             ? MapEventParticipation.accepted
             : MapEventParticipation.rejected,
+        reason: event.reason,
       ),
     );
 
     final stillBusy = {...state.busyIds}..remove(event.carId);
 
-    await result.fold(
-      (failure) async => emit(state.copyWith(
+    result.fold(
+      (failure) => emit(state.copyWith(
         busyIds: stillBusy,
         actionError: MapEventErrorMapper.from(failure),
       )),
-      (_) async {
-        // The row leaves the pending queue either way, so it's dropped
-        // locally; the accepted count comes back from the refetch.
-        emit(state.copyWith(
-          busyIds: stillBusy,
-          pendingEntries: [
-            for (final p in state.pendingEntries)
-              if (p.car.id != event.carId) p,
-          ],
-        ));
-        await _fetch(emit);
-      },
+      // The endpoint answers with the whole event — new `attending_cars_count`
+      // included — and the row leaves the pending queue either way, so there is
+      // nothing left to refetch.
+      (updated) => emit(state.copyWith(
+        busyIds: stillBusy,
+        event: updated,
+        pendingEntries: [
+          for (final p in state.pendingEntries)
+            if (p.car.id != event.carId) p,
+        ],
+      )),
     );
   }
 
@@ -168,21 +168,21 @@ class ManageMapEventBloc
 
     final stillBusy = {...state.busyIds}..remove(event.ownerId);
 
-    await result.fold(
-      (failure) async => emit(state.copyWith(
+    result.fold(
+      (failure) => emit(state.copyWith(
         busyIds: stillBusy,
         actionError: MapEventErrorMapper.from(failure),
       )),
-      (_) async {
-        emit(state.copyWith(
-          busyIds: stillBusy,
-          withdrawals: [
-            for (final w in state.withdrawals)
-              if (w.ownerId != event.ownerId) w,
-          ],
-        ));
-        await _fetch(emit);
-      },
+      // Both answers carry the updated event, so the entry count moves without
+      // a refetch and the request drops out of the queue locally.
+      (updated) => emit(state.copyWith(
+        busyIds: stillBusy,
+        event: updated,
+        withdrawals: [
+          for (final w in state.withdrawals)
+            if (w.ownerId != event.ownerId) w,
+        ],
+      )),
     );
   }
 

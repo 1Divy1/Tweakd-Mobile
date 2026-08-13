@@ -129,11 +129,9 @@ class MapEventParticipationButtons extends StatelessWidget {
       );
     }
 
-    // Pending entry, pending withdrawal, or a registration whose status the
-    // backend won't disclose — all "waiting on the organizers", all inert.
-    if (state.myPendingEntry != null ||
-        state.myWithdrawnEntry != null ||
-        state.hasUnresolvedRegistration) {
+    // A pending entry or a pending withdrawal — both "waiting on the
+    // organizers", both inert.
+    if (state.myPendingEntry != null || state.myWithdrawnEntry != null) {
       return MapEventActionButton(
         label: l10n.mapEventsParticipationPending,
         icon: Icons.hourglass_empty_rounded,

@@ -117,6 +117,7 @@ void main() {
               'role': 'creator',
               'reference_id': 'u1',
               'name': 'Sasha Petrov',
+              'username': 'torque_sasha',
               'image_url': null,
             },
             {
@@ -125,6 +126,7 @@ void main() {
               'role': 'organizer',
               'reference_id': 'b1',
               'name': 'Apex Detailing Studio',
+              'username': null,
               'image_url': 'https://cdn/logo.webp',
             },
           ],
@@ -142,6 +144,40 @@ void main() {
       // Confusing the two sends a delete to the wrong endpoint.
       expect(event.organizers.last.id, 'o2');
       expect(event.organizers.last.referenceId, 'b1');
+    });
+
+    test('only an individual organizer links to a profile', () {
+      final event = MapEventModel.fromJson(
+        payload(
+          organizers: [
+            {
+              'id': 'o1',
+              'type': 'individual',
+              'role': 'creator',
+              'reference_id': 'u1',
+              'name': 'Sasha Petrov',
+              'username': 'torque_sasha',
+              'image_url': null,
+            },
+            {
+              'id': 'o2',
+              'type': 'business',
+              'role': 'organizer',
+              'reference_id': 'b1',
+              'name': 'Apex Detailing Studio',
+              'username': null,
+              'image_url': null,
+            },
+          ],
+        ),
+      ).toEntity();
+
+      expect(event.organizers.first.username, 'torque_sasha');
+      expect(event.organizers.first.hasProfile, isTrue);
+      // A business has no handle, and `/users/:username` is the only profile
+      // route there is — so its row must not offer to navigate.
+      expect(event.organizers.last.username, isNull);
+      expect(event.organizers.last.hasProfile, isFalse);
     });
 
     test('defaults the viewer to no permissions when absent', () {
@@ -212,6 +248,7 @@ void main() {
         },
         'status': 'withdrawn',
         'registered_at': '2026-08-10T09:00:00Z',
+        'rejection_reason': null,
       }).toEntity();
 
       expect(participant.car.brand, 'Nissan');
@@ -219,6 +256,48 @@ void main() {
       expect(participant.car.coverImage?.url, 'https://cdn/1.webp');
       expect(participant.isWithdrawn, isTrue);
       expect(participant.isAccepted, isFalse);
+      // Only a rejected row carries one.
+      expect(participant.rejectionReason, isNull);
+    });
+
+    test('carries the organizer reason on a rejected row', () {
+      final participant = MapEventParticipantModel.fromJson({
+        'car': {'id': 'c1', 'brand': 'Mazda', 'model': 'RX-7 FD'},
+        'status': 'rejected',
+        'registered_at': '2026-08-10T09:00:00Z',
+        'rejection_reason': "Wrong category for a JDM-only meet.",
+      }).toEntity();
+
+      expect(participant.isRejected, isTrue);
+      expect(
+        participant.rejectionReason,
+        "Wrong category for a JDM-only meet.",
+      );
+    });
+  });
+
+  group('OrganizerCandidateModel', () {
+    test('carries a handle for people and none for businesses', () {
+      final person = OrganizerCandidateModel.fromJson({
+        'type': 'individual',
+        'reference_id': 'u1',
+        'name': 'Marius Popescu',
+        'username': 'marius_dev',
+        'image_url': null,
+      }).toEntity();
+
+      final business = OrganizerCandidateModel.fromJson({
+        'type': 'business',
+        'reference_id': 'b1',
+        'name': 'Apex Detailing Studio',
+        'username': null,
+        'image_url': 'https://cdn/logo.webp',
+      }).toEntity();
+
+      expect(person.username, 'marius_dev');
+      expect(person.isBusiness, isFalse);
+      expect(business.username, isNull);
+      expect(business.isBusiness, isTrue);
     });
   });
 
@@ -227,7 +306,12 @@ void main() {
       final page = MapEventPageModel.fromJson({
         'items': [
           {
-            'profile': {'id': 'u1', 'username': 'sasha', 'avatar_url': null},
+            'profile': {
+              'id': 'u1',
+              'username': 'sasha',
+              'name': 'Sasha Petrov',
+              'avatar_url': null,
+            },
             'status': 'attending',
           },
         ],
@@ -235,9 +319,25 @@ void main() {
       }, MapEventAttendeeModel.fromJson).toEntity((m) => m.toEntity());
 
       expect(page.items.single.username, 'sasha');
+      expect(page.items.single.name, 'Sasha Petrov');
       expect(page.items.single.status, MapEventAttendance.attending);
       expect(page.nextCursor, 'opaque-cursor');
       expect(page.hasMore, isTrue);
+    });
+
+    test('an attendee without a display name falls back to the handle', () {
+      final page = MapEventPageModel.fromJson({
+        'items': [
+          {
+            'profile': {'id': 'u1', 'username': 'sasha'},
+            'status': 'interested',
+          },
+        ],
+        'next_cursor': null,
+      }, MapEventAttendeeModel.fromJson).toEntity((m) => m.toEntity());
+
+      expect(page.items.single.name, isNull);
+      expect(page.items.single.username, 'sasha');
     });
 
     test('a null cursor is the only end-of-list signal', () {

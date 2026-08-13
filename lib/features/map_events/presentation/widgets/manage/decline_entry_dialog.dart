@@ -2,48 +2,58 @@ import 'package:car_social_media_app/core/theme/app_colors.dart';
 import 'package:car_social_media_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
-/// The withdrawal confirmation, with its optional note for the organizers.
+/// Asks the organizer why they're turning a car away.
 ///
-/// Returns the note (possibly empty) when confirmed, or null when cancelled —
-/// so a null result means "didn't withdraw", never "withdrew without a note".
+/// The reason is **mandatory**: `PATCH /{id}/cars/{car_id}` 400s on a rejection
+/// without one, and the owner sees it verbatim on their declined strip. So the
+/// confirm button stays inert until something is typed, rather than letting the
+/// request go out and come back a 400.
 ///
-/// The copy asks rather than announces, and spells out three things that all
-/// surprise people otherwise: it takes out **every** car they have in the
-/// event (the endpoint has no per-car variant), it's a **request** the
-/// organizers review rather than an immediate removal, and it can't be taken
-/// back. [carCount] is how many of their cars are in play, so the warning can
-/// name a number instead of saying "all of them" and hoping.
-Future<String?> showWithdrawEventDialog(
+/// Returns the reason, or null when dismissed — null means "didn't decline".
+Future<String?> showDeclineEntryDialog(
   BuildContext context, {
-  required int carCount,
+  required String carName,
 }) {
   return showDialog<String>(
     context: context,
-    builder: (_) => _WithdrawEventDialog(carCount: carCount),
+    builder: (_) => _DeclineEntryDialog(carName: carName),
   );
 }
 
-class _WithdrawEventDialog extends StatefulWidget {
-  final int carCount;
+class _DeclineEntryDialog extends StatefulWidget {
+  final String carName;
 
-  const _WithdrawEventDialog({required this.carCount});
+  const _DeclineEntryDialog({required this.carName});
 
   @override
-  State<_WithdrawEventDialog> createState() => _WithdrawEventDialogState();
+  State<_DeclineEntryDialog> createState() => _DeclineEntryDialogState();
 }
 
-class _WithdrawEventDialogState extends State<_WithdrawEventDialog> {
-  final _note = TextEditingController();
+class _DeclineEntryDialogState extends State<_DeclineEntryDialog> {
+  final _reason = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Rebuilds the confirm button as the field fills, so it enables the moment
+    // there's something to send.
+    _reason.addListener(_onChanged);
+  }
 
   @override
   void dispose() {
-    _note.dispose();
+    _reason
+      ..removeListener(_onChanged)
+      ..dispose();
     super.dispose();
   }
+
+  void _onChanged() => setState(() {});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final reason = _reason.text.trim();
 
     return Dialog(
       backgroundColor: AppColors.surface,
@@ -56,7 +66,7 @@ class _WithdrawEventDialogState extends State<_WithdrawEventDialog> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              l10n.mapEventsWithdrawTitle,
+              l10n.mapEventsDeclineTitle,
               style: const TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.w800,
@@ -65,50 +75,16 @@ class _WithdrawEventDialogState extends State<_WithdrawEventDialog> {
             ),
             const SizedBox(height: 10),
             Text(
-              l10n.mapEventsWithdrawBody,
+              l10n.mapEventsDeclineBody(widget.carName),
               style: const TextStyle(
                 fontSize: 14,
                 height: 1.45,
                 color: AppColors.ink2,
               ),
             ),
-            // The all-or-nothing warning is set apart from the body: it's the
-            // one line that changes what the button actually does to them.
-            if (widget.carCount > 0) ...[
-              const SizedBox(height: 12),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: AppColors.bgSoft,
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Icon(
-                      Icons.info_outline_rounded,
-                      size: 16,
-                      color: AppColors.mute,
-                    ),
-                    const SizedBox(width: 9),
-                    Expanded(
-                      child: Text(
-                        l10n.mapEventsWithdrawAllCars(widget.carCount),
-                        style: const TextStyle(
-                          fontSize: 13,
-                          height: 1.4,
-                          color: AppColors.ink2,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
             const SizedBox(height: 18),
             Text(
-              l10n.mapEventsWithdrawNoteLabel,
+              l10n.mapEventsDeclineReasonLabel,
               style: const TextStyle(
                 fontSize: 10.5,
                 fontWeight: FontWeight.w800,
@@ -118,13 +94,14 @@ class _WithdrawEventDialogState extends State<_WithdrawEventDialog> {
             ),
             const SizedBox(height: 8),
             TextField(
-              controller: _note,
+              controller: _reason,
+              autofocus: true,
               maxLines: 3,
               maxLength: 500,
               textCapitalization: TextCapitalization.sentences,
               style: const TextStyle(fontSize: 14, color: AppColors.ink),
               decoration: InputDecoration(
-                hintText: l10n.mapEventsWithdrawNoteHint,
+                hintText: l10n.mapEventsDeclineReasonHint,
                 hintStyle: const TextStyle(
                   fontSize: 14,
                   color: AppColors.muteSoft,
@@ -168,12 +145,13 @@ class _WithdrawEventDialogState extends State<_WithdrawEventDialog> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: FilledButton(
-                    // Empty string, not null: null is the dialog's "cancelled"
-                    // signal, so an empty note has to be distinguishable.
-                    onPressed: () =>
-                        Navigator.of(context).pop(_note.text.trim()),
+                    onPressed: reason.isEmpty
+                        ? null
+                        : () => Navigator.of(context).pop(reason),
                     style: FilledButton.styleFrom(
                       backgroundColor: AppColors.accent,
+                      disabledBackgroundColor: AppColors.line,
+                      disabledForegroundColor: AppColors.muteSoft,
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
@@ -184,7 +162,7 @@ class _WithdrawEventDialogState extends State<_WithdrawEventDialog> {
                         letterSpacing: 0.5,
                       ),
                     ),
-                    child: Text(l10n.mapEventsWithdrawAction),
+                    child: Text(l10n.mapEventsDecline),
                   ),
                 ),
               ],

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../domain/entities/map_event_enums.dart';
 import '../../../domain/entities/map_event_pin.dart';
 import '../../bloc/event_detail/bloc.dart';
 import '../../bloc/event_detail/event.dart';
@@ -33,17 +34,11 @@ import '../shared/withdraw_event_dialog.dart';
 /// `GET /map-events/{id}` fills in when [MapEventDetailBloc] lands.
 class MapEventPopup extends StatelessWidget {
   final MapEventPinEntity? pin;
-
-  /// Where the map fetched from — the distance tile is computed against it,
-  /// since the backend stopped sending one.
-  final GeoPosition? fetchCentre;
-
   final VoidCallback onClose;
 
   const MapEventPopup({
     super.key,
     required this.pin,
-    required this.fetchCentre,
     required this.onClose,
   });
 
@@ -81,7 +76,6 @@ class MapEventPopup extends StatelessWidget {
                     _ => _PopupBody(
                         state: state,
                         pin: pin,
-                        fetchCentre: fetchCentre,
                         onClose: onClose,
                       ),
                   },
@@ -106,13 +100,11 @@ class MapEventPopup extends StatelessWidget {
 class _PopupBody extends StatelessWidget {
   final MapEventDetailState state;
   final MapEventPinEntity? pin;
-  final GeoPosition? fetchCentre;
   final VoidCallback onClose;
 
   const _PopupBody({
     required this.state,
     required this.pin,
-    required this.fetchCentre,
     required this.onClose,
   });
 
@@ -126,11 +118,8 @@ class _PopupBody extends StatelessWidget {
     final title = pin?.title ?? event?.title ?? '';
     final coverUrl = pin?.coverImageUrl ?? event?.coverImageUrl;
     final status = pin?.status ?? event?.status;
-    final position = pin?.position ?? event?.position;
-    final centre = fetchCentre;
-    final distanceKm = (centre != null && position != null)
-        ? centre.distanceKmTo(position)
-        : null;
+    final startsAt = pin?.startsAt ?? event?.startsAt;
+    final isLive = status == MapEventStatus.live;
 
     final attendees = event?.attendeesCount ?? pin?.attendeesCount ?? 0;
     final cars = event?.attendingCarsCount ?? pin?.attendingCarsCount ?? 0;
@@ -220,12 +209,17 @@ class _PopupBody extends StatelessWidget {
                     label: l10n.mapEventsStatCars,
                     isHighlighted: state.myAcceptedEntry != null,
                   ),
+                  // This slot used to hold "x km away". Straight-line distance
+                  // is unactionable — you can't drive one — so the start time
+                  // took the tile instead, matching the detail page.
                   MapEventStatTile(
-                    icon: Icons.near_me_outlined,
-                    value: distanceKm == null
+                    icon: Icons.schedule_rounded,
+                    value: startsAt == null
                         ? '—'
-                        : MapEventFormat.distance(l10n, distanceKm),
-                    label: l10n.mapEventsStatAway,
+                        : MapEventFormat.time(context, startsAt),
+                    label: isLive
+                        ? l10n.mapEventsStatStarted
+                        : l10n.mapEventsStatStarts,
                   ),
                 ],
               ),
@@ -323,7 +317,10 @@ class _ParticipationLine extends StatelessWidget {
 
   Future<void> _withdraw(BuildContext context) async {
     final bloc = context.read<MapEventDetailBloc>();
-    final note = await showWithdrawEventDialog(context);
+    final note = await showWithdrawEventDialog(
+      context,
+      carCount: bloc.state.withdrawableCarCount,
+    );
     if (note != null) bloc.add(SubmitEventWithdrawal(note.isEmpty ? null : note));
   }
 }

@@ -218,6 +218,10 @@ class _AttendeeRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final url = attendee.avatarUrl;
+    // The shared profile DTO only recently gained a display name, so a row
+    // without one still has to read properly: the handle carries it alone.
+    final name = attendee.name;
+    final hasName = name != null && name.isNotEmpty;
 
     return Material(
       color: AppColors.surface,
@@ -255,15 +259,33 @@ class _AttendeeRow extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: Text(
-                  '@${attendee.username}',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 14.5,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.ink,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      hasName ? name : '@${attendee.username}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 14.5,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.ink,
+                      ),
+                    ),
+                    if (hasName) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        '@${attendee.username}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: AppColors.mute,
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
               ),
               const Icon(

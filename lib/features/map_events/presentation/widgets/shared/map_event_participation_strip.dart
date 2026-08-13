@@ -6,13 +6,13 @@ import '../../bloc/event_detail/state.dart';
 
 /// The status card the viewer sees about *their own* entry — the design's
 /// "⏳ Request pending · Nissan Skyline" and "✕ Entry declined · Mazda RX-7"
-/// strips.
+/// strips, both fed by `GET /{id}/cars/mine`.
 ///
-/// Renders nothing when there's nothing to say. The declined variant carries
-/// the **TRY ANOTHER CAR** action; the pending one carries a way to take the
-/// request back (`DELETE /cars/{car_id}` works on pending rows only). The
-/// withdrawn variant carries no action at all — withdrawal is one-way, and an
-/// undo button would be a lie.
+/// Renders nothing when there's nothing to say. The declined variant quotes the
+/// organizer's reason and carries the **TRY ANOTHER CAR** action; the pending
+/// one carries a way to take the request back (`DELETE /cars/{car_id}` works on
+/// pending rows only). The withdrawn variant carries no action at all —
+/// withdrawal is one-way, and an undo button would be a lie.
 class MapEventParticipationStrip extends StatelessWidget {
   final MapEventDetailState state;
   final VoidCallback onTryAnotherCar;
@@ -43,14 +43,15 @@ class MapEventParticipationStrip extends StatelessWidget {
 
     final rejected = state.myRejectedEntry;
     if (rejected != null) {
+      final reason = rejected.rejectionReason;
       return _Strip(
         icon: Icons.close_rounded,
         title: l10n.mapEventsStripDeclinedTitle,
         subject: '${rejected.car.brand} ${rejected.car.model}',
-        // The backend sends no rejection reason on a participant row, so the
-        // design's quoted organizer note can't be shown — see
-        // `MAP_EVENTS_NOTES.md` §1.3.
         body: l10n.mapEventsStripDeclinedBody,
+        // The organizer has to give a reason to decline, so this is normally
+        // present — but a row from before that rule still has none.
+        quote: reason,
         actionLabel: l10n.mapEventsTryAnotherCar,
         onAction: state.isBusy ? null : onTryAnotherCar,
       );
@@ -68,20 +69,6 @@ class MapEventParticipationStrip extends StatelessWidget {
       );
     }
 
-    // A registration the backend won't describe to this viewer: their own
-    // pending or rejected row, which only organizers may list. Saying "in
-    // progress" is honest; guessing at a status wouldn't be.
-    if (state.hasUnresolvedRegistration) {
-      return _Strip(
-        icon: Icons.hourglass_empty_rounded,
-        title: l10n.mapEventsStripUnknownTitle,
-        subject: null,
-        body: l10n.mapEventsStripUnknownBody,
-        actionLabel: null,
-        onAction: null,
-      );
-    }
-
     return const SizedBox.shrink();
   }
 }
@@ -91,6 +78,11 @@ class _Strip extends StatelessWidget {
   final String title;
   final String? subject;
   final String body;
+
+  /// The organizer's own words, set apart from the app's copy so it's clear
+  /// whose sentence it is.
+  final String? quote;
+
   final String? actionLabel;
   final VoidCallback? onAction;
 
@@ -99,12 +91,15 @@ class _Strip extends StatelessWidget {
     required this.title,
     required this.subject,
     required this.body,
+    this.quote,
     required this.actionLabel,
     required this.onAction,
   });
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final quote = this.quote;
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -167,6 +162,41 @@ class _Strip extends StatelessWidget {
                         color: AppColors.ink2,
                       ),
                     ),
+                    if (quote != null && quote.isNotEmpty) ...[
+                      const SizedBox(height: 10),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(11),
+                        decoration: BoxDecoration(
+                          color: AppColors.bg,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              l10n.mapEventsDeclineReasonHeading,
+                              style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 0.6,
+                                color: AppColors.mute,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              quote,
+                              style: const TextStyle(
+                                fontSize: 13,
+                                height: 1.35,
+                                color: AppColors.ink2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),

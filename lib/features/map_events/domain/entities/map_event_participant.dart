@@ -3,8 +3,8 @@ import 'package:equatable/equatable.dart';
 
 import 'map_event_enums.dart';
 
-/// One car's entry in an event — a row of `GET /map-events/{id}/cars` and the
-/// body of `POST /{id}/cars`.
+/// One car's entry in an event — a row of `GET /map-events/{id}/cars` and of
+/// `GET /{id}/cars/mine`.
 ///
 /// The car is the garage module's [CarSummaryEntity]: the backend sends the
 /// same `CarSummaryDto` here as it does in a garage, right down to `owner` and
@@ -14,10 +14,16 @@ class MapEventParticipantEntity extends Equatable {
   final MapEventParticipation status;
   final DateTime registeredAt;
 
+  /// Why an organizer turned this car away. Non-null only alongside
+  /// [MapEventParticipation.rejected] — the backend requires a reason to
+  /// reject, so a declined entry always has one to quote.
+  final String? rejectionReason;
+
   const MapEventParticipantEntity({
     required this.car,
     required this.status,
     required this.registeredAt,
+    required this.rejectionReason,
   });
 
   bool get isAccepted => status == MapEventParticipation.accepted;
@@ -26,5 +32,5 @@ class MapEventParticipantEntity extends Equatable {
   bool get isRejected => status == MapEventParticipation.rejected;
 
   @override
-  List<Object?> get props => [car, status, registeredAt];
+  List<Object?> get props => [car, status, registeredAt, rejectionReason];
 }

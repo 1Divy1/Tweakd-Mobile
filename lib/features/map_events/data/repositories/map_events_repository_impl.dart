@@ -118,6 +118,17 @@ class MapEventsRepositoryImpl implements MapEventsRepository {
   }
 
   @override
+  Future<Either<Failure, List<MapEventParticipantEntity>>> getMyCars(
+    String eventId, {
+    CancelToken? cancelToken,
+  }) {
+    return _guard('getMyCars', () async {
+      final rows = await api.getMyCars(eventId, cancelToken: cancelToken);
+      return [for (final r in rows) r.toEntity()];
+    });
+  }
+
+  @override
   Future<Either<Failure, List<OrganizerCandidateEntity>>> searchOrganizers(
     String query, {
     CancelToken? cancelToken,
@@ -308,70 +319,75 @@ class MapEventsRepositoryImpl implements MapEventsRepository {
   }
 
   @override
-  Future<Either<Failure, MapEventParticipantEntity>> registerCar(
+  Future<Either<Failure, MapEventEntity>> registerCar(
     String eventId,
     String carId,
   ) {
     return _guard('registerCar', () async {
-      final participant = await api.registerCar(eventId, carId);
-      return participant.toEntity();
+      final event = await api.registerCar(eventId, carId);
+      return event.toEntity();
     });
   }
 
   @override
-  Future<Either<Failure, Unit>> cancelCarRegistration(
+  Future<Either<Failure, MapEventEntity>> cancelCarRegistration(
     String eventId,
     String carId,
   ) {
     return _guard('cancelCarRegistration', () async {
-      await api.cancelCarRegistration(eventId, carId);
-      return unit;
+      final event = await api.cancelCarRegistration(eventId, carId);
+      return event.toEntity();
     });
   }
 
   @override
-  Future<Either<Failure, MapEventParticipantEntity>> reviewCarRegistration(
+  Future<Either<Failure, MapEventEntity>> reviewCarRegistration(
     String eventId,
     String carId,
-    MapEventParticipation status,
-  ) {
+    MapEventParticipation status, {
+    String? reason,
+  }) {
     return _guard('reviewCarRegistration', () async {
-      final participant =
-          await api.reviewCarRegistration(eventId, carId, status.apiValue);
-      return participant.toEntity();
+      final event = await api.reviewCarRegistration(
+        eventId,
+        carId,
+        status.apiValue,
+        reason: reason,
+      );
+      return event.toEntity();
     });
   }
 
   @override
-  Future<Either<Failure, List<MapEventParticipantEntity>>> withdraw(
+  Future<Either<Failure, MapEventEntity>> withdraw(
     String eventId, {
     String? note,
   }) {
     return _guard('withdraw', () async {
-      final rows = await api.withdraw(eventId, note: note);
-      return [for (final r in rows) r.toEntity()];
+      final event = await api.withdraw(eventId, note: note);
+      return event.toEntity();
     });
   }
 
   @override
-  Future<Either<Failure, Unit>> approveWithdrawal(
+  Future<Either<Failure, MapEventEntity>> approveWithdrawal(
     String eventId,
     String ownerId,
   ) {
     return _guard('approveWithdrawal', () async {
-      await api.approveWithdrawal(eventId, ownerId);
-      return unit;
+      final event = await api.approveWithdrawal(eventId, ownerId);
+      return event.toEntity();
     });
   }
 
   @override
-  Future<Either<Failure, List<MapEventParticipantEntity>>> rejectWithdrawal(
+  Future<Either<Failure, MapEventEntity>> rejectWithdrawal(
     String eventId,
     String ownerId,
   ) {
     return _guard('rejectWithdrawal', () async {
-      final rows = await api.rejectWithdrawal(eventId, ownerId);
-      return [for (final r in rows) r.toEntity()];
+      final event = await api.rejectWithdrawal(eventId, ownerId);
+      return event.toEntity();
     });
   }
 

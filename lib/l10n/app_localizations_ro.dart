@@ -2523,11 +2523,6 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String mapDistanceKm(String distance) {
-    return 'la $distance km';
-  }
-
-  @override
   String get mapHoursTitle => 'PROGRAM';
 
   @override
@@ -2659,18 +2654,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsStatCars => 'MAȘINI';
 
   @override
-  String get mapEventsStatAway => 'DISTANȚĂ';
-
-  @override
   String get mapEventsStatStarts => 'ÎNCEPE';
 
   @override
   String get mapEventsStatStarted => 'A ÎNCEPUT';
-
-  @override
-  String mapEventsDistanceKm(String distance) {
-    return '$distance km';
-  }
 
   @override
   String mapEventsGoingCount(int count) {
@@ -2828,11 +2815,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Organizatorii îți analizează cererea de retragere. Nu o mai poți anula.';
 
   @override
-  String get mapEventsStripUnknownTitle => 'Înscriere în curs';
-
-  @override
-  String get mapEventsStripUnknownBody =>
-      'Ai o mașină înscrisă la acest eveniment. Statusul ei nu este încă vizibil aici.';
+  String get mapEventsDeclineReasonHeading => 'MOTIVUL';
 
   @override
   String get mapEventsTryAnotherCar => 'ÎNCEARCĂ ALTĂ MAȘINĂ';
@@ -2864,6 +2847,21 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get mapEventsWithdrawBody =>
       'Le vei cere organizatorilor să te scoată de pe lista de înscrieri și din orice concurs din cadrul evenimentului. Odată trimisă, cererea nu mai poate fi anulată.';
+
+  @override
+  String mapEventsWithdrawAllCars(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Toate cele $count de mașini ale tale ies împreună de pe lista de înscrieri — nu poți retrage doar una. Un organizator trebuie să aprobe mai întâi.',
+      few:
+          'Toate cele $count mașini ale tale ies împreună de pe lista de înscrieri — nu poți retrage doar una. Un organizator trebuie să aprobe mai întâi.',
+      one:
+          'Mașina ta iese de pe lista de înscrieri — un organizator trebuie să aprobe mai întâi.',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get mapEventsWithdrawNoteLabel =>
@@ -3119,6 +3117,21 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get mapEventsDecline => 'REFUZĂ';
+
+  @override
+  String get mapEventsDeclineTitle => 'Refuzi această înscriere?';
+
+  @override
+  String mapEventsDeclineBody(String car) {
+    return '$car nu va fi pe lista de înscrieri. Proprietarul vede motivul tău, așa că scrie ceva ce poate folosi.';
+  }
+
+  @override
+  String get mapEventsDeclineReasonLabel => 'MOTIV (OBLIGATORIU)';
+
+  @override
+  String get mapEventsDeclineReasonHint =>
+      'Categorie greșită pentru o întâlnire doar JDM…';
 
   @override
   String get mapEventsLetThemOut => 'LASĂ-I SĂ PLECE';

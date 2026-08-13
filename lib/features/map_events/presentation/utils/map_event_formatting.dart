@@ -4,7 +4,11 @@ import 'package:intl/intl.dart';
 
 import '../../domain/entities/map_event_enums.dart';
 
-/// Date, time and distance formatting for the map-events UI.
+/// Date and time formatting for the map-events UI.
+///
+/// No distance formatter: the app doesn't show distances at all. A straight
+/// line is not something you can drive, and road distance would need a
+/// directions API — `MAP_EVENTS_NOTES.md` §2.3.
 ///
 /// Everything here takes a [BuildContext] so `DateFormat` gets the app's active
 /// locale — the language switcher would otherwise leave English month names in
@@ -57,13 +61,6 @@ class MapEventFormat {
   /// always shows a date because it's usually a different day from the event.
   static String deadline(BuildContext context, DateTime value) =>
       '${dayAndMonth(context, value)}, ${time(context, value)}';
-
-  /// Straight-line distance, in km, as the app shows it everywhere:
-  /// one decimal below 10 km, whole numbers above.
-  static String distance(AppLocalizations l10n, double km) {
-    final text = km < 10 ? km.toStringAsFixed(1) : km.round().toString();
-    return l10n.mapEventsDistanceKm(text);
-  }
 
   /// The chip over an event's cover.
   static String statusLabel(AppLocalizations l10n, MapEventStatus status) =>

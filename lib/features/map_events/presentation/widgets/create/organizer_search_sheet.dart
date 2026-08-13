@@ -210,6 +210,7 @@ class _CandidateRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final url = candidate.imageUrl;
     final radius = candidate.isBusiness ? 10.0 : 19.0;
+    final username = candidate.username;
 
     return Material(
       color: AppColors.surface,
@@ -241,26 +242,46 @@ class _CandidateRow extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Flexible(
-                      child: Text(
-                        candidate.name,
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            candidate.name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 14.5,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.ink,
+                            ),
+                          ),
+                        ),
+                        if (candidate.isBusiness) ...[
+                          const SizedBox(width: 5),
+                          const Icon(
+                            Icons.verified_rounded,
+                            size: 15,
+                            color: Colors.blue,
+                          ),
+                        ],
+                      ],
+                    ),
+                    // Businesses have no handle; two people can share a display
+                    // name, so the line matters for telling them apart.
+                    if (username != null) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        '@$username',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 14.5,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.ink,
+                          fontSize: 12,
+                          color: AppColors.mute,
                         ),
-                      ),
-                    ),
-                    if (candidate.isBusiness) ...[
-                      const SizedBox(width: 5),
-                      const Icon(
-                        Icons.verified_rounded,
-                        size: 15,
-                        color: Colors.blue,
                       ),
                     ],
                   ],

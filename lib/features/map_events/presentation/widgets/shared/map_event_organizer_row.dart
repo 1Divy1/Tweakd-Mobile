@@ -2,21 +2,21 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:car_social_media_app/core/theme/app_colors.dart';
 import 'package:car_social_media_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../domain/entities/map_event.dart';
 import '../../../domain/entities/map_event_enums.dart';
 import 'map_event_chips.dart';
 
-/// One organizer of an event: avatar, name, role and an INDIVIDUAL / BUSINESS
-/// chip. Business organizers are certified by definition — that's the only way
-/// a business account can be added — so they carry the verified check.
+/// One organizer of an event: avatar, name, `@handle`, role and an
+/// INDIVIDUAL / BUSINESS chip. Business organizers are certified by definition
+/// — that's the only way a business account can be added — so they carry the
+/// verified check.
 ///
-/// **Deliberately not a link.** The design shows an `@username` line and a
-/// chevron into the profile, but the backend's organizer DTO carries no
-/// username, and the app's profile route is `/users/:username` (there's no
-/// by-id route to fall back on). Rather than render a chevron that goes
-/// nowhere, the row is inert. See `MAP_EVENTS_NOTES.md` §1.1 — adding
-/// `username` to the DTO is all this needs to become the designed row.
+/// Individuals link into `/users/:username`; **businesses don't**, because
+/// their DTO carries no username and the app has no business-profile route
+/// yet. The chevron follows the link rather than the row type, so nothing on
+/// screen suggests a destination that doesn't exist.
 class MapEventOrganizerRow extends StatelessWidget {
   final MapEventOrganizerEntity organizer;
 
@@ -37,72 +37,105 @@ class MapEventOrganizerRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    // Nowhere to go from a row that's about to be removed, or from a business.
+    final canOpenProfile = onRemove == null && !isSelf && organizer.hasProfile;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
+    return Material(
+      color: AppColors.surface,
+      borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        onTap: canOpenProfile
+            // `extra` is the profile's user id: the route uses it to bounce the
+            // viewer to /profile when the organizer *is* them.
+            ? () => context.push(
+                  '/users/${organizer.username}',
+                  extra: organizer.referenceId,
+                )
+            : null,
         borderRadius: BorderRadius.circular(14),
-      ),
-      child: Row(
-        children: [
-          _OrganizerAvatar(organizer: organizer),
-          const SizedBox(width: 11),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: Row(
+            children: [
+              _OrganizerAvatar(organizer: organizer),
+              const SizedBox(width: 11),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Flexible(
-                      child: Text(
-                        organizer.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 14.5,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.ink,
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            organizer.name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 14.5,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.ink,
+                            ),
+                          ),
                         ),
+                        if (organizer.isBusiness) ...[
+                          const SizedBox(width: 5),
+                          const Icon(
+                            Icons.verified_rounded,
+                            size: 15,
+                            color: Colors.blue,
+                          ),
+                        ],
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      // "@handle · organizer" when there's a handle to show;
+                      // the role alone otherwise.
+                      _subtitle(l10n),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.mute,
                       ),
                     ),
-                    if (organizer.isBusiness) ...[
-                      const SizedBox(width: 5),
-                      const Icon(
-                        Icons.verified_rounded,
-                        size: 15,
-                        color: Colors.blue,
-                      ),
-                    ],
                   ],
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  isSelf
-                      ? l10n.mapEventsYouCreator
-                      : (organizer.isCreator
-                          ? l10n.mapEventsRoleCreator
-                          : l10n.mapEventsRoleOrganizer),
-                  style: const TextStyle(fontSize: 12, color: AppColors.mute),
-                ),
+              ),
+              const SizedBox(width: 8),
+              if (onRemove != null)
+                IconButton(
+                  onPressed: onRemove,
+                  icon: const Icon(Icons.close_rounded, size: 18),
+                  color: AppColors.mute,
+                  tooltip: l10n.mapEventsRemoveOrganizer,
+                  visualDensity: VisualDensity.compact,
+                )
+              else ...[
+                MapEventOrganizerTypeChip(type: organizer.type),
+                if (canOpenProfile)
+                  const Icon(
+                    Icons.chevron_right_rounded,
+                    size: 20,
+                    color: AppColors.muteSoft,
+                  ),
               ],
-            ),
+            ],
           ),
-          const SizedBox(width: 8),
-          if (onRemove != null)
-            IconButton(
-              onPressed: onRemove,
-              icon: const Icon(Icons.close_rounded, size: 18),
-              color: AppColors.mute,
-              tooltip: l10n.mapEventsRemoveOrganizer,
-              visualDensity: VisualDensity.compact,
-            )
-          else
-            MapEventOrganizerTypeChip(type: organizer.type),
-        ],
+        ),
       ),
     );
+  }
+
+  String _subtitle(AppLocalizations l10n) {
+    final role = isSelf
+        ? l10n.mapEventsYouCreator
+        : (organizer.isCreator
+            ? l10n.mapEventsRoleCreator
+            : l10n.mapEventsRoleOrganizer);
+
+    return organizer.hasProfile ? '@${organizer.username} · $role' : role;
   }
 }
 

@@ -107,7 +107,6 @@ class MapFlutterOverlays extends StatelessWidget {
                   (_, final eventId?) => MapEventPopup(
                       key: ValueKey('event-$eventId'),
                       pin: state.selectedEventPin,
-                      fetchCentre: state.fetchCentre,
                       onClose: () => bloc.add(const MapBusinessDismissed()),
                     ),
                   _ => const SizedBox.shrink(),

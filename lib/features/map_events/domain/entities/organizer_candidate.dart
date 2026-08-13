@@ -14,17 +14,22 @@ class OrganizerCandidateEntity extends Equatable {
   final String referenceId;
 
   final String name;
+
+  /// Individuals only — null on a business hit.
+  final String? username;
+
   final String? imageUrl;
 
   const OrganizerCandidateEntity({
     required this.type,
     required this.referenceId,
     required this.name,
+    required this.username,
     required this.imageUrl,
   });
 
   bool get isBusiness => type == MapEventOrganizerType.business;
 
   @override
-  List<Object?> get props => [type, referenceId, name, imageUrl];
+  List<Object?> get props => [type, referenceId, name, username, imageUrl];
 }

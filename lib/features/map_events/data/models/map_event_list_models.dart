@@ -167,12 +167,14 @@ class MapEventSummaryModel {
 class MapEventAttendeeModel {
   final String id;
   final String username;
+  final String? name;
   final String? avatarUrl;
   final String? status;
 
   const MapEventAttendeeModel({
     required this.id,
     required this.username,
+    required this.name,
     required this.avatarUrl,
     required this.status,
   });
@@ -182,6 +184,7 @@ class MapEventAttendeeModel {
     return MapEventAttendeeModel(
       id: profile['id'] as String? ?? '',
       username: profile['username'] as String? ?? '',
+      name: parseNullableString(profile['name']),
       avatarUrl: parseNullableString(profile['avatar_url']),
       status: json['status'] as String?,
     );
@@ -191,6 +194,7 @@ class MapEventAttendeeModel {
     return MapEventAttendeeEntity(
       id: id,
       username: username,
+      name: name,
       avatarUrl: avatarUrl,
       // The list endpoint is queried per status, so an unparsable one is
       // effectively impossible; `interested` is the softer default.
@@ -205,11 +209,13 @@ class MapEventParticipantModel {
   final CarSummaryModel car;
   final String? status;
   final DateTime registeredAt;
+  final String? rejectionReason;
 
   const MapEventParticipantModel({
     required this.car,
     required this.status,
     required this.registeredAt,
+    required this.rejectionReason,
   });
 
   factory MapEventParticipantModel.fromJson(Map<String, dynamic> json) {
@@ -219,6 +225,8 @@ class MapEventParticipantModel {
       car: CarSummaryModel.fromJson(json['car'] as Map<String, dynamic>),
       status: json['status'] as String?,
       registeredAt: parseInstant(json['registered_at']),
+      // Null unless the row is `rejected`.
+      rejectionReason: parseNullableString(json['rejection_reason']),
     );
   }
 
@@ -227,6 +235,7 @@ class MapEventParticipantModel {
       car: car.toEntity(),
       status: MapEventParticipation.fromApi(status),
       registeredAt: registeredAt,
+      rejectionReason: rejectionReason,
     );
   }
 }
@@ -279,12 +288,14 @@ class OrganizerCandidateModel {
   final String? type;
   final String referenceId;
   final String name;
+  final String? username;
   final String? imageUrl;
 
   const OrganizerCandidateModel({
     required this.type,
     required this.referenceId,
     required this.name,
+    required this.username,
     required this.imageUrl,
   });
 
@@ -293,6 +304,8 @@ class OrganizerCandidateModel {
       type: json['type'] as String?,
       referenceId: json['reference_id'] as String? ?? '',
       name: json['name'] as String? ?? '',
+      // Null on a business hit.
+      username: parseNullableString(json['username']),
       imageUrl: parseNullableString(json['image_url']),
     );
   }
@@ -302,6 +315,7 @@ class OrganizerCandidateModel {
       type: MapEventOrganizerType.fromApi(type),
       referenceId: referenceId,
       name: name,
+      username: username,
       imageUrl: imageUrl,
     );
   }

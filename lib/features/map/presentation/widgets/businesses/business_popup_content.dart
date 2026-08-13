@@ -7,19 +7,15 @@ import '../../../domain/entities/business_detail_entity.dart';
 import 'business_hours_list.dart';
 
 /// The loaded body of the business popup.
+///
+/// There is **no distance here on purpose.** A straight-line "x km away" is
+/// unactionable — nobody drives a straight line — and a real road distance
+/// needs a directions API nobody has budgeted for. Showing neither beats
+/// showing a number the user would have to mentally discount.
 class BusinessPopupContent extends StatelessWidget {
   final BusinessDetailEntity business;
 
-  /// Straight-line distance from the map's query centre, computed by the
-  /// caller — neither `/businesses/nearby` nor `GET /businesses/{id}` returns
-  /// one any more.
-  final double? distanceKm;
-
-  const BusinessPopupContent({
-    super.key,
-    required this.business,
-    this.distanceKm,
-  });
+  const BusinessPopupContent({super.key, required this.business});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +27,7 @@ class BusinessPopupContent extends StatelessWidget {
       children: [
         _Header(business: business),
         const SizedBox(height: 14),
-        _StatsRow(business: business, distanceKm: distanceKm),
+        _StatsRow(business: business),
         if (business.description.isNotEmpty) ...[
           const SizedBox(height: 14),
           Text(
@@ -170,14 +166,12 @@ class BusinessLogo extends StatelessWidget {
 
 class _StatsRow extends StatelessWidget {
   final BusinessDetailEntity business;
-  final double? distanceKm;
 
-  const _StatsRow({required this.business, required this.distanceKm});
+  const _StatsRow({required this.business});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final distance = distanceKm;
 
     return Wrap(
       spacing: 8,
@@ -198,12 +192,6 @@ class _StatsRow extends StatelessWidget {
               : l10n.mapNoReviews,
           tone: _PillTone.neutral,
         ),
-        if (distance != null)
-          _Pill(
-            icon: Icons.near_me_outlined,
-            label: l10n.mapDistanceKm(distance.toStringAsFixed(1)),
-            tone: _PillTone.neutral,
-          ),
       ],
     );
   }

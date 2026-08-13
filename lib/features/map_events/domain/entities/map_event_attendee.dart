@@ -9,16 +9,22 @@ import 'map_event_enums.dart';
 class MapEventAttendeeEntity extends Equatable {
   final String id;
   final String username;
+
+  /// Display name. The shared profile DTO only started carrying it recently,
+  /// so it can still be absent — the row falls back to the handle.
+  final String? name;
+
   final String? avatarUrl;
   final MapEventAttendance status;
 
   const MapEventAttendeeEntity({
     required this.id,
     required this.username,
+    required this.name,
     required this.avatarUrl,
     required this.status,
   });
 
   @override
-  List<Object?> get props => [id, username, avatarUrl, status];
+  List<Object?> get props => [id, username, name, avatarUrl, status];
 }

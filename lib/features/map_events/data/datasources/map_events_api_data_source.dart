@@ -115,6 +115,25 @@ class MapEventsApiDataSource {
     );
   }
 
+  /// `GET /{id}/cars/mine` — the caller's own entries, **every status**
+  /// (pending, accepted, rejected, withdrawn) and not paginated.
+  ///
+  /// This is the only way a plain participant can see their own pending or
+  /// rejected row: those slices of [getCars] are organizer-only.
+  Future<List<MapEventParticipantModel>> getMyCars(
+    String eventId, {
+    CancelToken? cancelToken,
+  }) async {
+    final data = await http.get(
+      '/map-events/$eventId/cars/mine',
+      cancelToken: cancelToken,
+    );
+    return [
+      for (final e in data as List<dynamic>)
+        MapEventParticipantModel.fromJson(e as Map<String, dynamic>),
+    ];
+  }
+
   /// A blank query comes back empty from the backend; callers still short-
   /// circuit it client-side rather than spend a request on it.
   Future<List<OrganizerCandidateModel>> searchOrganizers(
@@ -289,59 +308,63 @@ class MapEventsApiDataSource {
     return MapEventModel.fromJson(data as Map<String, dynamic>);
   }
 
-  Future<MapEventParticipantModel> registerCar(
-    String eventId,
-    String carId,
-  ) async {
+  /// 201, and — like every other participation write — answers with the whole
+  /// event, so counts and viewer flags come back without a follow-up GET.
+  Future<MapEventModel> registerCar(String eventId, String carId) async {
     final data = await http.post(
       '/map-events/$eventId/cars',
       body: {'car_id': carId},
     );
-    return MapEventParticipantModel.fromJson(data as Map<String, dynamic>);
+    return MapEventModel.fromJson(data as Map<String, dynamic>);
   }
 
   /// Pending registrations only — an accepted entry must use [withdraw].
-  Future<void> cancelCarRegistration(String eventId, String carId) =>
-      http.delete('/map-events/$eventId/cars/$carId');
-
-  Future<MapEventParticipantModel> reviewCarRegistration(
+  Future<MapEventModel> cancelCarRegistration(
     String eventId,
     String carId,
-    String status,
   ) async {
-    final data = await http.patch(
-      '/map-events/$eventId/cars/$carId',
-      body: {'status': status},
-    );
-    return MapEventParticipantModel.fromJson(data as Map<String, dynamic>);
+    final data = await http.delete('/map-events/$eventId/cars/$carId');
+    return MapEventModel.fromJson(data as Map<String, dynamic>);
   }
 
-  Future<List<MapEventParticipantModel>> withdraw(
-    String eventId, {
-    String? note,
+  /// The organizer's accept/reject. [reason] is **required** when rejecting —
+  /// the backend 400s on a missing or blank one — and ignored when accepting.
+  Future<MapEventModel> reviewCarRegistration(
+    String eventId,
+    String carId,
+    String status, {
+    String? reason,
   }) async {
+    final data = await http.patch(
+      '/map-events/$eventId/cars/$carId',
+      body: {'status': status, 'reason': ?reason},
+    );
+    return MapEventModel.fromJson(data as Map<String, dynamic>);
+  }
+
+  Future<MapEventModel> withdraw(String eventId, {String? note}) async {
     final data = await http.post(
       '/map-events/$eventId/withdraw',
       body: {'note': note},
     );
-    return [
-      for (final e in data as List<dynamic>)
-        MapEventParticipantModel.fromJson(e as Map<String, dynamic>),
-    ];
+    return MapEventModel.fromJson(data as Map<String, dynamic>);
   }
 
-  Future<void> approveWithdrawal(String eventId, String ownerId) =>
-      http.post('/map-events/$eventId/withdrawals/$ownerId/approve');
+  Future<MapEventModel> approveWithdrawal(
+    String eventId,
+    String ownerId,
+  ) async {
+    final data =
+        await http.post('/map-events/$eventId/withdrawals/$ownerId/approve');
+    return MapEventModel.fromJson(data as Map<String, dynamic>);
+  }
 
-  Future<List<MapEventParticipantModel>> rejectWithdrawal(
+  Future<MapEventModel> rejectWithdrawal(
     String eventId,
     String ownerId,
   ) async {
     final data =
         await http.post('/map-events/$eventId/withdrawals/$ownerId/reject');
-    return [
-      for (final e in data as List<dynamic>)
-        MapEventParticipantModel.fromJson(e as Map<String, dynamic>),
-    ];
+    return MapEventModel.fromJson(data as Map<String, dynamic>);
   }
 }

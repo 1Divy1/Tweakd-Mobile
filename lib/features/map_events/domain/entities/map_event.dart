@@ -22,8 +22,9 @@ class MapEventRuleEntity extends Equatable {
 
 /// A person or business running the event.
 ///
-/// The backend does **not** send a username for either type, so the UI shows
-/// [name] alone and the row isn't a link — see `MAP_EVENTS_NOTES.md` §1.1.
+/// [name] is the display name; [username] is the handle, and exists for
+/// **individuals only** — a business organizer has no username, so its row
+/// shows the name alone until business profiles get a route of their own.
 /// [referenceId] is the underlying user or business id, and is what
 /// `POST /{id}/organizers` wants; [id] is the organizer row itself, which is
 /// what `DELETE /{id}/organizers/{organizer_id}` wants. They are not
@@ -34,6 +35,7 @@ class MapEventOrganizerEntity extends Equatable {
   final MapEventOrganizerRole role;
   final String referenceId;
   final String name;
+  final String? username;
   final String? imageUrl;
 
   const MapEventOrganizerEntity({
@@ -42,14 +44,27 @@ class MapEventOrganizerEntity extends Equatable {
     required this.role,
     required this.referenceId,
     required this.name,
+    required this.username,
     required this.imageUrl,
   });
 
   bool get isBusiness => type == MapEventOrganizerType.business;
   bool get isCreator => role == MapEventOrganizerRole.creator;
 
+  /// Whether the row can navigate: the profile route is `/users/:username`, so
+  /// a missing handle means there is nowhere to go.
+  bool get hasProfile => (username ?? '').isNotEmpty;
+
   @override
-  List<Object?> get props => [id, type, role, referenceId, name, imageUrl];
+  List<Object?> get props => [
+        id,
+        type,
+        role,
+        referenceId,
+        name,
+        username,
+        imageUrl,
+      ];
 }
 
 /// Category-specific detail. Only car meets have one today, and it's null for

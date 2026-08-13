@@ -33,21 +33,10 @@ class MapEventDetailState extends Equatable {
   final bool isLoadingCars;
   final bool isLoadingMoreCars;
 
-  /// The viewer's own cars in this event, with the statuses that could actually
-  /// be resolved.
-  ///
-  /// `viewer.my_registered_car_ids` has no per-car status, so these are
-  /// cross-referenced against the car list. Accepted and withdrawn rows are
-  /// public and always resolvable; **pending and rejected rows are
-  /// organizer-only**, so a plain participant's own pending request is
-  /// invisible until they make it in this session (see
-  /// [unresolvedRegisteredCarIds] and `MAP_EVENTS_NOTES.md` §1.2).
+  /// The viewer's own cars in this event, whatever their status, straight from
+  /// `GET /{id}/cars/mine` — pending, accepted, rejected and withdrawn rows
+  /// alike, with the organizer's reason on the rejected ones.
   final List<MapEventParticipantEntity> myParticipations;
-
-  /// Registered car ids whose status the backend wouldn't reveal to this
-  /// viewer. The UI treats them as "something is in progress" rather than
-  /// claiming a status it doesn't know.
-  final List<String> unresolvedRegisteredCarIds;
 
   final MapEventAction action;
 
@@ -65,7 +54,6 @@ class MapEventDetailState extends Equatable {
     this.isLoadingCars = false,
     this.isLoadingMoreCars = false,
     this.myParticipations = const [],
-    this.unresolvedRegisteredCarIds = const [],
     this.action = MapEventAction.none,
     this.actionError,
   });
@@ -103,9 +91,17 @@ class MapEventDetailState extends Equatable {
     return null;
   }
 
-  /// True when the viewer has *something* registered whose state we couldn't
-  /// read — a pending request made on another device, typically.
-  bool get hasUnresolvedRegistration => unresolvedRegisteredCarIds.isNotEmpty;
+  /// How many of the viewer's cars a withdrawal would take out. `POST
+  /// /withdraw` has no per-car variant — it flags every live entry the caller
+  /// has — so the confirmation dialog names this number rather than implying
+  /// one car is at stake.
+  int get withdrawableCarCount {
+    var count = 0;
+    for (final p in myParticipations) {
+      if (p.isAccepted || p.isPending) count++;
+    }
+    return count;
+  }
 
   MapEventDetailState copyWith({
     MapEventDetailStatus? status,
@@ -120,7 +116,6 @@ class MapEventDetailState extends Equatable {
     bool? isLoadingCars,
     bool? isLoadingMoreCars,
     List<MapEventParticipantEntity>? myParticipations,
-    List<String>? unresolvedRegisteredCarIds,
     MapEventAction? action,
     MapEventError? actionError,
     bool clearActionError = false,
@@ -137,8 +132,6 @@ class MapEventDetailState extends Equatable {
       isLoadingCars: isLoadingCars ?? this.isLoadingCars,
       isLoadingMoreCars: isLoadingMoreCars ?? this.isLoadingMoreCars,
       myParticipations: myParticipations ?? this.myParticipations,
-      unresolvedRegisteredCarIds:
-          unresolvedRegisteredCarIds ?? this.unresolvedRegisteredCarIds,
       action: action ?? this.action,
       actionError:
           clearActionError ? null : (actionError ?? this.actionError),
@@ -157,7 +150,6 @@ class MapEventDetailState extends Equatable {
         isLoadingCars,
         isLoadingMoreCars,
         myParticipations,
-        unresolvedRegisteredCarIds,
         action,
         actionError,
       ];

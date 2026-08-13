@@ -39,14 +39,6 @@ class BusinessPopup extends StatelessWidget {
     final destination = business?.position ?? pin?.position;
     final detailFailed = state.detailStatus == BusinessDetailStatus.failure;
 
-    // `/businesses/nearby` no longer returns a distance, so it's derived here:
-    // straight line from the centre the pins were fetched around. Null until
-    // the first fetch lands, which is also when there'd be no pin to show.
-    final centre = state.fetchCentre;
-    final distanceKm = (centre != null && destination != null)
-        ? centre.distanceKmTo(destination)
-        : null;
-
     return Container(
       constraints: BoxConstraints(maxHeight: maxHeight),
       decoration: BoxDecoration(
@@ -73,10 +65,8 @@ class BusinessPopup extends StatelessWidget {
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.fromLTRB(18, 18, 18, 16),
                   child: switch (state.detailStatus) {
-                    BusinessDetailStatus.loaded => BusinessPopupContent(
-                        business: business!,
-                        distanceKm: distanceKm,
-                      ),
+                    BusinessDetailStatus.loaded =>
+                      BusinessPopupContent(business: business!),
                     BusinessDetailStatus.failure => _PopupError(
                         code: state.detailErrorCode ?? MapErrorCode.generic,
                         onRetry: onRetry,

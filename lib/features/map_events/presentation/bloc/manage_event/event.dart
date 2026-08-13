@@ -23,14 +23,19 @@ class RefreshMapEventManagement extends ManageMapEventEvent {
 }
 
 /// Accept or decline one car's entry.
+///
+/// [reason] is what the owner will be shown on their declined strip. The
+/// backend **requires** it to decline — the UI collects it in a dialog before
+/// this event is ever dispatched — and ignores it on an accept.
 class ReviewEntry extends ManageMapEventEvent {
   final String carId;
   final bool accept;
+  final String? reason;
 
-  const ReviewEntry({required this.carId, required this.accept});
+  const ReviewEntry({required this.carId, required this.accept, this.reason});
 
   @override
-  List<Object?> get props => [carId, accept];
+  List<Object?> get props => [carId, accept, reason];
 }
 
 /// Approving lets the owner out and **hard-deletes** their rows; rejecting puts

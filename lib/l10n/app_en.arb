@@ -1139,12 +1139,6 @@
       "count": { "type": "int" }
     }
   },
-  "mapDistanceKm": "{distance} km away",
-  "@mapDistanceKm": {
-    "placeholders": {
-      "distance": { "type": "String" }
-    }
-  },
   "mapHoursTitle": "OPENING HOURS",
   "mapHoursClosed": "Closed",
   "mapHoursNextDay": "(next day)",
@@ -1191,15 +1185,8 @@
   "mapEventsShare": "Share",
   "mapEventsStatAttendees": "ATTENDEES",
   "mapEventsStatCars": "CARS",
-  "mapEventsStatAway": "AWAY",
   "mapEventsStatStarts": "STARTS",
   "mapEventsStatStarted": "STARTED",
-  "mapEventsDistanceKm": "{distance} km",
-  "@mapEventsDistanceKm": {
-    "placeholders": {
-      "distance": { "type": "String" }
-    }
-  },
   "mapEventsGoingCount": "{count, plural, =1{1 going} other{{count} going}}",
   "@mapEventsGoingCount": {
     "placeholders": {
@@ -1278,8 +1265,7 @@
   "mapEventsStripDeclinedBody": "The organizers declined this car for this event.",
   "mapEventsStripWithdrawnTitle": "Withdrawal requested",
   "mapEventsStripWithdrawnBody": "The organizers are reviewing your request to leave. You can't take it back.",
-  "mapEventsStripUnknownTitle": "Registration in progress",
-  "mapEventsStripUnknownBody": "You have a car registered for this event. Its status isn't visible here yet.",
+  "mapEventsDeclineReasonHeading": "WHY",
   "mapEventsTryAnotherCar": "TRY ANOTHER CAR",
   "mapEventsCancelRequest": "CANCEL REQUEST",
   "mapEventsPickCarTitle": "Which car are you bringing?",
@@ -1294,6 +1280,12 @@
   },
   "mapEventsWithdrawTitle": "Withdraw from this event?",
   "mapEventsWithdrawBody": "You'll ask the organizers to take you off the entry list, and off any contests running inside this event. Once sent, the request can't be taken back.",
+  "mapEventsWithdrawAllCars": "{count, plural, =1{Your car leaves the entry list — an organizer has to approve it first.} other{All {count} of your cars leave the entry list together — there's no way to withdraw just one. An organizer has to approve it first.}}",
+  "@mapEventsWithdrawAllCars": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "mapEventsWithdrawNoteLabel": "NOTE FOR ORGANIZERS (OPTIONAL)",
   "mapEventsWithdrawNoteHint": "Let them know why, if you'd like…",
   "mapEventsCancel": "CANCEL",
@@ -1373,6 +1365,15 @@
   "mapEventsNoWithdrawals": "No withdrawal requests waiting.",
   "mapEventsAccept": "ACCEPT",
   "mapEventsDecline": "DECLINE",
+  "mapEventsDeclineTitle": "Decline this entry?",
+  "mapEventsDeclineBody": "{car} won't be on the entry list. The owner sees your reason, so make it something they can act on.",
+  "@mapEventsDeclineBody": {
+    "placeholders": {
+      "car": { "type": "String" }
+    }
+  },
+  "mapEventsDeclineReasonLabel": "REASON (REQUIRED)",
+  "mapEventsDeclineReasonHint": "Wrong category for a JDM-only meet…",
   "mapEventsLetThemOut": "LET THEM OUT",
   "mapEventsKeepThemIn": "KEEP THEM IN",
   "mapEventsWithdrawalNoteLabel": "Their note",

@@ -4514,12 +4514,6 @@ abstract class AppLocalizations {
   /// **'{count, plural, =1{1 follower} other{{count} followers}}'**
   String mapFollowerCount(int count);
 
-  /// No description provided for @mapDistanceKm.
-  ///
-  /// In en, this message translates to:
-  /// **'{distance} km away'**
-  String mapDistanceKm(String distance);
-
   /// No description provided for @mapHoursTitle.
   ///
   /// In en, this message translates to:
@@ -4760,12 +4754,6 @@ abstract class AppLocalizations {
   /// **'CARS'**
   String get mapEventsStatCars;
 
-  /// No description provided for @mapEventsStatAway.
-  ///
-  /// In en, this message translates to:
-  /// **'AWAY'**
-  String get mapEventsStatAway;
-
   /// No description provided for @mapEventsStatStarts.
   ///
   /// In en, this message translates to:
@@ -4777,12 +4765,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'STARTED'**
   String get mapEventsStatStarted;
-
-  /// No description provided for @mapEventsDistanceKm.
-  ///
-  /// In en, this message translates to:
-  /// **'{distance} km'**
-  String mapEventsDistanceKm(String distance);
 
   /// No description provided for @mapEventsGoingCount.
   ///
@@ -5042,17 +5024,11 @@ abstract class AppLocalizations {
   /// **'The organizers are reviewing your request to leave. You can\'t take it back.'**
   String get mapEventsStripWithdrawnBody;
 
-  /// No description provided for @mapEventsStripUnknownTitle.
+  /// No description provided for @mapEventsDeclineReasonHeading.
   ///
   /// In en, this message translates to:
-  /// **'Registration in progress'**
-  String get mapEventsStripUnknownTitle;
-
-  /// No description provided for @mapEventsStripUnknownBody.
-  ///
-  /// In en, this message translates to:
-  /// **'You have a car registered for this event. Its status isn\'t visible here yet.'**
-  String get mapEventsStripUnknownBody;
+  /// **'WHY'**
+  String get mapEventsDeclineReasonHeading;
 
   /// No description provided for @mapEventsTryAnotherCar.
   ///
@@ -5107,6 +5083,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You\'ll ask the organizers to take you off the entry list, and off any contests running inside this event. Once sent, the request can\'t be taken back.'**
   String get mapEventsWithdrawBody;
+
+  /// No description provided for @mapEventsWithdrawAllCars.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Your car leaves the entry list — an organizer has to approve it first.} other{All {count} of your cars leave the entry list together — there\'s no way to withdraw just one. An organizer has to approve it first.}}'**
+  String mapEventsWithdrawAllCars(int count);
 
   /// No description provided for @mapEventsWithdrawNoteLabel.
   ///
@@ -5581,6 +5563,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'DECLINE'**
   String get mapEventsDecline;
+
+  /// No description provided for @mapEventsDeclineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline this entry?'**
+  String get mapEventsDeclineTitle;
+
+  /// No description provided for @mapEventsDeclineBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{car} won\'t be on the entry list. The owner sees your reason, so make it something they can act on.'**
+  String mapEventsDeclineBody(String car);
+
+  /// No description provided for @mapEventsDeclineReasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'REASON (REQUIRED)'**
+  String get mapEventsDeclineReasonLabel;
+
+  /// No description provided for @mapEventsDeclineReasonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong category for a JDM-only meet…'**
+  String get mapEventsDeclineReasonHint;
 
   /// No description provided for @mapEventsLetThemOut.
   ///

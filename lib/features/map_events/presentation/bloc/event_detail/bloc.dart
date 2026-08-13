@@ -4,7 +4,6 @@ import 'package:injectable/injectable.dart';
 
 import '../../../domain/entities/map_event.dart';
 import '../../../domain/entities/map_event_enums.dart';
-import '../../../domain/entities/map_event_participant.dart';
 import '../../../domain/usecases/map_event_attendance.dart';
 import '../../../domain/usecases/map_event_participation.dart';
 import '../../../domain/usecases/map_event_reads.dart';
@@ -19,25 +18,24 @@ import 'state.dart';
 /// going, and what the viewer may do about it — so the RSVP / register /
 /// withdraw logic lives here once instead of being written twice and drifting.
 ///
-/// Two contract quirks shape most of this file:
+/// Two contract facts shape most of this file:
 ///
-/// * **Writes return the event, except the participation ones.** `PUT/DELETE
-///   attendance` answer with a fresh `MapEventDto`, so an RSVP needs no
-///   refetch. `POST /cars`, `DELETE /cars/{id}` and `POST /withdraw` answer
-///   with participant rows (or nothing), so those *do* refetch to pick up the
-///   new counts and viewer flags.
-/// * **The viewer object has no per-car status.** Working out whether the
-///   viewer's car is accepted, withdrawn or still pending means matching
-///   `my_registered_car_ids` against the car list — and the pending/rejected
-///   slices of that list are organizer-only, so a participant's own pending
-///   request is unreadable on a cold open. Anything that can't be resolved is
-///   kept in `unresolvedRegisteredCarIds` rather than guessed at.
+/// * **Every write answers with the whole event.** RSVP, registration,
+///   cancellation and withdrawal all come back as a fresh `MapEventDto`, so a
+///   write is optimistic-then-authoritative and never needs a follow-up GET
+///   for counts or viewer flags.
+/// * **The viewer's own entries come from `GET /{id}/cars/mine`.** That list
+///   carries every status the caller has in the event — including the pending
+///   and rejected rows the public entry list keeps to organizers — plus the
+///   organizer's `rejection_reason`. It's the one call behind every "your
+///   entry" strip, and it's re-read after any write that could move a row.
 @injectable
 class MapEventDetailBloc
     extends Bloc<MapEventDetailEvent, MapEventDetailState> {
   final GetMapEventUseCase getEvent;
   final GetMapEventAttendeesUseCase getAttendees;
   final GetMapEventCarsUseCase getCars;
+  final GetMyMapEventCarsUseCase getMyCars;
   final SetMapEventAttendanceUseCase setAttendance;
   final ClearMapEventAttendanceUseCase clearAttendance;
   final RegisterCarForMapEventUseCase registerCar;
@@ -53,6 +51,7 @@ class MapEventDetailBloc
     required this.getEvent,
     required this.getAttendees,
     required this.getCars,
+    required this.getMyCars,
     required this.setAttendance,
     required this.clearAttendance,
     required this.registerCar,
@@ -100,9 +99,9 @@ class MapEventDetailBloc
     await _load(id, emit, keepPreviousOnFailure: true);
   }
 
-  /// Fetches the event, its attendee preview and the first page of the entry
-  /// list. The three requests overlap; only the event's failure is fatal — a
-  /// missing avatar row is not worth an error screen.
+  /// Fetches the event, its attendee preview, the first page of the entry list
+  /// and the viewer's own entries. The four requests overlap; only the event's
+  /// failure is fatal — a missing avatar row is not worth an error screen.
   Future<void> _load(
     String eventId,
     Emitter<MapEventDetailState> emit, {
@@ -123,10 +122,12 @@ class MapEventDetailBloc
         size: _carsPageSize,
       ),
     );
+    final myCarsRequest = getMyCars(GetMyMapEventCarsParams(eventId: eventId));
 
     final eventResult = await eventRequest;
     final attendeesResult = await attendeesRequest;
     final carsResult = await carsRequest;
+    final myCarsResult = await myCarsRequest;
 
     // A response for an event the user has already navigated away from.
     if (state.eventId != eventId) return;
@@ -151,10 +152,6 @@ class MapEventDetailBloc
     }
 
     final carsPage = carsResult.toOption().toNullable();
-    final cars = carsPage?.items ?? const <MapEventParticipantEntity>[];
-
-    final resolved = await _resolveMyParticipations(loaded, cars);
-    if (state.eventId != eventId) return;
 
     emit(state.copyWith(
       status: MapEventDetailStatus.loaded,
@@ -162,12 +159,53 @@ class MapEventDetailBloc
       clearError: true,
       attendeePreview:
           attendeesResult.toOption().toNullable()?.items ?? const [],
-      cars: cars,
+      cars: carsPage?.items ?? const [],
       carsNextCursor: carsPage?.nextCursor,
       clearCarsCursor: carsPage?.nextCursor == null,
       isLoadingCars: false,
-      myParticipations: resolved.participations,
-      unresolvedRegisteredCarIds: resolved.unresolvedIds,
+      // A failed "mine" call leaves the strips off rather than showing a stale
+      // status from before the write that triggered this load.
+      myParticipations:
+          myCarsResult.toOption().toNullable() ?? const [],
+      action: MapEventAction.none,
+    ));
+  }
+
+  /// What a participation write needs afterwards. The event itself came back
+  /// in the write's own response, so this only re-reads the two lists a
+  /// registration or withdrawal can move: the public entry list and the
+  /// viewer's own rows.
+  ///
+  /// It also clears the in-flight action, so the participation button stays
+  /// busy until the row that decides its label has actually landed — clearing
+  /// it on the write's response would flash "PARTICIPATE?" at someone who just
+  /// registered.
+  Future<void> _reloadEntryLists(
+    String eventId,
+    Emitter<MapEventDetailState> emit,
+  ) async {
+    final carsRequest = getCars(
+      GetMapEventCarsParams(
+        eventId: eventId,
+        status: MapEventParticipation.accepted,
+        size: _carsPageSize,
+      ),
+    );
+    final myCarsRequest = getMyCars(GetMyMapEventCarsParams(eventId: eventId));
+
+    final carsResult = await carsRequest;
+    final myCarsResult = await myCarsRequest;
+
+    if (state.eventId != eventId) return;
+
+    final carsPage = carsResult.toOption().toNullable();
+
+    emit(state.copyWith(
+      cars: carsPage?.items ?? state.cars,
+      carsNextCursor: carsPage?.nextCursor,
+      clearCarsCursor: carsPage?.nextCursor == null,
+      myParticipations:
+          myCarsResult.toOption().toNullable() ?? state.myParticipations,
       action: MapEventAction.none,
     ));
   }
@@ -299,21 +337,12 @@ class MapEventDetailBloc
         action: MapEventAction.none,
         actionError: MapEventErrorMapper.from(failure),
       )),
-      (participant) async {
-        // The row is recorded locally first: on a `requires_participant_
-        // approval` event it lands as `pending`, and a pending row is exactly
-        // what the backend won't show a non-organizer afterwards. Without this
-        // the user would tap "participate", succeed, and see no trace of it.
-        emit(state.copyWith(
-          myParticipations: _mergeParticipations(
-            state.myParticipations,
-            [participant],
-          ),
-          action: MapEventAction.none,
-        ));
-        // POST /cars answers with the participant, not the event, so the
-        // counts and viewer flags need a refetch.
-        await _load(current.id, emit, keepPreviousOnFailure: true);
+      (updated) async {
+        // The response is the whole event, so the counts and viewer flags are
+        // already authoritative; only the two car lists still need re-reading,
+        // and the button stays busy until they land.
+        emit(state.copyWith(event: updated));
+        await _reloadEntryLists(updated.id, emit);
       },
     );
   }
@@ -341,19 +370,17 @@ class MapEventDetailBloc
         action: MapEventAction.none,
         actionError: MapEventErrorMapper.from(failure),
       )),
-      (_) async {
+      (updated) async {
+        // Drop the row locally so the strip goes as soon as the button does;
+        // `/cars/mine` confirms it a moment later.
         emit(state.copyWith(
+          event: updated,
           myParticipations: [
             for (final p in state.myParticipations)
               if (p.car.id != event.carId) p,
           ],
-          unresolvedRegisteredCarIds: [
-            for (final id in state.unresolvedRegisteredCarIds)
-              if (id != event.carId) id,
-          ],
-          action: MapEventAction.none,
         ));
-        await _load(current.id, emit, keepPreviousOnFailure: true);
+        await _reloadEntryLists(updated.id, emit);
       },
     );
   }
@@ -383,12 +410,9 @@ class MapEventDetailBloc
         action: MapEventAction.none,
         actionError: MapEventErrorMapper.from(failure),
       )),
-      (rows) async {
-        emit(state.copyWith(
-          myParticipations: _mergeParticipations(state.myParticipations, rows),
-          action: MapEventAction.none,
-        ));
-        await _load(current.id, emit, keepPreviousOnFailure: true);
+      (updated) async {
+        emit(state.copyWith(event: updated));
+        await _reloadEntryLists(updated.id, emit);
       },
     );
   }
@@ -400,82 +424,5 @@ class MapEventDetailBloc
     if (state.actionError != null) {
       emit(state.copyWith(clearActionError: true));
     }
-  }
-
-  // ── The viewer's own rows ────────────────────────────────────────────────
-
-  /// Works out the status of each car in `viewer.my_registered_car_ids`.
-  ///
-  /// Accepted rows come free from the entry list that was already fetched.
-  /// Anything left over needs the withdrawn slice (also public), and — for an
-  /// organizer, who is allowed to see them — the pending and rejected ones.
-  /// Ids still unaccounted for after that are a participant's own pending or
-  /// rejected entry, which the backend won't disclose to them; they're returned
-  /// separately so the UI can say "in progress" instead of inventing a status.
-  Future<({List<MapEventParticipantEntity> participations, List<String> unresolvedIds})>
-      _resolveMyParticipations(
-    MapEventEntity event,
-    List<MapEventParticipantEntity> acceptedCars,
-  ) async {
-    final wanted = event.viewer.myRegisteredCarIds;
-    if (wanted.isEmpty) {
-      return (participations: const <MapEventParticipantEntity>[], unresolvedIds: const <String>[]);
-    }
-
-    final found = <String, MapEventParticipantEntity>{
-      for (final p in acceptedCars)
-        if (wanted.contains(p.car.id)) p.car.id: p,
-    };
-
-    // Anything a session-local write already told us about — a registration
-    // made a moment ago that the public list can't show — survives the refetch.
-    for (final p in state.myParticipations) {
-      if (wanted.contains(p.car.id)) found.putIfAbsent(p.car.id, () => p);
-    }
-
-    final statusesToTry = <MapEventParticipation>[
-      MapEventParticipation.withdrawn,
-      if (event.viewer.isOrganizer) ...[
-        MapEventParticipation.pending,
-        MapEventParticipation.rejected,
-      ],
-    ];
-
-    for (final status in statusesToTry) {
-      if (found.length == wanted.length) break;
-      final page = await getCars(
-        GetMapEventCarsParams(
-          eventId: event.id,
-          status: status,
-          size: _carsPageSize,
-        ),
-      );
-      page.forEach((p) {
-        for (final row in p.items) {
-          if (wanted.contains(row.car.id)) found[row.car.id] = row;
-        }
-      });
-    }
-
-    return (
-      participations: [for (final id in wanted) ?found[id]],
-      unresolvedIds: [
-        for (final id in wanted)
-          if (!found.containsKey(id)) id,
-      ],
-    );
-  }
-
-  /// Newer rows win: a freshly-returned `withdrawn` row replaces the `accepted`
-  /// one it came from.
-  List<MapEventParticipantEntity> _mergeParticipations(
-    List<MapEventParticipantEntity> existing,
-    List<MapEventParticipantEntity> incoming,
-  ) {
-    final byCar = <String, MapEventParticipantEntity>{
-      for (final p in existing) p.car.id: p,
-      for (final p in incoming) p.car.id: p,
-    };
-    return byCar.values.toList();
   }
 }

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../domain/entities/map_event.dart';
+import '../../../domain/entities/map_event_participant.dart';
 import '../../../domain/entities/map_event_withdrawal_request.dart';
 import '../../bloc/manage_event/bloc.dart';
 import '../../bloc/manage_event/event.dart';
@@ -13,6 +14,7 @@ import '../../bloc/manage_event/state.dart';
 import '../shared/map_event_car_card.dart';
 import '../shared/map_event_chips.dart';
 import '../shared/map_event_organizer_row.dart';
+import 'decline_entry_dialog.dart';
 
 /// The pending-entry queue: every car waiting on an organizer's yes or no.
 class ManageEntriesSection extends StatelessWidget {
@@ -39,13 +41,27 @@ class ManageEntriesSection extends StatelessWidget {
               isBusy: state.busyIds.contains(entry.car.id),
               onAccept: () =>
                   bloc.add(ReviewEntry(carId: entry.car.id, accept: true)),
-              onDecline: () =>
-                  bloc.add(ReviewEntry(carId: entry.car.id, accept: false)),
+              // Declining needs a reason — the backend rejects the call without
+              // one, and the owner is shown whatever is typed here.
+              onDecline: () => _decline(context, bloc, entry),
             ),
             const SizedBox(height: 12),
           ],
       ],
     );
+  }
+
+  Future<void> _decline(
+    BuildContext context,
+    ManageMapEventBloc bloc,
+    MapEventParticipantEntity entry,
+  ) async {
+    final reason = await showDeclineEntryDialog(
+      context,
+      carName: '${entry.car.brand} ${entry.car.model}',
+    );
+    if (reason == null) return;
+    bloc.add(ReviewEntry(carId: entry.car.id, accept: false, reason: reason));
   }
 }
 

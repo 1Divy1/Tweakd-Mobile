@@ -11,28 +11,18 @@ import '../shared/map_event_cover.dart';
 /// The event page's cover header: photo, back and share buttons, status chip,
 /// title and the location line.
 ///
-/// The distance is passed in already computed — the backend removed
-/// `distance_km`, so it's a straight line from wherever the map last fetched,
-/// and the page has no business recomputing it.
+/// The location line is the place name alone. It used to append a distance;
+/// that was a straight line from wherever the map last fetched, which is not a
+/// distance anyone can drive — see `MAP_EVENTS_NOTES.md` §2.3.
 class MapEventHero extends StatelessWidget {
   final MapEventEntity event;
-  final String? distanceLabel;
 
-  const MapEventHero({
-    super.key,
-    required this.event,
-    required this.distanceLabel,
-  });
+  const MapEventHero({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final topInset = MediaQuery.paddingOf(context).top;
-
-    final location = [
-      event.locationName,
-      ?distanceLabel,
-    ].where((s) => s.isNotEmpty).join(' · ');
 
     return Stack(
       children: [
@@ -79,7 +69,7 @@ class MapEventHero extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              if (location.isNotEmpty) ...[
+              if (event.locationName.isNotEmpty) ...[
                 const SizedBox(height: 7),
                 Row(
                   children: [
@@ -91,7 +81,7 @@ class MapEventHero extends StatelessWidget {
                     const SizedBox(width: 6),
                     Expanded(
                       child: Text(
-                        location,
+                        event.locationName,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
