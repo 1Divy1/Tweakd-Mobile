@@ -1122,5 +1122,332 @@
   "tagsRemoveBody": "You'll be removed from this content for everyone, along with any of your cars tagged on it. Only the author can tag you again.",
   "tagsRemoveConfirm": "Remove",
   "tagsErrorContentGone": "This content no longer exists.",
-  "tagsErrorGeneric": "Something went wrong. Please try again."
+  "tagsErrorGeneric": "Something went wrong. Please try again.",
+
+  "mapOpenNow": "Open now",
+  "mapClosedNow": "Closed",
+  "mapNoReviews": "No reviews yet",
+  "mapReviewCount": "{count, plural, =1{1 review} other{{count} reviews}}",
+  "@mapReviewCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapFollowerCount": "{count, plural, =1{1 follower} other{{count} followers}}",
+  "@mapFollowerCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapHoursTitle": "OPENING HOURS",
+  "mapHoursClosed": "Closed",
+  "mapHoursNextDay": "(next day)",
+  "mapWeekdayMonday": "Monday",
+  "mapWeekdayTuesday": "Tuesday",
+  "mapWeekdayWednesday": "Wednesday",
+  "mapWeekdayThursday": "Thursday",
+  "mapWeekdayFriday": "Friday",
+  "mapWeekdaySaturday": "Saturday",
+  "mapWeekdaySunday": "Sunday",
+  "mapPopupClose": "Close",
+  "mapRecentre": "Centre on my location",
+  "mapRetry": "TRY AGAIN",
+  "mapErrorNetwork": "No internet connection. Please try again.",
+  "mapErrorBusinessNotFound": "This business isn't available anymore.",
+  "mapErrorLocationUnavailable": "We couldn't get your location. Check that location is turned on for Tweakd.",
+  "mapErrorGeneric": "Something went wrong. Please try again.",
+  "mapNavigate": "Navigate",
+  "mapNavigateSheetTitle": "Choose a navigation app",
+  "mapNavigateInstall": "INSTALL",
+  "mapNavigateFailed": "We couldn't open that app.",
+
+  "mapEventsErrorNetwork": "No internet connection. Please try again.",
+  "mapEventsErrorNotFound": "This event isn't available anymore.",
+  "mapEventsErrorForbidden": "Only the organizers can do that.",
+  "mapEventsErrorConflict": "That isn't possible for this event right now.",
+  "mapEventsErrorInvalidInput": "Please check the details and try again.",
+  "mapEventsBulkRegisterPartial": "{registered} of your cars got in before this event reached capacity — {failed} couldn't be added and weren't automatically removed.",
+  "@mapEventsBulkRegisterPartial": {
+    "placeholders": {
+      "registered": { "type": "int" },
+      "failed": { "type": "int" }
+    }
+  },
+  "mapEventsErrorGeneric": "Something went wrong. Please try again.",
+  "mapEventsStatusUpcoming": "UPCOMING",
+  "mapEventsStatusLive": "LIVE NOW",
+  "mapEventsStatusPrevious": "PAST",
+  "mapEventsStatusHidden": "HIDDEN",
+  "mapEventsStatusCanceled": "CANCELED",
+  "mapEventsApprovalPending": "PENDING REVIEW",
+  "mapEventsApprovalAccepted": "APPROVED",
+  "mapEventsApprovalRejected": "REJECTED",
+  "mapEventsRejectionReason": "Reason: {reason}",
+  "@mapEventsRejectionReason": {
+    "placeholders": {
+      "reason": { "type": "String" }
+    }
+  },
+  "mapEventsClose": "Close",
+  "mapEventsShare": "Share",
+  "mapEventsStatAttendees": "ATTENDEES",
+  "mapEventsStatCars": "CARS",
+  "mapEventsStatStarts": "STARTS",
+  "mapEventsStatStarted": "STARTED",
+  "mapEventsGoingCount": "{count, plural, =1{1 going} other{{count} going}}",
+  "@mapEventsGoingCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapEventsRoleOrganizer": "organizer",
+  "mapEventsRoleCreator": "creator",
+  "mapEventsChipIndividual": "INDIVIDUAL",
+  "mapEventsChipBusiness": "BUSINESS",
+  "mapEventsAttending": "ATTENDING",
+  "mapEventsInterested": "INTERESTED",
+  "mapEventsWantToParticipate": "WANT TO PARTICIPATE?",
+  "mapEventsParticipateShort": "PARTICIPATE?",
+  "mapEventsParticipating": "PARTICIPATING",
+  "mapEventsParticipatingCount": "PARTICIPATING · {count} CARS",
+  "@mapEventsParticipatingCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapEventsParticipationPending": "PENDING",
+  "mapEventsWithdrawAction": "WITHDRAW",
+  "mapEventsViewEvent": "VIEW EVENT",
+  "mapEventsCapacityOf": "of {capacity}",
+  "@mapEventsCapacityOf": {
+    "placeholders": {
+      "capacity": { "type": "int" }
+    }
+  },
+  "mapEventsTabOverview": "OVERVIEW",
+  "mapEventsTabCars": "CARS · {count}",
+  "@mapEventsTabCars": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapEventsEntryListTitle": "On the entry list",
+  "mapEventsApprovedCount": "{count} APPROVED",
+  "@mapEventsApprovedCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapEventsSectionAbout": "ABOUT THIS EVENT",
+  "mapEventsSectionOrganizers": "ORGANIZERS",
+  "mapEventsSectionRules": "NOTES FROM THE ORGANIZER",
+  "mapEventsSectionContests": "CONTESTS",
+  "mapEventsSectionAttendees": "ATTENDEES",
+  "mapEventsSoon": "SOON",
+  "mapEventsContestsTitle": "Contests",
+  "mapEventsContestsBody": "Organizers will be able to run votes inside a meet — best build, cleanest bay, loudest exhaust.",
+  "mapEventsSeeAll": "SEE ALL",
+  "mapEventsSeeAllAttendees": "SEE ALL ATTENDEES",
+  "mapEventsSeeAllCars": "SEE ALL {count} CARS",
+  "@mapEventsSeeAllCars": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapEventsRegisterBefore": "Register your car before {deadline}",
+  "@mapEventsRegisterBefore": {
+    "placeholders": {
+      "deadline": { "type": "String" }
+    }
+  },
+  "mapEventsRegistrationClosed": "Registration has closed for this event.",
+  "mapEventsCapacityFull": "The entry list is full.",
+  "mapEventsGarageLink": "GARAGE",
+  "mapEventsEntryListEmpty": "No cars on the entry list yet.",
+  "mapEventsAttendeesEmpty": "Nobody has RSVP'd yet.",
+  "mapEventsRetry": "TRY AGAIN",
+  "mapEventsStripPendingTitle": "Request pending",
+  "mapEventsStripPendingBody": "The organizers will approve or decline your entry.",
+  "mapEventsStripDeclinedTitle": "Entry declined",
+  "mapEventsStripDeclinedBody": "The organizers declined this car for this event.",
+  "mapEventsStripWithdrawnTitle": "Withdrawal requested",
+  "mapEventsStripWithdrawnBody": "The organizers are reviewing your request to leave. You can't take it back.",
+  "mapEventsDeclineReasonHeading": "WHY",
+  "mapEventsTryAnotherCar": "TRY ANOTHER CAR",
+  "mapEventsCancelRequest": "CANCEL REQUEST",
+  "mapEventsPickCarTitle": "Which cars are you bringing?",
+  "mapEventsPickCarSubtitle": "Select at least one car to register",
+  "mapEventsPickCarSpotsLeft": "{count} spots left — select up to that many",
+  "@mapEventsPickCarSpotsLeft": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapEventsPickCarFull": "This event has reached its participant capacity.",
+  "mapEventsPickCarAlreadyIn": "Already registered",
+  "mapEventsPickCarSelectAll": "SELECT ALL",
+  "mapEventsPickCarClearAll": "CLEAR",
+  "mapEventsPickCarRegisterCta": "REGISTER ({count})",
+  "@mapEventsPickCarRegisterCta": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapEventsPickCarEmptyTitle": "Your garage is empty",
+  "mapEventsPickCarEmptyBody": "Add a car to your garage first, then register it for an event.",
+  "mapEventsPickCarAdd": "ADD A CAR",
+  "mapEventsCarYear": "{year}",
+  "@mapEventsCarYear": {
+    "placeholders": {
+      "year": { "type": "String" }
+    }
+  },
+  "mapEventsWithdrawTitle": "Withdraw from this event?",
+  "mapEventsWithdrawBody": "You'll ask the organizers to take you off the entry list, and off any contests running inside this event. Once sent, the request can't be taken back.",
+  "mapEventsWithdrawAllCars": "{count, plural, =1{Your car leaves the entry list — an organizer has to approve it first.} other{All {count} of your cars leave the entry list together — there's no way to withdraw just one. An organizer has to approve it first.}}",
+  "@mapEventsWithdrawAllCars": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapEventsWithdrawNoteLabel": "NOTE FOR ORGANIZERS (OPTIONAL)",
+  "mapEventsWithdrawNoteHint": "Let them know why, if you'd like…",
+  "mapEventsCancel": "CANCEL",
+  "mapEventsAttendeesPageTitle": "Attendees",
+  "mapEventsFilterAttending": "ATTENDING",
+  "mapEventsFilterInterested": "INTERESTED",
+  "mapEventsCreateTitle": "NEW EVENT",
+  "mapEventsEditTitle": "EDIT EVENT",
+  "mapEventsCoverAdd": "ADD COVER PHOTO",
+  "mapEventsCoverHint": "1600 × 900 recommended",
+  "mapEventsCoverChange": "CHANGE COVER",
+  "mapEventsFieldCover": "COVER PHOTO",
+  "mapEventsFieldTitle": "EVENT TITLE",
+  "mapEventsFieldTitleHint": "e.g. Casino Square Cars & Coffee",
+  "mapEventsFieldCategory": "EVENT CATEGORY",
+  "mapEventsCategoriesSoonNote": "More categories are coming soon.",
+  "mapEventsCategoryTrackDay": "Track Day",
+  "mapEventsCategoryCarShow": "Car Show",
+  "mapEventsCategoryCruise": "Cruise",
+  "mapEventsFieldDescription": "DESCRIPTION",
+  "mapEventsFieldDescriptionHint": "What's the event about, who's it for, anything people should know before showing up…",
+  "mapEventsFieldLocation": "LOCATION",
+  "mapEventsFieldVenueHint": "Venue name — e.g. Place du Casino",
+  "mapEventsSetLocationOnMap": "SET LOCATION ON MAP",
+  "mapEventsLocationSet": "PIN PLACED · TAP TO MOVE",
+  "mapEventsFieldDateTime": "DATE & TIME",
+  "mapEventsStartsLabel": "Starts",
+  "mapEventsEndsLabel": "Ends",
+  "mapEventsEndBlankHint": "Leave the end blank for an open-ended event.",
+  "mapEventsClearEnd": "CLEAR END",
+  "mapEventsFieldCapacity": "MAX CAPACITY",
+  "mapEventsOptional": "OPTIONAL",
+  "mapEventsRequired": "REQUIRED",
+  "mapEventsCapacityHint": "No limit — e.g. 40 spots",
+  "mapEventsCapacityLockedHint": "A capacity can be raised later, but not removed.",
+  "mapEventsApprovalToggleTitle": "Require approval to join",
+  "mapEventsApprovalToggleBody": "You and your co-organizers review each request before a participant is added to the entry list.",
+  "mapEventsFieldDeadline": "REGISTRATION DEADLINE",
+  "mapEventsFieldRules": "RULES & GUIDELINES",
+  "mapEventsAddRule": "ADD A RULE",
+  "mapEventsRuleHint": "e.g. No revving or burnouts.",
+  "mapEventsRemoveRule": "Remove rule",
+  "mapEventsFieldOrganizers": "ORGANIZERS",
+  "mapEventsOrganizersHint": "You're the creator. Add other individual or certified business accounts to co-organize with you.",
+  "mapEventsYouCreator": "YOU · CREATOR",
+  "mapEventsAddOrganizer": "ADD ORGANIZER",
+  "mapEventsRemoveOrganizer": "Remove organizer",
+  "mapEventsCreateCta": "CREATE EVENT",
+  "mapEventsCreateCtaIncomplete": "ADD TITLE, LOCATION & START TIME",
+  "mapEventsCreateCtaDeadline": "ADD A REGISTRATION DEADLINE",
+  "mapEventsCreateCtaCover": "ADD A COVER IMAGE",
+  "mapEventsSaveCta": "SAVE CHANGES",
+  "mapEventsSubmitting": "Just a moment…",
+  "mapEventsValidationEndBeforeStart": "The end time has to be after the start time.",
+  "mapEventsValidationDeadlineAfterStart": "The registration deadline has to be before the event starts.",
+  "mapEventsValidationCapacity": "Capacity has to be at least 1.",
+  "mapEventsPendingReviewTitle": "Sent for review",
+  "mapEventsPendingReviewBody": "Our team checks every new event before it shows up on the map. You'll find it under Events on your profile in the meantime.",
+  "mapEventsDone": "DONE",
+  "mapEventsCoverUploadFailed": "The event was created, but the cover photo didn't upload. You can add it from My events.",
+  "mapEventsUseThisLocation": "USE THIS LOCATION",
+  "mapEventsLocationFormTitle": "Find the address",
+  "mapEventsLocationFormSubtitle": "We'll point the map at it. You place the exact pin yourself.",
+  "mapEventsLocationCity": "CITY",
+  "mapEventsLocationCityHint": "Cluj-Napoca",
+  "mapEventsLocationStreet": "STREET",
+  "mapEventsLocationStreetHint": "Strada Memorandumului",
+  "mapEventsLocationNumber": "NUMBER",
+  "mapEventsLocationNumberHint": "28B",
+  "mapEventsLocationSearchButton": "SEARCH",
+  "mapEventsLocationSearchIncomplete": "FILL IN ALL THREE FIELDS",
+  "mapEventsLocationSearchNoResults": "No matches for that address. Check the spelling, or search the street without the number.",
+  "mapEventsLocationResultsTitle": "Choose the closest match",
+  "mapEventsLocationResultsSubtitle": "This only moves the map — you still drop the pin.",
+  "mapEventsLocationEditSearch": "EDIT SEARCH",
+  "mapEventsLocationBackToResults": "RESULTS",
+  "mapEventsLocationDropPinTitle": "Tap the map to drop your pin",
+  "mapEventsLocationDropPinBody": "Tap the exact spot — the entrance, the yard, the parking area.",
+  "mapEventsLocationPinDropped": "Pin dropped. Tap again to move it.",
+  "mapEventsLocationPrecisionExact": "EXACT ADDRESS",
+  "mapEventsLocationPrecisionPoint": "NEARBY POINT",
+  "mapEventsLocationPrecisionIntersection": "INTERSECTION",
+  "mapEventsLocationPrecisionApproximate": "APPROXIMATE",
+  "mapEventsLocationPrecisionStreet": "STREET LEVEL",
+  "mapEventsLocationPrecisionAddress": "ADDRESS",
+  "mapEventsLocationPrecisionPostcode": "POSTCODE AREA",
+  "mapEventsLocationPrecisionArea": "WIDER AREA",
+  "mapEventsSearchOrganizersTitle": "Add an organizer",
+  "mapEventsSearchOrganizersHint": "Search people and businesses",
+  "mapEventsSearchOrganizersEmpty": "Nobody matched that.",
+  "mapEventsSearchOrganizersPrompt": "Start typing a name to find people and certified businesses.",
+  "profileTabEvents": "EVENTS",
+  "mapEventsMineTitle": "My events",
+  "mapEventsMineEmptyTitle": "No events yet",
+  "mapEventsMineEmptyBody": "Events you create show up here — including the ones still waiting for review.",
+  "mapEventsMineCreate": "CREATE AN EVENT",
+  "mapEventsManageTitle": "Manage event",
+  "mapEventsManageEntries": "ENTRY REQUESTS",
+  "mapEventsManageWithdrawals": "WITHDRAWAL REQUESTS",
+  "mapEventsManageOrganizers": "ORGANIZERS",
+  "mapEventsManageDanger": "EVENT",
+  "mapEventsNoPendingEntries": "No entry requests waiting.",
+  "mapEventsNoWithdrawals": "No withdrawal requests waiting.",
+  "mapEventsAccept": "ACCEPT",
+  "mapEventsDecline": "DECLINE",
+  "mapEventsDeclineTitle": "Decline this entry?",
+  "mapEventsDeclineBody": "{car} won't be on the entry list. The owner sees your reason, so make it something they can act on.",
+  "@mapEventsDeclineBody": {
+    "placeholders": {
+      "car": { "type": "String" }
+    }
+  },
+  "mapEventsDeclineReasonLabel": "REASON (REQUIRED)",
+  "mapEventsDeclineReasonHint": "Wrong category for a JDM-only meet…",
+  "mapEventsLetThemOut": "LET THEM OUT",
+  "mapEventsKeepThemIn": "KEEP THEM IN",
+  "mapEventsWithdrawalNoteLabel": "Their note",
+  "mapEventsEditEvent": "EDIT EVENT",
+  "mapEventsCancelEvent": "CANCEL EVENT",
+  "mapEventsFinishEvent": "FINISH EVENT",
+  "mapEventsDeleteEvent": "DELETE EVENT",
+  "mapEventsEditLockedHint": "An event can only be edited while it's waiting for review or after it's been rejected.",
+  "mapEventsConfirmCancelTitle": "Cancel this event?",
+  "mapEventsConfirmCancelBody": "It stays visible but is marked as canceled, and nobody can register a car anymore.",
+  "mapEventsConfirmFinishTitle": "Finish this event?",
+  "mapEventsConfirmFinishBody": "It moves to your past events. RSVPs and the entry list stay as they are.",
+  "mapEventsConfirmDeleteTitle": "Delete this event?",
+  "mapEventsConfirmDeleteBody": "This can't be undone. The entry list and every RSVP go with it.",
+  "mapEventsConfirm": "CONFIRM",
+  "mapEventsDelete": "DELETE",
+  "mapEventsWithdrawalCarsCount": "{count, plural, =1{1 car} other{{count} cars}}",
+  "@mapEventsWithdrawalCarsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapSearchPlaceholder": "Search meets, shops, cities…",
+  "mapCreateEvent": "Create an event",
+  "mapEventsCopied": "Event details copied.",
+  "mapEventsDateCardTitle": "When"
 }

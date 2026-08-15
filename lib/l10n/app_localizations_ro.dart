@@ -2490,4 +2490,838 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get tagsErrorGeneric =>
       'Ceva nu a funcționat. Te rugăm să încerci din nou.';
+
+  @override
+  String get mapOpenNow => 'Deschis acum';
+
+  @override
+  String get mapClosedNow => 'Închis';
+
+  @override
+  String get mapNoReviews => 'Nicio recenzie încă';
+
+  @override
+  String mapReviewCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count recenzii',
+      one: 'o recenzie',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mapFollowerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count urmăritori',
+      one: 'un urmăritor',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mapHoursTitle => 'PROGRAM';
+
+  @override
+  String get mapHoursClosed => 'Închis';
+
+  @override
+  String get mapHoursNextDay => '(ziua următoare)';
+
+  @override
+  String get mapWeekdayMonday => 'Luni';
+
+  @override
+  String get mapWeekdayTuesday => 'Marți';
+
+  @override
+  String get mapWeekdayWednesday => 'Miercuri';
+
+  @override
+  String get mapWeekdayThursday => 'Joi';
+
+  @override
+  String get mapWeekdayFriday => 'Vineri';
+
+  @override
+  String get mapWeekdaySaturday => 'Sâmbătă';
+
+  @override
+  String get mapWeekdaySunday => 'Duminică';
+
+  @override
+  String get mapPopupClose => 'Închide';
+
+  @override
+  String get mapRecentre => 'Centrează pe locația mea';
+
+  @override
+  String get mapRetry => 'ÎNCEARCĂ DIN NOU';
+
+  @override
+  String get mapErrorNetwork =>
+      'Fără conexiune la internet. Te rugăm să încerci din nou.';
+
+  @override
+  String get mapErrorBusinessNotFound =>
+      'Acest business nu mai este disponibil.';
+
+  @override
+  String get mapErrorLocationUnavailable =>
+      'Nu am putut obține locația ta. Verifică dacă locația este activată pentru Tweakd.';
+
+  @override
+  String get mapErrorGeneric =>
+      'Ceva nu a funcționat. Te rugăm să încerci din nou.';
+
+  @override
+  String get mapNavigate => 'Navighează';
+
+  @override
+  String get mapNavigateSheetTitle => 'Alege o aplicație de navigare';
+
+  @override
+  String get mapNavigateInstall => 'INSTALEAZĂ';
+
+  @override
+  String get mapNavigateFailed => 'Nu am putut deschide acea aplicație.';
+
+  @override
+  String get mapEventsErrorNetwork =>
+      'Fără conexiune la internet. Te rugăm să încerci din nou.';
+
+  @override
+  String get mapEventsErrorNotFound =>
+      'Acest eveniment nu mai este disponibil.';
+
+  @override
+  String get mapEventsErrorForbidden => 'Doar organizatorii pot face asta.';
+
+  @override
+  String get mapEventsErrorConflict =>
+      'Momentan acest lucru nu este posibil pentru acest eveniment.';
+
+  @override
+  String get mapEventsErrorInvalidInput =>
+      'Te rugăm să verifici detaliile și să încerci din nou.';
+
+  @override
+  String mapEventsBulkRegisterPartial(int registered, int failed) {
+    return '$registered din mașinile tale s-au înscris înainte ca acest eveniment să atingă capacitatea maximă — $failed nu au putut fi adăugate și nu au fost eliminate automat.';
+  }
+
+  @override
+  String get mapEventsErrorGeneric =>
+      'Ceva nu a funcționat. Te rugăm să încerci din nou.';
+
+  @override
+  String get mapEventsStatusUpcoming => 'URMEAZĂ';
+
+  @override
+  String get mapEventsStatusLive => 'ARE LOC ACUM';
+
+  @override
+  String get mapEventsStatusPrevious => 'TRECUT';
+
+  @override
+  String get mapEventsStatusHidden => 'ASCUNS';
+
+  @override
+  String get mapEventsStatusCanceled => 'ANULAT';
+
+  @override
+  String get mapEventsApprovalPending => 'ÎN VERIFICARE';
+
+  @override
+  String get mapEventsApprovalAccepted => 'APROBAT';
+
+  @override
+  String get mapEventsApprovalRejected => 'RESPINS';
+
+  @override
+  String mapEventsRejectionReason(String reason) {
+    return 'Motiv: $reason';
+  }
+
+  @override
+  String get mapEventsClose => 'Închide';
+
+  @override
+  String get mapEventsShare => 'Distribuie';
+
+  @override
+  String get mapEventsStatAttendees => 'PARTICIPANȚI';
+
+  @override
+  String get mapEventsStatCars => 'MAȘINI';
+
+  @override
+  String get mapEventsStatStarts => 'ÎNCEPE';
+
+  @override
+  String get mapEventsStatStarted => 'A ÎNCEPUT';
+
+  @override
+  String mapEventsGoingCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persoane merg',
+      one: '1 persoană merge',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mapEventsRoleOrganizer => 'organizator';
+
+  @override
+  String get mapEventsRoleCreator => 'creator';
+
+  @override
+  String get mapEventsChipIndividual => 'PERSOANĂ';
+
+  @override
+  String get mapEventsChipBusiness => 'BUSINESS';
+
+  @override
+  String get mapEventsAttending => 'PARTICIP';
+
+  @override
+  String get mapEventsInterested => 'MĂ INTERESEAZĂ';
+
+  @override
+  String get mapEventsWantToParticipate => 'VREI SĂ PARTICIPI?';
+
+  @override
+  String get mapEventsParticipateShort => 'PARTICIPI?';
+
+  @override
+  String get mapEventsParticipating => 'PARTICIPI';
+
+  @override
+  String mapEventsParticipatingCount(int count) {
+    return 'PARTICIPI · $count MAȘINI';
+  }
+
+  @override
+  String get mapEventsParticipationPending => 'ÎN AȘTEPTARE';
+
+  @override
+  String get mapEventsWithdrawAction => 'RETRAGE-TE';
+
+  @override
+  String get mapEventsViewEvent => 'VEZI EVENIMENTUL';
+
+  @override
+  String mapEventsCapacityOf(int capacity) {
+    return 'din $capacity';
+  }
+
+  @override
+  String get mapEventsTabOverview => 'PREZENTARE';
+
+  @override
+  String mapEventsTabCars(int count) {
+    return 'MAȘINI · $count';
+  }
+
+  @override
+  String get mapEventsEntryListTitle => 'Pe lista de înscrieri';
+
+  @override
+  String mapEventsApprovedCount(int count) {
+    return '$count APROBATE';
+  }
+
+  @override
+  String get mapEventsSectionAbout => 'DESPRE EVENIMENT';
+
+  @override
+  String get mapEventsSectionOrganizers => 'ORGANIZATORI';
+
+  @override
+  String get mapEventsSectionRules => 'NOTE DE LA ORGANIZATOR';
+
+  @override
+  String get mapEventsSectionContests => 'CONCURSURI';
+
+  @override
+  String get mapEventsSectionAttendees => 'PARTICIPANȚI';
+
+  @override
+  String get mapEventsSoon => 'ÎN CURÂND';
+
+  @override
+  String get mapEventsContestsTitle => 'Concursuri';
+
+  @override
+  String get mapEventsContestsBody =>
+      'Organizatorii vor putea porni voturi în cadrul unei întâlniri — cel mai reușit build, cel mai curat compartiment motor, cea mai zgomotoasă evacuare.';
+
+  @override
+  String get mapEventsSeeAll => 'VEZI TOT';
+
+  @override
+  String get mapEventsSeeAllAttendees => 'VEZI TOȚI PARTICIPANȚII';
+
+  @override
+  String mapEventsSeeAllCars(int count) {
+    return 'VEZI TOATE CELE $count MAȘINI';
+  }
+
+  @override
+  String mapEventsRegisterBefore(String deadline) {
+    return 'Înscrie-ți mașina până pe $deadline';
+  }
+
+  @override
+  String get mapEventsRegistrationClosed =>
+      'Înscrierile pentru acest eveniment s-au închis.';
+
+  @override
+  String get mapEventsCapacityFull => 'Lista de înscrieri este plină.';
+
+  @override
+  String get mapEventsGarageLink => 'GARAJ';
+
+  @override
+  String get mapEventsEntryListEmpty =>
+      'Încă nu există mașini pe lista de înscrieri.';
+
+  @override
+  String get mapEventsAttendeesEmpty => 'Încă nu a confirmat nimeni.';
+
+  @override
+  String get mapEventsRetry => 'ÎNCEARCĂ DIN NOU';
+
+  @override
+  String get mapEventsStripPendingTitle => 'Cerere în așteptare';
+
+  @override
+  String get mapEventsStripPendingBody =>
+      'Organizatorii îți vor aproba sau refuza înscrierea.';
+
+  @override
+  String get mapEventsStripDeclinedTitle => 'Înscriere refuzată';
+
+  @override
+  String get mapEventsStripDeclinedBody =>
+      'Organizatorii au refuzat această mașină pentru acest eveniment.';
+
+  @override
+  String get mapEventsStripWithdrawnTitle => 'Retragere solicitată';
+
+  @override
+  String get mapEventsStripWithdrawnBody =>
+      'Organizatorii îți analizează cererea de retragere. Nu o mai poți anula.';
+
+  @override
+  String get mapEventsDeclineReasonHeading => 'MOTIVUL';
+
+  @override
+  String get mapEventsTryAnotherCar => 'ÎNCEARCĂ ALTĂ MAȘINĂ';
+
+  @override
+  String get mapEventsCancelRequest => 'ANULEAZĂ CEREREA';
+
+  @override
+  String get mapEventsPickCarTitle => 'Cu ce mașini vii?';
+
+  @override
+  String get mapEventsPickCarSubtitle =>
+      'Selectează cel puțin o mașină pentru înscriere';
+
+  @override
+  String mapEventsPickCarSpotsLeft(int count) {
+    return 'Mai sunt $count locuri — poți selecta până la atâtea';
+  }
+
+  @override
+  String get mapEventsPickCarFull =>
+      'Acest eveniment a atins numărul maxim de participanți.';
+
+  @override
+  String get mapEventsPickCarAlreadyIn => 'Deja înscrisă';
+
+  @override
+  String get mapEventsPickCarSelectAll => 'SELECTEAZĂ TOATE';
+
+  @override
+  String get mapEventsPickCarClearAll => 'ȘTERGE';
+
+  @override
+  String mapEventsPickCarRegisterCta(int count) {
+    return 'ÎNSCRIE ($count)';
+  }
+
+  @override
+  String get mapEventsPickCarEmptyTitle => 'Garajul tău este gol';
+
+  @override
+  String get mapEventsPickCarEmptyBody =>
+      'Adaugă întâi o mașină în garaj, apoi înscrie-o la un eveniment.';
+
+  @override
+  String get mapEventsPickCarAdd => 'ADAUGĂ O MAȘINĂ';
+
+  @override
+  String mapEventsCarYear(String year) {
+    return '$year';
+  }
+
+  @override
+  String get mapEventsWithdrawTitle => 'Te retragi de la acest eveniment?';
+
+  @override
+  String get mapEventsWithdrawBody =>
+      'Le vei cere organizatorilor să te scoată de pe lista de înscrieri și din orice concurs din cadrul evenimentului. Odată trimisă, cererea nu mai poate fi anulată.';
+
+  @override
+  String mapEventsWithdrawAllCars(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Toate cele $count de mașini ale tale ies împreună de pe lista de înscrieri — nu poți retrage doar una. Un organizator trebuie să aprobe mai întâi.',
+      few:
+          'Toate cele $count mașini ale tale ies împreună de pe lista de înscrieri — nu poți retrage doar una. Un organizator trebuie să aprobe mai întâi.',
+      one:
+          'Mașina ta iese de pe lista de înscrieri — un organizator trebuie să aprobe mai întâi.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mapEventsWithdrawNoteLabel =>
+      'NOTĂ PENTRU ORGANIZATORI (OPȚIONAL)';
+
+  @override
+  String get mapEventsWithdrawNoteHint => 'Spune-le de ce, dacă vrei…';
+
+  @override
+  String get mapEventsCancel => 'ANULEAZĂ';
+
+  @override
+  String get mapEventsAttendeesPageTitle => 'Participanți';
+
+  @override
+  String get mapEventsFilterAttending => 'PARTICIPĂ';
+
+  @override
+  String get mapEventsFilterInterested => 'INTERESAȚI';
+
+  @override
+  String get mapEventsCreateTitle => 'EVENIMENT NOU';
+
+  @override
+  String get mapEventsEditTitle => 'EDITEAZĂ EVENIMENTUL';
+
+  @override
+  String get mapEventsCoverAdd => 'ADAUGĂ O FOTOGRAFIE DE COPERTĂ';
+
+  @override
+  String get mapEventsCoverHint => 'recomandat 1600 × 900';
+
+  @override
+  String get mapEventsCoverChange => 'SCHIMBĂ COPERTA';
+
+  @override
+  String get mapEventsFieldCover => 'FOTOGRAFIE DE COPERTĂ';
+
+  @override
+  String get mapEventsFieldTitle => 'TITLUL EVENIMENTULUI';
+
+  @override
+  String get mapEventsFieldTitleHint => 'ex. Casino Square Cars & Coffee';
+
+  @override
+  String get mapEventsFieldCategory => 'CATEGORIA EVENIMENTULUI';
+
+  @override
+  String get mapEventsCategoriesSoonNote => 'Urmează și alte categorii.';
+
+  @override
+  String get mapEventsCategoryTrackDay => 'Zi pe circuit';
+
+  @override
+  String get mapEventsCategoryCarShow => 'Expoziție auto';
+
+  @override
+  String get mapEventsCategoryCruise => 'Tură';
+
+  @override
+  String get mapEventsFieldDescription => 'DESCRIERE';
+
+  @override
+  String get mapEventsFieldDescriptionHint =>
+      'Despre ce este evenimentul, pentru cine e, ce ar trebui să știe lumea înainte să vină…';
+
+  @override
+  String get mapEventsFieldLocation => 'LOCAȚIE';
+
+  @override
+  String get mapEventsFieldVenueHint => 'Numele locației — ex. Place du Casino';
+
+  @override
+  String get mapEventsSetLocationOnMap => 'ALEGE LOCAȚIA PE HARTĂ';
+
+  @override
+  String get mapEventsLocationSet => 'PIN PLASAT · ATINGE PENTRU A-L MUTA';
+
+  @override
+  String get mapEventsFieldDateTime => 'DATĂ ȘI ORĂ';
+
+  @override
+  String get mapEventsStartsLabel => 'Începe';
+
+  @override
+  String get mapEventsEndsLabel => 'Se termină';
+
+  @override
+  String get mapEventsEndBlankHint =>
+      'Lasă finalul gol pentru un eveniment fără oră de încheiere.';
+
+  @override
+  String get mapEventsClearEnd => 'ȘTERGE FINALUL';
+
+  @override
+  String get mapEventsFieldCapacity => 'CAPACITATE MAXIMĂ';
+
+  @override
+  String get mapEventsOptional => 'OPȚIONAL';
+
+  @override
+  String get mapEventsRequired => 'OBLIGATORIU';
+
+  @override
+  String get mapEventsCapacityHint => 'Fără limită — ex. 40 de locuri';
+
+  @override
+  String get mapEventsCapacityLockedHint =>
+      'Capacitatea poate fi mărită ulterior, dar nu poate fi eliminată.';
+
+  @override
+  String get mapEventsApprovalToggleTitle =>
+      'Necesită aprobare pentru înscriere';
+
+  @override
+  String get mapEventsApprovalToggleBody =>
+      'Tu și co-organizatorii tăi analizați fiecare cerere înainte ca un participant să fie adăugat pe lista de înscrieri.';
+
+  @override
+  String get mapEventsFieldDeadline => 'TERMEN LIMITĂ DE ÎNSCRIERE';
+
+  @override
+  String get mapEventsFieldRules => 'REGULI ȘI RECOMANDĂRI';
+
+  @override
+  String get mapEventsAddRule => 'ADAUGĂ O REGULĂ';
+
+  @override
+  String get mapEventsRuleHint => 'ex. Fără turat sau derapaje.';
+
+  @override
+  String get mapEventsRemoveRule => 'Șterge regula';
+
+  @override
+  String get mapEventsFieldOrganizers => 'ORGANIZATORI';
+
+  @override
+  String get mapEventsOrganizersHint =>
+      'Tu ești creatorul. Adaugă alte conturi de persoane sau de business certificate care să organizeze împreună cu tine.';
+
+  @override
+  String get mapEventsYouCreator => 'TU · CREATOR';
+
+  @override
+  String get mapEventsAddOrganizer => 'ADAUGĂ ORGANIZATOR';
+
+  @override
+  String get mapEventsRemoveOrganizer => 'Șterge organizatorul';
+
+  @override
+  String get mapEventsCreateCta => 'CREEAZĂ EVENIMENTUL';
+
+  @override
+  String get mapEventsCreateCtaIncomplete =>
+      'ADAUGĂ TITLU, LOCAȚIE ȘI ORA DE ÎNCEPERE';
+
+  @override
+  String get mapEventsCreateCtaDeadline => 'ADAUGĂ UN TERMEN DE ÎNSCRIERE';
+
+  @override
+  String get mapEventsCreateCtaCover => 'ADAUGĂ O FOTOGRAFIE DE COPERTĂ';
+
+  @override
+  String get mapEventsSaveCta => 'SALVEAZĂ MODIFICĂRILE';
+
+  @override
+  String get mapEventsSubmitting => 'Doar o clipă…';
+
+  @override
+  String get mapEventsValidationEndBeforeStart =>
+      'Ora de final trebuie să fie după ora de început.';
+
+  @override
+  String get mapEventsValidationDeadlineAfterStart =>
+      'Termenul de înscriere trebuie să fie înainte de începerea evenimentului.';
+
+  @override
+  String get mapEventsValidationCapacity =>
+      'Capacitatea trebuie să fie cel puțin 1.';
+
+  @override
+  String get mapEventsPendingReviewTitle => 'Trimis spre verificare';
+
+  @override
+  String get mapEventsPendingReviewBody =>
+      'Echipa noastră verifică fiecare eveniment nou înainte să apară pe hartă. Până atunci îl găsești la Evenimente, pe profilul tău.';
+
+  @override
+  String get mapEventsDone => 'GATA';
+
+  @override
+  String get mapEventsCoverUploadFailed =>
+      'Evenimentul a fost creat, dar fotografia de copertă nu s-a încărcat. O poți adăuga din Evenimentele mele.';
+
+  @override
+  String get mapEventsUseThisLocation => 'FOLOSEȘTE ACEASTĂ LOCAȚIE';
+
+  @override
+  String get mapEventsLocationFormTitle => 'Găsește adresa';
+
+  @override
+  String get mapEventsLocationFormSubtitle =>
+      'Vom muta harta acolo. Tu plasezi pinul exact.';
+
+  @override
+  String get mapEventsLocationCity => 'ORAȘ';
+
+  @override
+  String get mapEventsLocationCityHint => 'Cluj-Napoca';
+
+  @override
+  String get mapEventsLocationStreet => 'STRADA';
+
+  @override
+  String get mapEventsLocationStreetHint => 'Strada Memorandumului';
+
+  @override
+  String get mapEventsLocationNumber => 'NUMĂR';
+
+  @override
+  String get mapEventsLocationNumberHint => '28B';
+
+  @override
+  String get mapEventsLocationSearchButton => 'CAUTĂ';
+
+  @override
+  String get mapEventsLocationSearchIncomplete =>
+      'COMPLETEAZĂ TOATE CELE TREI CÂMPURI';
+
+  @override
+  String get mapEventsLocationSearchNoResults =>
+      'Nicio potrivire pentru acea adresă. Verifică scrierea sau caută strada fără număr.';
+
+  @override
+  String get mapEventsLocationResultsTitle =>
+      'Alege cea mai apropiată potrivire';
+
+  @override
+  String get mapEventsLocationResultsSubtitle =>
+      'Asta doar mută harta — pinul tot tu îl plasezi.';
+
+  @override
+  String get mapEventsLocationEditSearch => 'MODIFICĂ';
+
+  @override
+  String get mapEventsLocationBackToResults => 'REZULTATE';
+
+  @override
+  String get mapEventsLocationDropPinTitle =>
+      'Atinge harta pentru a plasa pinul';
+
+  @override
+  String get mapEventsLocationDropPinBody =>
+      'Atinge locul exact — intrarea, curtea, zona de parcare.';
+
+  @override
+  String get mapEventsLocationPinDropped =>
+      'Pin plasat. Atinge din nou pentru a-l muta.';
+
+  @override
+  String get mapEventsLocationPrecisionExact => 'ADRESĂ EXACTĂ';
+
+  @override
+  String get mapEventsLocationPrecisionPoint => 'PUNCT APROPIAT';
+
+  @override
+  String get mapEventsLocationPrecisionIntersection => 'INTERSECȚIE';
+
+  @override
+  String get mapEventsLocationPrecisionApproximate => 'APROXIMATIV';
+
+  @override
+  String get mapEventsLocationPrecisionStreet => 'NIVEL STRADĂ';
+
+  @override
+  String get mapEventsLocationPrecisionAddress => 'ADRESĂ';
+
+  @override
+  String get mapEventsLocationPrecisionPostcode => 'ZONĂ COD POȘTAL';
+
+  @override
+  String get mapEventsLocationPrecisionArea => 'ZONĂ EXTINSĂ';
+
+  @override
+  String get mapEventsSearchOrganizersTitle => 'Adaugă un organizator';
+
+  @override
+  String get mapEventsSearchOrganizersHint => 'Caută persoane și business-uri';
+
+  @override
+  String get mapEventsSearchOrganizersEmpty => 'Nu a fost găsit nimeni.';
+
+  @override
+  String get mapEventsSearchOrganizersPrompt =>
+      'Începe să scrii un nume pentru a găsi persoane și business-uri certificate.';
+
+  @override
+  String get profileTabEvents => 'EVENIMENTE';
+
+  @override
+  String get mapEventsMineTitle => 'Evenimentele mele';
+
+  @override
+  String get mapEventsMineEmptyTitle => 'Încă niciun eveniment';
+
+  @override
+  String get mapEventsMineEmptyBody =>
+      'Evenimentele pe care le creezi apar aici — inclusiv cele care așteaptă verificarea.';
+
+  @override
+  String get mapEventsMineCreate => 'CREEAZĂ UN EVENIMENT';
+
+  @override
+  String get mapEventsManageTitle => 'Gestionează evenimentul';
+
+  @override
+  String get mapEventsManageEntries => 'CERERI DE ÎNSCRIERE';
+
+  @override
+  String get mapEventsManageWithdrawals => 'CERERI DE RETRAGERE';
+
+  @override
+  String get mapEventsManageOrganizers => 'ORGANIZATORI';
+
+  @override
+  String get mapEventsManageDanger => 'EVENIMENT';
+
+  @override
+  String get mapEventsNoPendingEntries =>
+      'Nicio cerere de înscriere în așteptare.';
+
+  @override
+  String get mapEventsNoWithdrawals =>
+      'Nicio cerere de retragere în așteptare.';
+
+  @override
+  String get mapEventsAccept => 'ACCEPTĂ';
+
+  @override
+  String get mapEventsDecline => 'REFUZĂ';
+
+  @override
+  String get mapEventsDeclineTitle => 'Refuzi această înscriere?';
+
+  @override
+  String mapEventsDeclineBody(String car) {
+    return '$car nu va fi pe lista de înscrieri. Proprietarul vede motivul tău, așa că scrie ceva ce poate folosi.';
+  }
+
+  @override
+  String get mapEventsDeclineReasonLabel => 'MOTIV (OBLIGATORIU)';
+
+  @override
+  String get mapEventsDeclineReasonHint =>
+      'Categorie greșită pentru o întâlnire doar JDM…';
+
+  @override
+  String get mapEventsLetThemOut => 'LASĂ-I SĂ PLECE';
+
+  @override
+  String get mapEventsKeepThemIn => 'PĂSTREAZĂ-I';
+
+  @override
+  String get mapEventsWithdrawalNoteLabel => 'Nota lor';
+
+  @override
+  String get mapEventsEditEvent => 'EDITEAZĂ EVENIMENTUL';
+
+  @override
+  String get mapEventsCancelEvent => 'ANULEAZĂ EVENIMENTUL';
+
+  @override
+  String get mapEventsFinishEvent => 'ÎNCHEIE EVENIMENTUL';
+
+  @override
+  String get mapEventsDeleteEvent => 'ȘTERGE EVENIMENTUL';
+
+  @override
+  String get mapEventsEditLockedHint =>
+      'Un eveniment poate fi editat doar cât timp așteaptă verificarea sau după ce a fost respins.';
+
+  @override
+  String get mapEventsConfirmCancelTitle => 'Anulezi acest eveniment?';
+
+  @override
+  String get mapEventsConfirmCancelBody =>
+      'Rămâne vizibil, dar este marcat ca anulat, iar nimeni nu mai poate înscrie o mașină.';
+
+  @override
+  String get mapEventsConfirmFinishTitle => 'Închei acest eveniment?';
+
+  @override
+  String get mapEventsConfirmFinishBody =>
+      'Se mută la evenimentele tale trecute. Confirmările și lista de înscrieri rămân neschimbate.';
+
+  @override
+  String get mapEventsConfirmDeleteTitle => 'Ștergi acest eveniment?';
+
+  @override
+  String get mapEventsConfirmDeleteBody =>
+      'Această acțiune nu poate fi anulată. Lista de înscrieri și toate confirmările dispar odată cu el.';
+
+  @override
+  String get mapEventsConfirm => 'CONFIRMĂ';
+
+  @override
+  String get mapEventsDelete => 'ȘTERGE';
+
+  @override
+  String mapEventsWithdrawalCarsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mașini',
+      one: '1 mașină',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mapSearchPlaceholder => 'Caută întâlniri, service-uri, orașe…';
+
+  @override
+  String get mapCreateEvent => 'Creează un eveniment';
+
+  @override
+  String get mapEventsCopied => 'Detaliile evenimentului au fost copiate.';
+
+  @override
+  String get mapEventsDateCardTitle => 'Când';
 }

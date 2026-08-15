@@ -1,3 +1,4 @@
+import 'package:car_social_media_app/features/map_events/presentation/widgets/my_events/my_events_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -133,6 +134,9 @@ class _MyProfileDataViewState extends State<MyProfileDataView> {
                     ProfileSectionTabs(
                       active: _section,
                       onChanged: (s) => setState(() => _section = s),
+                      // Your own profile is the only place events can live:
+                      // `/map-events/mine` is scoped to the caller.
+                      showEvents: true,
                     ),
                     const SizedBox(height: 22),
                     switch (_section) {
@@ -144,6 +148,7 @@ class _MyProfileDataViewState extends State<MyProfileDataView> {
                           isOwner: true,
                           username: profile.username,
                         ),
+                      ProfileSection.events => const MyEventsSection(),
                     },
                     const SizedBox(height: 24),
                   ],

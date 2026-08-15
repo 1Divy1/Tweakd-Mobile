@@ -919,5 +919,322 @@
   "tagsRemoveBody": "Vei fi eliminat din acest conținut pentru toată lumea, împreună cu mașinile tale etichetate acolo. Doar autorul te poate eticheta din nou.",
   "tagsRemoveConfirm": "Elimină",
   "tagsErrorContentGone": "Acest conținut nu mai există.",
-  "tagsErrorGeneric": "Ceva nu a funcționat. Te rugăm să încerci din nou."
+  "tagsErrorGeneric": "Ceva nu a funcționat. Te rugăm să încerci din nou.",
+
+  "mapOpenNow": "Deschis acum",
+  "mapClosedNow": "Închis",
+  "mapNoReviews": "Nicio recenzie încă",
+  "mapReviewCount": "{count, plural, =1{o recenzie} other{{count} recenzii}}",
+  "@mapReviewCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapFollowerCount": "{count, plural, =1{un urmăritor} other{{count} urmăritori}}",
+  "@mapFollowerCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapHoursTitle": "PROGRAM",
+  "mapHoursClosed": "Închis",
+  "mapHoursNextDay": "(ziua următoare)",
+  "mapWeekdayMonday": "Luni",
+  "mapWeekdayTuesday": "Marți",
+  "mapWeekdayWednesday": "Miercuri",
+  "mapWeekdayThursday": "Joi",
+  "mapWeekdayFriday": "Vineri",
+  "mapWeekdaySaturday": "Sâmbătă",
+  "mapWeekdaySunday": "Duminică",
+  "mapPopupClose": "Închide",
+  "mapRecentre": "Centrează pe locația mea",
+  "mapRetry": "ÎNCEARCĂ DIN NOU",
+  "mapErrorNetwork": "Fără conexiune la internet. Te rugăm să încerci din nou.",
+  "mapErrorBusinessNotFound": "Acest business nu mai este disponibil.",
+  "mapErrorLocationUnavailable": "Nu am putut obține locația ta. Verifică dacă locația este activată pentru Tweakd.",
+  "mapErrorGeneric": "Ceva nu a funcționat. Te rugăm să încerci din nou.",
+  "mapNavigate": "Navighează",
+  "mapNavigateSheetTitle": "Alege o aplicație de navigare",
+  "mapNavigateInstall": "INSTALEAZĂ",
+  "mapNavigateFailed": "Nu am putut deschide acea aplicație.",
+
+  "mapEventsErrorNetwork": "Fără conexiune la internet. Te rugăm să încerci din nou.",
+  "mapEventsErrorNotFound": "Acest eveniment nu mai este disponibil.",
+  "mapEventsErrorForbidden": "Doar organizatorii pot face asta.",
+  "mapEventsErrorConflict": "Momentan acest lucru nu este posibil pentru acest eveniment.",
+  "mapEventsErrorInvalidInput": "Te rugăm să verifici detaliile și să încerci din nou.",
+  "mapEventsBulkRegisterPartial": "{registered} din mașinile tale s-au înscris înainte ca acest eveniment să atingă capacitatea maximă — {failed} nu au putut fi adăugate și nu au fost eliminate automat.",
+  "@mapEventsBulkRegisterPartial": {
+    "placeholders": {
+      "registered": { "type": "int" },
+      "failed": { "type": "int" }
+    }
+  },
+  "mapEventsErrorGeneric": "Ceva nu a funcționat. Te rugăm să încerci din nou.",
+  "mapEventsStatusUpcoming": "URMEAZĂ",
+  "mapEventsStatusLive": "ARE LOC ACUM",
+  "mapEventsStatusPrevious": "TRECUT",
+  "mapEventsStatusHidden": "ASCUNS",
+  "mapEventsStatusCanceled": "ANULAT",
+  "mapEventsApprovalPending": "ÎN VERIFICARE",
+  "mapEventsApprovalAccepted": "APROBAT",
+  "mapEventsApprovalRejected": "RESPINS",
+  "mapEventsRejectionReason": "Motiv: {reason}",
+  "@mapEventsRejectionReason": {
+    "placeholders": {
+      "reason": { "type": "String" }
+    }
+  },
+  "mapEventsClose": "Închide",
+  "mapEventsShare": "Distribuie",
+  "mapEventsStatAttendees": "PARTICIPANȚI",
+  "mapEventsStatCars": "MAȘINI",
+  "mapEventsStatStarts": "ÎNCEPE",
+  "mapEventsStatStarted": "A ÎNCEPUT",
+  "mapEventsGoingCount": "{count, plural, =1{1 persoană merge} other{{count} persoane merg}}",
+  "@mapEventsGoingCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapEventsRoleOrganizer": "organizator",
+  "mapEventsRoleCreator": "creator",
+  "mapEventsChipIndividual": "PERSOANĂ",
+  "mapEventsChipBusiness": "BUSINESS",
+  "mapEventsAttending": "PARTICIP",
+  "mapEventsInterested": "MĂ INTERESEAZĂ",
+  "mapEventsWantToParticipate": "VREI SĂ PARTICIPI?",
+  "mapEventsParticipateShort": "PARTICIPI?",
+  "mapEventsParticipating": "PARTICIPI",
+  "mapEventsParticipatingCount": "PARTICIPI · {count} MAȘINI",
+  "@mapEventsParticipatingCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapEventsParticipationPending": "ÎN AȘTEPTARE",
+  "mapEventsWithdrawAction": "RETRAGE-TE",
+  "mapEventsViewEvent": "VEZI EVENIMENTUL",
+  "mapEventsCapacityOf": "din {capacity}",
+  "@mapEventsCapacityOf": {
+    "placeholders": {
+      "capacity": { "type": "int" }
+    }
+  },
+  "mapEventsTabOverview": "PREZENTARE",
+  "mapEventsTabCars": "MAȘINI · {count}",
+  "@mapEventsTabCars": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapEventsEntryListTitle": "Pe lista de înscrieri",
+  "mapEventsApprovedCount": "{count} APROBATE",
+  "@mapEventsApprovedCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapEventsSectionAbout": "DESPRE EVENIMENT",
+  "mapEventsSectionOrganizers": "ORGANIZATORI",
+  "mapEventsSectionRules": "NOTE DE LA ORGANIZATOR",
+  "mapEventsSectionContests": "CONCURSURI",
+  "mapEventsSectionAttendees": "PARTICIPANȚI",
+  "mapEventsSoon": "ÎN CURÂND",
+  "mapEventsContestsTitle": "Concursuri",
+  "mapEventsContestsBody": "Organizatorii vor putea porni voturi în cadrul unei întâlniri — cel mai reușit build, cel mai curat compartiment motor, cea mai zgomotoasă evacuare.",
+  "mapEventsSeeAll": "VEZI TOT",
+  "mapEventsSeeAllAttendees": "VEZI TOȚI PARTICIPANȚII",
+  "mapEventsSeeAllCars": "VEZI TOATE CELE {count} MAȘINI",
+  "@mapEventsSeeAllCars": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapEventsRegisterBefore": "Înscrie-ți mașina până pe {deadline}",
+  "@mapEventsRegisterBefore": {
+    "placeholders": {
+      "deadline": { "type": "String" }
+    }
+  },
+  "mapEventsRegistrationClosed": "Înscrierile pentru acest eveniment s-au închis.",
+  "mapEventsCapacityFull": "Lista de înscrieri este plină.",
+  "mapEventsGarageLink": "GARAJ",
+  "mapEventsEntryListEmpty": "Încă nu există mașini pe lista de înscrieri.",
+  "mapEventsAttendeesEmpty": "Încă nu a confirmat nimeni.",
+  "mapEventsRetry": "ÎNCEARCĂ DIN NOU",
+  "mapEventsStripPendingTitle": "Cerere în așteptare",
+  "mapEventsStripPendingBody": "Organizatorii îți vor aproba sau refuza înscrierea.",
+  "mapEventsStripDeclinedTitle": "Înscriere refuzată",
+  "mapEventsStripDeclinedBody": "Organizatorii au refuzat această mașină pentru acest eveniment.",
+  "mapEventsStripWithdrawnTitle": "Retragere solicitată",
+  "mapEventsStripWithdrawnBody": "Organizatorii îți analizează cererea de retragere. Nu o mai poți anula.",
+  "mapEventsDeclineReasonHeading": "MOTIVUL",
+  "mapEventsTryAnotherCar": "ÎNCEARCĂ ALTĂ MAȘINĂ",
+  "mapEventsCancelRequest": "ANULEAZĂ CEREREA",
+  "mapEventsPickCarTitle": "Cu ce mașini vii?",
+  "mapEventsPickCarSubtitle": "Selectează cel puțin o mașină pentru înscriere",
+  "mapEventsPickCarSpotsLeft": "Mai sunt {count} locuri — poți selecta până la atâtea",
+  "@mapEventsPickCarSpotsLeft": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapEventsPickCarFull": "Acest eveniment a atins numărul maxim de participanți.",
+  "mapEventsPickCarAlreadyIn": "Deja înscrisă",
+  "mapEventsPickCarSelectAll": "SELECTEAZĂ TOATE",
+  "mapEventsPickCarClearAll": "ȘTERGE",
+  "mapEventsPickCarRegisterCta": "ÎNSCRIE ({count})",
+  "@mapEventsPickCarRegisterCta": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapEventsPickCarEmptyTitle": "Garajul tău este gol",
+  "mapEventsPickCarEmptyBody": "Adaugă întâi o mașină în garaj, apoi înscrie-o la un eveniment.",
+  "mapEventsPickCarAdd": "ADAUGĂ O MAȘINĂ",
+  "mapEventsCarYear": "{year}",
+  "@mapEventsCarYear": {
+    "placeholders": {
+      "year": { "type": "String" }
+    }
+  },
+  "mapEventsWithdrawTitle": "Te retragi de la acest eveniment?",
+  "mapEventsWithdrawBody": "Le vei cere organizatorilor să te scoată de pe lista de înscrieri și din orice concurs din cadrul evenimentului. Odată trimisă, cererea nu mai poate fi anulată.",
+  "mapEventsWithdrawAllCars": "{count, plural, =1{Mașina ta iese de pe lista de înscrieri — un organizator trebuie să aprobe mai întâi.} few{Toate cele {count} mașini ale tale ies împreună de pe lista de înscrieri — nu poți retrage doar una. Un organizator trebuie să aprobe mai întâi.} other{Toate cele {count} de mașini ale tale ies împreună de pe lista de înscrieri — nu poți retrage doar una. Un organizator trebuie să aprobe mai întâi.}}",
+  "mapEventsWithdrawNoteLabel": "NOTĂ PENTRU ORGANIZATORI (OPȚIONAL)",
+  "mapEventsWithdrawNoteHint": "Spune-le de ce, dacă vrei…",
+  "mapEventsCancel": "ANULEAZĂ",
+  "mapEventsAttendeesPageTitle": "Participanți",
+  "mapEventsFilterAttending": "PARTICIPĂ",
+  "mapEventsFilterInterested": "INTERESAȚI",
+  "mapEventsCreateTitle": "EVENIMENT NOU",
+  "mapEventsEditTitle": "EDITEAZĂ EVENIMENTUL",
+  "mapEventsCoverAdd": "ADAUGĂ O FOTOGRAFIE DE COPERTĂ",
+  "mapEventsCoverHint": "recomandat 1600 × 900",
+  "mapEventsCoverChange": "SCHIMBĂ COPERTA",
+  "mapEventsFieldCover": "FOTOGRAFIE DE COPERTĂ",
+  "mapEventsFieldTitle": "TITLUL EVENIMENTULUI",
+  "mapEventsFieldTitleHint": "ex. Casino Square Cars & Coffee",
+  "mapEventsFieldCategory": "CATEGORIA EVENIMENTULUI",
+  "mapEventsCategoriesSoonNote": "Urmează și alte categorii.",
+  "mapEventsCategoryTrackDay": "Zi pe circuit",
+  "mapEventsCategoryCarShow": "Expoziție auto",
+  "mapEventsCategoryCruise": "Tură",
+  "mapEventsFieldDescription": "DESCRIERE",
+  "mapEventsFieldDescriptionHint": "Despre ce este evenimentul, pentru cine e, ce ar trebui să știe lumea înainte să vină…",
+  "mapEventsFieldLocation": "LOCAȚIE",
+  "mapEventsFieldVenueHint": "Numele locației — ex. Place du Casino",
+  "mapEventsSetLocationOnMap": "ALEGE LOCAȚIA PE HARTĂ",
+  "mapEventsLocationSet": "PIN PLASAT · ATINGE PENTRU A-L MUTA",
+  "mapEventsFieldDateTime": "DATĂ ȘI ORĂ",
+  "mapEventsStartsLabel": "Începe",
+  "mapEventsEndsLabel": "Se termină",
+  "mapEventsEndBlankHint": "Lasă finalul gol pentru un eveniment fără oră de încheiere.",
+  "mapEventsClearEnd": "ȘTERGE FINALUL",
+  "mapEventsFieldCapacity": "CAPACITATE MAXIMĂ",
+  "mapEventsOptional": "OPȚIONAL",
+  "mapEventsRequired": "OBLIGATORIU",
+  "mapEventsCapacityHint": "Fără limită — ex. 40 de locuri",
+  "mapEventsCapacityLockedHint": "Capacitatea poate fi mărită ulterior, dar nu poate fi eliminată.",
+  "mapEventsApprovalToggleTitle": "Necesită aprobare pentru înscriere",
+  "mapEventsApprovalToggleBody": "Tu și co-organizatorii tăi analizați fiecare cerere înainte ca un participant să fie adăugat pe lista de înscrieri.",
+  "mapEventsFieldDeadline": "TERMEN LIMITĂ DE ÎNSCRIERE",
+  "mapEventsFieldRules": "REGULI ȘI RECOMANDĂRI",
+  "mapEventsAddRule": "ADAUGĂ O REGULĂ",
+  "mapEventsRuleHint": "ex. Fără turat sau derapaje.",
+  "mapEventsRemoveRule": "Șterge regula",
+  "mapEventsFieldOrganizers": "ORGANIZATORI",
+  "mapEventsOrganizersHint": "Tu ești creatorul. Adaugă alte conturi de persoane sau de business certificate care să organizeze împreună cu tine.",
+  "mapEventsYouCreator": "TU · CREATOR",
+  "mapEventsAddOrganizer": "ADAUGĂ ORGANIZATOR",
+  "mapEventsRemoveOrganizer": "Șterge organizatorul",
+  "mapEventsCreateCta": "CREEAZĂ EVENIMENTUL",
+  "mapEventsCreateCtaIncomplete": "ADAUGĂ TITLU, LOCAȚIE ȘI ORA DE ÎNCEPERE",
+  "mapEventsCreateCtaDeadline": "ADAUGĂ UN TERMEN DE ÎNSCRIERE",
+  "mapEventsCreateCtaCover": "ADAUGĂ O FOTOGRAFIE DE COPERTĂ",
+  "mapEventsSaveCta": "SALVEAZĂ MODIFICĂRILE",
+  "mapEventsSubmitting": "Doar o clipă…",
+  "mapEventsValidationEndBeforeStart": "Ora de final trebuie să fie după ora de început.",
+  "mapEventsValidationDeadlineAfterStart": "Termenul de înscriere trebuie să fie înainte de începerea evenimentului.",
+  "mapEventsValidationCapacity": "Capacitatea trebuie să fie cel puțin 1.",
+  "mapEventsPendingReviewTitle": "Trimis spre verificare",
+  "mapEventsPendingReviewBody": "Echipa noastră verifică fiecare eveniment nou înainte să apară pe hartă. Până atunci îl găsești la Evenimente, pe profilul tău.",
+  "mapEventsDone": "GATA",
+  "mapEventsCoverUploadFailed": "Evenimentul a fost creat, dar fotografia de copertă nu s-a încărcat. O poți adăuga din Evenimentele mele.",
+  "mapEventsUseThisLocation": "FOLOSEȘTE ACEASTĂ LOCAȚIE",
+  "mapEventsLocationFormTitle": "Găsește adresa",
+  "mapEventsLocationFormSubtitle": "Vom muta harta acolo. Tu plasezi pinul exact.",
+  "mapEventsLocationCity": "ORAȘ",
+  "mapEventsLocationCityHint": "Cluj-Napoca",
+  "mapEventsLocationStreet": "STRADA",
+  "mapEventsLocationStreetHint": "Strada Memorandumului",
+  "mapEventsLocationNumber": "NUMĂR",
+  "mapEventsLocationNumberHint": "28B",
+  "mapEventsLocationSearchButton": "CAUTĂ",
+  "mapEventsLocationSearchIncomplete": "COMPLETEAZĂ TOATE CELE TREI CÂMPURI",
+  "mapEventsLocationSearchNoResults": "Nicio potrivire pentru acea adresă. Verifică scrierea sau caută strada fără număr.",
+  "mapEventsLocationResultsTitle": "Alege cea mai apropiată potrivire",
+  "mapEventsLocationResultsSubtitle": "Asta doar mută harta — pinul tot tu îl plasezi.",
+  "mapEventsLocationEditSearch": "MODIFICĂ",
+  "mapEventsLocationBackToResults": "REZULTATE",
+  "mapEventsLocationDropPinTitle": "Atinge harta pentru a plasa pinul",
+  "mapEventsLocationDropPinBody": "Atinge locul exact — intrarea, curtea, zona de parcare.",
+  "mapEventsLocationPinDropped": "Pin plasat. Atinge din nou pentru a-l muta.",
+  "mapEventsLocationPrecisionExact": "ADRESĂ EXACTĂ",
+  "mapEventsLocationPrecisionPoint": "PUNCT APROPIAT",
+  "mapEventsLocationPrecisionIntersection": "INTERSECȚIE",
+  "mapEventsLocationPrecisionApproximate": "APROXIMATIV",
+  "mapEventsLocationPrecisionStreet": "NIVEL STRADĂ",
+  "mapEventsLocationPrecisionAddress": "ADRESĂ",
+  "mapEventsLocationPrecisionPostcode": "ZONĂ COD POȘTAL",
+  "mapEventsLocationPrecisionArea": "ZONĂ EXTINSĂ",
+  "mapEventsSearchOrganizersTitle": "Adaugă un organizator",
+  "mapEventsSearchOrganizersHint": "Caută persoane și business-uri",
+  "mapEventsSearchOrganizersEmpty": "Nu a fost găsit nimeni.",
+  "mapEventsSearchOrganizersPrompt": "Începe să scrii un nume pentru a găsi persoane și business-uri certificate.",
+  "profileTabEvents": "EVENIMENTE",
+  "mapEventsMineTitle": "Evenimentele mele",
+  "mapEventsMineEmptyTitle": "Încă niciun eveniment",
+  "mapEventsMineEmptyBody": "Evenimentele pe care le creezi apar aici — inclusiv cele care așteaptă verificarea.",
+  "mapEventsMineCreate": "CREEAZĂ UN EVENIMENT",
+  "mapEventsManageTitle": "Gestionează evenimentul",
+  "mapEventsManageEntries": "CERERI DE ÎNSCRIERE",
+  "mapEventsManageWithdrawals": "CERERI DE RETRAGERE",
+  "mapEventsManageOrganizers": "ORGANIZATORI",
+  "mapEventsManageDanger": "EVENIMENT",
+  "mapEventsNoPendingEntries": "Nicio cerere de înscriere în așteptare.",
+  "mapEventsNoWithdrawals": "Nicio cerere de retragere în așteptare.",
+  "mapEventsAccept": "ACCEPTĂ",
+  "mapEventsDecline": "REFUZĂ",
+  "mapEventsDeclineTitle": "Refuzi această înscriere?",
+  "mapEventsDeclineBody": "{car} nu va fi pe lista de înscrieri. Proprietarul vede motivul tău, așa că scrie ceva ce poate folosi.",
+  "mapEventsDeclineReasonLabel": "MOTIV (OBLIGATORIU)",
+  "mapEventsDeclineReasonHint": "Categorie greșită pentru o întâlnire doar JDM…",
+  "mapEventsLetThemOut": "LASĂ-I SĂ PLECE",
+  "mapEventsKeepThemIn": "PĂSTREAZĂ-I",
+  "mapEventsWithdrawalNoteLabel": "Nota lor",
+  "mapEventsEditEvent": "EDITEAZĂ EVENIMENTUL",
+  "mapEventsCancelEvent": "ANULEAZĂ EVENIMENTUL",
+  "mapEventsFinishEvent": "ÎNCHEIE EVENIMENTUL",
+  "mapEventsDeleteEvent": "ȘTERGE EVENIMENTUL",
+  "mapEventsEditLockedHint": "Un eveniment poate fi editat doar cât timp așteaptă verificarea sau după ce a fost respins.",
+  "mapEventsConfirmCancelTitle": "Anulezi acest eveniment?",
+  "mapEventsConfirmCancelBody": "Rămâne vizibil, dar este marcat ca anulat, iar nimeni nu mai poate înscrie o mașină.",
+  "mapEventsConfirmFinishTitle": "Închei acest eveniment?",
+  "mapEventsConfirmFinishBody": "Se mută la evenimentele tale trecute. Confirmările și lista de înscrieri rămân neschimbate.",
+  "mapEventsConfirmDeleteTitle": "Ștergi acest eveniment?",
+  "mapEventsConfirmDeleteBody": "Această acțiune nu poate fi anulată. Lista de înscrieri și toate confirmările dispar odată cu el.",
+  "mapEventsConfirm": "CONFIRMĂ",
+  "mapEventsDelete": "ȘTERGE",
+  "mapEventsWithdrawalCarsCount": "{count, plural, =1{1 mașină} other{{count} mașini}}",
+  "@mapEventsWithdrawalCarsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapSearchPlaceholder": "Caută întâlniri, service-uri, orașe…",
+  "mapCreateEvent": "Creează un eveniment",
+  "mapEventsCopied": "Detaliile evenimentului au fost copiate.",
+  "mapEventsDateCardTitle": "Când"
 }
