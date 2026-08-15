@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -29,6 +30,10 @@ void main() async {
 
   // Load environment variables
   await dotenv.load(fileName: ".env");
+
+  // Setup MapBox access token
+  const String mapboxAccessToken = String.fromEnvironment("MAPBOX_ACCESS_TOKEN");
+  MapboxOptions.setAccessToken(mapboxAccessToken);
 
   // Initialize Supabase
   await Supabase.initialize(

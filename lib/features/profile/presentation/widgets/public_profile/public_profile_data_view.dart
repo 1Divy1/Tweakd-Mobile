@@ -147,6 +147,10 @@ class _PublicProfileDataViewState extends State<PublicProfileDataView> {
                           isOwner: false,
                           username: profile.username,
                         ),
+                      // Unreachable: the Events tab isn't offered here
+                      // (`showEvents` defaults to false) because
+                      // `/map-events/mine` only ever describes the caller.
+                      ProfileSection.events => const SizedBox.shrink(),
                     },
                     const SizedBox(height: 24),
                   ],

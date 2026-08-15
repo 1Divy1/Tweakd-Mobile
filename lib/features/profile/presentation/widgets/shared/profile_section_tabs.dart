@@ -3,21 +3,27 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 
-/// The three sections a profile body can show. Posts is the default (left)
-/// tab, then Garage, then Tags — everything this user (or one of their cars)
-/// was tagged in elsewhere.
-enum ProfileSection { posts, garage, tags }
+/// The sections a profile body can show. Posts is the default (left) tab, then
+/// Garage, then Tags — everything this user (or one of their cars) was tagged
+/// in elsewhere — and, on your own profile only, Events.
+enum ProfileSection { posts, garage, tags, events }
 
-/// The Posts | Garage | Tags tab switcher shown between the profile header and
-/// the active section. Only one section is visible at a time.
+/// The section switcher shown between the profile header and the active
+/// section. Only one section is visible at a time.
+///
+/// [showEvents] is false on someone else's profile: `GET /map-events/mine` is
+/// scoped to the caller, so there is no such thing as another user's events
+/// list to show.
 class ProfileSectionTabs extends StatelessWidget {
   final ProfileSection active;
   final ValueChanged<ProfileSection> onChanged;
+  final bool showEvents;
 
   const ProfileSectionTabs({
     super.key,
     required this.active,
     required this.onChanged,
+    this.showEvents = false,
   });
 
   @override
@@ -49,6 +55,15 @@ class ProfileSectionTabs extends StatelessWidget {
             onTap: () => onChanged(ProfileSection.tags),
           ),
         ),
+        if (showEvents)
+          Expanded(
+            child: _Tab(
+              icon: Icons.event_rounded,
+              label: l10n.profileTabEvents,
+              isActive: active == ProfileSection.events,
+              onTap: () => onChanged(ProfileSection.events),
+            ),
+          ),
       ],
     );
   }

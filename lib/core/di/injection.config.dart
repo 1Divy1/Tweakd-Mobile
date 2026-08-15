@@ -132,6 +132,46 @@ import '../../features/garage/presentation/bloc/add_car/bloc.dart' as _i160;
 import '../../features/garage/presentation/bloc/bloc.dart' as _i121;
 import '../../features/garage/presentation/bloc/car_detail/bloc.dart' as _i807;
 import '../../features/garage/presentation/bloc/log_mod/bloc.dart' as _i375;
+import '../../features/map/data/datasources/business_api_data_source.dart'
+    as _i979;
+import '../../features/map/data/datasources/device_location_data_source.dart'
+    as _i178;
+import '../../features/map/data/repositories/map_repository_impl.dart' as _i457;
+import '../../features/map/domain/repositories/map_repository.dart' as _i973;
+import '../../features/map/domain/usecases/get_business_detail.dart' as _i107;
+import '../../features/map/domain/usecases/get_current_position.dart' as _i958;
+import '../../features/map/domain/usecases/get_nearby_businesses.dart' as _i642;
+import '../../features/map/presentation/bloc/map/bloc.dart' as _i465;
+import '../../features/map_events/data/datasources/map_event_storage_data_source.dart'
+    as _i709;
+import '../../features/map_events/data/datasources/map_events_api_data_source.dart'
+    as _i394;
+import '../../features/map_events/data/repositories/map_events_repository_impl.dart'
+    as _i545;
+import '../../features/map_events/domain/repositories/map_events_repository.dart'
+    as _i365;
+import '../../features/map_events/domain/usecases/manage_map_event.dart'
+    as _i1055;
+import '../../features/map_events/domain/usecases/map_event_attendance.dart'
+    as _i192;
+import '../../features/map_events/domain/usecases/map_event_organizers.dart'
+    as _i211;
+import '../../features/map_events/domain/usecases/map_event_participation.dart'
+    as _i414;
+import '../../features/map_events/domain/usecases/map_event_reads.dart'
+    as _i997;
+import '../../features/map_events/domain/usecases/map_event_withdrawals.dart'
+    as _i295;
+import '../../features/map_events/presentation/bloc/attendees/bloc.dart'
+    as _i647;
+import '../../features/map_events/presentation/bloc/create_event/bloc.dart'
+    as _i634;
+import '../../features/map_events/presentation/bloc/event_detail/bloc.dart'
+    as _i506;
+import '../../features/map_events/presentation/bloc/manage_event/bloc.dart'
+    as _i340;
+import '../../features/map_events/presentation/bloc/my_events/bloc.dart'
+    as _i792;
 import '../../features/messages/data/datasources/messages_data_source.dart'
     as _i637;
 import '../../features/messages/data/repositories/messages_repository_impl.dart'
@@ -288,6 +328,7 @@ import '../realtime/presence_service.dart' as _i784;
 import '../realtime/supabase_dm_realtime_service.dart' as _i543;
 import '../realtime/supabase_presence_service.dart' as _i1029;
 import '../services/image_service.dart' as _i768;
+import '../services/navigation_launcher_service.dart' as _i907;
 import '../services/push_permission_service.dart' as _i792;
 import '../shared/bloc/tag_picker/bloc.dart' as _i155;
 import '../storage/locale_local_storage.dart' as _i1069;
@@ -305,11 +346,17 @@ extension GetItInjectableX on _i174.GetIt {
     final dioModule = _$DioModule();
     gh.lazySingleton<_i454.SupabaseClient>(() => supabaseModule.supabaseClient);
     gh.lazySingleton<_i768.ImageService>(() => _i768.ImageService());
+    gh.lazySingleton<_i907.NavigationLauncherService>(
+      () => _i907.NavigationLauncherService(),
+    );
     gh.lazySingleton<_i792.PushPermissionService>(
       () => _i792.PushPermissionService(),
     );
     gh.lazySingleton<_i1069.LocaleLocalStorage>(
       () => _i1069.LocaleLocalStorage(),
+    );
+    gh.lazySingleton<_i178.DeviceLocationDataSource>(
+      () => _i178.DeviceLocationDataSource(),
     );
     gh.lazySingleton<_i511.DmRealtimeService>(
       () => _i543.SupabaseDmRealtimeService(gh<_i454.SupabaseClient>()),
@@ -325,6 +372,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i526.StorageApiDataSource>(
       () => _i526.StorageApiDataSource(gh<_i454.SupabaseClient>()),
+    );
+    gh.lazySingleton<_i709.MapEventStorageDataSource>(
+      () => _i709.MapEventStorageDataSource(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i747.PostsStorageApiDataSource>(
       () => _i747.PostsStorageApiDataSource(gh<_i454.SupabaseClient>()),
@@ -361,6 +411,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i879.GarageApiDataSource>(
       () => _i879.GarageApiDataSource(gh<_i311.AbstractHTTP>()),
+    );
+    gh.lazySingleton<_i979.BusinessApiDataSource>(
+      () => _i979.BusinessApiDataSource(gh<_i311.AbstractHTTP>()),
+    );
+    gh.lazySingleton<_i394.MapEventsApiDataSource>(
+      () => _i394.MapEventsApiDataSource(gh<_i311.AbstractHTTP>()),
     );
     gh.lazySingleton<_i1049.OnboardingApiDataSource>(
       () => _i1049.OnboardingApiDataSource(gh<_i311.AbstractHTTP>()),
@@ -484,6 +540,18 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i29.MarkNotificationReadUseCase(gh<_i563.NotificationsRepository>()),
     );
+    gh.lazySingleton<_i365.MapEventsRepository>(
+      () => _i545.MapEventsRepositoryImpl(
+        gh<_i394.MapEventsApiDataSource>(),
+        gh<_i709.MapEventStorageDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i973.MapRepository>(
+      () => _i457.MapRepositoryImpl(
+        gh<_i979.BusinessApiDataSource>(),
+        gh<_i178.DeviceLocationDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i357.SearchRepository>(
       () => _i1017.SearchRepositoryImpl(gh<_i592.SearchApiDataSource>()),
     );
@@ -561,6 +629,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1016.SubmitOnboardingUseCase>(
       () => _i1016.SubmitOnboardingUseCase(gh<_i430.OnboardingRepository>()),
+    );
+    gh.lazySingleton<_i107.GetBusinessDetailUseCase>(
+      () => _i107.GetBusinessDetailUseCase(gh<_i973.MapRepository>()),
+    );
+    gh.lazySingleton<_i958.GetCurrentPositionUseCase>(
+      () => _i958.GetCurrentPositionUseCase(gh<_i973.MapRepository>()),
+    );
+    gh.lazySingleton<_i642.GetNearbyBusinessesUseCase>(
+      () => _i642.GetNearbyBusinessesUseCase(gh<_i973.MapRepository>()),
     );
     gh.lazySingleton<_i292.AddCarUseCase>(
       () => _i292.AddCarUseCase(gh<_i511.GarageRepository>()),
@@ -724,6 +801,99 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i839.WatchInboxMessagesUseCase>(
       () => _i839.WatchInboxMessagesUseCase(gh<_i794.MessagesRepository>()),
     );
+    gh.lazySingleton<_i1055.CreateMapEventUseCase>(
+      () => _i1055.CreateMapEventUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i1055.UpdateMapEventUseCase>(
+      () => _i1055.UpdateMapEventUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i1055.ReplaceMapEventRulesUseCase>(
+      () => _i1055.ReplaceMapEventRulesUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i1055.GetMapEventCoverUploadUrlUseCase>(
+      () => _i1055.GetMapEventCoverUploadUrlUseCase(
+        gh<_i365.MapEventsRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i1055.SetMapEventCoverUseCase>(
+      () => _i1055.SetMapEventCoverUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i1055.CancelMapEventUseCase>(
+      () => _i1055.CancelMapEventUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i1055.FinishMapEventUseCase>(
+      () => _i1055.FinishMapEventUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i1055.DeleteMapEventUseCase>(
+      () => _i1055.DeleteMapEventUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i192.SetMapEventAttendanceUseCase>(
+      () => _i192.SetMapEventAttendanceUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i192.ClearMapEventAttendanceUseCase>(
+      () =>
+          _i192.ClearMapEventAttendanceUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i211.SearchOrganizerCandidatesUseCase>(
+      () => _i211.SearchOrganizerCandidatesUseCase(
+        gh<_i365.MapEventsRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i211.AddMapEventOrganizerUseCase>(
+      () => _i211.AddMapEventOrganizerUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i211.RemoveMapEventOrganizerUseCase>(
+      () =>
+          _i211.RemoveMapEventOrganizerUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i414.RegisterCarForMapEventUseCase>(
+      () =>
+          _i414.RegisterCarForMapEventUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i414.CancelCarRegistrationUseCase>(
+      () => _i414.CancelCarRegistrationUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i414.ReviewCarRegistrationUseCase>(
+      () => _i414.ReviewCarRegistrationUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i997.GetNearbyMapEventsUseCase>(
+      () => _i997.GetNearbyMapEventsUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i997.GetMapEventCategoriesUseCase>(
+      () => _i997.GetMapEventCategoriesUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i997.GetMapEventUseCase>(
+      () => _i997.GetMapEventUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i997.GetMyMapEventsUseCase>(
+      () => _i997.GetMyMapEventsUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i997.GetMapEventAttendeesUseCase>(
+      () => _i997.GetMapEventAttendeesUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i997.GetMapEventCarsUseCase>(
+      () => _i997.GetMapEventCarsUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i997.GetMyMapEventCarsUseCase>(
+      () => _i997.GetMyMapEventCarsUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i997.SearchMapEventLocationUseCase>(
+      () =>
+          _i997.SearchMapEventLocationUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i295.WithdrawFromMapEventUseCase>(
+      () => _i295.WithdrawFromMapEventUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i295.GetMapEventWithdrawalsUseCase>(
+      () =>
+          _i295.GetMapEventWithdrawalsUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i295.ApproveWithdrawalUseCase>(
+      () => _i295.ApproveWithdrawalUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i295.RejectWithdrawalUseCase>(
+      () => _i295.RejectWithdrawalUseCase(gh<_i365.MapEventsRepository>()),
+    );
     gh.lazySingleton<_i199.GetGlobalFeedUseCase>(
       () => _i199.GetGlobalFeedUseCase(gh<_i430.FeedRepository>()),
     );
@@ -731,6 +901,19 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i409.DmUnreadCubit(
         getUnreadCount: gh<_i915.GetUnreadCountUseCase>(),
         watchInboxMessages: gh<_i839.WatchInboxMessagesUseCase>(),
+      ),
+    );
+    gh.factory<_i634.CreateMapEventBloc>(
+      () => _i634.CreateMapEventBloc(
+        getCategories: gh<_i997.GetMapEventCategoriesUseCase>(),
+        createEvent: gh<_i1055.CreateMapEventUseCase>(),
+        updateEvent: gh<_i1055.UpdateMapEventUseCase>(),
+        replaceRules: gh<_i1055.ReplaceMapEventRulesUseCase>(),
+        getCoverUploadUrl: gh<_i1055.GetMapEventCoverUploadUrlUseCase>(),
+        setCover: gh<_i1055.SetMapEventCoverUseCase>(),
+        addOrganizer: gh<_i211.AddMapEventOrganizerUseCase>(),
+        removeOrganizer: gh<_i211.RemoveMapEventOrganizerUseCase>(),
+        imageService: gh<_i768.ImageService>(),
       ),
     );
     gh.factory<_i887.NotificationsBloc>(
@@ -894,6 +1077,14 @@ extension GetItInjectableX on _i174.GetIt {
         unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
       ),
     );
+    gh.factory<_i465.MapBloc>(
+      () => _i465.MapBloc(
+        getNearbyBusinesses: gh<_i642.GetNearbyBusinessesUseCase>(),
+        getBusinessDetail: gh<_i107.GetBusinessDetailUseCase>(),
+        getCurrentPosition: gh<_i958.GetCurrentPositionUseCase>(),
+        getNearbyEvents: gh<_i997.GetNearbyMapEventsUseCase>(),
+      ),
+    );
     gh.factory<_i370.MyReportsBloc>(
       () => _i370.MyReportsBloc(getMyReports: gh<_i75.GetMyReportsUseCase>()),
     );
@@ -903,6 +1094,10 @@ extension GetItInjectableX on _i174.GetIt {
         getTagsByUsername: gh<_i198.GetTagsByUsernameUseCase>(),
         removeTag: gh<_i369.RemoveTagUseCase>(),
       ),
+    );
+    gh.factory<_i792.MyMapEventsBloc>(
+      () =>
+          _i792.MyMapEventsBloc(getMyEvents: gh<_i997.GetMyMapEventsUseCase>()),
     );
     gh.factory<_i797.OnboardingBloc>(
       () => _i797.OnboardingBloc(
@@ -915,8 +1110,26 @@ extension GetItInjectableX on _i174.GetIt {
         submitOnboarding: gh<_i1016.SubmitOnboardingUseCase>(),
       ),
     );
+    gh.factory<_i506.MapEventDetailBloc>(
+      () => _i506.MapEventDetailBloc(
+        getEvent: gh<_i997.GetMapEventUseCase>(),
+        getAttendees: gh<_i997.GetMapEventAttendeesUseCase>(),
+        getCars: gh<_i997.GetMapEventCarsUseCase>(),
+        getMyCars: gh<_i997.GetMyMapEventCarsUseCase>(),
+        setAttendance: gh<_i192.SetMapEventAttendanceUseCase>(),
+        clearAttendance: gh<_i192.ClearMapEventAttendanceUseCase>(),
+        registerCar: gh<_i414.RegisterCarForMapEventUseCase>(),
+        cancelCarRegistration: gh<_i414.CancelCarRegistrationUseCase>(),
+        withdraw: gh<_i295.WithdrawFromMapEventUseCase>(),
+      ),
+    );
     gh.factory<_i462.SearchBloc>(
       () => _i462.SearchBloc(searchUsers: gh<_i14.SearchUsersUseCase>()),
+    );
+    gh.factory<_i647.MapEventAttendeesBloc>(
+      () => _i647.MapEventAttendeesBloc(
+        getAttendees: gh<_i997.GetMapEventAttendeesUseCase>(),
+      ),
     );
     gh.lazySingleton<_i541.AddCommentUseCase>(
       () => _i541.AddCommentUseCase(gh<_i245.PostsRepository>()),
@@ -1014,6 +1227,20 @@ extension GetItInjectableX on _i174.GetIt {
         watchChat: gh<_i467.WatchChatUseCase>(),
         getPresence: gh<_i583.GetPresenceUseCase>(),
         watchPresence: gh<_i583.WatchPresenceUseCase>(),
+      ),
+    );
+    gh.factory<_i340.ManageMapEventBloc>(
+      () => _i340.ManageMapEventBloc(
+        getEvent: gh<_i997.GetMapEventUseCase>(),
+        getCars: gh<_i997.GetMapEventCarsUseCase>(),
+        getWithdrawals: gh<_i295.GetMapEventWithdrawalsUseCase>(),
+        reviewCar: gh<_i414.ReviewCarRegistrationUseCase>(),
+        approveWithdrawal: gh<_i295.ApproveWithdrawalUseCase>(),
+        rejectWithdrawal: gh<_i295.RejectWithdrawalUseCase>(),
+        removeOrganizer: gh<_i211.RemoveMapEventOrganizerUseCase>(),
+        cancelEvent: gh<_i1055.CancelMapEventUseCase>(),
+        finishEvent: gh<_i1055.FinishMapEventUseCase>(),
+        deleteEvent: gh<_i1055.DeleteMapEventUseCase>(),
       ),
     );
     gh.factory<_i188.NewThreadBloc>(
