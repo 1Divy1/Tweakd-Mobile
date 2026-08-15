@@ -61,7 +61,7 @@ class MapEventDetailBloc
     on<LoadMapEvent>(_onLoad);
     on<RefreshMapEvent>(_onRefresh);
     on<ToggleMapEventRsvp>(_onToggleRsvp);
-    on<RegisterCarForEvent>(_onRegisterCar);
+    on<RegisterCarsForEvent>(_onRegisterCars);
     on<CancelPendingCarRegistration>(_onCancelRegistration);
     on<SubmitEventWithdrawal>(_onWithdraw);
     on<LoadMoreEventCars>(_onLoadMoreCars);
@@ -314,37 +314,81 @@ class MapEventDetailBloc
 
   // ── Car participation ────────────────────────────────────────────────────
 
-  Future<void> _onRegisterCar(
-    RegisterCarForEvent event,
+  /// Registers every car in the batch, one request at a time, and stops at
+  /// the first failure — so a capacity 409 on car 3 of 5 doesn't also fire
+  /// requests 4 and 5 into a slot that's already gone.
+  ///
+  /// The picker clamps selection to the event's known remaining capacity
+  /// before this ever runs, so a failure here almost always means someone
+  /// else took the last spot in the gap between opening the picker and
+  /// submitting. That race is rare enough that a best-effort rollback of
+  /// whatever this batch already got in is the right answer: `DELETE
+  /// /cars/{car_id}` only works on a still-pending row, so on a no-approval
+  /// event (rows land accepted immediately) a row that got in before the
+  /// failure can't be undone — the user is told plainly when that happens
+  /// rather than the app pretending it rolled back cleanly.
+  Future<void> _onRegisterCars(
+    RegisterCarsForEvent event,
     Emitter<MapEventDetailState> emit,
   ) async {
     final current = state.event;
-    if (current == null || state.isBusy) return;
+    if (current == null || state.isBusy || event.carIds.isEmpty) return;
 
     emit(state.copyWith(
       action: MapEventAction.register,
       clearActionError: true,
     ));
 
-    final result = await registerCar(
-      RegisterCarParams(eventId: current.id, carId: event.carId),
-    );
+    final succeeded = <String>[];
+    var latest = current;
+    Failure? failure;
 
+    for (final carId in event.carIds) {
+      final result = await registerCar(
+        RegisterCarParams(eventId: current.id, carId: carId),
+      );
+      if (state.eventId != current.id) return;
+
+      var stop = false;
+      result.fold(
+        (f) {
+          failure = f;
+          stop = true;
+        },
+        (updated) => latest = updated,
+      );
+      if (stop) break;
+      succeeded.add(carId);
+    }
+
+    if (failure == null) {
+      emit(state.copyWith(event: latest));
+      await _reloadEntryLists(latest.id, emit);
+      return;
+    }
+
+    var unrolledBack = 0;
+    for (final carId in succeeded) {
+      final cancelResult = await cancelCarRegistration(
+        RegisterCarParams(eventId: current.id, carId: carId),
+      );
+      if (state.eventId != current.id) return;
+      cancelResult.fold((_) => unrolledBack++, (updated) => latest = updated);
+    }
+
+    emit(state.copyWith(event: latest));
+    await _reloadEntryLists(latest.id, emit);
     if (state.eventId != current.id) return;
 
-    await result.fold(
-      (failure) async => emit(state.copyWith(
-        action: MapEventAction.none,
-        actionError: MapEventErrorMapper.from(failure),
-      )),
-      (updated) async {
-        // The response is the whole event, so the counts and viewer flags are
-        // already authoritative; only the two car lists still need re-reading,
-        // and the button stays busy until they land.
-        emit(state.copyWith(event: updated));
-        await _reloadEntryLists(updated.id, emit);
-      },
-    );
+    emit(state.copyWith(
+      actionError: unrolledBack == 0
+          ? MapEventErrorMapper.from(failure!)
+          : MapEventError(
+              MapEventErrorCode.partialRegistration,
+              registeredCount: unrolledBack,
+              requestedCount: event.carIds.length,
+            ),
+    ));
   }
 
   Future<void> _onCancelRegistration(

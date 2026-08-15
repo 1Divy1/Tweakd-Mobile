@@ -1166,6 +1166,13 @@
   "mapEventsErrorForbidden": "Only the organizers can do that.",
   "mapEventsErrorConflict": "That isn't possible for this event right now.",
   "mapEventsErrorInvalidInput": "Please check the details and try again.",
+  "mapEventsBulkRegisterPartial": "{registered} of your cars got in before this event reached capacity — {failed} couldn't be added and weren't automatically removed.",
+  "@mapEventsBulkRegisterPartial": {
+    "placeholders": {
+      "registered": { "type": "int" },
+      "failed": { "type": "int" }
+    }
+  },
   "mapEventsErrorGeneric": "Something went wrong. Please try again.",
   "mapEventsStatusUpcoming": "UPCOMING",
   "mapEventsStatusLive": "LIVE NOW",
@@ -1202,14 +1209,14 @@
   "mapEventsWantToParticipate": "WANT TO PARTICIPATE?",
   "mapEventsParticipateShort": "PARTICIPATE?",
   "mapEventsParticipating": "PARTICIPATING",
-  "mapEventsParticipationPending": "PENDING",
-  "mapEventsWithdrawAction": "WITHDRAW",
-  "mapEventsCarOnEntryList": "Your {car} is on the entry list",
-  "@mapEventsCarOnEntryList": {
+  "mapEventsParticipatingCount": "PARTICIPATING · {count} CARS",
+  "@mapEventsParticipatingCount": {
     "placeholders": {
-      "car": { "type": "String" }
+      "count": { "type": "int" }
     }
   },
+  "mapEventsParticipationPending": "PENDING",
+  "mapEventsWithdrawAction": "WITHDRAW",
   "mapEventsViewEvent": "VIEW EVENT",
   "mapEventsCapacityOf": "of {capacity}",
   "@mapEventsCapacityOf": {
@@ -1268,7 +1275,24 @@
   "mapEventsDeclineReasonHeading": "WHY",
   "mapEventsTryAnotherCar": "TRY ANOTHER CAR",
   "mapEventsCancelRequest": "CANCEL REQUEST",
-  "mapEventsPickCarTitle": "Which car are you bringing?",
+  "mapEventsPickCarTitle": "Which cars are you bringing?",
+  "mapEventsPickCarSubtitle": "Select at least one car to register",
+  "mapEventsPickCarSpotsLeft": "{count} spots left — select up to that many",
+  "@mapEventsPickCarSpotsLeft": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapEventsPickCarFull": "This event has reached its participant capacity.",
+  "mapEventsPickCarAlreadyIn": "Already registered",
+  "mapEventsPickCarSelectAll": "SELECT ALL",
+  "mapEventsPickCarClearAll": "CLEAR",
+  "mapEventsPickCarRegisterCta": "REGISTER ({count})",
+  "@mapEventsPickCarRegisterCta": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "mapEventsPickCarEmptyTitle": "Your garage is empty",
   "mapEventsPickCarEmptyBody": "Add a car to your garage first, then register it for an event.",
   "mapEventsPickCarAdd": "ADD A CAR",
@@ -1297,6 +1321,7 @@
   "mapEventsCoverAdd": "ADD COVER PHOTO",
   "mapEventsCoverHint": "1600 × 900 recommended",
   "mapEventsCoverChange": "CHANGE COVER",
+  "mapEventsFieldCover": "COVER PHOTO",
   "mapEventsFieldTitle": "EVENT TITLE",
   "mapEventsFieldTitleHint": "e.g. Casino Square Cars & Coffee",
   "mapEventsFieldCategory": "EVENT CATEGORY",
@@ -1335,6 +1360,7 @@
   "mapEventsCreateCta": "CREATE EVENT",
   "mapEventsCreateCtaIncomplete": "ADD TITLE, LOCATION & START TIME",
   "mapEventsCreateCtaDeadline": "ADD A REGISTRATION DEADLINE",
+  "mapEventsCreateCtaCover": "ADD A COVER IMAGE",
   "mapEventsSaveCta": "SAVE CHANGES",
   "mapEventsSubmitting": "Just a moment…",
   "mapEventsValidationEndBeforeStart": "The end time has to be after the start time.",
@@ -1344,9 +1370,33 @@
   "mapEventsPendingReviewBody": "Our team checks every new event before it shows up on the map. You'll find it under Events on your profile in the meantime.",
   "mapEventsDone": "DONE",
   "mapEventsCoverUploadFailed": "The event was created, but the cover photo didn't upload. You can add it from My events.",
-  "mapEventsPickLocationTitle": "Place the pin",
-  "mapEventsPickLocationHint": "Move the map so the pin sits where the event happens.",
   "mapEventsUseThisLocation": "USE THIS LOCATION",
+  "mapEventsLocationFormTitle": "Find the address",
+  "mapEventsLocationFormSubtitle": "We'll point the map at it. You place the exact pin yourself.",
+  "mapEventsLocationCity": "CITY",
+  "mapEventsLocationCityHint": "Cluj-Napoca",
+  "mapEventsLocationStreet": "STREET",
+  "mapEventsLocationStreetHint": "Strada Memorandumului",
+  "mapEventsLocationNumber": "NUMBER",
+  "mapEventsLocationNumberHint": "28B",
+  "mapEventsLocationSearchButton": "SEARCH",
+  "mapEventsLocationSearchIncomplete": "FILL IN ALL THREE FIELDS",
+  "mapEventsLocationSearchNoResults": "No matches for that address. Check the spelling, or search the street without the number.",
+  "mapEventsLocationResultsTitle": "Choose the closest match",
+  "mapEventsLocationResultsSubtitle": "This only moves the map — you still drop the pin.",
+  "mapEventsLocationEditSearch": "EDIT SEARCH",
+  "mapEventsLocationBackToResults": "RESULTS",
+  "mapEventsLocationDropPinTitle": "Tap the map to drop your pin",
+  "mapEventsLocationDropPinBody": "Tap the exact spot — the entrance, the yard, the parking area.",
+  "mapEventsLocationPinDropped": "Pin dropped. Tap again to move it.",
+  "mapEventsLocationPrecisionExact": "EXACT ADDRESS",
+  "mapEventsLocationPrecisionPoint": "NEARBY POINT",
+  "mapEventsLocationPrecisionIntersection": "INTERSECTION",
+  "mapEventsLocationPrecisionApproximate": "APPROXIMATE",
+  "mapEventsLocationPrecisionStreet": "STREET LEVEL",
+  "mapEventsLocationPrecisionAddress": "ADDRESS",
+  "mapEventsLocationPrecisionPostcode": "POSTCODE AREA",
+  "mapEventsLocationPrecisionArea": "WIDER AREA",
   "mapEventsSearchOrganizersTitle": "Add an organizer",
   "mapEventsSearchOrganizersHint": "Search people and businesses",
   "mapEventsSearchOrganizersEmpty": "Nobody matched that.",

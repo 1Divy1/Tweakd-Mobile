@@ -212,6 +212,16 @@ class MapEventEntity extends Equatable {
     return cap != null && attendingCarsCount >= cap;
   }
 
+  /// Open spots, or null when the event has no cap. Lets the multi-car picker
+  /// clamp how many the viewer can select up front instead of finding out
+  /// from a 409 after they've already chosen.
+  int? get remainingCapacity {
+    final cap = maxParticipantCapacity;
+    if (cap == null) return null;
+    final remaining = cap - attendingCarsCount;
+    return remaining < 0 ? 0 : remaining;
+  }
+
   /// Registration is closed once the deadline passes or the event stops being
   /// actionable. Capacity is checked separately so the UI can say *why*.
   bool get isRegistrationClosed =>

@@ -132,6 +132,11 @@ class _CreateMapEventPageState extends State<CreateMapEventPage> {
                   child: ListView(
                     padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
                     children: [
+                      MapEventSectionLabel(
+                        label: l10n.mapEventsFieldCover,
+                        trailing: l10n.mapEventsRequired,
+                      ),
+                      const SizedBox(height: 10),
                       _CoverPicker(
                         state: state,
                         onPick: () => _pickCover(context),
@@ -500,7 +505,19 @@ class _LocationSection extends StatelessWidget {
               context,
               initial: state.position,
             );
-            if (picked != null) bloc.add(ChangeEventPosition(picked));
+            if (picked == null) return;
+
+            bloc.add(ChangeEventPosition(picked.position));
+
+            // The address the user typed in the picker fills the venue field
+            // only when they haven't written their own label — "Port Hercule
+            // — Level 2" is more useful than a street address, so a name
+            // already there is never overwritten.
+            if (controller.text.trim().isEmpty &&
+                picked.addressLabel.isNotEmpty) {
+              controller.text = picked.addressLabel;
+              bloc.add(ChangeEventLocationName(picked.addressLabel));
+            }
           },
         ),
       ],
@@ -910,7 +927,9 @@ class _SubmitBar extends StatelessWidget {
             ? (state.isEditing ? l10n.mapEventsSaveCta : l10n.mapEventsCreateCta)
             : state.isMissingDeadlineOnly
                 ? l10n.mapEventsCreateCtaDeadline
-                : l10n.mapEventsCreateCtaIncomplete;
+                : state.isMissingCoverOnly
+                    ? l10n.mapEventsCreateCtaCover
+                    : l10n.mapEventsCreateCtaIncomplete;
 
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),

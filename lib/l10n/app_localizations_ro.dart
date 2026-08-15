@@ -2609,6 +2609,11 @@ class AppLocalizationsRo extends AppLocalizations {
       'Te rugăm să verifici detaliile și să încerci din nou.';
 
   @override
+  String mapEventsBulkRegisterPartial(int registered, int failed) {
+    return '$registered din mașinile tale s-au înscris înainte ca acest eveniment să atingă capacitatea maximă — $failed nu au putut fi adăugate și nu au fost eliminate automat.';
+  }
+
+  @override
   String get mapEventsErrorGeneric =>
       'Ceva nu a funcționat. Te rugăm să încerci din nou.';
 
@@ -2698,15 +2703,15 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsParticipating => 'PARTICIPI';
 
   @override
+  String mapEventsParticipatingCount(int count) {
+    return 'PARTICIPI · $count MAȘINI';
+  }
+
+  @override
   String get mapEventsParticipationPending => 'ÎN AȘTEPTARE';
 
   @override
   String get mapEventsWithdrawAction => 'RETRAGE-TE';
-
-  @override
-  String mapEventsCarOnEntryList(String car) {
-    return '$car este pe lista de înscrieri';
-  }
 
   @override
   String get mapEventsViewEvent => 'VEZI EVENIMENTUL';
@@ -2824,7 +2829,34 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsCancelRequest => 'ANULEAZĂ CEREREA';
 
   @override
-  String get mapEventsPickCarTitle => 'Cu ce mașină vii?';
+  String get mapEventsPickCarTitle => 'Cu ce mașini vii?';
+
+  @override
+  String get mapEventsPickCarSubtitle =>
+      'Selectează cel puțin o mașină pentru înscriere';
+
+  @override
+  String mapEventsPickCarSpotsLeft(int count) {
+    return 'Mai sunt $count locuri — poți selecta până la atâtea';
+  }
+
+  @override
+  String get mapEventsPickCarFull =>
+      'Acest eveniment a atins numărul maxim de participanți.';
+
+  @override
+  String get mapEventsPickCarAlreadyIn => 'Deja înscrisă';
+
+  @override
+  String get mapEventsPickCarSelectAll => 'SELECTEAZĂ TOATE';
+
+  @override
+  String get mapEventsPickCarClearAll => 'ȘTERGE';
+
+  @override
+  String mapEventsPickCarRegisterCta(int count) {
+    return 'ÎNSCRIE ($count)';
+  }
 
   @override
   String get mapEventsPickCarEmptyTitle => 'Garajul tău este gol';
@@ -2896,6 +2928,9 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get mapEventsCoverChange => 'SCHIMBĂ COPERTA';
+
+  @override
+  String get mapEventsFieldCover => 'FOTOGRAFIE DE COPERTĂ';
 
   @override
   String get mapEventsFieldTitle => 'TITLUL EVENIMENTULUI';
@@ -3019,6 +3054,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsCreateCtaDeadline => 'ADAUGĂ UN TERMEN DE ÎNSCRIERE';
 
   @override
+  String get mapEventsCreateCtaCover => 'ADAUGĂ O FOTOGRAFIE DE COPERTĂ';
+
+  @override
   String get mapEventsSaveCta => 'SALVEAZĂ MODIFICĂRILE';
 
   @override
@@ -3051,14 +3089,93 @@ class AppLocalizationsRo extends AppLocalizations {
       'Evenimentul a fost creat, dar fotografia de copertă nu s-a încărcat. O poți adăuga din Evenimentele mele.';
 
   @override
-  String get mapEventsPickLocationTitle => 'Plasează pinul';
-
-  @override
-  String get mapEventsPickLocationHint =>
-      'Mișcă harta astfel încât pinul să fie acolo unde are loc evenimentul.';
-
-  @override
   String get mapEventsUseThisLocation => 'FOLOSEȘTE ACEASTĂ LOCAȚIE';
+
+  @override
+  String get mapEventsLocationFormTitle => 'Găsește adresa';
+
+  @override
+  String get mapEventsLocationFormSubtitle =>
+      'Vom muta harta acolo. Tu plasezi pinul exact.';
+
+  @override
+  String get mapEventsLocationCity => 'ORAȘ';
+
+  @override
+  String get mapEventsLocationCityHint => 'Cluj-Napoca';
+
+  @override
+  String get mapEventsLocationStreet => 'STRADA';
+
+  @override
+  String get mapEventsLocationStreetHint => 'Strada Memorandumului';
+
+  @override
+  String get mapEventsLocationNumber => 'NUMĂR';
+
+  @override
+  String get mapEventsLocationNumberHint => '28B';
+
+  @override
+  String get mapEventsLocationSearchButton => 'CAUTĂ';
+
+  @override
+  String get mapEventsLocationSearchIncomplete =>
+      'COMPLETEAZĂ TOATE CELE TREI CÂMPURI';
+
+  @override
+  String get mapEventsLocationSearchNoResults =>
+      'Nicio potrivire pentru acea adresă. Verifică scrierea sau caută strada fără număr.';
+
+  @override
+  String get mapEventsLocationResultsTitle =>
+      'Alege cea mai apropiată potrivire';
+
+  @override
+  String get mapEventsLocationResultsSubtitle =>
+      'Asta doar mută harta — pinul tot tu îl plasezi.';
+
+  @override
+  String get mapEventsLocationEditSearch => 'MODIFICĂ';
+
+  @override
+  String get mapEventsLocationBackToResults => 'REZULTATE';
+
+  @override
+  String get mapEventsLocationDropPinTitle =>
+      'Atinge harta pentru a plasa pinul';
+
+  @override
+  String get mapEventsLocationDropPinBody =>
+      'Atinge locul exact — intrarea, curtea, zona de parcare.';
+
+  @override
+  String get mapEventsLocationPinDropped =>
+      'Pin plasat. Atinge din nou pentru a-l muta.';
+
+  @override
+  String get mapEventsLocationPrecisionExact => 'ADRESĂ EXACTĂ';
+
+  @override
+  String get mapEventsLocationPrecisionPoint => 'PUNCT APROPIAT';
+
+  @override
+  String get mapEventsLocationPrecisionIntersection => 'INTERSECȚIE';
+
+  @override
+  String get mapEventsLocationPrecisionApproximate => 'APROXIMATIV';
+
+  @override
+  String get mapEventsLocationPrecisionStreet => 'NIVEL STRADĂ';
+
+  @override
+  String get mapEventsLocationPrecisionAddress => 'ADRESĂ';
+
+  @override
+  String get mapEventsLocationPrecisionPostcode => 'ZONĂ COD POȘTAL';
+
+  @override
+  String get mapEventsLocationPrecisionArea => 'ZONĂ EXTINSĂ';
 
   @override
   String get mapEventsSearchOrganizersTitle => 'Adaugă un organizator';

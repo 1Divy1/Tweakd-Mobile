@@ -104,6 +104,12 @@ class CreateMapEventState extends Equatable {
   /// the API enforces it even though the design labels the field optional.
   bool get requiresDeadline => categoryId == MapEventCategoryEntity.carMeetId;
 
+  /// A cover is mandatory (owner's call — no event without one). A freshly
+  /// picked image counts, and so does the one an event being edited already
+  /// has: editing doesn't force a re-pick.
+  bool get hasCover =>
+      cover != null || (editEvent?.coverImageUrl?.isNotEmpty ?? false);
+
   /// What the bottom CTA needs before it will do anything. Deliberately the
   /// minimum the backend demands, so the button doesn't gate on taste.
   bool get isComplete =>
@@ -111,18 +117,28 @@ class CreateMapEventState extends Equatable {
       locationName.trim().isNotEmpty &&
       position != null &&
       startsAt != null &&
+      hasCover &&
       (!requiresDeadline || registrationDeadline != null);
 
   /// Which of the missing pieces to name on the CTA. Location and start time
-  /// are grouped because they're the ones people forget together; the deadline
-  /// gets its own message since it's easy to miss below the toggle.
+  /// are grouped because they're the ones people forget together; the cover
+  /// and the deadline each get their own message since they're easy to miss.
   bool get isMissingDeadlineOnly =>
       requiresDeadline &&
       registrationDeadline == null &&
+      hasCover &&
       title.trim().isNotEmpty &&
       locationName.trim().isNotEmpty &&
       position != null &&
       startsAt != null;
+
+  bool get isMissingCoverOnly =>
+      !hasCover &&
+      title.trim().isNotEmpty &&
+      locationName.trim().isNotEmpty &&
+      position != null &&
+      startsAt != null &&
+      (!requiresDeadline || registrationDeadline != null);
 
   CreateMapEventState copyWith({
     CreateEventStatus? status,

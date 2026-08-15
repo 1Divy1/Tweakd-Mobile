@@ -2592,6 +2592,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Please check the details and try again.';
 
   @override
+  String mapEventsBulkRegisterPartial(int registered, int failed) {
+    return '$registered of your cars got in before this event reached capacity — $failed couldn\'t be added and weren\'t automatically removed.';
+  }
+
+  @override
   String get mapEventsErrorGeneric => 'Something went wrong. Please try again.';
 
   @override
@@ -2680,15 +2685,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsParticipating => 'PARTICIPATING';
 
   @override
+  String mapEventsParticipatingCount(int count) {
+    return 'PARTICIPATING · $count CARS';
+  }
+
+  @override
   String get mapEventsParticipationPending => 'PENDING';
 
   @override
   String get mapEventsWithdrawAction => 'WITHDRAW';
-
-  @override
-  String mapEventsCarOnEntryList(String car) {
-    return 'Your $car is on the entry list';
-  }
 
   @override
   String get mapEventsViewEvent => 'VIEW EVENT';
@@ -2805,7 +2810,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsCancelRequest => 'CANCEL REQUEST';
 
   @override
-  String get mapEventsPickCarTitle => 'Which car are you bringing?';
+  String get mapEventsPickCarTitle => 'Which cars are you bringing?';
+
+  @override
+  String get mapEventsPickCarSubtitle => 'Select at least one car to register';
+
+  @override
+  String mapEventsPickCarSpotsLeft(int count) {
+    return '$count spots left — select up to that many';
+  }
+
+  @override
+  String get mapEventsPickCarFull =>
+      'This event has reached its participant capacity.';
+
+  @override
+  String get mapEventsPickCarAlreadyIn => 'Already registered';
+
+  @override
+  String get mapEventsPickCarSelectAll => 'SELECT ALL';
+
+  @override
+  String get mapEventsPickCarClearAll => 'CLEAR';
+
+  @override
+  String mapEventsPickCarRegisterCta(int count) {
+    return 'REGISTER ($count)';
+  }
 
   @override
   String get mapEventsPickCarEmptyTitle => 'Your garage is empty';
@@ -2874,6 +2905,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mapEventsCoverChange => 'CHANGE COVER';
+
+  @override
+  String get mapEventsFieldCover => 'COVER PHOTO';
 
   @override
   String get mapEventsFieldTitle => 'EVENT TITLE';
@@ -2995,6 +3029,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsCreateCtaDeadline => 'ADD A REGISTRATION DEADLINE';
 
   @override
+  String get mapEventsCreateCtaCover => 'ADD A COVER IMAGE';
+
+  @override
   String get mapEventsSaveCta => 'SAVE CHANGES';
 
   @override
@@ -3026,14 +3063,90 @@ class AppLocalizationsEn extends AppLocalizations {
       'The event was created, but the cover photo didn\'t upload. You can add it from My events.';
 
   @override
-  String get mapEventsPickLocationTitle => 'Place the pin';
-
-  @override
-  String get mapEventsPickLocationHint =>
-      'Move the map so the pin sits where the event happens.';
-
-  @override
   String get mapEventsUseThisLocation => 'USE THIS LOCATION';
+
+  @override
+  String get mapEventsLocationFormTitle => 'Find the address';
+
+  @override
+  String get mapEventsLocationFormSubtitle =>
+      'We\'ll point the map at it. You place the exact pin yourself.';
+
+  @override
+  String get mapEventsLocationCity => 'CITY';
+
+  @override
+  String get mapEventsLocationCityHint => 'Cluj-Napoca';
+
+  @override
+  String get mapEventsLocationStreet => 'STREET';
+
+  @override
+  String get mapEventsLocationStreetHint => 'Strada Memorandumului';
+
+  @override
+  String get mapEventsLocationNumber => 'NUMBER';
+
+  @override
+  String get mapEventsLocationNumberHint => '28B';
+
+  @override
+  String get mapEventsLocationSearchButton => 'SEARCH';
+
+  @override
+  String get mapEventsLocationSearchIncomplete => 'FILL IN ALL THREE FIELDS';
+
+  @override
+  String get mapEventsLocationSearchNoResults =>
+      'No matches for that address. Check the spelling, or search the street without the number.';
+
+  @override
+  String get mapEventsLocationResultsTitle => 'Choose the closest match';
+
+  @override
+  String get mapEventsLocationResultsSubtitle =>
+      'This only moves the map — you still drop the pin.';
+
+  @override
+  String get mapEventsLocationEditSearch => 'EDIT SEARCH';
+
+  @override
+  String get mapEventsLocationBackToResults => 'RESULTS';
+
+  @override
+  String get mapEventsLocationDropPinTitle => 'Tap the map to drop your pin';
+
+  @override
+  String get mapEventsLocationDropPinBody =>
+      'Tap the exact spot — the entrance, the yard, the parking area.';
+
+  @override
+  String get mapEventsLocationPinDropped =>
+      'Pin dropped. Tap again to move it.';
+
+  @override
+  String get mapEventsLocationPrecisionExact => 'EXACT ADDRESS';
+
+  @override
+  String get mapEventsLocationPrecisionPoint => 'NEARBY POINT';
+
+  @override
+  String get mapEventsLocationPrecisionIntersection => 'INTERSECTION';
+
+  @override
+  String get mapEventsLocationPrecisionApproximate => 'APPROXIMATE';
+
+  @override
+  String get mapEventsLocationPrecisionStreet => 'STREET LEVEL';
+
+  @override
+  String get mapEventsLocationPrecisionAddress => 'ADDRESS';
+
+  @override
+  String get mapEventsLocationPrecisionPostcode => 'POSTCODE AREA';
+
+  @override
+  String get mapEventsLocationPrecisionArea => 'WIDER AREA';
 
   @override
   String get mapEventsSearchOrganizersTitle => 'Add an organizer';

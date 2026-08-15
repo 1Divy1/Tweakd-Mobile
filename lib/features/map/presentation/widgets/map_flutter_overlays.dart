@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:car_social_media_app/features/map_events/presentation/widgets/popup/map_event_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,6 +36,14 @@ class MapFlutterOverlays extends StatelessWidget {
 
         return Stack(
           children: [
+            // Blurs the map behind whichever popup is open, so attention goes
+            // to the floating card instead of the pins and roads still moving
+            // underneath it. First child in the stack: everything painted
+            // after it (chrome, popup) stays crisp on top.
+            Positioned.fill(
+              child: _MapPopupBackdrop(visible: state.isPopupOpen),
+            ),
+
             // Back button
             Positioned(
               top: topInset,
@@ -116,6 +126,51 @@ class MapFlutterOverlays extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+/// The blur-and-dim layer behind an open popup.
+///
+/// Only mounted while a popup is open or fading out — a `BackdropFilter` costs
+/// a blur pass every frame it's in the tree, and the map is visible without
+/// one the overwhelming majority of the time. `IgnorePointer` keeps it purely
+/// visual: taps still reach the map underneath, so tapping empty map still
+/// dismisses the popup exactly as it did before this layer existed.
+class _MapPopupBackdrop extends StatefulWidget {
+  final bool visible;
+
+  const _MapPopupBackdrop({required this.visible});
+
+  @override
+  State<_MapPopupBackdrop> createState() => _MapPopupBackdropState();
+}
+
+class _MapPopupBackdropState extends State<_MapPopupBackdrop> {
+  late bool _mounted = widget.visible;
+
+  @override
+  void didUpdateWidget(covariant _MapPopupBackdrop oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.visible) setState(() => _mounted = true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_mounted) return const SizedBox.shrink();
+
+    return IgnorePointer(
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 180),
+        opacity: widget.visible ? 1 : 0,
+        onEnd: () {
+          if (!widget.visible && mounted) setState(() => _mounted = false);
+        },
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+          child: Container(color: Colors.black.withValues(alpha: 0.18)),
+        ),
+      ),
     );
   }
 }

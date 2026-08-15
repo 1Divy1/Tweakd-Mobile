@@ -151,6 +151,43 @@ class MapEventsApiDataSource {
     ];
   }
 
+  /// `GET /map-events/geocode` — structured forward geocoding for the "set
+  /// location on map" picker. Returns up to five candidates, best match first;
+  /// an all-blank query comes back `[]` (200, not an error) without the
+  /// backend spending a Mapbox call.
+  ///
+  /// The endpoint accepts ten structured address fields; the picker collects
+  /// three of them ([place], [street], [addressNumber]) and sends only those.
+  /// The seven it doesn't use — `address_line1`, `block`, `region`,
+  /// `postcode`, `locality`, `neighborhood`, `country` — are documented in
+  /// `MAP_EVENTS_PROGRESS.md` §3.8 and can be added here when a form collects
+  /// them.
+  ///
+  /// **No proximity bias**, deliberately: the endpoint accepts
+  /// `proximity_lat`/`proximity_lng`, but biasing toward the camera would pull
+  /// a Bucharest user searching a Cluj address back toward Bucharest. The
+  /// required city field already does that disambiguation, and correctly.
+  Future<List<GeocodeCandidateModel>> searchLocation({
+    required String place,
+    required String street,
+    required String addressNumber,
+    CancelToken? cancelToken,
+  }) async {
+    final data = await http.get(
+      '/map-events/geocode',
+      queryParameters: {
+        'place': place,
+        'street': street,
+        'address_number': addressNumber,
+      },
+      cancelToken: cancelToken,
+    );
+    return [
+      for (final e in data as List<dynamic>)
+        GeocodeCandidateModel.fromJson(e as Map<String, dynamic>),
+    ];
+  }
+
   Future<List<MapEventWithdrawalRequestModel>> getWithdrawals(
     String eventId,
   ) async {

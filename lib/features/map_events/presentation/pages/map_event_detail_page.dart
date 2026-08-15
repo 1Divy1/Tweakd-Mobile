@@ -184,8 +184,14 @@ class _DetailContent extends StatelessWidget {
 
   Future<void> _register(BuildContext context) async {
     final bloc = context.read<MapEventDetailBloc>();
-    final carId = await showEventCarPickerSheet(context);
-    if (carId != null) bloc.add(RegisterCarForEvent(carId));
+    final carIds = await showEventCarPickerSheet(
+      context,
+      remainingSpots: state.event!.remainingCapacity,
+      excludedCarIds: state.activeParticipationCarIds,
+    );
+    if (carIds != null && carIds.isNotEmpty) {
+      bloc.add(RegisterCarsForEvent(carIds));
+    }
   }
 
   Future<void> _withdraw(BuildContext context) async {

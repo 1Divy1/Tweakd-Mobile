@@ -3,6 +3,7 @@ import 'package:car_social_media_app/features/map/domain/entities/geo_position.d
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
+import '../entities/geocode_candidate.dart';
 import '../entities/map_event.dart';
 import '../entities/map_event_attendee.dart';
 import '../entities/map_event_category.dart';
@@ -76,6 +77,19 @@ abstract class MapEventsRepository {
 
   Future<Either<Failure, List<OrganizerCandidateEntity>>> searchOrganizers(
     String query, {
+    CancelToken? cancelToken,
+  });
+
+  /// Structured forward geocoding for the location picker — up to five
+  /// candidates, best match first.
+  ///
+  /// The returned coordinates are a camera hint only. The event's own
+  /// coordinate is the one the user taps onto the map, so nothing Mapbox
+  /// returns here is ever persisted.
+  Future<Either<Failure, List<GeocodeCandidateEntity>>> searchLocation({
+    required String city,
+    required String street,
+    required String addressNumber,
     CancelToken? cancelToken,
   });
 

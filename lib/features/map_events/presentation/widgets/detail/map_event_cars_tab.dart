@@ -31,14 +31,9 @@ class MapEventCarsTab extends StatelessWidget {
         MapEventParticipationStrip(
           state: state,
           onTryAnotherCar: () => _register(context),
-          onCancelRequest: () {
-            final pending = state.myPendingEntry;
-            if (pending != null) {
-              context
-                  .read<MapEventDetailBloc>()
-                  .add(CancelPendingCarRegistration(pending.car.id));
-            }
-          },
+          onCancelRequest: (carId) => context
+              .read<MapEventDetailBloc>()
+              .add(CancelPendingCarRegistration(carId)),
         ),
         const SizedBox(height: 16),
         Row(
@@ -135,7 +130,13 @@ class MapEventCarsTab extends StatelessWidget {
 
   Future<void> _register(BuildContext context) async {
     final bloc = context.read<MapEventDetailBloc>();
-    final carId = await showEventCarPickerSheet(context);
-    if (carId != null) bloc.add(RegisterCarForEvent(carId));
+    final carIds = await showEventCarPickerSheet(
+      context,
+      remainingSpots: state.event!.remainingCapacity,
+      excludedCarIds: state.activeParticipationCarIds,
+    );
+    if (carIds != null && carIds.isNotEmpty) {
+      bloc.add(RegisterCarsForEvent(carIds));
+    }
   }
 }

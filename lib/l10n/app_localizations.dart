@@ -4670,6 +4670,12 @@ abstract class AppLocalizations {
   /// **'Please check the details and try again.'**
   String get mapEventsErrorInvalidInput;
 
+  /// No description provided for @mapEventsBulkRegisterPartial.
+  ///
+  /// In en, this message translates to:
+  /// **'{registered} of your cars got in before this event reached capacity — {failed} couldn\'t be added and weren\'t automatically removed.'**
+  String mapEventsBulkRegisterPartial(int registered, int failed);
+
   /// No description provided for @mapEventsErrorGeneric.
   ///
   /// In en, this message translates to:
@@ -4826,6 +4832,12 @@ abstract class AppLocalizations {
   /// **'PARTICIPATING'**
   String get mapEventsParticipating;
 
+  /// No description provided for @mapEventsParticipatingCount.
+  ///
+  /// In en, this message translates to:
+  /// **'PARTICIPATING · {count} CARS'**
+  String mapEventsParticipatingCount(int count);
+
   /// No description provided for @mapEventsParticipationPending.
   ///
   /// In en, this message translates to:
@@ -4837,12 +4849,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'WITHDRAW'**
   String get mapEventsWithdrawAction;
-
-  /// No description provided for @mapEventsCarOnEntryList.
-  ///
-  /// In en, this message translates to:
-  /// **'Your {car} is on the entry list'**
-  String mapEventsCarOnEntryList(String car);
 
   /// No description provided for @mapEventsViewEvent.
   ///
@@ -5045,8 +5051,50 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsPickCarTitle.
   ///
   /// In en, this message translates to:
-  /// **'Which car are you bringing?'**
+  /// **'Which cars are you bringing?'**
   String get mapEventsPickCarTitle;
+
+  /// No description provided for @mapEventsPickCarSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least one car to register'**
+  String get mapEventsPickCarSubtitle;
+
+  /// No description provided for @mapEventsPickCarSpotsLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} spots left — select up to that many'**
+  String mapEventsPickCarSpotsLeft(int count);
+
+  /// No description provided for @mapEventsPickCarFull.
+  ///
+  /// In en, this message translates to:
+  /// **'This event has reached its participant capacity.'**
+  String get mapEventsPickCarFull;
+
+  /// No description provided for @mapEventsPickCarAlreadyIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Already registered'**
+  String get mapEventsPickCarAlreadyIn;
+
+  /// No description provided for @mapEventsPickCarSelectAll.
+  ///
+  /// In en, this message translates to:
+  /// **'SELECT ALL'**
+  String get mapEventsPickCarSelectAll;
+
+  /// No description provided for @mapEventsPickCarClearAll.
+  ///
+  /// In en, this message translates to:
+  /// **'CLEAR'**
+  String get mapEventsPickCarClearAll;
+
+  /// No description provided for @mapEventsPickCarRegisterCta.
+  ///
+  /// In en, this message translates to:
+  /// **'REGISTER ({count})'**
+  String mapEventsPickCarRegisterCta(int count);
 
   /// No description provided for @mapEventsPickCarEmptyTitle.
   ///
@@ -5155,6 +5203,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'CHANGE COVER'**
   String get mapEventsCoverChange;
+
+  /// No description provided for @mapEventsFieldCover.
+  ///
+  /// In en, this message translates to:
+  /// **'COVER PHOTO'**
+  String get mapEventsFieldCover;
 
   /// No description provided for @mapEventsFieldTitle.
   ///
@@ -5384,6 +5438,12 @@ abstract class AppLocalizations {
   /// **'ADD A REGISTRATION DEADLINE'**
   String get mapEventsCreateCtaDeadline;
 
+  /// No description provided for @mapEventsCreateCtaCover.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD A COVER IMAGE'**
+  String get mapEventsCreateCtaCover;
+
   /// No description provided for @mapEventsSaveCta.
   ///
   /// In en, this message translates to:
@@ -5438,23 +5498,167 @@ abstract class AppLocalizations {
   /// **'The event was created, but the cover photo didn\'t upload. You can add it from My events.'**
   String get mapEventsCoverUploadFailed;
 
-  /// No description provided for @mapEventsPickLocationTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Place the pin'**
-  String get mapEventsPickLocationTitle;
-
-  /// No description provided for @mapEventsPickLocationHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Move the map so the pin sits where the event happens.'**
-  String get mapEventsPickLocationHint;
-
   /// No description provided for @mapEventsUseThisLocation.
   ///
   /// In en, this message translates to:
   /// **'USE THIS LOCATION'**
   String get mapEventsUseThisLocation;
+
+  /// No description provided for @mapEventsLocationFormTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find the address'**
+  String get mapEventsLocationFormTitle;
+
+  /// No description provided for @mapEventsLocationFormSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll point the map at it. You place the exact pin yourself.'**
+  String get mapEventsLocationFormSubtitle;
+
+  /// No description provided for @mapEventsLocationCity.
+  ///
+  /// In en, this message translates to:
+  /// **'CITY'**
+  String get mapEventsLocationCity;
+
+  /// No description provided for @mapEventsLocationCityHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Cluj-Napoca'**
+  String get mapEventsLocationCityHint;
+
+  /// No description provided for @mapEventsLocationStreet.
+  ///
+  /// In en, this message translates to:
+  /// **'STREET'**
+  String get mapEventsLocationStreet;
+
+  /// No description provided for @mapEventsLocationStreetHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Strada Memorandumului'**
+  String get mapEventsLocationStreetHint;
+
+  /// No description provided for @mapEventsLocationNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'NUMBER'**
+  String get mapEventsLocationNumber;
+
+  /// No description provided for @mapEventsLocationNumberHint.
+  ///
+  /// In en, this message translates to:
+  /// **'28B'**
+  String get mapEventsLocationNumberHint;
+
+  /// No description provided for @mapEventsLocationSearchButton.
+  ///
+  /// In en, this message translates to:
+  /// **'SEARCH'**
+  String get mapEventsLocationSearchButton;
+
+  /// No description provided for @mapEventsLocationSearchIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'FILL IN ALL THREE FIELDS'**
+  String get mapEventsLocationSearchIncomplete;
+
+  /// No description provided for @mapEventsLocationSearchNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No matches for that address. Check the spelling, or search the street without the number.'**
+  String get mapEventsLocationSearchNoResults;
+
+  /// No description provided for @mapEventsLocationResultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the closest match'**
+  String get mapEventsLocationResultsTitle;
+
+  /// No description provided for @mapEventsLocationResultsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This only moves the map — you still drop the pin.'**
+  String get mapEventsLocationResultsSubtitle;
+
+  /// No description provided for @mapEventsLocationEditSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'EDIT SEARCH'**
+  String get mapEventsLocationEditSearch;
+
+  /// No description provided for @mapEventsLocationBackToResults.
+  ///
+  /// In en, this message translates to:
+  /// **'RESULTS'**
+  String get mapEventsLocationBackToResults;
+
+  /// No description provided for @mapEventsLocationDropPinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the map to drop your pin'**
+  String get mapEventsLocationDropPinTitle;
+
+  /// No description provided for @mapEventsLocationDropPinBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the exact spot — the entrance, the yard, the parking area.'**
+  String get mapEventsLocationDropPinBody;
+
+  /// No description provided for @mapEventsLocationPinDropped.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin dropped. Tap again to move it.'**
+  String get mapEventsLocationPinDropped;
+
+  /// No description provided for @mapEventsLocationPrecisionExact.
+  ///
+  /// In en, this message translates to:
+  /// **'EXACT ADDRESS'**
+  String get mapEventsLocationPrecisionExact;
+
+  /// No description provided for @mapEventsLocationPrecisionPoint.
+  ///
+  /// In en, this message translates to:
+  /// **'NEARBY POINT'**
+  String get mapEventsLocationPrecisionPoint;
+
+  /// No description provided for @mapEventsLocationPrecisionIntersection.
+  ///
+  /// In en, this message translates to:
+  /// **'INTERSECTION'**
+  String get mapEventsLocationPrecisionIntersection;
+
+  /// No description provided for @mapEventsLocationPrecisionApproximate.
+  ///
+  /// In en, this message translates to:
+  /// **'APPROXIMATE'**
+  String get mapEventsLocationPrecisionApproximate;
+
+  /// No description provided for @mapEventsLocationPrecisionStreet.
+  ///
+  /// In en, this message translates to:
+  /// **'STREET LEVEL'**
+  String get mapEventsLocationPrecisionStreet;
+
+  /// No description provided for @mapEventsLocationPrecisionAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'ADDRESS'**
+  String get mapEventsLocationPrecisionAddress;
+
+  /// No description provided for @mapEventsLocationPrecisionPostcode.
+  ///
+  /// In en, this message translates to:
+  /// **'POSTCODE AREA'**
+  String get mapEventsLocationPrecisionPostcode;
+
+  /// No description provided for @mapEventsLocationPrecisionArea.
+  ///
+  /// In en, this message translates to:
+  /// **'WIDER AREA'**
+  String get mapEventsLocationPrecisionArea;
 
   /// No description provided for @mapEventsSearchOrganizersTitle.
   ///

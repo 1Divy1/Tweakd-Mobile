@@ -84,9 +84,12 @@ class _List extends StatelessWidget {
     ];
 
     if (isEmbedded) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: items,
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: items,
+        ),
       );
     }
 

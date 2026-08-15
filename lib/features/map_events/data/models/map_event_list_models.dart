@@ -1,6 +1,7 @@
 import 'package:car_social_media_app/features/garage/data/models/car_summary_model.dart';
 import 'package:car_social_media_app/features/map/domain/entities/geo_position.dart';
 
+import '../../domain/entities/geocode_candidate.dart';
 import '../../domain/entities/map_event_attendee.dart';
 import '../../domain/entities/map_event_category.dart';
 import '../../domain/entities/map_event_enums.dart';
@@ -317,6 +318,47 @@ class OrganizerCandidateModel {
       name: name,
       username: username,
       imageUrl: imageUrl,
+    );
+  }
+}
+
+// ── Location search ──────────────────────────────────────────────────────
+
+/// A hit from `GET /map-events/geocode`. Up to five come back, best first.
+class GeocodeCandidateModel {
+  final double lat;
+  final double lng;
+  final String placeName;
+  final String? featureType;
+
+  /// Null on the wire for anything coarser than an address.
+  final String? accuracy;
+
+  const GeocodeCandidateModel({
+    required this.lat,
+    required this.lng,
+    required this.placeName,
+    required this.featureType,
+    required this.accuracy,
+  });
+
+  factory GeocodeCandidateModel.fromJson(Map<String, dynamic> json) {
+    return GeocodeCandidateModel(
+      lat: (json['lat'] as num?)?.toDouble() ?? 0,
+      lng: (json['lng'] as num?)?.toDouble() ?? 0,
+      placeName: json['place_name'] as String? ?? '',
+      featureType: parseNullableString(json['feature_type']),
+      accuracy: parseNullableString(json['accuracy']),
+    );
+  }
+
+  GeocodeCandidateEntity toEntity() {
+    return GeocodeCandidateEntity(
+      lat: lat,
+      lng: lng,
+      placeName: placeName,
+      featureType: GeocodeFeatureType.fromApi(featureType),
+      accuracy: GeocodeAccuracy.fromApi(accuracy),
     );
   }
 }

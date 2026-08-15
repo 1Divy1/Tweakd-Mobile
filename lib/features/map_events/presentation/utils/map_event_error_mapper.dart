@@ -18,6 +18,11 @@ enum MapEventErrorCode {
   /// A 400 the user can fix by editing what they typed.
   invalidInput,
 
+  /// A multi-car registration hit a conflict partway through and some of the
+  /// cars that already landed as **accepted** (a no-approval event) couldn't
+  /// be automatically undone — only a still-pending row can be cancelled.
+  partialRegistration,
+
   generic,
 }
 
@@ -36,10 +41,21 @@ class MapEventError extends Equatable {
   final MapEventErrorCode code;
   final String? serverMessage;
 
-  const MapEventError(this.code, {this.serverMessage});
+  /// Only set for [MapEventErrorCode.partialRegistration]: how many of a
+  /// batch registration actually stuck versus how many were requested.
+  final int? registeredCount;
+  final int? requestedCount;
+
+  const MapEventError(
+    this.code, {
+    this.serverMessage,
+    this.registeredCount,
+    this.requestedCount,
+  });
 
   @override
-  List<Object?> get props => [code, serverMessage];
+  List<Object?> get props =>
+      [code, serverMessage, registeredCount, requestedCount];
 }
 
 class MapEventErrorMapper {
@@ -85,6 +101,10 @@ String mapEventErrorMessage(AppLocalizations l10n, MapEventError error) {
       serverIsUseful ? server : l10n.mapEventsErrorConflict,
     MapEventErrorCode.invalidInput =>
       serverIsUseful ? server : l10n.mapEventsErrorInvalidInput,
+    MapEventErrorCode.partialRegistration => l10n.mapEventsBulkRegisterPartial(
+        error.registeredCount ?? 0,
+        (error.requestedCount ?? 0) - (error.registeredCount ?? 0),
+      ),
     MapEventErrorCode.generic => l10n.mapEventsErrorGeneric,
   };
 }

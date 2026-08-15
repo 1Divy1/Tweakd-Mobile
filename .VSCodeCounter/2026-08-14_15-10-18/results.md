@@ -1,41 +1,41 @@
 # Summary
 
-Date : 2026-07-31 23:09:43
+Date : 2026-08-14 15:10:18
 
 Directory /Users/mbpro/Developer/Apps/Car-Social-Media-App
 
-Total : 685 files,  62478 codes, 5915 comments, 9709 blanks, all 78102 lines
+Total : 798 files,  80367 codes, 8748 comments, 12651 blanks, all 101766 lines
 
 Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-details.md)
 
 ## Languages
 | language | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| Dart | 608 | 58,029 | 5,666 | 8,864 | 72,559 |
-| Markdown | 19 | 2,362 | 0 | 476 | 2,838 |
-| C++ | 16 | 592 | 136 | 191 | 919 |
-| XML | 13 | 519 | 54 | 15 | 588 |
-| CMake | 8 | 474 | 0 | 92 | 566 |
-| JSON | 5 | 268 | 0 | 5 | 273 |
-| Swift | 7 | 81 | 7 | 25 | 113 |
-| Ruby | 2 | 69 | 7 | 21 | 97 |
-| YAML | 4 | 58 | 22 | 13 | 93 |
+| Dart | 720 | 75,429 | 8,496 | 11,588 | 95,513 |
+| Markdown | 18 | 2,826 | 0 | 693 | 3,519 |
+| C++ | 16 | 595 | 136 | 191 | 922 |
+| XML | 13 | 523 | 56 | 16 | 595 |
+| CMake | 8 | 475 | 0 | 92 | 567 |
+| JSON | 7 | 277 | 0 | 5 | 282 |
+| Swift | 7 | 85 | 7 | 25 | 117 |
+| Ruby | 2 | 70 | 6 | 21 | 97 |
+| YAML | 4 | 61 | 24 | 13 | 98 |
 | HTML | 1 | 19 | 23 | 5 | 47 |
 | Properties | 2 | 7 | 0 | 2 | 9 |
 
 ## Directories
 | path | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| . | 685 | 62,478 | 5,915 | 9,709 | 78,102 |
-| . (Files) | 12 | 1,543 | 22 | 257 | 1,822 |
-| .claude | 1 | 20 | 0 | 1 | 21 |
-| android | 9 | 80 | 52 | 12 | 144 |
+| . | 798 | 80,367 | 8,748 | 12,651 | 101,766 |
+| . (Files) | 11 | 1,313 | 24 | 281 | 1,618 |
+| .claude | 1 | 23 | 0 | 1 | 24 |
+| android | 9 | 84 | 54 | 13 | 151 |
 | android (Files) | 1 | 2 | 0 | 1 | 3 |
-| android/app | 7 | 73 | 52 | 10 | 135 |
-| android/app/src | 7 | 73 | 52 | 10 | 135 |
+| android/app | 7 | 77 | 54 | 11 | 142 |
+| android/app/src | 7 | 77 | 54 | 11 | 142 |
 | android/app/src/debug | 1 | 3 | 4 | 1 | 8 |
-| android/app/src/main | 5 | 67 | 44 | 8 | 119 |
-| android/app/src/main (Files) | 1 | 41 | 12 | 2 | 55 |
+| android/app/src/main | 5 | 71 | 46 | 9 | 126 |
+| android/app/src/main (Files) | 1 | 45 | 14 | 3 | 62 |
 | android/app/src/main/res | 4 | 26 | 32 | 6 | 64 |
 | android/app/src/main/res/drawable | 1 | 4 | 7 | 2 | 13 |
 | android/app/src/main/res/drawable-v21 | 1 | 4 | 7 | 2 | 13 |
@@ -46,8 +46,8 @@ Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-
 | android/gradle/wrapper | 1 | 5 | 0 | 1 | 6 |
 | assets | 3 | 42 | 0 | 2 | 44 |
 | assets/logos | 3 | 42 | 0 | 2 | 44 |
-| ios | 10 | 272 | 10 | 28 | 310 |
-| ios (Files) | 1 | 37 | 6 | 11 | 54 |
+| ios | 10 | 273 | 9 | 28 | 310 |
+| ios (Files) | 1 | 38 | 5 | 11 | 54 |
 | ios/Runner | 8 | 228 | 2 | 13 | 243 |
 | ios/Runner (Files) | 3 | 19 | 0 | 7 | 26 |
 | ios/Runner/Assets.xcassets | 3 | 148 | 0 | 4 | 152 |
@@ -55,30 +55,30 @@ Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-
 | ios/Runner/Assets.xcassets/LaunchImage.imageset | 2 | 26 | 0 | 3 | 29 |
 | ios/Runner/Base.lproj | 2 | 61 | 2 | 2 | 65 |
 | ios/RunnerTests | 1 | 7 | 2 | 4 | 13 |
-| lib | 618 | 58,903 | 5,666 | 9,094 | 73,663 |
-| lib (Files) | 1 | 81 | 20 | 10 | 111 |
-| lib/core | 42 | 4,219 | 227 | 381 | 4,827 |
-| lib/core/di | 4 | 1,173 | 11 | 16 | 1,200 |
-| lib/core/di (Files) | 2 | 1,131 | 9 | 10 | 1,150 |
+| lib | 731 | 76,597 | 8,486 | 11,964 | 97,047 |
+| lib (Files) | 1 | 91 | 22 | 12 | 125 |
+| lib/core | 45 | 4,894 | 390 | 448 | 5,732 |
+| lib/core/di | 4 | 1,403 | 11 | 16 | 1,430 |
+| lib/core/di (Files) | 2 | 1,361 | 9 | 10 | 1,380 |
 | lib/core/di/modules | 2 | 42 | 2 | 6 | 50 |
 | lib/core/error | 2 | 45 | 0 | 14 | 59 |
 | lib/core/network | 3 | 189 | 0 | 24 | 213 |
-| lib/core/realtime | 2 | 191 | 39 | 35 | 265 |
-| lib/core/routes | 1 | 501 | 30 | 23 | 554 |
-| lib/core/services | 2 | 84 | 33 | 17 | 134 |
-| lib/core/shared | 21 | 1,849 | 86 | 218 | 2,153 |
+| lib/core/realtime | 4 | 458 | 147 | 85 | 690 |
+| lib/core/routes | 1 | 599 | 43 | 25 | 667 |
+| lib/core/services | 3 | 163 | 75 | 32 | 270 |
+| lib/core/shared | 21 | 1,850 | 86 | 218 | 2,154 |
 | lib/core/shared/bloc | 4 | 220 | 27 | 47 | 294 |
 | lib/core/shared/bloc (Files) | 1 | 8 | 9 | 4 | 21 |
 | lib/core/shared/bloc/tag_picker | 3 | 212 | 18 | 43 | 273 |
 | lib/core/shared/entities | 3 | 54 | 17 | 15 | 86 |
-| lib/core/shared/widgets | 14 | 1,575 | 42 | 156 | 1,773 |
-| lib/core/shared/widgets (Files) | 10 | 614 | 11 | 78 | 703 |
+| lib/core/shared/widgets | 14 | 1,576 | 42 | 156 | 1,774 |
+| lib/core/shared/widgets (Files) | 10 | 615 | 11 | 78 | 704 |
 | lib/core/shared/widgets/tagging | 4 | 961 | 31 | 78 | 1,070 |
 | lib/core/storage | 2 | 37 | 7 | 11 | 55 |
 | lib/core/theme | 2 | 109 | 9 | 11 | 129 |
 | lib/core/usecases | 1 | 6 | 1 | 3 | 10 |
 | lib/core/utils | 2 | 35 | 11 | 9 | 55 |
-| lib/features | 572 | 50,308 | 2,421 | 6,485 | 59,214 |
+| lib/features | 682 | 65,979 | 4,164 | 8,602 | 78,745 |
 | lib/features/authentication | 24 | 1,229 | 51 | 200 | 1,480 |
 | lib/features/authentication (Files) | 1 | 107 | 0 | 35 | 142 |
 | lib/features/authentication/data | 4 | 204 | 19 | 36 | 259 |
@@ -98,7 +98,7 @@ Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-
 | lib/features/authentication/presentation/pages | 3 | 434 | 9 | 31 | 474 |
 | lib/features/authentication/presentation/utils | 1 | 15 | 5 | 5 | 25 |
 | lib/features/authentication/presentation/widgets | 5 | 245 | 15 | 32 | 292 |
-| lib/features/feed | 15 | 1,263 | 79 | 171 | 1,513 |
+| lib/features/feed | 15 | 1,264 | 79 | 171 | 1,514 |
 | lib/features/feed (Files) | 1 | 49 | 0 | 12 | 61 |
 | lib/features/feed/data | 2 | 50 | 4 | 10 | 64 |
 | lib/features/feed/data/datasources | 1 | 18 | 4 | 5 | 27 |
@@ -106,10 +106,10 @@ Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-
 | lib/features/feed/domain | 2 | 29 | 5 | 9 | 43 |
 | lib/features/feed/domain/repositories | 1 | 9 | 5 | 3 | 17 |
 | lib/features/feed/domain/usecases | 1 | 20 | 0 | 6 | 26 |
-| lib/features/feed/presentation | 10 | 1,135 | 70 | 140 | 1,345 |
+| lib/features/feed/presentation | 10 | 1,136 | 70 | 140 | 1,346 |
 | lib/features/feed/presentation/bloc | 3 | 311 | 31 | 58 | 400 |
 | lib/features/feed/presentation/bloc/feed | 3 | 311 | 31 | 58 | 400 |
-| lib/features/feed/presentation/pages | 1 | 189 | 7 | 22 | 218 |
+| lib/features/feed/presentation/pages | 1 | 190 | 7 | 22 | 219 |
 | lib/features/feed/presentation/utils | 1 | 14 | 4 | 4 | 22 |
 | lib/features/feed/presentation/widgets | 5 | 621 | 28 | 56 | 705 |
 | lib/features/feedback | 38 | 1,887 | 113 | 265 | 2,265 |
@@ -147,7 +147,7 @@ Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-
 | lib/features/follow/presentation/pages | 1 | 143 | 0 | 13 | 156 |
 | lib/features/follow/presentation/utils | 1 | 38 | 5 | 5 | 48 |
 | lib/features/follow/presentation/widgets | 3 | 506 | 4 | 49 | 559 |
-| lib/features/forums | 77 | 8,723 | 391 | 1,026 | 10,140 |
+| lib/features/forums | 77 | 8,791 | 394 | 1,026 | 10,211 |
 | lib/features/forums/data | 3 | 739 | 30 | 105 | 874 |
 | lib/features/forums/data/datasources | 1 | 233 | 15 | 32 | 280 |
 | lib/features/forums/data/models | 1 | 247 | 11 | 44 | 302 |
@@ -157,7 +157,7 @@ Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-
 | lib/features/forums/domain/failures | 1 | 13 | 4 | 5 | 22 |
 | lib/features/forums/domain/repositories | 1 | 91 | 14 | 23 | 128 |
 | lib/features/forums/domain/usecases | 12 | 480 | 31 | 126 | 637 |
-| lib/features/forums/presentation | 52 | 7,067 | 255 | 695 | 8,017 |
+| lib/features/forums/presentation | 52 | 7,135 | 258 | 695 | 8,088 |
 | lib/features/forums/presentation/bloc | 18 | 2,102 | 132 | 308 | 2,542 |
 | lib/features/forums/presentation/bloc/browse | 3 | 60 | 3 | 24 | 87 |
 | lib/features/forums/presentation/bloc/composer | 3 | 367 | 35 | 62 | 464 |
@@ -165,14 +165,14 @@ Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-
 | lib/features/forums/presentation/bloc/hub | 3 | 324 | 23 | 45 | 392 |
 | lib/features/forums/presentation/bloc/saved | 3 | 175 | 8 | 27 | 210 |
 | lib/features/forums/presentation/bloc/thread | 3 | 819 | 41 | 100 | 960 |
-| lib/features/forums/presentation/pages | 6 | 1,549 | 15 | 110 | 1,674 |
+| lib/features/forums/presentation/pages | 6 | 1,612 | 15 | 110 | 1,737 |
 | lib/features/forums/presentation/utils | 3 | 76 | 17 | 14 | 107 |
-| lib/features/forums/presentation/widgets | 25 | 3,340 | 91 | 263 | 3,694 |
+| lib/features/forums/presentation/widgets | 25 | 3,345 | 94 | 263 | 3,702 |
 | lib/features/forums/presentation/widgets/browse | 2 | 119 | 3 | 13 | 135 |
 | lib/features/forums/presentation/widgets/composer | 3 | 483 | 18 | 48 | 549 |
 | lib/features/forums/presentation/widgets/home | 3 | 448 | 10 | 31 | 489 |
 | lib/features/forums/presentation/widgets/hub | 1 | 225 | 2 | 11 | 238 |
-| lib/features/forums/presentation/widgets/shared | 10 | 894 | 35 | 92 | 1,021 |
+| lib/features/forums/presentation/widgets/shared | 10 | 899 | 38 | 92 | 1,029 |
 | lib/features/forums/presentation/widgets/thread | 6 | 1,171 | 23 | 68 | 1,262 |
 | lib/features/garage | 68 | 9,040 | 301 | 1,028 | 10,369 |
 | lib/features/garage (Files) | 1 | 169 | 0 | 36 | 205 |
@@ -196,28 +196,78 @@ Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-
 | lib/features/garage/presentation/widgets | 13 | 2,951 | 100 | 214 | 3,265 |
 | lib/features/garage/presentation/widgets (Files) | 2 | 151 | 8 | 21 | 180 |
 | lib/features/garage/presentation/widgets/register_car | 11 | 2,800 | 92 | 193 | 3,085 |
-| lib/features/messages | 61 | 4,815 | 370 | 666 | 5,851 |
-| lib/features/messages/data | 5 | 520 | 34 | 73 | 627 |
-| lib/features/messages/data/datasources | 2 | 121 | 12 | 23 | 156 |
-| lib/features/messages/data/models | 2 | 203 | 17 | 30 | 250 |
-| lib/features/messages/data/repositories | 1 | 196 | 5 | 20 | 221 |
-| lib/features/messages/domain | 16 | 472 | 103 | 148 | 723 |
-| lib/features/messages/domain/entities | 6 | 266 | 59 | 68 | 393 |
-| lib/features/messages/domain/repositories | 1 | 34 | 20 | 15 | 69 |
-| lib/features/messages/domain/usecases | 9 | 172 | 24 | 65 | 261 |
-| lib/features/messages/presentation | 40 | 3,823 | 233 | 445 | 4,501 |
-| lib/features/messages/presentation/bloc | 12 | 929 | 82 | 169 | 1,180 |
+| lib/features/map | 35 | 3,416 | 501 | 579 | 4,496 |
+| lib/features/map (Files) | 1 | 564 | 0 | 143 | 707 |
+| lib/features/map/data | 7 | 382 | 36 | 40 | 458 |
+| lib/features/map/data/datasources | 2 | 88 | 21 | 16 | 125 |
+| lib/features/map/data/exceptions | 1 | 4 | 5 | 1 | 10 |
+| lib/features/map/data/models | 3 | 196 | 8 | 16 | 220 |
+| lib/features/map/data/repositories | 1 | 94 | 2 | 7 | 103 |
+| lib/features/map/domain | 10 | 276 | 64 | 69 | 409 |
+| lib/features/map/domain (Files) | 1 | 5 | 9 | 5 | 19 |
+| lib/features/map/domain/entities | 4 | 162 | 41 | 37 | 240 |
+| lib/features/map/domain/failures | 1 | 7 | 5 | 3 | 15 |
+| lib/features/map/domain/repositories | 1 | 20 | 9 | 5 | 34 |
+| lib/features/map/domain/usecases | 3 | 82 | 0 | 19 | 101 |
+| lib/features/map/presentation | 17 | 2,194 | 401 | 327 | 2,922 |
+| lib/features/map/presentation/bloc | 3 | 400 | 89 | 86 | 575 |
+| lib/features/map/presentation/bloc/map | 3 | 400 | 89 | 86 | 575 |
+| lib/features/map/presentation/pages | 1 | 136 | 46 | 12 | 194 |
+| lib/features/map/presentation/utils | 2 | 157 | 48 | 36 | 241 |
+| lib/features/map/presentation/widgets | 11 | 1,501 | 218 | 193 | 1,912 |
+| lib/features/map/presentation/widgets (Files) | 6 | 687 | 156 | 102 | 945 |
+| lib/features/map/presentation/widgets/businesses | 3 | 540 | 37 | 59 | 636 |
+| lib/features/map/presentation/widgets/navigation | 2 | 274 | 25 | 32 | 331 |
+| lib/features/map_events | 77 | 12,027 | 1,164 | 1,528 | 14,719 |
+| lib/features/map_events (Files) | 1 | 139 | 0 | 50 | 189 |
+| lib/features/map_events/data | 7 | 1,424 | 119 | 161 | 1,704 |
+| lib/features/map_events/data/datasources | 2 | 384 | 60 | 42 | 486 |
+| lib/features/map_events/data/models | 4 | 637 | 41 | 81 | 759 |
+| lib/features/map_events/data/repositories | 1 | 403 | 18 | 38 | 459 |
+| lib/features/map_events/domain | 19 | 1,365 | 287 | 330 | 1,982 |
+| lib/features/map_events/domain/entities | 11 | 591 | 153 | 131 | 875 |
+| lib/features/map_events/domain/failures | 1 | 19 | 15 | 7 | 41 |
+| lib/features/map_events/domain/repositories | 1 | 138 | 57 | 34 | 229 |
+| lib/features/map_events/domain/usecases | 6 | 617 | 62 | 158 | 837 |
+| lib/features/map_events/presentation | 50 | 9,099 | 758 | 987 | 10,844 |
+| lib/features/map_events/presentation/bloc | 15 | 1,740 | 225 | 329 | 2,294 |
+| lib/features/map_events/presentation/bloc/attendees | 3 | 154 | 11 | 35 | 200 |
+| lib/features/map_events/presentation/bloc/create_event | 3 | 647 | 77 | 103 | 827 |
+| lib/features/map_events/presentation/bloc/event_detail | 3 | 486 | 90 | 95 | 671 |
+| lib/features/map_events/presentation/bloc/manage_event | 3 | 318 | 37 | 65 | 420 |
+| lib/features/map_events/presentation/bloc/my_events | 3 | 135 | 10 | 31 | 176 |
+| lib/features/map_events/presentation/pages | 6 | 2,291 | 139 | 211 | 2,641 |
+| lib/features/map_events/presentation/utils | 3 | 186 | 72 | 49 | 307 |
+| lib/features/map_events/presentation/widgets | 26 | 4,882 | 322 | 398 | 5,602 |
+| lib/features/map_events/presentation/widgets/create | 2 | 558 | 24 | 51 | 633 |
+| lib/features/map_events/presentation/widgets/detail | 4 | 817 | 36 | 60 | 913 |
+| lib/features/map_events/presentation/widgets/location_picker | 3 | 404 | 41 | 30 | 475 |
+| lib/features/map_events/presentation/widgets/manage | 2 | 663 | 29 | 44 | 736 |
+| lib/features/map_events/presentation/widgets/my_events | 3 | 371 | 22 | 36 | 429 |
+| lib/features/map_events/presentation/widgets/popup | 1 | 457 | 26 | 34 | 517 |
+| lib/features/map_events/presentation/widgets/shared | 11 | 1,612 | 144 | 143 | 1,899 |
+| lib/features/messages | 59 | 4,950 | 430 | 676 | 6,056 |
+| lib/features/messages/data | 3 | 542 | 67 | 67 | 676 |
+| lib/features/messages/data/datasources | 1 | 116 | 27 | 18 | 161 |
+| lib/features/messages/data/models | 1 | 194 | 26 | 29 | 249 |
+| lib/features/messages/data/repositories | 1 | 232 | 14 | 20 | 266 |
+| lib/features/messages/domain | 16 | 503 | 112 | 153 | 768 |
+| lib/features/messages/domain/entities | 6 | 257 | 57 | 67 | 381 |
+| lib/features/messages/domain/repositories | 1 | 43 | 23 | 15 | 81 |
+| lib/features/messages/domain/usecases | 9 | 203 | 32 | 71 | 306 |
+| lib/features/messages/presentation | 40 | 3,905 | 251 | 456 | 4,612 |
+| lib/features/messages/presentation/bloc | 12 | 946 | 89 | 171 | 1,206 |
 | lib/features/messages/presentation/bloc/car_picker | 2 | 35 | 3 | 11 | 49 |
-| lib/features/messages/presentation/bloc/chat | 3 | 507 | 47 | 79 | 633 |
+| lib/features/messages/presentation/bloc/chat | 3 | 522 | 51 | 80 | 653 |
 | lib/features/messages/presentation/bloc/compose | 3 | 55 | 4 | 16 | 75 |
-| lib/features/messages/presentation/bloc/inbox | 3 | 297 | 17 | 54 | 368 |
+| lib/features/messages/presentation/bloc/inbox | 3 | 299 | 20 | 55 | 374 |
 | lib/features/messages/presentation/bloc/unread | 1 | 35 | 11 | 9 | 55 |
-| lib/features/messages/presentation/pages | 2 | 544 | 26 | 38 | 608 |
+| lib/features/messages/presentation/pages | 2 | 619 | 31 | 47 | 697 |
 | lib/features/messages/presentation/utils | 2 | 25 | 5 | 7 | 37 |
-| lib/features/messages/presentation/widgets | 24 | 2,325 | 120 | 231 | 2,676 |
-| lib/features/messages/presentation/widgets/chat | 12 | 1,370 | 83 | 138 | 1,591 |
+| lib/features/messages/presentation/widgets | 24 | 2,315 | 126 | 231 | 2,672 |
+| lib/features/messages/presentation/widgets/chat | 12 | 1,355 | 86 | 138 | 1,579 |
 | lib/features/messages/presentation/widgets/inbox | 8 | 756 | 25 | 64 | 845 |
-| lib/features/messages/presentation/widgets/shared | 4 | 199 | 12 | 29 | 240 |
+| lib/features/messages/presentation/widgets/shared | 4 | 204 | 15 | 29 | 248 |
 | lib/features/notifications | 21 | 1,106 | 81 | 174 | 1,361 |
 | lib/features/notifications/data | 3 | 188 | 9 | 29 | 226 |
 | lib/features/notifications/data/datasources | 1 | 40 | 3 | 10 | 53 |
@@ -255,7 +305,7 @@ Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-
 | lib/features/onboarding/presentation/widgets | 9 | 2,373 | 77 | 172 | 2,622 |
 | lib/features/onboarding/presentation/widgets (Files) | 3 | 1,057 | 33 | 79 | 1,169 |
 | lib/features/onboarding/presentation/widgets/steps | 6 | 1,316 | 44 | 93 | 1,453 |
-| lib/features/posts | 85 | 9,426 | 430 | 1,129 | 10,985 |
+| lib/features/posts | 85 | 9,435 | 436 | 1,129 | 11,000 |
 | lib/features/posts (Files) | 1 | 0 | 0 | 1 | 1 |
 | lib/features/posts/data | 6 | 944 | 29 | 112 | 1,085 |
 | lib/features/posts/data/datasources | 2 | 224 | 11 | 33 | 268 |
@@ -266,7 +316,7 @@ Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-
 | lib/features/posts/domain/failures | 1 | 11 | 4 | 4 | 19 |
 | lib/features/posts/domain/repositories | 1 | 74 | 15 | 31 | 120 |
 | lib/features/posts/domain/usecases | 18 | 450 | 5 | 124 | 579 |
-| lib/features/posts/presentation | 49 | 7,626 | 341 | 797 | 8,764 |
+| lib/features/posts/presentation | 49 | 7,635 | 347 | 797 | 8,779 |
 | lib/features/posts/presentation/bloc | 20 | 1,549 | 133 | 322 | 2,004 |
 | lib/features/posts/presentation/bloc/comments | 3 | 619 | 63 | 106 | 788 |
 | lib/features/posts/presentation/bloc/create_post | 3 | 166 | 14 | 34 | 214 |
@@ -278,13 +328,13 @@ Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-
 | lib/features/posts/presentation/bloc/share_post | 3 | 62 | 5 | 22 | 89 |
 | lib/features/posts/presentation/pages | 5 | 1,405 | 31 | 97 | 1,533 |
 | lib/features/posts/presentation/utils | 1 | 27 | 7 | 6 | 40 |
-| lib/features/posts/presentation/widgets | 23 | 4,645 | 170 | 372 | 5,187 |
+| lib/features/posts/presentation/widgets | 23 | 4,654 | 176 | 372 | 5,202 |
 | lib/features/posts/presentation/widgets (Files) | 1 | 66 | 2 | 8 | 76 |
 | lib/features/posts/presentation/widgets/create_post | 8 | 2,251 | 60 | 170 | 2,481 |
-| lib/features/posts/presentation/widgets/post_card | 5 | 700 | 56 | 76 | 832 |
+| lib/features/posts/presentation/widgets/post_card | 5 | 709 | 62 | 76 | 847 |
 | lib/features/posts/presentation/widgets/post_detail | 6 | 1,450 | 46 | 98 | 1,594 |
 | lib/features/posts/presentation/widgets/saved_posts | 3 | 178 | 6 | 20 | 204 |
-| lib/features/profile | 54 | 3,674 | 183 | 511 | 4,368 |
+| lib/features/profile | 54 | 3,689 | 192 | 511 | 4,392 |
 | lib/features/profile (Files) | 1 | 127 | 0 | 37 | 164 |
 | lib/features/profile/data | 6 | 400 | 21 | 47 | 468 |
 | lib/features/profile/data/datasource | 2 | 114 | 12 | 19 | 145 |
@@ -295,7 +345,7 @@ Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-
 | lib/features/profile/domain/failures | 1 | 37 | 6 | 8 | 51 |
 | lib/features/profile/domain/repositories | 1 | 19 | 8 | 9 | 36 |
 | lib/features/profile/domain/usecases | 7 | 143 | 5 | 46 | 194 |
-| lib/features/profile/presentation | 35 | 2,888 | 136 | 355 | 3,379 |
+| lib/features/profile/presentation | 35 | 2,903 | 145 | 355 | 3,403 |
 | lib/features/profile/presentation/bloc | 10 | 435 | 46 | 126 | 607 |
 | lib/features/profile/presentation/bloc (Files) | 3 | 120 | 0 | 45 | 165 |
 | lib/features/profile/presentation/bloc/edit_profile | 3 | 159 | 17 | 42 | 218 |
@@ -303,13 +353,13 @@ Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-
 | lib/features/profile/presentation/bloc/locale | 1 | 27 | 13 | 8 | 48 |
 | lib/features/profile/presentation/pages | 3 | 252 | 13 | 23 | 288 |
 | lib/features/profile/presentation/utils | 1 | 55 | 5 | 5 | 65 |
-| lib/features/profile/presentation/widgets | 21 | 2,146 | 72 | 201 | 2,419 |
+| lib/features/profile/presentation/widgets | 21 | 2,161 | 81 | 201 | 2,443 |
 | lib/features/profile/presentation/widgets (Files) | 2 | 155 | 11 | 19 | 185 |
 | lib/features/profile/presentation/widgets/edit_profile | 3 | 281 | 8 | 24 | 313 |
-| lib/features/profile/presentation/widgets/my_profile | 3 | 191 | 13 | 18 | 222 |
-| lib/features/profile/presentation/widgets/public_profile | 4 | 450 | 21 | 40 | 511 |
+| lib/features/profile/presentation/widgets/my_profile | 3 | 194 | 15 | 18 | 227 |
+| lib/features/profile/presentation/widgets/public_profile | 4 | 451 | 24 | 40 | 515 |
 | lib/features/profile/presentation/widgets/settings | 1 | 221 | 7 | 16 | 244 |
-| lib/features/profile/presentation/widgets/shared | 8 | 848 | 12 | 84 | 944 |
+| lib/features/profile/presentation/widgets/shared | 8 | 859 | 16 | 84 | 959 |
 | lib/features/report | 28 | 1,339 | 63 | 216 | 1,618 |
 | lib/features/report (Files) | 1 | 73 | 0 | 15 | 88 |
 | lib/features/report/data | 4 | 220 | 12 | 38 | 270 |
@@ -363,24 +413,27 @@ Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-
 | lib/features/tags/presentation/bloc/tags | 3 | 214 | 30 | 43 | 287 |
 | lib/features/tags/presentation/utils | 1 | 17 | 5 | 5 | 27 |
 | lib/features/tags/presentation/widgets | 8 | 1,114 | 52 | 92 | 1,258 |
-| lib/l10n | 3 | 4,295 | 2,998 | 2,218 | 9,511 |
+| lib/l10n | 3 | 5,633 | 3,910 | 2,902 | 12,445 |
 | linux | 9 | 365 | 42 | 94 | 501 |
 | linux (Files) | 1 | 104 | 0 | 25 | 129 |
 | linux/flutter | 4 | 131 | 9 | 27 | 167 |
 | linux/runner | 4 | 130 | 33 | 42 | 205 |
-| macos | 7 | 499 | 6 | 27 | 532 |
+| macos | 7 | 503 | 6 | 27 | 536 |
 | macos (Files) | 1 | 32 | 1 | 10 | 43 |
-| macos/Flutter | 1 | 26 | 3 | 4 | 33 |
+| macos/Flutter | 1 | 30 | 3 | 4 | 37 |
 | macos/Runner | 4 | 434 | 0 | 9 | 443 |
 | macos/Runner (Files) | 2 | 23 | 0 | 7 | 30 |
 | macos/Runner/Assets.xcassets | 1 | 68 | 0 | 1 | 69 |
 | macos/Runner/Assets.xcassets/AppIcon.appiconset | 1 | 68 | 0 | 1 | 69 |
 | macos/Runner/Base.lproj | 1 | 343 | 0 | 1 | 344 |
 | macos/RunnerTests | 1 | 7 | 2 | 4 | 13 |
+| test | 1 | 409 | 10 | 47 | 466 |
+| test/features | 1 | 409 | 10 | 47 | 466 |
+| test/features/map_events | 1 | 409 | 10 | 47 | 466 |
 | web | 2 | 54 | 23 | 6 | 83 |
-| windows | 14 | 700 | 94 | 188 | 982 |
+| windows | 14 | 704 | 94 | 188 | 986 |
 | windows (Files) | 1 | 89 | 0 | 20 | 109 |
-| windows/flutter | 4 | 149 | 9 | 29 | 187 |
+| windows/flutter | 4 | 153 | 9 | 29 | 191 |
 | windows/runner | 9 | 462 | 85 | 139 | 686 |
 
 Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-details.md)

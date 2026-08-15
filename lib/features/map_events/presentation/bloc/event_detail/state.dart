@@ -61,35 +61,67 @@ class MapEventDetailState extends Equatable {
   bool get hasMoreCars => carsNextCursor != null;
   bool get isBusy => action != MapEventAction.none;
 
-  /// The viewer's accepted entry, if any — what turns the participation button
-  /// into "✓ Participating" and unlocks Withdraw.
-  MapEventParticipantEntity? get myAcceptedEntry {
+  /// One row per car, keeping only the most recent (`registeredAt`) among the
+  /// caller's rows for that car.
+  ///
+  /// The backend never deletes a superseded row — a car that was rejected and
+  /// then re-registered leaves its old "rejected" row sitting in `/cars/mine`
+  /// right alongside the new one. Without this, the declined strip kept
+  /// quoting that stale row forever, even after the resend was accepted.
+  List<MapEventParticipantEntity> get _effectiveParticipations {
+    final byCar = <String, MapEventParticipantEntity>{};
     for (final p in myParticipations) {
-      if (p.isAccepted) return p;
+      final existing = byCar[p.car.id];
+      if (existing == null || p.registeredAt.isAfter(existing.registeredAt)) {
+        byCar[p.car.id] = p;
+      }
     }
-    return null;
+    return byCar.values.toList();
   }
 
-  MapEventParticipantEntity? get myPendingEntry {
-    for (final p in myParticipations) {
-      if (p.isPending) return p;
-    }
-    return null;
-  }
+  /// The viewer's accepted entries — what turns the participation button into
+  /// "✓ Participating" and unlocks Withdraw. Can hold more than one car.
+  List<MapEventParticipantEntity> get myAcceptedEntries =>
+      _effectiveParticipations.where((p) => p.isAccepted).toList();
 
-  MapEventParticipantEntity? get myWithdrawnEntry {
-    for (final p in myParticipations) {
-      if (p.isWithdrawn) return p;
-    }
-    return null;
-  }
+  List<MapEventParticipantEntity> get myPendingEntries =>
+      _effectiveParticipations.where((p) => p.isPending).toList();
 
-  MapEventParticipantEntity? get myRejectedEntry {
-    for (final p in myParticipations) {
-      if (p.isRejected) return p;
-    }
-    return null;
-  }
+  List<MapEventParticipantEntity> get myWithdrawnEntries =>
+      _effectiveParticipations.where((p) => p.isWithdrawn).toList();
+
+  List<MapEventParticipantEntity> get myRejectedEntries =>
+      _effectiveParticipations.where((p) => p.isRejected).toList();
+
+  MapEventParticipantEntity? get myAcceptedEntry =>
+      myAcceptedEntries.isEmpty ? null : myAcceptedEntries.first;
+
+  MapEventParticipantEntity? get myPendingEntry =>
+      myPendingEntries.isEmpty ? null : myPendingEntries.first;
+
+  MapEventParticipantEntity? get myWithdrawnEntry =>
+      myWithdrawnEntries.isEmpty ? null : myWithdrawnEntries.first;
+
+  MapEventParticipantEntity? get myRejectedEntry =>
+      myRejectedEntries.isEmpty ? null : myRejectedEntries.first;
+
+  /// Whether the viewer has any live relationship to the car-entry side of the
+  /// event — accepted, awaiting approval, or awaiting a withdrawal to go
+  /// through. Participating outranks a plain RSVP, so this is what tells the
+  /// Attending/Interested row to step aside rather than show alongside it.
+  bool get hasActiveParticipation =>
+      myAcceptedEntries.isNotEmpty ||
+      myPendingEntry != null ||
+      myWithdrawnEntry != null;
+
+  /// Cars the viewer already has a live (pending or accepted) row for in this
+  /// event — excluded from the picker so registering "again" can't create a
+  /// duplicate row for the same car. A rejected or withdrawn car is *not*
+  /// excluded: resubmitting it is exactly how "try another car" works.
+  Set<String> get activeParticipationCarIds => {
+        for (final p in myAcceptedEntries) p.car.id,
+        for (final p in myPendingEntries) p.car.id,
+      };
 
   /// How many of the viewer's cars a withdrawal would take out. `POST
   /// /withdraw` has no per-car variant — it flags every live entry the caller

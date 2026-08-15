@@ -7,10 +7,18 @@ import 'map_event_action_button.dart';
 
 /// The Attending / Interested toggle pair.
 ///
-/// They behave as one control: whichever is active is filled black, and tapping
-/// the active one clears the RSVP rather than doing nothing. Both go inert when
-/// the backend says the viewer can't RSVP at all (a finished or canceled
-/// event).
+/// The three ways a viewer can be tied to an event rank
+/// Participating > Attending > Interested, and picking one hides every option
+/// ranked below it rather than leaving contradictory choices on screen:
+///  - a live car entry (pending, accepted, or a pending withdrawal) outranks
+///    both RSVP options, so this whole row disappears;
+///  - Attending outranks Interested, so only the Attending pill remains;
+///  - Interested is the floor, so both stay put — either one is still a step
+///    up from it.
+///
+/// Whichever button is active is filled black, and tapping it clears the RSVP
+/// rather than doing nothing. Both go inert when the backend says the viewer
+/// can't RSVP at all (a finished or canceled event).
 class MapEventRsvpButtons extends StatelessWidget {
   final MapEventDetailState state;
   final ValueChanged<MapEventAttendance> onToggle;
@@ -31,11 +39,16 @@ class MapEventRsvpButtons extends StatelessWidget {
     final event = state.event;
     if (event == null) return const SizedBox.shrink();
 
+    // A live car entry outranks both RSVP options — nothing left for this row
+    // to offer, so it steps aside entirely rather than showing alongside it.
+    if (state.hasActiveParticipation) return const SizedBox.shrink();
+
     final canRsvp = event.viewer.canRsvp && !state.isBusy;
     final busy = state.action == MapEventAction.rsvp;
+    final attendanceStatus = event.viewer.attendanceStatus;
 
     Widget button(MapEventAttendance status, String label, IconData icon) {
-      final isActive = event.viewer.attendanceStatus == status;
+      final isActive = attendanceStatus == status;
       return MapEventActionButton(
         label: label,
         icon: isActive ? Icons.check_rounded : icon,
@@ -43,6 +56,16 @@ class MapEventRsvpButtons extends StatelessWidget {
         isCompact: isCompact,
         isBusy: busy && isActive,
         onTap: canRsvp ? () => onToggle(status) : null,
+      );
+    }
+
+    // Attending outranks Interested — once attending, Interested has nothing
+    // left to offer, so only the Attending pill stays on screen.
+    if (attendanceStatus == MapEventAttendance.attending) {
+      return button(
+        MapEventAttendance.attending,
+        l10n.mapEventsAttending,
+        Icons.event_available_rounded,
       );
     }
 
@@ -71,15 +94,19 @@ class MapEventRsvpButtons extends StatelessWidget {
 /// The participation control, which is really a small state machine:
 ///
 /// ```
-///  nothing registered ──► "PARTICIPATE?"   (opens the garage picker)
-///  awaiting organizer ──► "PENDING"        (inert, accent-soft)
-///  accepted           ──► "PARTICIPATING"  + a separate WITHDRAW button
-///  withdrawal sent    ──► "PENDING"        (inert — withdrawal is one-way)
+///  nothing registered ──► "PARTICIPATE?"          (opens the garage picker)
+///  awaiting organizer ──► "PENDING"                (inert, accent-soft)
+///  accepted           ──► "PARTICIPATING (N)"      + a separate WITHDRAW
+///                          button; still tappable to register more cars,
+///                          unless registration is closed or the event is full
+///  withdrawal sent    ──► "PENDING"                (inert — withdrawal is
+///                          one-way)
 /// ```
 ///
-/// It disappears entirely when the viewer can't register cars at all, and greys
-/// out when the entry list is full or the deadline has passed — the reason is
-/// spelled out next to it rather than left to a dead button.
+/// It disappears entirely when the viewer can't register cars at all. The
+/// "add more" affordance greys out when the entry list is full or the
+/// deadline has passed — the reason is spelled out next to it rather than
+/// left to a dead button.
 class MapEventParticipationButtons extends StatelessWidget {
   final MapEventDetailState state;
   final VoidCallback onRegister;
@@ -102,17 +129,21 @@ class MapEventParticipationButtons extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    // Accepted: a done pill plus the way out.
-    if (state.myAcceptedEntry != null) {
+    final acceptedCount = state.myAcceptedEntries.length;
+    if (acceptedCount > 0) {
+      final blocked = event.isRegistrationClosed || event.isAtCapacity;
       return Row(
         children: [
           Expanded(
             child: MapEventActionButton(
-              label: l10n.mapEventsParticipating,
+              label: acceptedCount == 1
+                  ? l10n.mapEventsParticipating
+                  : l10n.mapEventsParticipatingCount(acceptedCount),
               icon: Icons.check_rounded,
               tone: MapEventButtonTone.done,
               isCompact: isCompact,
-              onTap: null,
+              isBusy: state.action == MapEventAction.register,
+              onTap: (blocked || state.isBusy) ? null : onRegister,
             ),
           ),
           const SizedBox(width: 8),

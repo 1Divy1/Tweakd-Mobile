@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../domain/entities/geocode_candidate.dart';
 import '../../domain/entities/map_event.dart';
 import '../../domain/entities/map_event_attendee.dart';
 import '../../domain/entities/map_event_category.dart';
@@ -135,6 +136,24 @@ class MapEventsRepositoryImpl implements MapEventsRepository {
   }) {
     return _guard('searchOrganizers', () async {
       final results = await api.searchOrganizers(query, cancelToken: cancelToken);
+      return [for (final r in results) r.toEntity()];
+    });
+  }
+
+  @override
+  Future<Either<Failure, List<GeocodeCandidateEntity>>> searchLocation({
+    required String city,
+    required String street,
+    required String addressNumber,
+    CancelToken? cancelToken,
+  }) {
+    return _guard('searchLocation', () async {
+      final results = await api.searchLocation(
+        place: city,
+        street: street,
+        addressNumber: addressNumber,
+        cancelToken: cancelToken,
+      );
       return [for (final r in results) r.toEntity()];
     });
   }

@@ -32,6 +32,15 @@ class MapView extends StatefulWidget {
 class _MapViewState extends State<MapView> {
   MapboxMap? _map;
 
+  /// Where `MapTopBar`'s "+" create-event button sits, in the overlay Stack's
+  /// own coordinates (see `MapFlutterOverlays`): `topInset + 4` down to
+  /// `+ 44` for the button itself, flush against a 12px right margin. The
+  /// compass ornament's default top-right position collides with it, so it
+  /// gets pushed below with a small gap instead.
+  static const _createEventButtonTop = 4.0;
+  static const _createEventButtonSize = 44.0;
+  static const _compassGap = 8.0;
+
   /// Framing before the first fix lands; the bloc flies the camera to the user
   /// (or to the fallback centre) as soon as it knows where to look. Pitch is
   /// what makes the basemap read as 3D.
@@ -64,6 +73,10 @@ class _MapViewState extends State<MapView> {
     final map = _map;
     if (map == null) return;
 
+    // Read before the first `await` — using `context` after one risks it
+    // having been unmounted in between.
+    final topInset = MediaQuery.paddingOf(context).top;
+
     // The Standard style ships 3D buildings, landmarks and real shadows; we
     // only configure it. Mapbox's own POI/transit labels are hidden so that our
     // pins (businesses, meets, roads) read clearly.
@@ -77,6 +90,17 @@ class _MapViewState extends State<MapView> {
     // The scale bar is noise on a social map; the compass earns its place once
     // the map can be rotated away from north.
     await map.scaleBar.updateSettings(ScaleBarSettings(enabled: false));
+
+    // Default top-right placement sits directly under the create-event "+"
+    // button and gets fully covered by it — move the compass below instead.
+    await map.compass.updateSettings(CompassSettings(
+      position: OrnamentPosition.TOP_RIGHT,
+      marginTop: topInset +
+          _createEventButtonTop +
+          _createEventButtonSize +
+          _compassGap,
+      marginRight: 12,
+    ));
 
     if (mounted) widget.onMapReady?.call(map);
   }

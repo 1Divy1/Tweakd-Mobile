@@ -2,6 +2,7 @@ import 'package:car_social_media_app/features/map_events/data/models/map_event_j
 import 'package:car_social_media_app/features/map_events/data/models/map_event_list_models.dart';
 import 'package:car_social_media_app/features/map_events/data/models/map_event_model.dart';
 import 'package:car_social_media_app/features/map_events/data/models/map_event_pin_model.dart';
+import 'package:car_social_media_app/features/map_events/domain/entities/geocode_candidate.dart';
 import 'package:car_social_media_app/features/map_events/domain/entities/map_event_enums.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -298,6 +299,62 @@ void main() {
       expect(person.isBusiness, isFalse);
       expect(business.username, isNull);
       expect(business.isBusiness, isTrue);
+    });
+  });
+
+  group('GeocodeCandidateModel', () {
+    test('maps an address-level hit with its accuracy', () {
+      final candidate = GeocodeCandidateModel.fromJson({
+        'lat': 46.7702,
+        'lng': 23.5892,
+        'place_name': 'Piața Unirii, Cluj-Napoca, Cluj, Romania',
+        'feature_type': 'address',
+        'accuracy': 'rooftop',
+      }).toEntity();
+
+      expect(candidate.lat, 46.7702);
+      expect(candidate.lng, 23.5892);
+      expect(candidate.placeName, 'Piața Unirii, Cluj-Napoca, Cluj, Romania');
+      expect(candidate.featureType, GeocodeFeatureType.address);
+      expect(candidate.accuracy, GeocodeAccuracy.rooftop);
+      expect(candidate.accuracy.isExact, isTrue);
+    });
+
+    test('a coarser hit carries no accuracy', () {
+      final candidate = GeocodeCandidateModel.fromJson({
+        'lat': 46.7699,
+        'lng': 23.5885,
+        'place_name': 'Piața Unirii, Cluj-Napoca, Cluj, Romania',
+        'feature_type': 'street',
+        'accuracy': null,
+      }).toEntity();
+
+      expect(candidate.featureType, GeocodeFeatureType.street);
+      expect(candidate.accuracy, GeocodeAccuracy.none);
+      expect(candidate.accuracy.isExact, isFalse);
+    });
+
+    test('an unknown feature type falls back rather than throwing', () {
+      final candidate = GeocodeCandidateModel.fromJson({
+        'lat': 1.0,
+        'lng': 2.0,
+        'place_name': 'Somewhere',
+        'feature_type': 'district',
+        'accuracy': 'unheard_of',
+      }).toEntity();
+
+      expect(candidate.featureType, GeocodeFeatureType.other);
+      expect(candidate.accuracy, GeocodeAccuracy.none);
+    });
+
+    test('defaults missing fields rather than throwing', () {
+      final candidate = GeocodeCandidateModel.fromJson(const {}).toEntity();
+
+      expect(candidate.lat, 0);
+      expect(candidate.lng, 0);
+      expect(candidate.placeName, '');
+      expect(candidate.featureType, GeocodeFeatureType.other);
+      expect(candidate.accuracy, GeocodeAccuracy.none);
     });
   });
 

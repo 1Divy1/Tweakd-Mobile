@@ -963,6 +963,13 @@
   "mapEventsErrorForbidden": "Doar organizatorii pot face asta.",
   "mapEventsErrorConflict": "Momentan acest lucru nu este posibil pentru acest eveniment.",
   "mapEventsErrorInvalidInput": "Te rugăm să verifici detaliile și să încerci din nou.",
+  "mapEventsBulkRegisterPartial": "{registered} din mașinile tale s-au înscris înainte ca acest eveniment să atingă capacitatea maximă — {failed} nu au putut fi adăugate și nu au fost eliminate automat.",
+  "@mapEventsBulkRegisterPartial": {
+    "placeholders": {
+      "registered": { "type": "int" },
+      "failed": { "type": "int" }
+    }
+  },
   "mapEventsErrorGeneric": "Ceva nu a funcționat. Te rugăm să încerci din nou.",
   "mapEventsStatusUpcoming": "URMEAZĂ",
   "mapEventsStatusLive": "ARE LOC ACUM",
@@ -999,14 +1006,14 @@
   "mapEventsWantToParticipate": "VREI SĂ PARTICIPI?",
   "mapEventsParticipateShort": "PARTICIPI?",
   "mapEventsParticipating": "PARTICIPI",
-  "mapEventsParticipationPending": "ÎN AȘTEPTARE",
-  "mapEventsWithdrawAction": "RETRAGE-TE",
-  "mapEventsCarOnEntryList": "{car} este pe lista de înscrieri",
-  "@mapEventsCarOnEntryList": {
+  "mapEventsParticipatingCount": "PARTICIPI · {count} MAȘINI",
+  "@mapEventsParticipatingCount": {
     "placeholders": {
-      "car": { "type": "String" }
+      "count": { "type": "int" }
     }
   },
+  "mapEventsParticipationPending": "ÎN AȘTEPTARE",
+  "mapEventsWithdrawAction": "RETRAGE-TE",
   "mapEventsViewEvent": "VEZI EVENIMENTUL",
   "mapEventsCapacityOf": "din {capacity}",
   "@mapEventsCapacityOf": {
@@ -1065,7 +1072,24 @@
   "mapEventsDeclineReasonHeading": "MOTIVUL",
   "mapEventsTryAnotherCar": "ÎNCEARCĂ ALTĂ MAȘINĂ",
   "mapEventsCancelRequest": "ANULEAZĂ CEREREA",
-  "mapEventsPickCarTitle": "Cu ce mașină vii?",
+  "mapEventsPickCarTitle": "Cu ce mașini vii?",
+  "mapEventsPickCarSubtitle": "Selectează cel puțin o mașină pentru înscriere",
+  "mapEventsPickCarSpotsLeft": "Mai sunt {count} locuri — poți selecta până la atâtea",
+  "@mapEventsPickCarSpotsLeft": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mapEventsPickCarFull": "Acest eveniment a atins numărul maxim de participanți.",
+  "mapEventsPickCarAlreadyIn": "Deja înscrisă",
+  "mapEventsPickCarSelectAll": "SELECTEAZĂ TOATE",
+  "mapEventsPickCarClearAll": "ȘTERGE",
+  "mapEventsPickCarRegisterCta": "ÎNSCRIE ({count})",
+  "@mapEventsPickCarRegisterCta": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "mapEventsPickCarEmptyTitle": "Garajul tău este gol",
   "mapEventsPickCarEmptyBody": "Adaugă întâi o mașină în garaj, apoi înscrie-o la un eveniment.",
   "mapEventsPickCarAdd": "ADAUGĂ O MAȘINĂ",
@@ -1089,6 +1113,7 @@
   "mapEventsCoverAdd": "ADAUGĂ O FOTOGRAFIE DE COPERTĂ",
   "mapEventsCoverHint": "recomandat 1600 × 900",
   "mapEventsCoverChange": "SCHIMBĂ COPERTA",
+  "mapEventsFieldCover": "FOTOGRAFIE DE COPERTĂ",
   "mapEventsFieldTitle": "TITLUL EVENIMENTULUI",
   "mapEventsFieldTitleHint": "ex. Casino Square Cars & Coffee",
   "mapEventsFieldCategory": "CATEGORIA EVENIMENTULUI",
@@ -1127,6 +1152,7 @@
   "mapEventsCreateCta": "CREEAZĂ EVENIMENTUL",
   "mapEventsCreateCtaIncomplete": "ADAUGĂ TITLU, LOCAȚIE ȘI ORA DE ÎNCEPERE",
   "mapEventsCreateCtaDeadline": "ADAUGĂ UN TERMEN DE ÎNSCRIERE",
+  "mapEventsCreateCtaCover": "ADAUGĂ O FOTOGRAFIE DE COPERTĂ",
   "mapEventsSaveCta": "SALVEAZĂ MODIFICĂRILE",
   "mapEventsSubmitting": "Doar o clipă…",
   "mapEventsValidationEndBeforeStart": "Ora de final trebuie să fie după ora de început.",
@@ -1136,9 +1162,33 @@
   "mapEventsPendingReviewBody": "Echipa noastră verifică fiecare eveniment nou înainte să apară pe hartă. Până atunci îl găsești la Evenimente, pe profilul tău.",
   "mapEventsDone": "GATA",
   "mapEventsCoverUploadFailed": "Evenimentul a fost creat, dar fotografia de copertă nu s-a încărcat. O poți adăuga din Evenimentele mele.",
-  "mapEventsPickLocationTitle": "Plasează pinul",
-  "mapEventsPickLocationHint": "Mișcă harta astfel încât pinul să fie acolo unde are loc evenimentul.",
   "mapEventsUseThisLocation": "FOLOSEȘTE ACEASTĂ LOCAȚIE",
+  "mapEventsLocationFormTitle": "Găsește adresa",
+  "mapEventsLocationFormSubtitle": "Vom muta harta acolo. Tu plasezi pinul exact.",
+  "mapEventsLocationCity": "ORAȘ",
+  "mapEventsLocationCityHint": "Cluj-Napoca",
+  "mapEventsLocationStreet": "STRADA",
+  "mapEventsLocationStreetHint": "Strada Memorandumului",
+  "mapEventsLocationNumber": "NUMĂR",
+  "mapEventsLocationNumberHint": "28B",
+  "mapEventsLocationSearchButton": "CAUTĂ",
+  "mapEventsLocationSearchIncomplete": "COMPLETEAZĂ TOATE CELE TREI CÂMPURI",
+  "mapEventsLocationSearchNoResults": "Nicio potrivire pentru acea adresă. Verifică scrierea sau caută strada fără număr.",
+  "mapEventsLocationResultsTitle": "Alege cea mai apropiată potrivire",
+  "mapEventsLocationResultsSubtitle": "Asta doar mută harta — pinul tot tu îl plasezi.",
+  "mapEventsLocationEditSearch": "MODIFICĂ",
+  "mapEventsLocationBackToResults": "REZULTATE",
+  "mapEventsLocationDropPinTitle": "Atinge harta pentru a plasa pinul",
+  "mapEventsLocationDropPinBody": "Atinge locul exact — intrarea, curtea, zona de parcare.",
+  "mapEventsLocationPinDropped": "Pin plasat. Atinge din nou pentru a-l muta.",
+  "mapEventsLocationPrecisionExact": "ADRESĂ EXACTĂ",
+  "mapEventsLocationPrecisionPoint": "PUNCT APROPIAT",
+  "mapEventsLocationPrecisionIntersection": "INTERSECȚIE",
+  "mapEventsLocationPrecisionApproximate": "APROXIMATIV",
+  "mapEventsLocationPrecisionStreet": "NIVEL STRADĂ",
+  "mapEventsLocationPrecisionAddress": "ADRESĂ",
+  "mapEventsLocationPrecisionPostcode": "ZONĂ COD POȘTAL",
+  "mapEventsLocationPrecisionArea": "ZONĂ EXTINSĂ",
   "mapEventsSearchOrganizersTitle": "Adaugă un organizator",
   "mapEventsSearchOrganizersHint": "Caută persoane și business-uri",
   "mapEventsSearchOrganizersEmpty": "Nu a fost găsit nimeni.",

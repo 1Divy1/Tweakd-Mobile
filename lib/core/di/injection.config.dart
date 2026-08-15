@@ -877,6 +877,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i997.GetMyMapEventCarsUseCase>(
       () => _i997.GetMyMapEventCarsUseCase(gh<_i365.MapEventsRepository>()),
     );
+    gh.lazySingleton<_i997.SearchMapEventLocationUseCase>(
+      () =>
+          _i997.SearchMapEventLocationUseCase(gh<_i365.MapEventsRepository>()),
+    );
     gh.lazySingleton<_i295.WithdrawFromMapEventUseCase>(
       () => _i295.WithdrawFromMapEventUseCase(gh<_i365.MapEventsRepository>()),
     );

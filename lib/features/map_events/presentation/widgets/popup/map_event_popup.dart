@@ -55,7 +55,7 @@ class MapEventPopup extends StatelessWidget {
           constraints: BoxConstraints(maxHeight: maxHeight),
           decoration: BoxDecoration(
             color: AppColors.surface,
-            borderRadius: BorderRadius.circular(28),
+            borderRadius: BorderRadius.circular(40),
             boxShadow: const [
               BoxShadow(
                 color: Color(0x1F000000),
@@ -128,18 +128,19 @@ class _PopupBody extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
+        // The cover image and its widgets
         Stack(
           children: [
-            MapEventCover(imageUrl: coverUrl, height: 132, withScrim: false),
+            MapEventCover(imageUrl: coverUrl, height: 200, withScrim: false),
             if (status != null)
               Positioned(
-                top: 10,
-                left: 12,
+                top: 15,
+                left: 15,
                 child: MapEventStatusChip(status: status),
               ),
             Positioned(
-              top: 8,
-              right: 8,
+              top: 10,
+              right: 15,
               child: _RoundIconButton(
                 icon: Icons.close_rounded,
                 semanticLabel: l10n.mapEventsClose,
@@ -279,28 +280,6 @@ class _ParticipationLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final accepted = state.myAcceptedEntry;
-
-    if (accepted != null) {
-      return Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
-        decoration: BoxDecoration(
-          color: AppColors.bg,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Text(
-          l10n.mapEventsCarOnEntryList(
-            '${accepted.car.brand} ${accepted.car.model}',
-          ),
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontSize: 12.5, color: AppColors.ink2),
-        ),
-      );
-    }
-
     return MapEventParticipationButtons(
       state: state,
       isCompact: true,
@@ -311,8 +290,16 @@ class _ParticipationLine extends StatelessWidget {
 
   Future<void> _register(BuildContext context) async {
     final bloc = context.read<MapEventDetailBloc>();
-    final carId = await showEventCarPickerSheet(context);
-    if (carId != null) bloc.add(RegisterCarForEvent(carId));
+    final event = state.event;
+    if (event == null) return;
+    final carIds = await showEventCarPickerSheet(
+      context,
+      remainingSpots: event.remainingCapacity,
+      excludedCarIds: state.activeParticipationCarIds,
+    );
+    if (carIds != null && carIds.isNotEmpty) {
+      bloc.add(RegisterCarsForEvent(carIds));
+    }
   }
 
   Future<void> _withdraw(BuildContext context) async {

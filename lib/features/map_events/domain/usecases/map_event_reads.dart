@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
+import '../entities/geocode_candidate.dart';
 import '../entities/map_event.dart';
 import '../entities/map_event_attendee.dart';
 import '../entities/map_event_category.dart';
@@ -222,6 +223,49 @@ class GetMyMapEventCarsUseCase
   ) {
     return repository.getMyCars(
       params.eventId,
+      cancelToken: params.cancelToken,
+    );
+  }
+}
+
+// ── Location search ────────────────────────────────────────────────────────
+
+class SearchMapEventLocationParams {
+  final String city;
+  final String street;
+  final String addressNumber;
+  final CancelToken? cancelToken;
+
+  const SearchMapEventLocationParams({
+    required this.city,
+    required this.street,
+    required this.addressNumber,
+    this.cancelToken,
+  });
+}
+
+/// `GET /map-events/geocode` — a structured address to up to five candidate
+/// coordinates, for the "set location on map" picker.
+///
+/// The candidates only aim the camera. What the event is created with is the
+/// coordinate the user taps onto the map afterwards, which is why none of
+/// this is written anywhere.
+@lazySingleton
+class SearchMapEventLocationUseCase
+    implements
+        UseCase<List<GeocodeCandidateEntity>, SearchMapEventLocationParams> {
+  final MapEventsRepository repository;
+
+  SearchMapEventLocationUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, List<GeocodeCandidateEntity>>> call(
+    SearchMapEventLocationParams params,
+  ) {
+    return repository.searchLocation(
+      city: params.city,
+      street: params.street,
+      addressNumber: params.addressNumber,
       cancelToken: params.cancelToken,
     );
   }

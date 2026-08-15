@@ -4,19 +4,26 @@ import 'package:flutter/material.dart';
 
 import '../../bloc/event_detail/state.dart';
 
-/// The status card the viewer sees about *their own* entry — the design's
+/// The status cards the viewer sees about *their own* entries — the design's
 /// "⏳ Request pending · Nissan Skyline" and "✕ Entry declined · Mazda RX-7"
 /// strips, both fed by `GET /{id}/cars/mine`.
 ///
-/// Renders nothing when there's nothing to say. The declined variant quotes the
-/// organizer's reason and carries the **TRY ANOTHER CAR** action; the pending
-/// one carries a way to take the request back (`DELETE /cars/{car_id}` works on
-/// pending rows only). The withdrawn variant carries no action at all —
-/// withdrawal is one-way, and an undo button would be a lie.
+/// One car per accepted entry doesn't get a strip here — that's what the
+/// "PARTICIPATING (N)" button says. Everything else the viewer has a live or
+/// recent opinion about (pending, rejected, withdrawn) gets its own strip,
+/// since with multi-car registration more than one can be true at once — a
+/// declined Mazda and a still-pending Skyline, say.
+///
+/// Renders nothing when there's nothing to say. Each declined strip quotes the
+/// organizer's reason and carries the **TRY ANOTHER CAR** action (which
+/// reopens the same multi-select picker); each pending one carries a way to
+/// take that one request back (`DELETE /cars/{car_id}` works on pending rows
+/// only). The withdrawn variant carries no action at all — withdrawal is
+/// one-way, and an undo button would be a lie.
 class MapEventParticipationStrip extends StatelessWidget {
   final MapEventDetailState state;
   final VoidCallback onTryAnotherCar;
-  final VoidCallback onCancelRequest;
+  final ValueChanged<String> onCancelRequest;
 
   const MapEventParticipationStrip({
     super.key,
@@ -29,47 +36,51 @@ class MapEventParticipationStrip extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    final pending = state.myPendingEntry;
-    if (pending != null) {
-      return _Strip(
-        icon: Icons.hourglass_empty_rounded,
-        title: l10n.mapEventsStripPendingTitle,
-        subject: '${pending.car.brand} ${pending.car.model}',
-        body: l10n.mapEventsStripPendingBody,
-        actionLabel: l10n.mapEventsCancelRequest,
-        onAction: state.isBusy ? null : onCancelRequest,
-      );
-    }
+    final strips = <Widget>[
+      for (final pending in state.myPendingEntries)
+        _Strip(
+          icon: Icons.hourglass_empty_rounded,
+          title: l10n.mapEventsStripPendingTitle,
+          subject: '${pending.car.brand} ${pending.car.model}',
+          body: l10n.mapEventsStripPendingBody,
+          actionLabel: l10n.mapEventsCancelRequest,
+          onAction:
+              state.isBusy ? null : () => onCancelRequest(pending.car.id),
+        ),
+      for (final rejected in state.myRejectedEntries)
+        _Strip(
+          icon: Icons.close_rounded,
+          title: l10n.mapEventsStripDeclinedTitle,
+          subject: '${rejected.car.brand} ${rejected.car.model}',
+          body: l10n.mapEventsStripDeclinedBody,
+          // The organizer has to give a reason to decline, so this is
+          // normally present — but a row from before that rule still has
+          // none.
+          quote: rejected.rejectionReason,
+          actionLabel: l10n.mapEventsTryAnotherCar,
+          onAction: state.isBusy ? null : onTryAnotherCar,
+        ),
+      for (final withdrawn in state.myWithdrawnEntries)
+        _Strip(
+          icon: Icons.logout_rounded,
+          title: l10n.mapEventsStripWithdrawnTitle,
+          subject: '${withdrawn.car.brand} ${withdrawn.car.model}',
+          body: l10n.mapEventsStripWithdrawnBody,
+          actionLabel: null,
+          onAction: null,
+        ),
+    ];
 
-    final rejected = state.myRejectedEntry;
-    if (rejected != null) {
-      final reason = rejected.rejectionReason;
-      return _Strip(
-        icon: Icons.close_rounded,
-        title: l10n.mapEventsStripDeclinedTitle,
-        subject: '${rejected.car.brand} ${rejected.car.model}',
-        body: l10n.mapEventsStripDeclinedBody,
-        // The organizer has to give a reason to decline, so this is normally
-        // present — but a row from before that rule still has none.
-        quote: reason,
-        actionLabel: l10n.mapEventsTryAnotherCar,
-        onAction: state.isBusy ? null : onTryAnotherCar,
-      );
-    }
+    if (strips.isEmpty) return const SizedBox.shrink();
 
-    final withdrawn = state.myWithdrawnEntry;
-    if (withdrawn != null) {
-      return _Strip(
-        icon: Icons.logout_rounded,
-        title: l10n.mapEventsStripWithdrawnTitle,
-        subject: '${withdrawn.car.brand} ${withdrawn.car.model}',
-        body: l10n.mapEventsStripWithdrawnBody,
-        actionLabel: null,
-        onAction: null,
-      );
-    }
-
-    return const SizedBox.shrink();
+    return Column(
+      children: [
+        for (var i = 0; i < strips.length; i++) ...[
+          if (i > 0) const SizedBox(height: 10),
+          strips[i],
+        ],
+      ],
+    );
   }
 }
 

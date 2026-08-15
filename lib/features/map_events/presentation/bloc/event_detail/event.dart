@@ -42,14 +42,16 @@ class ToggleMapEventRsvp extends MapEventDetailEvent {
   List<Object?> get props => [status];
 }
 
-/// Put one of the viewer's garage cars on the entry list.
-class RegisterCarForEvent extends MapEventDetailEvent {
-  final String carId;
+/// Put one or more of the viewer's garage cars on the entry list. Submitted
+/// all-or-nothing: if any car in the batch is refused (deadline, capacity),
+/// whichever already landed is rolled back rather than left half-registered.
+class RegisterCarsForEvent extends MapEventDetailEvent {
+  final List<String> carIds;
 
-  const RegisterCarForEvent(this.carId);
+  const RegisterCarsForEvent(this.carIds);
 
   @override
-  List<Object?> get props => [carId];
+  List<Object?> get props => [carIds];
 }
 
 /// Take back a registration the organizers haven't accepted yet. Accepted
