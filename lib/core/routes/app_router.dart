@@ -98,6 +98,15 @@ import '../../features/feedback/presentation/bloc/my_feedback/bloc.dart';
 import '../../features/feedback/presentation/bloc/my_feedback/event.dart';
 import '../../features/feedback/presentation/pages/feedback_page.dart';
 import '../../features/feedback/presentation/pages/my_feedback_page.dart';
+import '../../features/feedback_feed/presentation/bloc/board/bloc.dart';
+import '../../features/feedback_feed/presentation/bloc/board/event.dart';
+import '../../features/feedback_feed/presentation/bloc/completed/bloc.dart';
+import '../../features/feedback_feed/presentation/bloc/completed/event.dart';
+import '../../features/feedback_feed/presentation/bloc/compose/bloc.dart';
+import '../../features/feedback_feed/presentation/bloc/compose/event.dart';
+import '../../features/feedback_feed/presentation/pages/completed_feedback_page.dart';
+import '../../features/feedback_feed/presentation/pages/compose_feedback_page.dart';
+import '../../features/feedback_feed/presentation/pages/feedback_feed_page.dart';
 import '../../features/onboarding/presentation/bloc/username_availability/bloc.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/profile/domain/entities/profile.dart';
@@ -421,6 +430,36 @@ final appRouter = GoRouter(
               child: ChatPage(conversationId: conversationId, peer: peer),
             );
           },
+        ),
+      ],
+    ),
+
+    // ---------- Feedback board (community feed) ----------
+    GoRoute(
+      path: '/feedback-feed',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: BlocProvider<FeedbackBoardBloc>(
+          create: (_) =>
+              getIt<FeedbackBoardBloc>()..add(const LoadFeedbackBoard()),
+          child: const FeedbackFeedPage(),
+        ),
+      ),
+      routes: [
+        GoRoute(
+          path: 'completed',
+          builder: (context, state) => BlocProvider<CompletedFeedbackBloc>(
+            create: (_) => getIt<CompletedFeedbackBloc>()
+              ..add(const LoadCompletedFeedback()),
+            child: const CompletedFeedbackPage(),
+          ),
+        ),
+        GoRoute(
+          path: 'new',
+          builder: (context, state) => BlocProvider<ComposeFeedbackBloc>(
+            create: (_) =>
+                getIt<ComposeFeedbackBloc>()..add(const LoadFeedbackTypes()),
+            child: const ComposeFeedbackPage(),
+          ),
         ),
       ],
     ),

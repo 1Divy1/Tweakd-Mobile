@@ -3324,4 +3324,129 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get mapEventsDateCardTitle => 'Când';
+
+  @override
+  String get feedbackFeedEyebrow => 'COMUNITATE';
+
+  @override
+  String get feedbackFeedTitle => 'Feedback';
+
+  @override
+  String get feedbackFeedNew => 'NOU';
+
+  @override
+  String get feedbackFeedSortNewest => 'CELE NOI';
+
+  @override
+  String get feedbackFeedSortPopular => 'POPULARE';
+
+  @override
+  String get feedbackFeedSortOldest => 'CELE VECHI';
+
+  @override
+  String get feedbackFeedCompletedLink => 'Cereri finalizate';
+
+  @override
+  String get feedbackFeedCompletedTitle => 'Cereri finalizate';
+
+  @override
+  String get feedbackFeedComposeEyebrow => 'COMUNITATEA DE FEEDBACK';
+
+  @override
+  String get feedbackFeedComposeTitle => 'Trimite feedback';
+
+  @override
+  String get feedbackFeedComposeSubtitle =>
+      'Vizibil pentru toată lumea. Ceilalți șoferi pot vota pentru sau împotrivă.';
+
+  @override
+  String get feedbackFeedCategoryLabel => 'CATEGORIE';
+
+  @override
+  String get feedbackFeedMessageLabel => 'MESAJUL TĂU';
+
+  @override
+  String get feedbackFeedMessageHint =>
+      'La ce te gândești — un bug, o idee, o îmbunătățire?';
+
+  @override
+  String get feedbackFeedPostAction => 'TRIMITE FEEDBACK';
+
+  @override
+  String get feedbackFeedPostSuccess => 'Feedbackul tău este public.';
+
+  @override
+  String get feedbackFeedYou => 'tu';
+
+  @override
+  String feedbackFeedNetVotes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count voturi nete',
+      one: '1 vot net',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String feedbackFeedShippedAgo(String time) {
+    return 'livrat acum $time';
+  }
+
+  @override
+  String feedbackFeedTimeAgo(String time) {
+    return 'acum $time';
+  }
+
+  @override
+  String get feedbackFeedStaffLabel => 'ECHIPA TWEAKD';
+
+  @override
+  String get feedbackFeedDelete => 'Șterge';
+
+  @override
+  String get feedbackFeedDeleteTitle => 'Ștergi acest feedback?';
+
+  @override
+  String get feedbackFeedDeleteBody =>
+      'Acțiunea nu poate fi anulată. Voturile strânse dispar odată cu el.';
+
+  @override
+  String get feedbackFeedDeleteSuccess => 'Feedback șters.';
+
+  @override
+  String get feedbackFeedCancel => 'Anulează';
+
+  @override
+  String get feedbackFeedEmptyTitle => 'Încă nu e nimic aici';
+
+  @override
+  String get feedbackFeedEmptyBody =>
+      'Fii primul care raportează un bug sau propune o idee.';
+
+  @override
+  String get feedbackFeedCompletedEmptyTitle => 'Încă nu am livrat nimic';
+
+  @override
+  String get feedbackFeedCompletedEmptyBody =>
+      'După ce finalizăm o cerere, apare aici.';
+
+  @override
+  String get feedbackFeedRetry => 'Încearcă din nou';
+
+  @override
+  String get feedbackFeedErrorNetwork =>
+      'Nu ai conexiune la internet. Încearcă din nou.';
+
+  @override
+  String get feedbackFeedErrorNotFound => 'Acest feedback nu mai există.';
+
+  @override
+  String get feedbackFeedErrorLocked =>
+      'Ne-am apucat deja de asta, așa că nu mai poate fi șters.';
+
+  @override
+  String get feedbackFeedErrorGeneric =>
+      'Ceva nu a mers bine. Încearcă din nou.';
 }

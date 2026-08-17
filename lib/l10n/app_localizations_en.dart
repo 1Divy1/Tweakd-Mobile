@@ -3293,4 +3293,129 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mapEventsDateCardTitle => 'When';
+
+  @override
+  String get feedbackFeedEyebrow => 'COMMUNITY';
+
+  @override
+  String get feedbackFeedTitle => 'Feedback';
+
+  @override
+  String get feedbackFeedNew => 'NEW';
+
+  @override
+  String get feedbackFeedSortNewest => 'NEWEST';
+
+  @override
+  String get feedbackFeedSortPopular => 'POPULAR';
+
+  @override
+  String get feedbackFeedSortOldest => 'OLDEST';
+
+  @override
+  String get feedbackFeedCompletedLink => 'Completed requests';
+
+  @override
+  String get feedbackFeedCompletedTitle => 'Completed requests';
+
+  @override
+  String get feedbackFeedComposeEyebrow => 'FEEDBACK COMMUNITY';
+
+  @override
+  String get feedbackFeedComposeTitle => 'Share feedback';
+
+  @override
+  String get feedbackFeedComposeSubtitle =>
+      'Visible to everyone. Other drivers can upvote or downvote it.';
+
+  @override
+  String get feedbackFeedCategoryLabel => 'CATEGORY';
+
+  @override
+  String get feedbackFeedMessageLabel => 'YOUR MESSAGE';
+
+  @override
+  String get feedbackFeedMessageHint =>
+      'What’s on your mind — a bug, an idea, a tweak?';
+
+  @override
+  String get feedbackFeedPostAction => 'POST FEEDBACK';
+
+  @override
+  String get feedbackFeedPostSuccess => 'Your feedback is live.';
+
+  @override
+  String get feedbackFeedYou => 'you';
+
+  @override
+  String feedbackFeedNetVotes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count net votes',
+      one: '1 net vote',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String feedbackFeedShippedAgo(String time) {
+    return 'shipped $time ago';
+  }
+
+  @override
+  String feedbackFeedTimeAgo(String time) {
+    return '$time ago';
+  }
+
+  @override
+  String get feedbackFeedStaffLabel => 'TWEAKD TEAM';
+
+  @override
+  String get feedbackFeedDelete => 'Delete';
+
+  @override
+  String get feedbackFeedDeleteTitle => 'Delete this feedback?';
+
+  @override
+  String get feedbackFeedDeleteBody =>
+      'This can’t be undone. The votes it collected go with it.';
+
+  @override
+  String get feedbackFeedDeleteSuccess => 'Feedback deleted.';
+
+  @override
+  String get feedbackFeedCancel => 'Cancel';
+
+  @override
+  String get feedbackFeedEmptyTitle => 'Nothing here yet';
+
+  @override
+  String get feedbackFeedEmptyBody =>
+      'Be the first to report a bug or pitch an idea.';
+
+  @override
+  String get feedbackFeedCompletedEmptyTitle => 'Nothing shipped yet';
+
+  @override
+  String get feedbackFeedCompletedEmptyBody =>
+      'Once we finish a request, it lands here.';
+
+  @override
+  String get feedbackFeedRetry => 'Try again';
+
+  @override
+  String get feedbackFeedErrorNetwork =>
+      'No internet connection. Please try again.';
+
+  @override
+  String get feedbackFeedErrorNotFound => 'This feedback no longer exists.';
+
+  @override
+  String get feedbackFeedErrorLocked =>
+      'We’ve already picked this up, so it can’t be deleted anymore.';
+
+  @override
+  String get feedbackFeedErrorGeneric =>
+      'Something went wrong. Please try again.';
 }

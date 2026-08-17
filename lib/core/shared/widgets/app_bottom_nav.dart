@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../theme/app_colors.dart';
 
-enum AppBottomNavTab { feed, map, forums, search, profile }
+enum AppBottomNavTab { feed, map, forums, feedback, search, profile }
 
 class AppBottomNav extends StatelessWidget {
   final AppBottomNavTab activeTab;
@@ -58,6 +58,15 @@ class AppBottomNav extends StatelessWidget {
               },
             ),
             _NavItem(
+              icon: Icons.campaign_outlined,
+              isActive: activeTab == AppBottomNavTab.feedback,
+              onTap: () {
+                if (activeTab != AppBottomNavTab.feedback) {
+                  context.go('/feedback-feed');
+                }
+              },
+            ),
+            _NavItem(
               icon: Icons.search,
               isActive: activeTab == AppBottomNavTab.search,
               onTap: () {
@@ -96,11 +105,12 @@ class _NavItem extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        // Tight horizontal padding so six tabs still fit on a small phone.
+        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: color, size: 30),
+            Icon(icon, color: color, size: 26),
             const SizedBox(height: 6),
             Container(
               width: 18,

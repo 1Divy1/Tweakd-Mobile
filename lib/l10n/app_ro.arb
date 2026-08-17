@@ -1236,5 +1236,55 @@
   "mapSearchPlaceholder": "Caută întâlniri, service-uri, orașe…",
   "mapCreateEvent": "Creează un eveniment",
   "mapEventsCopied": "Detaliile evenimentului au fost copiate.",
-  "mapEventsDateCardTitle": "Când"
+  "mapEventsDateCardTitle": "Când",
+  "feedbackFeedEyebrow": "COMUNITATE",
+  "feedbackFeedTitle": "Feedback",
+  "feedbackFeedNew": "NOU",
+  "feedbackFeedSortNewest": "CELE NOI",
+  "feedbackFeedSortPopular": "POPULARE",
+  "feedbackFeedSortOldest": "CELE VECHI",
+  "feedbackFeedCompletedLink": "Cereri finalizate",
+  "feedbackFeedCompletedTitle": "Cereri finalizate",
+  "feedbackFeedComposeEyebrow": "COMUNITATEA DE FEEDBACK",
+  "feedbackFeedComposeTitle": "Trimite feedback",
+  "feedbackFeedComposeSubtitle": "Vizibil pentru toată lumea. Ceilalți șoferi pot vota pentru sau împotrivă.",
+  "feedbackFeedCategoryLabel": "CATEGORIE",
+  "feedbackFeedMessageLabel": "MESAJUL TĂU",
+  "feedbackFeedMessageHint": "La ce te gândești — un bug, o idee, o îmbunătățire?",
+  "feedbackFeedPostAction": "TRIMITE FEEDBACK",
+  "feedbackFeedPostSuccess": "Feedbackul tău este public.",
+  "feedbackFeedYou": "tu",
+  "feedbackFeedNetVotes": "{count, plural, =1{1 vot net} other{{count} voturi nete}}",
+  "@feedbackFeedNetVotes": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "feedbackFeedShippedAgo": "livrat acum {time}",
+  "@feedbackFeedShippedAgo": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "feedbackFeedTimeAgo": "acum {time}",
+  "@feedbackFeedTimeAgo": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "feedbackFeedStaffLabel": "ECHIPA TWEAKD",
+  "feedbackFeedDelete": "Șterge",
+  "feedbackFeedDeleteTitle": "Ștergi acest feedback?",
+  "feedbackFeedDeleteBody": "Acțiunea nu poate fi anulată. Voturile strânse dispar odată cu el.",
+  "feedbackFeedDeleteSuccess": "Feedback șters.",
+  "feedbackFeedCancel": "Anulează",
+  "feedbackFeedEmptyTitle": "Încă nu e nimic aici",
+  "feedbackFeedEmptyBody": "Fii primul care raportează un bug sau propune o idee.",
+  "feedbackFeedCompletedEmptyTitle": "Încă nu am livrat nimic",
+  "feedbackFeedCompletedEmptyBody": "După ce finalizăm o cerere, apare aici.",
+  "feedbackFeedRetry": "Încearcă din nou",
+  "feedbackFeedErrorNetwork": "Nu ai conexiune la internet. Încearcă din nou.",
+  "feedbackFeedErrorNotFound": "Acest feedback nu mai există.",
+  "feedbackFeedErrorLocked": "Ne-am apucat deja de asta, așa că nu mai poate fi șters.",
+  "feedbackFeedErrorGeneric": "Ceva nu a mers bine. Încearcă din nou."
 }

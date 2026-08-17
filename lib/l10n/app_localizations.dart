@@ -5917,6 +5917,216 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'When'**
   String get mapEventsDateCardTitle;
+
+  /// No description provided for @feedbackFeedEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'COMMUNITY'**
+  String get feedbackFeedEyebrow;
+
+  /// No description provided for @feedbackFeedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback'**
+  String get feedbackFeedTitle;
+
+  /// No description provided for @feedbackFeedNew.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW'**
+  String get feedbackFeedNew;
+
+  /// No description provided for @feedbackFeedSortNewest.
+  ///
+  /// In en, this message translates to:
+  /// **'NEWEST'**
+  String get feedbackFeedSortNewest;
+
+  /// No description provided for @feedbackFeedSortPopular.
+  ///
+  /// In en, this message translates to:
+  /// **'POPULAR'**
+  String get feedbackFeedSortPopular;
+
+  /// No description provided for @feedbackFeedSortOldest.
+  ///
+  /// In en, this message translates to:
+  /// **'OLDEST'**
+  String get feedbackFeedSortOldest;
+
+  /// No description provided for @feedbackFeedCompletedLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed requests'**
+  String get feedbackFeedCompletedLink;
+
+  /// No description provided for @feedbackFeedCompletedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed requests'**
+  String get feedbackFeedCompletedTitle;
+
+  /// No description provided for @feedbackFeedComposeEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'FEEDBACK COMMUNITY'**
+  String get feedbackFeedComposeEyebrow;
+
+  /// No description provided for @feedbackFeedComposeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share feedback'**
+  String get feedbackFeedComposeTitle;
+
+  /// No description provided for @feedbackFeedComposeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Visible to everyone. Other drivers can upvote or downvote it.'**
+  String get feedbackFeedComposeSubtitle;
+
+  /// No description provided for @feedbackFeedCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'CATEGORY'**
+  String get feedbackFeedCategoryLabel;
+
+  /// No description provided for @feedbackFeedMessageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'YOUR MESSAGE'**
+  String get feedbackFeedMessageLabel;
+
+  /// No description provided for @feedbackFeedMessageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What’s on your mind — a bug, an idea, a tweak?'**
+  String get feedbackFeedMessageHint;
+
+  /// No description provided for @feedbackFeedPostAction.
+  ///
+  /// In en, this message translates to:
+  /// **'POST FEEDBACK'**
+  String get feedbackFeedPostAction;
+
+  /// No description provided for @feedbackFeedPostSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Your feedback is live.'**
+  String get feedbackFeedPostSuccess;
+
+  /// No description provided for @feedbackFeedYou.
+  ///
+  /// In en, this message translates to:
+  /// **'you'**
+  String get feedbackFeedYou;
+
+  /// No description provided for @feedbackFeedNetVotes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 net vote} other{{count} net votes}}'**
+  String feedbackFeedNetVotes(int count);
+
+  /// No description provided for @feedbackFeedShippedAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'shipped {time} ago'**
+  String feedbackFeedShippedAgo(String time);
+
+  /// No description provided for @feedbackFeedTimeAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} ago'**
+  String feedbackFeedTimeAgo(String time);
+
+  /// No description provided for @feedbackFeedStaffLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'TWEAKD TEAM'**
+  String get feedbackFeedStaffLabel;
+
+  /// No description provided for @feedbackFeedDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get feedbackFeedDelete;
+
+  /// No description provided for @feedbackFeedDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this feedback?'**
+  String get feedbackFeedDeleteTitle;
+
+  /// No description provided for @feedbackFeedDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This can’t be undone. The votes it collected go with it.'**
+  String get feedbackFeedDeleteBody;
+
+  /// No description provided for @feedbackFeedDeleteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback deleted.'**
+  String get feedbackFeedDeleteSuccess;
+
+  /// No description provided for @feedbackFeedCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get feedbackFeedCancel;
+
+  /// No description provided for @feedbackFeedEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here yet'**
+  String get feedbackFeedEmptyTitle;
+
+  /// No description provided for @feedbackFeedEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Be the first to report a bug or pitch an idea.'**
+  String get feedbackFeedEmptyBody;
+
+  /// No description provided for @feedbackFeedCompletedEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing shipped yet'**
+  String get feedbackFeedCompletedEmptyTitle;
+
+  /// No description provided for @feedbackFeedCompletedEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Once we finish a request, it lands here.'**
+  String get feedbackFeedCompletedEmptyBody;
+
+  /// No description provided for @feedbackFeedRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get feedbackFeedRetry;
+
+  /// No description provided for @feedbackFeedErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Please try again.'**
+  String get feedbackFeedErrorNetwork;
+
+  /// No description provided for @feedbackFeedErrorNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This feedback no longer exists.'**
+  String get feedbackFeedErrorNotFound;
+
+  /// No description provided for @feedbackFeedErrorLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'We’ve already picked this up, so it can’t be deleted anymore.'**
+  String get feedbackFeedErrorLocked;
+
+  /// No description provided for @feedbackFeedErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get feedbackFeedErrorGeneric;
 }
 
 class _AppLocalizationsDelegate

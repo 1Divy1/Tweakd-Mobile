@@ -1449,5 +1449,55 @@
   "mapSearchPlaceholder": "Search meets, shops, cities…",
   "mapCreateEvent": "Create an event",
   "mapEventsCopied": "Event details copied.",
-  "mapEventsDateCardTitle": "When"
+  "mapEventsDateCardTitle": "When",
+  "feedbackFeedEyebrow": "COMMUNITY",
+  "feedbackFeedTitle": "Feedback",
+  "feedbackFeedNew": "NEW",
+  "feedbackFeedSortNewest": "NEWEST",
+  "feedbackFeedSortPopular": "POPULAR",
+  "feedbackFeedSortOldest": "OLDEST",
+  "feedbackFeedCompletedLink": "Completed requests",
+  "feedbackFeedCompletedTitle": "Completed requests",
+  "feedbackFeedComposeEyebrow": "FEEDBACK COMMUNITY",
+  "feedbackFeedComposeTitle": "Share feedback",
+  "feedbackFeedComposeSubtitle": "Visible to everyone. Other drivers can upvote or downvote it.",
+  "feedbackFeedCategoryLabel": "CATEGORY",
+  "feedbackFeedMessageLabel": "YOUR MESSAGE",
+  "feedbackFeedMessageHint": "What’s on your mind — a bug, an idea, a tweak?",
+  "feedbackFeedPostAction": "POST FEEDBACK",
+  "feedbackFeedPostSuccess": "Your feedback is live.",
+  "feedbackFeedYou": "you",
+  "feedbackFeedNetVotes": "{count, plural, =1{1 net vote} other{{count} net votes}}",
+  "@feedbackFeedNetVotes": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "feedbackFeedShippedAgo": "shipped {time} ago",
+  "@feedbackFeedShippedAgo": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "feedbackFeedTimeAgo": "{time} ago",
+  "@feedbackFeedTimeAgo": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "feedbackFeedStaffLabel": "TWEAKD TEAM",
+  "feedbackFeedDelete": "Delete",
+  "feedbackFeedDeleteTitle": "Delete this feedback?",
+  "feedbackFeedDeleteBody": "This can’t be undone. The votes it collected go with it.",
+  "feedbackFeedDeleteSuccess": "Feedback deleted.",
+  "feedbackFeedCancel": "Cancel",
+  "feedbackFeedEmptyTitle": "Nothing here yet",
+  "feedbackFeedEmptyBody": "Be the first to report a bug or pitch an idea.",
+  "feedbackFeedCompletedEmptyTitle": "Nothing shipped yet",
+  "feedbackFeedCompletedEmptyBody": "Once we finish a request, it lands here.",
+  "feedbackFeedRetry": "Try again",
+  "feedbackFeedErrorNetwork": "No internet connection. Please try again.",
+  "feedbackFeedErrorNotFound": "This feedback no longer exists.",
+  "feedbackFeedErrorLocked": "We’ve already picked this up, so it can’t be deleted anymore.",
+  "feedbackFeedErrorGeneric": "Something went wrong. Please try again."
 }
