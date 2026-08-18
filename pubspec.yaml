@@ -45,6 +45,7 @@ dependencies:
   mapbox_maps_flutter: ^2.27.0
   geolocator: ^14.0.3
   url_launcher: ^6.3.2
+  google_fonts: ^6.3.2
 
 dev_dependencies:
   flutter_test:

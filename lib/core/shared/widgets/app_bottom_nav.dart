@@ -41,7 +41,7 @@ class AppBottomNav extends StatelessWidget {
               },
             ),
             _NavItem(
-              icon: Icons.map_outlined,
+              icon: Icons.map_rounded,
               isActive: activeTab == AppBottomNavTab.map,
               onTap: () {
                 // Map takes fullscreen, so it's pushed into the existing navigation stack
@@ -49,7 +49,7 @@ class AppBottomNav extends StatelessWidget {
               },
             ),
             _NavItem(
-              icon: Icons.forum_outlined,
+              icon: Icons.forum_rounded,
               isActive: activeTab == AppBottomNavTab.forums,
               onTap: () {
                 if (activeTab != AppBottomNavTab.forums) {
@@ -77,7 +77,8 @@ class AppBottomNav extends StatelessWidget {
               icon: Icons.person_outline,
               isActive: activeTab == AppBottomNavTab.profile,
               onTap: () {
-                if (activeTab != AppBottomNavTab.profile) context.go('/profile');
+                if (activeTab != AppBottomNavTab.profile)
+                  context.go('/profile');
               },
             ),
           ],

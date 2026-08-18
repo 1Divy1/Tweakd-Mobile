@@ -356,24 +356,6 @@ abstract class AppLocalizations {
   /// **'Working…'**
   String get onboardingWorking;
 
-  /// No description provided for @onboardingStart.
-  ///
-  /// In en, this message translates to:
-  /// **'START'**
-  String get onboardingStart;
-
-  /// No description provided for @onboardingFinish.
-  ///
-  /// In en, this message translates to:
-  /// **'FINISH'**
-  String get onboardingFinish;
-
-  /// No description provided for @onboardingStepCounter.
-  ///
-  /// In en, this message translates to:
-  /// **'STEP {current} / {total}'**
-  String onboardingStepCounter(int current, int total);
-
   /// No description provided for @onboardingOptional.
   ///
   /// In en, this message translates to:
@@ -392,53 +374,11 @@ abstract class AppLocalizations {
   /// **'No matches'**
   String get onboardingNoMatches;
 
-  /// No description provided for @onboardingStepIdentity.
+  /// No description provided for @onboardingErrorPickBrand.
   ///
   /// In en, this message translates to:
-  /// **'IDENTITY'**
-  String get onboardingStepIdentity;
-
-  /// No description provided for @onboardingStepGarage.
-  ///
-  /// In en, this message translates to:
-  /// **'PREFERENCES'**
-  String get onboardingStepGarage;
-
-  /// No description provided for @onboardingStepRole.
-  ///
-  /// In en, this message translates to:
-  /// **'ROLE'**
-  String get onboardingStepRole;
-
-  /// No description provided for @onboardingStepTaste.
-  ///
-  /// In en, this message translates to:
-  /// **'TASTE'**
-  String get onboardingStepTaste;
-
-  /// No description provided for @onboardingStepLocation.
-  ///
-  /// In en, this message translates to:
-  /// **'LOCATION'**
-  String get onboardingStepLocation;
-
-  /// No description provided for @onboardingStepNotifications.
-  ///
-  /// In en, this message translates to:
-  /// **'NOTIFICATIONS'**
-  String get onboardingStepNotifications;
-
-  /// No description provided for @onboardingErrorPickRole.
-  ///
-  /// In en, this message translates to:
-  /// **'Pick at least one role.'**
-  String get onboardingErrorPickRole;
-
-  /// No description provided for @onboardingErrorPickCategory.
-  ///
-  /// In en, this message translates to:
-  /// **'Pick at least {count} category to continue.'**
-  String onboardingErrorPickCategory(int count);
+  /// **'Pick at least one brand you\'re into.'**
+  String get onboardingErrorPickBrand;
 
   /// No description provided for @onboardingErrorSelectCity.
   ///
@@ -551,7 +491,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingIdentitySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'This is how the community finds and mentions you. Add a short bio so people get your vibe at a glance.'**
+  /// **'This is how the community finds and @-mentions you.'**
   String get onboardingIdentitySubtitle;
 
   /// No description provided for @onboardingFieldUsername.
@@ -581,13 +521,13 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingGarageTitle.
   ///
   /// In en, this message translates to:
-  /// **'Brands & models you love'**
+  /// **'Your garage'**
   String get onboardingGarageTitle;
 
   /// No description provided for @onboardingGarageSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Pick your favorite brands and models. We’ll tune your feed around them.'**
+  /// **'Brands you follow — we’ll tune your feed and the marketplace around them.'**
   String get onboardingGarageSubtitle;
 
   /// No description provided for @onboardingFieldYourPicks.
@@ -626,70 +566,10 @@ abstract class AppLocalizations {
   /// **'ADD ANOTHER BRAND'**
   String get onboardingAddBrand;
 
-  /// No description provided for @onboardingRoleLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'03 — ROLE'**
-  String get onboardingRoleLabel;
-
-  /// No description provided for @onboardingRoleTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Your role in the scene'**
-  String get onboardingRoleTitle;
-
-  /// No description provided for @onboardingRoleSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'How do you show up in the community? Choose all that apply.'**
-  String get onboardingRoleSubtitle;
-
-  /// No description provided for @onboardingFieldRoles.
-  ///
-  /// In en, this message translates to:
-  /// **'ROLES'**
-  String get onboardingFieldRoles;
-
-  /// No description provided for @onboardingTasteLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'04 — TASTE'**
-  String get onboardingTasteLabel;
-
-  /// No description provided for @onboardingTasteTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Categories you’re into'**
-  String get onboardingTasteTitle;
-
-  /// No description provided for @onboardingTasteSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Select the categories you’re passionate about. We’ll lead with these across your feed and the marketplace.'**
-  String get onboardingTasteSubtitle;
-
-  /// No description provided for @onboardingFieldCategories.
-  ///
-  /// In en, this message translates to:
-  /// **'CATEGORIES'**
-  String get onboardingFieldCategories;
-
-  /// No description provided for @onboardingTasteSelectedCount.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} selected'**
-  String onboardingTasteSelectedCount(int count);
-
-  /// No description provided for @onboardingTastePickHint.
-  ///
-  /// In en, this message translates to:
-  /// **' · pick at least 1 to calibrate your feed.'**
-  String get onboardingTastePickHint;
-
   /// No description provided for @onboardingLocationLabel.
   ///
   /// In en, this message translates to:
-  /// **'05 — LOCATION'**
+  /// **'03 — LOCATION'**
   String get onboardingLocationLabel;
 
   /// No description provided for @onboardingLocationTitle.
@@ -779,7 +659,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingNotificationsLabel.
   ///
   /// In en, this message translates to:
-  /// **'06 — NOTIFICATIONS'**
+  /// **'04 — NOTIFICATIONS'**
   String get onboardingNotificationsLabel;
 
   /// No description provided for @onboardingNotificationsTitle.
@@ -854,11 +734,11 @@ abstract class AppLocalizations {
   /// **'MEETS & EVENTS · WITHIN {radius} KM'**
   String onboardingNotifGroupMeets(int radius);
 
-  /// No description provided for @onboardingNotifGroupMarketplace.
+  /// No description provided for @onboardingNotifGroupGarage.
   ///
   /// In en, this message translates to:
-  /// **'MARKETPLACE'**
-  String get onboardingNotifGroupMarketplace;
+  /// **'YOUR GARAGE'**
+  String get onboardingNotifGroupGarage;
 
   /// No description provided for @onboardingNotifLikesTitle.
   ///
@@ -932,17 +812,29 @@ abstract class AppLocalizations {
   /// **'Shows, track days & cars-and-coffee'**
   String get onboardingNotifEventsSubtitle;
 
-  /// No description provided for @onboardingNotifPriceDropsTitle.
+  /// No description provided for @onboardingNotifEventOrganizerTitle.
   ///
   /// In en, this message translates to:
-  /// **'Price drops'**
-  String get onboardingNotifPriceDropsTitle;
+  /// **'Event organizer'**
+  String get onboardingNotifEventOrganizerTitle;
 
-  /// No description provided for @onboardingNotifPriceDropsSubtitle.
+  /// No description provided for @onboardingNotifEventOrganizerSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'When a saved item gets a discount'**
-  String get onboardingNotifPriceDropsSubtitle;
+  /// **'When someone enters your event, joins as co-organizer, or asks to withdraw'**
+  String get onboardingNotifEventOrganizerSubtitle;
+
+  /// No description provided for @onboardingNotifServiceRemindersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Service reminders'**
+  String get onboardingNotifServiceRemindersTitle;
+
+  /// No description provided for @onboardingNotifServiceRemindersSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming services and expiring documents on your cars'**
+  String get onboardingNotifServiceRemindersSubtitle;
 
   /// No description provided for @onboardingNotifTagsTitle.
   ///

@@ -239,11 +239,7 @@ import '../../features/onboarding/domain/repositories/onboarding_repository.dart
     as _i430;
 import '../../features/onboarding/domain/usecases/check_username_availability.dart'
     as _i842;
-import '../../features/onboarding/domain/usecases/get_car_categories.dart'
-    as _i329;
 import '../../features/onboarding/domain/usecases/get_cities.dart' as _i343;
-import '../../features/onboarding/domain/usecases/get_community_roles.dart'
-    as _i863;
 import '../../features/onboarding/domain/usecases/get_countries.dart' as _i290;
 import '../../features/onboarding/domain/usecases/submit_onboarding.dart'
     as _i1016;
@@ -643,14 +639,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i430.OnboardingRepository>(),
       ),
     );
-    gh.lazySingleton<_i329.GetCarCategoriesUseCase>(
-      () => _i329.GetCarCategoriesUseCase(gh<_i430.OnboardingRepository>()),
-    );
     gh.lazySingleton<_i343.GetCitiesUseCase>(
       () => _i343.GetCitiesUseCase(gh<_i430.OnboardingRepository>()),
-    );
-    gh.lazySingleton<_i863.GetCommunityRolesUseCase>(
-      () => _i863.GetCommunityRolesUseCase(gh<_i430.OnboardingRepository>()),
     );
     gh.lazySingleton<_i290.GetCountriesUseCase>(
       () => _i290.GetCountriesUseCase(gh<_i430.OnboardingRepository>()),
@@ -789,6 +779,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i14.SearchUsersUseCase>(
       () => _i14.SearchUsersUseCase(gh<_i357.SearchRepository>()),
+    );
+    gh.factory<_i797.OnboardingBloc>(
+      () => _i797.OnboardingBloc(
+        getCountries: gh<_i290.GetCountriesUseCase>(),
+        getCities: gh<_i343.GetCitiesUseCase>(),
+        getBrands: gh<_i408.GetBrandsUseCase>(),
+        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
+        submitOnboarding: gh<_i1016.SubmitOnboardingUseCase>(),
+      ),
     );
     gh.factory<_i668.ReportBloc>(
       () => _i668.ReportBloc(
@@ -1179,17 +1178,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i792.MyMapEventsBloc>(
       () =>
           _i792.MyMapEventsBloc(getMyEvents: gh<_i997.GetMyMapEventsUseCase>()),
-    );
-    gh.factory<_i797.OnboardingBloc>(
-      () => _i797.OnboardingBloc(
-        getCountries: gh<_i290.GetCountriesUseCase>(),
-        getCities: gh<_i343.GetCitiesUseCase>(),
-        getCommunityRoles: gh<_i863.GetCommunityRolesUseCase>(),
-        getCarCategories: gh<_i329.GetCarCategoriesUseCase>(),
-        getBrands: gh<_i408.GetBrandsUseCase>(),
-        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
-        submitOnboarding: gh<_i1016.SubmitOnboardingUseCase>(),
-      ),
     );
     gh.factory<_i506.MapEventDetailBloc>(
       () => _i506.MapEventDetailBloc(

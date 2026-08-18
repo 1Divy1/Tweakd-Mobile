@@ -13,10 +13,10 @@ import '../onboarding_fields.dart';
 /// 500-char ceiling.
 const int kOnboardingBioMaxLength = 150;
 
-/// Step 1 — claim a public handle and add an optional bio. The controllers are
-/// owned by the wizard so the entered values survive step navigation; this
-/// widget only listens to them to drive the live availability hint and the
-/// bio character counter.
+/// Step 1 — claim a public handle and add an optional bio. The controllers
+/// are owned by the wizard so the entered values survive step navigation;
+/// this widget only listens to them to drive the live availability hint and
+/// the bio character counter.
 class IdentityStep extends StatelessWidget {
   final TextEditingController usernameCtrl;
   final TextEditingController bioCtrl;
@@ -48,7 +48,6 @@ class IdentityStep extends StatelessWidget {
               children: [
                 _UsernameField(
                   controller: usernameCtrl,
-                  borderColor: _borderColorFor(state),
                   onChanged: (value) => context
                       .read<UsernameAvailabilityBloc>()
                       .add(UsernameChanged(value)),
@@ -83,24 +82,12 @@ class IdentityStep extends StatelessWidget {
   }
 }
 
-/// Border tint reflects the live availability state: neutral while idle or
-/// checking, accent when the handle is free, hot when it's malformed or taken.
-Color _borderColorFor(UsernameAvailabilityState state) {
-  if (state is UsernameAvailable) return AppColors.accent;
-  if (state is UsernameAvailabilityInvalid || state is UsernameTaken) {
-    return AppColors.accentHot;
-  }
-  return AppColors.line;
-}
-
 class _UsernameField extends StatelessWidget {
   final TextEditingController controller;
-  final Color borderColor;
   final ValueChanged<String> onChanged;
 
   const _UsernameField({
     required this.controller,
-    required this.borderColor,
     required this.onChanged,
   });
 
@@ -110,7 +97,6 @@ class _UsernameField extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: borderColor, width: 1.5),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withAlpha(6),
@@ -128,7 +114,6 @@ class _UsernameField extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.bg,
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: AppColors.line),
             ),
             child: const Center(
               child: Text(
@@ -157,6 +142,7 @@ class _UsernameField extends StatelessWidget {
               ),
               decoration: InputDecoration(
                 isDense: true,
+                filled: false,
                 hintText: AppLocalizations.of(context)!.onboardingUsernameHint,
                 hintStyle: const TextStyle(
                   color: AppColors.muteSoft,
@@ -304,7 +290,6 @@ class _BioField extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.line),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withAlpha(6),
@@ -335,6 +320,7 @@ class _BioField extends StatelessWidget {
             null,
         decoration: InputDecoration(
           isDense: true,
+          filled: false,
           hintText: AppLocalizations.of(context)!.onboardingBioHint,
           hintStyle: const TextStyle(
             color: AppColors.muteSoft,

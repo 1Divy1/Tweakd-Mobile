@@ -156,17 +156,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingWorking => 'Working…';
 
   @override
-  String get onboardingStart => 'START';
-
-  @override
-  String get onboardingFinish => 'FINISH';
-
-  @override
-  String onboardingStepCounter(int current, int total) {
-    return 'STEP $current / $total';
-  }
-
-  @override
   String get onboardingOptional => 'OPTIONAL';
 
   @override
@@ -176,30 +165,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingNoMatches => 'No matches';
 
   @override
-  String get onboardingStepIdentity => 'IDENTITY';
-
-  @override
-  String get onboardingStepGarage => 'PREFERENCES';
-
-  @override
-  String get onboardingStepRole => 'ROLE';
-
-  @override
-  String get onboardingStepTaste => 'TASTE';
-
-  @override
-  String get onboardingStepLocation => 'LOCATION';
-
-  @override
-  String get onboardingStepNotifications => 'NOTIFICATIONS';
-
-  @override
-  String get onboardingErrorPickRole => 'Pick at least one role.';
-
-  @override
-  String onboardingErrorPickCategory(int count) {
-    return 'Pick at least $count category to continue.';
-  }
+  String get onboardingErrorPickBrand =>
+      'Pick at least one brand you\'re into.';
 
   @override
   String get onboardingErrorSelectCity => 'Select your city to continue.';
@@ -268,7 +235,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingIdentitySubtitle =>
-      'This is how the community finds and mentions you. Add a short bio so people get your vibe at a glance.';
+      'This is how the community finds and @-mentions you.';
 
   @override
   String get onboardingFieldUsername => 'USERNAME';
@@ -283,11 +250,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingGarageLabel => '02 — PREFERENCES';
 
   @override
-  String get onboardingGarageTitle => 'Brands & models you love';
+  String get onboardingGarageTitle => 'Your garage';
 
   @override
   String get onboardingGarageSubtitle =>
-      'Pick your favorite brands and models. We’ll tune your feed around them.';
+      'Brands you follow — we’ll tune your feed and the marketplace around them.';
 
   @override
   String get onboardingFieldYourPicks => 'YOUR PICKS';
@@ -310,42 +277,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingAddBrand => 'ADD ANOTHER BRAND';
 
   @override
-  String get onboardingRoleLabel => '03 — ROLE';
-
-  @override
-  String get onboardingRoleTitle => 'Your role in the scene';
-
-  @override
-  String get onboardingRoleSubtitle =>
-      'How do you show up in the community? Choose all that apply.';
-
-  @override
-  String get onboardingFieldRoles => 'ROLES';
-
-  @override
-  String get onboardingTasteLabel => '04 — TASTE';
-
-  @override
-  String get onboardingTasteTitle => 'Categories you’re into';
-
-  @override
-  String get onboardingTasteSubtitle =>
-      'Select the categories you’re passionate about. We’ll lead with these across your feed and the marketplace.';
-
-  @override
-  String get onboardingFieldCategories => 'CATEGORIES';
-
-  @override
-  String onboardingTasteSelectedCount(int count) {
-    return '$count selected';
-  }
-
-  @override
-  String get onboardingTastePickHint =>
-      ' · pick at least 1 to calibrate your feed.';
-
-  @override
-  String get onboardingLocationLabel => '05 — LOCATION';
+  String get onboardingLocationLabel => '03 — LOCATION';
 
   @override
   String get onboardingLocationTitle =>
@@ -392,7 +324,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingDiscoveryRadius => 'DISCOVERY RADIUS';
 
   @override
-  String get onboardingNotificationsLabel => '06 — NOTIFICATIONS';
+  String get onboardingNotificationsLabel => '04 — NOTIFICATIONS';
 
   @override
   String get onboardingNotificationsTitle => 'What should we ping you about?';
@@ -437,7 +369,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get onboardingNotifGroupMarketplace => 'MARKETPLACE';
+  String get onboardingNotifGroupGarage => 'YOUR GARAGE';
 
   @override
   String get onboardingNotifLikesTitle => 'Likes';
@@ -480,11 +412,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'Shows, track days & cars-and-coffee';
 
   @override
-  String get onboardingNotifPriceDropsTitle => 'Price drops';
+  String get onboardingNotifEventOrganizerTitle => 'Event organizer';
 
   @override
-  String get onboardingNotifPriceDropsSubtitle =>
-      'When a saved item gets a discount';
+  String get onboardingNotifEventOrganizerSubtitle =>
+      'When someone enters your event, joins as co-organizer, or asks to withdraw';
+
+  @override
+  String get onboardingNotifServiceRemindersTitle => 'Service reminders';
+
+  @override
+  String get onboardingNotifServiceRemindersSubtitle =>
+      'Upcoming services and expiring documents on your cars';
 
   @override
   String get onboardingNotifTagsTitle => 'Tags';

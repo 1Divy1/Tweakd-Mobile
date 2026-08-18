@@ -3,9 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/network/abstract_http.dart';
-import '../models/onboarding reference/car_category_model.dart';
 import '../models/onboarding reference/city_model.dart';
-import '../models/onboarding reference/community_role_model.dart';
 import '../models/onboarding reference/country_model.dart';
 
 @lazySingleton
@@ -31,20 +29,6 @@ class OnboardingApiDataSource {
         .toList();
   }
 
-  Future<List<CommunityRoleModel>> getCommunityRoles() async {
-    final data = await http.get('/profile/reference/community-roles');
-    return (data as List<dynamic>)
-        .map((e) => CommunityRoleModel.fromJson(e as Map<String, dynamic>))
-        .toList();
-  }
-
-  Future<List<CarCategoryModel>> getCarCategories() async {
-    final data = await http.get('/profile/reference/car-categories');
-    return (data as List<dynamic>)
-        .map((e) => CarCategoryModel.fromJson(e as Map<String, dynamic>))
-        .toList();
-  }
-
   // ── Username availability ───────────────────────────────────────────────
 
   /// `GET /profile/exists/{username}`. Returns `true` when the handle is
@@ -63,9 +47,9 @@ class OnboardingApiDataSource {
 
   // ── Submit ────────────────────────────────────────────────────────────────
 
-  /// `POST /profile/onboarding`. [body] must carry username, city_id,
-  /// discovery_radius_km and non-empty category_ids / role_ids; bio is
-  /// optional. Returns the freshly created profile.
+  /// `POST /profile/onboarding`. [body] must carry username, city_id and
+  /// discovery_radius_km; bio is optional. Returns the freshly created
+  /// profile.
   Future<ProfileModel> submitOnboarding(Map<String, dynamic> body) async {
     final data = await http.post('/profile/onboarding', body: body);
     return ProfileModel.fromJson(data as Map<String, dynamic>);

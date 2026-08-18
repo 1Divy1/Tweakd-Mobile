@@ -109,14 +109,23 @@ class NotificationsStep extends StatelessWidget {
           onChanged: (v) =>
               onChanged(prefs.copyWith(organizedEventsEnabled: v)),
         ),
-        const SizedBox(height: 18),
-        _GroupLabel(l10n.onboardingNotifGroupMarketplace),
         _ToggleRow(
-          icon: Icons.shopping_bag_outlined,
-          title: l10n.onboardingNotifPriceDropsTitle,
-          subtitle: l10n.onboardingNotifPriceDropsSubtitle,
-          value: prefs.priceDropsEnabled,
-          onChanged: (v) => onChanged(prefs.copyWith(priceDropsEnabled: v)),
+          icon: Icons.admin_panel_settings_rounded,
+          title: l10n.onboardingNotifEventOrganizerTitle,
+          subtitle: l10n.onboardingNotifEventOrganizerSubtitle,
+          value: prefs.eventOrganizerEnabled,
+          onChanged: (v) =>
+              onChanged(prefs.copyWith(eventOrganizerEnabled: v)),
+        ),
+        const SizedBox(height: 18),
+        _GroupLabel(l10n.onboardingNotifGroupGarage),
+        _ToggleRow(
+          icon: Icons.car_repair_rounded,
+          title: l10n.onboardingNotifServiceRemindersTitle,
+          subtitle: l10n.onboardingNotifServiceRemindersSubtitle,
+          value: prefs.serviceRemindersEnabled,
+          onChanged: (v) =>
+              onChanged(prefs.copyWith(serviceRemindersEnabled: v)),
         ),
       ],
     );
@@ -151,7 +160,13 @@ class _PushPermissionBanner extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.surface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.line),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(6),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
           child: Row(
             children: [
@@ -159,7 +174,7 @@ class _PushPermissionBanner extends StatelessWidget {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: AppColors.accentSoft,
+                  color: AppColors.ink,
                   borderRadius: BorderRadius.circular(11),
                 ),
                 child: const Icon(Icons.notifications_active_rounded,
@@ -236,18 +251,8 @@ class _ActionBanner extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: filled ? AppColors.accent : AppColors.surface,
+        color: filled ? AppColors.ink : AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: filled ? null : Border.all(color: AppColors.line),
-        boxShadow: filled
-            ? [
-                BoxShadow(
-                  color: AppColors.accent.withAlpha(70),
-                  blurRadius: 18,
-                  offset: const Offset(0, 6),
-                ),
-              ]
-            : null,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,8 +265,6 @@ class _ActionBanner extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: filled ? Colors.white.withAlpha(38) : AppColors.bg,
                   borderRadius: BorderRadius.circular(11),
-                  border:
-                      filled ? null : Border.all(color: AppColors.line),
                 ),
                 child: Icon(icon,
                     size: 20,
@@ -304,7 +307,7 @@ class _ActionBanner extends StatelessWidget {
                 child: Text(
                   actionLabel,
                   style: TextStyle(
-                    color: filled ? AppColors.accent : Colors.white,
+                    color: Colors.black,
                     fontWeight: FontWeight.w800,
                     fontSize: 13,
                     letterSpacing: 1,
@@ -358,7 +361,6 @@ class _ToggleRow extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.line),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withAlpha(6),
@@ -375,7 +377,6 @@ class _ToggleRow extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColors.bg,
                 borderRadius: BorderRadius.circular(11),
-                border: Border.all(color: AppColors.line),
               ),
               child: Icon(icon, size: 20, color: iconColor ?? AppColors.ink2),
             ),

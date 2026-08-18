@@ -156,17 +156,6 @@ class AppLocalizationsRo extends AppLocalizations {
   String get onboardingWorking => 'Se procesează…';
 
   @override
-  String get onboardingStart => 'START';
-
-  @override
-  String get onboardingFinish => 'FINAL';
-
-  @override
-  String onboardingStepCounter(int current, int total) {
-    return 'PASUL $current / $total';
-  }
-
-  @override
   String get onboardingOptional => 'OPȚIONAL';
 
   @override
@@ -176,30 +165,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get onboardingNoMatches => 'Niciun rezultat';
 
   @override
-  String get onboardingStepIdentity => 'IDENTITATE';
-
-  @override
-  String get onboardingStepGarage => 'PREFERINȚE';
-
-  @override
-  String get onboardingStepRole => 'ROL';
-
-  @override
-  String get onboardingStepTaste => 'STILURI';
-
-  @override
-  String get onboardingStepLocation => 'LOCAȚIE';
-
-  @override
-  String get onboardingStepNotifications => 'NOTIFICĂRI';
-
-  @override
-  String get onboardingErrorPickRole => 'Alege cel puțin un rol.';
-
-  @override
-  String onboardingErrorPickCategory(int count) {
-    return 'Alege cel puțin $count categorie pentru a continua.';
-  }
+  String get onboardingErrorPickBrand =>
+      'Alege cel puțin o marcă care îți place.';
 
   @override
   String get onboardingErrorSelectCity =>
@@ -268,7 +235,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get onboardingIdentitySubtitle =>
-      'Așa te găsește comunitatea și te menționează. Adaugă o scurtă descriere ca lumea să-ți prindă stilul dintr-o privire.';
+      'Așa te găsește și te menționează comunitatea.';
 
   @override
   String get onboardingFieldUsername => 'NUME DE UTILIZATOR';
@@ -284,11 +251,11 @@ class AppLocalizationsRo extends AppLocalizations {
   String get onboardingGarageLabel => '02 — PREFERINȚE';
 
   @override
-  String get onboardingGarageTitle => 'Mărci și modele preferate';
+  String get onboardingGarageTitle => 'Garajul tău';
 
   @override
   String get onboardingGarageSubtitle =>
-      'Alege mărcile și modelele preferate. Îți vom personaliza feed-ul în jurul lor.';
+      'Mărcile pe care le urmărești — îți vom personaliza feed-ul și marketplace-ul în funcție de ele.';
 
   @override
   String get onboardingFieldYourPicks => 'ALEGERILE TALE';
@@ -311,42 +278,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get onboardingAddBrand => 'ADAUGĂ ALTĂ MARCĂ';
 
   @override
-  String get onboardingRoleLabel => '03 — ROL';
-
-  @override
-  String get onboardingRoleTitle => 'Rolul tău în comunitate';
-
-  @override
-  String get onboardingRoleSubtitle =>
-      'Cum te implici în comunitate? Alege tot ce ți se potrivește.';
-
-  @override
-  String get onboardingFieldRoles => 'ROLURI';
-
-  @override
-  String get onboardingTasteLabel => '04 — STILURI';
-
-  @override
-  String get onboardingTasteTitle => 'Categoriile care îți plac';
-
-  @override
-  String get onboardingTasteSubtitle =>
-      'Selectează categoriile care te pasionează. Le vom pune în prim-plan în feed și în marketplace.';
-
-  @override
-  String get onboardingFieldCategories => 'CATEGORII';
-
-  @override
-  String onboardingTasteSelectedCount(int count) {
-    return '$count selectate';
-  }
-
-  @override
-  String get onboardingTastePickHint =>
-      ' · alege cel puțin 1 pentru a-ți calibra feed-ul.';
-
-  @override
-  String get onboardingLocationLabel => '05 — LOCAȚIE';
+  String get onboardingLocationLabel => '03 — LOCAȚIE';
 
   @override
   String get onboardingLocationTitle => 'Unde te găsește comunitatea locală?';
@@ -392,7 +324,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get onboardingDiscoveryRadius => 'RAZĂ DE DESCOPERIRE';
 
   @override
-  String get onboardingNotificationsLabel => '06 — NOTIFICĂRI';
+  String get onboardingNotificationsLabel => '04 — NOTIFICĂRI';
 
   @override
   String get onboardingNotificationsTitle => 'Despre ce să te anunțăm?';
@@ -437,7 +369,7 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get onboardingNotifGroupMarketplace => 'MARKETPLACE';
+  String get onboardingNotifGroupGarage => 'GARAJUL TĂU';
 
   @override
   String get onboardingNotifLikesTitle => 'Aprecieri';
@@ -481,11 +413,18 @@ class AppLocalizationsRo extends AppLocalizations {
       'Expoziții, zile pe circuit și cars-and-coffee';
 
   @override
-  String get onboardingNotifPriceDropsTitle => 'Scăderi de preț';
+  String get onboardingNotifEventOrganizerTitle => 'Organizator eveniment';
 
   @override
-  String get onboardingNotifPriceDropsSubtitle =>
-      'Când un articol salvat primește o reducere';
+  String get onboardingNotifEventOrganizerSubtitle =>
+      'Când cineva se înscrie la evenimentul tău, devine co-organizator sau cere să se retragă';
+
+  @override
+  String get onboardingNotifServiceRemindersTitle => 'Mementouri service';
+
+  @override
+  String get onboardingNotifServiceRemindersSubtitle =>
+      'Servicii programate și documente care expiră pentru mașinile tale';
 
   @override
   String get onboardingNotifTagsTitle => 'Etichetări';
