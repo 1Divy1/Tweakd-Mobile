@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../theme/app_colors.dart';
 
-enum AppBottomNavTab { feed, map, forums, search, profile }
+enum AppBottomNavTab { feed, map, forums, feedback, search, profile }
 
 class AppBottomNav extends StatelessWidget {
   final AppBottomNavTab activeTab;
@@ -41,7 +41,7 @@ class AppBottomNav extends StatelessWidget {
               },
             ),
             _NavItem(
-              icon: Icons.map_outlined,
+              icon: Icons.map_rounded,
               isActive: activeTab == AppBottomNavTab.map,
               onTap: () {
                 // Map takes fullscreen, so it's pushed into the existing navigation stack
@@ -49,11 +49,20 @@ class AppBottomNav extends StatelessWidget {
               },
             ),
             _NavItem(
-              icon: Icons.forum_outlined,
+              icon: Icons.forum_rounded,
               isActive: activeTab == AppBottomNavTab.forums,
               onTap: () {
                 if (activeTab != AppBottomNavTab.forums) {
                   context.go('/forums');
+                }
+              },
+            ),
+            _NavItem(
+              icon: Icons.campaign_outlined,
+              isActive: activeTab == AppBottomNavTab.feedback,
+              onTap: () {
+                if (activeTab != AppBottomNavTab.feedback) {
+                  context.go('/feedback-feed');
                 }
               },
             ),
@@ -68,7 +77,8 @@ class AppBottomNav extends StatelessWidget {
               icon: Icons.person_outline,
               isActive: activeTab == AppBottomNavTab.profile,
               onTap: () {
-                if (activeTab != AppBottomNavTab.profile) context.go('/profile');
+                if (activeTab != AppBottomNavTab.profile)
+                  context.go('/profile');
               },
             ),
           ],
@@ -96,11 +106,12 @@ class _NavItem extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        // Tight horizontal padding so six tabs still fit on a small phone.
+        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: color, size: 30),
+            Icon(icon, color: color, size: 26),
             const SizedBox(height: 6),
             Container(
               width: 18,

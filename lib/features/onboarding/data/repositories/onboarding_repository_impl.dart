@@ -7,9 +7,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/error/base_failures.dart';
-import '../../domain/entities/onboarding reference/car_category_entity.dart';
 import '../../domain/entities/onboarding reference/city_entity.dart';
-import '../../domain/entities/onboarding reference/community_role_entity.dart';
 import '../../domain/entities/onboarding reference/country_entity.dart';
 import '../../domain/repositories/onboarding_repository.dart';
 import '../datasources/onboarding_api_data_source.dart';
@@ -43,32 +41,6 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
     } catch (e) {
       debugPrint('getCities error: $e');
       return const Left(UnknownFailure('Failed to load cities.'));
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<CommunityRoleEntity>>> getCommunityRoles() async {
-    try {
-      final models = await dataSource.getCommunityRoles();
-      return Right(models.map((m) => m.toEntity()).toList());
-    } on NetworkException {
-      return const Left(NetworkFailure('No internet connection.'));
-    } catch (e) {
-      debugPrint('getCommunityRoles error: $e');
-      return const Left(UnknownFailure('Failed to load community roles.'));
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<CarCategoryEntity>>> getCarCategories() async {
-    try {
-      final models = await dataSource.getCarCategories();
-      return Right(models.map((m) => m.toEntity()).toList());
-    } on NetworkException {
-      return const Left(NetworkFailure('No internet connection.'));
-    } catch (e) {
-      debugPrint('getCarCategories error: $e');
-      return const Left(UnknownFailure('Failed to load car categories.'));
     }
   }
 

@@ -9,8 +9,7 @@ abstract class OnboardingEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Loads the up-front reference data (countries, community roles, car
-/// categories and car brands).
+/// Loads the up-front reference data (countries and car brands).
 class LoadOnboardingReferenceData extends OnboardingEvent {
   const LoadOnboardingReferenceData();
 }

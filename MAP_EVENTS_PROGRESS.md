@@ -17,7 +17,7 @@
 17 model/enum tests pass. Not yet run on a device by the owner.
 Backend gaps found during implementation are logged in
 **`MAP_EVENTS_NOTES.md`** (the review queue) — read that next.
-**Last updated:** 2026-08-12
+**Last updated:** 2026-08-14
 
 ---
 
@@ -328,6 +328,54 @@ unchanged; but:
   consumption — the pin collision priority (`symbol-sort-key` = distance) and any
   "x km away" UI — and switch it to the same client-side computation.
 
+### 3.8 Geocoding (owner-provided 2026-08-14) — Mapbox v6, structured input
+
+```
+GET /map-events/geocode
+  Auth required (JWT, like every other map-events call).
+  All params optional; at least one of the 10 address fields must be
+  non-blank or the backend returns [] WITHOUT calling Mapbox.
+
+  address_line1   street number + name combined ("1600 Pennsylvania Ave")
+                  — use this OR address_number+street, never both
+  address_number  house/building number, when sent separately from street
+  street          street name
+  block           sub-division used in some countries (Japan) — unlikely ever
+  place           city / village / municipality
+  region          state / province
+  postcode        postal code
+  locality        sub-city administrative area
+  neighborhood    colloquial sub-city area
+  country         ISO 3166-1 alpha-2 code, or full country name
+  proximity_lat   optional bias latitude   ⚠ deliberately unused, see below
+  proximity_lng   optional bias longitude  — only applied when both are
+                  present and valid, otherwise silently ignored
+
+  → 200, GeocodeCandidateDto[], best match first, up to 5 items
+  { lat, lng,
+    place_name,     // Mapbox full_address → place_formatted → name
+    feature_type,   // address | street | place | postcode | region |
+                    // country | … (open set — client falls back to `other`)
+    accuracy }      // rooftop | parcel | point | interpolated | approximate |
+                    // intersection — ONLY on address-level hits, null otherwise
+
+  Blank / all-empty query → [] (200, not an error).
+```
+
+**The client sends three of the ten fields** — `place`, `street`,
+`address_number` — because that's what the picker's mini-form collects.
+
+**`proximity_lat`/`proximity_lng` are deliberately never sent** (owner's call,
+2026-08-14). Biasing toward the picker's camera would drag results toward
+wherever the *user* is, so someone in Bucharest creating an event in Cluj
+would get Bucharest matches. The required city field disambiguates correctly
+instead.
+
+**Nothing in the response is ever persisted** — see §5's licence entry and
+`MAP_EVENTS_NOTES.md` §1.7. The coordinates aim the camera; the event's own
+`lat`/`lng` comes from the user's tap and its `location_name` from the user's
+typed fields.
+
 ### 3.7 Cover upload (storage module — same two-step WebP flow as posts/garage)
 ```
 GET /api/storage/events/{event_id}/cover   → { key: "events/{id}/{uuid}.webp", upload_url }
@@ -359,6 +407,13 @@ follow-up work — they're written up with proposed fixes in
 
 - **Scope:** mobile app consumes user-facing `/map-events/*` only; admin endpoints
   ignored (admin web dashboard).
+- **Location picking is user-generated, by licence (2026-08-14):** the geocoder
+  aims the camera and nothing more. The event's `lat`/`lng` is the point the
+  user **taps** on the map — confirm stays disabled until they do — and its
+  `location_name` is composed from the address fields they typed, never from
+  the response's `place_name`. Persisting Mapbox's coordinates would require
+  their paid permanent-geocoding licence. Do not "simplify" this by defaulting
+  the pin to the chosen candidate.
 - **Entry points:** map's orange **+** button → create flow directly. **My events**
   (`/mine`) → user's own profile page (exact placement decided in Phase 5).
 - **Map search bar** ("Search meets, shops, cities…") is **pure UI, no behavior**.
@@ -509,6 +564,117 @@ Phases roughly follow dependency order. Each chunk gets checked off + a line in 
   the event to the clipboard rather than opening an OS share sheet (§4.4 — no
   share plugin, and no public URL to share).
 
+- **2026-08-13** — **Round-5 backend fixes consumed.** The owner shipped
+  §§1.1–1.5 of `MAP_EVENTS_NOTES.md`; the app now uses all of them.
+
+  Contract deltas (this supersedes §3.4 and the organizer shapes in §3.1/§3.3):
+  * `MapEventOrganizerDto` and `OrganizerCandidateDto` gained `username`
+    (null for `type: "business"`); their `name` is now a real display name, not
+    a mislabeled username. Same change to the shared `ProfileSearchResultDto`,
+    so map-event **attendees** carry `name` too.
+  * **New:** `GET /{eventId}/cars/mine` — auth, no params, unpaginated
+    `List<ParticipantDto>`, every status the caller has.
+  * `ParticipantDto` gained `rejection_reason` (null unless rejected).
+  * `PATCH /{eventId}/cars/{carId}` **requires** `reason` to reject (400
+    otherwise); ignored on accept.
+  * All six participation writes now return the full `MapEventDto`.
+    `DELETE /{eventId}/cars/{carId}` and
+    `POST /{eventId}/withdrawals/{ownerId}/approve` changed **204 → 200**.
+
+  Shipped in the app:
+  * Organizer rows render `@handle · role` and link individuals into
+    `/users/:username`; businesses stay inert (no handle, no route yet).
+  * `GET /cars/mine` replaced the cross-referencing resolver — ~60 lines and up
+    to three extra requests deleted, along with `unresolvedRegisteredCarIds`,
+    `hasUnresolvedRegistration` and the "Registration in progress" strip. A
+    pending request now survives a cold open.
+  * Declined strip quotes the organizer's reason; the console collects it in
+    `showDeclineEntryDialog` (confirm disabled until typed).
+  * The withdraw dialog states the all-or-nothing rule and counts the cars.
+  * `MapEventDetailBloc` refetches two lists instead of the whole page after a
+    participation write; `ManageMapEventBloc` refetches nothing at all.
+  * Attendee rows show display name over handle.
+  * 5 new l10n keys EN + RO, 2 deleted; 4 new model tests (21 total, passing).
+    `flutter analyze` clean.
+
+- **2026-08-13** — **Distances removed from the UI entirely (owner call).**
+  A straight-line "x km away" is unactionable and road distance isn't worth the
+  effort yet, so nothing in the app shows a distance any more: the business
+  popup's pill is gone, the event popup's distance tile became the start time
+  (matching the detail page), the event hero shows the place name alone, and
+  `MapEventFormat.distance` plus the `mapDistanceKm` / `mapEventsDistanceKm` /
+  `mapEventsStatAway` keys are deleted. `GeoPosition.distanceKmTo` stays for the
+  two invisible consumers — pin collision priority and the 12 km refetch
+  threshold. This supersedes §5's "distances read 0.6 km, computed client-side"
+  and §3.6's popup note.
+
+  Still open from the notes: §1.6 (capacity can't be cleared) and the §4 product
+  gaps.
+
+- **2026-08-14** — **Bug fixes from device testing, round 1.** Two reported
+  issues in the create-event location picker (`pick_event_location_page.dart`):
+
+  1. **Map reset to Cluj-Napoca old town on every pan.** Root cause: the page
+     rebuilt on every `onMapIdle` (to update the coordinate readout), and its
+     `MapWidget`'s `viewport` was constructed fresh inside `build()` each time.
+     `CameraViewportState` has no `==` override, so the Mapbox plugin saw a
+     "new" viewport on every rebuild and replayed it — snapping the camera
+     back to the start position right after the user finished panning. Fixed
+     by hoisting `viewport` into a `late final` field built once; matches the
+     pattern `map_view.dart` already documented for exactly this reason. All
+     further camera moves (the new search feature below) go through the
+     imperative `MapboxMap` controller instead of the widget's `viewport` prop.
+  2. **No way to search an address.** Added a text field + search button to
+     the picker; on submit it geocodes the typed address and flies the camera
+     there, after which the user can still nudge the pin. This needed a new
+     backend endpoint that doesn't exist yet (`GET /map-events/geocode`) — the
+     full client-side path shipped anyway (entity, model, data source,
+     repository, use case, DI, l10n EN+RO, a model test) so it lights up the
+     moment the backend adds it. Per the architecture note in §8, geocoding is
+     proxied through Spring rather than called directly from Flutter with the
+     public Mapbox token — contract + rationale written up in
+     `MAP_EVENTS_NOTES.md` §1.7.
+
+  `flutter analyze` clean, all 23 model tests pass (2 new).
+
+- **2026-08-14** — **Location picker rebuilt for structured geocoding.** The
+  owner shipped `GET /map-events/geocode` against Mapbox v6 (§3.8), which
+  replaced the same-day free-text version above wholesale.
+
+  **The mechanic changed, and it's a licensing constraint, not a UX tweak**
+  (§5, `MAP_EVENTS_NOTES.md` §1.7): the old picker had a fixed crosshair at
+  screen centre with an always-enabled confirm, so flying to a result and
+  confirming would have persisted Mapbox's own coordinate — exactly what the
+  paid permanent-geocoding licence covers. Now the user **taps** the map, a
+  pin annotation drops on the tapped point, and confirm is disabled until one
+  exists. `location_name` is likewise composed from the typed fields rather
+  than the response's `place_name` — same clause, and the tempting mistake.
+
+  Client:
+  * `PickEventLocationPage` rewritten as three stages — **form** (city,
+    street, number; search enabled only when all three are filled) →
+    **results** (up to 5, tappable) → **placing** (camera flown to the chosen
+    candidate, `DropPinHint` animating on the centre, "RESULTS" to go back).
+    Results are cached in `State` for the screen's lifetime, so rejecting a
+    location and picking another costs no request; leaving the picker drops
+    them.
+  * New: `DropPinMarker` (rasterises the teardrop pin as PNG for the
+    annotation — single path, not circle+triangle, so the outline has no
+    seam), `AddressFormSheet`, `GeocodeResultList`, `DropPinHint`.
+  * `GeocodeCandidateEntity` gained `feature_type` + `accuracy` as enums with
+    the repo's usual `fromApi` fallback. The results list shows a precision
+    badge off them — Mapbox regularly returns several hits with an identical
+    `place_name`, and without the badge those rows are indistinguishable.
+  * `showPickEventLocation` now returns `PickedEventLocation` (position +
+    composed address label). The create form prefills its venue field from
+    that label **only when empty**, so a typed "Port Hercule — Level 2"
+    survives.
+  * The `late final CameraViewportState` fix from earlier today is load-
+    bearing here: this page `setState`s on every keystroke.
+  * 26 l10n keys EN + RO (3 orphans deleted), 4 model tests.
+
+  `flutter analyze` clean, 25 model tests pass.
+
 - **2026-08-12** — Round 3 answers folded in: rules are `{id, rule, sort_order}`
   objects in responses / plain strings (≤50 × ≤300 chars) in PUT; DELETE
   /cars/{car_id} is pending-only; withdrawal is one-way (no self-cancel) and
@@ -516,6 +682,69 @@ Phases roughly follow dependency order. Each chunk gets checked off + a line in 
   withdrawn, so the entry list queries accepted explicitly); viewer per-car status
   via cross-reference; distance computed client-side in km; starts_at confirmed in
   MapEventDto. **All open questions resolved — implementation can start.** No code yet.
+
+- **2026-08-14** — **Five bug fixes / refactors from the owner's device-testing pass.**
+
+  1. **Cover image is now mandatory.** `CreateMapEventState.hasCover` (a fresh
+     pick, or — in edit mode — the event's existing `cover_image_url`) gates
+     `isComplete`; the CTA names it specifically ("ADD A COVER IMAGE") via a
+     new `isMissingCoverOnly`, and the cover section got a "REQUIRED" label
+     like the other required fields.
+  2. **Multi-car registration.** The backend already supported it — a viewer
+     can hold more than one accepted row per event (`POST /withdraw` flags
+     *all* their accepted rows; `/cars/mine` returns every row they have) —
+     but there's no bulk endpoint and the old UI hard-blocked a second car
+     once one was accepted. `event_car_picker_sheet.dart` is now a
+     multi-select list (select-all/clear, capacity-clamped via the new
+     `MapEventEntity.remainingCapacity`, cars already pending/accepted for
+     this event shown disabled so a resend can't duplicate a row).
+     `RegisterCarsForEvent(List<String>)` replaces the single-car event; the
+     bloc submits sequentially and stops at the first failure. Per the
+     owner's call: **all-or-nothing**, with a caveat that's a real API
+     constraint, not a choice — `DELETE /cars/{car_id}` only cancels a still
+     *pending* row, so on a no-approval event (rows land `accepted`
+     immediately) a row that got in before a mid-batch failure can't be
+     undone. The picker's capacity clamp makes that race rare; when it still
+     happens, the app says so plainly (`mapEventsBulkRegisterPartial`)
+     instead of pretending the rollback was clean. "Participating" is now
+     tappable to add more cars any time (blocked only when the event is full
+     or registration is closed), shows a count once >1, and the picker
+     excludes cars with a live entry so the same car can't get a duplicate
+     row — a rejected/withdrawn car stays selectable, which is also how
+     "try another car" works.
+  3. **Fixed: a resent-then-accepted car still showed "Entry declined".**
+     Root cause — the backend never deletes a superseded row, so after
+     reject → resend → accept, `/cars/mine` had both the old rejected row and
+     the new accepted one for the same car, and the declined strip picked
+     the rejected one with no awareness a newer row existed. Fixed by
+     `MapEventDetailState._effectiveParticipations`: group the viewer's rows
+     by car id, keep only the one with the latest `registered_at`. All the
+     `my*Entry` getters (and the new `my*Entries` lists) read from that
+     instead of the raw list. The participation strip now renders one card
+     per *distinct* live pending/rejected/withdrawn car rather than just the
+     first match, since with multi-car registration more than one can be
+     true at once.
+  4. **Profile Events tab padding.** `MyMapEventsList`'s embedded branch had
+     no horizontal padding at all (the standalone page's `ListView` supplied
+     its own, but the profile tab's plain `Column` didn't). Wrapped in
+     `Padding(horizontal: 16)` to match the standalone page's margins.
+  5. **Blurred backdrop behind map popups.** `MapFlutterOverlays` gained
+     `_MapPopupBackdrop`, a `BackdropFilter` + dark scrim, first child in the
+     Stack (so it blurs the map underneath but not the chrome/popup painted
+     after it), gated on `MapState.isPopupOpen` and only mounted while
+     visible or fading out (a `BackdropFilter` costs a blur pass every frame
+     it's in the tree). `IgnorePointer`, so tapping empty map still dismisses
+     the popup exactly as before.
+
+  New l10n: `mapEventsFieldCover`, `mapEventsCreateCtaCover`,
+  `mapEventsParticipatingCount`, `mapEventsBulkRegisterPartial`, and six
+  `mapEventsPickCar*` picker-sheet keys — EN + RO. One orphan deleted
+  (`mapEventsCarOnEntryList`: the popup's single-car accepted line was
+  replaced by the same `MapEventParticipationButtons` the detail page uses,
+  for consistency and because it now needs to show a count).
+
+  `flutter analyze` clean, all 25 existing model tests still pass (no model
+  changes in this pass, so no new tests).
 
 ---
 

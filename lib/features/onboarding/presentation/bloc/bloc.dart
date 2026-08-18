@@ -5,9 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/usecases/usecase.dart';
-import '../../domain/usecases/get_car_categories.dart';
 import '../../domain/usecases/get_cities.dart';
-import '../../domain/usecases/get_community_roles.dart';
 import '../../domain/usecases/get_countries.dart';
 import '../../domain/usecases/submit_onboarding.dart';
 import '../utils/onboarding_error_mapper.dart';
@@ -18,8 +16,6 @@ import 'state.dart';
 class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
   final GetCountriesUseCase getCountries;
   final GetCitiesUseCase getCities;
-  final GetCommunityRolesUseCase getCommunityRoles;
-  final GetCarCategoriesUseCase getCarCategories;
   final GetBrandsUseCase getBrands;
   final GetModelsByBrandUseCase getModelsByBrand;
   final SubmitOnboardingUseCase submitOnboarding;
@@ -27,8 +23,6 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
   OnboardingBloc({
     required this.getCountries,
     required this.getCities,
-    required this.getCommunityRoles,
-    required this.getCarCategories,
     required this.getBrands,
     required this.getModelsByBrand,
     required this.submitOnboarding,
@@ -46,14 +40,9 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     emit(const OnboardingRefLoading());
 
     final countriesResult = await getCountries(NoParams());
-    final rolesResult = await getCommunityRoles(NoParams());
-    final categoriesResult = await getCarCategories(NoParams());
     final brandsResult = await getBrands(NoParams());
 
-    if (countriesResult.isLeft() ||
-        rolesResult.isLeft() ||
-        categoriesResult.isLeft() ||
-        brandsResult.isLeft()) {
+    if (countriesResult.isLeft() || brandsResult.isLeft()) {
       emit(const OnboardingRefError(OnboardingErrorCode.loadFailed));
       return;
     }
@@ -61,8 +50,6 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     emit(
       OnboardingRefLoaded(
         countries: countriesResult.getOrElse(() => []),
-        communityRoles: rolesResult.getOrElse(() => []),
-        carCategories: categoriesResult.getOrElse(() => []),
         brands: brandsResult.getOrElse(() => []),
       ),
     );

@@ -99,8 +99,8 @@ class OnboardingFieldLabel extends StatelessWidget {
   }
 }
 
-/// Soft accent-tinted note card used at the foot of a step to explain a rule.
-/// [child] is rich text so callers can emphasise inline fragments.
+/// Note card used at the foot of a step to explain a rule. [child] is rich
+/// text so callers can emphasise inline fragments.
 class OnboardingNoteCard extends StatelessWidget {
   final Widget child;
 
@@ -112,7 +112,7 @@ class OnboardingNoteCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
       decoration: BoxDecoration(
-        color: AppColors.accentSoft,
+        color: AppColors.ink,
         borderRadius: BorderRadius.circular(14),
       ),
       child: Row(

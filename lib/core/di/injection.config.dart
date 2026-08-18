@@ -51,6 +51,26 @@ import '../../features/feedback/domain/usecases/submit_feedback.dart' as _i345;
 import '../../features/feedback/presentation/bloc/feedback/bloc.dart' as _i862;
 import '../../features/feedback/presentation/bloc/my_feedback/bloc.dart'
     as _i129;
+import '../../features/feedback_feed/data/datasources/feedback_feed_api_data_source.dart'
+    as _i11;
+import '../../features/feedback_feed/data/repositories/feedback_feed_repository_impl.dart'
+    as _i923;
+import '../../features/feedback_feed/domain/repositories/feedback_feed_repository.dart'
+    as _i807;
+import '../../features/feedback_feed/domain/usecases/get_feedback_board.dart'
+    as _i160;
+import '../../features/feedback_feed/domain/usecases/get_feedback_options.dart'
+    as _i560;
+import '../../features/feedback_feed/domain/usecases/manage_feedback_message.dart'
+    as _i468;
+import '../../features/feedback_feed/domain/usecases/vote_feedback_message.dart'
+    as _i67;
+import '../../features/feedback_feed/presentation/bloc/board/bloc.dart'
+    as _i488;
+import '../../features/feedback_feed/presentation/bloc/completed/bloc.dart'
+    as _i396;
+import '../../features/feedback_feed/presentation/bloc/compose/bloc.dart'
+    as _i651;
 import '../../features/follow/data/datasource/follow_api_data_source.dart'
     as _i587;
 import '../../features/follow/data/repositories/follow_repository_impl.dart'
@@ -219,11 +239,7 @@ import '../../features/onboarding/domain/repositories/onboarding_repository.dart
     as _i430;
 import '../../features/onboarding/domain/usecases/check_username_availability.dart'
     as _i842;
-import '../../features/onboarding/domain/usecases/get_car_categories.dart'
-    as _i329;
 import '../../features/onboarding/domain/usecases/get_cities.dart' as _i343;
-import '../../features/onboarding/domain/usecases/get_community_roles.dart'
-    as _i863;
 import '../../features/onboarding/domain/usecases/get_countries.dart' as _i290;
 import '../../features/onboarding/domain/usecases/submit_onboarding.dart'
     as _i1016;
@@ -403,6 +419,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i239.FeedbackApiDataSource>(
       () => _i239.FeedbackApiDataSource(gh<_i311.AbstractHTTP>()),
     );
+    gh.lazySingleton<_i11.FeedbackFeedApiDataSource>(
+      () => _i11.FeedbackFeedApiDataSource(gh<_i311.AbstractHTTP>()),
+    );
     gh.lazySingleton<_i587.FollowApiDataSource>(
       () => _i587.FollowApiDataSource(gh<_i311.AbstractHTTP>()),
     );
@@ -546,6 +565,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i709.MapEventStorageDataSource>(),
       ),
     );
+    gh.lazySingleton<_i807.FeedbackFeedRepository>(
+      () => _i923.FeedbackFeedRepositoryImpl(
+        gh<_i11.FeedbackFeedApiDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i973.MapRepository>(
       () => _i457.MapRepositoryImpl(
         gh<_i979.BusinessApiDataSource>(),
@@ -615,14 +639,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i430.OnboardingRepository>(),
       ),
     );
-    gh.lazySingleton<_i329.GetCarCategoriesUseCase>(
-      () => _i329.GetCarCategoriesUseCase(gh<_i430.OnboardingRepository>()),
-    );
     gh.lazySingleton<_i343.GetCitiesUseCase>(
       () => _i343.GetCitiesUseCase(gh<_i430.OnboardingRepository>()),
-    );
-    gh.lazySingleton<_i863.GetCommunityRolesUseCase>(
-      () => _i863.GetCommunityRolesUseCase(gh<_i430.OnboardingRepository>()),
     );
     gh.lazySingleton<_i290.GetCountriesUseCase>(
       () => _i290.GetCountriesUseCase(gh<_i430.OnboardingRepository>()),
@@ -725,8 +743,51 @@ extension GetItInjectableX on _i174.GetIt {
         deleteCarUseCase: gh<_i287.DeleteCarUseCase>(),
       ),
     );
+    gh.lazySingleton<_i160.GetFeedbackBoardUseCase>(
+      () => _i160.GetFeedbackBoardUseCase(gh<_i807.FeedbackFeedRepository>()),
+    );
+    gh.lazySingleton<_i160.GetCompletedFeedbackUseCase>(
+      () =>
+          _i160.GetCompletedFeedbackUseCase(gh<_i807.FeedbackFeedRepository>()),
+    );
+    gh.lazySingleton<_i560.GetFeedbackTypesUseCase>(
+      () => _i560.GetFeedbackTypesUseCase(gh<_i807.FeedbackFeedRepository>()),
+    );
+    gh.lazySingleton<_i560.GetFeedbackStatusesUseCase>(
+      () =>
+          _i560.GetFeedbackStatusesUseCase(gh<_i807.FeedbackFeedRepository>()),
+    );
+    gh.lazySingleton<_i468.CreateFeedbackMessageUseCase>(
+      () => _i468.CreateFeedbackMessageUseCase(
+        gh<_i807.FeedbackFeedRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i468.DeleteFeedbackMessageUseCase>(
+      () => _i468.DeleteFeedbackMessageUseCase(
+        gh<_i807.FeedbackFeedRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i468.GetFeedbackMessageUseCase>(
+      () => _i468.GetFeedbackMessageUseCase(gh<_i807.FeedbackFeedRepository>()),
+    );
+    gh.lazySingleton<_i67.VoteFeedbackMessageUseCase>(
+      () => _i67.VoteFeedbackMessageUseCase(gh<_i807.FeedbackFeedRepository>()),
+    );
+    gh.lazySingleton<_i67.WithdrawFeedbackVoteUseCase>(
+      () =>
+          _i67.WithdrawFeedbackVoteUseCase(gh<_i807.FeedbackFeedRepository>()),
+    );
     gh.lazySingleton<_i14.SearchUsersUseCase>(
       () => _i14.SearchUsersUseCase(gh<_i357.SearchRepository>()),
+    );
+    gh.factory<_i797.OnboardingBloc>(
+      () => _i797.OnboardingBloc(
+        getCountries: gh<_i290.GetCountriesUseCase>(),
+        getCities: gh<_i343.GetCitiesUseCase>(),
+        getBrands: gh<_i408.GetBrandsUseCase>(),
+        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
+        submitOnboarding: gh<_i1016.SubmitOnboardingUseCase>(),
+      ),
     );
     gh.factory<_i668.ReportBloc>(
       () => _i668.ReportBloc(
@@ -742,6 +803,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i369.RemoveTagUseCase>(
       () => _i369.RemoveTagUseCase(gh<_i1070.TagsRepository>()),
+    );
+    gh.factory<_i651.ComposeFeedbackBloc>(
+      () => _i651.ComposeFeedbackBloc(
+        getTypes: gh<_i560.GetFeedbackTypesUseCase>(),
+        createMessage: gh<_i468.CreateFeedbackMessageUseCase>(),
+      ),
     );
     gh.lazySingleton<_i383.GetFeedbackFeaturesUseCase>(
       () => _i383.GetFeedbackFeaturesUseCase(gh<_i619.FeedbackRepository>()),
@@ -800,6 +867,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i839.WatchInboxMessagesUseCase>(
       () => _i839.WatchInboxMessagesUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.factory<_i488.FeedbackBoardBloc>(
+      () => _i488.FeedbackBoardBloc(
+        getBoard: gh<_i160.GetFeedbackBoardUseCase>(),
+        voteMessage: gh<_i67.VoteFeedbackMessageUseCase>(),
+        withdrawVote: gh<_i67.WithdrawFeedbackVoteUseCase>(),
+        deleteMessage: gh<_i468.DeleteFeedbackMessageUseCase>(),
+      ),
     );
     gh.lazySingleton<_i1055.CreateMapEventUseCase>(
       () => _i1055.CreateMapEventUseCase(gh<_i365.MapEventsRepository>()),
@@ -1061,6 +1136,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i813.ForumBrowseBloc>(
       () => _i813.ForumBrowseBloc(getBrands: gh<_i408.GetBrandsUseCase>()),
     );
+    gh.factory<_i396.CompletedFeedbackBloc>(
+      () => _i396.CompletedFeedbackBloc(
+        getCompleted: gh<_i160.GetCompletedFeedbackUseCase>(),
+      ),
+    );
     gh.factory<_i236.FollowBloc>(
       () => _i236.FollowBloc(
         getFollowStatus: gh<_i28.GetFollowStatusUseCase>(),
@@ -1098,17 +1178,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i792.MyMapEventsBloc>(
       () =>
           _i792.MyMapEventsBloc(getMyEvents: gh<_i997.GetMyMapEventsUseCase>()),
-    );
-    gh.factory<_i797.OnboardingBloc>(
-      () => _i797.OnboardingBloc(
-        getCountries: gh<_i290.GetCountriesUseCase>(),
-        getCities: gh<_i343.GetCitiesUseCase>(),
-        getCommunityRoles: gh<_i863.GetCommunityRolesUseCase>(),
-        getCarCategories: gh<_i329.GetCarCategoriesUseCase>(),
-        getBrands: gh<_i408.GetBrandsUseCase>(),
-        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
-        submitOnboarding: gh<_i1016.SubmitOnboardingUseCase>(),
-      ),
     );
     gh.factory<_i506.MapEventDetailBloc>(
       () => _i506.MapEventDetailBloc(

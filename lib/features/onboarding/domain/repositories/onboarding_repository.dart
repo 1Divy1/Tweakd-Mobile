@@ -5,17 +5,13 @@ import 'package:dio/dio.dart';
 import '../../../../core/error/base_failures.dart';
 import '../entities/dream_car_draft.dart';
 import '../entities/notification_preferences.dart';
-import '../entities/onboarding reference/car_category_entity.dart';
 import '../entities/onboarding reference/city_entity.dart';
-import '../entities/onboarding reference/community_role_entity.dart';
 import '../entities/onboarding reference/country_entity.dart';
 
 abstract class OnboardingRepository {
   // ── Reference data ──────────────────────────────────────────────────────
   Future<Either<Failure, List<CountryEntity>>> getCountries();
   Future<Either<Failure, List<CityEntity>>> getCities(String countryId);
-  Future<Either<Failure, List<CommunityRoleEntity>>> getCommunityRoles();
-  Future<Either<Failure, List<CarCategoryEntity>>> getCarCategories();
 
   // ── Username availability ───────────────────────────────────────────────
   /// Returns `true` when [username] is still available, `false` when it is
@@ -40,8 +36,6 @@ class OnboardingSubmissionParams {
   final String? bio;
   final String cityId;
   final int discoveryRadiusKm;
-  final List<String> categoryIds;
-  final List<String> roleIds;
   final NotificationPreferences notifications;
   final List<DreamCarEntity> dreamCars;
 
@@ -50,8 +44,6 @@ class OnboardingSubmissionParams {
     this.bio,
     required this.cityId,
     required this.discoveryRadiusKm,
-    required this.categoryIds,
-    required this.roleIds,
     required this.notifications,
     required this.dreamCars,
   });
@@ -63,7 +55,5 @@ class OnboardingSubmissionParams {
         if (bio != null && bio!.isNotEmpty) 'bio': bio,
         'city_id': cityId,
         'discovery_radius_km': discoveryRadiusKm,
-        'category_ids': categoryIds,
-        'role_ids': roleIds,
       };
 }

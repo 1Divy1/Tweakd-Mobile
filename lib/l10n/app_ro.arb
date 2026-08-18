@@ -51,22 +51,11 @@
   "onboardingFinishSetup": "FINALIZEAZĂ",
   "onboardingFinishingSetup": "Se finalizează…",
   "onboardingWorking": "Se procesează…",
-  "onboardingStart": "START",
-  "onboardingFinish": "FINAL",
-  "onboardingStepCounter": "PASUL {current} / {total}",
   "onboardingOptional": "OPȚIONAL",
   "onboardingSearchHint": "Caută…",
   "onboardingNoMatches": "Niciun rezultat",
 
-  "onboardingStepIdentity": "IDENTITATE",
-  "onboardingStepGarage": "PREFERINȚE",
-  "onboardingStepRole": "ROL",
-  "onboardingStepTaste": "STILURI",
-  "onboardingStepLocation": "LOCAȚIE",
-  "onboardingStepNotifications": "NOTIFICĂRI",
-
-  "onboardingErrorPickRole": "Alege cel puțin un rol.",
-  "onboardingErrorPickCategory": "Alege cel puțin {count} categorie pentru a continua.",
+  "onboardingErrorPickBrand": "Alege cel puțin o marcă care îți place.",
   "onboardingErrorSelectCity": "Selectează orașul pentru a continua.",
 
   "onboardingUsernameErrorEmpty": "Alege un nume de utilizator.",
@@ -89,14 +78,14 @@
 
   "onboardingIdentityLabel": "01 — IDENTITATE",
   "onboardingIdentityTitle": "Alege-ți numele",
-  "onboardingIdentitySubtitle": "Așa te găsește comunitatea și te menționează. Adaugă o scurtă descriere ca lumea să-ți prindă stilul dintr-o privire.",
+  "onboardingIdentitySubtitle": "Așa te găsește și te menționează comunitatea.",
   "onboardingFieldUsername": "NUME DE UTILIZATOR",
   "onboardingFieldBio": "DESCRIERE",
   "onboardingBioHint": "Spune-le celorlalți câteva lucruri despre tine...",
 
   "onboardingGarageLabel": "02 — PREFERINȚE",
-  "onboardingGarageTitle": "Mărci și modele preferate",
-  "onboardingGarageSubtitle": "Alege mărcile și modelele preferate. Îți vom personaliza feed-ul în jurul lor.",
+  "onboardingGarageTitle": "Garajul tău",
+  "onboardingGarageSubtitle": "Mărcile pe care le urmărești — îți vom personaliza feed-ul și marketplace-ul în funcție de ele.",
   "onboardingFieldYourPicks": "ALEGERILE TALE",
   "onboardingFieldModels": "MODELE",
   "onboardingSelectBrand": "Alege o marcă",
@@ -104,19 +93,7 @@
   "onboardingBrandModels": "Modele {brand}",
   "onboardingAddBrand": "ADAUGĂ ALTĂ MARCĂ",
 
-  "onboardingRoleLabel": "03 — ROL",
-  "onboardingRoleTitle": "Rolul tău în comunitate",
-  "onboardingRoleSubtitle": "Cum te implici în comunitate? Alege tot ce ți se potrivește.",
-  "onboardingFieldRoles": "ROLURI",
-
-  "onboardingTasteLabel": "04 — STILURI",
-  "onboardingTasteTitle": "Categoriile care îți plac",
-  "onboardingTasteSubtitle": "Selectează categoriile care te pasionează. Le vom pune în prim-plan în feed și în marketplace.",
-  "onboardingFieldCategories": "CATEGORII",
-  "onboardingTasteSelectedCount": "{count} selectate",
-  "onboardingTastePickHint": " · alege cel puțin 1 pentru a-ți calibra feed-ul.",
-
-  "onboardingLocationLabel": "05 — LOCAȚIE",
+  "onboardingLocationLabel": "03 — LOCAȚIE",
   "onboardingLocationTitle": "Unde te găsește comunitatea locală?",
   "onboardingLocationSubtitle": "Locația ne ajută să-ți personalizăm experiența în aplicație cu carmeet-uri locale, evenimente și oferte din marketplace relevante",
   "onboardingFieldCountry": "ȚARĂ",
@@ -132,7 +109,7 @@
   "onboardingPickerCity": "Selectează orașul",
   "onboardingDiscoveryRadius": "RAZĂ DE DESCOPERIRE",
 
-  "onboardingNotificationsLabel": "06 — NOTIFICĂRI",
+  "onboardingNotificationsLabel": "04 — NOTIFICĂRI",
   "onboardingNotificationsTitle": "Despre ce să te anunțăm?",
   "onboardingNotificationsSubtitle": "Fii la curent cu ce contează. Poți ajusta oricare dintre acestea mai târziu.",
   "onboardingPushGrantedText": "Notificările push sunt activate. Alege mai jos despre ce vrei să afli.",
@@ -145,7 +122,7 @@
   "onboardingNotifGroupContent": "PE CONȚINUTUL TĂU",
   "onboardingNotifGroupMessages": "MESAJE",
   "onboardingNotifGroupMeets": "ÎNTÂLNIRI & EVENIMENTE · LA MAX {radius} KM",
-  "onboardingNotifGroupMarketplace": "MARKETPLACE",
+  "onboardingNotifGroupGarage": "GARAJUL TĂU",
   "onboardingNotifLikesTitle": "Aprecieri",
   "onboardingNotifLikesSubtitle": "Când cineva apreciază proiectele și postările tale",
   "onboardingNotifCommentsTitle": "Comentarii",
@@ -158,8 +135,10 @@
   "onboardingNotifFlashMeetsSubtitle": "Întâlniri spontane care au loc lângă tine",
   "onboardingNotifEventsTitle": "Evenimente organizate",
   "onboardingNotifEventsSubtitle": "Expoziții, zile pe circuit și cars-and-coffee",
-  "onboardingNotifPriceDropsTitle": "Scăderi de preț",
-  "onboardingNotifPriceDropsSubtitle": "Când un articol salvat primește o reducere",
+  "onboardingNotifEventOrganizerTitle": "Organizator eveniment",
+  "onboardingNotifEventOrganizerSubtitle": "Când cineva se înscrie la evenimentul tău, devine co-organizator sau cere să se retragă",
+  "onboardingNotifServiceRemindersTitle": "Mementouri service",
+  "onboardingNotifServiceRemindersSubtitle": "Servicii programate și documente care expiră pentru mașinile tale",
   "onboardingNotifTagsTitle": "Etichetări",
   "onboardingNotifTagsSubtitle": "Când cineva te etichetează pe tine sau mașina ta",
 
@@ -1236,5 +1215,55 @@
   "mapSearchPlaceholder": "Caută întâlniri, service-uri, orașe…",
   "mapCreateEvent": "Creează un eveniment",
   "mapEventsCopied": "Detaliile evenimentului au fost copiate.",
-  "mapEventsDateCardTitle": "Când"
+  "mapEventsDateCardTitle": "Când",
+  "feedbackFeedEyebrow": "COMUNITATE",
+  "feedbackFeedTitle": "Feedback",
+  "feedbackFeedNew": "NOU",
+  "feedbackFeedSortNewest": "CELE NOI",
+  "feedbackFeedSortPopular": "POPULARE",
+  "feedbackFeedSortOldest": "CELE VECHI",
+  "feedbackFeedCompletedLink": "Cereri finalizate",
+  "feedbackFeedCompletedTitle": "Cereri finalizate",
+  "feedbackFeedComposeEyebrow": "COMUNITATEA DE FEEDBACK",
+  "feedbackFeedComposeTitle": "Trimite feedback",
+  "feedbackFeedComposeSubtitle": "Vizibil pentru toată lumea. Ceilalți șoferi pot vota pentru sau împotrivă.",
+  "feedbackFeedCategoryLabel": "CATEGORIE",
+  "feedbackFeedMessageLabel": "MESAJUL TĂU",
+  "feedbackFeedMessageHint": "La ce te gândești — un bug, o idee, o îmbunătățire?",
+  "feedbackFeedPostAction": "TRIMITE FEEDBACK",
+  "feedbackFeedPostSuccess": "Feedbackul tău este public.",
+  "feedbackFeedYou": "tu",
+  "feedbackFeedNetVotes": "{count, plural, =1{1 vot net} other{{count} voturi nete}}",
+  "@feedbackFeedNetVotes": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "feedbackFeedShippedAgo": "livrat acum {time}",
+  "@feedbackFeedShippedAgo": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "feedbackFeedTimeAgo": "acum {time}",
+  "@feedbackFeedTimeAgo": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "feedbackFeedStaffLabel": "ECHIPA TWEAKD",
+  "feedbackFeedDelete": "Șterge",
+  "feedbackFeedDeleteTitle": "Ștergi acest feedback?",
+  "feedbackFeedDeleteBody": "Acțiunea nu poate fi anulată. Voturile strânse dispar odată cu el.",
+  "feedbackFeedDeleteSuccess": "Feedback șters.",
+  "feedbackFeedCancel": "Anulează",
+  "feedbackFeedEmptyTitle": "Încă nu e nimic aici",
+  "feedbackFeedEmptyBody": "Fii primul care raportează un bug sau propune o idee.",
+  "feedbackFeedCompletedEmptyTitle": "Încă nu am livrat nimic",
+  "feedbackFeedCompletedEmptyBody": "După ce finalizăm o cerere, apare aici.",
+  "feedbackFeedRetry": "Încearcă din nou",
+  "feedbackFeedErrorNetwork": "Nu ai conexiune la internet. Încearcă din nou.",
+  "feedbackFeedErrorNotFound": "Acest feedback nu mai există.",
+  "feedbackFeedErrorLocked": "Ne-am apucat deja de asta, așa că nu mai poate fi șters.",
+  "feedbackFeedErrorGeneric": "Ceva nu a mers bine. Încearcă din nou."
 }
