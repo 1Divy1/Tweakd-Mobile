@@ -124,33 +124,11 @@
   "onboardingFinishSetup": "FINISH SETUP",
   "onboardingFinishingSetup": "Finishing setup…",
   "onboardingWorking": "Working…",
-  "onboardingStart": "START",
-  "onboardingFinish": "FINISH",
-  "onboardingStepCounter": "STEP {current} / {total}",
-  "@onboardingStepCounter": {
-    "placeholders": {
-      "current": { "type": "int" },
-      "total": { "type": "int" }
-    }
-  },
   "onboardingOptional": "OPTIONAL",
   "onboardingSearchHint": "Search…",
   "onboardingNoMatches": "No matches",
 
-  "onboardingStepIdentity": "IDENTITY",
-  "onboardingStepGarage": "PREFERENCES",
-  "onboardingStepRole": "ROLE",
-  "onboardingStepTaste": "TASTE",
-  "onboardingStepLocation": "LOCATION",
-  "onboardingStepNotifications": "NOTIFICATIONS",
-
-  "onboardingErrorPickRole": "Pick at least one role.",
-  "onboardingErrorPickCategory": "Pick at least {count} category to continue.",
-  "@onboardingErrorPickCategory": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
+  "onboardingErrorPickBrand": "Pick at least one brand you're into.",
   "onboardingErrorSelectCity": "Select your city to continue.",
 
   "onboardingUsernameErrorEmpty": "Please choose a handle.",
@@ -183,14 +161,14 @@
 
   "onboardingIdentityLabel": "01 — IDENTITY",
   "onboardingIdentityTitle": "Claim your handle",
-  "onboardingIdentitySubtitle": "This is how the community finds and mentions you. Add a short bio so people get your vibe at a glance.",
+  "onboardingIdentitySubtitle": "This is how the community finds and @-mentions you.",
   "onboardingFieldUsername": "USERNAME",
   "onboardingFieldBio": "BIO",
   "onboardingBioHint": "Tell others a few things about yourself…",
 
   "onboardingGarageLabel": "02 — PREFERENCES",
-  "onboardingGarageTitle": "Brands & models you love",
-  "onboardingGarageSubtitle": "Pick your favorite brands and models. We’ll tune your feed around them.",
+  "onboardingGarageTitle": "Your garage",
+  "onboardingGarageSubtitle": "Brands you follow — we’ll tune your feed and the marketplace around them.",
   "onboardingFieldYourPicks": "YOUR PICKS",
   "onboardingFieldModels": "MODELS",
   "onboardingSelectBrand": "Select a brand",
@@ -203,24 +181,7 @@
   },
   "onboardingAddBrand": "ADD ANOTHER BRAND",
 
-  "onboardingRoleLabel": "03 — ROLE",
-  "onboardingRoleTitle": "Your role in the scene",
-  "onboardingRoleSubtitle": "How do you show up in the community? Choose all that apply.",
-  "onboardingFieldRoles": "ROLES",
-
-  "onboardingTasteLabel": "04 — TASTE",
-  "onboardingTasteTitle": "Categories you’re into",
-  "onboardingTasteSubtitle": "Select the categories you’re passionate about. We’ll lead with these across your feed and the marketplace.",
-  "onboardingFieldCategories": "CATEGORIES",
-  "onboardingTasteSelectedCount": "{count} selected",
-  "@onboardingTasteSelectedCount": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
-  "onboardingTastePickHint": " · pick at least 1 to calibrate your feed.",
-
-  "onboardingLocationLabel": "05 — LOCATION",
+  "onboardingLocationLabel": "03 — LOCATION",
   "onboardingLocationTitle": "Where does the local community find you?",
   "onboardingLocationSubtitle": "Your location helps us tailor your experience with local carmeets, events and relevant marketplace finds.",
   "onboardingFieldCountry": "COUNTRY",
@@ -236,7 +197,7 @@
   "onboardingPickerCity": "Select city",
   "onboardingDiscoveryRadius": "DISCOVERY RADIUS",
 
-  "onboardingNotificationsLabel": "06 — NOTIFICATIONS",
+  "onboardingNotificationsLabel": "04 — NOTIFICATIONS",
   "onboardingNotificationsTitle": "What should we ping you about?",
   "onboardingNotificationsSubtitle": "Stay on top of what matters. You can fine-tune any of these later.",
   "onboardingPushGrantedText": "Push notifications are on. Pick what you want to hear about below.",
@@ -254,7 +215,7 @@
       "radius": { "type": "int" }
     }
   },
-  "onboardingNotifGroupMarketplace": "MARKETPLACE",
+  "onboardingNotifGroupGarage": "YOUR GARAGE",
   "onboardingNotifLikesTitle": "Likes",
   "onboardingNotifLikesSubtitle": "When someone likes your builds & posts",
   "onboardingNotifCommentsTitle": "Comments",
@@ -267,8 +228,10 @@
   "onboardingNotifFlashMeetsSubtitle": "Spontaneous link-ups happening near you",
   "onboardingNotifEventsTitle": "Organized events",
   "onboardingNotifEventsSubtitle": "Shows, track days & cars-and-coffee",
-  "onboardingNotifPriceDropsTitle": "Price drops",
-  "onboardingNotifPriceDropsSubtitle": "When a saved item gets a discount",
+  "onboardingNotifEventOrganizerTitle": "Event organizer",
+  "onboardingNotifEventOrganizerSubtitle": "When someone enters your event, joins as co-organizer, or asks to withdraw",
+  "onboardingNotifServiceRemindersTitle": "Service reminders",
+  "onboardingNotifServiceRemindersSubtitle": "Upcoming services and expiring documents on your cars",
   "onboardingNotifTagsTitle": "Tags",
   "onboardingNotifTagsSubtitle": "When someone tags you or your car",
 
@@ -1449,5 +1412,55 @@
   "mapSearchPlaceholder": "Search meets, shops, cities…",
   "mapCreateEvent": "Create an event",
   "mapEventsCopied": "Event details copied.",
-  "mapEventsDateCardTitle": "When"
+  "mapEventsDateCardTitle": "When",
+  "feedbackFeedEyebrow": "COMMUNITY",
+  "feedbackFeedTitle": "Feedback",
+  "feedbackFeedNew": "NEW",
+  "feedbackFeedSortNewest": "NEWEST",
+  "feedbackFeedSortPopular": "POPULAR",
+  "feedbackFeedSortOldest": "OLDEST",
+  "feedbackFeedCompletedLink": "Completed requests",
+  "feedbackFeedCompletedTitle": "Completed requests",
+  "feedbackFeedComposeEyebrow": "FEEDBACK COMMUNITY",
+  "feedbackFeedComposeTitle": "Share feedback",
+  "feedbackFeedComposeSubtitle": "Visible to everyone. Other drivers can upvote or downvote it.",
+  "feedbackFeedCategoryLabel": "CATEGORY",
+  "feedbackFeedMessageLabel": "YOUR MESSAGE",
+  "feedbackFeedMessageHint": "What’s on your mind — a bug, an idea, a tweak?",
+  "feedbackFeedPostAction": "POST FEEDBACK",
+  "feedbackFeedPostSuccess": "Your feedback is live.",
+  "feedbackFeedYou": "you",
+  "feedbackFeedNetVotes": "{count, plural, =1{1 net vote} other{{count} net votes}}",
+  "@feedbackFeedNetVotes": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "feedbackFeedShippedAgo": "shipped {time} ago",
+  "@feedbackFeedShippedAgo": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "feedbackFeedTimeAgo": "{time} ago",
+  "@feedbackFeedTimeAgo": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "feedbackFeedStaffLabel": "TWEAKD TEAM",
+  "feedbackFeedDelete": "Delete",
+  "feedbackFeedDeleteTitle": "Delete this feedback?",
+  "feedbackFeedDeleteBody": "This can’t be undone. The votes it collected go with it.",
+  "feedbackFeedDeleteSuccess": "Feedback deleted.",
+  "feedbackFeedCancel": "Cancel",
+  "feedbackFeedEmptyTitle": "Nothing here yet",
+  "feedbackFeedEmptyBody": "Be the first to report a bug or pitch an idea.",
+  "feedbackFeedCompletedEmptyTitle": "Nothing shipped yet",
+  "feedbackFeedCompletedEmptyBody": "Once we finish a request, it lands here.",
+  "feedbackFeedRetry": "Try again",
+  "feedbackFeedErrorNetwork": "No internet connection. Please try again.",
+  "feedbackFeedErrorNotFound": "This feedback no longer exists.",
+  "feedbackFeedErrorLocked": "We’ve already picked this up, so it can’t be deleted anymore.",
+  "feedbackFeedErrorGeneric": "Something went wrong. Please try again."
 }

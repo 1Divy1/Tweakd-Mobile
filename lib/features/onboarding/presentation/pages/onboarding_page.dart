@@ -24,8 +24,6 @@ import '../widgets/steps/car_preferences_step.dart';
 import '../widgets/steps/identity_step.dart';
 import '../widgets/steps/location_step.dart';
 import '../widgets/steps/notifications_step.dart';
-import '../widgets/steps/role_step.dart';
-import '../widgets/steps/taste_step.dart';
 
 /// One-time onboarding wizard. Every step's answers are held locally and sent
 /// in one shot on the final step (mirrors the register-car flow) — nothing is
@@ -47,12 +45,6 @@ class _OnboardingPageState extends State<OnboardingPage>
 
   // Step 2 — Garage (dream cars). Start with one empty row.
   final List<DreamCarRow> _dreamCars = [DreamCarRow()];
-
-  // Step 3 — Role
-  final Set<String> _roleIds = {};
-
-  // Step 4 — Taste
-  final Set<String> _categoryIds = {};
 
   // Step 5 — Location
   CountryEntity? _country;
@@ -120,18 +112,14 @@ class _OnboardingPageState extends State<OnboardingPage>
       builder: (context, state) {
         final refData = _refDataOf(state);
         final isSubmitting = state is OnboardingSubmitting;
-        // Step 0 (Identity) needs no reference data; later steps do.
-        final canProceed =
-            !isSubmitting && (_step == 0 || refData != null);
+        final canProceed = !isSubmitting && refData != null;
 
         return Scaffold(
           backgroundColor: AppColors.bg,
           body: SafeArea(
             child: Column(
               children: [
-                OnboardingTopBar(
-                  onBack: isSubmitting ? null : () => _onTopBack(context),
-                ),
+                const OnboardingTopBar(),
                 OnboardingStepProgress(step: _step),
                 Expanded(child: _body(context, state, refData)),
                 OnboardingBottomBar(
@@ -157,22 +145,19 @@ class _OnboardingPageState extends State<OnboardingPage>
     OnboardingState state,
     OnboardingRefLoaded? refData,
   ) {
-    // Identity never depends on reference data.
-    if (_step != 0) {
-      if (state is OnboardingRefLoading) {
-        return const Center(
-          child: CircularProgressIndicator(color: AppColors.accent),
-        );
-      }
-      if (state is OnboardingRefError) {
-        return _RefErrorView(
-          message: onboardingErrorMessage(
-            AppLocalizations.of(context)!,
-            state.code,
-          ),
-          onRetry: () => _bloc.add(const LoadOnboardingReferenceData()),
-        );
-      }
+    if (state is OnboardingRefLoading) {
+      return const Center(
+        child: CircularProgressIndicator(color: AppColors.accent),
+      );
+    }
+    if (state is OnboardingRefError) {
+      return _RefErrorView(
+        message: onboardingErrorMessage(
+          AppLocalizations.of(context)!,
+          state.code,
+        ),
+        onRetry: () => _bloc.add(const LoadOnboardingReferenceData()),
+      );
     }
 
     return SingleChildScrollView(
@@ -184,9 +169,12 @@ class _OnboardingPageState extends State<OnboardingPage>
   Widget _stepContent(OnboardingRefLoaded? refData) {
     switch (_step) {
       case 0:
-        return IdentityStep(usernameCtrl: _usernameCtrl, bioCtrl: _bioCtrl);
+        return IdentityStep(
+          usernameCtrl: _usernameCtrl,
+          bioCtrl: _bioCtrl,
+        );
       case 1:
-        return GarageStep(
+        return PreferencesStep(
           rows: _dreamCars,
           brands: refData?.brands ?? const [],
           modelsByBrand: refData?.modelsByBrand ?? const {},
@@ -197,18 +185,6 @@ class _OnboardingPageState extends State<OnboardingPage>
           onToggleModel: _onToggleModel,
         );
       case 2:
-        return RoleStep(
-          roles: refData?.communityRoles ?? const [],
-          selectedIds: _roleIds,
-          onToggle: (id) => setState(() => _toggle(_roleIds, id)),
-        );
-      case 3:
-        return TasteStep(
-          categories: refData?.carCategories ?? const [],
-          selectedIds: _categoryIds,
-          onToggle: (id) => setState(() => _toggle(_categoryIds, id)),
-        );
-      case 4:
         final cities = _country == null
             ? const <CityEntity>[]
             : (refData?.citiesByCountry[_country!.id] ?? const []);
@@ -229,7 +205,7 @@ class _OnboardingPageState extends State<OnboardingPage>
           onSelectCity: (city) => setState(() => _city = city),
           onRadiusChanged: (km) => setState(() => _radiusKm = km),
         );
-      case 5:
+      case 3:
         return NotificationsStep(
           prefs: _notifications,
           radiusKm: _radiusKm,
@@ -276,19 +252,9 @@ class _OnboardingPageState extends State<OnboardingPage>
     _bloc.add(LoadCitiesForCountry(country.id));
   }
 
-  void _toggle(Set<String> set, String id) {
-    if (!set.remove(id)) set.add(id);
-  }
+  bool get _hasBrand => _dreamCars.any((row) => row.brand != null);
 
   // ── Navigation & submit ───────────────────────────────────────────────
-
-  void _onTopBack(BuildContext context) {
-    if (_step > 0) {
-      setState(() => _step--);
-      return;
-    }
-    if (context.canPop()) context.pop();
-  }
 
   void _onNext(BuildContext context, OnboardingRefLoaded? refData) {
     if (!_validateStep(context)) return;
@@ -314,14 +280,10 @@ class _OnboardingPageState extends State<OnboardingPage>
           error = l10n.onboardingErrorUsernameTaken;
         }
       case 1:
-        break; // dream cars are optional
-      case 2:
-        if (_roleIds.isEmpty) error = l10n.onboardingErrorPickRole;
-      case 3:
-        if (_categoryIds.length < kMinTasteCategories) {
-          error = l10n.onboardingErrorPickCategory(kMinTasteCategories);
+        if (!_hasBrand) {
+          error = l10n.onboardingErrorPickBrand;
         }
-      case 4:
+      case 2:
         if (_city == null) error = l10n.onboardingErrorSelectCity;
     }
     if (error != null) {
@@ -344,16 +306,12 @@ class _OnboardingPageState extends State<OnboardingPage>
       _jumpTo(context, 0, l10n.onboardingErrorUsernameTaken);
       return;
     }
-    if (_roleIds.isEmpty) {
-      _jumpTo(context, 2, l10n.onboardingErrorPickRole);
-      return;
-    }
-    if (_categoryIds.length < kMinTasteCategories) {
-      _jumpTo(context, 3, l10n.onboardingErrorPickCategory(kMinTasteCategories));
+    if (!_hasBrand) {
+      _jumpTo(context, 1, l10n.onboardingErrorPickBrand);
       return;
     }
     if (_city == null) {
-      _jumpTo(context, 4, l10n.onboardingErrorSelectCity);
+      _jumpTo(context, 2, l10n.onboardingErrorSelectCity);
       return;
     }
 
@@ -365,8 +323,6 @@ class _OnboardingPageState extends State<OnboardingPage>
           bio: bio.isEmpty ? null : bio,
           cityId: _city!.id,
           discoveryRadiusKm: _radiusKm,
-          categoryIds: _categoryIds.toList(),
-          roleIds: _roleIds.toList(),
           notifications: _notifications,
           dreamCars: _buildDreamCars(),
         ),

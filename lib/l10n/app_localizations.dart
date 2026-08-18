@@ -356,24 +356,6 @@ abstract class AppLocalizations {
   /// **'Working…'**
   String get onboardingWorking;
 
-  /// No description provided for @onboardingStart.
-  ///
-  /// In en, this message translates to:
-  /// **'START'**
-  String get onboardingStart;
-
-  /// No description provided for @onboardingFinish.
-  ///
-  /// In en, this message translates to:
-  /// **'FINISH'**
-  String get onboardingFinish;
-
-  /// No description provided for @onboardingStepCounter.
-  ///
-  /// In en, this message translates to:
-  /// **'STEP {current} / {total}'**
-  String onboardingStepCounter(int current, int total);
-
   /// No description provided for @onboardingOptional.
   ///
   /// In en, this message translates to:
@@ -392,53 +374,11 @@ abstract class AppLocalizations {
   /// **'No matches'**
   String get onboardingNoMatches;
 
-  /// No description provided for @onboardingStepIdentity.
+  /// No description provided for @onboardingErrorPickBrand.
   ///
   /// In en, this message translates to:
-  /// **'IDENTITY'**
-  String get onboardingStepIdentity;
-
-  /// No description provided for @onboardingStepGarage.
-  ///
-  /// In en, this message translates to:
-  /// **'PREFERENCES'**
-  String get onboardingStepGarage;
-
-  /// No description provided for @onboardingStepRole.
-  ///
-  /// In en, this message translates to:
-  /// **'ROLE'**
-  String get onboardingStepRole;
-
-  /// No description provided for @onboardingStepTaste.
-  ///
-  /// In en, this message translates to:
-  /// **'TASTE'**
-  String get onboardingStepTaste;
-
-  /// No description provided for @onboardingStepLocation.
-  ///
-  /// In en, this message translates to:
-  /// **'LOCATION'**
-  String get onboardingStepLocation;
-
-  /// No description provided for @onboardingStepNotifications.
-  ///
-  /// In en, this message translates to:
-  /// **'NOTIFICATIONS'**
-  String get onboardingStepNotifications;
-
-  /// No description provided for @onboardingErrorPickRole.
-  ///
-  /// In en, this message translates to:
-  /// **'Pick at least one role.'**
-  String get onboardingErrorPickRole;
-
-  /// No description provided for @onboardingErrorPickCategory.
-  ///
-  /// In en, this message translates to:
-  /// **'Pick at least {count} category to continue.'**
-  String onboardingErrorPickCategory(int count);
+  /// **'Pick at least one brand you\'re into.'**
+  String get onboardingErrorPickBrand;
 
   /// No description provided for @onboardingErrorSelectCity.
   ///
@@ -551,7 +491,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingIdentitySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'This is how the community finds and mentions you. Add a short bio so people get your vibe at a glance.'**
+  /// **'This is how the community finds and @-mentions you.'**
   String get onboardingIdentitySubtitle;
 
   /// No description provided for @onboardingFieldUsername.
@@ -581,13 +521,13 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingGarageTitle.
   ///
   /// In en, this message translates to:
-  /// **'Brands & models you love'**
+  /// **'Your garage'**
   String get onboardingGarageTitle;
 
   /// No description provided for @onboardingGarageSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Pick your favorite brands and models. We’ll tune your feed around them.'**
+  /// **'Brands you follow — we’ll tune your feed and the marketplace around them.'**
   String get onboardingGarageSubtitle;
 
   /// No description provided for @onboardingFieldYourPicks.
@@ -626,70 +566,10 @@ abstract class AppLocalizations {
   /// **'ADD ANOTHER BRAND'**
   String get onboardingAddBrand;
 
-  /// No description provided for @onboardingRoleLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'03 — ROLE'**
-  String get onboardingRoleLabel;
-
-  /// No description provided for @onboardingRoleTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Your role in the scene'**
-  String get onboardingRoleTitle;
-
-  /// No description provided for @onboardingRoleSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'How do you show up in the community? Choose all that apply.'**
-  String get onboardingRoleSubtitle;
-
-  /// No description provided for @onboardingFieldRoles.
-  ///
-  /// In en, this message translates to:
-  /// **'ROLES'**
-  String get onboardingFieldRoles;
-
-  /// No description provided for @onboardingTasteLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'04 — TASTE'**
-  String get onboardingTasteLabel;
-
-  /// No description provided for @onboardingTasteTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Categories you’re into'**
-  String get onboardingTasteTitle;
-
-  /// No description provided for @onboardingTasteSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Select the categories you’re passionate about. We’ll lead with these across your feed and the marketplace.'**
-  String get onboardingTasteSubtitle;
-
-  /// No description provided for @onboardingFieldCategories.
-  ///
-  /// In en, this message translates to:
-  /// **'CATEGORIES'**
-  String get onboardingFieldCategories;
-
-  /// No description provided for @onboardingTasteSelectedCount.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} selected'**
-  String onboardingTasteSelectedCount(int count);
-
-  /// No description provided for @onboardingTastePickHint.
-  ///
-  /// In en, this message translates to:
-  /// **' · pick at least 1 to calibrate your feed.'**
-  String get onboardingTastePickHint;
-
   /// No description provided for @onboardingLocationLabel.
   ///
   /// In en, this message translates to:
-  /// **'05 — LOCATION'**
+  /// **'03 — LOCATION'**
   String get onboardingLocationLabel;
 
   /// No description provided for @onboardingLocationTitle.
@@ -779,7 +659,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingNotificationsLabel.
   ///
   /// In en, this message translates to:
-  /// **'06 — NOTIFICATIONS'**
+  /// **'04 — NOTIFICATIONS'**
   String get onboardingNotificationsLabel;
 
   /// No description provided for @onboardingNotificationsTitle.
@@ -854,11 +734,11 @@ abstract class AppLocalizations {
   /// **'MEETS & EVENTS · WITHIN {radius} KM'**
   String onboardingNotifGroupMeets(int radius);
 
-  /// No description provided for @onboardingNotifGroupMarketplace.
+  /// No description provided for @onboardingNotifGroupGarage.
   ///
   /// In en, this message translates to:
-  /// **'MARKETPLACE'**
-  String get onboardingNotifGroupMarketplace;
+  /// **'YOUR GARAGE'**
+  String get onboardingNotifGroupGarage;
 
   /// No description provided for @onboardingNotifLikesTitle.
   ///
@@ -932,17 +812,29 @@ abstract class AppLocalizations {
   /// **'Shows, track days & cars-and-coffee'**
   String get onboardingNotifEventsSubtitle;
 
-  /// No description provided for @onboardingNotifPriceDropsTitle.
+  /// No description provided for @onboardingNotifEventOrganizerTitle.
   ///
   /// In en, this message translates to:
-  /// **'Price drops'**
-  String get onboardingNotifPriceDropsTitle;
+  /// **'Event organizer'**
+  String get onboardingNotifEventOrganizerTitle;
 
-  /// No description provided for @onboardingNotifPriceDropsSubtitle.
+  /// No description provided for @onboardingNotifEventOrganizerSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'When a saved item gets a discount'**
-  String get onboardingNotifPriceDropsSubtitle;
+  /// **'When someone enters your event, joins as co-organizer, or asks to withdraw'**
+  String get onboardingNotifEventOrganizerSubtitle;
+
+  /// No description provided for @onboardingNotifServiceRemindersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Service reminders'**
+  String get onboardingNotifServiceRemindersTitle;
+
+  /// No description provided for @onboardingNotifServiceRemindersSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming services and expiring documents on your cars'**
+  String get onboardingNotifServiceRemindersSubtitle;
 
   /// No description provided for @onboardingNotifTagsTitle.
   ///
@@ -5917,6 +5809,216 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'When'**
   String get mapEventsDateCardTitle;
+
+  /// No description provided for @feedbackFeedEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'COMMUNITY'**
+  String get feedbackFeedEyebrow;
+
+  /// No description provided for @feedbackFeedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback'**
+  String get feedbackFeedTitle;
+
+  /// No description provided for @feedbackFeedNew.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW'**
+  String get feedbackFeedNew;
+
+  /// No description provided for @feedbackFeedSortNewest.
+  ///
+  /// In en, this message translates to:
+  /// **'NEWEST'**
+  String get feedbackFeedSortNewest;
+
+  /// No description provided for @feedbackFeedSortPopular.
+  ///
+  /// In en, this message translates to:
+  /// **'POPULAR'**
+  String get feedbackFeedSortPopular;
+
+  /// No description provided for @feedbackFeedSortOldest.
+  ///
+  /// In en, this message translates to:
+  /// **'OLDEST'**
+  String get feedbackFeedSortOldest;
+
+  /// No description provided for @feedbackFeedCompletedLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed requests'**
+  String get feedbackFeedCompletedLink;
+
+  /// No description provided for @feedbackFeedCompletedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed requests'**
+  String get feedbackFeedCompletedTitle;
+
+  /// No description provided for @feedbackFeedComposeEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'FEEDBACK COMMUNITY'**
+  String get feedbackFeedComposeEyebrow;
+
+  /// No description provided for @feedbackFeedComposeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share feedback'**
+  String get feedbackFeedComposeTitle;
+
+  /// No description provided for @feedbackFeedComposeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Visible to everyone. Other drivers can upvote or downvote it.'**
+  String get feedbackFeedComposeSubtitle;
+
+  /// No description provided for @feedbackFeedCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'CATEGORY'**
+  String get feedbackFeedCategoryLabel;
+
+  /// No description provided for @feedbackFeedMessageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'YOUR MESSAGE'**
+  String get feedbackFeedMessageLabel;
+
+  /// No description provided for @feedbackFeedMessageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What’s on your mind — a bug, an idea, a tweak?'**
+  String get feedbackFeedMessageHint;
+
+  /// No description provided for @feedbackFeedPostAction.
+  ///
+  /// In en, this message translates to:
+  /// **'POST FEEDBACK'**
+  String get feedbackFeedPostAction;
+
+  /// No description provided for @feedbackFeedPostSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Your feedback is live.'**
+  String get feedbackFeedPostSuccess;
+
+  /// No description provided for @feedbackFeedYou.
+  ///
+  /// In en, this message translates to:
+  /// **'you'**
+  String get feedbackFeedYou;
+
+  /// No description provided for @feedbackFeedNetVotes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 net vote} other{{count} net votes}}'**
+  String feedbackFeedNetVotes(int count);
+
+  /// No description provided for @feedbackFeedShippedAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'shipped {time} ago'**
+  String feedbackFeedShippedAgo(String time);
+
+  /// No description provided for @feedbackFeedTimeAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} ago'**
+  String feedbackFeedTimeAgo(String time);
+
+  /// No description provided for @feedbackFeedStaffLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'TWEAKD TEAM'**
+  String get feedbackFeedStaffLabel;
+
+  /// No description provided for @feedbackFeedDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get feedbackFeedDelete;
+
+  /// No description provided for @feedbackFeedDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this feedback?'**
+  String get feedbackFeedDeleteTitle;
+
+  /// No description provided for @feedbackFeedDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This can’t be undone. The votes it collected go with it.'**
+  String get feedbackFeedDeleteBody;
+
+  /// No description provided for @feedbackFeedDeleteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback deleted.'**
+  String get feedbackFeedDeleteSuccess;
+
+  /// No description provided for @feedbackFeedCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get feedbackFeedCancel;
+
+  /// No description provided for @feedbackFeedEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here yet'**
+  String get feedbackFeedEmptyTitle;
+
+  /// No description provided for @feedbackFeedEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Be the first to report a bug or pitch an idea.'**
+  String get feedbackFeedEmptyBody;
+
+  /// No description provided for @feedbackFeedCompletedEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing shipped yet'**
+  String get feedbackFeedCompletedEmptyTitle;
+
+  /// No description provided for @feedbackFeedCompletedEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Once we finish a request, it lands here.'**
+  String get feedbackFeedCompletedEmptyBody;
+
+  /// No description provided for @feedbackFeedRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get feedbackFeedRetry;
+
+  /// No description provided for @feedbackFeedErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Please try again.'**
+  String get feedbackFeedErrorNetwork;
+
+  /// No description provided for @feedbackFeedErrorNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This feedback no longer exists.'**
+  String get feedbackFeedErrorNotFound;
+
+  /// No description provided for @feedbackFeedErrorLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'We’ve already picked this up, so it can’t be deleted anymore.'**
+  String get feedbackFeedErrorLocked;
+
+  /// No description provided for @feedbackFeedErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get feedbackFeedErrorGeneric;
 }
 
 class _AppLocalizationsDelegate

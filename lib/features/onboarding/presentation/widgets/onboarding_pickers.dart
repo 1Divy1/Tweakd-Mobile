@@ -3,6 +3,30 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 
+/// Filters [items] to those whose label contains [query], ranked so labels
+/// that *start with* the query (e.g. "315" for "3") come before labels that
+/// merely contain it elsewhere (e.g. "130"). Each group keeps the incoming
+/// order otherwise, so results still read alphabetically/numerically within
+/// a rank.
+List<T> _searchRanked<T>(
+  List<T> items,
+  String Function(T) labelOf,
+  String query,
+) {
+  if (query.isEmpty) return items;
+  final startsWith = <T>[];
+  final contains = <T>[];
+  for (final item in items) {
+    final label = labelOf(item).toLowerCase();
+    if (label.startsWith(query)) {
+      startsWith.add(item);
+    } else if (label.contains(query)) {
+      contains.add(item);
+    }
+  }
+  return [...startsWith, ...contains];
+}
+
 /// A tappable field that opens a picker. Shows a placeholder until a value is
 /// chosen, an optional leading widget, and a chevron affordance.
 class OnboardingSelectorTile extends StatelessWidget {
@@ -35,7 +59,6 @@ class OnboardingSelectorTile extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.surface,
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppColors.line),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withAlpha(6),
@@ -145,11 +168,7 @@ class _OnboardingPickerSheetState<T> extends State<_OnboardingPickerSheet<T>> {
   @override
   Widget build(BuildContext context) {
     final query = _query.trim().toLowerCase();
-    final filtered = query.isEmpty
-        ? widget.items
-        : widget.items
-            .where((item) => widget.labelOf(item).toLowerCase().contains(query))
-            .toList();
+    final filtered = _searchRanked(widget.items, widget.labelOf, query);
 
     return DraggableScrollableSheet(
       initialChildSize: 0.6,
@@ -275,11 +294,7 @@ class _OnboardingMultiPickerSheetState<T>
   @override
   Widget build(BuildContext context) {
     final query = _query.trim().toLowerCase();
-    final filtered = query.isEmpty
-        ? widget.items
-        : widget.items
-            .where((item) => widget.labelOf(item).toLowerCase().contains(query))
-            .toList();
+    final filtered = _searchRanked(widget.items, widget.labelOf, query);
 
     return DraggableScrollableSheet(
       initialChildSize: 0.6,
@@ -448,9 +463,8 @@ class _PickerSearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.bg,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.line),
       ),
       child: Row(
         children: [
@@ -460,7 +474,6 @@ class _PickerSearchField extends StatelessWidget {
             child: TextField(
               controller: controller,
               onChanged: onChanged,
-              autofocus: true,
               cursorColor: AppColors.accent,
               style: const TextStyle(
                 color: AppColors.ink,
@@ -469,6 +482,7 @@ class _PickerSearchField extends StatelessWidget {
               ),
               decoration: InputDecoration(
                 isDense: true,
+                filled: false,
                 hintText: AppLocalizations.of(context)!.onboardingSearchHint,
                 hintStyle: const TextStyle(
                   color: AppColors.muteSoft,
@@ -510,16 +524,13 @@ class OnboardingChoicePill extends StatelessWidget {
         decoration: BoxDecoration(
           color: selected ? AppColors.ink : AppColors.surface,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: selected ? AppColors.ink : AppColors.line),
-          boxShadow: selected
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withAlpha(28),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
-                  ),
-                ]
-              : null,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha(selected ? 28 : 6),
+              blurRadius: selected ? 12 : 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Text(
           label,

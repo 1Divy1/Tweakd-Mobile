@@ -7,11 +7,19 @@ class NotificationPreferences extends Equatable {
   final bool dmsEnabled;
   final bool flashMeetsEnabled;
   final bool organizedEventsEnabled;
-  final bool priceDropsEnabled;
+
+  /// Reminders for scheduled services / expiring documents (service book) on
+  /// the user's cars. No backend producer is wired up for this yet — the
+  /// toggle ships ahead of that feature.
+  final bool serviceRemindersEnabled;
 
   /// Tags on posts, forum threads and forum replies. Required by
   /// `PUT /profile/me/notifications` — the payload replaces every flag.
   final bool tagsEnabled;
+
+  /// Someone enters a car in an event you organize, is added as
+  /// co-organizer, or asks to withdraw from your event.
+  final bool eventOrganizerEnabled;
 
   const NotificationPreferences({
     required this.likesEnabled,
@@ -20,8 +28,9 @@ class NotificationPreferences extends Equatable {
     required this.dmsEnabled,
     required this.flashMeetsEnabled,
     required this.organizedEventsEnabled,
-    required this.priceDropsEnabled,
+    required this.serviceRemindersEnabled,
     required this.tagsEnabled,
+    required this.eventOrganizerEnabled,
   });
 
   /// Sensible opt-in defaults shown when the Notifications step first opens.
@@ -32,8 +41,9 @@ class NotificationPreferences extends Equatable {
         dmsEnabled: true,
         flashMeetsEnabled: true,
         organizedEventsEnabled: true,
-        priceDropsEnabled: true,
+        serviceRemindersEnabled: true,
         tagsEnabled: true,
+        eventOrganizerEnabled: true,
       );
 
   NotificationPreferences copyWith({
@@ -43,8 +53,9 @@ class NotificationPreferences extends Equatable {
     bool? dmsEnabled,
     bool? flashMeetsEnabled,
     bool? organizedEventsEnabled,
-    bool? priceDropsEnabled,
+    bool? serviceRemindersEnabled,
     bool? tagsEnabled,
+    bool? eventOrganizerEnabled,
   }) {
     return NotificationPreferences(
       likesEnabled: likesEnabled ?? this.likesEnabled,
@@ -54,8 +65,11 @@ class NotificationPreferences extends Equatable {
       flashMeetsEnabled: flashMeetsEnabled ?? this.flashMeetsEnabled,
       organizedEventsEnabled:
           organizedEventsEnabled ?? this.organizedEventsEnabled,
-      priceDropsEnabled: priceDropsEnabled ?? this.priceDropsEnabled,
+      serviceRemindersEnabled:
+          serviceRemindersEnabled ?? this.serviceRemindersEnabled,
       tagsEnabled: tagsEnabled ?? this.tagsEnabled,
+      eventOrganizerEnabled:
+          eventOrganizerEnabled ?? this.eventOrganizerEnabled,
     );
   }
 
@@ -66,8 +80,9 @@ class NotificationPreferences extends Equatable {
         'dms_enabled': dmsEnabled,
         'flash_meets_enabled': flashMeetsEnabled,
         'organized_events_enabled': organizedEventsEnabled,
-        'price_drops_enabled': priceDropsEnabled,
+        'service_reminders_enabled': serviceRemindersEnabled,
         'tags_enabled': tagsEnabled,
+        'event_organizer_enabled': eventOrganizerEnabled,
       };
 
   @override
@@ -78,7 +93,8 @@ class NotificationPreferences extends Equatable {
         dmsEnabled,
         flashMeetsEnabled,
         organizedEventsEnabled,
-        priceDropsEnabled,
+        serviceRemindersEnabled,
         tagsEnabled,
+        eventOrganizerEnabled,
       ];
 }

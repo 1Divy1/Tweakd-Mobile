@@ -2,9 +2,7 @@ import 'package:car_social_media_app/features/garage/domain/entities/reference_d
 import 'package:car_social_media_app/features/profile/domain/entities/profile.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../domain/entities/onboarding reference/car_category_entity.dart';
 import '../../domain/entities/onboarding reference/city_entity.dart';
-import '../../domain/entities/onboarding reference/community_role_entity.dart';
 import '../../domain/entities/onboarding reference/country_entity.dart';
 import '../utils/onboarding_error_mapper.dart';
 
@@ -31,13 +29,11 @@ class OnboardingRefError extends OnboardingState {
   List<Object?> get props => [code];
 }
 
-/// All reference data needed by the wizard. Countries, roles, categories and
-/// brands load once up front; cities (per country) and models (per brand) are
-/// fetched lazily and cached as the user drills in.
+/// All reference data needed by the wizard. Countries and brands load once
+/// up front; cities (per country) and models (per brand) are fetched lazily
+/// and cached as the user drills in.
 class OnboardingRefLoaded extends OnboardingState {
   final List<CountryEntity> countries;
-  final List<CommunityRoleEntity> communityRoles;
-  final List<CarCategoryEntity> carCategories;
   final List<CarBrandEntity> brands;
 
   final Map<String, List<CityEntity>> citiesByCountry;
@@ -51,8 +47,6 @@ class OnboardingRefLoaded extends OnboardingState {
 
   const OnboardingRefLoaded({
     required this.countries,
-    required this.communityRoles,
-    required this.carCategories,
     required this.brands,
     this.citiesByCountry = const {},
     this.modelsByBrand = const {},
@@ -69,8 +63,6 @@ class OnboardingRefLoaded extends OnboardingState {
   }) {
     return OnboardingRefLoaded(
       countries: countries,
-      communityRoles: communityRoles,
-      carCategories: carCategories,
       brands: brands,
       citiesByCountry: citiesByCountry ?? this.citiesByCountry,
       modelsByBrand: modelsByBrand ?? this.modelsByBrand,
@@ -83,8 +75,6 @@ class OnboardingRefLoaded extends OnboardingState {
   @override
   List<Object?> get props => [
         countries,
-        communityRoles,
-        carCategories,
         brands,
         citiesByCountry,
         modelsByBrand,

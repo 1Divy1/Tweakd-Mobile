@@ -45,6 +45,7 @@ dependencies:
   mapbox_maps_flutter: ^2.27.0
   geolocator: ^14.0.3
   url_launcher: ^6.3.2
+  google_fonts: ^6.3.2
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +54,13 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   build_runner: ^2.13.1
   injectable_generator: ^3.0.2
+  flutter_launcher_icons: ^0.14.4
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/app_logo/tweakd_logo.png"
+  min_sdk_android: 21
 
 flutter:
   generate: true
@@ -60,3 +68,4 @@ flutter:
   assets:
     - .env
     - assets/logos/
+    - assets/app_logo/

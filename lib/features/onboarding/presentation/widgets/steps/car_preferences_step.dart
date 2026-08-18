@@ -6,7 +6,7 @@ import '../../../../../l10n/app_localizations.dart';
 import '../onboarding_fields.dart';
 import '../onboarding_pickers.dart';
 
-/// One dream-car row in the Garage step: a brand plus an optional set of
+/// One dream-car row in the Preferences step: a brand plus an optional set of
 /// models. On submit each row expands to one dream car per selected model (or
 /// a single brand-only entry when no models are picked).
 class DreamCarRow {
@@ -17,9 +17,9 @@ class DreamCarRow {
       : models = models ?? [];
 }
 
-/// Step 2 — pick the marques (and exact models) the user is into. Everything
-/// here is optional; the feed simply tunes around whatever is chosen.
-class GarageStep extends StatelessWidget {
+/// Step 2 — brands & models the user is into (at least one brand is
+/// required; models stay optional).
+class PreferencesStep extends StatelessWidget {
   final List<DreamCarRow> rows;
   final List<CarBrandEntity> brands;
   final Map<String, List<CarModelEntity>> modelsByBrand;
@@ -29,7 +29,7 @@ class GarageStep extends StatelessWidget {
   final void Function(int index, CarBrandEntity brand) onSelectBrand;
   final void Function(int index, CarModelEntity model) onToggleModel;
 
-  const GarageStep({
+  const PreferencesStep({
     super.key,
     required this.rows,
     required this.brands,
@@ -44,6 +44,7 @@ class GarageStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -53,12 +54,12 @@ class GarageStep extends StatelessWidget {
           subtitle: l10n.onboardingGarageSubtitle,
         ),
         const SizedBox(height: 20),
-        OnboardingFieldLabel(l10n.onboardingFieldYourPicks, optional: true),
+        OnboardingFieldLabel(l10n.onboardingFieldYourPicks),
         const SizedBox(height: 12),
         for (var i = 0; i < rows.length; i++) ...[
           _DreamCarCard(
             row: rows[i],
-            brands: brands,
+            brands: _availableBrands(i),
             models: rows[i].brand == null
                 ? const []
                 : (modelsByBrand[rows[i].brand!.id] ?? const []),
@@ -73,6 +74,16 @@ class GarageStep extends StatelessWidget {
         _AddBrandButton(onTap: onAddRow),
       ],
     );
+  }
+
+  /// Brands already picked by other rows are hidden from row [index]'s
+  /// picker so the same brand can't be added twice.
+  List<CarBrandEntity> _availableBrands(int index) {
+    final usedElsewhere = {
+      for (var i = 0; i < rows.length; i++)
+        if (i != index && rows[i].brand != null) rows[i].brand!.id,
+    };
+    return brands.where((b) => !usedElsewhere.contains(b.id)).toList();
   }
 }
 
@@ -107,7 +118,6 @@ class _DreamCarCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.line),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withAlpha(6),
@@ -121,8 +131,6 @@ class _DreamCarCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              _BrandBadge(letter: brand == null ? null : _initial(brand.name)),
-              const SizedBox(width: 12),
               Expanded(
                 child: GestureDetector(
                   onTap: () => showOnboardingPicker<CarBrandEntity>(
@@ -145,7 +153,7 @@ class _DreamCarCard extends StatelessWidget {
           ),
           if (brand != null) ...[
             const SizedBox(height: 14),
-            OnboardingFieldLabel(l10n.onboardingFieldModels, optional: true),
+            OnboardingFieldLabel(l10n.onboardingFieldModels),
             const SizedBox(height: 8),
             OnboardingSelectorTile(
               placeholder: l10n.onboardingAddModels,
@@ -171,40 +179,6 @@ class _DreamCarCard extends StatelessWidget {
     );
   }
 
-  static String _initial(String name) =>
-      name.isEmpty ? '?' : name.characters.first.toUpperCase();
-}
-
-class _BrandBadge extends StatelessWidget {
-  final String? letter;
-  const _BrandBadge({this.letter});
-
-  @override
-  Widget build(BuildContext context) {
-    final hasBrand = letter != null;
-    return Container(
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: hasBrand ? AppColors.ink : AppColors.bg,
-        borderRadius: BorderRadius.circular(12),
-        border: hasBrand ? null : Border.all(color: AppColors.line),
-      ),
-      child: Center(
-        child: hasBrand
-            ? Text(
-                letter!,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800,
-                ),
-              )
-            : const Icon(Icons.directions_car_filled_outlined,
-                size: 18, color: AppColors.muteSoft),
-      ),
-    );
-  }
 }
 
 class _InlineSelectorText extends StatelessWidget {
@@ -220,7 +194,6 @@ class _InlineSelectorText extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.bg,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.line),
       ),
       child: Row(
         children: [
@@ -258,7 +231,6 @@ class _RemoveButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.bg,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.line),
         ),
         child: const Icon(Icons.close_rounded, size: 18, color: AppColors.mute),
       ),
@@ -278,19 +250,18 @@ class _AddBrandButton extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: AppColors.ink,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.accent.withAlpha(120)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.add_rounded, size: 20, color: AppColors.accent),
+            const Icon(Icons.add_rounded, size: 20, color: Colors.white),
             const SizedBox(width: 8),
             Text(
               AppLocalizations.of(context)!.onboardingAddBrand,
               style: const TextStyle(
-                color: AppColors.accent,
+                color: Colors.white,
                 fontSize: 13,
                 fontWeight: FontWeight.w800,
                 letterSpacing: 1,
