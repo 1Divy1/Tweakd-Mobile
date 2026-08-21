@@ -14,13 +14,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
 
   // Make sure the binding is initialized
-  WidgetsFlutterBinding.ensureInitialized();
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  // Keep the native (OS-level) launch screen on screen through all of the
+  // setup below, instead of letting it disappear into a blank frame the
+  // moment the Flutter engine attaches. SplashPage removes it once its own,
+  // visually-identical splash has actually painted (see its initState).
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   // Lock the app to portrait orientation
   await SystemChrome.setPreferredOrientations([

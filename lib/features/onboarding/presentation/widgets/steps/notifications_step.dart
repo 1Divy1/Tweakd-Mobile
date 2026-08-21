@@ -41,91 +41,104 @@ class NotificationsStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         OnboardingSectionHeader(
-          label: l10n.onboardingNotificationsLabel,
           title: l10n.onboardingNotificationsTitle,
-          subtitle: l10n.onboardingNotificationsSubtitle,
         ),
         const SizedBox(height: 20),
-        _PushPermissionBanner(
-          permission: pushPermission,
-          onEnable: onEnablePush,
-          onOpenSettings: onOpenPushSettings,
-        ),
-        const SizedBox(height: 24),
-        _GroupLabel(l10n.onboardingNotifGroupContent),
-        _ToggleRow(
-          icon: Icons.favorite_rounded,
-          iconColor: AppColors.accent,
-          title: l10n.onboardingNotifLikesTitle,
-          subtitle: l10n.onboardingNotifLikesSubtitle,
-          value: prefs.likesEnabled,
-          onChanged: (v) => onChanged(prefs.copyWith(likesEnabled: v)),
-        ),
-        _ToggleRow(
-          icon: Icons.mode_comment_outlined,
-          title: l10n.onboardingNotifCommentsTitle,
-          subtitle: l10n.onboardingNotifCommentsSubtitle,
-          value: prefs.commentsEnabled,
-          onChanged: (v) => onChanged(prefs.copyWith(commentsEnabled: v)),
-        ),
-        _ToggleRow(
-          icon: Icons.ios_share_rounded,
-          title: l10n.onboardingNotifSharesTitle,
-          subtitle: l10n.onboardingNotifSharesSubtitle,
-          value: prefs.sharesEnabled,
-          onChanged: (v) => onChanged(prefs.copyWith(sharesEnabled: v)),
-        ),
-        _ToggleRow(
-          icon: Icons.local_offer_rounded,
-          title: l10n.onboardingNotifTagsTitle,
-          subtitle: l10n.onboardingNotifTagsSubtitle,
-          value: prefs.tagsEnabled,
-          onChanged: (v) => onChanged(prefs.copyWith(tagsEnabled: v)),
-        ),
-        const SizedBox(height: 18),
-        _GroupLabel(l10n.onboardingNotifGroupMessages),
-        _ToggleRow(
-          icon: Icons.mail_outline_rounded,
-          title: l10n.onboardingNotifDmsTitle,
-          subtitle: l10n.onboardingNotifDmsSubtitle,
-          value: prefs.dmsEnabled,
-          onChanged: (v) => onChanged(prefs.copyWith(dmsEnabled: v)),
-        ),
-        const SizedBox(height: 18),
-        _GroupLabel(l10n.onboardingNotifGroupMeets(radiusKm)),
-        _ToggleRow(
-          icon: Icons.bolt_rounded,
-          iconColor: AppColors.accent,
-          title: l10n.onboardingNotifFlashMeetsTitle,
-          subtitle: l10n.onboardingNotifFlashMeetsSubtitle,
-          value: prefs.flashMeetsEnabled,
-          onChanged: (v) => onChanged(prefs.copyWith(flashMeetsEnabled: v)),
-        ),
-        _ToggleRow(
-          icon: Icons.calendar_today_rounded,
-          title: l10n.onboardingNotifEventsTitle,
-          subtitle: l10n.onboardingNotifEventsSubtitle,
-          value: prefs.organizedEventsEnabled,
-          onChanged: (v) =>
-              onChanged(prefs.copyWith(organizedEventsEnabled: v)),
-        ),
-        _ToggleRow(
-          icon: Icons.admin_panel_settings_rounded,
-          title: l10n.onboardingNotifEventOrganizerTitle,
-          subtitle: l10n.onboardingNotifEventOrganizerSubtitle,
-          value: prefs.eventOrganizerEnabled,
-          onChanged: (v) =>
-              onChanged(prefs.copyWith(eventOrganizerEnabled: v)),
-        ),
-        const SizedBox(height: 18),
-        _GroupLabel(l10n.onboardingNotifGroupGarage),
-        _ToggleRow(
-          icon: Icons.car_repair_rounded,
-          title: l10n.onboardingNotifServiceRemindersTitle,
-          subtitle: l10n.onboardingNotifServiceRemindersSubtitle,
-          value: prefs.serviceRemindersEnabled,
-          onChanged: (v) =>
-              onChanged(prefs.copyWith(serviceRemindersEnabled: v)),
+        Expanded(
+          child: Center(
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _PushPermissionBanner(
+                    permission: pushPermission,
+                    onEnable: onEnablePush,
+                    onOpenSettings: onOpenPushSettings,
+                  ),
+                  const SizedBox(height: 24),
+                  _GroupLabel(l10n.onboardingNotifGroupContent),
+                  _ToggleRow(
+                    icon: Icons.favorite_rounded,
+                    iconColor: AppColors.accent,
+                    title: l10n.onboardingNotifLikesTitle,
+                    subtitle: l10n.onboardingNotifLikesSubtitle,
+                    value: prefs.likesEnabled,
+                    onChanged: (v) => onChanged(prefs.copyWith(likesEnabled: v)),
+                  ),
+                  _ToggleRow(
+                    icon: Icons.mode_comment_outlined,
+                    title: l10n.onboardingNotifCommentsTitle,
+                    subtitle: l10n.onboardingNotifCommentsSubtitle,
+                    value: prefs.commentsEnabled,
+                    onChanged: (v) =>
+                        onChanged(prefs.copyWith(commentsEnabled: v)),
+                  ),
+                  _ToggleRow(
+                    icon: Icons.ios_share_rounded,
+                    title: l10n.onboardingNotifSharesTitle,
+                    subtitle: l10n.onboardingNotifSharesSubtitle,
+                    value: prefs.sharesEnabled,
+                    onChanged: (v) => onChanged(prefs.copyWith(sharesEnabled: v)),
+                  ),
+                  _ToggleRow(
+                    icon: Icons.local_offer_rounded,
+                    title: l10n.onboardingNotifTagsTitle,
+                    subtitle: l10n.onboardingNotifTagsSubtitle,
+                    value: prefs.tagsEnabled,
+                    onChanged: (v) => onChanged(prefs.copyWith(tagsEnabled: v)),
+                  ),
+                  const SizedBox(height: 18),
+                  _GroupLabel(l10n.onboardingNotifGroupMessages),
+                  _ToggleRow(
+                    icon: Icons.mail_outline_rounded,
+                    title: l10n.onboardingNotifDmsTitle,
+                    subtitle: l10n.onboardingNotifDmsSubtitle,
+                    value: prefs.dmsEnabled,
+                    onChanged: (v) => onChanged(prefs.copyWith(dmsEnabled: v)),
+                  ),
+                  const SizedBox(height: 18),
+                  _GroupLabel(l10n.onboardingNotifGroupMeets(radiusKm)),
+                  _ToggleRow(
+                    icon: Icons.bolt_rounded,
+                    iconColor: AppColors.accent,
+                    title: l10n.onboardingNotifFlashMeetsTitle,
+                    subtitle: l10n.onboardingNotifFlashMeetsSubtitle,
+                    value: prefs.flashMeetsEnabled,
+                    onChanged: (v) =>
+                        onChanged(prefs.copyWith(flashMeetsEnabled: v)),
+                  ),
+                  _ToggleRow(
+                    icon: Icons.calendar_today_rounded,
+                    title: l10n.onboardingNotifEventsTitle,
+                    subtitle: l10n.onboardingNotifEventsSubtitle,
+                    value: prefs.organizedEventsEnabled,
+                    onChanged: (v) =>
+                        onChanged(prefs.copyWith(organizedEventsEnabled: v)),
+                  ),
+                  _ToggleRow(
+                    icon: Icons.admin_panel_settings_rounded,
+                    title: l10n.onboardingNotifEventOrganizerTitle,
+                    subtitle: l10n.onboardingNotifEventOrganizerSubtitle,
+                    value: prefs.eventOrganizerEnabled,
+                    onChanged: (v) =>
+                        onChanged(prefs.copyWith(eventOrganizerEnabled: v)),
+                  ),
+                  const SizedBox(height: 18),
+                  _GroupLabel(l10n.onboardingNotifGroupGarage),
+                  _ToggleRow(
+                    icon: Icons.car_repair_rounded,
+                    title: l10n.onboardingNotifServiceRemindersTitle,
+                    subtitle: l10n.onboardingNotifServiceRemindersSubtitle,
+                    value: prefs.serviceRemindersEnabled,
+                    onChanged: (v) =>
+                        onChanged(prefs.copyWith(serviceRemindersEnabled: v)),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ],
     );

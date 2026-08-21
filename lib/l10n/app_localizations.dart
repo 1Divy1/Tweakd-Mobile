@@ -179,19 +179,19 @@ abstract class AppLocalizations {
   /// Login page subtitle
   ///
   /// In en, this message translates to:
-  /// **'Sign in to get back in the garage.'**
+  /// **''**
   String get authLoginSubtitle;
 
   /// Sign up page headline
   ///
   /// In en, this message translates to:
-  /// **'Join the grid'**
+  /// **'Join the community'**
   String get authSignupTitle;
 
   /// Sign up page subtitle
   ///
   /// In en, this message translates to:
-  /// **'Create your account and connect with the community'**
+  /// **''**
   String get authSignupSubtitle;
 
   /// No description provided for @authEmailLabel.
@@ -223,18 +223,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create a password'**
   String get authPasswordHintSignup;
-
-  /// No description provided for @authUsernameLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Username'**
-  String get authUsernameLabel;
-
-  /// No description provided for @authUsernameHint.
-  ///
-  /// In en, this message translates to:
-  /// **'username'**
-  String get authUsernameHint;
 
   /// No description provided for @authForgotPassword.
   ///
@@ -302,6 +290,12 @@ abstract class AppLocalizations {
   /// **'Privacy Policy'**
   String get authTermsPrivacy;
 
+  /// Snackbar shown when tapping a social sign-up button before the terms checkbox is ticked
+  ///
+  /// In en, this message translates to:
+  /// **'Please agree to the Terms & Privacy Policy first.'**
+  String get authAgreeToTermsFirst;
+
   /// Snackbar shown when tapping a not-yet-implemented feature
   ///
   /// In en, this message translates to:
@@ -314,17 +308,167 @@ abstract class AppLocalizations {
   /// **'{provider} sign-in'**
   String authFeatureProviderSignIn(String provider);
 
-  /// No description provided for @authFeaturePasswordRecovery.
+  /// Password checklist rule: minimum length
   ///
   /// In en, this message translates to:
-  /// **'Password recovery'**
-  String get authFeaturePasswordRecovery;
+  /// **'At least {count} characters'**
+  String authPasswordRuleLength(int count);
 
-  /// No description provided for @authFeatureEmailSignUp.
+  /// No description provided for @authPasswordRuleLowercase.
   ///
   /// In en, this message translates to:
-  /// **'Email sign up'**
-  String get authFeatureEmailSignUp;
+  /// **'A lowercase letter'**
+  String get authPasswordRuleLowercase;
+
+  /// No description provided for @authPasswordRuleUppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'An uppercase letter'**
+  String get authPasswordRuleUppercase;
+
+  /// No description provided for @authPasswordRuleDigit.
+  ///
+  /// In en, this message translates to:
+  /// **'A number'**
+  String get authPasswordRuleDigit;
+
+  /// No description provided for @authPasswordRuleSymbol.
+  ///
+  /// In en, this message translates to:
+  /// **'A symbol (!, @, #, …)'**
+  String get authPasswordRuleSymbol;
+
+  /// No description provided for @authConfirmEmailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your inbox'**
+  String get authConfirmEmailTitle;
+
+  /// Sign-up confirmation screen subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a code to {email}. Enter it below to activate your account.'**
+  String authConfirmEmailSubtitle(String email);
+
+  /// No description provided for @authConfirmEmailVerify.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm email'**
+  String get authConfirmEmailVerify;
+
+  /// No description provided for @authConfirmEmailResent.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmation email sent again.'**
+  String get authConfirmEmailResent;
+
+  /// No description provided for @authResendEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'DIDN\'T GET IT? RESEND'**
+  String get authResendEmail;
+
+  /// Resend button label during its cooldown
+  ///
+  /// In en, this message translates to:
+  /// **'RESEND IN {seconds}s'**
+  String authResendIn(int seconds);
+
+  /// No description provided for @authBackToSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'BACK TO SIGN IN'**
+  String get authBackToSignIn;
+
+  /// No description provided for @authForgotPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset your password'**
+  String get authForgotPasswordTitle;
+
+  /// No description provided for @authForgotPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email address and we\'ll send you a code.'**
+  String get authForgotPasswordSubtitle;
+
+  /// No description provided for @authSendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code'**
+  String get authSendCode;
+
+  /// No description provided for @authResetCodeResent.
+  ///
+  /// In en, this message translates to:
+  /// **'A new code is on its way.'**
+  String get authResetCodeResent;
+
+  /// No description provided for @authVerifyCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your code'**
+  String get authVerifyCodeTitle;
+
+  /// Password reset code entry subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a code to {email}. It expires shortly, so use it soon.'**
+  String authVerifyCodeSubtitle(String email);
+
+  /// No description provided for @authVerifyCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify code'**
+  String get authVerifyCode;
+
+  /// No description provided for @authNewPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a new password'**
+  String get authNewPasswordTitle;
+
+  /// No description provided for @authNewPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving this signs out every other device.'**
+  String get authNewPasswordSubtitle;
+
+  /// No description provided for @authNewPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get authNewPasswordLabel;
+
+  /// No description provided for @authConfirmPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm password'**
+  String get authConfirmPasswordLabel;
+
+  /// No description provided for @authConfirmPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat your new password'**
+  String get authConfirmPasswordHint;
+
+  /// No description provided for @authPasswordsDoNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'The passwords don\'t match.'**
+  String get authPasswordsDoNotMatch;
+
+  /// No description provided for @authSavePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Save password'**
+  String get authSavePassword;
+
+  /// No description provided for @authPasswordUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Your password has been updated.'**
+  String get authPasswordUpdated;
 
   /// No description provided for @onboardingBack.
   ///
@@ -434,12 +578,6 @@ abstract class AppLocalizations {
   /// **'Couldn\'t check availability. Tap Next to try anyway.'**
   String get onboardingUsernameCheckFailed;
 
-  /// No description provided for @onboardingUsernameHelp.
-  ///
-  /// In en, this message translates to:
-  /// **'This will be your public handle.'**
-  String get onboardingUsernameHelp;
-
   /// No description provided for @onboardingUsernameHint.
   ///
   /// In en, this message translates to:
@@ -487,12 +625,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Claim your handle'**
   String get onboardingIdentityTitle;
-
-  /// No description provided for @onboardingIdentitySubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'This is how the community finds and @-mentions you.'**
-  String get onboardingIdentitySubtitle;
 
   /// No description provided for @onboardingFieldUsername.
   ///
@@ -2263,6 +2395,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your session is not active. Please log in again.'**
   String get authErrorSessionExpired;
+
+  /// No description provided for @authErrorInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'That email or password is incorrect.'**
+  String get authErrorInvalidCredentials;
+
+  /// No description provided for @authErrorEmailNotConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your email address before signing in.'**
+  String get authErrorEmailNotConfirmed;
+
+  /// No description provided for @authErrorWeakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'That password is too weak. Please pick a stronger one.'**
+  String get authErrorWeakPassword;
+
+  /// No description provided for @authErrorInvalidCode.
+  ///
+  /// In en, this message translates to:
+  /// **'That code isn\'t right. Please check it and try again.'**
+  String get authErrorInvalidCode;
+
+  /// No description provided for @authErrorExpiredCode.
+  ///
+  /// In en, this message translates to:
+  /// **'That code has expired. Request a new one.'**
+  String get authErrorExpiredCode;
+
+  /// No description provided for @authErrorRateLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please wait a moment and try again.'**
+  String get authErrorRateLimited;
+
+  /// No description provided for @authErrorSamePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Your new password must be different from the old one.'**
+  String get authErrorSamePassword;
+
+  /// No description provided for @authErrorSignUpDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'New sign-ups are currently unavailable. Please try again later.'**
+  String get authErrorSignUpDisabled;
+
+  /// No description provided for @authErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection. Check your network and try again.'**
+  String get authErrorNetwork;
 
   /// No description provided for @authErrorGeneric.
   ///

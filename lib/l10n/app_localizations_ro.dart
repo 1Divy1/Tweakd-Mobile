@@ -58,17 +58,16 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get authLoginTitle => 'Bine ai revenit';
+  String get authLoginTitle => 'Bine ai revenit în comunitate !';
 
   @override
   String get authLoginSubtitle => '';
 
   @override
-  String get authSignupTitle => '';
+  String get authSignupTitle => 'Comunitatea te așteaptă !';
 
   @override
-  String get authSignupSubtitle =>
-      'Crează-ți un cont și conectează-te cu ceilalți membrii ai comunității';
+  String get authSignupSubtitle => '';
 
   @override
   String get authEmailLabel => 'Email';
@@ -84,12 +83,6 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get authPasswordHintSignup => 'Creează o parolă';
-
-  @override
-  String get authUsernameLabel => 'Nume de utilizator';
-
-  @override
-  String get authUsernameHint => 'nume utilizator';
 
   @override
   String get authForgotPassword => 'AI UITAT PAROLA?';
@@ -125,6 +118,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get authTermsPrivacy => 'Politica de confidențialitate';
 
   @override
+  String get authAgreeToTermsFirst =>
+      'Te rugăm să fii de acord cu Termenii și Politica de confidențialitate mai întâi.';
+
+  @override
   String authComingSoon(String feature) {
     return '$feature va fi disponibil în curând.';
   }
@@ -135,10 +132,96 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get authFeaturePasswordRecovery => 'Recuperarea parolei';
+  String authPasswordRuleLength(int count) {
+    return 'Cel puțin $count caractere';
+  }
 
   @override
-  String get authFeatureEmailSignUp => 'Înregistrarea prin email';
+  String get authPasswordRuleLowercase => 'O literă mică';
+
+  @override
+  String get authPasswordRuleUppercase => 'O literă mare';
+
+  @override
+  String get authPasswordRuleDigit => 'O cifră';
+
+  @override
+  String get authPasswordRuleSymbol => 'Un simbol (!, @, #, …)';
+
+  @override
+  String get authConfirmEmailTitle => 'Verifică-ți emailul';
+
+  @override
+  String authConfirmEmailSubtitle(String email) {
+    return 'Am trimis un cod către $email. Introdu-l mai jos pentru a-ți activa contul.';
+  }
+
+  @override
+  String get authConfirmEmailVerify => 'Confirmă emailul';
+
+  @override
+  String get authConfirmEmailResent =>
+      'Emailul de confirmare a fost trimis din nou.';
+
+  @override
+  String get authResendEmail => 'NU L-AI PRIMIT? RETRIMITE';
+
+  @override
+  String authResendIn(int seconds) {
+    return 'RETRIMITE ÎN ${seconds}s';
+  }
+
+  @override
+  String get authBackToSignIn => 'ÎNAPOI LA CONECTARE';
+
+  @override
+  String get authForgotPasswordTitle => 'Resetează-ți parola';
+
+  @override
+  String get authForgotPasswordSubtitle =>
+      'Introdu adresa de email și îți trimitem un cod.';
+
+  @override
+  String get authSendCode => 'Trimite codul';
+
+  @override
+  String get authResetCodeResent => 'Un cod nou este pe drum.';
+
+  @override
+  String get authVerifyCodeTitle => 'Introdu codul';
+
+  @override
+  String authVerifyCodeSubtitle(String email) {
+    return 'Am trimis un cod către $email. Expiră în scurt timp, așa că folosește-l repede.';
+  }
+
+  @override
+  String get authVerifyCode => 'Verifică codul';
+
+  @override
+  String get authNewPasswordTitle => 'Alege o parolă nouă';
+
+  @override
+  String get authNewPasswordSubtitle =>
+      'Salvarea deconectează toate celelalte dispozitive.';
+
+  @override
+  String get authNewPasswordLabel => 'Parolă nouă';
+
+  @override
+  String get authConfirmPasswordLabel => 'Confirmă parola';
+
+  @override
+  String get authConfirmPasswordHint => 'Repetă parola nouă';
+
+  @override
+  String get authPasswordsDoNotMatch => 'Parolele nu coincid.';
+
+  @override
+  String get authSavePassword => 'Salvează parola';
+
+  @override
+  String get authPasswordUpdated => 'Parola ta a fost actualizată.';
 
   @override
   String get onboardingBack => 'ÎNAPOI';
@@ -203,9 +286,6 @@ class AppLocalizationsRo extends AppLocalizations {
       'Nu am putut verifica disponibilitatea. Apasă Continuă pentru a încerca oricum.';
 
   @override
-  String get onboardingUsernameHelp => 'Acesta va fi numele tău public.';
-
-  @override
   String get onboardingUsernameHint => 'numele_tau';
 
   @override
@@ -232,10 +312,6 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get onboardingIdentityTitle => 'Alege-ți numele';
-
-  @override
-  String get onboardingIdentitySubtitle =>
-      'Așa te găsește și te menționează comunitatea.';
 
   @override
   String get onboardingFieldUsername => 'NUME DE UTILIZATOR';
@@ -1199,6 +1275,41 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get authErrorSessionExpired =>
       'Sesiunea ta nu mai este activă. Te rugăm să te conectezi din nou.';
+
+  @override
+  String get authErrorInvalidCredentials =>
+      'Emailul sau parola nu sunt corecte.';
+
+  @override
+  String get authErrorEmailNotConfirmed =>
+      'Confirmă-ți adresa de email înainte de a te conecta.';
+
+  @override
+  String get authErrorWeakPassword =>
+      'Parola este prea slabă. Alege una mai puternică.';
+
+  @override
+  String get authErrorInvalidCode =>
+      'Codul nu este corect. Verifică-l și încearcă din nou.';
+
+  @override
+  String get authErrorExpiredCode => 'Codul a expirat. Solicită unul nou.';
+
+  @override
+  String get authErrorRateLimited =>
+      'Prea multe încercări. Așteaptă puțin și încearcă din nou.';
+
+  @override
+  String get authErrorSamePassword =>
+      'Parola nouă trebuie să fie diferită de cea veche.';
+
+  @override
+  String get authErrorSignUpDisabled =>
+      'Înregistrările noi nu sunt disponibile momentan. Încearcă mai târziu.';
+
+  @override
+  String get authErrorNetwork =>
+      'Fără conexiune. Verifică rețeaua și încearcă din nou.';
 
   @override
   String get authErrorGeneric => 'Ceva nu a mers bine. Încearcă din nou.';
