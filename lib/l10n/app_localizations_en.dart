@@ -61,14 +61,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authLoginTitle => 'Welcome back';
 
   @override
-  String get authLoginSubtitle => 'Sign in to get back in the garage.';
+  String get authLoginSubtitle => '';
 
   @override
-  String get authSignupTitle => 'Join the grid';
+  String get authSignupTitle => 'Join the community';
 
   @override
-  String get authSignupSubtitle =>
-      'Create your account and connect with the community';
+  String get authSignupSubtitle => '';
 
   @override
   String get authEmailLabel => 'Email';
@@ -84,12 +83,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authPasswordHintSignup => 'Create a password';
-
-  @override
-  String get authUsernameLabel => 'Username';
-
-  @override
-  String get authUsernameHint => 'username';
 
   @override
   String get authForgotPassword => 'FORGOT PASSWORD?';
@@ -125,6 +118,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authTermsPrivacy => 'Privacy Policy';
 
   @override
+  String get authAgreeToTermsFirst =>
+      'Please agree to the Terms & Privacy Policy first.';
+
+  @override
   String authComingSoon(String feature) {
     return '$feature is coming soon.';
   }
@@ -135,10 +132,95 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get authFeaturePasswordRecovery => 'Password recovery';
+  String authPasswordRuleLength(int count) {
+    return 'At least $count characters';
+  }
 
   @override
-  String get authFeatureEmailSignUp => 'Email sign up';
+  String get authPasswordRuleLowercase => 'A lowercase letter';
+
+  @override
+  String get authPasswordRuleUppercase => 'An uppercase letter';
+
+  @override
+  String get authPasswordRuleDigit => 'A number';
+
+  @override
+  String get authPasswordRuleSymbol => 'A symbol (!, @, #, …)';
+
+  @override
+  String get authConfirmEmailTitle => 'Check your inbox';
+
+  @override
+  String authConfirmEmailSubtitle(String email) {
+    return 'We sent a code to $email. Enter it below to activate your account.';
+  }
+
+  @override
+  String get authConfirmEmailVerify => 'Confirm email';
+
+  @override
+  String get authConfirmEmailResent => 'Confirmation email sent again.';
+
+  @override
+  String get authResendEmail => 'DIDN\'T GET IT? RESEND';
+
+  @override
+  String authResendIn(int seconds) {
+    return 'RESEND IN ${seconds}s';
+  }
+
+  @override
+  String get authBackToSignIn => 'BACK TO SIGN IN';
+
+  @override
+  String get authForgotPasswordTitle => 'Reset your password';
+
+  @override
+  String get authForgotPasswordSubtitle =>
+      'Enter your email address and we\'ll send you a code.';
+
+  @override
+  String get authSendCode => 'Send code';
+
+  @override
+  String get authResetCodeResent => 'A new code is on its way.';
+
+  @override
+  String get authVerifyCodeTitle => 'Enter your code';
+
+  @override
+  String authVerifyCodeSubtitle(String email) {
+    return 'We sent a code to $email. It expires shortly, so use it soon.';
+  }
+
+  @override
+  String get authVerifyCode => 'Verify code';
+
+  @override
+  String get authNewPasswordTitle => 'Choose a new password';
+
+  @override
+  String get authNewPasswordSubtitle =>
+      'Saving this signs out every other device.';
+
+  @override
+  String get authNewPasswordLabel => 'New password';
+
+  @override
+  String get authConfirmPasswordLabel => 'Confirm password';
+
+  @override
+  String get authConfirmPasswordHint => 'Repeat your new password';
+
+  @override
+  String get authPasswordsDoNotMatch => 'The passwords don\'t match.';
+
+  @override
+  String get authSavePassword => 'Save password';
+
+  @override
+  String get authPasswordUpdated => 'Your password has been updated.';
 
   @override
   String get onboardingBack => 'BACK';
@@ -202,9 +284,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Couldn\'t check availability. Tap Next to try anyway.';
 
   @override
-  String get onboardingUsernameHelp => 'This will be your public handle.';
-
-  @override
   String get onboardingUsernameHint => 'your_handle';
 
   @override
@@ -232,10 +311,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingIdentityTitle => 'Claim your handle';
-
-  @override
-  String get onboardingIdentitySubtitle =>
-      'This is how the community finds and @-mentions you.';
 
   @override
   String get onboardingFieldUsername => 'USERNAME';
@@ -1191,6 +1266,42 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get authErrorSessionExpired =>
       'Your session is not active. Please log in again.';
+
+  @override
+  String get authErrorInvalidCredentials =>
+      'That email or password is incorrect.';
+
+  @override
+  String get authErrorEmailNotConfirmed =>
+      'Confirm your email address before signing in.';
+
+  @override
+  String get authErrorWeakPassword =>
+      'That password is too weak. Please pick a stronger one.';
+
+  @override
+  String get authErrorInvalidCode =>
+      'That code isn\'t right. Please check it and try again.';
+
+  @override
+  String get authErrorExpiredCode =>
+      'That code has expired. Request a new one.';
+
+  @override
+  String get authErrorRateLimited =>
+      'Too many attempts. Please wait a moment and try again.';
+
+  @override
+  String get authErrorSamePassword =>
+      'Your new password must be different from the old one.';
+
+  @override
+  String get authErrorSignUpDisabled =>
+      'New sign-ups are currently unavailable. Please try again later.';
+
+  @override
+  String get authErrorNetwork =>
+      'No connection. Check your network and try again.';
 
   @override
   String get authErrorGeneric => 'Something went wrong. Please try again.';

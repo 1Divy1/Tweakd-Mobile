@@ -24,11 +24,29 @@ import '../../features/authentication/domain/usecases/auth/check_auth_status.dar
     as _i192;
 import '../../features/authentication/domain/usecases/auth/log_out.dart'
     as _i221;
+import '../../features/authentication/domain/usecases/auth/watch_external_sign_in.dart'
+    as _i910;
 import '../../features/authentication/domain/usecases/login/email_password_signin.dart'
     as _i263;
 import '../../features/authentication/domain/usecases/login/google_signin.dart'
     as _i920;
+import '../../features/authentication/domain/usecases/password_reset/request_password_reset.dart'
+    as _i847;
+import '../../features/authentication/domain/usecases/password_reset/update_password.dart'
+    as _i854;
+import '../../features/authentication/domain/usecases/password_reset/verify_password_reset_code.dart'
+    as _i542;
+import '../../features/authentication/domain/usecases/signup/email_password_signup.dart'
+    as _i644;
+import '../../features/authentication/domain/usecases/signup/resend_signup_email.dart'
+    as _i198;
+import '../../features/authentication/domain/usecases/signup/verify_signup_code.dart'
+    as _i447;
 import '../../features/authentication/presentation/bloc/bloc.dart' as _i636;
+import '../../features/authentication/presentation/bloc/password_reset/bloc.dart'
+    as _i57;
+import '../../features/authentication/presentation/bloc/signup/bloc.dart'
+    as _i246;
 import '../../features/feed/data/datasources/feed_api_data_source.dart'
     as _i194;
 import '../../features/feed/data/repositories/feed_repository_impl.dart'
@@ -502,11 +520,32 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i221.LogOut>(
       () => _i221.LogOut(gh<_i742.AuthRepository>()),
     );
+    gh.lazySingleton<_i910.WatchExternalSignIn>(
+      () => _i910.WatchExternalSignIn(gh<_i742.AuthRepository>()),
+    );
     gh.lazySingleton<_i263.EmailPasswordSignIn>(
       () => _i263.EmailPasswordSignIn(gh<_i742.AuthRepository>()),
     );
     gh.lazySingleton<_i920.GoogleSignIn>(
       () => _i920.GoogleSignIn(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i847.RequestPasswordReset>(
+      () => _i847.RequestPasswordReset(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i854.UpdatePassword>(
+      () => _i854.UpdatePassword(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i542.VerifyPasswordResetCode>(
+      () => _i542.VerifyPasswordResetCode(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i644.EmailPasswordSignUp>(
+      () => _i644.EmailPasswordSignUp(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i198.ResendSignUpEmail>(
+      () => _i198.ResendSignUpEmail(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i447.VerifySignUpCode>(
+      () => _i447.VerifySignUpCode(gh<_i742.AuthRepository>()),
     );
     gh.lazySingleton<_i563.NotificationsRepository>(
       () => _i201.NotificationsRepositoryImpl(
@@ -515,14 +554,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i760.FollowRepository>(
       () => _i299.FollowRepositoryImpl(gh<_i587.FollowApiDataSource>()),
-    );
-    gh.factory<_i636.AuthBloc>(
-      () => _i636.AuthBloc(
-        checkAuthStatus: gh<_i192.CheckAuthStatusUseCase>(),
-        loginUser: gh<_i263.EmailPasswordSignIn>(),
-        googleSignIn: gh<_i920.GoogleSignIn>(),
-        logOut: gh<_i221.LogOut>(),
-      ),
     );
     gh.lazySingleton<_i10.ForumsRepository>(
       () => _i737.ForumsRepositoryImpl(gh<_i789.ForumsApiDataSource>()),
@@ -574,6 +605,13 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i457.MapRepositoryImpl(
         gh<_i979.BusinessApiDataSource>(),
         gh<_i178.DeviceLocationDataSource>(),
+      ),
+    );
+    gh.factory<_i246.SignUpBloc>(
+      () => _i246.SignUpBloc(
+        signUp: gh<_i644.EmailPasswordSignUp>(),
+        verifySignUpCode: gh<_i447.VerifySignUpCode>(),
+        resendSignUpEmail: gh<_i198.ResendSignUpEmail>(),
       ),
     );
     gh.lazySingleton<_i357.SearchRepository>(
@@ -822,6 +860,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i345.SubmitFeedbackUseCase>(
       () => _i345.SubmitFeedbackUseCase(gh<_i619.FeedbackRepository>()),
     );
+    gh.factory<_i636.AuthBloc>(
+      () => _i636.AuthBloc(
+        checkAuthStatus: gh<_i192.CheckAuthStatusUseCase>(),
+        loginUser: gh<_i263.EmailPasswordSignIn>(),
+        googleSignIn: gh<_i920.GoogleSignIn>(),
+        logOut: gh<_i221.LogOut>(),
+        watchExternalSignIn: gh<_i910.WatchExternalSignIn>(),
+      ),
+    );
     gh.factoryParam<_i0.EditProfileBloc, _i57.ProfileEntity, dynamic>(
       (profile, _) => _i0.EditProfileBloc(
         updateProfile: gh<_i78.UpdateProfileUseCase>(),
@@ -867,6 +914,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i839.WatchInboxMessagesUseCase>(
       () => _i839.WatchInboxMessagesUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.factory<_i57.PasswordResetBloc>(
+      () => _i57.PasswordResetBloc(
+        requestPasswordReset: gh<_i847.RequestPasswordReset>(),
+        verifyPasswordResetCode: gh<_i542.VerifyPasswordResetCode>(),
+        updatePassword: gh<_i854.UpdatePassword>(),
+      ),
     );
     gh.factory<_i488.FeedbackBoardBloc>(
       () => _i488.FeedbackBoardBloc(

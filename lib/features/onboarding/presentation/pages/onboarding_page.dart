@@ -160,9 +160,22 @@ class _OnboardingPageState extends State<OnboardingPage>
       );
     }
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
-      child: _stepContent(refData),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 28, 20, 32),
+          child: ConstrainedBox(
+            // Gives each step a real (non-infinite) height so its internal
+            // Expanded can center the interactive content below the fixed
+            // title; still scrolls from the top when a step overflows it
+            // (e.g. keyboard up, or a step with many rows).
+            constraints: BoxConstraints(minHeight: constraints.maxHeight - 60),
+            child: IntrinsicHeight(
+              child: _stepContent(refData),
+            ),
+          ),
+        );
+      },
     );
   }
 

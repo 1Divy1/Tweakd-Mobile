@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-enum SocialProvider { google, apple, facebook }
+enum SocialProvider { google, apple }
 
 /// A row of rounded social provider buttons (just the logo, no label), shown
 /// under the divider on the auth pages. The [order] of the providers can differ
@@ -61,8 +61,6 @@ class _SocialButton extends StatelessWidget {
   Widget _logo() => switch (provider) {
     SocialProvider.google =>
       SvgPicture.asset('assets/logos/google_logo_button_light.svg', height: _size),
-    SocialProvider.facebook =>
-      SvgPicture.asset('assets/logos/facebook_logo_button.svg', height: _size),
     SocialProvider.apple =>
       Image.asset('assets/logos/apple_logo_button_light@3x.png', height: _size),
   };

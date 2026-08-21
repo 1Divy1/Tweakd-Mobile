@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
-/// The rounded outline this field draws on its own (the global input theme no
-/// longer supplies a default border).
+/// A borderless rounded shape: no visible outline, but the rounded radius is
+/// still used to clip the field's filled background (set on the global input
+/// theme) so it reads as a distinct rounded surface without a stroke.
 final OutlineInputBorder _border = OutlineInputBorder(
   borderRadius: BorderRadius.circular(12),
-  borderSide: const BorderSide(color: AppColors.line),
+  borderSide: BorderSide.none,
 );
 
 /// A labeled input used across the auth pages: an uppercase field label above a
@@ -21,6 +22,18 @@ class AuthTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
 
+  /// Lets the platform password manager offer to fill/save the value. Pass
+  /// [AutofillHints.newPassword] on signup and reset forms so keychains store
+  /// the new password instead of overwriting it with the old one.
+  final List<String>? autofillHints;
+
+  /// Hard cap on input length. Used to stay inside the limits Supabase itself
+  /// enforces (255 for emails, 72 for passwords) rather than being bounced by
+  /// the server after a round trip. The counter is hidden.
+  final int? maxLength;
+
+  final ValueChanged<String>? onSubmitted;
+
   const AuthTextField({
     super.key,
     required this.label,
@@ -30,6 +43,9 @@ class AuthTextField extends StatefulWidget {
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
     this.textInputAction = TextInputAction.next,
+    this.autofillHints,
+    this.maxLength,
+    this.onSubmitted,
   });
 
   @override
@@ -61,9 +77,13 @@ class _AuthTextFieldState extends State<AuthTextField> {
           textInputAction: widget.textInputAction,
           autocorrect: !widget.isPassword,
           enableSuggestions: !widget.isPassword,
+          autofillHints: widget.autofillHints,
+          maxLength: widget.maxLength,
+          onSubmitted: widget.onSubmitted,
           style: const TextStyle(color: AppColors.ink, fontSize: 15),
           decoration: InputDecoration(
             hintText: widget.hint,
+            counterText: '',
             // This field isn't wrapped in a bordered Container, so it carries its
             // own rounded outline (the global input theme draws no border).
             border: _border,

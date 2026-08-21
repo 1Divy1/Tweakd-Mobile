@@ -4,9 +4,15 @@ import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../di/injection.dart';
+import '../../features/authentication/presentation/bloc/password_reset/bloc.dart';
+import '../../features/authentication/presentation/bloc/signup/bloc.dart';
+import '../../features/authentication/presentation/pages/confirm_email_page.dart';
+import '../../features/authentication/presentation/pages/forgot_password_page.dart';
 import '../../features/authentication/presentation/pages/login_page.dart';
+import '../../features/authentication/presentation/pages/new_password_page.dart';
 import '../../features/authentication/presentation/pages/signup_page.dart';
 import '../../features/authentication/presentation/pages/splash_page.dart';
+import '../../features/authentication/presentation/pages/verify_reset_code_page.dart';
 import '../../features/feed/presentation/bloc/feed/bloc.dart';
 import '../../features/feed/presentation/bloc/feed/event.dart';
 import '../../features/feed/presentation/pages/feed_page.dart';
@@ -129,8 +135,58 @@ final appRouter = GoRouter(
   routes: [
     // ---------- Authentication & Onboarding ----------
     GoRoute(path: '/', builder: (context, state) => const SplashPage()),
-    GoRoute(path: '/signup', builder: (context, state) => const SignUpPage()),
+    GoRoute(
+      path: '/signup',
+      builder: (context, state) => BlocProvider<SignUpBloc>(
+        create: (_) => getIt<SignUpBloc>(),
+        child: const SignUpPage(),
+      ),
+      routes: [
+        // "Check your inbox". The address travels as `extra` because it is not
+        // worth putting an email in a URL; without it there is nothing to
+        // resend to, so fall back to the form.
+        GoRoute(
+          path: 'confirm',
+          redirect: (context, state) =>
+              state.extra is String ? null : '/signup',
+          builder: (context, state) => BlocProvider<SignUpBloc>(
+            create: (_) => getIt<SignUpBloc>(),
+            child: ConfirmEmailPage(email: state.extra as String),
+          ),
+        ),
+      ],
+    ),
     GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
+
+    // ---------- Password reset (request → verify code → new password) ----------
+    // Each step gets its own PasswordResetBloc: the only thing that has to
+    // survive between them is the email address, and after the code is verified
+    // the recovery session lives in the Supabase client itself.
+    GoRoute(
+      path: '/forgot-password',
+      builder: (context, state) => BlocProvider<PasswordResetBloc>(
+        create: (_) => getIt<PasswordResetBloc>(),
+        child: const ForgotPasswordPage(),
+      ),
+      routes: [
+        GoRoute(
+          path: 'verify',
+          redirect: (context, state) =>
+              state.extra is String ? null : '/forgot-password',
+          builder: (context, state) => BlocProvider<PasswordResetBloc>(
+            create: (_) => getIt<PasswordResetBloc>(),
+            child: VerifyResetCodePage(email: state.extra as String),
+          ),
+        ),
+        GoRoute(
+          path: 'new-password',
+          builder: (context, state) => BlocProvider<PasswordResetBloc>(
+            create: (_) => getIt<PasswordResetBloc>(),
+            child: const NewPasswordPage(),
+          ),
+        ),
+      ],
+    ),
     GoRoute(
       path: '/onboarding',
       builder: (context, state) => MultiBlocProvider(

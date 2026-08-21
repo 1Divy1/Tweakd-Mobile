@@ -57,15 +57,15 @@
   "@authLoginTitle": {
     "description": "Login page headline"
   },
-  "authLoginSubtitle": "Sign in to get back in the garage.",
+  "authLoginSubtitle": "",
   "@authLoginSubtitle": {
     "description": "Login page subtitle"
   },
-  "authSignupTitle": "Join the grid",
+  "authSignupTitle": "Join the community",
   "@authSignupTitle": {
     "description": "Sign up page headline"
   },
-  "authSignupSubtitle": "Create your account and connect with the community",
+  "authSignupSubtitle": "",
   "@authSignupSubtitle": {
     "description": "Sign up page subtitle"
   },
@@ -75,8 +75,6 @@
   "authPasswordLabel": "Password",
   "authPasswordHintLogin": "Enter your password",
   "authPasswordHintSignup": "Create a password",
-  "authUsernameLabel": "Username",
-  "authUsernameHint": "username",
 
   "authForgotPassword": "FORGOT PASSWORD?",
   "authSignIn": "Sign in",
@@ -98,6 +96,11 @@
   "authTermsAnd": " & ",
   "authTermsPrivacy": "Privacy Policy",
 
+  "authAgreeToTermsFirst": "Please agree to the Terms & Privacy Policy first.",
+  "@authAgreeToTermsFirst": {
+    "description": "Snackbar shown when tapping a social sign-up button before the terms checkbox is ticked"
+  },
+
   "authComingSoon": "{feature} is coming soon.",
   "@authComingSoon": {
     "description": "Snackbar shown when tapping a not-yet-implemented feature",
@@ -116,8 +119,67 @@
       }
     }
   },
-  "authFeaturePasswordRecovery": "Password recovery",
-  "authFeatureEmailSignUp": "Email sign up",
+  "authPasswordRuleLength": "At least {count} characters",
+  "@authPasswordRuleLength": {
+    "description": "Password checklist rule: minimum length",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "authPasswordRuleLowercase": "A lowercase letter",
+  "authPasswordRuleUppercase": "An uppercase letter",
+  "authPasswordRuleDigit": "A number",
+  "authPasswordRuleSymbol": "A symbol (!, @, #, …)",
+
+  "authConfirmEmailTitle": "Check your inbox",
+  "authConfirmEmailSubtitle": "We sent a code to {email}. Enter it below to activate your account.",
+  "@authConfirmEmailSubtitle": {
+    "description": "Sign-up confirmation screen subtitle",
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "authConfirmEmailVerify": "Confirm email",
+  "authConfirmEmailResent": "Confirmation email sent again.",
+  "authResendEmail": "DIDN'T GET IT? RESEND",
+  "authResendIn": "RESEND IN {seconds}s",
+  "@authResendIn": {
+    "description": "Resend button label during its cooldown",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "authBackToSignIn": "BACK TO SIGN IN",
+
+  "authForgotPasswordTitle": "Reset your password",
+  "authForgotPasswordSubtitle": "Enter your email address and we'll send you a code.",
+  "authSendCode": "Send code",
+  "authResetCodeResent": "A new code is on its way.",
+  "authVerifyCodeTitle": "Enter your code",
+  "authVerifyCodeSubtitle": "We sent a code to {email}. It expires shortly, so use it soon.",
+  "@authVerifyCodeSubtitle": {
+    "description": "Password reset code entry subtitle",
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "authVerifyCode": "Verify code",
+  "authNewPasswordTitle": "Choose a new password",
+  "authNewPasswordSubtitle": "Saving this signs out every other device.",
+  "authNewPasswordLabel": "New password",
+  "authConfirmPasswordLabel": "Confirm password",
+  "authConfirmPasswordHint": "Repeat your new password",
+  "authPasswordsDoNotMatch": "The passwords don't match.",
+  "authSavePassword": "Save password",
+  "authPasswordUpdated": "Your password has been updated.",
 
   "onboardingBack": "BACK",
   "onboardingNext": "NEXT",
@@ -150,7 +212,6 @@
   "onboardingUsernameTaken": " is already taken",
   "onboardingUsernameAvailable": " is available",
   "onboardingUsernameCheckFailed": "Couldn't check availability. Tap Next to try anyway.",
-  "onboardingUsernameHelp": "This will be your public handle.",
   "onboardingUsernameHint": "your_handle",
 
   "onboardingErrorLoadFailed": "Failed to load onboarding data. Please try again.",
@@ -161,7 +222,6 @@
 
   "onboardingIdentityLabel": "01 — IDENTITY",
   "onboardingIdentityTitle": "Claim your handle",
-  "onboardingIdentitySubtitle": "This is how the community finds and @-mentions you.",
   "onboardingFieldUsername": "USERNAME",
   "onboardingFieldBio": "BIO",
   "onboardingBioHint": "Tell others a few things about yourself…",
@@ -535,6 +595,15 @@
   "garageLogModValDate": "Please select the installation date.",
 
   "authErrorSessionExpired": "Your session is not active. Please log in again.",
+  "authErrorInvalidCredentials": "That email or password is incorrect.",
+  "authErrorEmailNotConfirmed": "Confirm your email address before signing in.",
+  "authErrorWeakPassword": "That password is too weak. Please pick a stronger one.",
+  "authErrorInvalidCode": "That code isn't right. Please check it and try again.",
+  "authErrorExpiredCode": "That code has expired. Request a new one.",
+  "authErrorRateLimited": "Too many attempts. Please wait a moment and try again.",
+  "authErrorSamePassword": "Your new password must be different from the old one.",
+  "authErrorSignUpDisabled": "New sign-ups are currently unavailable. Please try again later.",
+  "authErrorNetwork": "No connection. Check your network and try again.",
   "authErrorGeneric": "Something went wrong. Please try again.",
 
   "settingsTitle": "SETTINGS",

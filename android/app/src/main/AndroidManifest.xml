@@ -31,11 +31,15 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
 
+            <!-- Supabase auth deep link: the "confirm your email" button in
+                 the sign-up email redirects here, and supabase_flutter
+                 exchanges the PKCE code in the URL for a session. Must match
+                 the redirect URL allow-list in the Supabase dashboard. -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="garajapp" android:host="login-callback" />
+                <data android:scheme="tweakd" android:host="signup-callback" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

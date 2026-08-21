@@ -34,46 +34,56 @@ class IdentityStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         OnboardingSectionHeader(
-          label: l10n.onboardingIdentityLabel,
           title: l10n.onboardingIdentityTitle,
-          subtitle: l10n.onboardingIdentitySubtitle,
         ),
         const SizedBox(height: 24),
-        OnboardingFieldLabel(l10n.onboardingFieldUsername),
-        const SizedBox(height: 8),
-        BlocBuilder<UsernameAvailabilityBloc, UsernameAvailabilityState>(
-          builder: (context, state) {
-            return Column(
+        Expanded(
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                _UsernameField(
-                  controller: usernameCtrl,
-                  onChanged: (value) => context
-                      .read<UsernameAvailabilityBloc>()
-                      .add(UsernameChanged(value)),
+                OnboardingFieldLabel(l10n.onboardingFieldUsername),
+                const SizedBox(height: 8),
+                BlocBuilder<UsernameAvailabilityBloc,
+                    UsernameAvailabilityState>(
+                  builder: (context, state) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _UsernameField(
+                          controller: usernameCtrl,
+                          onChanged: (value) => context
+                              .read<UsernameAvailabilityBloc>()
+                              .add(UsernameChanged(value)),
+                        ),
+                        const SizedBox(height: 10),
+                        _AvailabilityHint(state: state),
+                      ],
+                    );
+                  },
                 ),
-                const SizedBox(height: 10),
-                _AvailabilityHint(state: state),
+                const SizedBox(height: 20),
+                OnboardingFieldLabel(l10n.onboardingFieldBio),
+                const SizedBox(height: 8),
+                _BioField(controller: bioCtrl),
+                const SizedBox(height: 8),
+                ListenableBuilder(
+                  listenable: bioCtrl,
+                  builder: (context, _) => Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      '${bioCtrl.text.characters.length} / $kOnboardingBioMaxLength',
+                      style: const TextStyle(
+                        color: AppColors.muteSoft,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ),
               ],
-            );
-          },
-        ),
-        const SizedBox(height: 20),
-        OnboardingFieldLabel(l10n.onboardingFieldBio, optional: true),
-        const SizedBox(height: 8),
-        _BioField(controller: bioCtrl),
-        const SizedBox(height: 8),
-        ListenableBuilder(
-          listenable: bioCtrl,
-          builder: (context, _) => Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              '${bioCtrl.text.characters.length} / $kOnboardingBioMaxLength',
-              style: const TextStyle(
-                color: AppColors.muteSoft,
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-              ),
             ),
           ),
         ),
@@ -222,8 +232,8 @@ class _AvailabilityHint extends StatelessWidget {
       return _hintText(l10n.onboardingUsernameCheckFailed, AppColors.mute);
     }
 
-    // UsernameAvailabilityInitial — field is empty.
-    return _hintText(l10n.onboardingUsernameHelp, AppColors.mute);
+    // UsernameAvailabilityInitial — field is empty, nothing to show yet.
+    return const SizedBox.shrink();
   }
 
   Widget _hintText(String text, Color color) => Text(

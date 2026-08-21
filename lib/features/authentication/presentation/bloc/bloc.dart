@@ -9,6 +9,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/usecases/usecase.dart';
 import '../../domain/usecases/auth/log_out.dart';
+import '../../domain/usecases/auth/watch_external_sign_in.dart';
 import '../../domain/usecases/login/email_password_signin.dart';
 import '../../domain/usecases/login/google_signin.dart';
 import '../utils/auth_error_mapper.dart';
@@ -19,17 +20,41 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final EmailPasswordSignIn loginUser;
   final GoogleSignIn googleSignIn;
   final LogOut logOut;
+  final WatchExternalSignIn watchExternalSignIn;
+
+  StreamSubscription<void>? _externalSignInSubscription;
 
   AuthBloc({
     required this.checkAuthStatus,
     required this.loginUser,
     required this.googleSignIn,
     required this.logOut,
+    required this.watchExternalSignIn,
   }) : super(AuthInitial()) {
     on<CheckAuthStatus>(_onCheckAuthStatus);
     on<EmailPasswordLoginSubmitted>(_onLoginSubmitted);
     on<GoogleLoginRequested>(_onGoogleLoginRequested);
     on<LogoutRequested>(_onLogoutRequested);
+
+    // The sign-up confirmation link reopens the app and Supabase establishes
+    // the session on its own — no page asked for it, so nothing would react
+    // without this. Ignored while one of this bloc's own flows is running or
+    // once a user is already resolved, so a normal sign-in doesn't trigger a
+    // second profile fetch and a duplicate redirect.
+    _externalSignInSubscription = watchExternalSignIn().listen((_) {
+      if (state is AuthLoading ||
+          state is Authenticated ||
+          state is AuthenticatedRequiresOnboarding) {
+        return;
+      }
+      add(CheckAuthStatus());
+    });
+  }
+
+  @override
+  Future<void> close() async {
+    await _externalSignInSubscription?.cancel();
+    return super.close();
   }
 
   Future<void> _onCheckAuthStatus(
@@ -65,7 +90,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     result.fold(
       (failure) => emit(AuthError(AuthErrorMapper.getCode(failure))),
-      (user) => emit(Authenticated(user)),
+      (user) {
+        // Email/password accounts are created with `requires_onboarding = true`
+        // (set by the `on_auth_user_created` trigger), so this branch is the
+        // normal path for a freshly confirmed signup — not an edge case.
+        if (user.requiresOnboarding) {
+          emit(AuthenticatedRequiresOnboarding(user));
+        } else {
+          emit(Authenticated(user));
+        }
+      },
     );
   }
 
