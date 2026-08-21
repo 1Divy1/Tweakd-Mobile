@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/tweakd_wordmark.dart';
 import '../../../../l10n/app_localizations.dart';
 
 const onboardingStepCount = 4;
@@ -19,34 +19,7 @@ class OnboardingTopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Padding(
       padding: EdgeInsets.fromLTRB(20, 14, 20, 10),
-      child: Center(child: _TweakdWordmark()),
-    );
-  }
-}
-
-/// Brand wordmark: `Tweakd.` in Bricolage Grotesque Extra Bold, with the
-/// 'k' and trailing dot picked out in the accent color.
-class _TweakdWordmark extends StatelessWidget {
-  const _TweakdWordmark();
-
-  @override
-  Widget build(BuildContext context) {
-    final base = GoogleFonts.bricolageGrotesque(
-      color: AppColors.ink,
-      fontSize: 20,
-      fontWeight: FontWeight.w800,
-      height: 1,
-    );
-    return Text.rich(
-      TextSpan(
-        style: base,
-        children: [
-          const TextSpan(text: 'Twea'),
-          TextSpan(text: 'k', style: base.copyWith(color: Colors.red)),
-          const TextSpan(text: 'd'),
-          TextSpan(text: '.', style: base.copyWith(color: Colors.red)),
-        ],
-      ),
+      child: Center(child: TweakdWordmark(height: 19)),
     );
   }
 }
@@ -126,16 +99,7 @@ class OnboardingBottomBar extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 14, 20, 26),
-      decoration: BoxDecoration(
-        color: AppColors.bg,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(10),
-            blurRadius: 16,
-            offset: const Offset(0, -4),
-          ),
-        ],
-      ),
+      color: AppColors.bg,
       child: Row(
         children: [
           if (showBack) ...[
@@ -179,15 +143,6 @@ class OnboardingBottomBar extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: isSubmitting ? AppColors.muteSoft : AppColors.accent,
                   borderRadius: BorderRadius.circular(16),
-                  boxShadow: isSubmitting
-                      ? null
-                      : [
-                          BoxShadow(
-                            color: AppColors.accent.withAlpha(70),
-                            blurRadius: 18,
-                            offset: const Offset(0, 6),
-                          ),
-                        ],
                 ),
                 child: Center(
                   child: isSubmitting

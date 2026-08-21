@@ -6,12 +6,18 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../bloc/bloc.dart';
 import '../bloc/event.dart';
+import '../bloc/signup/bloc.dart';
+import '../bloc/signup/event.dart';
+import '../bloc/signup/state.dart';
 import '../bloc/state.dart';
 import '../utils/auth_error_mapper.dart';
+import '../utils/email_validator.dart';
+import '../utils/password_policy.dart';
 import '../widgets/auth_brand_header.dart';
 import '../widgets/auth_divider.dart';
 import '../widgets/auth_primary_button.dart';
 import '../widgets/auth_text_field.dart';
+import '../widgets/password_requirements.dart';
 import '../widgets/social_login_buttons.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -23,30 +29,61 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _agreedToTerms = false;
+  bool _showPasswordRequirements = false;
+  bool _showTermsError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Drives the live password checklist and the enabled state of the button.
+    _emailController.addListener(_onFormChanged);
+    _passwordController.addListener(_onFormChanged);
+  }
+
+  void _onFormChanged() => setState(() {});
 
   @override
   void dispose() {
     _emailController.dispose();
-    _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
+  /// The account button unlocks once the address looks like an address and
+  /// the terms box is ticked. Password rules are checked on tap instead, so
+  /// the checklist only appears once the user actually tries to submit.
+  bool get _canSubmit => _agreedToTerms && isValidEmail(_emailController.text);
+
   void _onCreateAccount() {
-    // Email/password sign up has no backend yet; the social and email login
-    // flows live in AuthBloc. Surface a placeholder until it is wired up.
-    _showComingSoon(AppLocalizations.of(context)!.authFeatureEmailSignUp);
+    if (!_canSubmit) return;
+    if (!PasswordPolicy.isValid(_passwordController.text)) {
+      setState(() => _showPasswordRequirements = true);
+      return;
+    }
+    FocusScope.of(context).unfocus();
+    context.read<SignUpBloc>().add(
+      SignUpSubmitted(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      ),
+    );
   }
 
   void _onSocialTap(SocialProvider provider) {
     final l10n = AppLocalizations.of(context)!;
+    if (!_agreedToTerms) {
+      setState(() => _showTermsError = true);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.authAgreeToTermsFirst)));
+      return;
+    }
     switch (provider) {
       case SocialProvider.google:
         context.read<AuthBloc>().add(GoogleLoginRequested());
       case SocialProvider.apple:
-      case SocialProvider.facebook:
         _showComingSoon(
           l10n.authFeatureProviderSignIn(_providerName(provider)),
         );
@@ -56,14 +93,28 @@ class _SignUpPageState extends State<SignUpPage> {
   String _providerName(SocialProvider provider) => switch (provider) {
     SocialProvider.google => 'Google',
     SocialProvider.apple => 'Apple',
-    SocialProvider.facebook => 'Facebook',
   };
 
   void _showComingSoon(String feature) {
     final l10n = AppLocalizations.of(context)!;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.authComingSoon(feature))),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.authComingSoon(feature))));
+  }
+
+  void _showError(AuthErrorCode code) {
+    final l10n = AppLocalizations.of(context)!;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(authErrorMessage(l10n, code))));
+  }
+
+  void _routeAuthenticated(AuthState state) {
+    if (state is AuthenticatedRequiresOnboarding) {
+      context.go('/onboarding');
+    } else if (state is Authenticated) {
+      context.go('/profile');
+    }
   }
 
   @override
@@ -72,147 +123,209 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: SafeArea(
-        child: BlocConsumer<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is AuthenticatedRequiresOnboarding) {
-              context.go('/onboarding');
-            } else if (state is Authenticated) {
-              context.go('/profile');
-            } else if (state is AuthError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(authErrorMessage(l10n, state.code))),
-              );
-            }
-          },
-          builder: (context, state) {
-            final isLoading = state is AuthLoading;
-            return LayoutBuilder(
-              builder: (context, constraints) {
-                return SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
-                  child: ConstrainedBox(
-                    // Force the column to fill at least the viewport so the
-                    // Spacer below has room to push the footer down. Content
-                    // still scrolls on short screens / when the keyboard shows.
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight - 56,
-                    ),
-                    child: IntrinsicHeight(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          // ---- Header: brand + title (fixed inner rhythm) ----
-                          const SizedBox(height: 16),
-                          const AuthBrandHeader(),
-                          const SizedBox(height: 28),
-                          Text(
-                            l10n.authSignupTitle,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: AppColors.ink,
-                              fontSize: 32,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            l10n.authSignupSubtitle,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: AppColors.mute,
-                              fontSize: 15,
-                            ),
-                          ),
-
-                          // ---- Form: fixed gaps between fields ----
-                          const SizedBox(height: 32),
-                          AuthTextField(
-                            label: l10n.authEmailLabel,
-                            icon: Icons.mail_outline,
-                            hint: l10n.authEmailHint,
-                            controller: _emailController,
-                            keyboardType: TextInputType.emailAddress,
-                          ),
-                          const SizedBox(height: 18),
-                          AuthTextField(
-                            label: l10n.authUsernameLabel,
-                            icon: Icons.alternate_email,
-                            hint: l10n.authUsernameHint,
-                            controller: _usernameController,
-                          ),
-                          const SizedBox(height: 18),
-                          AuthTextField(
-                            label: l10n.authPasswordLabel,
-                            icon: Icons.lock_outline,
-                            hint: l10n.authPasswordHintSignup,
-                            controller: _passwordController,
-                            isPassword: true,
-                            textInputAction: TextInputAction.done,
-                          ),
-                          const SizedBox(height: 24),
-                          AuthPrimaryButton(
-                            label: l10n.authCreateAccount,
-                            isLoading: isLoading,
-                            onPressed: _onCreateAccount,
-                          ),
-                          const SizedBox(height: 16),
-                          _buildTermsText(l10n),
-
-                          // ---- Flexible gap eats the leftover height ----
-                          const Spacer(),
-
-                          // ---- Footer: divider + social + sign-in link ----
-                          const SizedBox(height: 24),
-                          AuthDivider(label: l10n.authOrSignUpWith),
-                          const SizedBox(height: 20),
-                          SocialLoginButtons(
-                            order: const [
-                              SocialProvider.google,
-                              SocialProvider.apple,
-                              SocialProvider.facebook,
-                            ],
-                            onTap: _onSocialTap,
-                          ),
-                          const SizedBox(height: 24),
-                          _buildSignInLink(context, l10n),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
+        child: MultiBlocListener(
+          listeners: [
+            // Social sign-in still goes through the app-wide AuthBloc.
+            BlocListener<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is AuthError) {
+                  _showError(state.code);
+                } else {
+                  _routeAuthenticated(state);
+                }
               },
-            );
-          },
+            ),
+            BlocListener<SignUpBloc, SignUpState>(
+              listener: (context, state) {
+                switch (state) {
+                  // Normal path: Supabase created the account and emailed the
+                  // confirmation link. No session exists yet.
+                  case SignUpAwaitingConfirmation(:final email):
+                    context.go('/signup/confirm', extra: email);
+                  // Only reachable if email confirmation is turned off for the
+                  // project — the user is already signed in.
+                  case SignUpCompleted(:final user):
+                    context.go(
+                      user.requiresOnboarding ? '/onboarding' : '/profile',
+                    );
+                  case SignUpFailed(:final code):
+                    _showError(code);
+                  default:
+                    break;
+                }
+              },
+            ),
+          ],
+          child: BlocBuilder<SignUpBloc, SignUpState>(
+            builder: (context, signUpState) {
+              return BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, authState) {
+                  final isLoading =
+                      signUpState is SignUpLoading || authState is AuthLoading;
+                  return _buildForm(context, l10n, isLoading);
+                },
+              );
+            },
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildTermsText(AppLocalizations l10n) {
-    return Text.rich(
-      TextSpan(
-        style: const TextStyle(fontSize: 13, color: AppColors.mute, height: 1.4),
-        children: [
-          TextSpan(text: l10n.authTermsPrefix),
-          TextSpan(
-            text: l10n.authTermsTerms,
-            style: const TextStyle(
-              color: AppColors.ink,
-              fontWeight: FontWeight.w700,
+  Widget _buildForm(
+    BuildContext context,
+    AppLocalizations l10n,
+    bool isLoading,
+  ) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+          child: ConstrainedBox(
+            // Force the column to fill at least the viewport so the
+            // Spacer below has room to push the footer down. Content
+            // still scrolls on short screens / when the keyboard shows.
+            constraints: BoxConstraints(minHeight: constraints.maxHeight - 56),
+            child: IntrinsicHeight(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // ---- Header: brand + title (fixed inner rhythm) ----
+                  const SizedBox(height: 16),
+                  const AuthBrandHeader(),
+                  const SizedBox(height: 28),
+                  Text(
+                    l10n.authSignupTitle,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: AppColors.ink,
+                      fontSize: 32,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n.authSignupSubtitle,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: AppColors.mute, fontSize: 15),
+                  ),
+
+                  // ---- Form: fixed gaps between fields ----
+                  // The username is asked for during onboarding, where it is
+                  // checked against the backend for availability — collecting
+                  // it here too would either duplicate that check or reserve a
+                  // handle for an account that is never confirmed.
+                  const SizedBox(height: 32),
+                  AuthTextField(
+                    label: l10n.authEmailLabel,
+                    icon: Icons.mail_outline,
+                    hint: l10n.authEmailHint,
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    autofillHints: const [AutofillHints.email],
+                    maxLength: kEmailMaxLength,
+                  ),
+                  const SizedBox(height: 18),
+                  AuthTextField(
+                    label: l10n.authPasswordLabel,
+                    icon: Icons.lock_outline,
+                    hint: l10n.authPasswordHintSignup,
+                    controller: _passwordController,
+                    isPassword: true,
+                    textInputAction: TextInputAction.done,
+                    autofillHints: const [AutofillHints.newPassword],
+                    maxLength: kPasswordMaxLength,
+                    onSubmitted: (_) => _onCreateAccount(),
+                  ),
+                  if (_showPasswordRequirements) ...[
+                    const SizedBox(height: 14),
+                    PasswordRequirements(password: _passwordController.text),
+                  ],
+                  const SizedBox(height: 24),
+                  _buildTermsCheckbox(l10n),
+                  const SizedBox(height: 20),
+                  AuthPrimaryButton(
+                    label: l10n.authCreateAccount,
+                    isLoading: isLoading,
+                    onPressed: _canSubmit ? _onCreateAccount : null,
+                  ),
+                  const SizedBox(height: 24),
+                  AuthDivider(label: l10n.authOrSignUpWith),
+                  const SizedBox(height: 20),
+                  SocialLoginButtons(
+                    order: const [SocialProvider.google, SocialProvider.apple],
+                    onTap: _onSocialTap,
+                  ),
+                  // ---- Flexible gap eats the leftover height ----
+                  const Spacer(),
+
+                  // ---- Footer: sign-in link ----
+                  const SizedBox(height: 24),
+                  _buildSignInLink(context, l10n),
+                ],
+              ),
             ),
           ),
-          TextSpan(text: l10n.authTermsAnd),
-          TextSpan(
-            text: l10n.authTermsPrivacy,
-            style: const TextStyle(
-              color: AppColors.ink,
-              fontWeight: FontWeight.w700,
+        );
+      },
+    );
+  }
+
+  Widget _buildTermsCheckbox(AppLocalizations l10n) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 24,
+          height: 24,
+          child: Checkbox(
+            value: _agreedToTerms,
+            onChanged: (value) => setState(() {
+              _agreedToTerms = value ?? false;
+              if (_agreedToTerms) _showTermsError = false;
+            }),
+            activeColor: AppColors.accent,
+            side: BorderSide(
+              color: _showTermsError ? Colors.red : AppColors.line,
+              width: _showTermsError ? 1.5 : 1,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
             ),
           ),
-          const TextSpan(text: '.'),
-        ],
-      ),
-      textAlign: TextAlign.center,
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text.rich(
+            TextSpan(
+              style: const TextStyle(
+                fontSize: 13,
+                color: AppColors.mute,
+                height: 1.4,
+              ),
+              children: [
+                TextSpan(text: l10n.authTermsPrefix),
+                TextSpan(
+                  text: l10n.authTermsTerms,
+                  style: const TextStyle(
+                    color: AppColors.ink,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                TextSpan(text: l10n.authTermsAnd),
+                TextSpan(
+                  text: l10n.authTermsPrivacy,
+                  style: const TextStyle(
+                    color: AppColors.ink,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const TextSpan(text: '.'),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 

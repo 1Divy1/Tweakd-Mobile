@@ -7,7 +7,7 @@ import '../../../../core/theme/app_colors.dart';
 class AuthPrimaryButton extends StatelessWidget {
   final String label;
   final bool isLoading;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   const AuthPrimaryButton({
     super.key,
@@ -40,21 +40,14 @@ class AuthPrimaryButton extends StatelessWidget {
                   strokeWidth: 2.5,
                 ),
               )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    label.toUpperCase(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 1.4,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  const Icon(Icons.arrow_forward, color: Colors.white, size: 20),
-                ],
+            : Text(
+                label.toUpperCase(),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.4,
+                ),
               ),
       ),
     );

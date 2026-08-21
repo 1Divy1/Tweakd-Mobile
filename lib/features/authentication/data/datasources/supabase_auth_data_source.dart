@@ -1,4 +1,5 @@
 import 'package:car_social_media_app/features/authentication/data/exceptions/auth_exceptions.dart';
+import 'package:car_social_media_app/features/authentication/data/models/sign_up_result_model.dart';
 import 'package:car_social_media_app/features/authentication/data/models/user_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -9,6 +10,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/error/base_exceptions.dart';
 
+/// Deep link Supabase redirects to once the user taps the button in the
+/// confirmation email. Must be listed under Auth → URL Configuration →
+/// Redirect URLs in the Supabase dashboard, and registered in
+/// `AndroidManifest.xml` / `Info.plist`, or the link will not reopen the app.
+const String kSignUpEmailRedirect = 'tweakd://signup-callback';
+
 @lazySingleton
 class SupabaseAuthDataSource {
   final SupabaseClient supabaseClient;
@@ -16,6 +23,97 @@ class SupabaseAuthDataSource {
   SupabaseAuthDataSource(this.supabaseClient);
 
   Session? get currentSession => supabaseClient.auth.currentSession;
+
+  /// Fires whenever Supabase establishes a session this app did not ask for
+  /// directly — in practice, when the confirmation deep link is opened and the
+  /// SDK exchanges the PKCE code for a session in the background. The root
+  /// [AuthBloc] listens so the UI can move on without the user tapping again.
+  Stream<void> get onSignedIn => supabaseClient.auth.onAuthStateChange
+      .where((change) => change.event == AuthChangeEvent.signedIn)
+      .map((_) {});
+
+  /// Translates a Supabase [AuthException] into one of the app's own
+  /// exceptions. Every call into `supabaseClient.auth` funnels through here so
+  /// no package-level exception can escape the data layer.
+  ///
+  /// Codes come from gotrue's [ErrorCode] list; `invalid_credentials` is not in
+  /// that enum yet, so it is matched as a raw string.
+  Never _mapAuthException(AuthException e) {
+    // Never log `e` wholesale on auth paths — messages can echo submitted
+    // values. The code alone is enough to debug with.
+    debugPrint('Supabase auth error (code: ${e.code}, status: ${e.statusCode})');
+
+    if (e is AuthWeakPasswordException) {
+      throw WeakPasswordException(message: e.message, reasons: e.reasons);
+    }
+    // Carries no `code`, so it has to be matched by type. Reaching this from
+    // the reset flow means the recovery session lapsed before the new password
+    // was saved — the UI uses it to send the user back to sign in.
+    if (e is AuthSessionMissingException) {
+      throw NoActiveSessionException();
+    }
+    // The request never reached Supabase; surfacing it as a server error would
+    // tell the user to retry something that is not their fault to fix.
+    if (e is AuthRetryableFetchException) {
+      throw NetworkException();
+    }
+
+    switch (e.code) {
+      case 'invalid_credentials':
+        throw InvalidCredentialsException();
+      case 'email_not_confirmed':
+        throw EmailNotConfirmedException();
+      case 'weak_password':
+        throw WeakPasswordException(message: e.message);
+      case 'otp_expired':
+        throw ExpiredOtpException();
+      case 'same_password':
+        throw SamePasswordException();
+      case 'over_email_send_rate_limit':
+      case 'over_request_rate_limit':
+        throw RateLimitedException();
+      case 'signup_disabled':
+      case 'email_provider_disabled':
+        throw SignUpDisabledException();
+      case 'user_banned':
+        throw ServerException(
+          'This account has been suspended. Please contact support.',
+        );
+      case 'session_missing':
+      case 'session_expired':
+      case 'session_not_found':
+        throw NoActiveSessionException();
+    }
+
+    // A wrong code comes back as a 403 with no dedicated code, and
+    // `validation_failed` covers malformed input on the same endpoints.
+    if (e.statusCode == '403' || e.code == 'validation_failed') {
+      throw InvalidOtpException();
+    }
+    if (e.statusCode == '429') {
+      throw RateLimitedException();
+    }
+    throw ServerException(e.message);
+  }
+
+  /// Runs [action], converting any Supabase [AuthException] into an app
+  /// exception. Non-auth errors (network, decoding) surface as [ServerException].
+  Future<T> _guard<T>(Future<T> Function() action) async {
+    try {
+      return await action();
+    } on AuthException catch (e) {
+      _mapAuthException(e);
+    } on ServerException {
+      rethrow;
+    } on NetworkException {
+      rethrow;
+    } on NoActiveSessionException {
+      rethrow;
+    } catch (e) {
+      debugPrint('Unexpected Supabase auth failure: ${e.runtimeType}');
+      throw ServerException('An unexpected error occurred. Please try again.');
+    }
+  }
 
   /// Logs the user out and wipes every locally cached credential so the next
   /// launch behaves as if the user had never signed in.
@@ -80,10 +178,123 @@ class SupabaseAuthDataSource {
 
   // Classic Email/Password Sign-In Method
   Future<UserModel> emailPasswordSignIn(String email, String password) async {
-    await supabaseClient.auth.signInWithPassword(
-      email: email,
-      password: password,
+    await _guard(
+      () => supabaseClient.auth.signInWithPassword(
+        email: email,
+        password: password,
+      ),
     );
+
+    return checkAuthStatus();
+  }
+
+  /// Registers a new account.
+  ///
+  /// With "Confirm email" on (the project's current setting) Supabase returns a
+  /// user but **no session** — the account is dormant until the confirmation
+  /// link is opened. If the address already belongs to an account, Supabase
+  /// returns that same shape with an empty `identities` list rather than an
+  /// error; this method deliberately reports the identical result either way so
+  /// the UI cannot be used to discover which addresses are registered.
+  Future<SignUpResultModel> signUp(String email, String password) async {
+    final response = await _guard(
+      () => supabaseClient.auth.signUp(
+        email: email,
+        password: password,
+        emailRedirectTo: kSignUpEmailRedirect,
+      ),
+    );
+
+    // Only reachable if email confirmation is switched off project-wide.
+    if (response.session != null) {
+      return SignUpResultModel(
+        requiresEmailConfirmation: false,
+        user: await checkAuthStatus(),
+      );
+    }
+
+    return const SignUpResultModel(requiresEmailConfirmation: true);
+  }
+
+  /// Confirms a new account with the code from the sign-up email.
+  ///
+  /// The confirm-signup template renders `{{ .Token }}`, so this — not the
+  /// deep link — is how an account gets activated. A typed code also works when
+  /// the mail is read on another device, which a PKCE link cannot.
+  Future<UserModel> verifySignUpCode(String email, String code) async {
+    final response = await _guard(
+      () => supabaseClient.auth.verifyOTP(
+        email: email,
+        token: code,
+        type: OtpType.signup,
+      ),
+    );
+
+    if (response.session == null) {
+      throw InvalidOtpException();
+    }
+
+    return checkAuthStatus();
+  }
+
+  /// Sends the confirmation email again for an account that has not been
+  /// verified yet.
+  Future<void> resendSignUpEmail(String email) async {
+    await _guard(
+      () => supabaseClient.auth.resend(
+        type: OtpType.signup,
+        email: email,
+        emailRedirectTo: kSignUpEmailRedirect,
+      ),
+    );
+  }
+
+  /// Step 1 of the password reset: emails a recovery code.
+  ///
+  /// No `redirectTo` is passed — the flow is code-based, so no deep link is
+  /// involved and the code can be typed on any device. Supabase does not report
+  /// whether the address exists, which is what keeps this endpoint from being
+  /// an account-enumeration oracle.
+  Future<void> requestPasswordReset(String email) async {
+    await _guard(() => supabaseClient.auth.resetPasswordForEmail(email));
+  }
+
+  /// Step 2: exchanges the emailed code for a short-lived recovery session.
+  Future<void> verifyPasswordResetCode(String email, String code) async {
+    final response = await _guard(
+      () => supabaseClient.auth.verifyOTP(
+        email: email,
+        token: code,
+        type: OtpType.recovery,
+      ),
+    );
+
+    if (response.session == null) {
+      throw InvalidOtpException();
+    }
+  }
+
+  /// Step 3: sets the new password on the recovery session, then revokes every
+  /// *other* session so anyone signed in elsewhere with the old password is
+  /// kicked out. This device stays signed in.
+  Future<UserModel> updatePassword(String newPassword) async {
+    if (supabaseClient.auth.currentSession == null) {
+      throw NoActiveSessionException();
+    }
+
+    await _guard(
+      () => supabaseClient.auth.updateUser(
+        UserAttributes(password: newPassword),
+      ),
+    );
+
+    try {
+      await supabaseClient.auth.signOut(scope: SignOutScope.others);
+    } catch (e) {
+      // Best-effort: the password is already changed, so a failure here must
+      // not present itself to the user as a failed reset.
+      debugPrint('Could not revoke other sessions: ${e.runtimeType}');
+    }
 
     return checkAuthStatus();
   }
@@ -124,16 +335,13 @@ class SupabaseAuthDataSource {
       throw ServerException('No ID token received from Google Sign-In.');
     }
 
-    try {
-      await supabaseClient.auth.signInWithIdToken(
+    await _guard(
+      () => supabaseClient.auth.signInWithIdToken(
         provider: OAuthProvider.google,
         idToken: idToken,
         accessToken: authorization.accessToken,
-      );
-    } on AuthException catch (e) {
-      debugPrint('Supabase signInWithIdToken error: $e');
-      throw ServerException(e.message);
-    }
+      ),
+    );
 
     return checkAuthStatus();
   }

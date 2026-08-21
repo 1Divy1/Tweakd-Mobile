@@ -63,78 +63,89 @@ class LocationStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         OnboardingSectionHeader(
-          label: l10n.onboardingLocationLabel,
           title: l10n.onboardingLocationTitle,
-          subtitle: l10n.onboardingLocationSubtitle,
         ),
         const SizedBox(height: 20),
-        OnboardingFieldLabel(l10n.onboardingFieldCountry),
-        const SizedBox(height: 8),
-        OnboardingSelectorTile(
-          placeholder: l10n.onboardingSelectCountryPlaceholder,
-          value: selectedCountry?.name,
-          onTap: () => showOnboardingPicker<CountryEntity>(
-            context: context,
-            title: l10n.onboardingPickerCountry,
-            items: countries,
-            labelOf: (c) => c.name,
-            onSelected: onSelectCountry,
-            searchable: true,
-          ),
-        ),
-        const SizedBox(height: 16),
-        OnboardingFieldLabel(l10n.onboardingFieldRegion),
-        const SizedBox(height: 8),
-        OnboardingSelectorTile(
-          placeholder: countrySelected
-              ? l10n.onboardingSelectRegionPlaceholder
-              : l10n.onboardingPickCountryFirst,
-          value: selectedRegion,
-          loading: citiesLoading,
-          enabled: countrySelected && _regions.isNotEmpty,
-          onTap: () => showOnboardingPicker<String>(
-            context: context,
-            title: l10n.onboardingPickerRegion,
-            items: _regions,
-            labelOf: (r) => r,
-            onSelected: onSelectRegion,
-            searchable: true,
-          ),
-        ),
-        const SizedBox(height: 16),
-        OnboardingFieldLabel(l10n.onboardingFieldCity),
-        const SizedBox(height: 8),
-        OnboardingSelectorTile(
-          placeholder: regionSelected
-              ? l10n.onboardingSelectCityPlaceholder
-              : l10n.onboardingPickRegionFirst,
-          value: selectedCity?.name,
-          enabled: regionSelected && _citiesInRegion.isNotEmpty,
-          onTap: () => showOnboardingPicker<CityEntity>(
-            context: context,
-            title: l10n.onboardingPickerCity,
-            items: _citiesInRegion,
-            labelOf: (c) => c.name,
-            onSelected: onSelectCity,
-            searchable: true,
-          ),
-        ),
-        const SizedBox(height: 22),
-        _RadiusCard(radiusKm: radiusKm),
-        const SizedBox(height: 6),
-        SliderTheme(
-          data: SliderThemeData(
-            activeTrackColor: AppColors.accent,
-            inactiveTrackColor: AppColors.line,
-            thumbColor: AppColors.accent,
-            overlayColor: AppColors.accent.withAlpha(40),
-            trackHeight: 4,
-          ),
-          child: Slider(
-            value: radiusKm.toDouble(),
-            min: kMinDiscoveryRadiusKm.toDouble(),
-            max: kMaxDiscoveryRadiusKm.toDouble(),
-            onChanged: (v) => onRadiusChanged(v.round()),
+        Expanded(
+          child: Center(
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  OnboardingFieldLabel(l10n.onboardingFieldCountry),
+                  const SizedBox(height: 8),
+                  OnboardingSelectorTile(
+                    placeholder: l10n.onboardingSelectCountryPlaceholder,
+                    value: selectedCountry?.name,
+                    onTap: () => showOnboardingPicker<CountryEntity>(
+                      context: context,
+                      title: l10n.onboardingPickerCountry,
+                      items: countries,
+                      labelOf: (c) => c.name,
+                      onSelected: onSelectCountry,
+                      searchable: true,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  OnboardingFieldLabel(l10n.onboardingFieldRegion),
+                  const SizedBox(height: 8),
+                  OnboardingSelectorTile(
+                    placeholder: countrySelected
+                        ? l10n.onboardingSelectRegionPlaceholder
+                        : l10n.onboardingPickCountryFirst,
+                    value: selectedRegion,
+                    loading: citiesLoading,
+                    enabled: countrySelected && _regions.isNotEmpty,
+                    onTap: () => showOnboardingPicker<String>(
+                      context: context,
+                      title: l10n.onboardingPickerRegion,
+                      items: _regions,
+                      labelOf: (r) => r,
+                      onSelected: onSelectRegion,
+                      searchable: true,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  OnboardingFieldLabel(l10n.onboardingFieldCity),
+                  const SizedBox(height: 8),
+                  OnboardingSelectorTile(
+                    placeholder: regionSelected
+                        ? l10n.onboardingSelectCityPlaceholder
+                        : l10n.onboardingPickRegionFirst,
+                    value: selectedCity?.name,
+                    enabled: regionSelected && _citiesInRegion.isNotEmpty,
+                    onTap: () => showOnboardingPicker<CityEntity>(
+                      context: context,
+                      title: l10n.onboardingPickerCity,
+                      items: _citiesInRegion,
+                      labelOf: (c) => c.name,
+                      onSelected: onSelectCity,
+                      searchable: true,
+                    ),
+                  ),
+                  const SizedBox(height: 22),
+                  _RadiusCard(radiusKm: radiusKm),
+                  const SizedBox(height: 6),
+                  SliderTheme(
+                    data: SliderThemeData(
+                      activeTrackColor: AppColors.accent,
+                      inactiveTrackColor: AppColors.line,
+                      thumbColor: AppColors.accent,
+                      overlayColor: AppColors.accent.withAlpha(40),
+                      trackHeight: 4,
+                    ),
+                    child: Slider(
+                      value: radiusKm.toDouble(),
+                      min: kMinDiscoveryRadiusKm.toDouble(),
+                      max: kMaxDiscoveryRadiusKm.toDouble(),
+                      onChanged: (v) => onRadiusChanged(v.round()),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ],

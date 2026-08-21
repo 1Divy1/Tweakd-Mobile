@@ -49,29 +49,38 @@ class PreferencesStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         OnboardingSectionHeader(
-          label: l10n.onboardingGarageLabel,
           title: l10n.onboardingGarageTitle,
-          subtitle: l10n.onboardingGarageSubtitle,
         ),
         const SizedBox(height: 20),
-        OnboardingFieldLabel(l10n.onboardingFieldYourPicks),
-        const SizedBox(height: 12),
-        for (var i = 0; i < rows.length; i++) ...[
-          _DreamCarCard(
-            row: rows[i],
-            brands: _availableBrands(i),
-            models: rows[i].brand == null
-                ? const []
-                : (modelsByBrand[rows[i].brand!.id] ?? const []),
-            modelsLoading: rows[i].brand != null &&
-                loadingModelsFor.contains(rows[i].brand!.id),
-            onSelectBrand: (brand) => onSelectBrand(i, brand),
-            onToggleModel: (model) => onToggleModel(i, model),
-            onRemove: () => onRemoveRow(i),
+        Expanded(
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                OnboardingFieldLabel(l10n.onboardingFieldYourPicks),
+                const SizedBox(height: 12),
+                for (var i = 0; i < rows.length; i++) ...[
+                  _DreamCarCard(
+                    row: rows[i],
+                    brands: _availableBrands(i),
+                    models: rows[i].brand == null
+                        ? const []
+                        : (modelsByBrand[rows[i].brand!.id] ?? const []),
+                    modelsLoading: rows[i].brand != null &&
+                        loadingModelsFor.contains(rows[i].brand!.id),
+                    onSelectBrand: (brand) => onSelectBrand(i, brand),
+                    onToggleModel: (model) => onToggleModel(i, model),
+                    onRemove: () => onRemoveRow(i),
+                  ),
+                  const SizedBox(height: 14),
+                ],
+                _AddBrandButton(onTap: onAddRow),
+              ],
+            ),
           ),
-          const SizedBox(height: 14),
-        ],
-        _AddBrandButton(onTap: onAddRow),
+        ),
       ],
     );
   }

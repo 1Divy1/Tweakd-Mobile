@@ -3,15 +3,38 @@ import 'package:car_social_media_app/l10n/app_localizations.dart';
 import '../../../../core/error/base_failures.dart';
 import '../../domain/failures/auth_failures.dart';
 
-/// User-facing error situations the auth flow can surface. The bloc emits these
+/// User-facing error situations the auth flow can surface. The blocs emit these
 /// codes (never strings); the UI maps them to localized copy via
 /// [authErrorMessage].
-enum AuthErrorCode { sessionExpired, generic }
+enum AuthErrorCode {
+  sessionExpired,
+  invalidCredentials,
+  emailNotConfirmed,
+  weakPassword,
+  invalidCode,
+  expiredCode,
+  rateLimited,
+  samePassword,
+  signUpDisabled,
+  network,
+  generic,
+}
 
 class AuthErrorMapper {
   static AuthErrorCode getCode(Failure failure) {
-    if (failure is UnauthenticatedFailure) return AuthErrorCode.sessionExpired;
-    return AuthErrorCode.generic;
+    return switch (failure) {
+      UnauthenticatedFailure _ => AuthErrorCode.sessionExpired,
+      InvalidCredentialsFailure _ => AuthErrorCode.invalidCredentials,
+      EmailNotConfirmedFailure _ => AuthErrorCode.emailNotConfirmed,
+      WeakPasswordFailure _ => AuthErrorCode.weakPassword,
+      InvalidCodeFailure _ => AuthErrorCode.invalidCode,
+      ExpiredCodeFailure _ => AuthErrorCode.expiredCode,
+      RateLimitedFailure _ => AuthErrorCode.rateLimited,
+      SamePasswordFailure _ => AuthErrorCode.samePassword,
+      SignUpDisabledFailure _ => AuthErrorCode.signUpDisabled,
+      NetworkFailure _ => AuthErrorCode.network,
+      _ => AuthErrorCode.generic,
+    };
   }
 }
 
@@ -20,5 +43,14 @@ class AuthErrorMapper {
 String authErrorMessage(AppLocalizations l10n, AuthErrorCode code) =>
     switch (code) {
       AuthErrorCode.sessionExpired => l10n.authErrorSessionExpired,
+      AuthErrorCode.invalidCredentials => l10n.authErrorInvalidCredentials,
+      AuthErrorCode.emailNotConfirmed => l10n.authErrorEmailNotConfirmed,
+      AuthErrorCode.weakPassword => l10n.authErrorWeakPassword,
+      AuthErrorCode.invalidCode => l10n.authErrorInvalidCode,
+      AuthErrorCode.expiredCode => l10n.authErrorExpiredCode,
+      AuthErrorCode.rateLimited => l10n.authErrorRateLimited,
+      AuthErrorCode.samePassword => l10n.authErrorSamePassword,
+      AuthErrorCode.signUpDisabled => l10n.authErrorSignUpDisabled,
+      AuthErrorCode.network => l10n.authErrorNetwork,
       AuthErrorCode.generic => l10n.authErrorGeneric,
     };
