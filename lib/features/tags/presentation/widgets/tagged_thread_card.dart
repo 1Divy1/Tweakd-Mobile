@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:car_social_media_app/features/forums/domain/entities/forum_thread.dart';
-import 'package:car_social_media_app/features/forums/presentation/utils/forum_format.dart';
-import 'package:car_social_media_app/features/forums/presentation/widgets/shared/forum_avatar.dart';
-import 'package:car_social_media_app/features/forums/presentation/widgets/shared/forum_chips.dart';
-import 'package:car_social_media_app/features/forums/presentation/widgets/shared/forum_tag_row.dart';
+import 'package:tweakd/features/forums/domain/entities/forum_thread.dart';
+import 'package:tweakd/features/forums/presentation/utils/forum_format.dart';
+import 'package:tweakd/features/forums/presentation/widgets/shared/forum_avatar.dart';
+import 'package:tweakd/features/forums/presentation/widgets/shared/forum_chips.dart';
+import 'package:tweakd/features/forums/presentation/widgets/shared/forum_tag_row.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';

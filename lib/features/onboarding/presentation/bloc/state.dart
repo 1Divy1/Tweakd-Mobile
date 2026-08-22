@@ -1,5 +1,5 @@
-import 'package:car_social_media_app/features/garage/domain/entities/reference_data.dart';
-import 'package:car_social_media_app/features/profile/domain/entities/profile.dart';
+import 'package:tweakd/features/garage/domain/entities/reference_data.dart';
+import 'package:tweakd/features/profile/domain/entities/profile.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../domain/entities/onboarding reference/city_entity.dart';

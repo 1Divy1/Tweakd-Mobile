@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
+import 'package:tweakd/core/shared/entities/tag_selection.dart';
 
 import '../../../domain/entities/post_comment.dart';
 import '../../utils/post_error_mapper.dart';

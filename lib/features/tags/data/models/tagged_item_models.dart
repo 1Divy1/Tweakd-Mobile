@@ -1,6 +1,6 @@
-import 'package:car_social_media_app/features/forums/data/models/forum_models.dart';
-import 'package:car_social_media_app/features/posts/data/models/post_comment_models.dart';
-import 'package:car_social_media_app/features/posts/data/models/post_models.dart';
+import 'package:tweakd/features/forums/data/models/forum_models.dart';
+import 'package:tweakd/features/posts/data/models/post_comment_models.dart';
+import 'package:tweakd/features/posts/data/models/post_models.dart';
 
 import '../../domain/entities/tagged_item.dart';
 

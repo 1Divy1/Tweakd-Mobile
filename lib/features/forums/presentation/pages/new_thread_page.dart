@@ -12,7 +12,7 @@ import '../widgets/composer/thread_category_picker.dart';
 import '../widgets/composer/topic_selector.dart';
 import '../widgets/shared/forum_error_view.dart';
 import '../widgets/shared/forum_sub_top_bar.dart';
-import 'package:car_social_media_app/core/shared/widgets/tagging/tag_editor.dart';
+import 'package:tweakd/core/shared/widgets/tagging/tag_editor.dart';
 
 class NewThreadPage extends StatefulWidget {
   const NewThreadPage({super.key});

@@ -1,5 +1,5 @@
-import 'package:car_social_media_app/core/error/base_exceptions.dart';
-import 'package:car_social_media_app/core/network/auth_interceptor.dart';
+import 'package:tweakd/core/error/base_exceptions.dart';
+import 'package:tweakd/core/network/auth_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

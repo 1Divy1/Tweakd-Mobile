@@ -1,15 +1,15 @@
-import 'package:car_social_media_app/core/routes/app_router.dart';
-import 'package:car_social_media_app/l10n/app_localizations.dart';
-import 'package:car_social_media_app/core/di/injection.dart';
-import 'package:car_social_media_app/core/realtime/dm_realtime_service.dart';
-import 'package:car_social_media_app/core/realtime/presence_service.dart';
-import 'package:car_social_media_app/core/storage/secure_local_storage.dart';
-import 'package:car_social_media_app/core/theme/app_theme.dart';
-import 'package:car_social_media_app/features/authentication/presentation/bloc/bloc.dart';
-import 'package:car_social_media_app/features/authentication/presentation/bloc/event.dart';
-import 'package:car_social_media_app/features/messages/presentation/bloc/unread/cubit.dart';
-import 'package:car_social_media_app/features/notifications/presentation/bloc/unread/cubit.dart';
-import 'package:car_social_media_app/features/profile/presentation/bloc/locale/cubit.dart';
+import 'package:tweakd/core/routes/app_router.dart';
+import 'package:tweakd/l10n/app_localizations.dart';
+import 'package:tweakd/core/di/injection.dart';
+import 'package:tweakd/core/realtime/dm_realtime_service.dart';
+import 'package:tweakd/core/realtime/presence_service.dart';
+import 'package:tweakd/core/storage/secure_local_storage.dart';
+import 'package:tweakd/core/theme/app_theme.dart';
+import 'package:tweakd/features/authentication/presentation/bloc/bloc.dart';
+import 'package:tweakd/features/authentication/presentation/bloc/event.dart';
+import 'package:tweakd/features/messages/presentation/bloc/unread/cubit.dart';
+import 'package:tweakd/features/notifications/presentation/bloc/unread/cubit.dart';
+import 'package:tweakd/features/profile/presentation/bloc/locale/cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -82,11 +82,11 @@ void main() async {
     }
   });
 
-  runApp(const CarSocialMediaApp());
+  runApp(const TweakdApp());
 }
 
-class CarSocialMediaApp extends StatelessWidget {
-  const CarSocialMediaApp({super.key});
+class TweakdApp extends StatelessWidget {
+  const TweakdApp({super.key});
 
   @override
   Widget build(BuildContext context) {

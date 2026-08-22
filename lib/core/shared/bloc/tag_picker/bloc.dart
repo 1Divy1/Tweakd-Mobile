@@ -4,10 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import 'package:car_social_media_app/core/usecases/usecase.dart';
-import 'package:car_social_media_app/features/garage/domain/usecases/get_garage_by_username.dart';
-import 'package:car_social_media_app/features/garage/domain/usecases/get_my_garage.dart';
-import 'package:car_social_media_app/features/search/domain/usecases/search_users.dart';
+import 'package:tweakd/core/usecases/usecase.dart';
+import 'package:tweakd/features/garage/domain/usecases/get_garage_by_username.dart';
+import 'package:tweakd/features/garage/domain/usecases/get_my_garage.dart';
+import 'package:tweakd/features/search/domain/usecases/search_users.dart';
 import 'event.dart';
 import 'state.dart';
 

@@ -1,5 +1,5 @@
-import 'package:car_social_media_app/features/garage/data/models/car_summary_model.dart';
-import 'package:car_social_media_app/features/map/domain/entities/geo_position.dart';
+import 'package:tweakd/features/garage/data/models/car_summary_model.dart';
+import 'package:tweakd/features/map/domain/entities/geo_position.dart';
 
 import '../../domain/entities/geocode_candidate.dart';
 import '../../domain/entities/map_event_attendee.dart';

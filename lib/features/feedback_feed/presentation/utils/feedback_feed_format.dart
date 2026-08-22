@@ -1,5 +1,5 @@
-import 'package:car_social_media_app/features/posts/presentation/widgets/post_detail/post_time.dart';
-import 'package:car_social_media_app/l10n/app_localizations.dart';
+import 'package:tweakd/features/posts/presentation/widgets/post_detail/post_time.dart';
+import 'package:tweakd/l10n/app_localizations.dart';
 
 /// The short relative stamp used on cards ("6d", "30m"), reusing the posts
 /// time-ago. Anything under a minute is reported as "1m" rather than "now", so

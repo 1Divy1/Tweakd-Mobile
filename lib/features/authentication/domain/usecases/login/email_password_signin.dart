@@ -1,5 +1,5 @@
-import 'package:car_social_media_app/core/usecases/usecase.dart';
-import 'package:car_social_media_app/features/authentication/domain/entities/user.dart';
+import 'package:tweakd/core/usecases/usecase.dart';
+import 'package:tweakd/features/authentication/domain/entities/user.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 

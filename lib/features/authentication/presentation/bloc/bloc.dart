@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:car_social_media_app/features/authentication/domain/usecases/auth/check_auth_status.dart';
-import 'package:car_social_media_app/features/authentication/presentation/bloc/event.dart';
-import 'package:car_social_media_app/features/authentication/presentation/bloc/state.dart';
+import 'package:tweakd/features/authentication/domain/usecases/auth/check_auth_status.dart';
+import 'package:tweakd/features/authentication/presentation/bloc/event.dart';
+import 'package:tweakd/features/authentication/presentation/bloc/state.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';

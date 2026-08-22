@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:car_social_media_app/features/garage/domain/usecases/get_reference_data.dart';
+import 'package:tweakd/features/garage/domain/usecases/get_reference_data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 

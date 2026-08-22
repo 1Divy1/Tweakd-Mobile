@@ -1,6 +1,6 @@
-import 'package:car_social_media_app/features/authentication/data/exceptions/auth_exceptions.dart';
-import 'package:car_social_media_app/features/authentication/data/models/sign_up_result_model.dart';
-import 'package:car_social_media_app/features/authentication/data/models/user_model.dart';
+import 'package:tweakd/features/authentication/data/exceptions/auth_exceptions.dart';
+import 'package:tweakd/features/authentication/data/models/sign_up_result_model.dart';
+import 'package:tweakd/features/authentication/data/models/user_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';

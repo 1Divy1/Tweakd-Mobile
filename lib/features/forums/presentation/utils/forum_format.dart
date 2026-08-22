@@ -1,5 +1,5 @@
-import 'package:car_social_media_app/features/posts/presentation/widgets/post_detail/post_time.dart';
-import 'package:car_social_media_app/l10n/app_localizations.dart';
+import 'package:tweakd/features/posts/presentation/widgets/post_detail/post_time.dart';
+import 'package:tweakd/l10n/app_localizations.dart';
 
 /// "1.2k" style compact count for thread/reply counters.
 String forumCompactCount(int n) {

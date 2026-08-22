@@ -1,7 +1,7 @@
-import 'package:car_social_media_app/features/feedback_feed/data/models/feedback_feed_models.dart';
-import 'package:car_social_media_app/features/feedback_feed/domain/entities/feedback_message.dart';
-import 'package:car_social_media_app/features/feedback_feed/domain/entities/feedback_option.dart';
-import 'package:car_social_media_app/features/feedback_feed/domain/entities/feedback_sort.dart';
+import 'package:tweakd/features/feedback_feed/data/models/feedback_feed_models.dart';
+import 'package:tweakd/features/feedback_feed/domain/entities/feedback_message.dart';
+import 'package:tweakd/features/feedback_feed/domain/entities/feedback_option.dart';
+import 'package:tweakd/features/feedback_feed/domain/entities/feedback_sort.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// The board's risk sits in two places: the snake_case mapping (where a

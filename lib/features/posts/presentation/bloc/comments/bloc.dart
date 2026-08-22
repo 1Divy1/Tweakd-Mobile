@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
+import 'package:tweakd/core/shared/entities/tag_selection.dart';
 
 import '../../../domain/entities/post_comment.dart';
 import '../../../domain/usecases/add_comment.dart';

@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = car_social_media_app
+PRODUCT_NAME = Tweakd
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.carSocialMediaApp
+PRODUCT_BUNDLE_IDENTIFIER = com.tweakdapp
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2026 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2026 Tweakd. All rights reserved.

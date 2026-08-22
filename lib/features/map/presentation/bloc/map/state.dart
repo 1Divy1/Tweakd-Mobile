@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/features/map_events/domain/entities/map_event_pin.dart';
+import 'package:tweakd/features/map_events/domain/entities/map_event_pin.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/business_detail_entity.dart';

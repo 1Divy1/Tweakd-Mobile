@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:car_social_media_app/features/garage/domain/entities/reference_data.dart';
+import 'package:tweakd/features/garage/domain/entities/reference_data.dart';
 
 import '../../../../../l10n/app_localizations.dart';
 import '../shared/forum_section_label.dart';

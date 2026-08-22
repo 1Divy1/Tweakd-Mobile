@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:car_social_media_app/core/theme/app_colors.dart';
-import 'package:car_social_media_app/features/map_events/domain/entities/map_event_pin.dart';
+import 'package:tweakd/core/theme/app_colors.dart';
+import 'package:tweakd/features/map_events/domain/entities/map_event_pin.dart';
 import 'package:flutter/foundation.dart';
 // Named imports only: `mapbox_maps_flutter` exports its own `Point`, which
 // collides with Flutter's if material is pulled in wholesale.

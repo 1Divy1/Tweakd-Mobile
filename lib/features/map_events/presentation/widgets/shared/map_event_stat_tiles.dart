@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/core/theme/app_colors.dart';
+import 'package:tweakd/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 /// One of the three counters under an event's header: a glyph, a big value and

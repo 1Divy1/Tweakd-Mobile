@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'package:car_social_media_app/features/garage/domain/entities/reference_data.dart';
+import 'package:tweakd/features/garage/domain/entities/reference_data.dart';
 
 import 'forum_topic.dart';
 

@@ -1,5 +1,5 @@
-import 'package:car_social_media_app/features/profile/domain/entities/profile.dart';
-import 'package:car_social_media_app/features/profile/domain/failures/profile_failures.dart';
+import 'package:tweakd/features/profile/domain/entities/profile.dart';
+import 'package:tweakd/features/profile/domain/failures/profile_failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';

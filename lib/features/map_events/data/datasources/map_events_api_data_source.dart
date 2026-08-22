@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/core/network/abstract_http.dart';
+import 'package:tweakd/core/network/abstract_http.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 

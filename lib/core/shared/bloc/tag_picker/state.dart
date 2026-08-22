@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import 'package:car_social_media_app/core/shared/entities/search_result.dart';
-import 'package:car_social_media_app/features/garage/domain/entities/car_summary.dart';
+import 'package:tweakd/core/shared/entities/search_result.dart';
+import 'package:tweakd/features/garage/domain/entities/car_summary.dart';
 
 enum TagLoadStatus { idle, loading, success, failure }
 

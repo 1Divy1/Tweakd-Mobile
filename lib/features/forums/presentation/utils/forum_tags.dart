@@ -1,11 +1,11 @@
-import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
-import 'package:car_social_media_app/features/garage/domain/entities/car_summary.dart';
+import 'package:tweakd/core/shared/entities/tag_selection.dart';
+import 'package:tweakd/features/garage/domain/entities/car_summary.dart';
 
 import '../../domain/entities/forum_author.dart';
 
 // The tag limit and the owner-removal rule are app-wide (posts, comments,
 // forums), so they live with the shared selection models.
-export 'package:car_social_media_app/core/shared/entities/tag_selection.dart'
+export 'package:tweakd/core/shared/entities/tag_selection.dart'
     show kTagSelectionLimit, tagCarsWithoutOwner;
 
 /// Tagged people as the composer's selection model.

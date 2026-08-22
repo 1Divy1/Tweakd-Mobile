@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:car_social_media_app/l10n/app_localizations.dart';
+import 'package:tweakd/l10n/app_localizations.dart';
 
 import '../../theme/app_colors.dart';
 

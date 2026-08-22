@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/features/garage/domain/entities/reference_data.dart';
+import 'package:tweakd/features/garage/domain/entities/reference_data.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';

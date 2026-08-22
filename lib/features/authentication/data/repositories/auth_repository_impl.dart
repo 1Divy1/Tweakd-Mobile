@@ -1,5 +1,5 @@
-import 'package:car_social_media_app/features/authentication/data/datasources/supabase_auth_data_source.dart';
-import 'package:car_social_media_app/features/authentication/domain/repositories/auth_repository.dart';
+import 'package:tweakd/features/authentication/data/datasources/supabase_auth_data_source.dart';
+import 'package:tweakd/features/authentication/domain/repositories/auth_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';

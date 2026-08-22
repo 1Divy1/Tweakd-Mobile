@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'package:car_social_media_app/core/shared/bloc/tag_picker/bloc.dart';
-import 'package:car_social_media_app/core/shared/widgets/tagging/tag_strip.dart';
+import 'package:tweakd/core/shared/bloc/tag_picker/bloc.dart';
+import 'package:tweakd/core/shared/widgets/tagging/tag_strip.dart';
 
 import '../../../../../core/di/injection.dart';
 import '../../../../../core/theme/app_colors.dart';

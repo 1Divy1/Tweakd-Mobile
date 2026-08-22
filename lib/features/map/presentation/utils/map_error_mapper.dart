@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/l10n/app_localizations.dart';
+import 'package:tweakd/l10n/app_localizations.dart';
 
 import '../../../../core/error/base_failures.dart';
 import '../../domain/failures/map_failures.dart';

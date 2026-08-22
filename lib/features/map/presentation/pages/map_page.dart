@@ -1,6 +1,6 @@
-import 'package:car_social_media_app/features/map_events/presentation/bloc/event_detail/bloc.dart';
-import 'package:car_social_media_app/features/map_events/presentation/bloc/event_detail/event.dart';
-import 'package:car_social_media_app/features/map_events/presentation/bloc/event_detail/state.dart';
+import 'package:tweakd/features/map_events/presentation/bloc/event_detail/bloc.dart';
+import 'package:tweakd/features/map_events/presentation/bloc/event_detail/event.dart';
+import 'package:tweakd/features/map_events/presentation/bloc/event_detail/state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart' show MapboxMap;

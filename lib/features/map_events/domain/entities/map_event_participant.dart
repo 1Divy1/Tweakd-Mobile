@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/features/garage/domain/entities/car_summary.dart';
+import 'package:tweakd/features/garage/domain/entities/car_summary.dart';
 import 'package:equatable/equatable.dart';
 
 import 'map_event_enums.dart';
