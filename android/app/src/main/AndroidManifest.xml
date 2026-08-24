@@ -41,6 +41,19 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="tweakd" android:host="signup-callback" />
             </intent-filter>
+
+            <!-- Supabase auth deep link for the Android Sign in with Apple
+                 flow. Apple has no Android SDK, so that sign-in runs in an
+                 external browser and Supabase redirects back here when it
+                 finishes. iOS needs no equivalent entry: it uses the native
+                 Apple sheet and never opens this link. Must match the redirect
+                 URL allow-list in the Supabase dashboard. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tweakd" android:host="login-callback" />
+            </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

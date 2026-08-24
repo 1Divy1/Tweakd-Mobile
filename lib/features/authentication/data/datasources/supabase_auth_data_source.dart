@@ -1,4 +1,9 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:tweakd/features/authentication/data/exceptions/auth_exceptions.dart';
+import 'package:tweakd/features/authentication/data/models/apple_sign_in_result_model.dart';
 import 'package:tweakd/features/authentication/data/models/sign_up_result_model.dart';
 import 'package:tweakd/features/authentication/data/models/user_model.dart';
 import 'package:flutter/foundation.dart';
@@ -15,6 +20,14 @@ import '../../../../core/error/base_exceptions.dart';
 /// Redirect URLs in the Supabase dashboard, and registered in
 /// `AndroidManifest.xml` / `Info.plist`, or the link will not reopen the app.
 const String kSignUpEmailRedirect = 'tweakd://signup-callback';
+
+/// Deep link Supabase redirects to at the end of the Android Apple OAuth flow.
+/// Deliberately separate from [kSignUpEmailRedirect] so the working
+/// email-confirmation path is left untouched. Must be listed under Auth → URL
+/// Configuration → Redirect URLs in the Supabase dashboard, and matched by an
+/// intent filter in `AndroidManifest.xml`. iOS needs no entry: it runs the
+/// native flow and never opens this link.
+const String kAppleOAuthRedirect = 'tweakd://login-callback';
 
 @lazySingleton
 class SupabaseAuthDataSource {
@@ -344,5 +357,113 @@ class SupabaseAuthDataSource {
     );
 
     return checkAuthStatus();
+  }
+
+  /// Signs in with Apple.
+  ///
+  /// Apple ships a native Sign in with Apple SDK only for its own platforms, so
+  /// this is really two flows:
+  ///
+  /// * **iOS** — the native ID-token flow. `sign_in_with_apple` shows the system
+  ///   sheet and the returned ID token is exchanged for a Supabase session
+  ///   in-process, so the user is fully resolved before this returns. The nonce
+  ///   goes to Apple hashed and to Supabase raw: Apple embeds the hash in the
+  ///   token, and Supabase re-hashes the raw value to prove the token was minted
+  ///   for this exact request and cannot be replayed.
+  /// * **Everything else (Android)** — no Apple SDK exists, so it is the
+  ///   browser-based OAuth flow. `signInWithOAuth` only launches the browser and
+  ///   returns; the session appears later, when Apple redirects back through
+  ///   [kAppleOAuthRedirect] and the SDK handles the deep link. The root
+  ///   [AuthBloc] picks that up via [onSignedIn], so there is nothing to return
+  ///   here but "pending".
+  Future<AppleSignInResultModel> appleSignIn() async {
+    if (defaultTargetPlatform != TargetPlatform.iOS) {
+      final launched = await _guard(
+        () => supabaseClient.auth.signInWithOAuth(
+          OAuthProvider.apple,
+          redirectTo: kAppleOAuthRedirect,
+          authScreenLaunchMode: LaunchMode.externalApplication,
+        ),
+      );
+      // False means the browser never opened, so no redirect is coming and the
+      // caller would otherwise wait forever for a session that cannot arrive.
+      if (!launched) {
+        throw ServerException('Could not open the Apple sign-in page.');
+      }
+      return const AppleSignInResultModel(awaitingRedirect: true);
+    }
+
+    final rawNonce = supabaseClient.auth.generateRawNonce();
+    final hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
+
+    final AuthorizationCredentialAppleID credential;
+    try {
+      credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: hashedNonce,
+      );
+    } on SignInWithAppleException catch (e) {
+      // Never log `e` wholesale on auth paths — messages can echo account
+      // details. A plain cancel lands here too; it is reported the same way
+      // Google's is, so both social buttons behave identically.
+      debugPrint('Apple sign-in error: ${e.runtimeType}');
+      throw ServerException('Apple Sign-In failed or was cancelled.');
+    }
+
+    final idToken = credential.identityToken;
+    if (idToken == null) {
+      throw ServerException('No ID token received from Apple Sign-In.');
+    }
+
+    await _guard(
+      () => supabaseClient.auth.signInWithIdToken(
+        provider: OAuthProvider.apple,
+        idToken: idToken,
+        nonce: rawNonce,
+      ),
+    );
+
+    await _persistAppleFullName(credential);
+
+    return AppleSignInResultModel(
+      awaitingRedirect: false,
+      user: await checkAuthStatus(),
+    );
+  }
+
+  /// Copies the name Apple supplies into the Supabase user metadata, under the
+  /// same `full_name` key Google populates, so onboarding can prefill its name
+  /// field the same way regardless of which provider the account came from.
+  ///
+  /// Apple sends the name **only on the very first sign-in ever** and never
+  /// again, and it rides on the credential rather than the ID token — so by the
+  /// time the `handle_new_user` trigger has inserted the profile row there is
+  /// nothing for it to read. This is the only moment the name is available.
+  ///
+  /// Best-effort: the session is already live by now, so a failure here must not
+  /// turn a successful sign-in into a failed one. The user just types their name
+  /// during onboarding instead.
+  Future<void> _persistAppleFullName(
+    AuthorizationCredentialAppleID credential,
+  ) async {
+    final fullName = [credential.givenName, credential.familyName]
+        .whereType<String>()
+        .map((part) => part.trim())
+        .where((part) => part.isNotEmpty)
+        .join(' ');
+    // Empty on every sign-in after the first — skip rather than overwrite a
+    // name that is already stored with a blank.
+    if (fullName.isEmpty) return;
+
+    try {
+      await supabaseClient.auth.updateUser(
+        UserAttributes(data: {'full_name': fullName}),
+      );
+    } catch (e) {
+      debugPrint('Could not persist Apple full name: ${e.runtimeType}');
+    }
   }
 }

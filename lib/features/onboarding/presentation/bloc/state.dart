@@ -45,9 +45,15 @@ class OnboardingRefLoaded extends OnboardingState {
   /// Brand ids whose models are currently being fetched.
   final Set<String> loadingModelsFor;
 
+  /// Display name the sign-up provider supplied, used to prefill the name
+  /// field once. Null when the provider gave none (email/password sign-up, or
+  /// a returning Apple account), in which case the user types it.
+  final String? suggestedFullName;
+
   const OnboardingRefLoaded({
     required this.countries,
     required this.brands,
+    this.suggestedFullName,
     this.citiesByCountry = const {},
     this.modelsByBrand = const {},
     this.loadingCitiesFor,
@@ -64,6 +70,7 @@ class OnboardingRefLoaded extends OnboardingState {
     return OnboardingRefLoaded(
       countries: countries,
       brands: brands,
+      suggestedFullName: suggestedFullName,
       citiesByCountry: citiesByCountry ?? this.citiesByCountry,
       modelsByBrand: modelsByBrand ?? this.modelsByBrand,
       loadingCitiesFor:
@@ -76,6 +83,7 @@ class OnboardingRefLoaded extends OnboardingState {
   List<Object?> get props => [
         countries,
         brands,
+        suggestedFullName,
         citiesByCountry,
         modelsByBrand,
         loadingCitiesFor,

@@ -26,6 +26,8 @@ import '../../features/authentication/domain/usecases/auth/log_out.dart'
     as _i221;
 import '../../features/authentication/domain/usecases/auth/watch_external_sign_in.dart'
     as _i910;
+import '../../features/authentication/domain/usecases/login/apple_signin.dart'
+    as _i502;
 import '../../features/authentication/domain/usecases/login/email_password_signin.dart'
     as _i263;
 import '../../features/authentication/domain/usecases/login/google_signin.dart'
@@ -251,6 +253,8 @@ import '../../features/notifications/presentation/bloc/unread/cubit.dart'
     as _i816;
 import '../../features/onboarding/data/datasources/onboarding_api_data_source.dart'
     as _i1049;
+import '../../features/onboarding/data/datasources/supabase_identity_data_source.dart'
+    as _i532;
 import '../../features/onboarding/data/repositories/onboarding_repository_impl.dart'
     as _i452;
 import '../../features/onboarding/domain/repositories/onboarding_repository.dart'
@@ -259,6 +263,8 @@ import '../../features/onboarding/domain/usecases/check_username_availability.da
     as _i842;
 import '../../features/onboarding/domain/usecases/get_cities.dart' as _i343;
 import '../../features/onboarding/domain/usecases/get_countries.dart' as _i290;
+import '../../features/onboarding/domain/usecases/get_provider_full_name.dart'
+    as _i847;
 import '../../features/onboarding/domain/usecases/submit_onboarding.dart'
     as _i1016;
 import '../../features/onboarding/presentation/bloc/bloc.dart' as _i797;
@@ -413,6 +419,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i709.MapEventStorageDataSource>(
       () => _i709.MapEventStorageDataSource(gh<_i454.SupabaseClient>()),
     );
+    gh.lazySingleton<_i532.SupabaseIdentityDataSource>(
+      () => _i532.SupabaseIdentityDataSource(gh<_i454.SupabaseClient>()),
+    );
     gh.lazySingleton<_i747.PostsStorageApiDataSource>(
       () => _i747.PostsStorageApiDataSource(gh<_i454.SupabaseClient>()),
     );
@@ -492,6 +501,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i710.PostsApiDataSource>(),
         gh<_i747.PostsStorageApiDataSource>(),
         gh<_i768.ImageService>(),
+      ),
+    );
+    gh.lazySingleton<_i430.OnboardingRepository>(
+      () => _i452.OnboardingRepositoryImpl(
+        gh<_i1049.OnboardingApiDataSource>(),
+        gh<_i532.SupabaseIdentityDataSource>(),
       ),
     );
     gh.lazySingleton<_i541.AddCommentUseCase>(
@@ -604,6 +619,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i910.WatchExternalSignIn>(
       () => _i910.WatchExternalSignIn(gh<_i742.AuthRepository>()),
     );
+    gh.lazySingleton<_i502.AppleSignIn>(
+      () => _i502.AppleSignIn(gh<_i742.AuthRepository>()),
+    );
     gh.lazySingleton<_i263.EmailPasswordSignIn>(
       () => _i263.EmailPasswordSignIn(gh<_i742.AuthRepository>()),
     );
@@ -654,10 +672,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i29.MarkNotificationReadUseCase>(
       () =>
           _i29.MarkNotificationReadUseCase(gh<_i563.NotificationsRepository>()),
-    );
-    gh.lazySingleton<_i430.OnboardingRepository>(
-      () =>
-          _i452.OnboardingRepositoryImpl(gh<_i1049.OnboardingApiDataSource>()),
     );
     gh.factory<_i486.PostDetailBloc>(
       () => _i486.PostDetailBloc(
@@ -821,6 +835,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i290.GetCountriesUseCase>(
       () => _i290.GetCountriesUseCase(gh<_i430.OnboardingRepository>()),
+    );
+    gh.lazySingleton<_i847.GetProviderFullName>(
+      () => _i847.GetProviderFullName(gh<_i430.OnboardingRepository>()),
     );
     gh.lazySingleton<_i1016.SubmitOnboardingUseCase>(
       () => _i1016.SubmitOnboardingUseCase(gh<_i430.OnboardingRepository>()),
@@ -1065,15 +1082,6 @@ extension GetItInjectableX on _i174.GetIt {
         savePost: gh<_i584.SavePostUseCase>(),
         unsavePost: gh<_i584.UnsavePostUseCase>(),
         addComment: gh<_i541.AddCommentUseCase>(),
-      ),
-    );
-    gh.factory<_i797.OnboardingBloc>(
-      () => _i797.OnboardingBloc(
-        getCountries: gh<_i290.GetCountriesUseCase>(),
-        getCities: gh<_i343.GetCitiesUseCase>(),
-        getBrands: gh<_i408.GetBrandsUseCase>(),
-        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
-        submitOnboarding: gh<_i1016.SubmitOnboardingUseCase>(),
       ),
     );
     gh.lazySingleton<_i231.GetComposeSuggestionsUseCase>(
@@ -1371,12 +1379,23 @@ extension GetItInjectableX on _i174.GetIt {
         checkAuthStatus: gh<_i192.CheckAuthStatusUseCase>(),
         loginUser: gh<_i263.EmailPasswordSignIn>(),
         googleSignIn: gh<_i920.GoogleSignIn>(),
+        appleSignIn: gh<_i502.AppleSignIn>(),
         logOut: gh<_i221.LogOut>(),
         watchExternalSignIn: gh<_i910.WatchExternalSignIn>(),
       ),
     );
     gh.factory<_i370.MyReportsBloc>(
       () => _i370.MyReportsBloc(getMyReports: gh<_i75.GetMyReportsUseCase>()),
+    );
+    gh.factory<_i797.OnboardingBloc>(
+      () => _i797.OnboardingBloc(
+        getCountries: gh<_i290.GetCountriesUseCase>(),
+        getCities: gh<_i343.GetCitiesUseCase>(),
+        getBrands: gh<_i408.GetBrandsUseCase>(),
+        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
+        submitOnboarding: gh<_i1016.SubmitOnboardingUseCase>(),
+        getProviderFullName: gh<_i847.GetProviderFullName>(),
+      ),
     );
     gh.factory<_i197.ForumsHomeBloc>(
       () => _i197.ForumsHomeBloc(

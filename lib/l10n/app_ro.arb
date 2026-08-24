@@ -85,6 +85,10 @@
   "onboardingErrorPickBrand": "Alege cel puțin o marcă care îți place.",
   "onboardingErrorSelectCity": "Selectează orașul pentru a continua.",
 
+  "onboardingNameErrorEmpty": "Introdu-ți numele.",
+  "onboardingNameErrorTooShort": "Numele trebuie să aibă cel puțin {min} caractere.",
+  "onboardingNameErrorTooLong": "Numele poate avea cel mult {max} caractere.",
+
   "onboardingUsernameErrorEmpty": "Alege un nume de utilizator.",
   "onboardingUsernameErrorTooShort": "Numele trebuie să aibă cel puțin {min} caractere.",
   "onboardingUsernameErrorTooLong": "Numele poate avea cel mult {max} caractere.",
@@ -104,6 +108,8 @@
 
   "onboardingIdentityLabel": "01 — IDENTITATE",
   "onboardingIdentityTitle": "Alege-ți numele",
+  "onboardingFieldName": "NUME",
+  "onboardingNameHint": "Numele tău",
   "onboardingFieldUsername": "NUME DE UTILIZATOR",
   "onboardingFieldBio": "DESCRIERE",
   "onboardingBioHint": "Spune-le celorlalți câteva lucruri despre tine...",

@@ -27,16 +27,23 @@ class SignUpPage extends StatefulWidget {
   State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _agreedToTerms = false;
   bool _showPasswordRequirements = false;
   bool _showTermsError = false;
 
+  /// Latches while the Apple flow is being launched. On Android that flow hands
+  /// off to an external browser, and there is a short window before the browser
+  /// takes over where this page is still live and the button still tappable —
+  /// without the latch a second tap launches the whole flow twice.
+  bool _appleLaunching = false;
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     // Drives the live password checklist and the enabled state of the button.
     _emailController.addListener(_onFormChanged);
     _passwordController.addListener(_onFormChanged);
@@ -46,6 +53,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -84,22 +92,21 @@ class _SignUpPageState extends State<SignUpPage> {
       case SocialProvider.google:
         context.read<AuthBloc>().add(GoogleLoginRequested());
       case SocialProvider.apple:
-        _showComingSoon(
-          l10n.authFeatureProviderSignIn(_providerName(provider)),
-        );
+        if (_appleLaunching) return;
+        setState(() => _appleLaunching = true);
+        context.read<AuthBloc>().add(AppleLoginRequested());
     }
   }
 
-  String _providerName(SocialProvider provider) => switch (provider) {
-    SocialProvider.google => 'Google',
-    SocialProvider.apple => 'Apple',
-  };
-
-  void _showComingSoon(String feature) {
-    final l10n = AppLocalizations.of(context)!;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(l10n.authComingSoon(feature))));
+  /// Releases the Apple latch when the app comes back to the foreground. On
+  /// Android that is the return from the external browser — whether the user
+  /// signed in or abandoned the page — and a browser gives no "user gave up"
+  /// callback, so this is what makes the button usable again after a cancel.
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && _appleLaunching) {
+      setState(() => _appleLaunching = false);
+    }
   }
 
   void _showError(AuthErrorCode code) {
@@ -129,6 +136,11 @@ class _SignUpPageState extends State<SignUpPage> {
             BlocListener<AuthBloc, AuthState>(
               listener: (context, state) {
                 if (state is AuthError) {
+                  // An iOS Apple cancel never backgrounds the app, so `resumed`
+                  // may not fire — this is what releases the latch there.
+                  if (_appleLaunching) {
+                    setState(() => _appleLaunching = false);
+                  }
                   _showError(state.code);
                 } else {
                   _routeAuthenticated(state);

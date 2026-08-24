@@ -193,6 +193,20 @@
   "onboardingErrorPickBrand": "Pick at least one brand you're into.",
   "onboardingErrorSelectCity": "Select your city to continue.",
 
+  "onboardingNameErrorEmpty": "Please enter your name.",
+  "onboardingNameErrorTooShort": "Name must be at least {min} characters.",
+  "@onboardingNameErrorTooShort": {
+    "placeholders": {
+      "min": { "type": "int" }
+    }
+  },
+  "onboardingNameErrorTooLong": "Name must be at most {max} characters.",
+  "@onboardingNameErrorTooLong": {
+    "placeholders": {
+      "max": { "type": "int" }
+    }
+  },
+
   "onboardingUsernameErrorEmpty": "Please choose a handle.",
   "onboardingUsernameErrorTooShort": "Handle must be at least {min} characters.",
   "@onboardingUsernameErrorTooShort": {
@@ -222,6 +236,8 @@
 
   "onboardingIdentityLabel": "01 — IDENTITY",
   "onboardingIdentityTitle": "Claim your handle",
+  "onboardingFieldName": "NAME",
+  "onboardingNameHint": "Your name",
   "onboardingFieldUsername": "USERNAME",
   "onboardingFieldBio": "BIO",
   "onboardingBioHint": "Tell others a few things about yourself…",
