@@ -477,9 +477,15 @@ final appRouter = GoRouter(
         ),
         GoRoute(
           path: ':conversationId',
+          // The peer travels in `extra` when there is one to hand (the inbox,
+          // a profile). When there isn't — a push notification tap, a restored
+          // route — the bloc fetches it from the conversation itself, so the
+          // link opens the real chat rather than bouncing to the inbox.
           builder: (context, state) {
             final conversationId = state.pathParameters['conversationId']!;
-            final peer = state.extra as MessageUserEntity;
+            final peer = state.extra is MessageUserEntity
+                ? state.extra as MessageUserEntity
+                : null;
             return BlocProvider<ChatBloc>(
               create: (_) => getIt<ChatBloc>()
                 ..add(LoadChat(conversationId: conversationId, peer: peer)),

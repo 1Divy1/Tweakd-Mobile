@@ -14,6 +14,7 @@ import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/error/base_exceptions.dart';
+import '../../../../core/push/push_registration.dart';
 
 /// Deep link Supabase redirects to once the user taps the button in the
 /// confirmation email. Must be listed under Auth → URL Configuration →
@@ -32,8 +33,9 @@ const String kAppleOAuthRedirect = 'tweakd://login-callback';
 @lazySingleton
 class SupabaseAuthDataSource {
   final SupabaseClient supabaseClient;
+  final PushRegistration pushRegistration;
 
-  SupabaseAuthDataSource(this.supabaseClient);
+  SupabaseAuthDataSource(this.supabaseClient, this.pushRegistration);
 
   Session? get currentSession => supabaseClient.auth.currentSession;
 
@@ -138,8 +140,16 @@ class SupabaseAuthDataSource {
   ///    sign-in attempt cannot silently re-authenticate the same user.
   /// 3. Secure storage — a final defensive sweep that removes anything left
   ///    behind in flutter_secure_storage.
+  ///
+  /// Push registration is retired *first*, before any of the above: the DELETE
+  /// is authorized with the session being torn down, so once `signOut` has run
+  /// it can only 401 and this device would keep receiving the departing user's
+  /// notifications. It never throws, and it drops the FCM token locally even
+  /// when the request fails, so delivery stops either way.
   Future<void> logOut() async {
     try {
+      await pushRegistration.unregister();
+
       await supabaseClient.auth.signOut();
 
       // Google sign-out is best-effort: it can throw if Google Sign-In was

@@ -219,6 +219,8 @@ import '../../features/messages/data/repositories/messages_repository_impl.dart'
 import '../../features/messages/domain/repositories/messages_repository.dart'
     as _i794;
 import '../../features/messages/domain/usecases/compose.dart' as _i231;
+import '../../features/messages/domain/usecases/get_conversation_peer.dart'
+    as _i551;
 import '../../features/messages/domain/usecases/get_inbox.dart' as _i134;
 import '../../features/messages/domain/usecases/get_messages.dart' as _i15;
 import '../../features/messages/domain/usecases/get_unread_count.dart' as _i915;
@@ -247,10 +249,16 @@ import '../../features/notifications/domain/usecases/mark_all_notifications_read
     as _i852;
 import '../../features/notifications/domain/usecases/mark_notification_read.dart'
     as _i29;
+import '../../features/notifications/domain/usecases/register_device.dart'
+    as _i369;
+import '../../features/notifications/domain/usecases/unregister_device.dart'
+    as _i769;
 import '../../features/notifications/presentation/bloc/notifications/bloc.dart'
     as _i887;
 import '../../features/notifications/presentation/bloc/unread/cubit.dart'
     as _i816;
+import '../../features/notifications/presentation/services/push_token_sync.dart'
+    as _i295;
 import '../../features/onboarding/data/datasources/onboarding_api_data_source.dart'
     as _i1049;
 import '../../features/onboarding/data/datasources/supabase_identity_data_source.dart'
@@ -363,6 +371,11 @@ import '../../features/tags/domain/usecases/remove_tag.dart' as _i369;
 import '../../features/tags/presentation/bloc/tags/bloc.dart' as _i853;
 import '../network/abstract_http.dart' as _i311;
 import '../network/dio_http_client.dart' as _i554;
+import '../push/firebase_push_notification_service.dart' as _i479;
+import '../push/local_notifications.dart' as _i494;
+import '../push/push_navigator.dart' as _i270;
+import '../push/push_notification_service.dart' as _i992;
+import '../push/push_registration.dart' as _i892;
 import '../realtime/dm_realtime_service.dart' as _i511;
 import '../realtime/presence_service.dart' as _i784;
 import '../realtime/supabase_dm_realtime_service.dart' as _i543;
@@ -385,6 +398,10 @@ extension GetItInjectableX on _i174.GetIt {
     final supabaseModule = _$SupabaseModule();
     final dioModule = _$DioModule();
     gh.lazySingleton<_i454.SupabaseClient>(() => supabaseModule.supabaseClient);
+    gh.lazySingleton<_i494.LocalNotifications>(
+      () => _i494.LocalNotifications(),
+    );
+    gh.lazySingleton<_i270.PushNavigator>(() => _i270.PushNavigator());
     gh.lazySingleton<_i768.ImageService>(() => _i768.ImageService());
     gh.lazySingleton<_i907.NavigationLauncherService>(
       () => _i907.NavigationLauncherService(),
@@ -409,9 +426,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i361.Dio>(
       () => dioModule.dio(gh<_i454.SupabaseClient>()),
-    );
-    gh.lazySingleton<_i981.SupabaseAuthDataSource>(
-      () => _i981.SupabaseAuthDataSource(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i526.StorageApiDataSource>(
       () => _i526.StorageApiDataSource(gh<_i454.SupabaseClient>()),
@@ -489,6 +503,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i201.NotificationsRepositoryImpl(
         gh<_i830.NotificationsDataSource>(),
       ),
+    );
+    gh.lazySingleton<_i992.PushNotificationService>(
+      () =>
+          _i479.FirebasePushNotificationService(gh<_i494.LocalNotifications>()),
     );
     gh.lazySingleton<_i973.MapRepository>(
       () => _i457.MapRepositoryImpl(
@@ -597,9 +615,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i430.FeedRepository>(
       () => _i452.FeedRepositoryImpl(gh<_i194.FeedApiDataSource>()),
     );
-    gh.lazySingleton<_i742.AuthRepository>(
-      () => _i317.AuthRepositoryImpl(gh<_i981.SupabaseAuthDataSource>()),
-    );
     gh.lazySingleton<_i619.FeedbackRepository>(
       () => _i961.FeedbackRepositoryImpl(gh<_i239.FeedbackApiDataSource>()),
     );
@@ -609,42 +624,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i526.StorageApiDataSource>(),
         gh<_i768.ImageService>(),
       ),
-    );
-    gh.lazySingleton<_i192.CheckAuthStatusUseCase>(
-      () => _i192.CheckAuthStatusUseCase(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i221.LogOut>(
-      () => _i221.LogOut(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i910.WatchExternalSignIn>(
-      () => _i910.WatchExternalSignIn(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i502.AppleSignIn>(
-      () => _i502.AppleSignIn(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i263.EmailPasswordSignIn>(
-      () => _i263.EmailPasswordSignIn(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i920.GoogleSignIn>(
-      () => _i920.GoogleSignIn(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i847.RequestPasswordReset>(
-      () => _i847.RequestPasswordReset(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i854.UpdatePassword>(
-      () => _i854.UpdatePassword(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i542.VerifyPasswordResetCode>(
-      () => _i542.VerifyPasswordResetCode(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i644.EmailPasswordSignUp>(
-      () => _i644.EmailPasswordSignUp(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i198.ResendSignUpEmail>(
-      () => _i198.ResendSignUpEmail(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i447.VerifySignUpCode>(
-      () => _i447.VerifySignUpCode(gh<_i742.AuthRepository>()),
     );
     gh.lazySingleton<_i894.ProfileRepository>(
       () => _i334.ProfileRepositoryImpl(
@@ -672,6 +651,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i29.MarkNotificationReadUseCase>(
       () =>
           _i29.MarkNotificationReadUseCase(gh<_i563.NotificationsRepository>()),
+    );
+    gh.lazySingleton<_i369.RegisterDeviceUseCase>(
+      () => _i369.RegisterDeviceUseCase(gh<_i563.NotificationsRepository>()),
+    );
+    gh.lazySingleton<_i769.UnregisterDeviceUseCase>(
+      () => _i769.UnregisterDeviceUseCase(gh<_i563.NotificationsRepository>()),
     );
     gh.factory<_i486.PostDetailBloc>(
       () => _i486.PostDetailBloc(
@@ -818,11 +803,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i295.RejectWithdrawalUseCase>(
       () => _i295.RejectWithdrawalUseCase(gh<_i365.MapEventsRepository>()),
     );
-    gh.factory<_i57.PasswordResetBloc>(
-      () => _i57.PasswordResetBloc(
-        requestPasswordReset: gh<_i847.RequestPasswordReset>(),
-        verifyPasswordResetCode: gh<_i542.VerifyPasswordResetCode>(),
-        updatePassword: gh<_i854.UpdatePassword>(),
+    gh.lazySingleton<_i892.PushRegistration>(
+      () => _i295.PushTokenSync(
+        push: gh<_i992.PushNotificationService>(),
+        registerDevice: gh<_i369.RegisterDeviceUseCase>(),
+        unregisterDevice: gh<_i769.UnregisterDeviceUseCase>(),
+        localeStorage: gh<_i1069.LocaleLocalStorage>(),
       ),
     );
     gh.lazySingleton<_i842.CheckUsernameAvailabilityUseCase>(
@@ -1041,13 +1027,6 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i129.MyFeedbackBloc(getMyFeedback: gh<_i311.GetMyFeedbackUseCase>()),
     );
-    gh.factory<_i246.SignUpBloc>(
-      () => _i246.SignUpBloc(
-        signUp: gh<_i644.EmailPasswordSignUp>(),
-        verifySignUpCode: gh<_i447.VerifySignUpCode>(),
-        resendSignUpEmail: gh<_i198.ResendSignUpEmail>(),
-      ),
-    );
     gh.factory<_i439.GarageCarsCubit>(
       () => _i439.GarageCarsCubit(getMyGarage: gh<_i391.GetMyGarageUseCase>()),
     );
@@ -1086,6 +1065,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i231.GetComposeSuggestionsUseCase>(
       () => _i231.GetComposeSuggestionsUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i551.GetConversationPeerUseCase>(
+      () => _i551.GetConversationPeerUseCase(gh<_i794.MessagesRepository>()),
     );
     gh.lazySingleton<_i134.GetInboxUseCase>(
       () => _i134.GetInboxUseCase(gh<_i794.MessagesRepository>()),
@@ -1178,18 +1160,6 @@ extension GetItInjectableX on _i174.GetIt {
         deleteCarUseCase: gh<_i287.DeleteCarUseCase>(),
         deleteGalleryImagesUseCase: gh<_i631.DeleteGalleryImagesUseCase>(),
         deleteModificationUseCase: gh<_i621.DeleteModificationUseCase>(),
-      ),
-    );
-    gh.factory<_i269.ChatBloc>(
-      () => _i269.ChatBloc(
-        getMessages: gh<_i15.GetMessagesUseCase>(),
-        sendMessage: gh<_i162.SendMessageUseCase>(),
-        deleteMessage: gh<_i680.DeleteMessageUseCase>(),
-        markConversationRead: gh<_i680.MarkConversationReadUseCase>(),
-        sendTyping: gh<_i680.SendTypingUseCase>(),
-        watchChat: gh<_i467.WatchChatUseCase>(),
-        getPresence: gh<_i583.GetPresenceUseCase>(),
-        watchPresence: gh<_i583.WatchPresenceUseCase>(),
       ),
     );
     gh.factory<_i506.MapEventDetailBloc>(
@@ -1374,16 +1344,6 @@ extension GetItInjectableX on _i174.GetIt {
         submitReport: gh<_i535.SubmitReportUseCase>(),
       ),
     );
-    gh.factory<_i636.AuthBloc>(
-      () => _i636.AuthBloc(
-        checkAuthStatus: gh<_i192.CheckAuthStatusUseCase>(),
-        loginUser: gh<_i263.EmailPasswordSignIn>(),
-        googleSignIn: gh<_i920.GoogleSignIn>(),
-        appleSignIn: gh<_i502.AppleSignIn>(),
-        logOut: gh<_i221.LogOut>(),
-        watchExternalSignIn: gh<_i910.WatchExternalSignIn>(),
-      ),
-    );
     gh.factory<_i370.MyReportsBloc>(
       () => _i370.MyReportsBloc(getMyReports: gh<_i75.GetMyReportsUseCase>()),
     );
@@ -1395,6 +1355,12 @@ extension GetItInjectableX on _i174.GetIt {
         getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
         submitOnboarding: gh<_i1016.SubmitOnboardingUseCase>(),
         getProviderFullName: gh<_i847.GetProviderFullName>(),
+      ),
+    );
+    gh.lazySingleton<_i981.SupabaseAuthDataSource>(
+      () => _i981.SupabaseAuthDataSource(
+        gh<_i454.SupabaseClient>(),
+        gh<_i892.PushRegistration>(),
       ),
     );
     gh.factory<_i197.ForumsHomeBloc>(
@@ -1415,6 +1381,19 @@ extension GetItInjectableX on _i174.GetIt {
         getBusinessDetail: gh<_i107.GetBusinessDetailUseCase>(),
         getCurrentPosition: gh<_i958.GetCurrentPositionUseCase>(),
         getNearbyEvents: gh<_i997.GetNearbyMapEventsUseCase>(),
+      ),
+    );
+    gh.factory<_i269.ChatBloc>(
+      () => _i269.ChatBloc(
+        getMessages: gh<_i15.GetMessagesUseCase>(),
+        getConversationPeer: gh<_i551.GetConversationPeerUseCase>(),
+        sendMessage: gh<_i162.SendMessageUseCase>(),
+        deleteMessage: gh<_i680.DeleteMessageUseCase>(),
+        markConversationRead: gh<_i680.MarkConversationReadUseCase>(),
+        sendTyping: gh<_i680.SendTypingUseCase>(),
+        watchChat: gh<_i467.WatchChatUseCase>(),
+        getPresence: gh<_i583.GetPresenceUseCase>(),
+        watchPresence: gh<_i583.WatchPresenceUseCase>(),
       ),
     );
     gh.factory<_i681.ComposeBloc>(
@@ -1498,6 +1477,69 @@ extension GetItInjectableX on _i174.GetIt {
         createShortcut: gh<_i846.CreateForumShortcutUseCase>(),
         saveThread: gh<_i302.SaveForumThreadUseCase>(),
         unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i742.AuthRepository>(
+      () => _i317.AuthRepositoryImpl(gh<_i981.SupabaseAuthDataSource>()),
+    );
+    gh.lazySingleton<_i192.CheckAuthStatusUseCase>(
+      () => _i192.CheckAuthStatusUseCase(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i221.LogOut>(
+      () => _i221.LogOut(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i910.WatchExternalSignIn>(
+      () => _i910.WatchExternalSignIn(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i502.AppleSignIn>(
+      () => _i502.AppleSignIn(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i263.EmailPasswordSignIn>(
+      () => _i263.EmailPasswordSignIn(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i920.GoogleSignIn>(
+      () => _i920.GoogleSignIn(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i847.RequestPasswordReset>(
+      () => _i847.RequestPasswordReset(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i854.UpdatePassword>(
+      () => _i854.UpdatePassword(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i542.VerifyPasswordResetCode>(
+      () => _i542.VerifyPasswordResetCode(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i644.EmailPasswordSignUp>(
+      () => _i644.EmailPasswordSignUp(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i198.ResendSignUpEmail>(
+      () => _i198.ResendSignUpEmail(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i447.VerifySignUpCode>(
+      () => _i447.VerifySignUpCode(gh<_i742.AuthRepository>()),
+    );
+    gh.factory<_i57.PasswordResetBloc>(
+      () => _i57.PasswordResetBloc(
+        requestPasswordReset: gh<_i847.RequestPasswordReset>(),
+        verifyPasswordResetCode: gh<_i542.VerifyPasswordResetCode>(),
+        updatePassword: gh<_i854.UpdatePassword>(),
+      ),
+    );
+    gh.factory<_i246.SignUpBloc>(
+      () => _i246.SignUpBloc(
+        signUp: gh<_i644.EmailPasswordSignUp>(),
+        verifySignUpCode: gh<_i447.VerifySignUpCode>(),
+        resendSignUpEmail: gh<_i198.ResendSignUpEmail>(),
+      ),
+    );
+    gh.factory<_i636.AuthBloc>(
+      () => _i636.AuthBloc(
+        checkAuthStatus: gh<_i192.CheckAuthStatusUseCase>(),
+        loginUser: gh<_i263.EmailPasswordSignIn>(),
+        googleSignIn: gh<_i920.GoogleSignIn>(),
+        appleSignIn: gh<_i502.AppleSignIn>(),
+        logOut: gh<_i221.LogOut>(),
+        watchExternalSignIn: gh<_i910.WatchExternalSignIn>(),
       ),
     );
     return this;

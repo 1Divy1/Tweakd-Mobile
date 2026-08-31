@@ -55,6 +55,25 @@
                 <data android:scheme="tweakd" android:host="login-callback" />
             </intent-filter>
         </activity>
+        <!-- Defaults FCM applies to notifications the system draws itself,
+             i.e. every message that arrives while the app is backgrounded or
+             terminated. Without the channel id Android drops those onto an
+             implicitly-created channel with default importance (no heads-up,
+             no sound) that the user then has to fix by hand; without the icon
+             it falls back to the launcher icon, which is opaque and renders as
+             a white square. The channel id must match the one
+             `LocalNotifications` creates, and the one the backend sets in
+             `android.notification.channel_id`. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="tweakd_default" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/notification_accent" />
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

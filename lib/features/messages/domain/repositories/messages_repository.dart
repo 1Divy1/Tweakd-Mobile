@@ -13,6 +13,13 @@ abstract class MessagesRepository {
   /// Pass the previous page's cursor to fetch the next one.
   Future<Either<Failure, InboxEntity>> getInbox({String? cursor});
 
+  /// The other participant of [conversationId]. Lets a chat opened by id
+  /// alone — a push notification tap — render its header without the peer
+  /// having travelled with the navigation.
+  Future<Either<Failure, MessageUserEntity>> getConversationPeer(
+    String conversationId,
+  );
+
   /// One keyset page of a conversation's history, oldest-first.
   Future<Either<Failure, MessagesPageEntity>> getMessages(
     String conversationId, {

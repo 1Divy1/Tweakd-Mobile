@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/base_failures.dart';
 import '../entities/notification.dart';
+import '../entities/push_device.dart';
 
 /// Notifications data contract. Implementations map data-layer exceptions to
 /// [Failure]s and never leak SDK/HTTP exceptions.
@@ -21,4 +22,11 @@ abstract class NotificationsRepository {
 
   /// Marks every notification read; resolves with the number updated.
   Future<Either<Failure, int>> markAllRead();
+
+  /// Registers this installation for push notifications.
+  Future<Either<Failure, void>> registerDevice(PushDeviceEntity device);
+
+  /// Unregisters a push token. Call before signing out, while the JWT is
+  /// still valid.
+  Future<Either<Failure, void>> unregisterDevice(String token);
 }

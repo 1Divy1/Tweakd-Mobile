@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:tweakd/features/garage/domain/entities/reference_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/di/injection.dart';
+import '../../../../core/push/push_registration.dart';
 import '../../../../core/services/push_permission_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -103,11 +106,26 @@ class _OnboardingPageState extends State<OnboardingPage>
   Future<void> _refreshPushPermission() async {
     final status = await _pushPermissions.current();
     if (mounted) setState(() => _pushPermission = status);
+    _registerDeviceIfGranted(status);
   }
 
   Future<void> _enablePush() async {
     final status = await _pushPermissions.request();
     if (mounted) setState(() => _pushPermission = status);
+    _registerDeviceIfGranted(status);
+  }
+
+  /// Nudges the device registration the moment permission lands, so push works
+  /// for the rest of this session rather than from the next cold start.
+  ///
+  /// Usually a no-op: registration already ran at sign-in, and a token is
+  /// obtainable without permission on both platforms. It matters when that
+  /// first attempt came back empty — most often an iOS cold start where APNs
+  /// hadn't answered yet — and when the user grants permission from system
+  /// settings while this screen is backgrounded.
+  void _registerDeviceIfGranted(PushPermission status) {
+    if (status != PushPermission.granted) return;
+    unawaited(getIt<PushRegistration>().start());
   }
 
   void _openPushSettings() => _pushPermissions.openSettings();
