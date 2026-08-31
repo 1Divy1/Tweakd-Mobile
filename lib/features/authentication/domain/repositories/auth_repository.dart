@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/base_failures.dart';
+import '../entities/apple_sign_in_result.dart';
 import '../entities/sign_up_result.dart';
 import '../entities/user.dart';
 import '../usecases/login/email_password_signin.dart';
@@ -12,6 +13,11 @@ abstract class AuthRepository {
   Future<Either<Failure, UserEntity>> checkAuthStatus();
   Future<Either<Failure, UserEntity>> emailPasswordSignIn(LoginParams params);
   Future<Either<Failure, UserEntity>> googleSignIn();
+
+  /// Signs in with Apple. See [AppleSignInResultEntity] for the two shapes the
+  /// success case can take — iOS resolves a user, Android only launches the
+  /// browser and reports back that a redirect is pending.
+  Future<Either<Failure, AppleSignInResultEntity>> appleSignIn();
   Future<Either<Failure, Unit>> logOut();
 
   /// Registers a new account. See [SignUpResultEntity] for the two shapes the

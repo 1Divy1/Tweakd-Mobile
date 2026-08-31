@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/features/profile/domain/entities/profile.dart';
+import 'package:tweakd/features/profile/domain/entities/profile.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -12,6 +12,11 @@ abstract class OnboardingRepository {
   // ── Reference data ──────────────────────────────────────────────────────
   Future<Either<Failure, List<CountryEntity>>> getCountries();
   Future<Either<Failure, List<CityEntity>>> getCities(String countryId);
+
+  // ── Identity prefill ────────────────────────────────────────────────────
+  /// The display name the sign-up provider supplied, or null when it gave none.
+  /// Synchronous: a local read of the cached session, not a network call.
+  String? get providerFullName;
 
   // ── Username availability ───────────────────────────────────────────────
   /// Returns `true` when [username] is still available, `false` when it is
@@ -32,6 +37,11 @@ abstract class OnboardingRepository {
 
 /// The full set of answers collected by the wizard, submitted in one shot.
 class OnboardingSubmissionParams {
+  /// The user's display name. Required: a social provider prefills it, but
+  /// Apple supplies a name only on a first-ever sign-in and email/password
+  /// accounts never have one, so onboarding is the one place every account is
+  /// guaranteed to pass through with a chance to set it.
+  final String name;
   final String username;
   final String? bio;
   final String cityId;
@@ -40,6 +50,7 @@ class OnboardingSubmissionParams {
   final List<DreamCarEntity> dreamCars;
 
   const OnboardingSubmissionParams({
+    required this.name,
     required this.username,
     this.bio,
     required this.cityId,
@@ -51,6 +62,7 @@ class OnboardingSubmissionParams {
   /// Body for `POST /profile/onboarding` (notifications and dream cars are sent
   /// via their own endpoints).
   Map<String, dynamic> toOnboardingJson() => {
+        'name': name,
         'username': username,
         if (bio != null && bio!.isNotEmpty) 'bio': bio,
         'city_id': cityId,

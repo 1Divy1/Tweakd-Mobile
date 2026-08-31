@@ -1,17 +1,36 @@
-# car_social_media_app
+# Tweakd
 
-A new Flutter project.
+The social network for car people — built with Flutter.
 
-## Getting Started
+Tweakd is the mobile client. It talks to a Spring Boot backend (`Tweakd-Backend`)
+for app data and to Supabase for identity, realtime messaging and storage.
 
-This project is a starting point for a Flutter application.
+- **Bundle ID / applicationId:** `com.tweakdapp`
+- **Deep link scheme:** `tweakd://`
+- **Dart package:** `tweakd`
 
-A few resources to get you started if this is your first Flutter project:
+## Getting started
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+```bash
+flutter pub get
+dart run build_runner build --delete-conflicting-outputs
+flutter run
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+You'll need a `.env` at the repo root (see `CLAUDE.md` for the required keys:
+Supabase, Google OAuth, Mapbox and the backend base URL).
+
+## Commands
+
+```bash
+flutter analyze                            # static analysis
+flutter test                               # all tests
+dart run build_runner build --delete-conflicting-outputs   # DI codegen
+flutter gen-l10n                           # localizations
+```
+
+## Architecture
+
+Clean Architecture per feature (`presentation → domain → data`), `get_it` +
+`injectable` for DI, `flutter_bloc` for state, `go_router` for navigation.
+See [CLAUDE.md](CLAUDE.md) for the full guide.

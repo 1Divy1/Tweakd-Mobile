@@ -1,15 +1,25 @@
-import 'package:car_social_media_app/core/routes/app_router.dart';
-import 'package:car_social_media_app/l10n/app_localizations.dart';
-import 'package:car_social_media_app/core/di/injection.dart';
-import 'package:car_social_media_app/core/realtime/dm_realtime_service.dart';
-import 'package:car_social_media_app/core/realtime/presence_service.dart';
-import 'package:car_social_media_app/core/storage/secure_local_storage.dart';
-import 'package:car_social_media_app/core/theme/app_theme.dart';
-import 'package:car_social_media_app/features/authentication/presentation/bloc/bloc.dart';
-import 'package:car_social_media_app/features/authentication/presentation/bloc/event.dart';
-import 'package:car_social_media_app/features/messages/presentation/bloc/unread/cubit.dart';
-import 'package:car_social_media_app/features/notifications/presentation/bloc/unread/cubit.dart';
-import 'package:car_social_media_app/features/profile/presentation/bloc/locale/cubit.dart';
+import 'dart:async';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:tweakd/core/routes/app_router.dart';
+import 'package:tweakd/firebase_options.dart';
+import 'package:tweakd/l10n/app_localizations.dart';
+import 'package:tweakd/core/di/injection.dart';
+import 'package:tweakd/core/push/push_background_handler.dart';
+import 'package:tweakd/core/push/push_message_listener.dart';
+import 'package:tweakd/core/push/push_navigator.dart';
+import 'package:tweakd/core/push/push_notification_service.dart';
+import 'package:tweakd/core/push/push_registration.dart';
+import 'package:tweakd/core/realtime/dm_realtime_service.dart';
+import 'package:tweakd/core/realtime/presence_service.dart';
+import 'package:tweakd/core/storage/secure_local_storage.dart';
+import 'package:tweakd/core/theme/app_theme.dart';
+import 'package:tweakd/features/authentication/presentation/bloc/bloc.dart';
+import 'package:tweakd/features/authentication/presentation/bloc/event.dart';
+import 'package:tweakd/features/messages/presentation/bloc/unread/cubit.dart';
+import 'package:tweakd/features/notifications/presentation/bloc/unread/cubit.dart';
+import 'package:tweakd/features/profile/presentation/bloc/locale/cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,6 +61,16 @@ void main() async {
     ),
   );
 
+  // Initialize Firebase using the generated options
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // Must be registered before runApp and outside any closure — FCM looks the
+  // handler up by entry point to spin up a background isolate. See
+  // push_background_handler.dart for why it deliberately does nothing.
+  FirebaseMessaging.onBackgroundMessage(pushBackgroundHandler);
+
   // Initialize dependency injection
   configureDependencies();
 
@@ -66,27 +86,61 @@ void main() async {
     presence.connect();
   }
 
+  // Push notifications. The service only wires FCM up — it never prompts for
+  // permission (the onboarding notifications step owns the one prompt) and it
+  // never talks to our backend; PushTokenSync does that, on sign-in.
+  final push = getIt<PushNotificationService>();
+  final pushNavigator = getIt<PushNavigator>();
+  final pushTokenSync = getIt<PushRegistration>();
+
+  // The navigator can't import the router (the router imports the pages, which
+  // reach the navigator through DI), so the connection is made from here.
+  pushNavigator.attach(appRouter.push);
+  push.opened.listen(pushNavigator.handleTap);
+  unawaited(push.start());
+
+  // A tap that launched the app from terminated lands here while the splash is
+  // still resolving the session, so it is parked rather than followed —
+  // SplashPage releases it once the user is actually signed in.
+  unawaited(push.takeInitialMessage().then((message) {
+    if (message != null) pushNavigator.deferTap(message);
+  }));
+
   final auth = Supabase.instance.client.auth;
-  if (auth.currentSession != null) connectRealtime();
+  if (auth.currentSession != null) {
+    connectRealtime();
+    unawaited(pushTokenSync.start());
+  }
   auth.onAuthStateChange.listen((change) {
     switch (change.event) {
       case AuthChangeEvent.signedIn:
       case AuthChangeEvent.initialSession:
+        if (auth.currentSession != null) {
+          connectRealtime();
+          // Not on tokenRefreshed: that fires roughly hourly for the whole
+          // session and the registration hasn't changed.
+          unawaited(pushTokenSync.start());
+        }
       case AuthChangeEvent.tokenRefreshed:
         if (auth.currentSession != null) connectRealtime();
       case AuthChangeEvent.signedOut:
         dmRealtime.disconnect();
         presence.disconnect();
+        // Unregistering the device happens in the auth data source, before the
+        // session is torn down — by here the JWT is already gone. All that is
+        // left is to make sure a notification the previous user tapped can't
+        // navigate whoever signs in next.
+        pushNavigator.clearPending();
       default:
         break;
     }
   });
 
-  runApp(const CarSocialMediaApp());
+  runApp(const TweakdApp());
 }
 
-class CarSocialMediaApp extends StatelessWidget {
-  const CarSocialMediaApp({super.key});
+class TweakdApp extends StatelessWidget {
+  const TweakdApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -116,15 +170,20 @@ class CarSocialMediaApp extends StatelessWidget {
           create: (context) => getIt<LocaleCubit>()..loadPersisted(),
         ),
       ],
-      child: BlocBuilder<LocaleCubit, Locale?>(
-        builder: (context, locale) => MaterialApp.router(
-          onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.light(),
-          locale: locale,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          routerConfig: appRouter,
+      // Inside the providers on purpose: the unread cubits are factories, so
+      // this is the only place that can reach the instances the feed reads.
+      child: PushMessageListener(
+        child: BlocBuilder<LocaleCubit, Locale?>(
+          builder: (context, locale) => MaterialApp.router(
+            onGenerateTitle: (context) =>
+                AppLocalizations.of(context)!.appTitle,
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.light(),
+            locale: locale,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            routerConfig: appRouter,
+          ),
         ),
       ),
     );

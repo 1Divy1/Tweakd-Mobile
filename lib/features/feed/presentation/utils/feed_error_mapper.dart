@@ -1,5 +1,5 @@
-import 'package:car_social_media_app/core/error/base_failures.dart';
-import 'package:car_social_media_app/l10n/app_localizations.dart';
+import 'package:tweakd/core/error/base_failures.dart';
+import 'package:tweakd/l10n/app_localizations.dart';
 
 /// User-facing error situations the feed can surface. The bloc emits a code
 /// (never a string); the UI maps it to localized copy via [feedErrorMessage].

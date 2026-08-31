@@ -254,6 +254,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingErrorSelectCity => 'Select your city to continue.';
 
   @override
+  String get onboardingNameErrorEmpty => 'Please enter your name.';
+
+  @override
+  String onboardingNameErrorTooShort(int min) {
+    return 'Name must be at least $min characters.';
+  }
+
+  @override
+  String onboardingNameErrorTooLong(int max) {
+    return 'Name must be at most $max characters.';
+  }
+
+  @override
   String get onboardingUsernameErrorEmpty => 'Please choose a handle.';
 
   @override
@@ -311,6 +324,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingIdentityTitle => 'Claim your handle';
+
+  @override
+  String get onboardingFieldName => 'NAME';
+
+  @override
+  String get onboardingNameHint => 'Your name';
 
   @override
   String get onboardingFieldUsername => 'USERNAME';

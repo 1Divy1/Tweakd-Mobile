@@ -4,6 +4,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/di/injection.dart';
+import '../../../../core/push/push_navigator.dart';
 import '../bloc/bloc.dart';
 import '../bloc/state.dart';
 
@@ -53,6 +55,11 @@ class _SplashPageState extends State<SplashPage> {
           context.go('/onboarding');
         } else if (state is Authenticated) {
           context.go('/feed');
+          // A notification tapped from a terminated app parked its destination
+          // here while the session was still resolving. Releasing it now — with
+          // the feed already the stack's root — pushes the target on top of the
+          // feed, so back goes somewhere sensible instead of nowhere.
+          getIt<PushNavigator>().flushPending();
         }
       },
       child: Scaffold(

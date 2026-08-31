@@ -1,5 +1,5 @@
-import 'package:car_social_media_app/core/error/base_failures.dart';
-import 'package:car_social_media_app/core/usecases/usecase.dart';
+import 'package:tweakd/core/error/base_failures.dart';
+import 'package:tweakd/core/usecases/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
-import 'package:car_social_media_app/features/garage/domain/entities/reference_data.dart';
+import 'package:tweakd/core/shared/entities/tag_selection.dart';
+import 'package:tweakd/features/garage/domain/entities/reference_data.dart';
 
 import '../../../domain/entities/forum_topic.dart';
 import '../../utils/forum_error_mapper.dart';

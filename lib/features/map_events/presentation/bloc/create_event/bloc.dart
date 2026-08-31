@@ -1,5 +1,5 @@
-import 'package:car_social_media_app/core/services/image_service.dart';
-import 'package:car_social_media_app/core/usecases/usecase.dart';
+import 'package:tweakd/core/services/image_service.dart';
+import 'package:tweakd/core/usecases/usecase.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';

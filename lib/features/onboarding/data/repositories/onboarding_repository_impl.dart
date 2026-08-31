@@ -1,5 +1,5 @@
-import 'package:car_social_media_app/features/profile/domain/entities/profile.dart';
-import 'package:car_social_media_app/features/profile/domain/failures/profile_failures.dart';
+import 'package:tweakd/features/profile/domain/entities/profile.dart';
+import 'package:tweakd/features/profile/domain/failures/profile_failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -11,12 +11,17 @@ import '../../domain/entities/onboarding reference/city_entity.dart';
 import '../../domain/entities/onboarding reference/country_entity.dart';
 import '../../domain/repositories/onboarding_repository.dart';
 import '../datasources/onboarding_api_data_source.dart';
+import '../datasources/supabase_identity_data_source.dart';
 
 @LazySingleton(as: OnboardingRepository)
 class OnboardingRepositoryImpl implements OnboardingRepository {
   final OnboardingApiDataSource dataSource;
+  final SupabaseIdentityDataSource identityDataSource;
 
-  OnboardingRepositoryImpl(this.dataSource);
+  OnboardingRepositoryImpl(this.dataSource, this.identityDataSource);
+
+  @override
+  String? get providerFullName => identityDataSource.providerFullName;
 
   @override
   Future<Either<Failure, List<CountryEntity>>> getCountries() async {

@@ -57,3 +57,5 @@ ios/Flutter/flutter_export_environment.sh
 key.properties
 GoogleService-Info.plist
 google-services.json
+# Local-only DB policy scripts — deliberately not tracked
+supabase/

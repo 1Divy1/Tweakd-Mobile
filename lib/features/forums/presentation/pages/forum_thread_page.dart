@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'package:car_social_media_app/features/report/domain/entities/report_target.dart';
-import 'package:car_social_media_app/features/report/presentation/widgets/report_reason_sheet.dart';
+import 'package:tweakd/features/report/domain/entities/report_target.dart';
+import 'package:tweakd/features/report/presentation/widgets/report_reason_sheet.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../core/shared/widgets/app_pill_button.dart';

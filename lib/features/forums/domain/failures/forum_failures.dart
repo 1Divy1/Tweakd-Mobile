@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/core/error/base_failures.dart';
+import 'package:tweakd/core/error/base_failures.dart';
 
 /// 404 — thread / reply / shortcut doesn't exist.
 class ForumNotFoundFailure extends Failure {

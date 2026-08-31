@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/core/error/base_failures.dart';
+import 'package:tweakd/core/error/base_failures.dart';
 
 /// The event is gone, hidden, or was never visible to this viewer. As with
 /// businesses, the backend doesn't distinguish those cases.

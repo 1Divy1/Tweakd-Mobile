@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/core/error/base_failures.dart';
+import 'package:tweakd/core/error/base_failures.dart';
 
 /// The content behind a tag no longer exists (404 on untag) — e.g. the post or
 /// thread was deleted. Untagging something you simply aren't tagged in is a

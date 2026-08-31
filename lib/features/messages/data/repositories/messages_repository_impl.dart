@@ -82,6 +82,17 @@ class MessagesRepositoryImpl implements MessagesRepository {
       });
 
   @override
+  Future<Either<Failure, MessageUserEntity>> getConversationPeer(
+    String conversationId,
+  ) =>
+      _run('getConversationPeer', () async {
+        final conversation = await dataSource.getConversation(conversationId);
+        return conversation.peer.toEntity(
+          isOnline: presenceService.onlineUserIds.contains(conversation.peer.id),
+        );
+      });
+
+  @override
   Future<Either<Failure, MessagesPageEntity>> getMessages(
     String conversationId, {
     String? cursor,

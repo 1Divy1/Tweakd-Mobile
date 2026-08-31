@@ -5,8 +5,10 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/error/base_failures.dart';
 import '../../domain/entities/notification.dart';
+import '../../domain/entities/push_device.dart';
 import '../../domain/repositories/notifications_repository.dart';
 import '../datasources/notifications_api_data_source.dart';
+import '../models/push_device_model.dart';
 
 @LazySingleton(as: NotificationsRepository)
 class NotificationsRepositoryImpl implements NotificationsRepository {
@@ -77,6 +79,40 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
     } catch (e) {
       debugPrint('markAllRead (notifications) error: $e');
       return const Left(UnknownFailure('Failed to mark all read.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> registerDevice(PushDeviceEntity device) async {
+    try {
+      await dataSource.registerDevice(PushDeviceModel(device));
+      return const Right(null);
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('registerDevice error: $e');
+      return const Left(UnknownFailure('Failed to register for push.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> unregisterDevice(String token) async {
+    try {
+      await dataSource.unregisterDevice(token);
+      return const Right(null);
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('unregisterDevice error: $e');
+      return const Left(UnknownFailure('Failed to unregister from push.'));
     }
   }
 }

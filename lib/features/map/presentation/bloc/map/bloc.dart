@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/features/map_events/domain/usecases/map_event_reads.dart';
+import 'package:tweakd/features/map_events/domain/usecases/map_event_reads.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

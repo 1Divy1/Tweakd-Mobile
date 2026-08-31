@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/core/error/base_failures.dart';
+import 'package:tweakd/core/error/base_failures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 

@@ -103,16 +103,43 @@ class NotificationTile extends StatelessWidget {
         return _NotificationIconKind.comment;
       case NotificationType.postShare:
         return _NotificationIconKind.share;
+      case NotificationType.postTag:
+      case NotificationType.postCommentTag:
       case NotificationType.forumThreadTag:
       case NotificationType.forumReplyTag:
         return _NotificationIconKind.tag;
+      case NotificationType.dm:
+        return _NotificationIconKind.message;
+      case NotificationType.mapEventApproved:
+      case NotificationType.mapEventRejected:
+      case NotificationType.mapEventCarDecided:
+      case NotificationType.mapEventCarRegistered:
+      case NotificationType.mapEventOrganizerAdded:
+      case NotificationType.mapEventWithdrawalRequested:
+      case NotificationType.mapEventWithdrawalDecided:
+        return _NotificationIconKind.event;
+      case NotificationType.moderationWarning:
+      case NotificationType.contentRemoved:
+        return _NotificationIconKind.moderation;
+      case NotificationType.feedbackStatus:
+      case NotificationType.feedbackFeedStatusChanged:
+      case NotificationType.ticketReply:
       case NotificationType.unknown:
         return _NotificationIconKind.generic;
     }
   }
 }
 
-enum _NotificationIconKind { like, comment, share, tag, generic }
+enum _NotificationIconKind {
+  like,
+  comment,
+  share,
+  tag,
+  message,
+  event,
+  moderation,
+  generic,
+}
 
 /// The tinted round icon badge leading each row. Likes use the accent palette;
 /// comments/replies and shares use a neutral ink-on-surface treatment.
@@ -141,6 +168,21 @@ class _LeadingIcon extends StatelessWidget {
         ),
       _NotificationIconKind.tag => (
           Icons.local_offer_rounded,
+          AppColors.accent,
+          AppColors.accentSoft,
+        ),
+      _NotificationIconKind.message => (
+          Icons.mail_outline_rounded,
+          AppColors.ink2,
+          AppColors.line,
+        ),
+      _NotificationIconKind.event => (
+          Icons.place_rounded,
+          AppColors.ink2,
+          AppColors.line,
+        ),
+      _NotificationIconKind.moderation => (
+          Icons.gpp_maybe_rounded,
           AppColors.accent,
           AppColors.accentSoft,
         ),

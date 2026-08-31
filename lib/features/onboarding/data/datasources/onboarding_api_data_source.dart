@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/features/profile/data/models/profile_model.dart';
+import 'package:tweakd/features/profile/data/models/profile_model.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 

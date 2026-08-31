@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:car_social_media_app/features/map_events/presentation/widgets/popup/map_event_popup.dart';
+import 'package:tweakd/features/map_events/presentation/widgets/popup/map_event_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

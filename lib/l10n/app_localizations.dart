@@ -530,6 +530,24 @@ abstract class AppLocalizations {
   /// **'Select your city to continue.'**
   String get onboardingErrorSelectCity;
 
+  /// No description provided for @onboardingNameErrorEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your name.'**
+  String get onboardingNameErrorEmpty;
+
+  /// No description provided for @onboardingNameErrorTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Name must be at least {min} characters.'**
+  String onboardingNameErrorTooShort(int min);
+
+  /// No description provided for @onboardingNameErrorTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Name must be at most {max} characters.'**
+  String onboardingNameErrorTooLong(int max);
+
   /// No description provided for @onboardingUsernameErrorEmpty.
   ///
   /// In en, this message translates to:
@@ -625,6 +643,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Claim your handle'**
   String get onboardingIdentityTitle;
+
+  /// No description provided for @onboardingFieldName.
+  ///
+  /// In en, this message translates to:
+  /// **'NAME'**
+  String get onboardingFieldName;
+
+  /// No description provided for @onboardingNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your name'**
+  String get onboardingNameHint;
 
   /// No description provided for @onboardingFieldUsername.
   ///

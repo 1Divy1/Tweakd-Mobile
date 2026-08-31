@@ -1,9 +1,9 @@
-import 'package:car_social_media_app/features/map_events/data/models/map_event_json.dart';
-import 'package:car_social_media_app/features/map_events/data/models/map_event_list_models.dart';
-import 'package:car_social_media_app/features/map_events/data/models/map_event_model.dart';
-import 'package:car_social_media_app/features/map_events/data/models/map_event_pin_model.dart';
-import 'package:car_social_media_app/features/map_events/domain/entities/geocode_candidate.dart';
-import 'package:car_social_media_app/features/map_events/domain/entities/map_event_enums.dart';
+import 'package:tweakd/features/map_events/data/models/map_event_json.dart';
+import 'package:tweakd/features/map_events/data/models/map_event_list_models.dart';
+import 'package:tweakd/features/map_events/data/models/map_event_model.dart';
+import 'package:tweakd/features/map_events/data/models/map_event_pin_model.dart';
+import 'package:tweakd/features/map_events/domain/entities/geocode_candidate.dart';
+import 'package:tweakd/features/map_events/domain/entities/map_event_enums.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// The wire is snake_case and half these fields are nullable, so the mapping is

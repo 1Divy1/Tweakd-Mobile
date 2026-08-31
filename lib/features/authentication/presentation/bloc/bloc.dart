@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:car_social_media_app/features/authentication/domain/usecases/auth/check_auth_status.dart';
-import 'package:car_social_media_app/features/authentication/presentation/bloc/event.dart';
-import 'package:car_social_media_app/features/authentication/presentation/bloc/state.dart';
+import 'package:tweakd/features/authentication/domain/usecases/auth/check_auth_status.dart';
+import 'package:tweakd/features/authentication/presentation/bloc/event.dart';
+import 'package:tweakd/features/authentication/presentation/bloc/state.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -11,6 +11,7 @@ import '../../../../core/usecases/usecase.dart';
 import '../../domain/usecases/auth/log_out.dart';
 import '../../domain/usecases/auth/watch_external_sign_in.dart';
 import '../../domain/usecases/login/email_password_signin.dart';
+import '../../domain/usecases/login/apple_signin.dart';
 import '../../domain/usecases/login/google_signin.dart';
 import '../utils/auth_error_mapper.dart';
 
@@ -19,6 +20,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final CheckAuthStatusUseCase checkAuthStatus;
   final EmailPasswordSignIn loginUser;
   final GoogleSignIn googleSignIn;
+  final AppleSignIn appleSignIn;
   final LogOut logOut;
   final WatchExternalSignIn watchExternalSignIn;
 
@@ -28,12 +30,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.checkAuthStatus,
     required this.loginUser,
     required this.googleSignIn,
+    required this.appleSignIn,
     required this.logOut,
     required this.watchExternalSignIn,
   }) : super(AuthInitial()) {
     on<CheckAuthStatus>(_onCheckAuthStatus);
     on<EmailPasswordLoginSubmitted>(_onLoginSubmitted);
     on<GoogleLoginRequested>(_onGoogleLoginRequested);
+    on<AppleLoginRequested>(_onAppleLoginRequested);
     on<LogoutRequested>(_onLogoutRequested);
 
     // The sign-up confirmation link reopens the app and Supabase establishes
@@ -130,6 +134,48 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     result.fold(
       (failure) => emit(AuthError(AuthErrorMapper.getCode(failure))),
       (user) {
+        if (user.requiresOnboarding) {
+          emit(AuthenticatedRequiresOnboarding(user));
+        } else {
+          emit(Authenticated(user));
+        }
+      },
+    );
+  }
+
+  FutureOr<void> _onAppleLoginRequested(
+    AppleLoginRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthLoading());
+    debugPrint("Event received: AppleLoginRequested");
+
+    final result = await appleSignIn(NoParams());
+
+    result.fold(
+      (failure) => emit(AuthError(AuthErrorMapper.getCode(failure))),
+      (outcome) {
+        // Android: the browser is open and this bloc's part is done. The session
+        // arrives later through the deep link, which the external sign-in
+        // listener in the constructor turns into a CheckAuthStatus.
+        //
+        // Dropping back to Unauthenticated is load-bearing, not cosmetic: that
+        // listener ignores events while the state is AuthLoading, so staying in
+        // it would strand the user on a spinner even after a *successful*
+        // sign-in. It also means abandoning the browser needs no recovery path —
+        // a browser has no "user gave up" callback, and this way the login page
+        // is simply left exactly as the user left it.
+        if (outcome.awaitingRedirect) {
+          emit(Unauthenticated());
+          return;
+        }
+
+        // iOS: resolved in-process, so a user is always present here.
+        final user = outcome.user;
+        if (user == null) {
+          emit(const AuthError(AuthErrorCode.generic));
+          return;
+        }
         if (user.requiresOnboarding) {
           emit(AuthenticatedRequiresOnboarding(user));
         } else {

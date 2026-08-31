@@ -1,5 +1,5 @@
-import 'package:car_social_media_app/features/authentication/data/datasources/supabase_auth_data_source.dart';
-import 'package:car_social_media_app/features/authentication/domain/repositories/auth_repository.dart';
+import 'package:tweakd/features/authentication/data/datasources/supabase_auth_data_source.dart';
+import 'package:tweakd/features/authentication/domain/repositories/auth_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
@@ -8,6 +8,7 @@ import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/error/base_failures.dart';
 import '../exceptions/auth_exceptions.dart';
 import '../../domain/failures/auth_failures.dart';
+import '../../domain/entities/apple_sign_in_result.dart';
 import '../../domain/entities/sign_up_result.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/usecases/login/email_password_signin.dart';
@@ -87,6 +88,10 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, UserEntity>> googleSignIn() =>
       _attempt(() async => (await supabaseDataSource.googleSignIn()).toEntity());
+
+  @override
+  Future<Either<Failure, AppleSignInResultEntity>> appleSignIn() =>
+      _attempt(() async => (await supabaseDataSource.appleSignIn()).toEntity());
 
   @override
   Future<Either<Failure, Unit>> logOut() => _attempt(() async {

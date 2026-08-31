@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-import 'package:car_social_media_app/core/theme/app_colors.dart';
+import 'package:tweakd/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 /// Paints the teardrop pin the user drops onto the map when picking an event

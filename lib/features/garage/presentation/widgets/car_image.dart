@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:car_social_media_app/features/posts/presentation/widgets/post_detail/pinch_zoom.dart';
+import 'package:tweakd/features/posts/presentation/widgets/post_detail/pinch_zoom.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 

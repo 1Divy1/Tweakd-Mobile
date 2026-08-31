@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import 'package:car_social_media_app/features/garage/domain/usecases/get_reference_data.dart';
+import 'package:tweakd/features/garage/domain/usecases/get_reference_data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/usecases/usecase.dart';
 import '../../domain/usecases/get_cities.dart';
 import '../../domain/usecases/get_countries.dart';
+import '../../domain/usecases/get_provider_full_name.dart';
 import '../../domain/usecases/submit_onboarding.dart';
 import '../utils/onboarding_error_mapper.dart';
 import 'event.dart';
@@ -19,6 +20,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
   final GetBrandsUseCase getBrands;
   final GetModelsByBrandUseCase getModelsByBrand;
   final SubmitOnboardingUseCase submitOnboarding;
+  final GetProviderFullName getProviderFullName;
 
   OnboardingBloc({
     required this.getCountries,
@@ -26,6 +28,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     required this.getBrands,
     required this.getModelsByBrand,
     required this.submitOnboarding,
+    required this.getProviderFullName,
   }) : super(const OnboardingInitial()) {
     on<LoadOnboardingReferenceData>(_onLoadRefData);
     on<LoadCitiesForCountry>(_onLoadCities);
@@ -51,6 +54,9 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
       OnboardingRefLoaded(
         countries: countriesResult.getOrElse(() => []),
         brands: brandsResult.getOrElse(() => []),
+        // Synchronous local read of the session, so it costs nothing to
+        // resolve here and it rides along with the data the form waits on.
+        suggestedFullName: getProviderFullName(),
       ),
     );
   }

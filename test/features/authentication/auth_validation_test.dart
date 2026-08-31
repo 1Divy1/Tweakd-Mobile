@@ -1,8 +1,8 @@
-import 'package:car_social_media_app/core/error/base_failures.dart';
-import 'package:car_social_media_app/features/authentication/domain/failures/auth_failures.dart';
-import 'package:car_social_media_app/features/authentication/presentation/utils/auth_error_mapper.dart';
-import 'package:car_social_media_app/features/authentication/presentation/utils/email_validator.dart';
-import 'package:car_social_media_app/features/authentication/presentation/utils/password_policy.dart';
+import 'package:tweakd/core/error/base_failures.dart';
+import 'package:tweakd/features/authentication/domain/failures/auth_failures.dart';
+import 'package:tweakd/features/authentication/presentation/utils/auth_error_mapper.dart';
+import 'package:tweakd/features/authentication/presentation/utils/email_validator.dart';
+import 'package:tweakd/features/authentication/presentation/utils/password_policy.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// The risk in this feature is a client check that disagrees with the server:

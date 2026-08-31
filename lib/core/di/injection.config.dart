@@ -26,6 +26,8 @@ import '../../features/authentication/domain/usecases/auth/log_out.dart'
     as _i221;
 import '../../features/authentication/domain/usecases/auth/watch_external_sign_in.dart'
     as _i910;
+import '../../features/authentication/domain/usecases/login/apple_signin.dart'
+    as _i502;
 import '../../features/authentication/domain/usecases/login/email_password_signin.dart'
     as _i263;
 import '../../features/authentication/domain/usecases/login/google_signin.dart'
@@ -217,6 +219,8 @@ import '../../features/messages/data/repositories/messages_repository_impl.dart'
 import '../../features/messages/domain/repositories/messages_repository.dart'
     as _i794;
 import '../../features/messages/domain/usecases/compose.dart' as _i231;
+import '../../features/messages/domain/usecases/get_conversation_peer.dart'
+    as _i551;
 import '../../features/messages/domain/usecases/get_inbox.dart' as _i134;
 import '../../features/messages/domain/usecases/get_messages.dart' as _i15;
 import '../../features/messages/domain/usecases/get_unread_count.dart' as _i915;
@@ -245,12 +249,20 @@ import '../../features/notifications/domain/usecases/mark_all_notifications_read
     as _i852;
 import '../../features/notifications/domain/usecases/mark_notification_read.dart'
     as _i29;
+import '../../features/notifications/domain/usecases/register_device.dart'
+    as _i369;
+import '../../features/notifications/domain/usecases/unregister_device.dart'
+    as _i769;
 import '../../features/notifications/presentation/bloc/notifications/bloc.dart'
     as _i887;
 import '../../features/notifications/presentation/bloc/unread/cubit.dart'
     as _i816;
+import '../../features/notifications/presentation/services/push_token_sync.dart'
+    as _i295;
 import '../../features/onboarding/data/datasources/onboarding_api_data_source.dart'
     as _i1049;
+import '../../features/onboarding/data/datasources/supabase_identity_data_source.dart'
+    as _i532;
 import '../../features/onboarding/data/repositories/onboarding_repository_impl.dart'
     as _i452;
 import '../../features/onboarding/domain/repositories/onboarding_repository.dart'
@@ -259,6 +271,8 @@ import '../../features/onboarding/domain/usecases/check_username_availability.da
     as _i842;
 import '../../features/onboarding/domain/usecases/get_cities.dart' as _i343;
 import '../../features/onboarding/domain/usecases/get_countries.dart' as _i290;
+import '../../features/onboarding/domain/usecases/get_provider_full_name.dart'
+    as _i847;
 import '../../features/onboarding/domain/usecases/submit_onboarding.dart'
     as _i1016;
 import '../../features/onboarding/presentation/bloc/bloc.dart' as _i797;
@@ -357,6 +371,11 @@ import '../../features/tags/domain/usecases/remove_tag.dart' as _i369;
 import '../../features/tags/presentation/bloc/tags/bloc.dart' as _i853;
 import '../network/abstract_http.dart' as _i311;
 import '../network/dio_http_client.dart' as _i554;
+import '../push/firebase_push_notification_service.dart' as _i479;
+import '../push/local_notifications.dart' as _i494;
+import '../push/push_navigator.dart' as _i270;
+import '../push/push_notification_service.dart' as _i992;
+import '../push/push_registration.dart' as _i892;
 import '../realtime/dm_realtime_service.dart' as _i511;
 import '../realtime/presence_service.dart' as _i784;
 import '../realtime/supabase_dm_realtime_service.dart' as _i543;
@@ -379,6 +398,10 @@ extension GetItInjectableX on _i174.GetIt {
     final supabaseModule = _$SupabaseModule();
     final dioModule = _$DioModule();
     gh.lazySingleton<_i454.SupabaseClient>(() => supabaseModule.supabaseClient);
+    gh.lazySingleton<_i494.LocalNotifications>(
+      () => _i494.LocalNotifications(),
+    );
+    gh.lazySingleton<_i270.PushNavigator>(() => _i270.PushNavigator());
     gh.lazySingleton<_i768.ImageService>(() => _i768.ImageService());
     gh.lazySingleton<_i907.NavigationLauncherService>(
       () => _i907.NavigationLauncherService(),
@@ -392,17 +415,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i178.DeviceLocationDataSource>(
       () => _i178.DeviceLocationDataSource(),
     );
-    gh.lazySingleton<_i511.DmRealtimeService>(
-      () => _i543.SupabaseDmRealtimeService(gh<_i454.SupabaseClient>()),
-    );
     gh.lazySingleton<_i784.PresenceService>(
       () => _i1029.SupabasePresenceService(gh<_i454.SupabaseClient>()),
     );
+    gh.factory<_i516.LocaleCubit>(
+      () => _i516.LocaleCubit(gh<_i1069.LocaleLocalStorage>()),
+    );
+    gh.lazySingleton<_i511.DmRealtimeService>(
+      () => _i543.SupabaseDmRealtimeService(gh<_i454.SupabaseClient>()),
+    );
     gh.lazySingleton<_i361.Dio>(
       () => dioModule.dio(gh<_i454.SupabaseClient>()),
-    );
-    gh.lazySingleton<_i981.SupabaseAuthDataSource>(
-      () => _i981.SupabaseAuthDataSource(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i526.StorageApiDataSource>(
       () => _i526.StorageApiDataSource(gh<_i454.SupabaseClient>()),
@@ -410,20 +433,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i709.MapEventStorageDataSource>(
       () => _i709.MapEventStorageDataSource(gh<_i454.SupabaseClient>()),
     );
+    gh.lazySingleton<_i532.SupabaseIdentityDataSource>(
+      () => _i532.SupabaseIdentityDataSource(gh<_i454.SupabaseClient>()),
+    );
     gh.lazySingleton<_i747.PostsStorageApiDataSource>(
       () => _i747.PostsStorageApiDataSource(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i347.AvatarStorageApiDataSource>(
       () => _i347.AvatarStorageApiDataSource(gh<_i454.SupabaseClient>()),
     );
-    gh.factory<_i516.LocaleCubit>(
-      () => _i516.LocaleCubit(gh<_i1069.LocaleLocalStorage>()),
-    );
     gh.lazySingleton<_i311.AbstractHTTP>(
       () => _i554.DioHttpClient(gh<_i361.Dio>()),
-    );
-    gh.lazySingleton<_i742.AuthRepository>(
-      () => _i317.AuthRepositoryImpl(gh<_i981.SupabaseAuthDataSource>()),
     );
     gh.lazySingleton<_i637.MessagesDataSource>(
       () => _i637.MessagesApiDataSource(
@@ -476,8 +496,134 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i830.NotificationsDataSource>(
       () => _i830.NotificationsApiDataSource(gh<_i311.AbstractHTTP>()),
     );
+    gh.lazySingleton<_i23.ReportRepository>(
+      () => _i420.ReportRepositoryImpl(gh<_i398.ReportApiDataSource>()),
+    );
+    gh.lazySingleton<_i563.NotificationsRepository>(
+      () => _i201.NotificationsRepositoryImpl(
+        gh<_i830.NotificationsDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i992.PushNotificationService>(
+      () =>
+          _i479.FirebasePushNotificationService(gh<_i494.LocalNotifications>()),
+    );
+    gh.lazySingleton<_i973.MapRepository>(
+      () => _i457.MapRepositoryImpl(
+        gh<_i979.BusinessApiDataSource>(),
+        gh<_i178.DeviceLocationDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i245.PostsRepository>(
+      () => _i675.PostsRepositoryImpl(
+        gh<_i710.PostsApiDataSource>(),
+        gh<_i747.PostsStorageApiDataSource>(),
+        gh<_i768.ImageService>(),
+      ),
+    );
+    gh.lazySingleton<_i430.OnboardingRepository>(
+      () => _i452.OnboardingRepositoryImpl(
+        gh<_i1049.OnboardingApiDataSource>(),
+        gh<_i532.SupabaseIdentityDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i541.AddCommentUseCase>(
+      () => _i541.AddCommentUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i326.DeleteCommentUseCase>(
+      () => _i326.DeleteCommentUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i326.LikeCommentUseCase>(
+      () => _i326.LikeCommentUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i326.UnlikeCommentUseCase>(
+      () => _i326.UnlikeCommentUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i573.CreatePostUseCase>(
+      () => _i573.CreatePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i640.DeletePostUseCase>(
+      () => _i640.DeletePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i567.GetCommentRepliesUseCase>(
+      () => _i567.GetCommentRepliesUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i760.GetImageUploadUrlsUseCase>(
+      () => _i760.GetImageUploadUrlsUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i851.GetMyPostsUseCase>(
+      () => _i851.GetMyPostsUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i601.GetPostUseCase>(
+      () => _i601.GetPostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i235.GetPostCommentsUseCase>(
+      () => _i235.GetPostCommentsUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i528.GetPostLikersUseCase>(
+      () => _i528.GetPostLikersUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i677.GetPostsByUsernameUseCase>(
+      () => _i677.GetPostsByUsernameUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i742.GetSavedPostsUseCase>(
+      () => _i742.GetSavedPostsUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i111.LikePostUseCase>(
+      () => _i111.LikePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i111.UnlikePostUseCase>(
+      () => _i111.UnlikePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i584.SavePostUseCase>(
+      () => _i584.SavePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i584.UnsavePostUseCase>(
+      () => _i584.UnsavePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i913.SaveImageKeysUseCase>(
+      () => _i913.SaveImageKeysUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i1023.SharePostUseCase>(
+      () => _i1023.SharePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i310.UpdatePostUseCase>(
+      () => _i310.UpdatePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i708.UploadPostImageUseCase>(
+      () => _i708.UploadPostImageUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.factory<_i969.CreatePostBloc>(
+      () => _i969.CreatePostBloc(
+        createPost: gh<_i573.CreatePostUseCase>(),
+        getImageUploadUrls: gh<_i760.GetImageUploadUrlsUseCase>(),
+        uploadImage: gh<_i708.UploadPostImageUseCase>(),
+        saveImageKeys: gh<_i913.SaveImageKeysUseCase>(),
+        deletePost: gh<_i640.DeletePostUseCase>(),
+        imageService: gh<_i768.ImageService>(),
+      ),
+    );
+    gh.lazySingleton<_i107.GetBusinessDetailUseCase>(
+      () => _i107.GetBusinessDetailUseCase(gh<_i973.MapRepository>()),
+    );
+    gh.lazySingleton<_i958.GetCurrentPositionUseCase>(
+      () => _i958.GetCurrentPositionUseCase(gh<_i973.MapRepository>()),
+    );
+    gh.lazySingleton<_i642.GetNearbyBusinessesUseCase>(
+      () => _i642.GetNearbyBusinessesUseCase(gh<_i973.MapRepository>()),
+    );
+    gh.lazySingleton<_i430.FeedRepository>(
+      () => _i452.FeedRepositoryImpl(gh<_i194.FeedApiDataSource>()),
+    );
     gh.lazySingleton<_i619.FeedbackRepository>(
       () => _i961.FeedbackRepositoryImpl(gh<_i239.FeedbackApiDataSource>()),
+    );
+    gh.lazySingleton<_i511.GarageRepository>(
+      () => _i107.GarageRepositoryImpl(
+        gh<_i879.GarageApiDataSource>(),
+        gh<_i526.StorageApiDataSource>(),
+        gh<_i768.ImageService>(),
+      ),
     );
     gh.lazySingleton<_i894.ProfileRepository>(
       () => _i334.ProfileRepositoryImpl(
@@ -486,12 +632,47 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i768.ImageService>(),
       ),
     );
-    gh.lazySingleton<_i511.GarageRepository>(
-      () => _i107.GarageRepositoryImpl(
-        gh<_i879.GarageApiDataSource>(),
-        gh<_i526.StorageApiDataSource>(),
-        gh<_i768.ImageService>(),
+    gh.lazySingleton<_i1070.TagsRepository>(
+      () => _i160.TagsRepositoryImpl(gh<_i446.TagsApiDataSource>()),
+    );
+    gh.lazySingleton<_i163.GetNotificationsUseCase>(
+      () => _i163.GetNotificationsUseCase(gh<_i563.NotificationsRepository>()),
+    );
+    gh.lazySingleton<_i43.GetUnreadNotificationsCountUseCase>(
+      () => _i43.GetUnreadNotificationsCountUseCase(
+        gh<_i563.NotificationsRepository>(),
       ),
+    );
+    gh.lazySingleton<_i852.MarkAllNotificationsReadUseCase>(
+      () => _i852.MarkAllNotificationsReadUseCase(
+        gh<_i563.NotificationsRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i29.MarkNotificationReadUseCase>(
+      () =>
+          _i29.MarkNotificationReadUseCase(gh<_i563.NotificationsRepository>()),
+    );
+    gh.lazySingleton<_i369.RegisterDeviceUseCase>(
+      () => _i369.RegisterDeviceUseCase(gh<_i563.NotificationsRepository>()),
+    );
+    gh.lazySingleton<_i769.UnregisterDeviceUseCase>(
+      () => _i769.UnregisterDeviceUseCase(gh<_i563.NotificationsRepository>()),
+    );
+    gh.factory<_i486.PostDetailBloc>(
+      () => _i486.PostDetailBloc(
+        getPost: gh<_i601.GetPostUseCase>(),
+        likePost: gh<_i111.LikePostUseCase>(),
+        unlikePost: gh<_i111.UnlikePostUseCase>(),
+        savePost: gh<_i584.SavePostUseCase>(),
+        unsavePost: gh<_i584.UnsavePostUseCase>(),
+        deletePost: gh<_i640.DeletePostUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i760.FollowRepository>(
+      () => _i299.FollowRepositoryImpl(gh<_i587.FollowApiDataSource>()),
+    );
+    gh.lazySingleton<_i199.GetGlobalFeedUseCase>(
+      () => _i199.GetGlobalFeedUseCase(gh<_i430.FeedRepository>()),
     );
     gh.lazySingleton<_i717.ChangeProfileAvatarUseCase>(
       () => _i717.ChangeProfileAvatarUseCase(gh<_i894.ProfileRepository>()),
@@ -514,421 +695,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i78.UpdateProfileUseCase>(
       () => _i78.UpdateProfileUseCase(gh<_i894.ProfileRepository>()),
     );
-    gh.lazySingleton<_i192.CheckAuthStatusUseCase>(
-      () => _i192.CheckAuthStatusUseCase(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i221.LogOut>(
-      () => _i221.LogOut(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i910.WatchExternalSignIn>(
-      () => _i910.WatchExternalSignIn(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i263.EmailPasswordSignIn>(
-      () => _i263.EmailPasswordSignIn(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i920.GoogleSignIn>(
-      () => _i920.GoogleSignIn(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i847.RequestPasswordReset>(
-      () => _i847.RequestPasswordReset(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i854.UpdatePassword>(
-      () => _i854.UpdatePassword(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i542.VerifyPasswordResetCode>(
-      () => _i542.VerifyPasswordResetCode(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i644.EmailPasswordSignUp>(
-      () => _i644.EmailPasswordSignUp(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i198.ResendSignUpEmail>(
-      () => _i198.ResendSignUpEmail(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i447.VerifySignUpCode>(
-      () => _i447.VerifySignUpCode(gh<_i742.AuthRepository>()),
-    );
-    gh.lazySingleton<_i563.NotificationsRepository>(
-      () => _i201.NotificationsRepositoryImpl(
-        gh<_i830.NotificationsDataSource>(),
-      ),
-    );
-    gh.lazySingleton<_i760.FollowRepository>(
-      () => _i299.FollowRepositoryImpl(gh<_i587.FollowApiDataSource>()),
-    );
-    gh.lazySingleton<_i10.ForumsRepository>(
-      () => _i737.ForumsRepositoryImpl(gh<_i789.ForumsApiDataSource>()),
-    );
-    gh.factory<_i180.ProfileBloc>(
-      () => _i180.ProfileBloc(
-        getCurrentUserProfile: gh<_i424.GetCurrentUserProfileUseCase>(),
-        getProfileByUsername: gh<_i320.GetProfileByUsernameUseCase>(),
-        submitOnboarding: gh<_i1055.SubmitOnboardingUseCase>(),
-      ),
-    );
-    gh.lazySingleton<_i794.MessagesRepository>(
-      () => _i20.MessagesRepositoryImpl(
-        gh<_i637.MessagesDataSource>(),
-        gh<_i511.DmRealtimeService>(),
-        gh<_i784.PresenceService>(),
-        gh<_i454.SupabaseClient>(),
-      ),
-    );
-    gh.lazySingleton<_i163.GetNotificationsUseCase>(
-      () => _i163.GetNotificationsUseCase(gh<_i563.NotificationsRepository>()),
-    );
-    gh.lazySingleton<_i43.GetUnreadNotificationsCountUseCase>(
-      () => _i43.GetUnreadNotificationsCountUseCase(
-        gh<_i563.NotificationsRepository>(),
-      ),
-    );
-    gh.lazySingleton<_i852.MarkAllNotificationsReadUseCase>(
-      () => _i852.MarkAllNotificationsReadUseCase(
-        gh<_i563.NotificationsRepository>(),
-      ),
-    );
-    gh.lazySingleton<_i29.MarkNotificationReadUseCase>(
-      () =>
-          _i29.MarkNotificationReadUseCase(gh<_i563.NotificationsRepository>()),
-    );
     gh.lazySingleton<_i365.MapEventsRepository>(
       () => _i545.MapEventsRepositoryImpl(
         gh<_i394.MapEventsApiDataSource>(),
         gh<_i709.MapEventStorageDataSource>(),
       ),
     );
-    gh.lazySingleton<_i807.FeedbackFeedRepository>(
-      () => _i923.FeedbackFeedRepositoryImpl(
-        gh<_i11.FeedbackFeedApiDataSource>(),
-      ),
+    gh.factory<_i690.SharePostBloc>(
+      () => _i690.SharePostBloc(gh<_i1023.SharePostUseCase>()),
     );
-    gh.lazySingleton<_i973.MapRepository>(
-      () => _i457.MapRepositoryImpl(
-        gh<_i979.BusinessApiDataSource>(),
-        gh<_i178.DeviceLocationDataSource>(),
-      ),
-    );
-    gh.factory<_i246.SignUpBloc>(
-      () => _i246.SignUpBloc(
-        signUp: gh<_i644.EmailPasswordSignUp>(),
-        verifySignUpCode: gh<_i447.VerifySignUpCode>(),
-        resendSignUpEmail: gh<_i198.ResendSignUpEmail>(),
-      ),
+    gh.lazySingleton<_i10.ForumsRepository>(
+      () => _i737.ForumsRepositoryImpl(gh<_i789.ForumsApiDataSource>()),
     );
     gh.lazySingleton<_i357.SearchRepository>(
       () => _i1017.SearchRepositoryImpl(gh<_i592.SearchApiDataSource>()),
-    );
-    gh.lazySingleton<_i23.ReportRepository>(
-      () => _i420.ReportRepositoryImpl(gh<_i398.ReportApiDataSource>()),
-    );
-    gh.lazySingleton<_i430.FeedRepository>(
-      () => _i452.FeedRepositoryImpl(gh<_i194.FeedApiDataSource>()),
-    );
-    gh.lazySingleton<_i256.AcceptFollowRequestUseCase>(
-      () => _i256.AcceptFollowRequestUseCase(gh<_i760.FollowRepository>()),
-    );
-    gh.lazySingleton<_i757.FollowUserUseCase>(
-      () => _i757.FollowUserUseCase(gh<_i760.FollowRepository>()),
-    );
-    gh.lazySingleton<_i28.GetFollowStatusUseCase>(
-      () => _i28.GetFollowStatusUseCase(gh<_i760.FollowRepository>()),
-    );
-    gh.lazySingleton<_i1027.GetFollowersUseCase>(
-      () => _i1027.GetFollowersUseCase(gh<_i760.FollowRepository>()),
-    );
-    gh.lazySingleton<_i495.GetFollowingUseCase>(
-      () => _i495.GetFollowingUseCase(gh<_i760.FollowRepository>()),
-    );
-    gh.lazySingleton<_i422.GetPendingRequestsUseCase>(
-      () => _i422.GetPendingRequestsUseCase(gh<_i760.FollowRepository>()),
-    );
-    gh.lazySingleton<_i669.RejectFollowRequestUseCase>(
-      () => _i669.RejectFollowRequestUseCase(gh<_i760.FollowRepository>()),
-    );
-    gh.lazySingleton<_i164.RemoveFollowerUseCase>(
-      () => _i164.RemoveFollowerUseCase(gh<_i760.FollowRepository>()),
-    );
-    gh.lazySingleton<_i31.UnfollowUserUseCase>(
-      () => _i31.UnfollowUserUseCase(gh<_i760.FollowRepository>()),
-    );
-    gh.lazySingleton<_i75.GetMyReportsUseCase>(
-      () => _i75.GetMyReportsUseCase(gh<_i23.ReportRepository>()),
-    );
-    gh.lazySingleton<_i935.GetReportReasonsUseCase>(
-      () => _i935.GetReportReasonsUseCase(gh<_i23.ReportRepository>()),
-    );
-    gh.lazySingleton<_i535.SubmitReportUseCase>(
-      () => _i535.SubmitReportUseCase(gh<_i23.ReportRepository>()),
-    );
-    gh.factory<_i959.LanguagePickerBloc>(
-      () => _i959.LanguagePickerBloc(
-        getLanguageOptions: gh<_i437.GetLanguageOptionsUseCase>(),
-        setAppLanguage: gh<_i856.SetAppLanguageUseCase>(),
-      ),
-    );
-    gh.lazySingleton<_i430.OnboardingRepository>(
-      () =>
-          _i452.OnboardingRepositoryImpl(gh<_i1049.OnboardingApiDataSource>()),
-    );
-    gh.lazySingleton<_i1070.TagsRepository>(
-      () => _i160.TagsRepositoryImpl(gh<_i446.TagsApiDataSource>()),
-    );
-    gh.lazySingleton<_i842.CheckUsernameAvailabilityUseCase>(
-      () => _i842.CheckUsernameAvailabilityUseCase(
-        gh<_i430.OnboardingRepository>(),
-      ),
-    );
-    gh.lazySingleton<_i343.GetCitiesUseCase>(
-      () => _i343.GetCitiesUseCase(gh<_i430.OnboardingRepository>()),
-    );
-    gh.lazySingleton<_i290.GetCountriesUseCase>(
-      () => _i290.GetCountriesUseCase(gh<_i430.OnboardingRepository>()),
-    );
-    gh.lazySingleton<_i1016.SubmitOnboardingUseCase>(
-      () => _i1016.SubmitOnboardingUseCase(gh<_i430.OnboardingRepository>()),
-    );
-    gh.lazySingleton<_i107.GetBusinessDetailUseCase>(
-      () => _i107.GetBusinessDetailUseCase(gh<_i973.MapRepository>()),
-    );
-    gh.lazySingleton<_i958.GetCurrentPositionUseCase>(
-      () => _i958.GetCurrentPositionUseCase(gh<_i973.MapRepository>()),
-    );
-    gh.lazySingleton<_i642.GetNearbyBusinessesUseCase>(
-      () => _i642.GetNearbyBusinessesUseCase(gh<_i973.MapRepository>()),
-    );
-    gh.lazySingleton<_i292.AddCarUseCase>(
-      () => _i292.AddCarUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i352.AddModificationUseCase>(
-      () => _i352.AddModificationUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i287.DeleteCarUseCase>(
-      () => _i287.DeleteCarUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i282.DeleteCoverImageUseCase>(
-      () => _i282.DeleteCoverImageUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i631.DeleteGalleryImagesUseCase>(
-      () => _i631.DeleteGalleryImagesUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i621.DeleteModificationUseCase>(
-      () => _i621.DeleteModificationUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i409.GetCarUseCase>(
-      () => _i409.GetCarUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i932.GetCoverUploadUrlUseCase>(
-      () => _i932.GetCoverUploadUrlUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i205.GetGalleryUploadUrlUseCase>(
-      () => _i205.GetGalleryUploadUrlUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i543.GetGarageByUsernameUseCase>(
-      () => _i543.GetGarageByUsernameUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i2.GetModificationUploadUrlsUseCase>(
-      () => _i2.GetModificationUploadUrlsUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i391.GetMyGarageUseCase>(
-      () => _i391.GetMyGarageUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i408.GetBrandsUseCase>(
-      () => _i408.GetBrandsUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i408.GetModelsByBrandUseCase>(
-      () => _i408.GetModelsByBrandUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i408.GetDrivetrainsUseCase>(
-      () => _i408.GetDrivetrainsUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i408.GetColorsUseCase>(
-      () => _i408.GetColorsUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i408.GetDistanceUnitsUseCase>(
-      () => _i408.GetDistanceUnitsUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i408.GetStatusOptionsUseCase>(
-      () => _i408.GetStatusOptionsUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i408.GetModCategoriesUseCase>(
-      () => _i408.GetModCategoriesUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i408.GetFuelTypeOptionsUseCase>(
-      () => _i408.GetFuelTypeOptionsUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i49.PatchModificationUseCase>(
-      () => _i49.PatchModificationUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i401.SaveCoverKeyUseCase>(
-      () => _i401.SaveCoverKeyUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i472.SaveGalleryKeysUseCase>(
-      () => _i472.SaveGalleryKeysUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i219.UpdateCarUseCase>(
-      () => _i219.UpdateCarUseCase(gh<_i511.GarageRepository>()),
-    );
-    gh.lazySingleton<_i245.PostsRepository>(
-      () => _i675.PostsRepositoryImpl(
-        gh<_i710.PostsApiDataSource>(),
-        gh<_i747.PostsStorageApiDataSource>(),
-        gh<_i768.ImageService>(),
-      ),
-    );
-    gh.factory<_i121.GarageBloc>(
-      () => _i121.GarageBloc(
-        getMyGarage: gh<_i391.GetMyGarageUseCase>(),
-        getGarageByUsername: gh<_i543.GetGarageByUsernameUseCase>(),
-        deleteCarUseCase: gh<_i287.DeleteCarUseCase>(),
-      ),
-    );
-    gh.lazySingleton<_i160.GetFeedbackBoardUseCase>(
-      () => _i160.GetFeedbackBoardUseCase(gh<_i807.FeedbackFeedRepository>()),
-    );
-    gh.lazySingleton<_i160.GetCompletedFeedbackUseCase>(
-      () =>
-          _i160.GetCompletedFeedbackUseCase(gh<_i807.FeedbackFeedRepository>()),
-    );
-    gh.lazySingleton<_i560.GetFeedbackTypesUseCase>(
-      () => _i560.GetFeedbackTypesUseCase(gh<_i807.FeedbackFeedRepository>()),
-    );
-    gh.lazySingleton<_i560.GetFeedbackStatusesUseCase>(
-      () =>
-          _i560.GetFeedbackStatusesUseCase(gh<_i807.FeedbackFeedRepository>()),
-    );
-    gh.lazySingleton<_i468.CreateFeedbackMessageUseCase>(
-      () => _i468.CreateFeedbackMessageUseCase(
-        gh<_i807.FeedbackFeedRepository>(),
-      ),
-    );
-    gh.lazySingleton<_i468.DeleteFeedbackMessageUseCase>(
-      () => _i468.DeleteFeedbackMessageUseCase(
-        gh<_i807.FeedbackFeedRepository>(),
-      ),
-    );
-    gh.lazySingleton<_i468.GetFeedbackMessageUseCase>(
-      () => _i468.GetFeedbackMessageUseCase(gh<_i807.FeedbackFeedRepository>()),
-    );
-    gh.lazySingleton<_i67.VoteFeedbackMessageUseCase>(
-      () => _i67.VoteFeedbackMessageUseCase(gh<_i807.FeedbackFeedRepository>()),
-    );
-    gh.lazySingleton<_i67.WithdrawFeedbackVoteUseCase>(
-      () =>
-          _i67.WithdrawFeedbackVoteUseCase(gh<_i807.FeedbackFeedRepository>()),
-    );
-    gh.lazySingleton<_i14.SearchUsersUseCase>(
-      () => _i14.SearchUsersUseCase(gh<_i357.SearchRepository>()),
-    );
-    gh.factory<_i797.OnboardingBloc>(
-      () => _i797.OnboardingBloc(
-        getCountries: gh<_i290.GetCountriesUseCase>(),
-        getCities: gh<_i343.GetCitiesUseCase>(),
-        getBrands: gh<_i408.GetBrandsUseCase>(),
-        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
-        submitOnboarding: gh<_i1016.SubmitOnboardingUseCase>(),
-      ),
-    );
-    gh.factory<_i668.ReportBloc>(
-      () => _i668.ReportBloc(
-        getReasons: gh<_i935.GetReportReasonsUseCase>(),
-        submitReport: gh<_i535.SubmitReportUseCase>(),
-      ),
-    );
-    gh.lazySingleton<_i227.GetMyTagsUseCase>(
-      () => _i227.GetMyTagsUseCase(gh<_i1070.TagsRepository>()),
-    );
-    gh.lazySingleton<_i198.GetTagsByUsernameUseCase>(
-      () => _i198.GetTagsByUsernameUseCase(gh<_i1070.TagsRepository>()),
-    );
-    gh.lazySingleton<_i369.RemoveTagUseCase>(
-      () => _i369.RemoveTagUseCase(gh<_i1070.TagsRepository>()),
-    );
-    gh.factory<_i651.ComposeFeedbackBloc>(
-      () => _i651.ComposeFeedbackBloc(
-        getTypes: gh<_i560.GetFeedbackTypesUseCase>(),
-        createMessage: gh<_i468.CreateFeedbackMessageUseCase>(),
-      ),
-    );
-    gh.lazySingleton<_i383.GetFeedbackFeaturesUseCase>(
-      () => _i383.GetFeedbackFeaturesUseCase(gh<_i619.FeedbackRepository>()),
-    );
-    gh.lazySingleton<_i258.GetFeedbackTypesUseCase>(
-      () => _i258.GetFeedbackTypesUseCase(gh<_i619.FeedbackRepository>()),
-    );
-    gh.lazySingleton<_i311.GetMyFeedbackUseCase>(
-      () => _i311.GetMyFeedbackUseCase(gh<_i619.FeedbackRepository>()),
-    );
-    gh.lazySingleton<_i345.SubmitFeedbackUseCase>(
-      () => _i345.SubmitFeedbackUseCase(gh<_i619.FeedbackRepository>()),
-    );
-    gh.factory<_i636.AuthBloc>(
-      () => _i636.AuthBloc(
-        checkAuthStatus: gh<_i192.CheckAuthStatusUseCase>(),
-        loginUser: gh<_i263.EmailPasswordSignIn>(),
-        googleSignIn: gh<_i920.GoogleSignIn>(),
-        logOut: gh<_i221.LogOut>(),
-        watchExternalSignIn: gh<_i910.WatchExternalSignIn>(),
-      ),
-    );
-    gh.factoryParam<_i0.EditProfileBloc, _i57.ProfileEntity, dynamic>(
-      (profile, _) => _i0.EditProfileBloc(
-        updateProfile: gh<_i78.UpdateProfileUseCase>(),
-        changeProfileAvatar: gh<_i717.ChangeProfileAvatarUseCase>(),
-        profile: profile,
-      ),
-    );
-    gh.lazySingleton<_i231.GetComposeSuggestionsUseCase>(
-      () => _i231.GetComposeSuggestionsUseCase(gh<_i794.MessagesRepository>()),
-    );
-    gh.lazySingleton<_i134.GetInboxUseCase>(
-      () => _i134.GetInboxUseCase(gh<_i794.MessagesRepository>()),
-    );
-    gh.lazySingleton<_i15.GetMessagesUseCase>(
-      () => _i15.GetMessagesUseCase(gh<_i794.MessagesRepository>()),
-    );
-    gh.lazySingleton<_i915.GetUnreadCountUseCase>(
-      () => _i915.GetUnreadCountUseCase(gh<_i794.MessagesRepository>()),
-    );
-    gh.lazySingleton<_i680.DeleteMessageUseCase>(
-      () => _i680.DeleteMessageUseCase(gh<_i794.MessagesRepository>()),
-    );
-    gh.lazySingleton<_i680.HideConversationUseCase>(
-      () => _i680.HideConversationUseCase(gh<_i794.MessagesRepository>()),
-    );
-    gh.lazySingleton<_i680.MarkConversationReadUseCase>(
-      () => _i680.MarkConversationReadUseCase(gh<_i794.MessagesRepository>()),
-    );
-    gh.lazySingleton<_i680.SendTypingUseCase>(
-      () => _i680.SendTypingUseCase(gh<_i794.MessagesRepository>()),
-    );
-    gh.lazySingleton<_i583.GetPresenceUseCase>(
-      () => _i583.GetPresenceUseCase(gh<_i794.MessagesRepository>()),
-    );
-    gh.lazySingleton<_i583.WatchPresenceUseCase>(
-      () => _i583.WatchPresenceUseCase(gh<_i794.MessagesRepository>()),
-    );
-    gh.lazySingleton<_i162.SendMessageUseCase>(
-      () => _i162.SendMessageUseCase(gh<_i794.MessagesRepository>()),
-    );
-    gh.lazySingleton<_i467.WatchChatUseCase>(
-      () => _i467.WatchChatUseCase(gh<_i794.MessagesRepository>()),
-    );
-    gh.lazySingleton<_i839.WatchInboxMessagesUseCase>(
-      () => _i839.WatchInboxMessagesUseCase(gh<_i794.MessagesRepository>()),
-    );
-    gh.factory<_i57.PasswordResetBloc>(
-      () => _i57.PasswordResetBloc(
-        requestPasswordReset: gh<_i847.RequestPasswordReset>(),
-        verifyPasswordResetCode: gh<_i542.VerifyPasswordResetCode>(),
-        updatePassword: gh<_i854.UpdatePassword>(),
-      ),
-    );
-    gh.factory<_i488.FeedbackBoardBloc>(
-      () => _i488.FeedbackBoardBloc(
-        getBoard: gh<_i160.GetFeedbackBoardUseCase>(),
-        voteMessage: gh<_i67.VoteFeedbackMessageUseCase>(),
-        withdrawVote: gh<_i67.WithdrawFeedbackVoteUseCase>(),
-        deleteMessage: gh<_i468.DeleteFeedbackMessageUseCase>(),
-      ),
     );
     gh.lazySingleton<_i1055.CreateMapEventUseCase>(
       () => _i1055.CreateMapEventUseCase(gh<_i365.MapEventsRepository>()),
@@ -1023,13 +803,241 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i295.RejectWithdrawalUseCase>(
       () => _i295.RejectWithdrawalUseCase(gh<_i365.MapEventsRepository>()),
     );
-    gh.lazySingleton<_i199.GetGlobalFeedUseCase>(
-      () => _i199.GetGlobalFeedUseCase(gh<_i430.FeedRepository>()),
+    gh.lazySingleton<_i892.PushRegistration>(
+      () => _i295.PushTokenSync(
+        push: gh<_i992.PushNotificationService>(),
+        registerDevice: gh<_i369.RegisterDeviceUseCase>(),
+        unregisterDevice: gh<_i769.UnregisterDeviceUseCase>(),
+        localeStorage: gh<_i1069.LocaleLocalStorage>(),
+      ),
     );
-    gh.factory<_i409.DmUnreadCubit>(
-      () => _i409.DmUnreadCubit(
-        getUnreadCount: gh<_i915.GetUnreadCountUseCase>(),
-        watchInboxMessages: gh<_i839.WatchInboxMessagesUseCase>(),
+    gh.lazySingleton<_i842.CheckUsernameAvailabilityUseCase>(
+      () => _i842.CheckUsernameAvailabilityUseCase(
+        gh<_i430.OnboardingRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i343.GetCitiesUseCase>(
+      () => _i343.GetCitiesUseCase(gh<_i430.OnboardingRepository>()),
+    );
+    gh.lazySingleton<_i290.GetCountriesUseCase>(
+      () => _i290.GetCountriesUseCase(gh<_i430.OnboardingRepository>()),
+    );
+    gh.lazySingleton<_i847.GetProviderFullName>(
+      () => _i847.GetProviderFullName(gh<_i430.OnboardingRepository>()),
+    );
+    gh.lazySingleton<_i1016.SubmitOnboardingUseCase>(
+      () => _i1016.SubmitOnboardingUseCase(gh<_i430.OnboardingRepository>()),
+    );
+    gh.lazySingleton<_i292.AddCarUseCase>(
+      () => _i292.AddCarUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i352.AddModificationUseCase>(
+      () => _i352.AddModificationUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i287.DeleteCarUseCase>(
+      () => _i287.DeleteCarUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i282.DeleteCoverImageUseCase>(
+      () => _i282.DeleteCoverImageUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i631.DeleteGalleryImagesUseCase>(
+      () => _i631.DeleteGalleryImagesUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i621.DeleteModificationUseCase>(
+      () => _i621.DeleteModificationUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i409.GetCarUseCase>(
+      () => _i409.GetCarUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i932.GetCoverUploadUrlUseCase>(
+      () => _i932.GetCoverUploadUrlUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i205.GetGalleryUploadUrlUseCase>(
+      () => _i205.GetGalleryUploadUrlUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i543.GetGarageByUsernameUseCase>(
+      () => _i543.GetGarageByUsernameUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i2.GetModificationUploadUrlsUseCase>(
+      () => _i2.GetModificationUploadUrlsUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i391.GetMyGarageUseCase>(
+      () => _i391.GetMyGarageUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i408.GetBrandsUseCase>(
+      () => _i408.GetBrandsUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i408.GetModelsByBrandUseCase>(
+      () => _i408.GetModelsByBrandUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i408.GetDrivetrainsUseCase>(
+      () => _i408.GetDrivetrainsUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i408.GetColorsUseCase>(
+      () => _i408.GetColorsUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i408.GetDistanceUnitsUseCase>(
+      () => _i408.GetDistanceUnitsUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i408.GetStatusOptionsUseCase>(
+      () => _i408.GetStatusOptionsUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i408.GetModCategoriesUseCase>(
+      () => _i408.GetModCategoriesUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i408.GetFuelTypeOptionsUseCase>(
+      () => _i408.GetFuelTypeOptionsUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i49.PatchModificationUseCase>(
+      () => _i49.PatchModificationUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i401.SaveCoverKeyUseCase>(
+      () => _i401.SaveCoverKeyUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i472.SaveGalleryKeysUseCase>(
+      () => _i472.SaveGalleryKeysUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i219.UpdateCarUseCase>(
+      () => _i219.UpdateCarUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i75.GetMyReportsUseCase>(
+      () => _i75.GetMyReportsUseCase(gh<_i23.ReportRepository>()),
+    );
+    gh.lazySingleton<_i935.GetReportReasonsUseCase>(
+      () => _i935.GetReportReasonsUseCase(gh<_i23.ReportRepository>()),
+    );
+    gh.lazySingleton<_i535.SubmitReportUseCase>(
+      () => _i535.SubmitReportUseCase(gh<_i23.ReportRepository>()),
+    );
+    gh.factory<_i813.ForumBrowseBloc>(
+      () => _i813.ForumBrowseBloc(getBrands: gh<_i408.GetBrandsUseCase>()),
+    );
+    gh.factory<_i340.ManageMapEventBloc>(
+      () => _i340.ManageMapEventBloc(
+        getEvent: gh<_i997.GetMapEventUseCase>(),
+        getCars: gh<_i997.GetMapEventCarsUseCase>(),
+        getWithdrawals: gh<_i295.GetMapEventWithdrawalsUseCase>(),
+        reviewCar: gh<_i414.ReviewCarRegistrationUseCase>(),
+        approveWithdrawal: gh<_i295.ApproveWithdrawalUseCase>(),
+        rejectWithdrawal: gh<_i295.RejectWithdrawalUseCase>(),
+        removeOrganizer: gh<_i211.RemoveMapEventOrganizerUseCase>(),
+        cancelEvent: gh<_i1055.CancelMapEventUseCase>(),
+        finishEvent: gh<_i1055.FinishMapEventUseCase>(),
+        deleteEvent: gh<_i1055.DeleteMapEventUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i807.FeedbackFeedRepository>(
+      () => _i923.FeedbackFeedRepositoryImpl(
+        gh<_i11.FeedbackFeedApiDataSource>(),
+      ),
+    );
+    gh.factory<_i937.SavedPostsBloc>(
+      () =>
+          _i937.SavedPostsBloc(getSavedPosts: gh<_i742.GetSavedPostsUseCase>()),
+    );
+    gh.lazySingleton<_i256.AcceptFollowRequestUseCase>(
+      () => _i256.AcceptFollowRequestUseCase(gh<_i760.FollowRepository>()),
+    );
+    gh.lazySingleton<_i757.FollowUserUseCase>(
+      () => _i757.FollowUserUseCase(gh<_i760.FollowRepository>()),
+    );
+    gh.lazySingleton<_i28.GetFollowStatusUseCase>(
+      () => _i28.GetFollowStatusUseCase(gh<_i760.FollowRepository>()),
+    );
+    gh.lazySingleton<_i1027.GetFollowersUseCase>(
+      () => _i1027.GetFollowersUseCase(gh<_i760.FollowRepository>()),
+    );
+    gh.lazySingleton<_i495.GetFollowingUseCase>(
+      () => _i495.GetFollowingUseCase(gh<_i760.FollowRepository>()),
+    );
+    gh.lazySingleton<_i422.GetPendingRequestsUseCase>(
+      () => _i422.GetPendingRequestsUseCase(gh<_i760.FollowRepository>()),
+    );
+    gh.lazySingleton<_i669.RejectFollowRequestUseCase>(
+      () => _i669.RejectFollowRequestUseCase(gh<_i760.FollowRepository>()),
+    );
+    gh.lazySingleton<_i164.RemoveFollowerUseCase>(
+      () => _i164.RemoveFollowerUseCase(gh<_i760.FollowRepository>()),
+    );
+    gh.lazySingleton<_i31.UnfollowUserUseCase>(
+      () => _i31.UnfollowUserUseCase(gh<_i760.FollowRepository>()),
+    );
+    gh.factory<_i375.LogModBloc>(
+      () => _i375.LogModBloc(
+        getModCategories: gh<_i408.GetModCategoriesUseCase>(),
+        addModification: gh<_i352.AddModificationUseCase>(),
+        deleteModification: gh<_i621.DeleteModificationUseCase>(),
+        getModificationUploadUrls: gh<_i2.GetModificationUploadUrlsUseCase>(),
+        patchModification: gh<_i49.PatchModificationUseCase>(),
+        imageService: gh<_i768.ImageService>(),
+      ),
+    );
+    gh.lazySingleton<_i794.MessagesRepository>(
+      () => _i20.MessagesRepositoryImpl(
+        gh<_i637.MessagesDataSource>(),
+        gh<_i511.DmRealtimeService>(),
+        gh<_i784.PresenceService>(),
+        gh<_i454.SupabaseClient>(),
+      ),
+    );
+    gh.factory<_i470.EditPostBloc>(
+      () => _i470.EditPostBloc(
+        updatePost: gh<_i310.UpdatePostUseCase>(),
+        deletePost: gh<_i640.DeletePostUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i383.GetFeedbackFeaturesUseCase>(
+      () => _i383.GetFeedbackFeaturesUseCase(gh<_i619.FeedbackRepository>()),
+    );
+    gh.lazySingleton<_i258.GetFeedbackTypesUseCase>(
+      () => _i258.GetFeedbackTypesUseCase(gh<_i619.FeedbackRepository>()),
+    );
+    gh.lazySingleton<_i311.GetMyFeedbackUseCase>(
+      () => _i311.GetMyFeedbackUseCase(gh<_i619.FeedbackRepository>()),
+    );
+    gh.lazySingleton<_i345.SubmitFeedbackUseCase>(
+      () => _i345.SubmitFeedbackUseCase(gh<_i619.FeedbackRepository>()),
+    );
+    gh.factory<_i905.LikersBloc>(
+      () => _i905.LikersBloc(getLikers: gh<_i528.GetPostLikersUseCase>()),
+    );
+    gh.factory<_i180.ProfileBloc>(
+      () => _i180.ProfileBloc(
+        getCurrentUserProfile: gh<_i424.GetCurrentUserProfileUseCase>(),
+        getProfileByUsername: gh<_i320.GetProfileByUsernameUseCase>(),
+        submitOnboarding: gh<_i1055.SubmitOnboardingUseCase>(),
+      ),
+    );
+    gh.factory<_i236.FollowBloc>(
+      () => _i236.FollowBloc(
+        getFollowStatus: gh<_i28.GetFollowStatusUseCase>(),
+        followUser: gh<_i757.FollowUserUseCase>(),
+        unfollowUser: gh<_i31.UnfollowUserUseCase>(),
+        getFollowers: gh<_i1027.GetFollowersUseCase>(),
+        getFollowing: gh<_i495.GetFollowingUseCase>(),
+        removeFollower: gh<_i164.RemoveFollowerUseCase>(),
+      ),
+    );
+    gh.factory<_i647.MapEventAttendeesBloc>(
+      () => _i647.MapEventAttendeesBloc(
+        getAttendees: gh<_i997.GetMapEventAttendeesUseCase>(),
+      ),
+    );
+    gh.factory<_i129.MyFeedbackBloc>(
+      () =>
+          _i129.MyFeedbackBloc(getMyFeedback: gh<_i311.GetMyFeedbackUseCase>()),
+    );
+    gh.factory<_i439.GarageCarsCubit>(
+      () => _i439.GarageCarsCubit(getMyGarage: gh<_i391.GetMyGarageUseCase>()),
+    );
+    gh.factory<_i1002.CommentsBloc>(
+      () => _i1002.CommentsBloc(
+        getComments: gh<_i235.GetPostCommentsUseCase>(),
+        getReplies: gh<_i567.GetCommentRepliesUseCase>(),
+        addComment: gh<_i541.AddCommentUseCase>(),
+        deleteComment: gh<_i326.DeleteCommentUseCase>(),
+        likeComment: gh<_i326.LikeCommentUseCase>(),
+        unlikeComment: gh<_i326.UnlikeCommentUseCase>(),
       ),
     );
     gh.factory<_i634.CreateMapEventBloc>(
@@ -1045,15 +1053,106 @@ extension GetItInjectableX on _i174.GetIt {
         imageService: gh<_i768.ImageService>(),
       ),
     );
-    gh.factory<_i887.NotificationsBloc>(
-      () => _i887.NotificationsBloc(
-        getNotifications: gh<_i163.GetNotificationsUseCase>(),
-        markNotificationRead: gh<_i29.MarkNotificationReadUseCase>(),
-        markAllNotificationsRead: gh<_i852.MarkAllNotificationsReadUseCase>(),
+    gh.factory<_i719.FeedBloc>(
+      () => _i719.FeedBloc(
+        getGlobalFeed: gh<_i199.GetGlobalFeedUseCase>(),
+        likePost: gh<_i111.LikePostUseCase>(),
+        unlikePost: gh<_i111.UnlikePostUseCase>(),
+        savePost: gh<_i584.SavePostUseCase>(),
+        unsavePost: gh<_i584.UnsavePostUseCase>(),
+        addComment: gh<_i541.AddCommentUseCase>(),
       ),
     );
-    gh.factory<_i439.GarageCarsCubit>(
-      () => _i439.GarageCarsCubit(getMyGarage: gh<_i391.GetMyGarageUseCase>()),
+    gh.lazySingleton<_i231.GetComposeSuggestionsUseCase>(
+      () => _i231.GetComposeSuggestionsUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i551.GetConversationPeerUseCase>(
+      () => _i551.GetConversationPeerUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i134.GetInboxUseCase>(
+      () => _i134.GetInboxUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i15.GetMessagesUseCase>(
+      () => _i15.GetMessagesUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i915.GetUnreadCountUseCase>(
+      () => _i915.GetUnreadCountUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i680.DeleteMessageUseCase>(
+      () => _i680.DeleteMessageUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i680.HideConversationUseCase>(
+      () => _i680.HideConversationUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i680.MarkConversationReadUseCase>(
+      () => _i680.MarkConversationReadUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i680.SendTypingUseCase>(
+      () => _i680.SendTypingUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i583.GetPresenceUseCase>(
+      () => _i583.GetPresenceUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i583.WatchPresenceUseCase>(
+      () => _i583.WatchPresenceUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i162.SendMessageUseCase>(
+      () => _i162.SendMessageUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i467.WatchChatUseCase>(
+      () => _i467.WatchChatUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.lazySingleton<_i839.WatchInboxMessagesUseCase>(
+      () => _i839.WatchInboxMessagesUseCase(gh<_i794.MessagesRepository>()),
+    );
+    gh.factory<_i274.ProfilePostsBloc>(
+      () => _i274.ProfilePostsBloc(
+        getMyPosts: gh<_i851.GetMyPostsUseCase>(),
+        getPostsByUsername: gh<_i677.GetPostsByUsernameUseCase>(),
+      ),
+    );
+    gh.factory<_i792.MyMapEventsBloc>(
+      () =>
+          _i792.MyMapEventsBloc(getMyEvents: gh<_i997.GetMyMapEventsUseCase>()),
+    );
+    gh.factory<_i94.UsernameAvailabilityBloc>(
+      () => _i94.UsernameAvailabilityBloc(
+        checkUsername: gh<_i842.CheckUsernameAvailabilityUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i160.GetFeedbackBoardUseCase>(
+      () => _i160.GetFeedbackBoardUseCase(gh<_i807.FeedbackFeedRepository>()),
+    );
+    gh.lazySingleton<_i160.GetCompletedFeedbackUseCase>(
+      () =>
+          _i160.GetCompletedFeedbackUseCase(gh<_i807.FeedbackFeedRepository>()),
+    );
+    gh.lazySingleton<_i560.GetFeedbackTypesUseCase>(
+      () => _i560.GetFeedbackTypesUseCase(gh<_i807.FeedbackFeedRepository>()),
+    );
+    gh.lazySingleton<_i560.GetFeedbackStatusesUseCase>(
+      () =>
+          _i560.GetFeedbackStatusesUseCase(gh<_i807.FeedbackFeedRepository>()),
+    );
+    gh.lazySingleton<_i468.CreateFeedbackMessageUseCase>(
+      () => _i468.CreateFeedbackMessageUseCase(
+        gh<_i807.FeedbackFeedRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i468.DeleteFeedbackMessageUseCase>(
+      () => _i468.DeleteFeedbackMessageUseCase(
+        gh<_i807.FeedbackFeedRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i468.GetFeedbackMessageUseCase>(
+      () => _i468.GetFeedbackMessageUseCase(gh<_i807.FeedbackFeedRepository>()),
+    );
+    gh.lazySingleton<_i67.VoteFeedbackMessageUseCase>(
+      () => _i67.VoteFeedbackMessageUseCase(gh<_i807.FeedbackFeedRepository>()),
+    );
+    gh.lazySingleton<_i67.WithdrawFeedbackVoteUseCase>(
+      () =>
+          _i67.WithdrawFeedbackVoteUseCase(gh<_i807.FeedbackFeedRepository>()),
     );
     gh.factory<_i807.CarDetailBloc>(
       () => _i807.CarDetailBloc(
@@ -1061,6 +1160,58 @@ extension GetItInjectableX on _i174.GetIt {
         deleteCarUseCase: gh<_i287.DeleteCarUseCase>(),
         deleteGalleryImagesUseCase: gh<_i631.DeleteGalleryImagesUseCase>(),
         deleteModificationUseCase: gh<_i621.DeleteModificationUseCase>(),
+      ),
+    );
+    gh.factory<_i506.MapEventDetailBloc>(
+      () => _i506.MapEventDetailBloc(
+        getEvent: gh<_i997.GetMapEventUseCase>(),
+        getAttendees: gh<_i997.GetMapEventAttendeesUseCase>(),
+        getCars: gh<_i997.GetMapEventCarsUseCase>(),
+        getMyCars: gh<_i997.GetMyMapEventCarsUseCase>(),
+        setAttendance: gh<_i192.SetMapEventAttendanceUseCase>(),
+        clearAttendance: gh<_i192.ClearMapEventAttendanceUseCase>(),
+        registerCar: gh<_i414.RegisterCarForMapEventUseCase>(),
+        cancelCarRegistration: gh<_i414.CancelCarRegistrationUseCase>(),
+        withdraw: gh<_i295.WithdrawFromMapEventUseCase>(),
+      ),
+    );
+    gh.factory<_i409.DmUnreadCubit>(
+      () => _i409.DmUnreadCubit(
+        getUnreadCount: gh<_i915.GetUnreadCountUseCase>(),
+        watchInboxMessages: gh<_i839.WatchInboxMessagesUseCase>(),
+      ),
+    );
+    gh.factory<_i862.FeedbackBloc>(
+      () => _i862.FeedbackBloc(
+        getTypes: gh<_i258.GetFeedbackTypesUseCase>(),
+        getFeatures: gh<_i383.GetFeedbackFeaturesUseCase>(),
+        submitFeedback: gh<_i345.SubmitFeedbackUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i14.SearchUsersUseCase>(
+      () => _i14.SearchUsersUseCase(gh<_i357.SearchRepository>()),
+    );
+    gh.factory<_i959.LanguagePickerBloc>(
+      () => _i959.LanguagePickerBloc(
+        getLanguageOptions: gh<_i437.GetLanguageOptionsUseCase>(),
+        setAppLanguage: gh<_i856.SetAppLanguageUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i227.GetMyTagsUseCase>(
+      () => _i227.GetMyTagsUseCase(gh<_i1070.TagsRepository>()),
+    );
+    gh.lazySingleton<_i198.GetTagsByUsernameUseCase>(
+      () => _i198.GetTagsByUsernameUseCase(gh<_i1070.TagsRepository>()),
+    );
+    gh.lazySingleton<_i369.RemoveTagUseCase>(
+      () => _i369.RemoveTagUseCase(gh<_i1070.TagsRepository>()),
+    );
+    gh.factory<_i488.FeedbackBoardBloc>(
+      () => _i488.FeedbackBoardBloc(
+        getBoard: gh<_i160.GetFeedbackBoardUseCase>(),
+        voteMessage: gh<_i67.VoteFeedbackMessageUseCase>(),
+        withdrawVote: gh<_i67.WithdrawFeedbackVoteUseCase>(),
+        deleteMessage: gh<_i468.DeleteFeedbackMessageUseCase>(),
       ),
     );
     gh.lazySingleton<_i99.CreateForumReplyUseCase>(
@@ -1135,15 +1286,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i390.UnlikeForumReplyUseCase>(
       () => _i390.UnlikeForumReplyUseCase(gh<_i10.ForumsRepository>()),
     );
-    gh.factory<_i129.MyFeedbackBloc>(
-      () =>
-          _i129.MyFeedbackBloc(getMyFeedback: gh<_i311.GetMyFeedbackUseCase>()),
-    );
-    gh.factory<_i94.UsernameAvailabilityBloc>(
-      () => _i94.UsernameAvailabilityBloc(
-        checkUsername: gh<_i842.CheckUsernameAvailabilityUseCase>(),
-      ),
-    );
     gh.factory<_i160.AddCarBloc>(
       () => _i160.AddCarBloc(
         getBrands: gh<_i408.GetBrandsUseCase>(),
@@ -1170,208 +1312,55 @@ extension GetItInjectableX on _i174.GetIt {
         imageService: gh<_i768.ImageService>(),
       ),
     );
-    gh.factory<_i155.TagPickerBloc>(
-      () => _i155.TagPickerBloc(
-        searchUsers: gh<_i14.SearchUsersUseCase>(),
-        getGarageByUsername: gh<_i543.GetGarageByUsernameUseCase>(),
-        getMyGarage: gh<_i391.GetMyGarageUseCase>(),
-      ),
-    );
     gh.factory<_i816.NotificationsUnreadCubit>(
       () => _i816.NotificationsUnreadCubit(
         getUnreadCount: gh<_i43.GetUnreadNotificationsCountUseCase>(),
       ),
     );
-    gh.factory<_i681.ComposeBloc>(
-      () => _i681.ComposeBloc(
-        getSuggestions: gh<_i231.GetComposeSuggestionsUseCase>(),
+    gh.factory<_i121.GarageBloc>(
+      () => _i121.GarageBloc(
+        getMyGarage: gh<_i391.GetMyGarageUseCase>(),
+        getGarageByUsername: gh<_i543.GetGarageByUsernameUseCase>(),
+        deleteCarUseCase: gh<_i287.DeleteCarUseCase>(),
       ),
     );
-    gh.factory<_i813.ForumBrowseBloc>(
-      () => _i813.ForumBrowseBloc(getBrands: gh<_i408.GetBrandsUseCase>()),
-    );
-    gh.factory<_i396.CompletedFeedbackBloc>(
-      () => _i396.CompletedFeedbackBloc(
-        getCompleted: gh<_i160.GetCompletedFeedbackUseCase>(),
+    gh.factoryParam<_i0.EditProfileBloc, _i57.ProfileEntity, dynamic>(
+      (profile, _) => _i0.EditProfileBloc(
+        updateProfile: gh<_i78.UpdateProfileUseCase>(),
+        changeProfileAvatar: gh<_i717.ChangeProfileAvatarUseCase>(),
+        profile: profile,
       ),
     );
-    gh.factory<_i236.FollowBloc>(
-      () => _i236.FollowBloc(
-        getFollowStatus: gh<_i28.GetFollowStatusUseCase>(),
-        followUser: gh<_i757.FollowUserUseCase>(),
-        unfollowUser: gh<_i31.UnfollowUserUseCase>(),
-        getFollowers: gh<_i1027.GetFollowersUseCase>(),
-        getFollowing: gh<_i495.GetFollowingUseCase>(),
-        removeFollower: gh<_i164.RemoveFollowerUseCase>(),
+    gh.factory<_i887.NotificationsBloc>(
+      () => _i887.NotificationsBloc(
+        getNotifications: gh<_i163.GetNotificationsUseCase>(),
+        markNotificationRead: gh<_i29.MarkNotificationReadUseCase>(),
+        markAllNotificationsRead: gh<_i852.MarkAllNotificationsReadUseCase>(),
       ),
     );
-    gh.factory<_i619.SavedThreadsBloc>(
-      () => _i619.SavedThreadsBloc(
-        getSavedThreads: gh<_i302.GetSavedForumThreadsUseCase>(),
-        unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
-      ),
-    );
-    gh.factory<_i465.MapBloc>(
-      () => _i465.MapBloc(
-        getNearbyBusinesses: gh<_i642.GetNearbyBusinessesUseCase>(),
-        getBusinessDetail: gh<_i107.GetBusinessDetailUseCase>(),
-        getCurrentPosition: gh<_i958.GetCurrentPositionUseCase>(),
-        getNearbyEvents: gh<_i997.GetNearbyMapEventsUseCase>(),
+    gh.factory<_i668.ReportBloc>(
+      () => _i668.ReportBloc(
+        getReasons: gh<_i935.GetReportReasonsUseCase>(),
+        submitReport: gh<_i535.SubmitReportUseCase>(),
       ),
     );
     gh.factory<_i370.MyReportsBloc>(
       () => _i370.MyReportsBloc(getMyReports: gh<_i75.GetMyReportsUseCase>()),
     );
-    gh.factory<_i853.TagsBloc>(
-      () => _i853.TagsBloc(
-        getMyTags: gh<_i227.GetMyTagsUseCase>(),
-        getTagsByUsername: gh<_i198.GetTagsByUsernameUseCase>(),
-        removeTag: gh<_i369.RemoveTagUseCase>(),
-      ),
-    );
-    gh.factory<_i792.MyMapEventsBloc>(
-      () =>
-          _i792.MyMapEventsBloc(getMyEvents: gh<_i997.GetMyMapEventsUseCase>()),
-    );
-    gh.factory<_i506.MapEventDetailBloc>(
-      () => _i506.MapEventDetailBloc(
-        getEvent: gh<_i997.GetMapEventUseCase>(),
-        getAttendees: gh<_i997.GetMapEventAttendeesUseCase>(),
-        getCars: gh<_i997.GetMapEventCarsUseCase>(),
-        getMyCars: gh<_i997.GetMyMapEventCarsUseCase>(),
-        setAttendance: gh<_i192.SetMapEventAttendanceUseCase>(),
-        clearAttendance: gh<_i192.ClearMapEventAttendanceUseCase>(),
-        registerCar: gh<_i414.RegisterCarForMapEventUseCase>(),
-        cancelCarRegistration: gh<_i414.CancelCarRegistrationUseCase>(),
-        withdraw: gh<_i295.WithdrawFromMapEventUseCase>(),
-      ),
-    );
-    gh.factory<_i462.SearchBloc>(
-      () => _i462.SearchBloc(searchUsers: gh<_i14.SearchUsersUseCase>()),
-    );
-    gh.factory<_i647.MapEventAttendeesBloc>(
-      () => _i647.MapEventAttendeesBloc(
-        getAttendees: gh<_i997.GetMapEventAttendeesUseCase>(),
-      ),
-    );
-    gh.lazySingleton<_i541.AddCommentUseCase>(
-      () => _i541.AddCommentUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i326.DeleteCommentUseCase>(
-      () => _i326.DeleteCommentUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i326.LikeCommentUseCase>(
-      () => _i326.LikeCommentUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i326.UnlikeCommentUseCase>(
-      () => _i326.UnlikeCommentUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i573.CreatePostUseCase>(
-      () => _i573.CreatePostUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i640.DeletePostUseCase>(
-      () => _i640.DeletePostUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i567.GetCommentRepliesUseCase>(
-      () => _i567.GetCommentRepliesUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i760.GetImageUploadUrlsUseCase>(
-      () => _i760.GetImageUploadUrlsUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i851.GetMyPostsUseCase>(
-      () => _i851.GetMyPostsUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i601.GetPostUseCase>(
-      () => _i601.GetPostUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i235.GetPostCommentsUseCase>(
-      () => _i235.GetPostCommentsUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i528.GetPostLikersUseCase>(
-      () => _i528.GetPostLikersUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i677.GetPostsByUsernameUseCase>(
-      () => _i677.GetPostsByUsernameUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i742.GetSavedPostsUseCase>(
-      () => _i742.GetSavedPostsUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i111.LikePostUseCase>(
-      () => _i111.LikePostUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i111.UnlikePostUseCase>(
-      () => _i111.UnlikePostUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i584.SavePostUseCase>(
-      () => _i584.SavePostUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i584.UnsavePostUseCase>(
-      () => _i584.UnsavePostUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i913.SaveImageKeysUseCase>(
-      () => _i913.SaveImageKeysUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i1023.SharePostUseCase>(
-      () => _i1023.SharePostUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i310.UpdatePostUseCase>(
-      () => _i310.UpdatePostUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i708.UploadPostImageUseCase>(
-      () => _i708.UploadPostImageUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.factory<_i198.ForumHubBloc>(
-      () => _i198.ForumHubBloc(
-        getThreads: gh<_i669.GetForumThreadsUseCase>(),
-        getTopics: gh<_i354.GetForumTopicsUseCase>(),
-        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
-        createShortcut: gh<_i846.CreateForumShortcutUseCase>(),
-        saveThread: gh<_i302.SaveForumThreadUseCase>(),
-        unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
-      ),
-    );
-    gh.factory<_i375.LogModBloc>(
-      () => _i375.LogModBloc(
-        getModCategories: gh<_i408.GetModCategoriesUseCase>(),
-        addModification: gh<_i352.AddModificationUseCase>(),
-        deleteModification: gh<_i621.DeleteModificationUseCase>(),
-        getModificationUploadUrls: gh<_i2.GetModificationUploadUrlsUseCase>(),
-        patchModification: gh<_i49.PatchModificationUseCase>(),
-        imageService: gh<_i768.ImageService>(),
-      ),
-    );
-    gh.factory<_i269.ChatBloc>(
-      () => _i269.ChatBloc(
-        getMessages: gh<_i15.GetMessagesUseCase>(),
-        sendMessage: gh<_i162.SendMessageUseCase>(),
-        deleteMessage: gh<_i680.DeleteMessageUseCase>(),
-        markConversationRead: gh<_i680.MarkConversationReadUseCase>(),
-        sendTyping: gh<_i680.SendTypingUseCase>(),
-        watchChat: gh<_i467.WatchChatUseCase>(),
-        getPresence: gh<_i583.GetPresenceUseCase>(),
-        watchPresence: gh<_i583.WatchPresenceUseCase>(),
-      ),
-    );
-    gh.factory<_i340.ManageMapEventBloc>(
-      () => _i340.ManageMapEventBloc(
-        getEvent: gh<_i997.GetMapEventUseCase>(),
-        getCars: gh<_i997.GetMapEventCarsUseCase>(),
-        getWithdrawals: gh<_i295.GetMapEventWithdrawalsUseCase>(),
-        reviewCar: gh<_i414.ReviewCarRegistrationUseCase>(),
-        approveWithdrawal: gh<_i295.ApproveWithdrawalUseCase>(),
-        rejectWithdrawal: gh<_i295.RejectWithdrawalUseCase>(),
-        removeOrganizer: gh<_i211.RemoveMapEventOrganizerUseCase>(),
-        cancelEvent: gh<_i1055.CancelMapEventUseCase>(),
-        finishEvent: gh<_i1055.FinishMapEventUseCase>(),
-        deleteEvent: gh<_i1055.DeleteMapEventUseCase>(),
-      ),
-    );
-    gh.factory<_i188.NewThreadBloc>(
-      () => _i188.NewThreadBloc(
-        getTopics: gh<_i354.GetForumTopicsUseCase>(),
+    gh.factory<_i797.OnboardingBloc>(
+      () => _i797.OnboardingBloc(
+        getCountries: gh<_i290.GetCountriesUseCase>(),
+        getCities: gh<_i343.GetCitiesUseCase>(),
         getBrands: gh<_i408.GetBrandsUseCase>(),
         getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
-        createThread: gh<_i605.CreateForumThreadUseCase>(),
+        submitOnboarding: gh<_i1016.SubmitOnboardingUseCase>(),
+        getProviderFullName: gh<_i847.GetProviderFullName>(),
+      ),
+    );
+    gh.lazySingleton<_i981.SupabaseAuthDataSource>(
+      () => _i981.SupabaseAuthDataSource(
+        gh<_i454.SupabaseClient>(),
+        gh<_i892.PushRegistration>(),
       ),
     );
     gh.factory<_i197.ForumsHomeBloc>(
@@ -1386,53 +1375,31 @@ extension GetItInjectableX on _i174.GetIt {
         unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
       ),
     );
-    gh.factory<_i486.PostDetailBloc>(
-      () => _i486.PostDetailBloc(
-        getPost: gh<_i601.GetPostUseCase>(),
-        likePost: gh<_i111.LikePostUseCase>(),
-        unlikePost: gh<_i111.UnlikePostUseCase>(),
-        savePost: gh<_i584.SavePostUseCase>(),
-        unsavePost: gh<_i584.UnsavePostUseCase>(),
-        deletePost: gh<_i640.DeletePostUseCase>(),
+    gh.factory<_i465.MapBloc>(
+      () => _i465.MapBloc(
+        getNearbyBusinesses: gh<_i642.GetNearbyBusinessesUseCase>(),
+        getBusinessDetail: gh<_i107.GetBusinessDetailUseCase>(),
+        getCurrentPosition: gh<_i958.GetCurrentPositionUseCase>(),
+        getNearbyEvents: gh<_i997.GetNearbyMapEventsUseCase>(),
       ),
     );
-    gh.factory<_i862.FeedbackBloc>(
-      () => _i862.FeedbackBloc(
-        getTypes: gh<_i258.GetFeedbackTypesUseCase>(),
-        getFeatures: gh<_i383.GetFeedbackFeaturesUseCase>(),
-        submitFeedback: gh<_i345.SubmitFeedbackUseCase>(),
-      ),
-    );
-    gh.factory<_i470.EditPostBloc>(
-      () => _i470.EditPostBloc(
-        updatePost: gh<_i310.UpdatePostUseCase>(),
-        deletePost: gh<_i640.DeletePostUseCase>(),
-      ),
-    );
-    gh.factory<_i245.InboxBloc>(
-      () => _i245.InboxBloc(
-        getInbox: gh<_i134.GetInboxUseCase>(),
-        hideConversation: gh<_i680.HideConversationUseCase>(),
+    gh.factory<_i269.ChatBloc>(
+      () => _i269.ChatBloc(
+        getMessages: gh<_i15.GetMessagesUseCase>(),
+        getConversationPeer: gh<_i551.GetConversationPeerUseCase>(),
+        sendMessage: gh<_i162.SendMessageUseCase>(),
+        deleteMessage: gh<_i680.DeleteMessageUseCase>(),
+        markConversationRead: gh<_i680.MarkConversationReadUseCase>(),
+        sendTyping: gh<_i680.SendTypingUseCase>(),
+        watchChat: gh<_i467.WatchChatUseCase>(),
+        getPresence: gh<_i583.GetPresenceUseCase>(),
         watchPresence: gh<_i583.WatchPresenceUseCase>(),
-        watchInboxMessages: gh<_i839.WatchInboxMessagesUseCase>(),
       ),
     );
-    gh.factory<_i969.CreatePostBloc>(
-      () => _i969.CreatePostBloc(
-        createPost: gh<_i573.CreatePostUseCase>(),
-        getImageUploadUrls: gh<_i760.GetImageUploadUrlsUseCase>(),
-        uploadImage: gh<_i708.UploadPostImageUseCase>(),
-        saveImageKeys: gh<_i913.SaveImageKeysUseCase>(),
-        deletePost: gh<_i640.DeletePostUseCase>(),
-        imageService: gh<_i768.ImageService>(),
+    gh.factory<_i681.ComposeBloc>(
+      () => _i681.ComposeBloc(
+        getSuggestions: gh<_i231.GetComposeSuggestionsUseCase>(),
       ),
-    );
-    gh.factory<_i905.LikersBloc>(
-      () => _i905.LikersBloc(getLikers: gh<_i528.GetPostLikersUseCase>()),
-    );
-    gh.factory<_i937.SavedPostsBloc>(
-      () =>
-          _i937.SavedPostsBloc(getSavedPosts: gh<_i742.GetSavedPostsUseCase>()),
     );
     gh.factory<_i382.ForumThreadBloc>(
       () => _i382.ForumThreadBloc(
@@ -1452,33 +1419,127 @@ extension GetItInjectableX on _i174.GetIt {
         unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
       ),
     );
-    gh.factory<_i274.ProfilePostsBloc>(
-      () => _i274.ProfilePostsBloc(
-        getMyPosts: gh<_i851.GetMyPostsUseCase>(),
-        getPostsByUsername: gh<_i677.GetPostsByUsernameUseCase>(),
+    gh.factory<_i188.NewThreadBloc>(
+      () => _i188.NewThreadBloc(
+        getTopics: gh<_i354.GetForumTopicsUseCase>(),
+        getBrands: gh<_i408.GetBrandsUseCase>(),
+        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
+        createThread: gh<_i605.CreateForumThreadUseCase>(),
       ),
     );
-    gh.factory<_i1002.CommentsBloc>(
-      () => _i1002.CommentsBloc(
-        getComments: gh<_i235.GetPostCommentsUseCase>(),
-        getReplies: gh<_i567.GetCommentRepliesUseCase>(),
-        addComment: gh<_i541.AddCommentUseCase>(),
-        deleteComment: gh<_i326.DeleteCommentUseCase>(),
-        likeComment: gh<_i326.LikeCommentUseCase>(),
-        unlikeComment: gh<_i326.UnlikeCommentUseCase>(),
+    gh.factory<_i619.SavedThreadsBloc>(
+      () => _i619.SavedThreadsBloc(
+        getSavedThreads: gh<_i302.GetSavedForumThreadsUseCase>(),
+        unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
       ),
     );
-    gh.factory<_i690.SharePostBloc>(
-      () => _i690.SharePostBloc(gh<_i1023.SharePostUseCase>()),
+    gh.factory<_i155.TagPickerBloc>(
+      () => _i155.TagPickerBloc(
+        searchUsers: gh<_i14.SearchUsersUseCase>(),
+        getGarageByUsername: gh<_i543.GetGarageByUsernameUseCase>(),
+        getMyGarage: gh<_i391.GetMyGarageUseCase>(),
+      ),
     );
-    gh.factory<_i719.FeedBloc>(
-      () => _i719.FeedBloc(
-        getGlobalFeed: gh<_i199.GetGlobalFeedUseCase>(),
-        likePost: gh<_i111.LikePostUseCase>(),
-        unlikePost: gh<_i111.UnlikePostUseCase>(),
-        savePost: gh<_i584.SavePostUseCase>(),
-        unsavePost: gh<_i584.UnsavePostUseCase>(),
-        addComment: gh<_i541.AddCommentUseCase>(),
+    gh.factory<_i462.SearchBloc>(
+      () => _i462.SearchBloc(searchUsers: gh<_i14.SearchUsersUseCase>()),
+    );
+    gh.factory<_i245.InboxBloc>(
+      () => _i245.InboxBloc(
+        getInbox: gh<_i134.GetInboxUseCase>(),
+        hideConversation: gh<_i680.HideConversationUseCase>(),
+        watchPresence: gh<_i583.WatchPresenceUseCase>(),
+        watchInboxMessages: gh<_i839.WatchInboxMessagesUseCase>(),
+      ),
+    );
+    gh.factory<_i853.TagsBloc>(
+      () => _i853.TagsBloc(
+        getMyTags: gh<_i227.GetMyTagsUseCase>(),
+        getTagsByUsername: gh<_i198.GetTagsByUsernameUseCase>(),
+        removeTag: gh<_i369.RemoveTagUseCase>(),
+      ),
+    );
+    gh.factory<_i396.CompletedFeedbackBloc>(
+      () => _i396.CompletedFeedbackBloc(
+        getCompleted: gh<_i160.GetCompletedFeedbackUseCase>(),
+      ),
+    );
+    gh.factory<_i651.ComposeFeedbackBloc>(
+      () => _i651.ComposeFeedbackBloc(
+        getTypes: gh<_i560.GetFeedbackTypesUseCase>(),
+        createMessage: gh<_i468.CreateFeedbackMessageUseCase>(),
+      ),
+    );
+    gh.factory<_i198.ForumHubBloc>(
+      () => _i198.ForumHubBloc(
+        getThreads: gh<_i669.GetForumThreadsUseCase>(),
+        getTopics: gh<_i354.GetForumTopicsUseCase>(),
+        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
+        createShortcut: gh<_i846.CreateForumShortcutUseCase>(),
+        saveThread: gh<_i302.SaveForumThreadUseCase>(),
+        unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i742.AuthRepository>(
+      () => _i317.AuthRepositoryImpl(gh<_i981.SupabaseAuthDataSource>()),
+    );
+    gh.lazySingleton<_i192.CheckAuthStatusUseCase>(
+      () => _i192.CheckAuthStatusUseCase(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i221.LogOut>(
+      () => _i221.LogOut(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i910.WatchExternalSignIn>(
+      () => _i910.WatchExternalSignIn(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i502.AppleSignIn>(
+      () => _i502.AppleSignIn(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i263.EmailPasswordSignIn>(
+      () => _i263.EmailPasswordSignIn(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i920.GoogleSignIn>(
+      () => _i920.GoogleSignIn(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i847.RequestPasswordReset>(
+      () => _i847.RequestPasswordReset(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i854.UpdatePassword>(
+      () => _i854.UpdatePassword(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i542.VerifyPasswordResetCode>(
+      () => _i542.VerifyPasswordResetCode(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i644.EmailPasswordSignUp>(
+      () => _i644.EmailPasswordSignUp(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i198.ResendSignUpEmail>(
+      () => _i198.ResendSignUpEmail(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i447.VerifySignUpCode>(
+      () => _i447.VerifySignUpCode(gh<_i742.AuthRepository>()),
+    );
+    gh.factory<_i57.PasswordResetBloc>(
+      () => _i57.PasswordResetBloc(
+        requestPasswordReset: gh<_i847.RequestPasswordReset>(),
+        verifyPasswordResetCode: gh<_i542.VerifyPasswordResetCode>(),
+        updatePassword: gh<_i854.UpdatePassword>(),
+      ),
+    );
+    gh.factory<_i246.SignUpBloc>(
+      () => _i246.SignUpBloc(
+        signUp: gh<_i644.EmailPasswordSignUp>(),
+        verifySignUpCode: gh<_i447.VerifySignUpCode>(),
+        resendSignUpEmail: gh<_i198.ResendSignUpEmail>(),
+      ),
+    );
+    gh.factory<_i636.AuthBloc>(
+      () => _i636.AuthBloc(
+        checkAuthStatus: gh<_i192.CheckAuthStatusUseCase>(),
+        loginUser: gh<_i263.EmailPasswordSignIn>(),
+        googleSignIn: gh<_i920.GoogleSignIn>(),
+        appleSignIn: gh<_i502.AppleSignIn>(),
+        logOut: gh<_i221.LogOut>(),
+        watchExternalSignIn: gh<_i910.WatchExternalSignIn>(),
       ),
     );
     return this;

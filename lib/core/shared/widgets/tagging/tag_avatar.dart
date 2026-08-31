@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import 'package:car_social_media_app/core/theme/app_colors.dart';
+import 'package:tweakd/core/theme/app_colors.dart';
 
 /// Small circular avatar with an initial-letter fallback, used by the shared
 /// tagging widgets. [username] null renders a neutral placeholder.
