@@ -1,6 +1,6 @@
-import 'package:car_social_media_app/core/theme/app_colors.dart';
-import 'package:car_social_media_app/features/garage/presentation/widgets/car_image.dart';
-import 'package:car_social_media_app/l10n/app_localizations.dart';
+import 'package:tweakd/core/theme/app_colors.dart';
+import 'package:tweakd/features/garage/presentation/widgets/car_image.dart';
+import 'package:tweakd/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

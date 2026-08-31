@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/l10n/app_localizations.dart';
+import 'package:tweakd/l10n/app_localizations.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 

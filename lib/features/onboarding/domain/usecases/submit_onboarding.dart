@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/features/profile/domain/entities/profile.dart';
+import 'package:tweakd/features/profile/domain/entities/profile.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 

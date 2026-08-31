@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Accent behind the notification icon in the status bar and shade.
+         Mirrors AppColors.accent (lib/core/theme/app_colors.dart). -->
+    <color name="notification_accent">#FFFF4D00</color>
+</resources>

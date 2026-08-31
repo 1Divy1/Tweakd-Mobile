@@ -1,4 +1,4 @@
-package com.example.car_social_media_app
+package com.tweakdapp
 
 import io.flutter.embedding.android.FlutterActivity
 

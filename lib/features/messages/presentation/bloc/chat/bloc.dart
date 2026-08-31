@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 import '../../../domain/entities/chat_events.dart';
 import '../../../domain/entities/message.dart';
 import '../../../domain/entities/presence.dart';
+import '../../../domain/usecases/get_conversation_peer.dart';
 import '../../../domain/usecases/get_messages.dart';
 import '../../../domain/usecases/message_actions.dart';
 import '../../../domain/usecases/presence.dart';
@@ -23,6 +24,7 @@ import 'state.dart';
 @injectable
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final GetMessagesUseCase getMessages;
+  final GetConversationPeerUseCase getConversationPeer;
   final SendMessageUseCase sendMessage;
   final DeleteMessageUseCase deleteMessage;
   final MarkConversationReadUseCase markConversationRead;
@@ -44,6 +46,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   ChatBloc({
     required this.getMessages,
+    required this.getConversationPeer,
     required this.sendMessage,
     required this.deleteMessage,
     required this.markConversationRead,
@@ -90,36 +93,69 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   Future<void> _onLoad(LoadChat event, Emitter<ChatState> emit) async {
     emit(const ChatLoading());
-    _watchPeerPresence(event.peer.id);
 
     final conversationId = event.conversationId;
+    final knownPeer = event.peer;
+
     if (conversationId == null) {
-      // Compose flow: no conversation yet — empty chat, nothing to fetch.
+      // Compose flow: no conversation yet — empty chat, nothing to fetch. A
+      // peer is mandatory here; there is no conversation to resolve one from.
+      if (knownPeer == null) {
+        emit(const ChatError(MessagesErrorCode.generic));
+        return;
+      }
+      _watchPeerPresence(knownPeer.id);
       emit(ChatLoaded(
         conversationId: null,
-        user: event.peer,
+        user: knownPeer,
         messages: const [],
       ));
-      _refreshPeerPresence(event.peer.id);
+      _refreshPeerPresence(knownPeer.id);
       return;
     }
 
-    final result = await getMessages(
+    // Opened by conversation id alone (a notification tap): the peer has to be
+    // fetched. Issued *concurrently* with the history rather than before it —
+    // the two are independent, and serialising them would put two round trips
+    // in front of a screen the user is already looking at.
+    final historyRequest = getMessages(
       GetMessagesParams(conversationId: conversationId),
     );
-    result.fold(
+    final peerRequest = knownPeer != null
+        ? null
+        : getConversationPeer(conversationId);
+
+    final history = await historyRequest;
+    final peerResult = await peerRequest;
+
+    final peer = knownPeer ??
+        peerResult?.fold((_) => null, (resolved) => resolved);
+    if (peer == null) {
+      // No peer means no header, no presence and nowhere to send — the screen
+      // cannot function, so this is fatal rather than degraded.
+      final failure = peerResult?.fold(
+        MessagesErrorMapper.getCode,
+        (_) => null,
+      );
+      emit(ChatError(failure ?? MessagesErrorCode.generic));
+      return;
+    }
+
+    _watchPeerPresence(peer.id);
+
+    history.fold(
       (failure) => emit(ChatError(MessagesErrorMapper.getCode(failure))),
       (page) {
         emit(ChatLoaded(
           conversationId: conversationId,
-          user: event.peer,
+          user: peer,
           messages: _applySeen(page.messages, page.peerLastReadMessageId),
           olderCursor: page.nextCursor,
           peerLastReadMessageId: page.peerLastReadMessageId,
         ));
         _watchConversation(conversationId);
-        unawaited(_markRead(conversationId, event.peer.id));
-        _refreshPeerPresence(event.peer.id);
+        unawaited(_markRead(conversationId, peer.id));
+        _refreshPeerPresence(peer.id);
       },
     );
   }

@@ -1,6 +1,6 @@
-import 'package:car_social_media_app/core/error/base_exceptions.dart';
-import 'package:car_social_media_app/core/error/base_failures.dart';
-import 'package:car_social_media_app/features/map/domain/entities/geo_position.dart';
+import 'package:tweakd/core/error/base_exceptions.dart';
+import 'package:tweakd/core/error/base_failures.dart';
+import 'package:tweakd/features/map/domain/entities/geo_position.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';

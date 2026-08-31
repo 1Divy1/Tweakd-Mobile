@@ -16,9 +16,14 @@ sealed class ChatEvent extends Equatable {
 /// Opens a chat with [peer]. [conversationId] is null when composing to a
 /// user with no known conversation yet — the first send adopts the id the
 /// server returns.
+///
+/// [peer] is null when the chat was opened by conversation id alone — a push
+/// notification tap — in which case the bloc resolves it from the server
+/// before loading history. Exactly one of the two must be present: a null
+/// [peer] with a null [conversationId] has nothing to open.
 class LoadChat extends ChatEvent {
   final String? conversationId;
-  final MessageUserEntity peer;
+  final MessageUserEntity? peer;
   const LoadChat({required this.conversationId, required this.peer});
 
   @override

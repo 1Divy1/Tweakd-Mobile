@@ -12,6 +12,12 @@ import '../models/dm_models.dart';
 /// presence in PresenceService.
 abstract class MessagesDataSource {
   Future<DmConversationsPageModel> getConversations({String? cursor});
+
+  /// One conversation by id. Used when a chat is opened without its peer
+  /// travelling alongside — a push notification tap, where the payload names
+  /// the conversation but carries no avatar.
+  Future<DmConversationModel> getConversation(String conversationId);
+
   Future<DmMessagesPageModel> getMessages(
     String conversationId, {
     String? cursor,
@@ -56,6 +62,12 @@ class MessagesApiDataSource implements MessagesDataSource {
       queryParameters: {'cursor': ?cursor},
     );
     return DmConversationsPageModel.fromJson(data as Map<String, dynamic>);
+  }
+
+  @override
+  Future<DmConversationModel> getConversation(String conversationId) async {
+    final data = await http.get('/dms/conversations/$conversationId');
+    return DmConversationModel.fromJson(data as Map<String, dynamic>);
   }
 
   @override

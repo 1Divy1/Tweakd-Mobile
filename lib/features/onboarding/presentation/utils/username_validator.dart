@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/l10n/app_localizations.dart';
+import 'package:tweakd/l10n/app_localizations.dart';
 
 /// Username rules mirror the backend contract: 3–30 chars, must start with a
 /// lowercase letter, end alphanumeric, only `a-z 0-9 . _`, and no `__` / `..`.

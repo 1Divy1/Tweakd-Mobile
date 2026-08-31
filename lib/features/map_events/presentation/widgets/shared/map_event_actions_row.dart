@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/l10n/app_localizations.dart';
+import 'package:tweakd/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/entities/map_event_enums.dart';

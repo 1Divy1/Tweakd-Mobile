@@ -26,6 +26,8 @@ class NotificationsPage extends StatelessWidget {
           .read<NotificationsBloc>()
           .add(MarkNotificationReadEvent(notification.id));
     }
+    // Same resolver the push notification taps use, so a notification opens
+    // the same place whether it was tapped here or on the lock screen.
     final route = notification.targetRoute;
     if (route != null) context.push(route);
   }

@@ -1,5 +1,5 @@
-import 'package:car_social_media_app/core/services/image_service.dart';
-import 'package:car_social_media_app/features/map/domain/entities/geo_position.dart';
+import 'package:tweakd/core/services/image_service.dart';
+import 'package:tweakd/features/map/domain/entities/geo_position.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/map_event.dart';

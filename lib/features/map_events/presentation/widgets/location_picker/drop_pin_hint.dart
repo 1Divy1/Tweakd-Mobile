@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/core/theme/app_colors.dart';
+import 'package:tweakd/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 /// The instructional animation shown after the camera lands on a chosen

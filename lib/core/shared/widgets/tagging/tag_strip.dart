@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
-import 'package:car_social_media_app/core/theme/app_colors.dart';
+import 'package:tweakd/core/shared/entities/tag_selection.dart';
+import 'package:tweakd/core/theme/app_colors.dart';
 
 /// Compact, horizontally scrolling strip of the tags attached to the message
 /// being composed (a forum reply, a post comment). Sits above the input bar;

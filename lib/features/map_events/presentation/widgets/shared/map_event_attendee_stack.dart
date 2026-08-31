@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:car_social_media_app/core/theme/app_colors.dart';
-import 'package:car_social_media_app/l10n/app_localizations.dart';
+import 'package:tweakd/core/theme/app_colors.dart';
+import 'package:tweakd/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/entities/map_event_attendee.dart';

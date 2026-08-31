@@ -23,11 +23,12 @@ import '../widgets/shared/messages_error_view.dart';
 
 /// One open conversation: paged history, live bubbles and the composer.
 /// [conversationId] is null when composing to a user with no conversation
-/// yet; [peer] always travels with the route (the messages endpoint has no
-/// peer payload).
+/// yet; [peer] is null when the chat was opened by conversation id alone (a
+/// push notification tap) and the bloc resolves it from the server, so the
+/// header stays bare for that first moment.
 class ChatPage extends StatelessWidget {
   final String? conversationId;
-  final MessageUserEntity peer;
+  final MessageUserEntity? peer;
 
   const ChatPage({
     super.key,
@@ -63,10 +64,12 @@ class ChatPage extends StatelessWidget {
                 ChatTopBar(
                   user: headerUser,
                   onBack: () => context.pop(),
-                  onOpenProfile: () => context.push(
-                    '/users/${headerUser.username}',
-                    extra: headerUser.id,
-                  ),
+                  onOpenProfile: headerUser == null
+                      ? null
+                      : () => context.push(
+                            '/users/${headerUser.username}',
+                            extra: headerUser.id,
+                          ),
                 ),
                 Expanded(
                   child: switch (state) {

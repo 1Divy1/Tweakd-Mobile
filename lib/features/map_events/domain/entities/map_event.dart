@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/features/map/domain/entities/geo_position.dart';
+import 'package:tweakd/features/map/domain/entities/geo_position.dart';
 import 'package:equatable/equatable.dart';
 
 import 'map_event_enums.dart';

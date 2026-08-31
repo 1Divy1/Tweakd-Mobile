@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:car_social_media_app/core/theme/app_colors.dart';
+import 'package:tweakd/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 /// An event's cover photo, with the dark bottom gradient that lets white text

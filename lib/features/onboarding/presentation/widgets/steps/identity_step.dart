@@ -6,6 +6,7 @@ import '../../../../../l10n/app_localizations.dart';
 import '../../bloc/username_availability/bloc.dart';
 import '../../bloc/username_availability/event.dart';
 import '../../bloc/username_availability/state.dart';
+import '../../utils/name_validator.dart';
 import '../../utils/username_validator.dart';
 import '../onboarding_fields.dart';
 
@@ -13,16 +14,18 @@ import '../onboarding_fields.dart';
 /// 500-char ceiling.
 const int kOnboardingBioMaxLength = 150;
 
-/// Step 1 — claim a public handle and add an optional bio. The controllers
-/// are owned by the wizard so the entered values survive step navigation;
-/// this widget only listens to them to drive the live availability hint and
-/// the bio character counter.
+/// Step 1 — give a display name, claim a public handle and add an optional
+/// bio. The controllers are owned by the wizard so the entered values survive
+/// step navigation; this widget only listens to them to drive the live
+/// availability hint and the bio character counter.
 class IdentityStep extends StatelessWidget {
+  final TextEditingController nameCtrl;
   final TextEditingController usernameCtrl;
   final TextEditingController bioCtrl;
 
   const IdentityStep({
     super.key,
+    required this.nameCtrl,
     required this.usernameCtrl,
     required this.bioCtrl,
   });
@@ -44,6 +47,10 @@ class IdentityStep extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
+                OnboardingFieldLabel(l10n.onboardingFieldName),
+                const SizedBox(height: 8),
+                _NameField(controller: nameCtrl),
+                const SizedBox(height: 20),
                 OnboardingFieldLabel(l10n.onboardingFieldUsername),
                 const SizedBox(height: 8),
                 BlocBuilder<UsernameAvailabilityBloc,
@@ -88,6 +95,63 @@ class IdentityStep extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Display name. Prefilled by the wizard from the sign-up provider when it
+/// supplied one, otherwise typed. Unlike the handle there is no availability
+/// check — names are not unique.
+class _NameField extends StatelessWidget {
+  final TextEditingController controller;
+
+  const _NameField({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(6),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: TextField(
+        controller: controller,
+        maxLength: nameMaxLength,
+        textCapitalization: TextCapitalization.words,
+        textInputAction: TextInputAction.next,
+        cursorColor: AppColors.accent,
+        style: const TextStyle(
+          color: AppColors.ink,
+          fontSize: 16,
+          fontWeight: FontWeight.w800,
+          letterSpacing: 0.3,
+        ),
+        // The length cap is a guard rail, not something to count down to.
+        buildCounter: (_,
+                {required int currentLength,
+                int? maxLength,
+                required bool isFocused}) =>
+            null,
+        decoration: InputDecoration(
+          isDense: true,
+          filled: false,
+          hintText: AppLocalizations.of(context)!.onboardingNameHint,
+          hintStyle: const TextStyle(
+            color: AppColors.muteSoft,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+          contentPadding: const EdgeInsets.all(16),
+          border: InputBorder.none,
+        ),
+      ),
     );
   }
 }

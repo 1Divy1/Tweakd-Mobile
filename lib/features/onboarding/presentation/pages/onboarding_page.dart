@@ -1,9 +1,12 @@
-import 'package:car_social_media_app/features/garage/domain/entities/reference_data.dart';
+import 'dart:async';
+
+import 'package:tweakd/features/garage/domain/entities/reference_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/di/injection.dart';
+import '../../../../core/push/push_registration.dart';
 import '../../../../core/services/push_permission_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -17,6 +20,7 @@ import '../bloc/event.dart';
 import '../bloc/state.dart';
 import '../bloc/username_availability/bloc.dart';
 import '../bloc/username_availability/state.dart';
+import '../utils/name_validator.dart';
 import '../utils/onboarding_error_mapper.dart';
 import '../utils/username_validator.dart';
 import '../widgets/onboarding_chrome.dart';
@@ -40,6 +44,7 @@ class _OnboardingPageState extends State<OnboardingPage>
   int _step = 0;
 
   // Step 1 — Identity
+  final _nameCtrl = TextEditingController();
   final _usernameCtrl = TextEditingController();
   final _bioCtrl = TextEditingController();
 
@@ -55,9 +60,24 @@ class _OnboardingPageState extends State<OnboardingPage>
   // Step 6 — Notifications
   NotificationPreferences _notifications = NotificationPreferences.defaults();
 
+  /// Guards the one-shot name prefill so it cannot overwrite what the user has
+  /// since typed — the reference-data state is re-emitted on every lazy city or
+  /// model fetch, and each of those runs the listener again.
+  bool _namePrefilled = false;
+
   // OS-level push permission, reflected by the banner on the Notifications step.
   final _pushPermissions = getIt<PushPermissionService>();
   PushPermission _pushPermission = PushPermission.canRequest;
+
+  /// [_notifications] as the user last set it, forced entirely off while push
+  /// isn't granted — per-topic prefs can't do anything without OS permission,
+  /// so neither the UI nor the submission payload should show them enabled.
+  /// The user's underlying choices in [_notifications] are preserved and
+  /// reapplied automatically once push is granted.
+  NotificationPreferences get _effectiveNotifications =>
+      _pushPermission == PushPermission.granted
+          ? _notifications
+          : NotificationPreferences.allDisabled();
 
   @override
   void initState() {
@@ -69,6 +89,7 @@ class _OnboardingPageState extends State<OnboardingPage>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _nameCtrl.dispose();
     _usernameCtrl.dispose();
     _bioCtrl.dispose();
     super.dispose();
@@ -85,11 +106,26 @@ class _OnboardingPageState extends State<OnboardingPage>
   Future<void> _refreshPushPermission() async {
     final status = await _pushPermissions.current();
     if (mounted) setState(() => _pushPermission = status);
+    _registerDeviceIfGranted(status);
   }
 
   Future<void> _enablePush() async {
     final status = await _pushPermissions.request();
     if (mounted) setState(() => _pushPermission = status);
+    _registerDeviceIfGranted(status);
+  }
+
+  /// Nudges the device registration the moment permission lands, so push works
+  /// for the rest of this session rather than from the next cold start.
+  ///
+  /// Usually a no-op: registration already ran at sign-in, and a token is
+  /// obtainable without permission on both platforms. It matters when that
+  /// first attempt came back empty — most often an iOS cold start where APNs
+  /// hadn't answered yet — and when the user grants permission from system
+  /// settings while this screen is backgrounded.
+  void _registerDeviceIfGranted(PushPermission status) {
+    if (status != PushPermission.granted) return;
+    unawaited(getIt<PushRegistration>().start());
   }
 
   void _openPushSettings() => _pushPermissions.openSettings();
@@ -101,6 +137,16 @@ class _OnboardingPageState extends State<OnboardingPage>
     final l10n = AppLocalizations.of(context)!;
     return BlocConsumer<OnboardingBloc, OnboardingState>(
       listener: (context, state) {
+        // Seed the name from whatever the sign-up provider gave us, once. Empty
+        // for an email/password sign-up and for a returning Apple account, in
+        // which case the field just stays blank for the user to fill in.
+        if (state is OnboardingRefLoaded && !_namePrefilled) {
+          _namePrefilled = true;
+          final suggested = state.suggestedFullName;
+          if (suggested != null && _nameCtrl.text.isEmpty) {
+            _nameCtrl.text = suggested;
+          }
+        }
         if (state is OnboardingSubmitted) {
           context.go('/profile');
         } else if (state is OnboardingSubmitError) {
@@ -183,6 +229,7 @@ class _OnboardingPageState extends State<OnboardingPage>
     switch (_step) {
       case 0:
         return IdentityStep(
+          nameCtrl: _nameCtrl,
           usernameCtrl: _usernameCtrl,
           bioCtrl: _bioCtrl,
         );
@@ -220,7 +267,7 @@ class _OnboardingPageState extends State<OnboardingPage>
         );
       case 3:
         return NotificationsStep(
-          prefs: _notifications,
+          prefs: _effectiveNotifications,
           radiusKm: _radiusKm,
           onChanged: (prefs) => setState(() => _notifications = prefs),
           pushPermission: _pushPermission,
@@ -284,9 +331,12 @@ class _OnboardingPageState extends State<OnboardingPage>
     String? error;
     switch (_step) {
       case 0:
+        final nameError = validateOnboardingName(_nameCtrl.text.trim());
         final formatError =
             validateOnboardingUsername(_usernameCtrl.text.trim());
-        if (formatError != null) {
+        if (nameError != null) {
+          error = nameValidationMessage(l10n, nameError);
+        } else if (formatError != null) {
           error = usernameValidationMessage(l10n, formatError);
         } else if (context.read<UsernameAvailabilityBloc>().state
             is UsernameTaken) {
@@ -310,6 +360,11 @@ class _OnboardingPageState extends State<OnboardingPage>
     final l10n = AppLocalizations.of(context)!;
     // Re-check the required answers in case the user navigated back and
     // cleared one. Jump to the offending step rather than failing the call.
+    final nameError = validateOnboardingName(_nameCtrl.text.trim());
+    if (nameError != null) {
+      _jumpTo(context, 0, nameValidationMessage(l10n, nameError));
+      return;
+    }
     final usernameError = validateOnboardingUsername(_usernameCtrl.text.trim());
     if (usernameError != null) {
       _jumpTo(context, 0, usernameValidationMessage(l10n, usernameError));
@@ -332,11 +387,12 @@ class _OnboardingPageState extends State<OnboardingPage>
     _bloc.add(
       SubmitOnboarding(
         OnboardingSubmissionParams(
+          name: _nameCtrl.text.trim(),
           username: _usernameCtrl.text.trim(),
           bio: bio.isEmpty ? null : bio,
           cityId: _city!.id,
           discoveryRadiusKm: _radiusKm,
-          notifications: _notifications,
+          notifications: _effectiveNotifications,
           dreamCars: _buildDreamCars(),
         ),
       ),

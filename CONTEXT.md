@@ -1,4 +1,4 @@
-# CONTEXT.md — Cargram Codebase Reference
+# CONTEXT.md — Tweakd Codebase Reference
 
 Quick-reference for architecture, patterns, and definitions. Read this before exploring files.
 
@@ -6,11 +6,11 @@ Quick-reference for architecture, patterns, and definitions. Read this before ex
 
 ## App Overview
 
-- **Name**: Cargram (car social media app)
+- **Name**: Tweakd
 - **Stack**: Flutter + BLoC + Clean Architecture + GoRouter + GetIt/Injectable
 - **Backend**: Spring Boot at `http://localhost:8080`, endpoints prefixed `/public/api/v1`
 - **Auth**: Supabase (identity/JWT) + Spring (app data). JWT attached to every request via `AuthInterceptor`.
-- **Entry**: `main.dart` — loads `.env`, inits Supabase with `SecureLocalStorage`, calls `configureDependencies()`, mounts `CarSocialMediaApp` with root `AuthBloc`.
+- **Entry**: `main.dart` — loads `.env`, inits Supabase with `SecureLocalStorage`, calls `configureDependencies()`, mounts `TweakdApp` with root `AuthBloc`.
 
 ---
 
@@ -275,7 +275,7 @@ Uses `context.go()` and guards with `if (activeTab != tab)` to avoid redundant n
 
 ## Conventions
 
-- Imports: relative within same feature; `package:car_social_media_app/...` across features (existing code mixes both — match surrounding file).
+- Imports: relative within same feature; `package:tweakd/...` across features (existing code mixes both — match surrounding file).
 - JSON is snake_case; Dart fields are camelCase; `fromJson` handles the mapping.
 - Sub-widgets go in `presentation/widgets/` subdirectories, **never as private classes inside page files**.
 - Auth token: never set `Authorization` manually at call sites — `AuthInterceptor` handles it.

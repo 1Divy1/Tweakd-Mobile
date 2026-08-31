@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:car_social_media_app/features/posts/domain/entities/post.dart';
-import 'package:car_social_media_app/features/posts/presentation/widgets/post_card/post_author_header.dart';
-import 'package:car_social_media_app/features/posts/presentation/widgets/post_card/post_media_carousel.dart';
-import 'package:car_social_media_app/features/posts/presentation/widgets/post_card/post_tags.dart';
+import 'package:tweakd/features/posts/domain/entities/post.dart';
+import 'package:tweakd/features/posts/presentation/widgets/post_card/post_author_header.dart';
+import 'package:tweakd/features/posts/presentation/widgets/post_card/post_media_carousel.dart';
+import 'package:tweakd/features/posts/presentation/widgets/post_card/post_tags.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';

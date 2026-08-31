@@ -37,6 +37,7 @@ class NotificationsStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final topicsEnabled = pushPermission == PushPermission.granted;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -65,6 +66,7 @@ class NotificationsStep extends StatelessWidget {
                     title: l10n.onboardingNotifLikesTitle,
                     subtitle: l10n.onboardingNotifLikesSubtitle,
                     value: prefs.likesEnabled,
+                    enabled: topicsEnabled,
                     onChanged: (v) => onChanged(prefs.copyWith(likesEnabled: v)),
                   ),
                   _ToggleRow(
@@ -72,6 +74,7 @@ class NotificationsStep extends StatelessWidget {
                     title: l10n.onboardingNotifCommentsTitle,
                     subtitle: l10n.onboardingNotifCommentsSubtitle,
                     value: prefs.commentsEnabled,
+                    enabled: topicsEnabled,
                     onChanged: (v) =>
                         onChanged(prefs.copyWith(commentsEnabled: v)),
                   ),
@@ -80,6 +83,7 @@ class NotificationsStep extends StatelessWidget {
                     title: l10n.onboardingNotifSharesTitle,
                     subtitle: l10n.onboardingNotifSharesSubtitle,
                     value: prefs.sharesEnabled,
+                    enabled: topicsEnabled,
                     onChanged: (v) => onChanged(prefs.copyWith(sharesEnabled: v)),
                   ),
                   _ToggleRow(
@@ -87,6 +91,7 @@ class NotificationsStep extends StatelessWidget {
                     title: l10n.onboardingNotifTagsTitle,
                     subtitle: l10n.onboardingNotifTagsSubtitle,
                     value: prefs.tagsEnabled,
+                    enabled: topicsEnabled,
                     onChanged: (v) => onChanged(prefs.copyWith(tagsEnabled: v)),
                   ),
                   const SizedBox(height: 18),
@@ -96,6 +101,7 @@ class NotificationsStep extends StatelessWidget {
                     title: l10n.onboardingNotifDmsTitle,
                     subtitle: l10n.onboardingNotifDmsSubtitle,
                     value: prefs.dmsEnabled,
+                    enabled: topicsEnabled,
                     onChanged: (v) => onChanged(prefs.copyWith(dmsEnabled: v)),
                   ),
                   const SizedBox(height: 18),
@@ -106,6 +112,7 @@ class NotificationsStep extends StatelessWidget {
                     title: l10n.onboardingNotifFlashMeetsTitle,
                     subtitle: l10n.onboardingNotifFlashMeetsSubtitle,
                     value: prefs.flashMeetsEnabled,
+                    enabled: topicsEnabled,
                     onChanged: (v) =>
                         onChanged(prefs.copyWith(flashMeetsEnabled: v)),
                   ),
@@ -114,6 +121,7 @@ class NotificationsStep extends StatelessWidget {
                     title: l10n.onboardingNotifEventsTitle,
                     subtitle: l10n.onboardingNotifEventsSubtitle,
                     value: prefs.organizedEventsEnabled,
+                    enabled: topicsEnabled,
                     onChanged: (v) =>
                         onChanged(prefs.copyWith(organizedEventsEnabled: v)),
                   ),
@@ -122,6 +130,7 @@ class NotificationsStep extends StatelessWidget {
                     title: l10n.onboardingNotifEventOrganizerTitle,
                     subtitle: l10n.onboardingNotifEventOrganizerSubtitle,
                     value: prefs.eventOrganizerEnabled,
+                    enabled: topicsEnabled,
                     onChanged: (v) =>
                         onChanged(prefs.copyWith(eventOrganizerEnabled: v)),
                   ),
@@ -132,6 +141,7 @@ class NotificationsStep extends StatelessWidget {
                     title: l10n.onboardingNotifServiceRemindersTitle,
                     subtitle: l10n.onboardingNotifServiceRemindersSubtitle,
                     value: prefs.serviceRemindersEnabled,
+                    enabled: topicsEnabled,
                     onChanged: (v) =>
                         onChanged(prefs.copyWith(serviceRemindersEnabled: v)),
                   ),
@@ -354,6 +364,7 @@ class _ToggleRow extends StatelessWidget {
   final String title;
   final String subtitle;
   final bool value;
+  final bool enabled;
   final ValueChanged<bool> onChanged;
 
   const _ToggleRow({
@@ -362,6 +373,7 @@ class _ToggleRow extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.value,
+    this.enabled = true,
     required this.onChanged,
   });
 
@@ -369,59 +381,63 @@ class _ToggleRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withAlpha(6),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: AppColors.bg,
-                borderRadius: BorderRadius.circular(11),
+      child: Opacity(
+        opacity: enabled ? 1 : 0.45,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(6),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
               ),
-              child: Icon(icon, size: 20, color: iconColor ?? AppColors.ink2),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      color: AppColors.ink,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  const SizedBox(height: 3),
-                  Text(
-                    subtitle,
-                    style: const TextStyle(
-                      color: AppColors.mute,
-                      fontSize: 13,
-                      height: 1.3,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: AppColors.bg,
+                  borderRadius: BorderRadius.circular(11),
+                ),
+                child:
+                    Icon(icon, size: 20, color: iconColor ?? AppColors.ink2),
               ),
-            ),
-            const SizedBox(width: 10),
-            _Toggle(value: value, onChanged: onChanged),
-          ],
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: AppColors.ink,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        color: AppColors.mute,
+                        fontSize: 13,
+                        height: 1.3,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
+              _Toggle(value: value, enabled: enabled, onChanged: onChanged),
+            ],
+          ),
         ),
       ),
     );
@@ -431,14 +447,19 @@ class _ToggleRow extends StatelessWidget {
 /// Pill switch matching the design — accent track when on, neutral when off.
 class _Toggle extends StatelessWidget {
   final bool value;
+  final bool enabled;
   final ValueChanged<bool> onChanged;
 
-  const _Toggle({required this.value, required this.onChanged});
+  const _Toggle({
+    required this.value,
+    this.enabled = true,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onChanged(!value),
+      onTap: enabled ? () => onChanged(!value) : null,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 160),
         width: 50,

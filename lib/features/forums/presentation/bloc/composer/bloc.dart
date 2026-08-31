@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import 'package:car_social_media_app/features/garage/domain/entities/reference_data.dart';
-import 'package:car_social_media_app/features/garage/domain/usecases/get_reference_data.dart';
+import 'package:tweakd/features/garage/domain/entities/reference_data.dart';
+import 'package:tweakd/features/garage/domain/usecases/get_reference_data.dart';
 
 import '../../../../../core/usecases/usecase.dart';
 import '../../../domain/usecases/create_forum_thread.dart';

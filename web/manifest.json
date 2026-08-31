@@ -1,11 +1,11 @@
 {
-    "name": "car_social_media_app",
-    "short_name": "car_social_media_app",
+    "name": "Tweakd",
+    "short_name": "Tweakd",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Tweakd — the social network for car people.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

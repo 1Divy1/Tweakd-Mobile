@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/core/error/base_failures.dart';
+import 'package:tweakd/core/error/base_failures.dart';
 
 class CarNotFoundFailure extends Failure {
   const CarNotFoundFailure() : super(message: 'Car not found.');

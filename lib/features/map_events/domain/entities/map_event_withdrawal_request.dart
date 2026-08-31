@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/features/garage/domain/entities/car_summary.dart';
+import 'package:tweakd/features/garage/domain/entities/car_summary.dart';
 import 'package:equatable/equatable.dart';
 
 /// A pending "let me out" request, from the organizer-only

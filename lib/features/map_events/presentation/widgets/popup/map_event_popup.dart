@@ -1,7 +1,7 @@
-import 'package:car_social_media_app/core/theme/app_colors.dart';
-import 'package:car_social_media_app/features/map/domain/entities/geo_position.dart';
-import 'package:car_social_media_app/features/map/presentation/widgets/navigation/navigation_app_sheet.dart';
-import 'package:car_social_media_app/l10n/app_localizations.dart';
+import 'package:tweakd/core/theme/app_colors.dart';
+import 'package:tweakd/features/map/domain/entities/geo_position.dart';
+import 'package:tweakd/features/map/presentation/widgets/navigation/navigation_app_sheet.dart';
+import 'package:tweakd/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

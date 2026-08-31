@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:car_social_media_app/features/posts/presentation/widgets/post_detail/post_time.dart';
+import 'package:tweakd/features/posts/presentation/widgets/post_detail/post_time.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:car_social_media_app/core/shared/bloc/tag_picker/bloc.dart';
-import 'package:car_social_media_app/core/shared/entities/tag_selection.dart';
-import 'package:car_social_media_app/core/shared/widgets/tagging/tag_editor.dart';
+import 'package:tweakd/core/shared/bloc/tag_picker/bloc.dart';
+import 'package:tweakd/core/shared/entities/tag_selection.dart';
+import 'package:tweakd/core/shared/widgets/tagging/tag_editor.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';

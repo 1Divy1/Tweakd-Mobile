@@ -256,6 +256,19 @@ class AppLocalizationsRo extends AppLocalizations {
       'Selectează orașul pentru a continua.';
 
   @override
+  String get onboardingNameErrorEmpty => 'Introdu-ți numele.';
+
+  @override
+  String onboardingNameErrorTooShort(int min) {
+    return 'Numele trebuie să aibă cel puțin $min caractere.';
+  }
+
+  @override
+  String onboardingNameErrorTooLong(int max) {
+    return 'Numele poate avea cel mult $max caractere.';
+  }
+
+  @override
   String get onboardingUsernameErrorEmpty => 'Alege un nume de utilizator.';
 
   @override
@@ -312,6 +325,12 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get onboardingIdentityTitle => 'Alege-ți numele';
+
+  @override
+  String get onboardingFieldName => 'NUME';
+
+  @override
+  String get onboardingNameHint => 'Numele tău';
 
   @override
   String get onboardingFieldUsername => 'NUME DE UTILIZATOR';

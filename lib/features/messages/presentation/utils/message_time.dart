@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/l10n/app_localizations.dart';
+import 'package:tweakd/l10n/app_localizations.dart';
 
 /// Compact "2m / 1h / 1d" age for inbox rows.
 String messageCompactAgo(AppLocalizations l10n, DateTime time) {

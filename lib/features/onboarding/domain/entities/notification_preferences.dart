@@ -46,6 +46,20 @@ class NotificationPreferences extends Equatable {
         eventOrganizerEnabled: true,
       );
 
+  /// Every topic off — the effective state while OS-level push permission
+  /// isn't granted, since per-topic prefs are meaningless without it.
+  factory NotificationPreferences.allDisabled() => const NotificationPreferences(
+        likesEnabled: false,
+        commentsEnabled: false,
+        sharesEnabled: false,
+        dmsEnabled: false,
+        flashMeetsEnabled: false,
+        organizedEventsEnabled: false,
+        serviceRemindersEnabled: false,
+        tagsEnabled: false,
+        eventOrganizerEnabled: false,
+      );
+
   NotificationPreferences copyWith({
     bool? likesEnabled,
     bool? commentsEnabled,

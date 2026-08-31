@@ -1,4 +1,4 @@
-import 'package:car_social_media_app/core/shared/entities/image_ref.dart';
+import 'package:tweakd/core/shared/entities/image_ref.dart';
 import 'package:equatable/equatable.dart';
 
 class PostSummaryEntity extends Equatable {

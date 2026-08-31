@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
-import 'package:car_social_media_app/features/forums/domain/entities/forum_reply.dart';
-import 'package:car_social_media_app/features/forums/domain/entities/forum_thread.dart';
-import 'package:car_social_media_app/features/posts/domain/entities/post.dart';
-import 'package:car_social_media_app/features/posts/domain/entities/post_comment.dart';
+import 'package:tweakd/features/forums/domain/entities/forum_reply.dart';
+import 'package:tweakd/features/forums/domain/entities/forum_thread.dart';
+import 'package:tweakd/features/posts/domain/entities/post.dart';
+import 'package:tweakd/features/posts/domain/entities/post_comment.dart';
 
 /// The four kinds of content a person (or their car) can be tagged in. DMs are
 /// deliberately absent — private conversations never surface in the tags feed.
