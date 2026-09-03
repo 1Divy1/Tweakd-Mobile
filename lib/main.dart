@@ -55,7 +55,7 @@ void main() async {
   // Initialize Supabase
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,
-    anonKey: dotenv.env['SUPABASE_PUBLISHABLE_KEY']!,
+    publishableKey: dotenv.env['SUPABASE_PUBLISHABLE_KEY']!,
     authOptions: FlutterAuthClientOptions(
       localStorage: SecureLocalStorage(),
     ),

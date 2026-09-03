@@ -532,10 +532,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileMessage => 'Message';
 
   @override
-  String get profileStatFollowers => 'FOLLOWERS';
+  String get profileStatReputation => 'reputation';
 
   @override
-  String get profileStatFollowing => 'FOLLOWING';
+  String get profileStatFollowers => 'followers';
+
+  @override
+  String get profileStatFollowing => 'following';
 
   @override
   String get profileErrorUsernameTaken =>
@@ -560,6 +563,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileEditButton => 'Edit profile';
+
+  @override
+  String get profileShareButton => 'Share profile';
+
+  @override
+  String get profileCreateButton => 'Create';
 
   @override
   String get editProfileTitle => 'EDIT PROFILE';
@@ -604,21 +613,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get followActionRequested => 'REQUESTED';
-
-  @override
-  String get garageSectionEyebrow => 'THE GARAGE';
-
-  @override
-  String garageMachineCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count Cars',
-      one: '1 Car',
-      zero: '0 Cars',
-    );
-    return '$_temp0';
-  }
 
   @override
   String get garageAddButton => '+ ADD';
@@ -1555,13 +1549,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get postErrorNotFound => 'This post no longer exists.';
 
   @override
-  String get profileTabPosts => 'POSTS';
+  String get profileTabPosts => 'Posts';
 
   @override
-  String get profileTabGarage => 'GARAGE';
+  String get profileTabGarage => 'Garage';
 
   @override
-  String get profileTabTags => 'TAGS';
+  String get profileTabTags => 'Tags';
 
   @override
   String get postsLoadMore => 'LOAD MORE';
@@ -3231,7 +3225,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Start typing a name to find people and certified businesses.';
 
   @override
-  String get profileTabEvents => 'EVENTS';
+  String get profileTabEvents => 'Events';
 
   @override
   String get mapEventsMineTitle => 'My events';
@@ -3487,4 +3481,76 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get feedbackFeedErrorGeneric =>
       'Something went wrong. Please try again.';
+
+  @override
+  String get profileBadgesAll => 'ALL';
+
+  @override
+  String get profileBadgesSheetTitle => 'Badges';
+
+  @override
+  String profileBadgesSheetSubtitle(int earned, int total) {
+    return '$earned of $total unlocked';
+  }
+
+  @override
+  String get profileBadgesLocked => 'LOCKED';
+
+  @override
+  String get profileBadgesEmptyOwner =>
+      'No badges yet. Join meets, enter contests and help out on the forums to start collecting.';
+
+  @override
+  String get profileBadgesEmptyVisitor => 'No badges yet.';
+
+  @override
+  String get profileBadgesLoadError =>
+      'We couldn’t load the badges. Please try again.';
+
+  @override
+  String get garageCarStatYear => 'YEAR';
+
+  @override
+  String get garageCarShareButton => 'Share car';
+
+  @override
+  String profileBadgesSheetUnlocked(num count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString unlocked',
+      one: '1 unlocked',
+      zero: 'No badges yet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get profileCreatePost => 'New post';
+
+  @override
+  String get profileCreatePostHint => 'Share a photo or a story from the road.';
+
+  @override
+  String get profileCreateEvent => 'New car event';
+
+  @override
+  String get profileCreateEventHint => 'Set up a meet, a cruise or a show.';
+
+  @override
+  String get garageCarStatPower => 'POWER';
+
+  @override
+  String get garageCarStatTorque => 'TORQUE';
+
+  @override
+  String get garageCarUnitPower => 'hp';
+
+  @override
+  String get garageCarUnitTorque => 'lb-ft';
 }

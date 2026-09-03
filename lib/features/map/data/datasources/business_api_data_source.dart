@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/network/abstract_http.dart';
@@ -49,9 +48,6 @@ class BusinessApiDataSource {
   }) async {
     final data = await http.get('/businesses/$id', cancelToken: cancelToken);
     BusinessDetailModel model = BusinessDetailModel.fromJson(data as Map<String, dynamic>);
-    
-    // TODO: debug only
-    debugPrint("Logo URL: ${model.logoUrl}");
 
     return model;
   }

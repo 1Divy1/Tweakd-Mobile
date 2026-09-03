@@ -77,8 +77,9 @@ class AppBottomNav extends StatelessWidget {
               icon: Icons.person_outline,
               isActive: activeTab == AppBottomNavTab.profile,
               onTap: () {
-                if (activeTab != AppBottomNavTab.profile)
+                if (activeTab != AppBottomNavTab.profile) {
                   context.go('/profile');
+                }
               },
             ),
           ],
