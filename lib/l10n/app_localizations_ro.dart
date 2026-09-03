@@ -535,10 +535,13 @@ class AppLocalizationsRo extends AppLocalizations {
   String get profileMessage => 'Mesaj';
 
   @override
-  String get profileStatFollowers => 'URMĂRITORI';
+  String get profileStatReputation => 'reputație';
 
   @override
-  String get profileStatFollowing => 'URMĂREȘTE';
+  String get profileStatFollowers => 'urmăritori';
+
+  @override
+  String get profileStatFollowing => 'urmărește';
 
   @override
   String get profileErrorUsernameTaken =>
@@ -564,6 +567,12 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get profileEditButton => 'Editează profilul';
+
+  @override
+  String get profileShareButton => 'Distribuie profilul';
+
+  @override
+  String get profileCreateButton => 'Creează';
 
   @override
   String get editProfileTitle => 'EDITEAZĂ PROFILUL';
@@ -609,21 +618,6 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get followActionRequested => 'SOLICITAT';
-
-  @override
-  String get garageSectionEyebrow => 'GARAJUL';
-
-  @override
-  String garageMachineCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count mașini',
-      one: '1 mașină',
-      zero: '0 mașini',
-    );
-    return '$_temp0';
-  }
 
   @override
   String get garageAddButton => '+ ADAUGĂ';
@@ -1563,13 +1557,13 @@ class AppLocalizationsRo extends AppLocalizations {
   String get postErrorNotFound => 'Această postare nu mai există.';
 
   @override
-  String get profileTabPosts => 'POSTĂRI';
+  String get profileTabPosts => 'Postări';
 
   @override
-  String get profileTabGarage => 'GARAJ';
+  String get profileTabGarage => 'Garaj';
 
   @override
-  String get profileTabTags => 'ETICHETE';
+  String get profileTabTags => 'Etichetări';
 
   @override
   String get postsLoadMore => 'ÎNCARCĂ MAI MULT';
@@ -3260,7 +3254,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Începe să scrii un nume pentru a găsi persoane și business-uri certificate.';
 
   @override
-  String get profileTabEvents => 'EVENIMENTE';
+  String get profileTabEvents => 'Evenimente';
 
   @override
   String get mapEventsMineTitle => 'Evenimentele mele';
@@ -3518,4 +3512,78 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get feedbackFeedErrorGeneric =>
       'Ceva nu a mers bine. Încearcă din nou.';
+
+  @override
+  String get profileBadgesAll => 'TOATE';
+
+  @override
+  String get profileBadgesSheetTitle => 'Insigne';
+
+  @override
+  String profileBadgesSheetSubtitle(int earned, int total) {
+    return '$earned din $total deblocate';
+  }
+
+  @override
+  String get profileBadgesLocked => 'BLOCATĂ';
+
+  @override
+  String get profileBadgesEmptyOwner =>
+      'Încă nu ai insigne. Participă la întâlniri, intră în concursuri și ajută pe forum ca să începi colecția.';
+
+  @override
+  String get profileBadgesEmptyVisitor => 'Încă nu are insigne.';
+
+  @override
+  String get profileBadgesLoadError =>
+      'Nu am putut încărca insignele. Încearcă din nou.';
+
+  @override
+  String get garageCarStatYear => 'AN';
+
+  @override
+  String get garageCarShareButton => 'Distribuie mașina';
+
+  @override
+  String profileBadgesSheetUnlocked(num count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString deblocate',
+      one: '1 deblocată',
+      zero: 'Nicio insignă încă',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get profileCreatePost => 'Postare nouă';
+
+  @override
+  String get profileCreatePostHint =>
+      'Împarte o poză sau o poveste de pe drum.';
+
+  @override
+  String get profileCreateEvent => 'Eveniment auto nou';
+
+  @override
+  String get profileCreateEventHint =>
+      'Organizează o întâlnire, un tur sau un show.';
+
+  @override
+  String get garageCarStatPower => 'PUTERE';
+
+  @override
+  String get garageCarStatTorque => 'CUPLU';
+
+  @override
+  String get garageCarUnitPower => 'cp';
+
+  @override
+  String get garageCarUnitTorque => 'lb-ft';
 }

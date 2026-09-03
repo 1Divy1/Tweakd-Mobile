@@ -49,6 +49,16 @@ import '../../features/authentication/presentation/bloc/password_reset/bloc.dart
     as _i57;
 import '../../features/authentication/presentation/bloc/signup/bloc.dart'
     as _i246;
+import '../../features/badges/data/datasources/badge_api_data_source.dart'
+    as _i389;
+import '../../features/badges/data/datasources/badge_data_source.dart' as _i308;
+import '../../features/badges/data/repositories/badge_repository_impl.dart'
+    as _i700;
+import '../../features/badges/domain/repositories/badge_repository.dart'
+    as _i360;
+import '../../features/badges/domain/usecases/get_my_locked_badges.dart'
+    as _i1011;
+import '../../features/badges/presentation/bloc/bloc.dart' as _i298;
 import '../../features/feed/data/datasources/feed_api_data_source.dart'
     as _i194;
 import '../../features/feed/data/repositories/feed_repository_impl.dart'
@@ -507,6 +517,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i992.PushNotificationService>(
       () =>
           _i479.FirebasePushNotificationService(gh<_i494.LocalNotifications>()),
+    );
+    gh.lazySingleton<_i308.BadgeDataSource>(
+      () => _i389.BadgeApiDataSource(gh<_i311.AbstractHTTP>()),
     );
     gh.lazySingleton<_i973.MapRepository>(
       () => _i457.MapRepositoryImpl(
@@ -1063,6 +1076,9 @@ extension GetItInjectableX on _i174.GetIt {
         addComment: gh<_i541.AddCommentUseCase>(),
       ),
     );
+    gh.lazySingleton<_i360.BadgeRepository>(
+      () => _i700.BadgeRepositoryImpl(gh<_i308.BadgeDataSource>()),
+    );
     gh.lazySingleton<_i231.GetComposeSuggestionsUseCase>(
       () => _i231.GetComposeSuggestionsUseCase(gh<_i794.MessagesRepository>()),
     );
@@ -1317,6 +1333,9 @@ extension GetItInjectableX on _i174.GetIt {
         getUnreadCount: gh<_i43.GetUnreadNotificationsCountUseCase>(),
       ),
     );
+    gh.lazySingleton<_i1011.GetMyLockedBadgesUseCase>(
+      () => _i1011.GetMyLockedBadgesUseCase(gh<_i360.BadgeRepository>()),
+    );
     gh.factory<_i121.GarageBloc>(
       () => _i121.GarageBloc(
         getMyGarage: gh<_i391.GetMyGarageUseCase>(),
@@ -1456,6 +1475,11 @@ extension GetItInjectableX on _i174.GetIt {
         getMyTags: gh<_i227.GetMyTagsUseCase>(),
         getTagsByUsername: gh<_i198.GetTagsByUsernameUseCase>(),
         removeTag: gh<_i369.RemoveTagUseCase>(),
+      ),
+    );
+    gh.factory<_i298.BadgesBloc>(
+      () => _i298.BadgesBloc(
+        getMyLockedBadges: gh<_i1011.GetMyLockedBadgesUseCase>(),
       ),
     );
     gh.factory<_i396.CompletedFeedbackBloc>(

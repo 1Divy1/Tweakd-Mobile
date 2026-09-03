@@ -9,17 +9,9 @@ class ProfileBio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: Text(
-        bio,
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          color: AppColors.mute,
-          fontSize: 14,
-          height: 1.45,
-        ),
-      ),
+    return Text(
+      bio,
+      style: const TextStyle(color: AppColors.ink2, fontSize: 14, height: 1.45),
     );
   }
 }

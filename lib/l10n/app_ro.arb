@@ -175,8 +175,9 @@
 
   "profileTitle": "PROFIL",
   "profileMessage": "Mesaj",
-  "profileStatFollowers": "URMĂRITORI",
-  "profileStatFollowing": "URMĂREȘTE",
+  "profileStatReputation": "reputație",
+  "profileStatFollowers": "urmăritori",
+  "profileStatFollowing": "urmărește",
 
   "profileErrorUsernameTaken": "Acest nume de utilizator este deja folosit. Alege altul.",
   "profileErrorSessionExpired": "Sesiunea ta nu mai este activă. Te rugăm să te conectezi din nou.",
@@ -186,6 +187,8 @@
   "profileErrorNetwork": "Fără conexiune la internet. Te rugăm să încerci din nou.",
 
   "profileEditButton": "Editează profilul",
+  "profileShareButton": "Distribuie profilul",
+  "profileCreateButton": "Creează",
   "editProfileTitle": "EDITEAZĂ PROFILUL",
   "editProfileChangePhoto": "Schimbă poza",
   "editProfileNameLabel": "NUME",
@@ -202,8 +205,6 @@
   "followActionUnfollow": "NU MAI URMĂRI",
   "followActionRequested": "SOLICITAT",
 
-  "garageSectionEyebrow": "GARAJUL",
-  "garageMachineCount": "{count, plural, =0{0 mașini} =1{1 mașină} other{{count} mașini}}",
   "garageAddButton": "+ ADAUGĂ",
   "garageEmptyOwner": "Garajul tău este gol. Adaugă prima ta mașină.",
   "garageEmptyVisitor": "Nicio mașină încă.",
@@ -522,9 +523,9 @@
   "postErrorNotOwner": "Nu ai permisiunea să faci asta.",
   "postErrorNotFound": "Această postare nu mai există.",
 
-  "profileTabPosts": "POSTĂRI",
-  "profileTabGarage": "GARAJ",
-  "profileTabTags": "ETICHETE",
+  "profileTabPosts": "Postări",
+  "profileTabGarage": "Garaj",
+  "profileTabTags": "Etichetări",
 
   "postsLoadMore": "ÎNCARCĂ MAI MULT",
   "postsEmptyOwner": "Încă nu ai postat nimic.",
@@ -1212,7 +1213,7 @@
   "mapEventsSearchOrganizersHint": "Caută persoane și business-uri",
   "mapEventsSearchOrganizersEmpty": "Nu a fost găsit nimeni.",
   "mapEventsSearchOrganizersPrompt": "Începe să scrii un nume pentru a găsi persoane și business-uri certificate.",
-  "profileTabEvents": "EVENIMENTE",
+  "profileTabEvents": "Evenimente",
   "mapEventsMineTitle": "Evenimentele mele",
   "mapEventsMineEmptyTitle": "Încă niciun eveniment",
   "mapEventsMineEmptyBody": "Evenimentele pe care le creezi apar aici — inclusiv cele care așteaptă verificarea.",
@@ -1305,5 +1306,27 @@
   "feedbackFeedErrorNetwork": "Nu ai conexiune la internet. Încearcă din nou.",
   "feedbackFeedErrorNotFound": "Acest feedback nu mai există.",
   "feedbackFeedErrorLocked": "Ne-am apucat deja de asta, așa că nu mai poate fi șters.",
-  "feedbackFeedErrorGeneric": "Ceva nu a mers bine. Încearcă din nou."
+  "feedbackFeedErrorGeneric": "Ceva nu a mers bine. Încearcă din nou.",
+  "profileBadgesAll": "TOATE",
+  "profileBadgesSheetTitle": "Insigne",
+  "profileBadgesSheetSubtitle": "{earned} din {total} deblocate",
+  "profileBadgesLocked": "BLOCAT\u0102",
+  "profileBadgesEmptyOwner": "\u00cenc\u0103 nu ai insigne. Particip\u0103 la \u00eent\u00e2lniri, intr\u0103 \u00een concursuri \u0219i ajut\u0103 pe forum ca s\u0103 \u00eencepi colec\u021bia.",
+  "profileBadgesEmptyVisitor": "\u00cenc\u0103 nu are insigne.",
+  "profileBadgesLoadError": "Nu am putut \u00eenc\u0103rca insignele. \u00cencearc\u0103 din nou.",
+
+  "garageCarStatYear": "AN",
+  "garageCarShareButton": "Distribuie mașina",
+  "profileBadgesSheetUnlocked": "{count, plural, =0{Nicio insignă încă} =1{1 deblocată} other{{count} deblocate}}",
+  "@profileBadgesSheetUnlocked": {
+    "placeholders": { "count": { "type": "num", "format": "compact" } }
+  },
+  "profileCreatePost": "Postare nouă",
+  "profileCreatePostHint": "Împarte o poză sau o poveste de pe drum.",
+  "profileCreateEvent": "Eveniment auto nou",
+  "profileCreateEventHint": "Organizează o întâlnire, un tur sau un show.",
+  "garageCarStatPower": "PUTERE",
+  "garageCarStatTorque": "CUPLU",
+  "garageCarUnitPower": "cp",
+  "garageCarUnitTorque": "lb-ft"
 }

@@ -26,8 +26,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   );
 
   @override
-  Future<Either<Failure, ProfileEntity>> getCurrentUserProfile({bool forceRefresh = false}) async {
-    
+  Future<Either<Failure, ProfileEntity>> getCurrentUserProfile({
+    bool forceRefresh = false,
+  }) async {
     // Return cached profile if available and not forcing refresh
     if (!forceRefresh && _cachedProfile != null) {
       return Right(_cachedProfile!);
@@ -110,8 +111,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
     String? bio,
   }) async {
     try {
-      final profile =
-          await profileApiDataSource.updateProfile(name: name, bio: bio);
+      final profile = await profileApiDataSource.updateProfile(
+        name: name,
+        bio: bio,
+      );
       _cachedProfile = profile.toEntity();
       return Right(_cachedProfile!);
     } on UnauthenticatedException catch (e) {
@@ -168,7 +171,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
 
   @override
   Future<Either<Failure, List<LanguageOptionEntity>>>
-      getLanguageOptions() async {
+  getLanguageOptions() async {
     try {
       final models = await profileApiDataSource.getLanguageOptions();
       return Right(models.map((m) => m.toEntity()).toList());

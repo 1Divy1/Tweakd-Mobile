@@ -12,6 +12,7 @@ import '../bloc/car_detail/event.dart';
 import '../bloc/car_detail/state.dart';
 import '../utils/garage_error_mapper.dart';
 import '../widgets/car_image.dart';
+import 'fullscreen_image_page.dart';
 
 class AboutCarPage extends StatelessWidget {
   final bool isOwner;
@@ -779,8 +780,13 @@ class _GallerySection extends StatelessWidget {
                 onLongPress: isOwner
                     ? () => _confirmDelete(context, image.key)
                     : null,
-                onTap: () =>
-                    context.push('/full-screen-image', extra: image.url),
+                onTap: () => context.push(
+                  '/full-screen-image',
+                  extra: FullscreenImageArgs(
+                    images: gallery.map((e) => e.url).toList(),
+                    initialIndex: i,
+                  ),
+                ),
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
@@ -1073,6 +1079,11 @@ class _ModCard extends StatelessWidget {
                       child: _ModImage(
                         url: beforeMedia.first.url,
                         label: AppLocalizations.of(context)!.garageModBefore,
+                        pairUrls: [
+                          beforeMedia.first.url,
+                          if (afterMedia.isNotEmpty) afterMedia.first.url,
+                        ],
+                        pairIndex: 0,
                       ),
                     ),
                   if (beforeMedia.isNotEmpty && afterMedia.isNotEmpty)
@@ -1082,6 +1093,11 @@ class _ModCard extends StatelessWidget {
                       child: _ModImage(
                         url: afterMedia.first.url,
                         label: AppLocalizations.of(context)!.garageModAfter,
+                        pairUrls: [
+                          if (beforeMedia.isNotEmpty) beforeMedia.first.url,
+                          afterMedia.first.url,
+                        ],
+                        pairIndex: beforeMedia.isNotEmpty ? 1 : 0,
                       ),
                     ),
                 ],
@@ -1213,13 +1229,23 @@ class _ModCard extends StatelessWidget {
 class _ModImage extends StatelessWidget {
   final String url;
   final String label;
+  final List<String> pairUrls;
+  final int pairIndex;
 
-  const _ModImage({required this.url, required this.label});
+  const _ModImage({
+    required this.url,
+    required this.label,
+    required this.pairUrls,
+    required this.pairIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.push('/full-screen-image', extra: url),
+      onTap: () => context.push(
+        '/full-screen-image',
+        extra: FullscreenImageArgs(images: pairUrls, initialIndex: pairIndex),
+      ),
       child: Stack(
         children: [
           AspectRatio(
