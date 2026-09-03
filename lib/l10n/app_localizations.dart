@@ -1022,16 +1022,22 @@ abstract class AppLocalizations {
   /// **'Message'**
   String get profileMessage;
 
+  /// No description provided for @profileStatReputation.
+  ///
+  /// In en, this message translates to:
+  /// **'reputation'**
+  String get profileStatReputation;
+
   /// No description provided for @profileStatFollowers.
   ///
   /// In en, this message translates to:
-  /// **'FOLLOWERS'**
+  /// **'followers'**
   String get profileStatFollowers;
 
   /// No description provided for @profileStatFollowing.
   ///
   /// In en, this message translates to:
-  /// **'FOLLOWING'**
+  /// **'following'**
   String get profileStatFollowing;
 
   /// No description provided for @profileErrorUsernameTaken.
@@ -1075,6 +1081,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit profile'**
   String get profileEditButton;
+
+  /// No description provided for @profileShareButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Share profile'**
+  String get profileShareButton;
+
+  /// No description provided for @profileCreateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get profileCreateButton;
 
   /// No description provided for @editProfileTitle.
   ///
@@ -1159,18 +1177,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'REQUESTED'**
   String get followActionRequested;
-
-  /// No description provided for @garageSectionEyebrow.
-  ///
-  /// In en, this message translates to:
-  /// **'THE GARAGE'**
-  String get garageSectionEyebrow;
-
-  /// No description provided for @garageMachineCount.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =0{0 Cars} =1{1 Car} other{{count} Cars}}'**
-  String garageMachineCount(int count);
 
   /// No description provided for @garageAddButton.
   ///
@@ -2903,19 +2909,19 @@ abstract class AppLocalizations {
   /// No description provided for @profileTabPosts.
   ///
   /// In en, this message translates to:
-  /// **'POSTS'**
+  /// **'Posts'**
   String get profileTabPosts;
 
   /// No description provided for @profileTabGarage.
   ///
   /// In en, this message translates to:
-  /// **'GARAGE'**
+  /// **'Garage'**
   String get profileTabGarage;
 
   /// No description provided for @profileTabTags.
   ///
   /// In en, this message translates to:
-  /// **'TAGS'**
+  /// **'Tags'**
   String get profileTabTags;
 
   /// No description provided for @postsLoadMore.
@@ -5795,7 +5801,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileTabEvents.
   ///
   /// In en, this message translates to:
-  /// **'EVENTS'**
+  /// **'Events'**
   String get profileTabEvents;
 
   /// No description provided for @mapEventsMineTitle.
@@ -6235,6 +6241,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get feedbackFeedErrorGeneric;
+
+  /// No description provided for @profileBadgesAll.
+  ///
+  /// In en, this message translates to:
+  /// **'ALL'**
+  String get profileBadgesAll;
+
+  /// No description provided for @profileBadgesSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Badges'**
+  String get profileBadgesSheetTitle;
+
+  /// Sub-header of the all-badges sheet, e.g. "5 of 9 unlocked"
+  ///
+  /// In en, this message translates to:
+  /// **'{earned} of {total} unlocked'**
+  String profileBadgesSheetSubtitle(int earned, int total);
+
+  /// No description provided for @profileBadgesLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'LOCKED'**
+  String get profileBadgesLocked;
+
+  /// No description provided for @profileBadgesEmptyOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'No badges yet. Join meets, enter contests and help out on the forums to start collecting.'**
+  String get profileBadgesEmptyOwner;
+
+  /// No description provided for @profileBadgesEmptyVisitor.
+  ///
+  /// In en, this message translates to:
+  /// **'No badges yet.'**
+  String get profileBadgesEmptyVisitor;
+
+  /// No description provided for @profileBadgesLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn’t load the badges. Please try again.'**
+  String get profileBadgesLoadError;
+
+  /// No description provided for @garageCarStatYear.
+  ///
+  /// In en, this message translates to:
+  /// **'YEAR'**
+  String get garageCarStatYear;
+
+  /// No description provided for @garageCarShareButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Share car'**
+  String get garageCarShareButton;
+
+  /// No description provided for @profileBadgesSheetUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No badges yet} =1{1 unlocked} other{{count} unlocked}}'**
+  String profileBadgesSheetUnlocked(num count);
+
+  /// No description provided for @profileCreatePost.
+  ///
+  /// In en, this message translates to:
+  /// **'New post'**
+  String get profileCreatePost;
+
+  /// No description provided for @profileCreatePostHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Share a photo or a story from the road.'**
+  String get profileCreatePostHint;
+
+  /// No description provided for @profileCreateEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'New car event'**
+  String get profileCreateEvent;
+
+  /// No description provided for @profileCreateEventHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up a meet, a cruise or a show.'**
+  String get profileCreateEventHint;
+
+  /// No description provided for @garageCarStatPower.
+  ///
+  /// In en, this message translates to:
+  /// **'POWER'**
+  String get garageCarStatPower;
+
+  /// No description provided for @garageCarStatTorque.
+  ///
+  /// In en, this message translates to:
+  /// **'TORQUE'**
+  String get garageCarStatTorque;
+
+  /// No description provided for @garageCarUnitPower.
+  ///
+  /// In en, this message translates to:
+  /// **'hp'**
+  String get garageCarUnitPower;
+
+  /// No description provided for @garageCarUnitTorque.
+  ///
+  /// In en, this message translates to:
+  /// **'lb-ft'**
+  String get garageCarUnitTorque;
 }
 
 class _AppLocalizationsDelegate

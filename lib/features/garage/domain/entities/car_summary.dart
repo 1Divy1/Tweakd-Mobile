@@ -15,6 +15,14 @@ class CarSummaryEntity extends Equatable {
   final String? ownerId;
   final String? ownerUsername;
 
+  /// Headline specs shown on the garage card, straight off `CarSummaryDto`.
+  /// Nullable defensively — the DTO sends primitives, so a missing key means a
+  /// payload older than the projection, and the card draws one fewer cell
+  /// instead of throwing.
+  final int? year;
+  final int? horsepower;
+  final int? torque;
+
   const CarSummaryEntity({
     required this.id,
     required this.brand,
@@ -23,9 +31,22 @@ class CarSummaryEntity extends Equatable {
     this.status,
     this.ownerId,
     this.ownerUsername,
+    this.year,
+    this.horsepower,
+    this.torque,
   });
 
   @override
-  List<Object?> get props =>
-      [id, brand, model, coverImage, status, ownerId, ownerUsername];
+  List<Object?> get props => [
+    id,
+    brand,
+    model,
+    coverImage,
+    status,
+    ownerId,
+    ownerUsername,
+    year,
+    horsepower,
+    torque,
+  ];
 }

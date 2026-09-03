@@ -117,8 +117,6 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
     ToggleFollowInList event,
     Emitter<FollowState> emit,
   ) async {
-    // TODO: Check the logic here
-
     final current = state;
 
     final List<FollowListUserEntity> originalUsers;

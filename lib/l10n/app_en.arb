@@ -313,8 +313,9 @@
 
   "profileTitle": "PROFILE",
   "profileMessage": "Message",
-  "profileStatFollowers": "FOLLOWERS",
-  "profileStatFollowing": "FOLLOWING",
+  "profileStatReputation": "reputation",
+  "profileStatFollowers": "followers",
+  "profileStatFollowing": "following",
 
   "profileErrorUsernameTaken": "The username is already taken. Please choose a different one.",
   "profileErrorSessionExpired": "Your session is not active. Please log in again.",
@@ -324,6 +325,8 @@
   "profileErrorNetwork": "No internet connection. Please try again.",
 
   "profileEditButton": "Edit profile",
+  "profileShareButton": "Share profile",
+  "profileCreateButton": "Create",
   "editProfileTitle": "EDIT PROFILE",
   "editProfileChangePhoto": "Change photo",
   "editProfileNameLabel": "NAME",
@@ -340,13 +343,6 @@
   "followActionUnfollow": "UNFOLLOW",
   "followActionRequested": "REQUESTED",
 
-  "garageSectionEyebrow": "THE GARAGE",
-  "garageMachineCount": "{count, plural, =0{0 Cars} =1{1 Car} other{{count} Cars}}",
-  "@garageMachineCount": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
   "garageAddButton": "+ ADD",
   "garageEmptyOwner": "Your garage is empty. Add your first car.",
   "garageEmptyVisitor": "No cars yet.",
@@ -719,9 +715,9 @@
   "postErrorNotOwner": "You don't have permission to do that.",
   "postErrorNotFound": "This post no longer exists.",
 
-  "profileTabPosts": "POSTS",
-  "profileTabGarage": "GARAGE",
-  "profileTabTags": "TAGS",
+  "profileTabPosts": "Posts",
+  "profileTabGarage": "Garage",
+  "profileTabTags": "Tags",
 
   "postsLoadMore": "LOAD MORE",
   "postsEmptyOwner": "You haven't posted yet.",
@@ -1449,7 +1445,7 @@
   "mapEventsSearchOrganizersHint": "Search people and businesses",
   "mapEventsSearchOrganizersEmpty": "Nobody matched that.",
   "mapEventsSearchOrganizersPrompt": "Start typing a name to find people and certified businesses.",
-  "profileTabEvents": "EVENTS",
+  "profileTabEvents": "Events",
   "mapEventsMineTitle": "My events",
   "mapEventsMineEmptyTitle": "No events yet",
   "mapEventsMineEmptyBody": "Events you create show up here — including the ones still waiting for review.",
@@ -1547,5 +1543,34 @@
   "feedbackFeedErrorNetwork": "No internet connection. Please try again.",
   "feedbackFeedErrorNotFound": "This feedback no longer exists.",
   "feedbackFeedErrorLocked": "We’ve already picked this up, so it can’t be deleted anymore.",
-  "feedbackFeedErrorGeneric": "Something went wrong. Please try again."
+  "feedbackFeedErrorGeneric": "Something went wrong. Please try again.",
+  "profileBadgesAll": "ALL",
+  "profileBadgesSheetTitle": "Badges",
+  "profileBadgesSheetSubtitle": "{earned} of {total} unlocked",
+  "@profileBadgesSheetSubtitle": {
+    "description": "Sub-header of the all-badges sheet, e.g. \"5 of 9 unlocked\"",
+    "placeholders": {
+      "earned": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "profileBadgesLocked": "LOCKED",
+  "profileBadgesEmptyOwner": "No badges yet. Join meets, enter contests and help out on the forums to start collecting.",
+  "profileBadgesEmptyVisitor": "No badges yet.",
+  "profileBadgesLoadError": "We couldn\u2019t load the badges. Please try again.",
+
+  "garageCarStatYear": "YEAR",
+  "garageCarShareButton": "Share car",
+  "profileBadgesSheetUnlocked": "{count, plural, =0{No badges yet} =1{1 unlocked} other{{count} unlocked}}",
+  "@profileBadgesSheetUnlocked": {
+    "placeholders": { "count": { "type": "num", "format": "compact" } }
+  },
+  "profileCreatePost": "New post",
+  "profileCreatePostHint": "Share a photo or a story from the road.",
+  "profileCreateEvent": "New car event",
+  "profileCreateEventHint": "Set up a meet, a cruise or a show.",
+  "garageCarStatPower": "POWER",
+  "garageCarStatTorque": "TORQUE",
+  "garageCarUnitPower": "hp",
+  "garageCarUnitTorque": "lb-ft"
 }

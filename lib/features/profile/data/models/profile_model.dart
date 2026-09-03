@@ -1,3 +1,4 @@
+import '../../../badges/data/models/user_badge_model.dart';
 import '../../domain/entities/profile.dart';
 
 class ProfileModel {
@@ -14,6 +15,8 @@ class ProfileModel {
   final bool isBusiness;
   final bool requiresOnboarding;
   final String appLanguage;
+  final int reputationScore;
+  final List<UserBadgeModel> badges;
 
   const ProfileModel({
     required this.id,
@@ -29,6 +32,8 @@ class ProfileModel {
     required this.isBusiness,
     required this.requiresOnboarding,
     required this.appLanguage,
+    this.reputationScore = 0,
+    this.badges = const [],
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
@@ -46,6 +51,12 @@ class ProfileModel {
       isBusiness: json['is_business'] as bool? ?? false,
       requiresOnboarding: json['requires_onboarding'] as bool? ?? false,
       appLanguage: json['app_language'] as String? ?? 'en',
+      reputationScore: json['reputation_score'] as int? ?? 0,
+      // Always present on a live payload ([] when the user has none); the
+      // fallback only covers a fixture or an older stub.
+      badges: ((json['badges'] as List?) ?? const [])
+          .map((e) => UserBadgeModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -64,6 +75,8 @@ class ProfileModel {
       isBusiness: isBusiness,
       requiresOnboarding: requiresOnboarding,
       appLanguage: appLanguage,
+      reputationScore: reputationScore,
+      badges: badges.map((b) => b.toEntity()).toList(),
     );
   }
 }

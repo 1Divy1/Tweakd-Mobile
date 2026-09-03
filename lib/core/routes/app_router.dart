@@ -115,6 +115,8 @@ import '../../features/feedback_feed/presentation/pages/compose_feedback_page.da
 import '../../features/feedback_feed/presentation/pages/feedback_feed_page.dart';
 import '../../features/onboarding/presentation/bloc/username_availability/bloc.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
+import '../../features/badges/presentation/bloc/bloc.dart';
+import '../../features/badges/presentation/pages/badge_detail_page.dart';
 import '../../features/profile/domain/entities/profile.dart';
 import '../../features/profile/presentation/bloc/bloc.dart';
 import '../../features/profile/presentation/bloc/edit_profile/bloc.dart';
@@ -192,8 +194,9 @@ final appRouter = GoRouter(
       builder: (context, state) => MultiBlocProvider(
         providers: [
           BlocProvider<OnboardingBloc>(
-            create: (_) => getIt<OnboardingBloc>()
-              ..add(const LoadOnboardingReferenceData()),
+            create: (_) =>
+                getIt<OnboardingBloc>()
+                  ..add(const LoadOnboardingReferenceData()),
           ),
           BlocProvider<UsernameAvailabilityBloc>(
             create: (_) => getIt<UsernameAvailabilityBloc>(),
@@ -215,6 +218,10 @@ final appRouter = GoRouter(
             BlocProvider<GarageBloc>(
               create: (_) => getIt<GarageBloc>()..add(const LoadMyGarage()),
             ),
+            // No event dispatched: earned badges come down with the profile.
+            // This bloc only serves the locked list, fetched the first time
+            // the badges sheet is opened.
+            BlocProvider<BadgesBloc>(create: (_) => getIt<BadgesBloc>()),
             BlocProvider<ProfilePostsBloc>(
               create: (_) =>
                   getIt<ProfilePostsBloc>()..add(const LoadMyPosts()),
@@ -273,8 +280,8 @@ final appRouter = GoRouter(
                   getIt<GarageBloc>()..add(LoadGarageByUsername(username)),
             ),
             BlocProvider<ProfilePostsBloc>(
-              create: (_) => getIt<ProfilePostsBloc>()
-                ..add(LoadPostsByUsername(username)),
+              create: (_) =>
+                  getIt<ProfilePostsBloc>()..add(LoadPostsByUsername(username)),
             ),
             // Loaded lazily on the first Tags tab open — see the /profile route.
             BlocProvider<TagsBloc>(create: (_) => getIt<TagsBloc>()),
@@ -325,8 +332,7 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/feedback',
       builder: (context, state) => BlocProvider<FeedbackBloc>(
-        create: (_) =>
-            getIt<FeedbackBloc>()..add(const LoadFeedbackOptions()),
+        create: (_) => getIt<FeedbackBloc>()..add(const LoadFeedbackOptions()),
         child: const FeedbackPage(),
       ),
     ),
@@ -406,8 +412,9 @@ final appRouter = GoRouter(
           builder: (context, state) {
             final eventId = state.pathParameters['eventId']!;
             return BlocProvider<MapEventAttendeesBloc>(
-              create: (_) => getIt<MapEventAttendeesBloc>()
-                ..add(LoadMapEventAttendees(eventId)),
+              create: (_) =>
+                  getIt<MapEventAttendeesBloc>()
+                    ..add(LoadMapEventAttendees(eventId)),
               child: const MapEventAttendeesPage(),
             );
           },
@@ -421,8 +428,9 @@ final appRouter = GoRouter(
             final eventId = state.pathParameters['eventId']!;
             final event = state.extra as MapEventEntity?;
             return BlocProvider<ManageMapEventBloc>(
-              create: (_) => getIt<ManageMapEventBloc>()
-                ..add(LoadMapEventManagement(eventId)),
+              create: (_) =>
+                  getIt<ManageMapEventBloc>()
+                    ..add(LoadMapEventManagement(eventId)),
               child: ManageMapEventPage(eventId: eventId, event: event),
             );
           },
@@ -432,8 +440,9 @@ final appRouter = GoRouter(
           builder: (context, state) {
             final event = state.extra as MapEventEntity;
             return BlocProvider<CreateMapEventBloc>(
-              create: (_) => getIt<CreateMapEventBloc>()
-                ..add(LoadCreateEventRefs(editEvent: event)),
+              create: (_) =>
+                  getIt<CreateMapEventBloc>()
+                    ..add(LoadCreateEventRefs(editEvent: event)),
               child: CreateMapEventPage(editEvent: event),
             );
           },
@@ -469,8 +478,9 @@ final appRouter = GoRouter(
           builder: (context, state) {
             final peer = state.extra as MessageUserEntity;
             return BlocProvider<ChatBloc>(
-              create: (_) => getIt<ChatBloc>()
-                ..add(LoadChat(conversationId: null, peer: peer)),
+              create: (_) =>
+                  getIt<ChatBloc>()
+                    ..add(LoadChat(conversationId: null, peer: peer)),
               child: ChatPage(conversationId: null, peer: peer),
             );
           },
@@ -487,8 +497,9 @@ final appRouter = GoRouter(
                 ? state.extra as MessageUserEntity
                 : null;
             return BlocProvider<ChatBloc>(
-              create: (_) => getIt<ChatBloc>()
-                ..add(LoadChat(conversationId: conversationId, peer: peer)),
+              create: (_) =>
+                  getIt<ChatBloc>()
+                    ..add(LoadChat(conversationId: conversationId, peer: peer)),
               child: ChatPage(conversationId: conversationId, peer: peer),
             );
           },
@@ -510,8 +521,9 @@ final appRouter = GoRouter(
         GoRoute(
           path: 'completed',
           builder: (context, state) => BlocProvider<CompletedFeedbackBloc>(
-            create: (_) => getIt<CompletedFeedbackBloc>()
-              ..add(const LoadCompletedFeedback()),
+            create: (_) =>
+                getIt<CompletedFeedbackBloc>()
+                  ..add(const LoadCompletedFeedback()),
             child: const CompletedFeedbackPage(),
           ),
         ),
@@ -531,8 +543,7 @@ final appRouter = GoRouter(
       path: '/forums',
       pageBuilder: (context, state) => NoTransitionPage(
         child: BlocProvider<ForumsHomeBloc>(
-          create: (_) =>
-              getIt<ForumsHomeBloc>()..add(const LoadForumsHome()),
+          create: (_) => getIt<ForumsHomeBloc>()..add(const LoadForumsHome()),
           child: const ForumsHomePage(),
         ),
       ),
@@ -610,12 +621,8 @@ final appRouter = GoRouter(
       path: '/posts/create',
       builder: (context, state) => MultiBlocProvider(
         providers: [
-          BlocProvider<CreatePostBloc>(
-            create: (_) => getIt<CreatePostBloc>(),
-          ),
-          BlocProvider<TagPickerBloc>(
-            create: (_) => getIt<TagPickerBloc>(),
-          ),
+          BlocProvider<CreatePostBloc>(create: (_) => getIt<CreatePostBloc>()),
+          BlocProvider<TagPickerBloc>(create: (_) => getIt<TagPickerBloc>()),
         ],
         child: const CreatePostPage(),
       ),
@@ -749,18 +756,49 @@ final appRouter = GoRouter(
       },
     ),
 
+    // ---------- Badge detail ----------
+    // A single badge on its own screen, opened from the profile strip or the
+    // all-badges sheet. Presented as a modal (bottom-up, X to close) — it is a
+    // "look at it up close" view, not a place in the nav. The badge travels
+    // whole in `extra`; deep-linked without one it falls back to the profile.
+    GoRoute(
+      path: '/badge',
+      redirect: (context, state) =>
+          state.extra is BadgeDetailArgs ? null : '/profile',
+      pageBuilder: (context, state) {
+        final args = state.extra as BadgeDetailArgs;
+        return MaterialPage(
+          key: state.pageKey,
+          fullscreenDialog: true,
+          child: BadgeDetailPage(badge: args.badge, locked: args.locked),
+        );
+      },
+    ),
+
     // ---------- Fullscreen Image ----------
     GoRoute(
       path: '/full-screen-image',
       builder: (context, state) {
-        final imageUrl = state.extra as String?;
-        if (imageUrl == null) {
+        final extra = state.extra;
+        List<String> images;
+        int initialIndex;
+        if (extra is FullscreenImageArgs) {
+          images = extra.images;
+          initialIndex = extra.initialIndex;
+        } else if (extra is String) {
+          images = [extra];
+          initialIndex = 0;
+        } else {
+          images = const [];
+          initialIndex = 0;
+        }
+        if (images.isEmpty) {
           return Scaffold(
             appBar: AppBar(),
             body: const Center(child: Text('No image is available')),
           );
         }
-        return FullscreenImagePage(url: imageUrl);
+        return FullscreenImagePage(images: images, initialIndex: initialIndex);
       },
     ),
   ],
