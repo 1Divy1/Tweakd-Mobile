@@ -568,6 +568,42 @@
   "garageCarRegistered": "Car registered!",
   "garageChangesSaved": "Changes saved!",
 
+  "garageShareBuild": "Share build",
+  "garageShareSheetLabel": "SHARE BUILD",
+  "garageShareQrTitle": "Get QR code",
+  "garageShareQrSubtitle": "Print it, stick it on the car",
+  "garageShareCopyLink": "Copy link",
+  "garageShareLinkCopied": "Link copied",
+  "garageShareChannelMessages": "Messages",
+  "garageShareChannelWhatsApp": "WhatsApp",
+  "garageShareChannelInstagram": "Instagram",
+  "garageShareChannelX": "X",
+  "garageShareChannelTelegram": "Telegram",
+  "garageShareMessage": "Check out my {car} on Tweakd \ud83d\udd27",
+  "@garageShareMessage": {
+    "placeholders": {
+      "car": { "type": "String" }
+    }
+  },
+  "garageShareStats": "Scanned {scans} \u00b7 Opened {views}",
+  "@garageShareStats": {
+    "placeholders": {
+      "scans": { "type": "int" },
+      "views": { "type": "int" }
+    }
+  },
+  "garageShareToggleLabel": "Sharing",
+  "garageSharePausedHint": "Paused \u2014 the link and QR are off",
+  "garageShareLoadFailed": "Couldn't open the share link.",
+  "garageShareQrLoadFailed": "Couldn't load the QR code.",
+  "garageShareQrDownload": "Download SVG",
+  "garageShareQrDownloadFailed": "Couldn't prepare the file.",
+  "garageShareRetry": "Try again",
+  "garageShareResolving": "Opening build\u2026",
+  "garageShareUnavailableTitle": "Build unavailable",
+  "garageShareUnavailableBody": "This build is no longer shared on Tweakd.",
+  "garageShareBackToFeed": "Back to feed",
+
   "garageValCoverPhoto": "Please pick a cover photo.",
   "garageValMake": "Please select a make.",
   "garageValModel": "Please select a model.",
@@ -898,8 +934,8 @@
   "forumsSortHot": "Hot",
   "forumsSortNew": "New",
   "forumsSortActive": "Active",
-  "forumsEmptyTitle": "Pin the forums you live in",
-  "forumsEmptyBody": "Shortcuts are saved filters — a car, a topic, or both. Pin a few and they land right here.",
+  "forumsEmptyTitle": "Find the forums you live in",
+  "forumsEmptyBody": "Tap a hub to see its threads. Once you've had a look around, save it as a shortcut and it lands right here.",
   "forumsPopularHubs": "POPULAR HUBS TO START WITH",
   "forumsCtaTitle": "Got something to say?",
   "forumsCtaBody": "Every great forum started with one thread. Make it yours.",
@@ -1572,5 +1608,12 @@
   "garageCarStatPower": "POWER",
   "garageCarStatTorque": "TORQUE",
   "garageCarUnitPower": "hp",
-  "garageCarUnitTorque": "lb-ft"
+  "garageCarUnitTorque": "lb-ft",
+
+  "commonContinue": "Continue",
+
+  "badgeCelebrationHeadline": "New badge unlocked!",
+  "@badgeCelebrationHeadline": {
+    "description": "Eyebrow above the badge name in the full-screen unlock celebration"
+  }
 }

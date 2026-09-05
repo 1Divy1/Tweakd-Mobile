@@ -394,6 +394,42 @@
   "garageCarRegistered": "Mașină înregistrată!",
   "garageChangesSaved": "Modificări salvate!",
 
+  "garageShareBuild": "Distribuie mașina",
+  "garageShareSheetLabel": "DISTRIBUIE",
+  "garageShareQrTitle": "Obține codul QR",
+  "garageShareQrSubtitle": "Printează-l și lipește-l pe mașină",
+  "garageShareCopyLink": "Copiază linkul",
+  "garageShareLinkCopied": "Link copiat",
+  "garageShareChannelMessages": "Mesaje",
+  "garageShareChannelWhatsApp": "WhatsApp",
+  "garageShareChannelInstagram": "Instagram",
+  "garageShareChannelX": "X",
+  "garageShareChannelTelegram": "Telegram",
+  "garageShareMessage": "Aruncă un ochi pe {car} pe Tweakd \ud83d\udd27",
+  "@garageShareMessage": {
+    "placeholders": {
+      "car": { "type": "String" }
+    }
+  },
+  "garageShareStats": "Scanat de {scans} ori · Deschis de {views} ori",
+  "@garageShareStats": {
+    "placeholders": {
+      "scans": { "type": "int" },
+      "views": { "type": "int" }
+    }
+  },
+  "garageShareToggleLabel": "Distribuire",
+  "garageSharePausedHint": "Pe pauză — linkul și codul QR sunt oprite",
+  "garageShareLoadFailed": "Nu am putut deschide linkul de distribuire.",
+  "garageShareQrLoadFailed": "Nu am putut încărca codul QR.",
+  "garageShareQrDownload": "Descarcă SVG",
+  "garageShareQrDownloadFailed": "Nu am putut pregăti fișierul.",
+  "garageShareRetry": "Încearcă din nou",
+  "garageShareResolving": "Se deschide mașina…",
+  "garageShareUnavailableTitle": "Mașină indisponibilă",
+  "garageShareUnavailableBody": "Această mașină nu mai este distribuită pe Tweakd.",
+  "garageShareBackToFeed": "Înapoi la feed",
+
   "garageValCoverPhoto": "Alege o fotografie de copertă.",
   "garageValMake": "Selectează o marcă.",
   "garageValModel": "Selectează un model.",
@@ -706,8 +742,8 @@
   "forumsSortHot": "Hot",
   "forumsSortNew": "Noi",
   "forumsSortActive": "Active",
-  "forumsEmptyTitle": "Fixează forumurile în care trăiești",
-  "forumsEmptyBody": "Scurtăturile sunt filtre salvate — o mașină, un subiect sau ambele. Fixează câteva și apar chiar aici.",
+  "forumsEmptyTitle": "Găsește forumurile în care trăiești",
+  "forumsEmptyBody": "Atinge un hub ca să-i vezi thread-urile. După ce te-ai uitat prin el, salvează-l ca scurtătură și apare chiar aici.",
   "forumsPopularHubs": "HUB-URI POPULARE PENTRU ÎNCEPUT",
   "forumsCtaTitle": "Ai ceva de spus?",
   "forumsCtaBody": "Orice forum grozav a început cu un singur thread. Fă-l pe al tău.",
@@ -1328,5 +1364,9 @@
   "garageCarStatPower": "PUTERE",
   "garageCarStatTorque": "CUPLU",
   "garageCarUnitPower": "cp",
-  "garageCarUnitTorque": "lb-ft"
+  "garageCarUnitTorque": "lb-ft",
+
+  "commonContinue": "Continuă",
+
+  "badgeCelebrationHeadline": "Insignă nouă deblocată!"
 }

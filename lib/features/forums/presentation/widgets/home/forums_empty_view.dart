@@ -5,17 +5,17 @@ import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/forum_suggestion.dart';
 import '../shared/forum_section_label.dart';
 
-/// Empty-paddock home: the pin explainer, pinnable popular-hub suggestions
-/// (brands and models) and the start-first-thread CTA.
+/// Empty-paddock home: the explainer, popular-hub suggestions (brands and
+/// models) that open their hub on tap, and the start-first-thread CTA.
 class ForumsEmptyView extends StatelessWidget {
   final List<ForumSuggestionEntity> suggestions;
-  final ValueChanged<ForumSuggestionEntity> onPin;
+  final ValueChanged<ForumSuggestionEntity> onOpen;
   final VoidCallback onStartThread;
 
   const ForumsEmptyView({
     super.key,
     required this.suggestions,
-    required this.onPin,
+    required this.onOpen,
     required this.onStartThread,
   });
 
@@ -38,9 +38,9 @@ class ForumsEmptyView extends StatelessWidget {
               runSpacing: 8,
               children: [
                 for (final suggestion in suggestions)
-                  _PinnableHubChip(
+                  _HubChip(
                     suggestion: suggestion,
-                    onPin: () => onPin(suggestion),
+                    onTap: () => onOpen(suggestion),
                   ),
               ],
             ),
@@ -109,11 +109,11 @@ class _ExplainerCard extends StatelessWidget {
   }
 }
 
-class _PinnableHubChip extends StatelessWidget {
+class _HubChip extends StatelessWidget {
   final ForumSuggestionEntity suggestion;
-  final VoidCallback onPin;
+  final VoidCallback onTap;
 
-  const _PinnableHubChip({required this.suggestion, required this.onPin});
+  const _HubChip({required this.suggestion, required this.onTap});
 
   IconData get _icon => switch (suggestion.type) {
         ForumSuggestionType.brand => Icons.directions_car_filled_outlined,
@@ -122,40 +122,33 @@ class _PinnableHubChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: AppColors.line),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(_icon, size: 14, color: AppColors.mute),
-          const SizedBox(width: 6),
-          Text(
-            suggestion.displayName,
-            style: const TextStyle(
-              color: AppColors.ink,
-              fontSize: 13,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          const SizedBox(width: 10),
-          GestureDetector(
-            onTap: onPin,
-            child: Container(
-              width: 26,
-              height: 26,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: AppColors.line),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(12, 9, 14, 9),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(999),
+          border: Border.all(color: AppColors.line),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(_icon, size: 14, color: AppColors.mute),
+            const SizedBox(width: 6),
+            Text(
+              suggestion.displayName,
+              style: const TextStyle(
+                color: AppColors.ink,
+                fontSize: 13,
+                fontWeight: FontWeight.w800,
               ),
-              child: const Icon(Icons.add, size: 16, color: AppColors.ink),
             ),
-          ),
-        ],
+            const SizedBox(width: 6),
+            const Icon(Icons.chevron_right_rounded,
+                size: 16, color: AppColors.mute),
+          ],
+        ),
       ),
     );
   }

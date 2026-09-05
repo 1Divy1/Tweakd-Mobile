@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/deeplinks/deep_link_service.dart';
+import '../../../../core/di/injection.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../bloc/bloc.dart';
@@ -121,6 +123,9 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
       context.go('/onboarding');
     } else if (state is Authenticated) {
       context.go('/profile');
+      // A share link parked before sign-up follows the new account to the
+      // build that brought them here.
+      getIt<DeepLinkService>().flushPending();
     }
   }
 

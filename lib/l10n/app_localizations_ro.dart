@@ -1177,6 +1177,85 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageChangesSaved => 'Modificări salvate!';
 
   @override
+  String get garageShareBuild => 'Distribuie mașina';
+
+  @override
+  String get garageShareSheetLabel => 'DISTRIBUIE';
+
+  @override
+  String get garageShareQrTitle => 'Obține codul QR';
+
+  @override
+  String get garageShareQrSubtitle => 'Printează-l și lipește-l pe mașină';
+
+  @override
+  String get garageShareCopyLink => 'Copiază linkul';
+
+  @override
+  String get garageShareLinkCopied => 'Link copiat';
+
+  @override
+  String get garageShareChannelMessages => 'Mesaje';
+
+  @override
+  String get garageShareChannelWhatsApp => 'WhatsApp';
+
+  @override
+  String get garageShareChannelInstagram => 'Instagram';
+
+  @override
+  String get garageShareChannelX => 'X';
+
+  @override
+  String get garageShareChannelTelegram => 'Telegram';
+
+  @override
+  String garageShareMessage(String car) {
+    return 'Aruncă un ochi pe $car pe Tweakd 🔧';
+  }
+
+  @override
+  String garageShareStats(int scans, int views) {
+    return 'Scanat de $scans ori · Deschis de $views ori';
+  }
+
+  @override
+  String get garageShareToggleLabel => 'Distribuire';
+
+  @override
+  String get garageSharePausedHint =>
+      'Pe pauză — linkul și codul QR sunt oprite';
+
+  @override
+  String get garageShareLoadFailed =>
+      'Nu am putut deschide linkul de distribuire.';
+
+  @override
+  String get garageShareQrLoadFailed => 'Nu am putut încărca codul QR.';
+
+  @override
+  String get garageShareQrDownload => 'Descarcă SVG';
+
+  @override
+  String get garageShareQrDownloadFailed => 'Nu am putut pregăti fișierul.';
+
+  @override
+  String get garageShareRetry => 'Încearcă din nou';
+
+  @override
+  String get garageShareResolving => 'Se deschide mașina…';
+
+  @override
+  String get garageShareUnavailableTitle => 'Mașină indisponibilă';
+
+  @override
+  String get garageShareUnavailableBody =>
+      'Această mașină nu mai este distribuită pe Tweakd.';
+
+  @override
+  String get garageShareBackToFeed => 'Înapoi la feed';
+
+  @override
   String get garageValCoverPhoto => 'Alege o fotografie de copertă.';
 
   @override
@@ -1973,11 +2052,11 @@ class AppLocalizationsRo extends AppLocalizations {
   String get forumsSortActive => 'Active';
 
   @override
-  String get forumsEmptyTitle => 'Fixează forumurile în care trăiești';
+  String get forumsEmptyTitle => 'Găsește forumurile în care trăiești';
 
   @override
   String get forumsEmptyBody =>
-      'Scurtăturile sunt filtre salvate — o mașină, un subiect sau ambele. Fixează câteva și apar chiar aici.';
+      'Atinge un hub ca să-i vezi thread-urile. După ce te-ai uitat prin el, salvează-l ca scurtătură și apare chiar aici.';
 
   @override
   String get forumsPopularHubs => 'HUB-URI POPULARE PENTRU ÎNCEPUT';
@@ -3586,4 +3665,10 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get garageCarUnitTorque => 'lb-ft';
+
+  @override
+  String get commonContinue => 'Continuă';
+
+  @override
+  String get badgeCelebrationHeadline => 'Insignă nouă deblocată!';
 }

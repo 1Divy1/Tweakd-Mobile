@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/error/base_failures.dart';
-import '../../../posts/domain/entities/post_pages.dart';
+import '../../domain/entities/feed_page.dart';
 import '../../domain/repositories/feed_repository.dart';
 import '../datasources/feed_api_data_source.dart';
 
@@ -15,7 +15,7 @@ class FeedRepositoryImpl implements FeedRepository {
   FeedRepositoryImpl(this.dataSource);
 
   @override
-  Future<Either<Failure, PostPageEntity>> getGlobalFeed({
+  Future<Either<Failure, FeedPageEntity>> getGlobalFeed({
     String? cursor,
     int size = 20,
   }) async {

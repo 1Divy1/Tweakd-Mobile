@@ -42,6 +42,37 @@
                 <data android:scheme="tweakd" android:host="signup-callback" />
             </intent-filter>
 
+            <!-- Car share links: https://web.tweakdapp.com/c/{code}, from a
+                 scanned QR or a tapped link. The host is the web. subdomain,
+                 not the apex: tweakdapp.com is the presentation site and
+                 serves no share codes. It must stay equal to the backend's
+                 sharing.public-base-url — a mismatch means every link opens
+                 the browser instead of the app, silently.
+                 autoVerify makes Android fetch
+                 https://web.tweakdapp.com/.well-known/assetlinks.json at
+                 install time; until that file is served and lists this app's
+                 SHA-256 signing fingerprints, the link opens the browser and
+                 the user gets a disambiguation dialog at best. The app_links
+                 plugin delivers the intent to Dart (see DeepLinkService) —
+                 Flutter's own deep linking is deliberately left off so the two
+                 tweakd:// auth callbacks below keep going to Supabase alone. -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="web.tweakdapp.com" android:pathPrefix="/c/" />
+            </intent-filter>
+
+            <!-- The custom-scheme fallback the website's "Open in app" button
+                 uses. Universal Links / App Links deliberately don't fire for a
+                 tap on a page already served from the same domain. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tweakd" android:host="c" />
+            </intent-filter>
+
             <!-- Supabase auth deep link for the Android Sign in with Apple
                  flow. Apple has no Android SDK, so that sign-in runs in an
                  external browser and Supabase redirects back here when it

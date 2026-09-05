@@ -12,6 +12,7 @@ import '../bloc/car_detail/event.dart';
 import '../bloc/car_detail/state.dart';
 import '../utils/garage_error_mapper.dart';
 import '../widgets/car_image.dart';
+import '../widgets/share/share_build_sheet.dart';
 import 'fullscreen_image_page.dart';
 
 class AboutCarPage extends StatelessWidget {
@@ -203,7 +204,16 @@ class _TopBar extends StatelessWidget {
               ),
             ),
           ),
-          if (isOwner)
+          if (isOwner) ...[
+            _PillButton(
+              onTap: car == null ? null : () => _openShare(context, car!),
+              child: const Icon(
+                Icons.ios_share,
+                color: AppColors.ink,
+                size: 19,
+              ),
+            ),
+            const SizedBox(width: 8),
             _PillButton(
               onTap: isDeleting ? null : () => _showMenu(context),
               child: isDeleting
@@ -220,11 +230,23 @@ class _TopBar extends StatelessWidget {
                       color: AppColors.ink,
                       size: 20,
                     ),
-            )
-          else
+            ),
+          ] else
             const SizedBox(width: 44),
         ],
       ),
+    );
+  }
+
+  /// The share surface is owner-only by design: whether a car is shared, what
+  /// its code is and how often it has been scanned are the owner's business.
+  /// It gets its own pill rather than a row in the overflow menu — sharing is
+  /// the growth action here, and burying it costs taps it can't afford.
+  void _openShare(BuildContext context, CarEntity car) {
+    showShareBuildSheet(
+      context,
+      carId: car.id,
+      carTitle: '${car.brandName} ${car.modelName}',
     );
   }
 

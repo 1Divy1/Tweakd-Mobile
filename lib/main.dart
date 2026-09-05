@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:tweakd/core/routes/app_router.dart';
 import 'package:tweakd/firebase_options.dart';
 import 'package:tweakd/l10n/app_localizations.dart';
+import 'package:tweakd/core/deeplinks/deep_link_service.dart';
 import 'package:tweakd/core/di/injection.dart';
 import 'package:tweakd/core/push/push_background_handler.dart';
 import 'package:tweakd/core/push/push_message_listener.dart';
@@ -17,6 +18,8 @@ import 'package:tweakd/core/storage/secure_local_storage.dart';
 import 'package:tweakd/core/theme/app_theme.dart';
 import 'package:tweakd/features/authentication/presentation/bloc/bloc.dart';
 import 'package:tweakd/features/authentication/presentation/bloc/event.dart';
+import 'package:tweakd/features/badges/presentation/bloc/celebration/cubit.dart';
+import 'package:tweakd/features/badges/presentation/widgets/badge_celebration_overlay.dart';
 import 'package:tweakd/features/messages/presentation/bloc/unread/cubit.dart';
 import 'package:tweakd/features/notifications/presentation/bloc/unread/cubit.dart';
 import 'package:tweakd/features/profile/presentation/bloc/locale/cubit.dart';
@@ -29,7 +32,6 @@ import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
-
   // Make sure the binding is initialized
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
@@ -49,22 +51,20 @@ void main() async {
   await dotenv.load(fileName: ".env");
 
   // Setup MapBox access token
-  const String mapboxAccessToken = String.fromEnvironment("MAPBOX_ACCESS_TOKEN");
+  const String mapboxAccessToken = String.fromEnvironment(
+    "MAPBOX_ACCESS_TOKEN",
+  );
   MapboxOptions.setAccessToken(mapboxAccessToken);
 
   // Initialize Supabase
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,
     publishableKey: dotenv.env['SUPABASE_PUBLISHABLE_KEY']!,
-    authOptions: FlutterAuthClientOptions(
-      localStorage: SecureLocalStorage(),
-    ),
+    authOptions: FlutterAuthClientOptions(localStorage: SecureLocalStorage()),
   );
 
   // Initialize Firebase using the generated options
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // Must be registered before runApp and outside any closure — FCM looks the
   // handler up by entry point to spin up a background isolate. See
@@ -86,6 +86,12 @@ void main() async {
     presence.connect();
   }
 
+  // App-level queue for the badge unlock celebration. The list itself arrives
+  // on the first page of the feed (`pending_badge_celebrations`); this only
+  // needs clearing on sign-out so a badge the previous user earned can't
+  // animate for whoever signs in next.
+  final badgeCelebrations = getIt<BadgeCelebrationCubit>();
+
   // Push notifications. The service only wires FCM up — it never prompts for
   // permission (the onboarding notifications step owns the one prompt) and it
   // never talks to our backend; PushTokenSync does that, on sign-in.
@@ -93,18 +99,33 @@ void main() async {
   final pushNavigator = getIt<PushNavigator>();
   final pushTokenSync = getIt<PushRegistration>();
 
+  // Universal Links / App Links (and the `tweakd://c/{code}` fallback). Wired
+  // the same way as push, and for the same reason: the router imports the
+  // pages, so a service the pages reach through DI can't import it back.
+  //
+  // Note this deliberately does *not* turn on Flutter's built-in deep linking:
+  // that would route the `tweakd://signup-callback` / `login-callback` URLs
+  // Supabase's auth flows depend on into go_router as well. See
+  // DeepLinkService for the full reasoning.
+  final deepLinks = getIt<DeepLinkService>();
+
   // The navigator can't import the router (the router imports the pages, which
   // reach the navigator through DI), so the connection is made from here.
   pushNavigator.attach(appRouter.push);
   push.opened.listen(pushNavigator.handleTap);
   unawaited(push.start());
 
+  deepLinks.attach(appRouter.push);
+  unawaited(deepLinks.start());
+
   // A tap that launched the app from terminated lands here while the splash is
   // still resolving the session, so it is parked rather than followed —
   // SplashPage releases it once the user is actually signed in.
-  unawaited(push.takeInitialMessage().then((message) {
-    if (message != null) pushNavigator.deferTap(message);
-  }));
+  unawaited(
+    push.takeInitialMessage().then((message) {
+      if (message != null) pushNavigator.deferTap(message);
+    }),
+  );
 
   final auth = Supabase.instance.client.auth;
   if (auth.currentSession != null) {
@@ -126,11 +147,13 @@ void main() async {
       case AuthChangeEvent.signedOut:
         dmRealtime.disconnect();
         presence.disconnect();
+        badgeCelebrations.reset();
         // Unregistering the device happens in the auth data source, before the
         // session is torn down — by here the JWT is already gone. All that is
-        // left is to make sure a notification the previous user tapped can't
-        // navigate whoever signs in next.
+        // left is to make sure a notification the previous user tapped, or a
+        // share link they opened, can't navigate whoever signs in next.
         pushNavigator.clearPending();
+        deepLinks.clearPending();
       default:
         break;
     }
@@ -169,6 +192,11 @@ class TweakdApp extends StatelessWidget {
         BlocProvider<LocaleCubit>(
           create: (context) => getIt<LocaleCubit>()..loadPersisted(),
         ),
+        // App-level badge unlock celebration queue. Fed by the feed page from
+        // the launch payload; read by the overlay wired into MaterialApp below.
+        BlocProvider<BadgeCelebrationCubit>(
+          create: (context) => getIt<BadgeCelebrationCubit>(),
+        ),
       ],
       // Inside the providers on purpose: the unread cubits are factories, so
       // this is the only place that can reach the instances the feed reads.
@@ -183,6 +211,10 @@ class TweakdApp extends StatelessWidget {
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             routerConfig: appRouter,
+            // Floats the badge unlock celebration above every route.
+            builder: (context, child) => BadgeCelebrationOverlay(
+              child: child ?? const SizedBox.shrink(),
+            ),
           ),
         ),
       ),

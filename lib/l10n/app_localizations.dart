@@ -2210,6 +2210,150 @@ abstract class AppLocalizations {
   /// **'Changes saved!'**
   String get garageChangesSaved;
 
+  /// No description provided for @garageShareBuild.
+  ///
+  /// In en, this message translates to:
+  /// **'Share build'**
+  String get garageShareBuild;
+
+  /// No description provided for @garageShareSheetLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'SHARE BUILD'**
+  String get garageShareSheetLabel;
+
+  /// No description provided for @garageShareQrTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get QR code'**
+  String get garageShareQrTitle;
+
+  /// No description provided for @garageShareQrSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Print it, stick it on the car'**
+  String get garageShareQrSubtitle;
+
+  /// No description provided for @garageShareCopyLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get garageShareCopyLink;
+
+  /// No description provided for @garageShareLinkCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied'**
+  String get garageShareLinkCopied;
+
+  /// No description provided for @garageShareChannelMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get garageShareChannelMessages;
+
+  /// No description provided for @garageShareChannelWhatsApp.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get garageShareChannelWhatsApp;
+
+  /// No description provided for @garageShareChannelInstagram.
+  ///
+  /// In en, this message translates to:
+  /// **'Instagram'**
+  String get garageShareChannelInstagram;
+
+  /// No description provided for @garageShareChannelX.
+  ///
+  /// In en, this message translates to:
+  /// **'X'**
+  String get garageShareChannelX;
+
+  /// No description provided for @garageShareChannelTelegram.
+  ///
+  /// In en, this message translates to:
+  /// **'Telegram'**
+  String get garageShareChannelTelegram;
+
+  /// No description provided for @garageShareMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Check out my {car} on Tweakd 🔧'**
+  String garageShareMessage(String car);
+
+  /// No description provided for @garageShareStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanned {scans} · Opened {views}'**
+  String garageShareStats(int scans, int views);
+
+  /// No description provided for @garageShareToggleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharing'**
+  String get garageShareToggleLabel;
+
+  /// No description provided for @garageSharePausedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused — the link and QR are off'**
+  String get garageSharePausedHint;
+
+  /// No description provided for @garageShareLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t open the share link.'**
+  String get garageShareLoadFailed;
+
+  /// No description provided for @garageShareQrLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the QR code.'**
+  String get garageShareQrLoadFailed;
+
+  /// No description provided for @garageShareQrDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Download SVG'**
+  String get garageShareQrDownload;
+
+  /// No description provided for @garageShareQrDownloadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t prepare the file.'**
+  String get garageShareQrDownloadFailed;
+
+  /// No description provided for @garageShareRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get garageShareRetry;
+
+  /// No description provided for @garageShareResolving.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening build…'**
+  String get garageShareResolving;
+
+  /// No description provided for @garageShareUnavailableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Build unavailable'**
+  String get garageShareUnavailableTitle;
+
+  /// No description provided for @garageShareUnavailableBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This build is no longer shared on Tweakd.'**
+  String get garageShareUnavailableBody;
+
+  /// No description provided for @garageShareBackToFeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to feed'**
+  String get garageShareBackToFeed;
+
   /// No description provided for @garageValCoverPhoto.
   ///
   /// In en, this message translates to:
@@ -3611,13 +3755,13 @@ abstract class AppLocalizations {
   /// No description provided for @forumsEmptyTitle.
   ///
   /// In en, this message translates to:
-  /// **'Pin the forums you live in'**
+  /// **'Find the forums you live in'**
   String get forumsEmptyTitle;
 
   /// No description provided for @forumsEmptyBody.
   ///
   /// In en, this message translates to:
-  /// **'Shortcuts are saved filters — a car, a topic, or both. Pin a few and they land right here.'**
+  /// **'Tap a hub to see its threads. Once you\'ve had a look around, save it as a shortcut and it lands right here.'**
   String get forumsEmptyBody;
 
   /// No description provided for @forumsPopularHubs.
@@ -6349,6 +6493,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'lb-ft'**
   String get garageCarUnitTorque;
+
+  /// No description provided for @commonContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get commonContinue;
+
+  /// Eyebrow above the badge name in the full-screen unlock celebration
+  ///
+  /// In en, this message translates to:
+  /// **'New badge unlocked!'**
+  String get badgeCelebrationHeadline;
 }
 
 class _AppLocalizationsDelegate

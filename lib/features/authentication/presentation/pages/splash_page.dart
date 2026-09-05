@@ -4,6 +4,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/deeplinks/deep_link_service.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/push/push_navigator.dart';
 import '../bloc/bloc.dart';
@@ -60,6 +61,10 @@ class _SplashPageState extends State<SplashPage> {
           // the feed already the stack's root — pushes the target on top of the
           // feed, so back goes somewhere sensible instead of nowhere.
           getIt<PushNavigator>().flushPending();
+          // Same for a share link that launched the app from terminated: it
+          // was parked while the session resolved, and the feed is now the
+          // stack's root, so the car opens on top of somewhere sensible.
+          getIt<DeepLinkService>().flushPending();
         }
       },
       child: Scaffold(
