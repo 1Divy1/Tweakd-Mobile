@@ -15,15 +15,23 @@ shared `AuthInterceptor`).
 - `next_cursor: null` ⇒ last page. Empty feed ⇒ `{ items: [], next_cursor: null }`.
 - Eventually consistent: an occasional duplicate/gap across pages is expected
   (the bloc dedups appended pages by id).
-- Response is the **same `PostDto` shape as the posts endpoints** (snake_case),
-  so it is parsed with the posts feature's `PostPageModel`/`PostModel` — there are
-  no feed-specific models.
+- Body is the posts endpoints' `PostPageDto` (`items`/`next_cursor`, snake_case)
+  **plus one key**: `pending_badge_celebrations` — a `UserBadgeDto[]` of unlock
+  animations the viewer is still owed, populated on the first page only
+  (`cursor` omitted) and `[]` on every paged request. Parsed by the thin
+  feed-owned `FeedPageModel` (post fields delegated to `PostPageModel`); the
+  badge list feeds the app-level `BadgeCelebrationCubit` (see the **badges**
+  feature), which the overlay above the router animates. Acknowledged one at a
+  time via `POST /badges/me/pending-celebration/{badgeId}` once each animation
+  finishes.
 
 ## Layers
 
-- **domain** — `FeedRepository.getGlobalFeed` → `PostPageEntity` (from posts);
+- **domain** — `FeedRepository.getGlobalFeed` → `FeedPageEntity` (post items
+  reuse the posts feature's `PostEntity`, plus `pendingBadgeCelebrations`);
   `GetGlobalFeedUseCase`.
-- **data** — `FeedApiDataSource` (`/feed/global`), `FeedRepositoryImpl`.
+- **data** — `FeedApiDataSource` (`/feed/global`), `FeedRepositoryImpl`,
+  `FeedPageModel` (delegates post parsing to `PostPageModel`).
 - **presentation**
   - `FeedBloc` (`bloc/feed/`): events `LoadFeed`, `RefreshFeed`, `LoadMoreFeed`,
     `ToggleLikeFeedPost`, `ToggleSaveFeedPost`, `UpdateFeedPostCommentCount`,

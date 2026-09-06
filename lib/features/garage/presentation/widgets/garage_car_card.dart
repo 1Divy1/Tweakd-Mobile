@@ -5,9 +5,8 @@ import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/car_summary.dart';
 import 'car_image.dart';
 
-/// A car in the garage list: cover image with a share button, then the
-/// identity row (name + chevron), then a divider'd row of headline specs —
-/// power, torque, year.
+/// A car in the garage list: cover image, then the identity row (name +
+/// chevron), then a divider'd row of headline specs — power, torque, year.
 ///
 /// Every spec below the image is nullable — see [CarSummaryEntity]. The card
 /// drops whichever parts are missing instead of showing dashes, so it still
@@ -212,7 +211,6 @@ class _CarImage extends StatelessWidget {
           CarImage(imageUrl: imageUrl, fit: BoxFit.cover),
           if (status != null)
             Positioned(top: 10, left: 10, child: _StatusBadge(status: status!)),
-          const Positioned(top: 10, right: 10, child: _ShareCarButton()),
         ],
       ),
     );
@@ -241,49 +239,6 @@ class _StatusBadge extends StatelessWidget {
           fontSize: 10,
           fontWeight: FontWeight.w800,
           letterSpacing: 1.0,
-        ),
-      ),
-    );
-  }
-}
-
-/// Share the car to another app. **UI only** — there is no share flow yet: it
-/// needs a public car URL, which means a web route and a deep-link contract.
-///
-/// It carries its own tap handler so a tap here doesn't fall through to the
-/// card's `onTap` and open the car instead.
-class _ShareCarButton extends StatelessWidget {
-  const _ShareCarButton();
-
-  static const _diameter = 34.0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      label: AppLocalizations.of(context)!.garageCarShareButton,
-      button: true,
-      child: GestureDetector(
-        onTap: () {
-          // TODO(share-car): open the system share sheet once cars have a
-          // public URL.
-        },
-        behavior: HitTestBehavior.opaque,
-        child: Container(
-          width: _diameter,
-          height: _diameter,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            // Translucent ink rather than a solid pill: the button sits on a
-            // photo, and it has to stay legible over both a white sky and a
-            // black car.
-            color: AppColors.ink.withValues(alpha: 0.45),
-            shape: BoxShape.circle,
-          ),
-          child: const Icon(
-            Icons.ios_share,
-            size: 17,
-            color: AppColors.surface,
-          ),
         ),
       ),
     );

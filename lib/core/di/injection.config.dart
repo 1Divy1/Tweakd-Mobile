@@ -9,6 +9,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:app_links/app_links.dart' as _i327;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -58,7 +59,13 @@ import '../../features/badges/domain/repositories/badge_repository.dart'
     as _i360;
 import '../../features/badges/domain/usecases/get_my_locked_badges.dart'
     as _i1011;
+import '../../features/badges/domain/usecases/get_pending_badge_celebrations.dart'
+    as _i825;
+import '../../features/badges/domain/usecases/mark_badge_celebrated.dart'
+    as _i564;
 import '../../features/badges/presentation/bloc/bloc.dart' as _i298;
+import '../../features/badges/presentation/bloc/celebration/cubit.dart'
+    as _i592;
 import '../../features/feed/data/datasources/feed_api_data_source.dart'
     as _i194;
 import '../../features/feed/data/repositories/feed_repository_impl.dart'
@@ -163,7 +170,10 @@ import '../../features/garage/domain/usecases/delete_gallery_images.dart'
     as _i631;
 import '../../features/garage/domain/usecases/delete_modification.dart'
     as _i621;
+import '../../features/garage/domain/usecases/ensure_car_share_link.dart'
+    as _i131;
 import '../../features/garage/domain/usecases/get_car.dart' as _i409;
+import '../../features/garage/domain/usecases/get_car_share_qr.dart' as _i50;
 import '../../features/garage/domain/usecases/get_cover_upload_url.dart'
     as _i932;
 import '../../features/garage/domain/usecases/get_gallery_upload_url.dart'
@@ -175,13 +185,19 @@ import '../../features/garage/domain/usecases/get_modification_upload_urls.dart'
 import '../../features/garage/domain/usecases/get_my_garage.dart' as _i391;
 import '../../features/garage/domain/usecases/get_reference_data.dart' as _i408;
 import '../../features/garage/domain/usecases/patch_modification.dart' as _i49;
+import '../../features/garage/domain/usecases/resolve_share_code.dart' as _i477;
 import '../../features/garage/domain/usecases/save_cover_key.dart' as _i401;
 import '../../features/garage/domain/usecases/save_gallery_keys.dart' as _i472;
+import '../../features/garage/domain/usecases/set_car_share_enabled.dart'
+    as _i129;
 import '../../features/garage/domain/usecases/update_car.dart' as _i219;
 import '../../features/garage/presentation/bloc/add_car/bloc.dart' as _i160;
 import '../../features/garage/presentation/bloc/bloc.dart' as _i121;
 import '../../features/garage/presentation/bloc/car_detail/bloc.dart' as _i807;
+import '../../features/garage/presentation/bloc/car_share/bloc.dart' as _i594;
 import '../../features/garage/presentation/bloc/log_mod/bloc.dart' as _i375;
+import '../../features/garage/presentation/bloc/share_resolve/cubit.dart'
+    as _i610;
 import '../../features/map/data/datasources/business_api_data_source.dart'
     as _i979;
 import '../../features/map/data/datasources/device_location_data_source.dart'
@@ -379,6 +395,7 @@ import '../../features/tags/domain/usecases/get_my_tags.dart' as _i227;
 import '../../features/tags/domain/usecases/get_tags_by_username.dart' as _i198;
 import '../../features/tags/domain/usecases/remove_tag.dart' as _i369;
 import '../../features/tags/presentation/bloc/tags/bloc.dart' as _i853;
+import '../deeplinks/deep_link_service.dart' as _i687;
 import '../network/abstract_http.dart' as _i311;
 import '../network/dio_http_client.dart' as _i554;
 import '../push/firebase_push_notification_service.dart' as _i479;
@@ -393,8 +410,10 @@ import '../realtime/supabase_presence_service.dart' as _i1029;
 import '../services/image_service.dart' as _i768;
 import '../services/navigation_launcher_service.dart' as _i907;
 import '../services/push_permission_service.dart' as _i792;
+import '../services/share_launcher_service.dart' as _i1031;
 import '../shared/bloc/tag_picker/bloc.dart' as _i155;
 import '../storage/locale_local_storage.dart' as _i1069;
+import 'modules/app_links_module.dart' as _i195;
 import 'modules/dio_module.dart' as _i983;
 import 'modules/supabase_module.dart' as _i388;
 
@@ -405,8 +424,10 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    final appLinksModule = _$AppLinksModule();
     final supabaseModule = _$SupabaseModule();
     final dioModule = _$DioModule();
+    gh.lazySingleton<_i327.AppLinks>(() => appLinksModule.appLinks);
     gh.lazySingleton<_i454.SupabaseClient>(() => supabaseModule.supabaseClient);
     gh.lazySingleton<_i494.LocalNotifications>(
       () => _i494.LocalNotifications(),
@@ -419,6 +440,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i792.PushPermissionService>(
       () => _i792.PushPermissionService(),
     );
+    gh.lazySingleton<_i1031.ShareLauncherService>(
+      () => _i1031.ShareLauncherService(),
+    );
     gh.lazySingleton<_i1069.LocaleLocalStorage>(
       () => _i1069.LocaleLocalStorage(),
     );
@@ -427,6 +451,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i784.PresenceService>(
       () => _i1029.SupabasePresenceService(gh<_i454.SupabaseClient>()),
+    );
+    gh.lazySingleton<_i687.DeepLinkService>(
+      () => _i687.DeepLinkService(gh<_i327.AppLinks>()),
+      dispose: (i) => i.dispose(),
     );
     gh.factory<_i516.LocaleCubit>(
       () => _i516.LocaleCubit(gh<_i1069.LocaleLocalStorage>()),
@@ -859,8 +887,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i621.DeleteModificationUseCase>(
       () => _i621.DeleteModificationUseCase(gh<_i511.GarageRepository>()),
     );
+    gh.lazySingleton<_i131.EnsureCarShareLinkUseCase>(
+      () => _i131.EnsureCarShareLinkUseCase(gh<_i511.GarageRepository>()),
+    );
     gh.lazySingleton<_i409.GetCarUseCase>(
       () => _i409.GetCarUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i50.GetCarShareQrUseCase>(
+      () => _i50.GetCarShareQrUseCase(gh<_i511.GarageRepository>()),
     );
     gh.lazySingleton<_i932.GetCoverUploadUrlUseCase>(
       () => _i932.GetCoverUploadUrlUseCase(gh<_i511.GarageRepository>()),
@@ -904,11 +938,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i49.PatchModificationUseCase>(
       () => _i49.PatchModificationUseCase(gh<_i511.GarageRepository>()),
     );
+    gh.lazySingleton<_i477.ResolveShareCodeUseCase>(
+      () => _i477.ResolveShareCodeUseCase(gh<_i511.GarageRepository>()),
+    );
     gh.lazySingleton<_i401.SaveCoverKeyUseCase>(
       () => _i401.SaveCoverKeyUseCase(gh<_i511.GarageRepository>()),
     );
     gh.lazySingleton<_i472.SaveGalleryKeysUseCase>(
       () => _i472.SaveGalleryKeysUseCase(gh<_i511.GarageRepository>()),
+    );
+    gh.lazySingleton<_i129.SetCarShareEnabledUseCase>(
+      () => _i129.SetCarShareEnabledUseCase(gh<_i511.GarageRepository>()),
     );
     gh.lazySingleton<_i219.UpdateCarUseCase>(
       () => _i219.UpdateCarUseCase(gh<_i511.GarageRepository>()),
@@ -1336,6 +1376,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1011.GetMyLockedBadgesUseCase>(
       () => _i1011.GetMyLockedBadgesUseCase(gh<_i360.BadgeRepository>()),
     );
+    gh.lazySingleton<_i825.GetPendingBadgeCelebrationsUseCase>(
+      () =>
+          _i825.GetPendingBadgeCelebrationsUseCase(gh<_i360.BadgeRepository>()),
+    );
+    gh.lazySingleton<_i564.MarkBadgeCelebratedUseCase>(
+      () => _i564.MarkBadgeCelebratedUseCase(gh<_i360.BadgeRepository>()),
+    );
     gh.factory<_i121.GarageBloc>(
       () => _i121.GarageBloc(
         getMyGarage: gh<_i391.GetMyGarageUseCase>(),
@@ -1348,6 +1395,13 @@ extension GetItInjectableX on _i174.GetIt {
         updateProfile: gh<_i78.UpdateProfileUseCase>(),
         changeProfileAvatar: gh<_i717.ChangeProfileAvatarUseCase>(),
         profile: profile,
+      ),
+    );
+    gh.factory<_i594.CarShareBloc>(
+      () => _i594.CarShareBloc(
+        ensureShareLinkUseCase: gh<_i131.EnsureCarShareLinkUseCase>(),
+        getShareQrUseCase: gh<_i50.GetCarShareQrUseCase>(),
+        setShareEnabledUseCase: gh<_i129.SetCarShareEnabledUseCase>(),
       ),
     );
     gh.factory<_i887.NotificationsBloc>(
@@ -1376,22 +1430,13 @@ extension GetItInjectableX on _i174.GetIt {
         getProviderFullName: gh<_i847.GetProviderFullName>(),
       ),
     );
+    gh.factory<_i610.ShareResolveCubit>(
+      () => _i610.ShareResolveCubit(gh<_i477.ResolveShareCodeUseCase>()),
+    );
     gh.lazySingleton<_i981.SupabaseAuthDataSource>(
       () => _i981.SupabaseAuthDataSource(
         gh<_i454.SupabaseClient>(),
         gh<_i892.PushRegistration>(),
-      ),
-    );
-    gh.factory<_i197.ForumsHomeBloc>(
-      () => _i197.ForumsHomeBloc(
-        getShortcuts: gh<_i846.GetForumShortcutsUseCase>(),
-        getThreads: gh<_i669.GetForumThreadsUseCase>(),
-        getSuggestions: gh<_i542.GetForumSuggestionsUseCase>(),
-        createShortcut: gh<_i846.CreateForumShortcutUseCase>(),
-        deleteShortcut: gh<_i846.DeleteForumShortcutUseCase>(),
-        reorderShortcuts: gh<_i846.ReorderForumShortcutsUseCase>(),
-        saveThread: gh<_i302.SaveForumThreadUseCase>(),
-        unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
       ),
     );
     gh.factory<_i465.MapBloc>(
@@ -1493,12 +1538,26 @@ extension GetItInjectableX on _i174.GetIt {
         createMessage: gh<_i468.CreateFeedbackMessageUseCase>(),
       ),
     );
+    gh.lazySingleton<_i592.BadgeCelebrationCubit>(
+      () => _i592.BadgeCelebrationCubit(gh<_i564.MarkBadgeCelebratedUseCase>()),
+    );
     gh.factory<_i198.ForumHubBloc>(
       () => _i198.ForumHubBloc(
         getThreads: gh<_i669.GetForumThreadsUseCase>(),
         getTopics: gh<_i354.GetForumTopicsUseCase>(),
         getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
         createShortcut: gh<_i846.CreateForumShortcutUseCase>(),
+        saveThread: gh<_i302.SaveForumThreadUseCase>(),
+        unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
+      ),
+    );
+    gh.factory<_i197.ForumsHomeBloc>(
+      () => _i197.ForumsHomeBloc(
+        getShortcuts: gh<_i846.GetForumShortcutsUseCase>(),
+        getThreads: gh<_i669.GetForumThreadsUseCase>(),
+        getSuggestions: gh<_i542.GetForumSuggestionsUseCase>(),
+        deleteShortcut: gh<_i846.DeleteForumShortcutUseCase>(),
+        reorderShortcuts: gh<_i846.ReorderForumShortcutsUseCase>(),
         saveThread: gh<_i302.SaveForumThreadUseCase>(),
         unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
       ),
@@ -1569,6 +1628,8 @@ extension GetItInjectableX on _i174.GetIt {
     return this;
   }
 }
+
+class _$AppLinksModule extends _i195.AppLinksModule {}
 
 class _$SupabaseModule extends _i388.SupabaseModule {}
 

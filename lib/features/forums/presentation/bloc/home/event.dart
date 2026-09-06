@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 
-import '../../../domain/entities/forum_suggestion.dart';
 import '../../../domain/entities/forum_thread.dart';
 
 sealed class ForumsHomeEvent extends Equatable {
@@ -41,15 +40,6 @@ class ChangeForumsHomeSort extends ForumsHomeEvent {
 /// Fetches the next feed page. No-op while loading or on the last page.
 class LoadMoreForumsHome extends ForumsHomeEvent {
   const LoadMoreForumsHome();
-}
-
-/// Pins a suggestion (brand/model/topic) from the empty state's "popular hubs".
-class PinForumSuggestion extends ForumsHomeEvent {
-  final ForumSuggestionEntity suggestion;
-  const PinForumSuggestion(this.suggestion);
-
-  @override
-  List<Object?> get props => [suggestion];
 }
 
 /// Optimistically toggles the viewer's save on a thread in the hot feed.

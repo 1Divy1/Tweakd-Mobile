@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/deeplinks/deep_link_service.dart';
+import '../../../../core/di/injection.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../bloc/bloc.dart';
@@ -103,6 +105,10 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
               context.go('/onboarding');
             } else if (state is Authenticated) {
               context.go('/profile');
+              // A share link opened before sign-in was parked rather than
+              // followed. Releasing it here lands the user on the build their
+              // friend sent them, which is the whole point of the link.
+              getIt<DeepLinkService>().flushPending();
             } else if (state is AuthError) {
               // An iOS Apple cancel never backgrounds the app, so `resumed`
               // may not fire — this is what releases the latch there.

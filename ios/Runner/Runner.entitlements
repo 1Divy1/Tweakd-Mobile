@@ -2,6 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<!-- Universal Links for car share links (https://web.tweakdapp.com/c/{code}).
+	     The host is the web. subdomain, not the apex: tweakdapp.com is the
+	     presentation site and serves no share codes. It must stay equal to the
+	     backend's sharing.public-base-url — a mismatch means every link opens
+	     Safari instead of the app, silently.
+	     iOS fetches https://web.tweakdapp.com/.well-known/apple-app-site-association
+	     on install and will not open the app for these URLs until that file is
+	     served and lists this app id (25P3V4ZWCF.com.tweakdapp). Until then the
+	     links open Safari, and the tweakd://c/{code} fallback still works.
+	     The matching "Associated Domains" capability must also be enabled on
+	     the App ID in the Apple developer portal. -->
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:web.tweakdapp.com</string>
+	</array>
 	<key>aps-environment</key>
 	<string>development</string>
 	<key>com.apple.developer.applesignin</key>

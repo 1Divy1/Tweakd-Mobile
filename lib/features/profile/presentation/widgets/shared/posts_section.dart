@@ -10,8 +10,12 @@ import '../../../../posts/presentation/bloc/profile_posts/state.dart';
 import '../../../../posts/presentation/utils/post_error_mapper.dart';
 import '../../../../posts/presentation/widgets/post_card.dart';
 
-/// The Posts tab content on a profile: a two-column grid of [PostCard]s backed by
-/// [ProfilePostsBloc]. Tapping a card opens the full post.
+/// The Posts tab content on a profile: an edge-to-edge three-column grid of
+/// [PostCard]s backed by [ProfilePostsBloc]. Tapping a card opens the full post.
+///
+/// The grid itself is full-bleed (no side padding, hairline gaps); the empty,
+/// error and load-more states keep the page's 20px horizontal margin so they
+/// read as centred cards rather than stretched banners.
 class PostsSection extends StatelessWidget {
   final bool isOwner;
 
@@ -19,22 +23,25 @@ class PostsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: BlocBuilder<ProfilePostsBloc, ProfilePostsState>(
-        builder: (context, state) {
-          return switch (state) {
-            ProfilePostsLoading() => const _PostsLoadingView(),
-            ProfilePostsError(:final code) => _PostsErrorView(
+    return BlocBuilder<ProfilePostsBloc, ProfilePostsState>(
+      builder: (context, state) {
+        return switch (state) {
+          ProfilePostsLoading() => const _PostsLoadingView(),
+          ProfilePostsError(:final code) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: _PostsErrorView(
                 message: postErrorMessage(AppLocalizations.of(context)!, code),
               ),
-            ProfilePostsLoaded(:final posts) => posts.isEmpty
-                ? _PostsEmptyView(isOwner: isOwner)
-                : _PostsGrid(state: state),
-            _ => const SizedBox.shrink(),
-          };
-        },
-      ),
+            ),
+          ProfilePostsLoaded(:final posts) => posts.isEmpty
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: _PostsEmptyView(isOwner: isOwner),
+                )
+              : _PostsGrid(state: state),
+          _ => const SizedBox.shrink(),
+        };
+      },
     );
   }
 }
@@ -56,10 +63,10 @@ class _PostsGrid extends StatelessWidget {
           padding: EdgeInsets.zero,
           itemCount: state.posts.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 4 / 5,
+            crossAxisCount: 3,
+            crossAxisSpacing: 2,
+            mainAxisSpacing: 2,
+            childAspectRatio: 1,
           ),
           itemBuilder: (context, index) {
             final post = state.posts[index];
@@ -77,11 +84,14 @@ class _PostsGrid extends StatelessWidget {
         ),
         if (state.hasMore) ...[
           const SizedBox(height: 16),
-          _LoadMoreButton(
-            isLoading: state.isLoadingMore,
-            onTap: () =>
-                context.read<ProfilePostsBloc>().add(const LoadMorePosts()),
-            label: l10n.postsLoadMore,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: _LoadMoreButton(
+              isLoading: state.isLoadingMore,
+              onTap: () =>
+                  context.read<ProfilePostsBloc>().add(const LoadMorePosts()),
+              label: l10n.postsLoadMore,
+            ),
           ),
         ],
       ],
@@ -201,19 +211,14 @@ class _PostsLoadingView extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
-      itemCount: 4,
+      itemCount: 9,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-        childAspectRatio: 4 / 5,
+        crossAxisCount: 3,
+        crossAxisSpacing: 2,
+        mainAxisSpacing: 2,
+        childAspectRatio: 1,
       ),
-      itemBuilder: (_, _) => Container(
-        decoration: BoxDecoration(
-          color: AppColors.line,
-          borderRadius: BorderRadius.circular(18),
-        ),
-      ),
+      itemBuilder: (_, _) => const ColoredBox(color: AppColors.line),
     );
   }
 }
