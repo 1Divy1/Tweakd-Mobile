@@ -21,9 +21,13 @@ lib/
 ├── main.dart
 ├── config/routes/app_router.dart
 ├── core/
+│   ├── deeplinks/
+│   │   ├── deep_link_service.dart          # incoming Universal/App Links → routes (see garage README)
+│   │   └── share_link_route.dart           # pure Uri → route mapping for /c/{code}
 │   ├── di/
 │   │   ├── injection.dart                  # getIt instance + configureDependencies()
 │   │   └── modules/
+│   │       ├── app_links_module.dart       # @module: registers AppLinks
 │   │       ├── dio_module.dart             # @module: registers Dio
 │   │       └── supabase_module.dart        # @module: registers SupabaseClient
 │   ├── error/
@@ -34,7 +38,8 @@ lib/
 │   │   ├── auth_interceptor.dart           # Adds Bearer JWT to every request
 │   │   └── dio_http_client.dart            # AbstractHTTP impl, maps DioException → custom exceptions
 │   ├── services/
-│   │   └── car_image_service.dart          # Image compression & presigned-URL uploads (garage feature)
+│   │   ├── car_image_service.dart          # Image compression & presigned-URL uploads (garage feature)
+│   │   └── share_launcher_service.dart     # per-app share targets + system sheet + SVG file share
 │   ├── storage/secure_local_storage.dart   # FlutterSecureStorage, plugged into Supabase
 │   ├── theme/
 │   │   ├── app_colors.dart
@@ -175,8 +180,9 @@ Each feature has its own `README.md` at `lib/features/<name>/README.md` with ful
 | `/search` | `SearchPage` | `NoTransitionPage` (bottom nav) |
 | `/feed` | Stub `Scaffold` | `NoTransitionPage` (bottom nav); not implemented |
 | `/garage/cars/add` | `RegisterCarPage` | 6-step add-car wizard |
-| `/garage/cars/:carId` | `ChassisPage` | `state.extra` = `isOwner` bool |
+| `/garage/cars/:carId` | `AboutCarPage` | `state.extra` = `isOwner` bool |
 | `/garage/cars/:carId/modifications/add` | `LogModificationPage` | — |
+| `/c/:code` | `ShareLandingPage` | Where a scanned QR / tapped share link lands; resolves the code, then `pushReplacement`s to the car |
 
 **Navigation**: bottom-nav tabs use `context.go()` (replaces stack, no back gesture). `NoTransitionPage` on all bottom-nav destinations eliminates slide animation. Routes navigated to via `context.push()` keep the default transition.
 
@@ -270,6 +276,9 @@ Uses `context.go()` and guards with `if (activeTab != tab)` to avoid redundant n
 | `image_picker` | ^1.1.2 | File picker for photos |
 | `uuid` | ^4.0.0 | UUID generation |
 | `hive` | ^2.2.3 | Local cache (not yet actively used) |
+| `share_plus` | ^13.3.0 | System share sheet (share links, QR SVG file) |
+| `path_provider` | ^2.1.6 | Temp dir for the QR file handed to the share sheet |
+| `app_links` | ^7.0.0 | Incoming deep links. Flutter's built-in deep linking stays **off** — it would also route Supabase's `tweakd://` auth callbacks |
 
 ---
 

@@ -50,7 +50,9 @@ import '../../features/garage/presentation/bloc/log_mod/event.dart';
 import '../../features/garage/presentation/pages/about_car_page.dart';
 import '../../features/garage/presentation/pages/fullscreen_image_page.dart';
 import '../../features/garage/presentation/pages/log_mod_page.dart';
+import '../../features/garage/presentation/bloc/share_resolve/cubit.dart';
 import '../../features/garage/presentation/pages/register_car_page.dart';
+import '../../features/garage/presentation/pages/share_landing_page.dart';
 import '../../features/map/presentation/bloc/map/bloc.dart';
 import '../../features/map/presentation/bloc/map/event.dart';
 import '../../features/map/presentation/pages/map_page.dart';
@@ -665,6 +667,28 @@ final appRouter = GoRouter(
           },
         ),
       ],
+    ),
+
+    // ---------- Share links (/c/{code}) ----------
+    // Where a scanned QR or a tapped Universal Link / App Link lands. The path
+    // mirrors the public web URL exactly (`web.tweakdapp.com/c/{code}`), and
+    // `tweakd://c/{code}` — the fallback the website's "Open in app" button
+    // uses — arrives here too. `DeepLinkService` maps both onto this route.
+    //
+    // The code is opaque, so the page is a resolver: it asks the backend which
+    // car the code means, then replaces itself with that car's screen. The
+    // `?s=` tag rides along so an in-app open from a QR is counted as a scan.
+    GoRoute(
+      path: '/c/:code',
+      builder: (context, state) {
+        final code = state.pathParameters['code']!;
+        final source = state.uri.queryParameters['s'];
+
+        return BlocProvider<ShareResolveCubit>(
+          create: (_) => getIt<ShareResolveCubit>()..resolve(code, source: source),
+          child: const ShareLandingPage(),
+        );
+      },
     ),
 
     // ---------- Garage Page ----------

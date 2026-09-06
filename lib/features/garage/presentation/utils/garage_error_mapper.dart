@@ -13,6 +13,8 @@ enum GarageErrorCode {
   privateGarage,
   notOwner,
   invalidReference,
+  shareLinkNotFound,
+  shareLinkGone,
   generic,
   refDataLoadFailed,
   categoriesLoadFailed,
@@ -32,6 +34,10 @@ class GarageErrorMapper {
     if (failure is InvalidReferenceFailure) {
       return GarageErrorCode.invalidReference;
     }
+    if (failure is ShareLinkNotFoundFailure) {
+      return GarageErrorCode.shareLinkNotFound;
+    }
+    if (failure is ShareLinkGoneFailure) return GarageErrorCode.shareLinkGone;
     return GarageErrorCode.generic;
   }
 }
@@ -45,6 +51,8 @@ String garageErrorMessage(AppLocalizations l10n, GarageErrorCode code) =>
       GarageErrorCode.privateGarage => l10n.garageErrorPrivateGarage,
       GarageErrorCode.notOwner => l10n.garageErrorNotOwner,
       GarageErrorCode.invalidReference => l10n.garageErrorInvalidReference,
+      GarageErrorCode.shareLinkNotFound => l10n.garageShareUnavailableBody,
+      GarageErrorCode.shareLinkGone => l10n.garageShareUnavailableBody,
       GarageErrorCode.generic => l10n.garageErrorGeneric,
       GarageErrorCode.refDataLoadFailed => l10n.garageErrorRefDataLoadFailed,
       GarageErrorCode.categoriesLoadFailed =>

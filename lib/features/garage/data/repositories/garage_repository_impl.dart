@@ -7,6 +7,7 @@ import '../../../../core/error/base_failures.dart';
 import '../../../../core/services/image_service.dart';
 import '../../domain/entities/car.dart';
 import '../../domain/entities/car_modification.dart';
+import '../../domain/entities/car_share.dart';
 import '../../domain/entities/car_status_option.dart';
 import '../../domain/entities/create_car_result.dart';
 import '../../domain/entities/garage.dart';
@@ -399,6 +400,101 @@ class GarageRepositoryImpl implements GarageRepository {
     } catch (e) {
       debugPrint('uploadFileToR2 error: $e');
       return const Left(UnknownFailure('Upload failed.'));
+    }
+  }
+
+  // ── Share links ───────────────────────────────────────────────────────────
+
+  @override
+  Future<Either<Failure, CarShareEntity>> ensureShareLink(String carId) async {
+    try {
+      final model = await dataSource.ensureShareLink(carId);
+      return Right(model.toEntity());
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ApiException catch (e) {
+      if (e.statusCode == 403) return const Left(NotCarOwnerFailure());
+      if (e.statusCode == 404) return const Left(CarNotFoundFailure());
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('ensureShareLink error: $e');
+      return const Left(UnknownFailure('An unexpected error occurred.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, CarShareEntity>> setShareLinkEnabled(
+    String carId,
+    bool enabled,
+  ) async {
+    try {
+      final model = await dataSource.setShareLinkEnabled(carId, enabled);
+      return Right(model.toEntity());
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ApiException catch (e) {
+      if (e.statusCode == 403) return const Left(NotCarOwnerFailure());
+      if (e.statusCode == 404) return const Left(CarNotFoundFailure());
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('setShareLinkEnabled error: $e');
+      return const Left(UnknownFailure('An unexpected error occurred.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> getShareQrSvg(String carId) async {
+    try {
+      final svg = await dataSource.getShareQrSvg(carId);
+      return Right(svg);
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ApiException catch (e) {
+      if (e.statusCode == 403) return const Left(NotCarOwnerFailure());
+      if (e.statusCode == 404) return const Left(CarNotFoundFailure());
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('getShareQrSvg error: $e');
+      return const Left(UnknownFailure('An unexpected error occurred.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, CarShareResolutionEntity>> resolveShareCode(
+    String code, {
+    String? source,
+  }) async {
+    try {
+      final model = await dataSource.resolveShareCode(code, source: source);
+      return Right(model.toEntity());
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ApiException catch (e) {
+      // 404 = no such code; 410 = paused, revoked, or the owner is banned.
+      // Both land on the same screen, but only 410 can be resumed by its
+      // owner, so they stay distinct failures.
+      if (e.statusCode == 404) return const Left(ShareLinkNotFoundFailure());
+      if (e.statusCode == 410) return const Left(ShareLinkGoneFailure());
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('resolveShareCode error: $e');
+      return const Left(UnknownFailure('An unexpected error occurred.'));
     }
   }
 

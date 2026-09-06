@@ -6,10 +6,10 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../../core/error/base_failures.dart' show Failure;
 import '../../../../posts/domain/entities/post.dart';
-import '../../../../posts/domain/entities/post_pages.dart';
 import '../../../../posts/domain/usecases/add_comment.dart';
 import '../../../../posts/domain/usecases/post_like.dart';
 import '../../../../posts/domain/usecases/post_save.dart';
+import '../../../domain/entities/feed_page.dart';
 import '../../../domain/usecases/get_global_feed.dart';
 import '../../utils/feed_error_mapper.dart';
 import 'event.dart';
@@ -48,9 +48,11 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
   void _onHidePost(HideFeedPost event, Emitter<FeedState> emit) {
     final current = state;
     if (current is! FeedLoaded) return;
-    emit(current.copyWith(
-      posts: current.posts.where((p) => p.id != event.postId).toList(),
-    ));
+    emit(
+      current.copyWith(
+        posts: current.posts.where((p) => p.id != event.postId).toList(),
+      ),
+    );
   }
 
   void _onUpdateCommentCount(
@@ -61,13 +63,15 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     if (current is! FeedLoaded) return;
     final index = current.posts.indexWhere((p) => p.id == event.postId);
     if (index == -1) return;
-    emit(current.copyWith(
-      posts: _replaceAt(
-        current.posts,
-        index,
-        current.posts[index].copyWith(commentsCount: event.count),
+    emit(
+      current.copyWith(
+        posts: _replaceAt(
+          current.posts,
+          index,
+          current.posts[index].copyWith(commentsCount: event.count),
+        ),
       ),
-    ));
+    );
   }
 
   Future<void> _onSubmitComment(
@@ -85,13 +89,15 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     // Optimistically bump the counter; the new comment shows when the sheet
     // (re)loads from the backend.
     final post = current.posts[index];
-    emit(current.copyWith(
-      posts: _replaceAt(
-        current.posts,
-        index,
-        post.copyWith(commentsCount: post.commentsCount + 1),
+    emit(
+      current.copyWith(
+        posts: _replaceAt(
+          current.posts,
+          index,
+          post.copyWith(commentsCount: post.commentsCount + 1),
+        ),
       ),
-    ));
+    );
 
     final result = await addComment(
       AddCommentParams(postId: event.postId, content: content),
@@ -103,13 +109,15 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
       final i = latest.posts.indexWhere((p) => p.id == event.postId);
       if (i == -1) return;
       final p = latest.posts[i];
-      emit(latest.copyWith(
-        posts: _replaceAt(
-          latest.posts,
-          i,
-          p.copyWith(commentsCount: (p.commentsCount - 1).clamp(0, 1 << 31)),
+      emit(
+        latest.copyWith(
+          posts: _replaceAt(
+            latest.posts,
+            i,
+            p.copyWith(commentsCount: (p.commentsCount - 1).clamp(0, 1 << 31)),
+          ),
         ),
-      ));
+      );
     }, (_) {});
   }
 
@@ -142,26 +150,27 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
 
   Future<void> _onLoadMore(LoadMoreFeed event, Emitter<FeedState> emit) async {
     final current = state;
-    if (current is! FeedLoaded ||
-        current.isLoadingMore ||
-        !current.hasMore) {
+    if (current is! FeedLoaded || current.isLoadingMore || !current.hasMore) {
       return;
     }
 
     emit(current.copyWith(isLoadingMore: true));
 
-    final result =
-        await getGlobalFeed(GetGlobalFeedParams(cursor: current.nextCursor));
+    final result = await getGlobalFeed(
+      GetGlobalFeedParams(cursor: current.nextCursor),
+    );
 
     result.fold(
       // A failed "load more" shouldn't blow away what's already on screen.
       (_) => emit(current.copyWith(isLoadingMore: false)),
-      (page) => emit(FeedLoaded(
-        // The viral feed is eventually consistent, so a page may re-send a post
-        // we already hold — drop duplicates so the list keys stay unique.
-        posts: _dedup([...current.posts, ...page.items]),
-        nextCursor: page.nextCursor,
-      )),
+      (page) => emit(
+        FeedLoaded(
+          // The viral feed is eventually consistent, so a page may re-send a post
+          // we already hold — drop duplicates so the list keys stay unique.
+          posts: _dedup([...current.posts, ...page.items]),
+          nextCursor: page.nextCursor,
+        ),
+      ),
     );
   }
 
@@ -204,8 +213,11 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     required String postId,
     required bool Function(PostEntity) isOn,
     required PostEntity Function(PostEntity post, bool on) flip,
-    required Future<Either<Failure, void>> Function(PostIdParams params, bool on)
-        call,
+    required Future<Either<Failure, void>> Function(
+      PostIdParams params,
+      bool on,
+    )
+    call,
   }) async {
     final current = state;
     if (current is! FeedLoaded) return;
@@ -216,9 +228,9 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     final post = current.posts[index];
     final on = !isOn(post);
 
-    emit(current.copyWith(
-      posts: _replaceAt(current.posts, index, flip(post, on)),
-    ));
+    emit(
+      current.copyWith(posts: _replaceAt(current.posts, index, flip(post, on))),
+    );
 
     final result = await call(PostIdParams(postId: post.id), on);
     result.fold((_) {
@@ -232,11 +244,19 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
 
   void _emitFirstPage(
     Emitter<FeedState> emit,
-    Either<Failure, PostPageEntity> result,
+    Either<Failure, FeedPageEntity> result,
   ) {
     result.fold(
       (failure) => emit(FeedError(FeedErrorMapper.getCode(failure))),
-      (page) => emit(FeedLoaded(posts: page.items, nextCursor: page.nextCursor)),
+      (page) => emit(
+        FeedLoaded(
+          posts: page.items,
+          nextCursor: page.nextCursor,
+          // Only the initial load surfaces these; the feed page hands them to the
+          // celebration overlay and they are gone from the next state onward.
+          pendingBadgeCelebrations: page.pendingBadgeCelebrations,
+        ),
+      ),
     );
   }
 

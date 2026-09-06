@@ -1,26 +1,26 @@
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/network/abstract_http.dart';
-import '../../../posts/data/models/post_models.dart';
+import '../models/feed_page_model.dart';
 
 /// Talks to the feed module under the shared API base (`$API_BASE_URL/api/v1`).
-/// A feed item is the same `PostDto` the posts endpoints return, so the
-/// response is parsed with the posts feature's [PostPageModel] (snake_case).
+/// A feed item is the same `PostDto` the posts endpoints return; the first page
+/// additionally carries `pending_badge_celebrations`, so the response is parsed
+/// with [FeedPageModel] (snake_case).
 @lazySingleton
 class FeedApiDataSource {
   final AbstractHTTP http;
 
   FeedApiDataSource(this.http);
 
-  /// GET /feed/global — virality-ranked global feed, cursor-paginated.
-  Future<PostPageModel> getGlobalFeed({String? cursor, int size = 20}) async {
+  /// GET /feed/global — virality-ranked global feed, cursor-paginated. With no
+  /// `cursor` the response embeds any pending badge celebrations; paged
+  /// requests carry an empty list.
+  Future<FeedPageModel> getGlobalFeed({String? cursor, int size = 20}) async {
     final data = await http.get(
       '/feed/global',
-      queryParameters: {
-        'cursor': ?cursor,
-        'size': size,
-      },
+      queryParameters: {'cursor': ?cursor, 'size': size},
     );
-    return PostPageModel.fromJson(data as Map<String, dynamic>);
+    return FeedPageModel.fromJson(data as Map<String, dynamic>);
   }
 }

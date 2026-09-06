@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/base_failures.dart';
 import '../entities/car.dart';
 import '../entities/car_modification.dart';
+import '../entities/car_share.dart';
 import '../entities/car_status_option.dart';
 import '../entities/create_car_result.dart';
 import '../entities/garage.dart';
@@ -74,6 +75,28 @@ abstract class GarageRepository {
     String uploadUrl,
     Uint8List bytes, {
     String contentType = 'image/webp',
+  });
+
+  // ── Share links (owner only) ──────────────────────────────────────────────
+  /// Returns the car's live share link, minting one on the first call.
+  Future<Either<Failure, CarShareEntity>> ensureShareLink(String carId);
+
+  /// Pauses or resumes the link. The code never changes, so a printed sticker
+  /// survives both.
+  Future<Either<Failure, CarShareEntity>> setShareLinkEnabled(
+    String carId,
+    bool enabled,
+  );
+
+  /// The share URL as a print-ready QR, as raw SVG source.
+  Future<Either<Failure, String>> getShareQrSvg(String carId);
+
+  // ── Resolving an incoming share code ──────────────────────────────────────
+  /// Turns a scanned or tapped code into the car it points at. [source] is the
+  /// `?s=` tag the link carried, so the visit is counted as what it was.
+  Future<Either<Failure, CarShareResolutionEntity>> resolveShareCode(
+    String code, {
+    String? source,
   });
 
   // ── Reference data ────────────────────────────────────────────────────────

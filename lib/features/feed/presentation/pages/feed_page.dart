@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/shared/widgets/app_bottom_nav.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../badges/presentation/bloc/celebration/cubit.dart';
 import '../../../posts/domain/entities/post.dart';
 import '../../../posts/presentation/widgets/post_card/post_options_sheet.dart';
 import '../../../posts/presentation/widgets/post_detail/comments_sheet.dart';
@@ -28,19 +29,29 @@ class FeedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bg,
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          children: [
-            const FeedTopBar(),
-            Expanded(
-              child: BlocBuilder<FeedBloc, FeedState>(
-                builder: (context, state) {
-                  return switch (state) {
-                    FeedInitial() || FeedLoading() => const FeedLoadingView(),
-                    FeedError(:final code) => FeedErrorView(
+    return BlocListener<FeedBloc, FeedState>(
+      // The initial load is the only state that carries these; hand them to the
+      // app-level queue, which the overlay above the router animates.
+      listenWhen: (_, state) =>
+          state is FeedLoaded && state.pendingBadgeCelebrations.isNotEmpty,
+      listener: (context, state) {
+        context.read<BadgeCelebrationCubit>().enqueue(
+          (state as FeedLoaded).pendingBadgeCelebrations,
+        );
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.bg,
+        body: SafeArea(
+          bottom: false,
+          child: Column(
+            children: [
+              const FeedTopBar(),
+              Expanded(
+                child: BlocBuilder<FeedBloc, FeedState>(
+                  builder: (context, state) {
+                    return switch (state) {
+                      FeedInitial() || FeedLoading() => const FeedLoadingView(),
+                      FeedError(:final code) => FeedErrorView(
                         message: feedErrorMessage(
                           AppLocalizations.of(context)!,
                           code,
@@ -48,13 +59,14 @@ class FeedPage extends StatelessWidget {
                         onRetry: () =>
                             context.read<FeedBloc>().add(const LoadFeed()),
                       ),
-                    FeedLoaded() => _FeedList(state: state),
-                  };
-                },
+                      FeedLoaded() => _FeedList(state: state),
+                    };
+                  },
+                ),
               ),
-            ),
-            const AppBottomNav(activeTab: AppBottomNavTab.feed),
-          ],
+              const AppBottomNav(activeTab: AppBottomNavTab.feed),
+            ],
+          ),
         ),
       ),
     );
@@ -156,10 +168,7 @@ class _FeedListState extends State<_FeedList> {
         onRefresh: _refresh,
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(),
-          children: const [
-            SizedBox(height: 120),
-            FeedEmptyView(),
-          ],
+          children: const [SizedBox(height: 120), FeedEmptyView()],
         ),
       );
     }
@@ -210,7 +219,10 @@ class _Footer extends StatelessWidget {
         child: SizedBox(
           width: 22,
           height: 22,
-          child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.accent),
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: AppColors.accent,
+          ),
         ),
       ),
     );

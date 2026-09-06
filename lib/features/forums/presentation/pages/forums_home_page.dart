@@ -171,7 +171,7 @@ class _HomeContent extends StatelessWidget {
           children: [
             ForumsEmptyView(
               suggestions: state.suggestions,
-              onPin: (suggestion) => bloc.add(PinForumSuggestion(suggestion)),
+              onOpen: (suggestion) => onOpenHub(suggestion.toFilter()),
               onStartThread: onStartThread,
             ),
           ],

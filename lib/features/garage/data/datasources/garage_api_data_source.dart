@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/network/abstract_http.dart';
 import '../models/car_model.dart';
 import '../models/car_modification_model.dart';
+import '../models/car_share_model.dart';
 import '../models/garage_model.dart';
 import '../models/reference_data_models.dart';
 
@@ -112,6 +113,60 @@ class GarageApiDataSource {
 
   Future<void> deleteModification(String carId, String modId) async {
     await http.delete('/garage/cars/$carId/modifications/$modId');
+  }
+
+  // ── Share links ───────────────────────────────────────────────────────────
+
+  /// POST — idempotent: returns the car's live link, minting one on the first
+  /// call. Always 200, so the sheet does not have to care whether the code is
+  /// new, only that it is stable.
+  Future<CarShareModel> ensureShareLink(String carId) async {
+    final data = await http.post('/garage/cars/$carId/share');
+    return CarShareModel.fromJson(data as Map<String, dynamic>);
+  }
+
+  /// PATCH — pauses or resumes the link. The code is untouched either way, so
+  /// a printed sticker survives both.
+  Future<CarShareModel> setShareLinkEnabled(String carId, bool enabled) async {
+    final data = await http.patch(
+      '/garage/cars/$carId/share',
+      body: {'enabled': enabled},
+    );
+    return CarShareModel.fromJson(data as Map<String, dynamic>);
+  }
+
+  /// GET `…/share/qr.svg` — the share URL as a print-ready QR, rendered
+  /// server-side so every device produces the identical code.
+  ///
+  /// The `Accept` override is required, not cosmetic: this is the one endpoint
+  /// that does not serve JSON, and the client's default `application/json`
+  /// makes Spring's content negotiation reject the request with 406 before the
+  /// handler ever runs.
+  ///
+  /// Returned as the raw SVG source: dio only JSON-decodes a response whose
+  /// content type is JSON, and this one is `image/svg+xml`, so the default
+  /// transformer hands back the UTF-8 string untouched. That is also the shape
+  /// `SvgPicture.string` and the "Download SVG" file write both want.
+  Future<String> getShareQrSvg(String carId) async {
+    final data = await http.get(
+      '/garage/cars/$carId/share/qr.svg',
+      headers: const {'Accept': 'image/svg+xml'},
+    );
+    return data as String;
+  }
+
+  /// GET — turns a scanned or tapped code into a car id. [source] carries the
+  /// `?s=` tag from the incoming URL so an in-app open from a QR counts as a
+  /// scan, exactly as the web page would have counted it.
+  Future<CarShareResolutionModel> resolveShareCode(
+    String code, {
+    String? source,
+  }) async {
+    final data = await http.get(
+      '/garage/share/resolve/$code',
+      queryParameters: source == null ? null : {'s': source},
+    );
+    return CarShareResolutionModel.fromJson(data as Map<String, dynamic>);
   }
 
   // ── Reference data ────────────────────────────────────────────────────────

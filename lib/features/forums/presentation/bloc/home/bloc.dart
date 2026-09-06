@@ -21,7 +21,6 @@ class ForumsHomeBloc extends Bloc<ForumsHomeEvent, ForumsHomeState> {
   final GetForumShortcutsUseCase getShortcuts;
   final GetForumThreadsUseCase getThreads;
   final GetForumSuggestionsUseCase getSuggestions;
-  final CreateForumShortcutUseCase createShortcut;
   final DeleteForumShortcutUseCase deleteShortcut;
   final ReorderForumShortcutsUseCase reorderShortcuts;
   final SaveForumThreadUseCase saveThread;
@@ -31,7 +30,6 @@ class ForumsHomeBloc extends Bloc<ForumsHomeEvent, ForumsHomeState> {
     required this.getShortcuts,
     required this.getThreads,
     required this.getSuggestions,
-    required this.createShortcut,
     required this.deleteShortcut,
     required this.reorderShortcuts,
     required this.saveThread,
@@ -41,7 +39,6 @@ class ForumsHomeBloc extends Bloc<ForumsHomeEvent, ForumsHomeState> {
     on<RefreshForumsHome>(_onRefresh);
     on<ChangeForumsHomeSort>(_onChangeSort);
     on<LoadMoreForumsHome>(_onLoadMore);
-    on<PinForumSuggestion>(_onPinSuggestion);
     on<ToggleForumSaveInFeed>(_onToggleSave);
     on<RemoveForumShortcut>(_onRemove);
     on<MoveForumShortcut>(_onMove);
@@ -162,23 +159,6 @@ class ForumsHomeBloc extends Bloc<ForumsHomeEvent, ForumsHomeState> {
           clearNextCursor: page.nextCursor == null,
         ));
       },
-    );
-  }
-
-  Future<void> _onPinSuggestion(
-    PinForumSuggestion event,
-    Emitter<ForumsHomeState> emit,
-  ) async {
-    final s = event.suggestion;
-    final result = await createShortcut(CreateForumShortcutParams(
-      name: s.displayName,
-      brandId: s.type == ForumSuggestionType.brand ? s.id : null,
-      modelId: s.type == ForumSuggestionType.model ? s.id : null,
-    ));
-    result.fold(
-      (f) => emit(state.copyWith(actionError: ForumErrorMapper.getCode(f))),
-      (shortcut) =>
-          emit(state.copyWith(shortcuts: [...state.shortcuts, shortcut])),
     );
   }
 

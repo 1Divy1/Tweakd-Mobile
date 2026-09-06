@@ -11,9 +11,10 @@ import '../../bloc/saved_posts/state.dart';
 import '../post_card.dart';
 
 /// The loaded saved-posts grid: pull-to-refresh, cursor pagination near the
-/// bottom, and the same two-column [PostCard] look as the profile Posts tab.
-/// Tapping a card pushes the post detail; on return the list is unconditionally
-/// refreshed so an unsave (or any other change) made there is reflected here.
+/// bottom, and the same edge-to-edge three-column [PostCard] look as the profile
+/// Posts tab. Tapping a card pushes the post detail; on return the list is
+/// unconditionally refreshed so an unsave (or any other change) made there is
+/// reflected here.
 class SavedPostsGridView extends StatelessWidget {
   final SavedPostsLoaded state;
 
@@ -43,14 +44,14 @@ class SavedPostsGridView extends StatelessWidget {
       child: NotificationListener<ScrollNotification>(
         onNotification: (notification) => _onScroll(context, notification),
         child: GridView.builder(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+          padding: const EdgeInsets.only(top: 2, bottom: 24),
           physics: const AlwaysScrollableScrollPhysics(),
           itemCount: posts.length + (state.isLoadingMore ? 1 : 0),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 4 / 5,
+            crossAxisCount: 3,
+            crossAxisSpacing: 2,
+            mainAxisSpacing: 2,
+            childAspectRatio: 1,
           ),
           itemBuilder: (context, index) {
             if (index >= posts.length) {

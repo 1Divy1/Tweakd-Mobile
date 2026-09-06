@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/deeplinks/deep_link_service.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/push/push_registration.dart';
 import '../../../../core/services/push_permission_service.dart';
@@ -149,6 +150,9 @@ class _OnboardingPageState extends State<OnboardingPage>
         }
         if (state is OnboardingSubmitted) {
           context.go('/profile');
+          // Onboarding is the last gate a share link has to wait behind; the
+          // build the user was sent to opens now.
+          getIt<DeepLinkService>().flushPending();
         } else if (state is OnboardingSubmitError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(onboardingErrorMessage(l10n, state.code))),

@@ -615,9 +615,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get followActionRequested => 'REQUESTED';
 
   @override
-  String get garageAddButton => '+ ADD';
-
-  @override
   String get garageEmptyOwner => 'Your garage is empty. Add your first car.';
 
   @override
@@ -1166,6 +1163,86 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get garageChangesSaved => 'Changes saved!';
+
+  @override
+  String get garageShareBuild => 'Share build';
+
+  @override
+  String get garageShareSheetLabel => 'SHARE BUILD';
+
+  @override
+  String get garageShareQrTitle => 'Get QR code';
+
+  @override
+  String get garageShareQrSubtitle => 'Print it, stick it on the car';
+
+  @override
+  String get garageShareCopyLink => 'Copy link';
+
+  @override
+  String get garageShareLinkCopied => 'Link copied';
+
+  @override
+  String get garageShareChannelMessages => 'Messages';
+
+  @override
+  String get garageShareChannelWhatsApp => 'WhatsApp';
+
+  @override
+  String get garageShareChannelInstagram => 'Instagram';
+
+  @override
+  String get garageShareChannelX => 'X';
+
+  @override
+  String get garageShareChannelTelegram => 'Telegram';
+
+  @override
+  String garageShareMessage(String car) {
+    return 'Check out my $car on Tweakd 🔧';
+  }
+
+  @override
+  String garageShareStats(int scans, int views) {
+    return 'Scanned $scans · Opened $views';
+  }
+
+  @override
+  String get garageShareToggleLabel => 'Sharing';
+
+  @override
+  String get garageSharePausedHint => 'Paused — the link and QR are off';
+
+  @override
+  String get garageShareLoadFailed => 'Couldn\'t open the share link.';
+
+  @override
+  String get garageShareQrLoadFailed => 'Couldn\'t load the QR code.';
+
+  @override
+  String get garageShareQrDownload => 'Download QR code';
+
+  @override
+  String get garageShareQrDownloadSaved => 'QR code saved to your phone.';
+
+  @override
+  String get garageShareQrDownloadFailed => 'Couldn\'t save the file.';
+
+  @override
+  String get garageShareRetry => 'Try again';
+
+  @override
+  String get garageShareResolving => 'Opening build…';
+
+  @override
+  String get garageShareUnavailableTitle => 'Build unavailable';
+
+  @override
+  String get garageShareUnavailableBody =>
+      'This build is no longer shared on Tweakd.';
+
+  @override
+  String get garageShareBackToFeed => 'Back to feed';
 
   @override
   String get garageValCoverPhoto => 'Please pick a cover photo.';
@@ -1963,11 +2040,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forumsSortActive => 'Active';
 
   @override
-  String get forumsEmptyTitle => 'Pin the forums you live in';
+  String get forumsEmptyTitle => 'Find the forums you live in';
 
   @override
   String get forumsEmptyBody =>
-      'Shortcuts are saved filters — a car, a topic, or both. Pin a few and they land right here.';
+      'Tap a hub to see its threads. Once you\'ve had a look around, save it as a shortcut and it lands right here.';
 
   @override
   String get forumsPopularHubs => 'POPULAR HUBS TO START WITH';
@@ -3511,9 +3588,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageCarStatYear => 'YEAR';
 
   @override
-  String get garageCarShareButton => 'Share car';
-
-  @override
   String profileBadgesSheetUnlocked(num count) {
     final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
       locale: localeName,
@@ -3534,13 +3608,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileCreatePost => 'New post';
 
   @override
-  String get profileCreatePostHint => 'Share a photo or a story from the road.';
-
-  @override
   String get profileCreateEvent => 'New car event';
 
   @override
-  String get profileCreateEventHint => 'Set up a meet, a cruise or a show.';
+  String get profileCreateCar => 'New car';
 
   @override
   String get garageCarStatPower => 'POWER';
@@ -3553,4 +3624,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get garageCarUnitTorque => 'lb-ft';
+
+  @override
+  String get commonContinue => 'Continue';
+
+  @override
+  String get badgeCelebrationHeadline => 'New badge unlocked!';
 }
