@@ -6,7 +6,7 @@ import '../../../../../l10n/app_localizations.dart';
 import 'create_picker_sheet.dart';
 
 /// The "+" in the top-left of your own profile: the entry point for creating a
-/// post or a car event.
+/// post, a car event or a garage car.
 class CreateButton extends StatelessWidget {
   const CreateButton({super.key});
 
@@ -30,6 +30,8 @@ class CreateButton extends StatelessWidget {
         context.push('/posts/create');
       case CreateAction.carEvent:
         context.push('/map-events/create');
+      case CreateAction.car:
+        context.push('/garage/cars/add');
     }
   }
 }

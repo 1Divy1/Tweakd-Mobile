@@ -343,7 +343,6 @@
   "followActionUnfollow": "UNFOLLOW",
   "followActionRequested": "REQUESTED",
 
-  "garageAddButton": "+ ADD",
   "garageEmptyOwner": "Your garage is empty. Add your first car.",
   "garageEmptyVisitor": "No cars yet.",
 
@@ -596,8 +595,9 @@
   "garageSharePausedHint": "Paused \u2014 the link and QR are off",
   "garageShareLoadFailed": "Couldn't open the share link.",
   "garageShareQrLoadFailed": "Couldn't load the QR code.",
-  "garageShareQrDownload": "Download SVG",
-  "garageShareQrDownloadFailed": "Couldn't prepare the file.",
+  "garageShareQrDownload": "Download QR code",
+  "garageShareQrDownloadSaved": "QR code saved to your phone.",
+  "garageShareQrDownloadFailed": "Couldn't save the file.",
   "garageShareRetry": "Try again",
   "garageShareResolving": "Opening build\u2026",
   "garageShareUnavailableTitle": "Build unavailable",
@@ -1596,15 +1596,13 @@
   "profileBadgesLoadError": "We couldn\u2019t load the badges. Please try again.",
 
   "garageCarStatYear": "YEAR",
-  "garageCarShareButton": "Share car",
   "profileBadgesSheetUnlocked": "{count, plural, =0{No badges yet} =1{1 unlocked} other{{count} unlocked}}",
   "@profileBadgesSheetUnlocked": {
     "placeholders": { "count": { "type": "num", "format": "compact" } }
   },
   "profileCreatePost": "New post",
-  "profileCreatePostHint": "Share a photo or a story from the road.",
   "profileCreateEvent": "New car event",
-  "profileCreateEventHint": "Set up a meet, a cruise or a show.",
+  "profileCreateCar": "New car",
   "garageCarStatPower": "POWER",
   "garageCarStatTorque": "TORQUE",
   "garageCarUnitPower": "hp",

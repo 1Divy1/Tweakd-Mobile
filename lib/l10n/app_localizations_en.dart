@@ -615,9 +615,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get followActionRequested => 'REQUESTED';
 
   @override
-  String get garageAddButton => '+ ADD';
-
-  @override
   String get garageEmptyOwner => 'Your garage is empty. Add your first car.';
 
   @override
@@ -1223,10 +1220,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageShareQrLoadFailed => 'Couldn\'t load the QR code.';
 
   @override
-  String get garageShareQrDownload => 'Download SVG';
+  String get garageShareQrDownload => 'Download QR code';
 
   @override
-  String get garageShareQrDownloadFailed => 'Couldn\'t prepare the file.';
+  String get garageShareQrDownloadSaved => 'QR code saved to your phone.';
+
+  @override
+  String get garageShareQrDownloadFailed => 'Couldn\'t save the file.';
 
   @override
   String get garageShareRetry => 'Try again';
@@ -3588,9 +3588,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageCarStatYear => 'YEAR';
 
   @override
-  String get garageCarShareButton => 'Share car';
-
-  @override
   String profileBadgesSheetUnlocked(num count) {
     final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
       locale: localeName,
@@ -3611,13 +3608,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileCreatePost => 'New post';
 
   @override
-  String get profileCreatePostHint => 'Share a photo or a story from the road.';
-
-  @override
   String get profileCreateEvent => 'New car event';
 
   @override
-  String get profileCreateEventHint => 'Set up a meet, a cruise or a show.';
+  String get profileCreateCar => 'New car';
 
   @override
   String get garageCarStatPower => 'POWER';

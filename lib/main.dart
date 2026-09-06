@@ -103,9 +103,11 @@ void main() async {
   // the same way as push, and for the same reason: the router imports the
   // pages, so a service the pages reach through DI can't import it back.
   //
-  // Note this deliberately does *not* turn on Flutter's built-in deep linking:
-  // that would route the `tweakd://signup-callback` / `login-callback` URLs
-  // Supabase's auth flows depend on into go_router as well. See
+  // Flutter's built-in deep linking is switched *off* in Info.plist and
+  // AndroidManifest.xml (it is on by default): it would route the
+  // `tweakd://signup-callback` / `login-callback` URLs Supabase's auth flows
+  // depend on into go_router as well, and the resulting error page replaces
+  // the splash — leaving the app stuck on its launch screen. See
   // DeepLinkService for the full reasoning.
   final deepLinks = getIt<DeepLinkService>();
 

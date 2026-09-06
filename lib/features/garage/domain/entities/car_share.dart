@@ -54,17 +54,6 @@ class CarShareEntity extends Equatable {
   String get displayUrl =>
       url.replaceFirst(RegExp(r'^https?://'), '').replaceFirst(RegExp(r'/$'), '');
 
-  /// The code in `7KQ3-M9XA-2F` groups, for the line under the QR: a sticker
-  /// damaged past scanning can still be typed into the website by hand.
-  String get groupedCode {
-    final buffer = StringBuffer();
-    for (var i = 0; i < code.length; i += 4) {
-      if (i > 0) buffer.write('-');
-      buffer.write(code.substring(i, i + 4 > code.length ? code.length : i + 4));
-    }
-    return buffer.toString();
-  }
-
   CarShareEntity copyWith({bool? enabled}) => CarShareEntity(
     code: code,
     url: url,

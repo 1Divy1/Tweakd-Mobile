@@ -138,12 +138,20 @@ class GarageApiDataSource {
   /// GET `…/share/qr.svg` — the share URL as a print-ready QR, rendered
   /// server-side so every device produces the identical code.
   ///
+  /// The `Accept` override is required, not cosmetic: this is the one endpoint
+  /// that does not serve JSON, and the client's default `application/json`
+  /// makes Spring's content negotiation reject the request with 406 before the
+  /// handler ever runs.
+  ///
   /// Returned as the raw SVG source: dio only JSON-decodes a response whose
   /// content type is JSON, and this one is `image/svg+xml`, so the default
   /// transformer hands back the UTF-8 string untouched. That is also the shape
   /// `SvgPicture.string` and the "Download SVG" file write both want.
   Future<String> getShareQrSvg(String carId) async {
-    final data = await http.get('/garage/cars/$carId/share/qr.svg');
+    final data = await http.get(
+      '/garage/cars/$carId/share/qr.svg',
+      headers: const {'Accept': 'image/svg+xml'},
+    );
     return data as String;
   }
 

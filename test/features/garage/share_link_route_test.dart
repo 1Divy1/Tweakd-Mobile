@@ -94,9 +94,5 @@ void main() {
     test('previews the URL without its scheme, as the sheet shows it', () {
       expect(link.displayUrl, 'web.tweakdapp.com/c/7KQ3M9XA2F');
     });
-
-    test('groups the code so a scuffed sticker can be typed out', () {
-      expect(link.groupedCode, '7KQ3-M9XA-2F');
-    });
   });
 }

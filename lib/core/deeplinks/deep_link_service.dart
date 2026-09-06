@@ -10,12 +10,20 @@ import 'share_link_route.dart';
 /// Turns an incoming Universal Link / App Link into navigation.
 ///
 /// **Why this listens to `app_links` instead of letting Flutter route deep
-/// links itself.** Setting `FlutterDeepLinkingEnabled` /
-/// `flutter_deeplinking_enabled` hands *every* incoming URL to go_router,
-/// including the `tweakd://signup-callback` and `tweakd://login-callback`
-/// URLs that Supabase's PKCE and Android Sign-in-with-Apple flows depend on.
-/// Those have no route, and breaking sign-up to gain a share link is a bad
-/// trade. Reading the same stream Supabase reads costs one subscription and
+/// links itself.** Flutter's own deep linking hands *every* incoming URL to
+/// go_router as a location, including the `tweakd://signup-callback` and
+/// `tweakd://login-callback` URLs that Supabase's PKCE and Android
+/// Sign-in-with-Apple flows depend on, and `tweakd://c/{code}` itself — none
+/// of which is a route. go_router answers with its "no routes for location"
+/// error page, and it does so *instead of* the splash, so the app never
+/// reaches [SplashPage] and the native launch screen (which only that page
+/// removes) stays up forever.
+///
+/// It is on by default on both platforms and is therefore switched off
+/// explicitly: `FlutterDeepLinkingEnabled` in `ios/Runner/Info.plist` and
+/// `flutter_deeplinking_enabled` in `AndroidManifest.xml`. If either goes
+/// missing the symptom is an app frozen on its launch screen whenever a link
+/// opens it. Reading the same stream Supabase reads costs one subscription and
 /// lets this class ignore everything that is not `/c/{code}` — see
 /// [shareRouteFor]. `AppLinks()` is a Dart-side singleton over one broadcast
 /// stream, so subscribing here does not displace Supabase's listener.

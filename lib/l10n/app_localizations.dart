@@ -1178,12 +1178,6 @@ abstract class AppLocalizations {
   /// **'REQUESTED'**
   String get followActionRequested;
 
-  /// No description provided for @garageAddButton.
-  ///
-  /// In en, this message translates to:
-  /// **'+ ADD'**
-  String get garageAddButton;
-
   /// No description provided for @garageEmptyOwner.
   ///
   /// In en, this message translates to:
@@ -2315,13 +2309,19 @@ abstract class AppLocalizations {
   /// No description provided for @garageShareQrDownload.
   ///
   /// In en, this message translates to:
-  /// **'Download SVG'**
+  /// **'Download QR code'**
   String get garageShareQrDownload;
+
+  /// No description provided for @garageShareQrDownloadSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'QR code saved to your phone.'**
+  String get garageShareQrDownloadSaved;
 
   /// No description provided for @garageShareQrDownloadFailed.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t prepare the file.'**
+  /// **'Couldn\'t save the file.'**
   String get garageShareQrDownloadFailed;
 
   /// No description provided for @garageShareRetry.
@@ -6434,12 +6434,6 @@ abstract class AppLocalizations {
   /// **'YEAR'**
   String get garageCarStatYear;
 
-  /// No description provided for @garageCarShareButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Share car'**
-  String get garageCarShareButton;
-
   /// No description provided for @profileBadgesSheetUnlocked.
   ///
   /// In en, this message translates to:
@@ -6452,23 +6446,17 @@ abstract class AppLocalizations {
   /// **'New post'**
   String get profileCreatePost;
 
-  /// No description provided for @profileCreatePostHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Share a photo or a story from the road.'**
-  String get profileCreatePostHint;
-
   /// No description provided for @profileCreateEvent.
   ///
   /// In en, this message translates to:
   /// **'New car event'**
   String get profileCreateEvent;
 
-  /// No description provided for @profileCreateEventHint.
+  /// No description provided for @profileCreateCar.
   ///
   /// In en, this message translates to:
-  /// **'Set up a meet, a cruise or a show.'**
-  String get profileCreateEventHint;
+  /// **'New car'**
+  String get profileCreateCar;
 
   /// No description provided for @garageCarStatPower.
   ///

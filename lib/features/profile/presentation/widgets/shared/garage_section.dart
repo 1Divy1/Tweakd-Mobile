@@ -26,12 +26,8 @@ class GarageSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // No section heading: the Garage tab right above already
-                // names the section, and the car count was noise. All the
-                // owner needs here is the way to add one.
-                if (isOwner) ...[
-                  const _AddCarButton(),
-                  const SizedBox(height: 14),
-                ],
+                // names the section, and the car count was noise. Adding a car
+                // lives in the "+" chooser in the profile top bar.
                 if (garage.cars.isEmpty)
                   _GarageEmptyView(isOwner: isOwner)
                 else
@@ -60,40 +56,6 @@ class GarageSection extends StatelessWidget {
           },
         );
       },
-    );
-  }
-}
-
-/// Owner-only: the way to add a car, sitting above the cards. A visitor sees
-/// the cars on their own, directly under the Garage tab.
-class _AddCarButton extends StatelessWidget {
-  const _AddCarButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: GestureDetector(
-        onTap: () => context.push('/garage/cars/add'),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-          decoration: BoxDecoration(
-            color: AppColors.surface,
-            borderRadius: BorderRadius.circular(18),
-          ),
-          child: Text(
-            AppLocalizations.of(context)!.garageAddButton,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              color: AppColors.ink,
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 0.6,
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

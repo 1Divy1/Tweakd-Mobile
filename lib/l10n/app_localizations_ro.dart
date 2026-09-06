@@ -620,9 +620,6 @@ class AppLocalizationsRo extends AppLocalizations {
   String get followActionRequested => 'SOLICITAT';
 
   @override
-  String get garageAddButton => '+ ADAUGĂ';
-
-  @override
   String get garageEmptyOwner =>
       'Garajul tău este gol. Adaugă prima ta mașină.';
 
@@ -1234,10 +1231,13 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageShareQrLoadFailed => 'Nu am putut încărca codul QR.';
 
   @override
-  String get garageShareQrDownload => 'Descarcă SVG';
+  String get garageShareQrDownload => 'Descarcă codul QR';
 
   @override
-  String get garageShareQrDownloadFailed => 'Nu am putut pregăti fișierul.';
+  String get garageShareQrDownloadSaved => 'Codul QR a fost salvat pe telefon.';
+
+  @override
+  String get garageShareQrDownloadFailed => 'Nu am putut salva fișierul.';
 
   @override
   String get garageShareRetry => 'Încearcă din nou';
@@ -3621,9 +3621,6 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageCarStatYear => 'AN';
 
   @override
-  String get garageCarShareButton => 'Distribuie mașina';
-
-  @override
   String profileBadgesSheetUnlocked(num count) {
     final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
       locale: localeName,
@@ -3644,15 +3641,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get profileCreatePost => 'Postare nouă';
 
   @override
-  String get profileCreatePostHint =>
-      'Împarte o poză sau o poveste de pe drum.';
-
-  @override
   String get profileCreateEvent => 'Eveniment auto nou';
 
   @override
-  String get profileCreateEventHint =>
-      'Organizează o întâlnire, un tur sau un show.';
+  String get profileCreateCar => 'Mașină nouă';
 
   @override
   String get garageCarStatPower => 'PUTERE';

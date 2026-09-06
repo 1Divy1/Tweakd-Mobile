@@ -205,7 +205,6 @@
   "followActionUnfollow": "NU MAI URMĂRI",
   "followActionRequested": "SOLICITAT",
 
-  "garageAddButton": "+ ADAUGĂ",
   "garageEmptyOwner": "Garajul tău este gol. Adaugă prima ta mașină.",
   "garageEmptyVisitor": "Nicio mașină încă.",
 
@@ -422,8 +421,9 @@
   "garageSharePausedHint": "Pe pauză — linkul și codul QR sunt oprite",
   "garageShareLoadFailed": "Nu am putut deschide linkul de distribuire.",
   "garageShareQrLoadFailed": "Nu am putut încărca codul QR.",
-  "garageShareQrDownload": "Descarcă SVG",
-  "garageShareQrDownloadFailed": "Nu am putut pregăti fișierul.",
+  "garageShareQrDownload": "Descarcă codul QR",
+  "garageShareQrDownloadSaved": "Codul QR a fost salvat pe telefon.",
+  "garageShareQrDownloadFailed": "Nu am putut salva fișierul.",
   "garageShareRetry": "Încearcă din nou",
   "garageShareResolving": "Se deschide mașina…",
   "garageShareUnavailableTitle": "Mașină indisponibilă",
@@ -1352,15 +1352,13 @@
   "profileBadgesLoadError": "Nu am putut \u00eenc\u0103rca insignele. \u00cencearc\u0103 din nou.",
 
   "garageCarStatYear": "AN",
-  "garageCarShareButton": "Distribuie mașina",
   "profileBadgesSheetUnlocked": "{count, plural, =0{Nicio insignă încă} =1{1 deblocată} other{{count} deblocate}}",
   "@profileBadgesSheetUnlocked": {
     "placeholders": { "count": { "type": "num", "format": "compact" } }
   },
   "profileCreatePost": "Postare nouă",
-  "profileCreatePostHint": "Împarte o poză sau o poveste de pe drum.",
   "profileCreateEvent": "Eveniment auto nou",
-  "profileCreateEventHint": "Organizează o întâlnire, un tur sau un show.",
+  "profileCreateCar": "Mașină nouă",
   "garageCarStatPower": "PUTERE",
   "garageCarStatTorque": "CUPLU",
   "garageCarUnitPower": "cp",

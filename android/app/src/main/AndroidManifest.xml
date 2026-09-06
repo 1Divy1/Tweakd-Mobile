@@ -26,6 +26,24 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+
+            <!-- Turn OFF Flutter's own deep linking. It defaults to ON when this
+                 key is absent (FlutterActivityLaunchConfigs.deepLinkEnabled), and
+                 when it is on the engine hands every incoming URL straight to
+                 go_router as a route — including tweakd://c/{code} and the
+                 tweakd://signup-callback / login-callback URLs Supabase's auth
+                 flows depend on. None of those is a go_router location, so the
+                 router lands on its "no routes for location" error page before
+                 SplashPage ever mounts, which leaves the native launch screen up
+                 forever (SplashPage is what calls FlutterNativeSplash.remove).
+                 Share links are handled in Dart instead, by DeepLinkService, which
+                 knows to ignore the auth callbacks and to wait for a session
+                 before navigating. Keep this in step with FlutterDeepLinkingEnabled
+                 in ios/Runner/Info.plist. -->
+            <meta-data
+              android:name="flutter_deeplinking_enabled"
+              android:value="false"
+              />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

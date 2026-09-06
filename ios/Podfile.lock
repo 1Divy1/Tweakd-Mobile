@@ -57,6 +57,8 @@ PODS:
   - flutter_facebook_auth (7.1.5):
     - FBSDKLoginKit (= 18.0.2)
     - Flutter
+  - flutter_file_dialog (0.0.1):
+    - Flutter
   - flutter_image_compress_common (1.0.0):
     - Flutter
     - SDWebImage
@@ -180,6 +182,7 @@ DEPENDENCIES:
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
   - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
+  - flutter_file_dialog (from `.symlinks/plugins/flutter_file_dialog/ios`)
   - flutter_image_compress_common (from `.symlinks/plugins/flutter_image_compress_common/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
@@ -237,6 +240,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_facebook_auth:
     :path: ".symlinks/plugins/flutter_facebook_auth/ios"
+  flutter_file_dialog:
+    :path: ".symlinks/plugins/flutter_file_dialog/ios"
   flutter_image_compress_common:
     :path: ".symlinks/plugins/flutter_image_compress_common/ios"
   flutter_local_notifications:
@@ -286,6 +291,7 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 422bb80cbf8ff83e69e50bea4d4984fc4704f665
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_facebook_auth: fe770ba7c3b26637a955662b84b33c4ab33d3a14
+  flutter_file_dialog: ca8d7fbd1772d4f0c2777b4ab20a7787ef4e7dd8
   flutter_image_compress_common: 11d5dcfb36f4ded92320bfa896261813a073240e
   flutter_local_notifications: 643a3eda1ce1c0599413ca31672536d423dee214
   flutter_native_splash: c32d145d68aeda5502d5f543ee38c192065986cf

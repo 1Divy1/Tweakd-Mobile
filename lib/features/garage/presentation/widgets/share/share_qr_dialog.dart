@@ -9,9 +9,9 @@ import '../../../../../l10n/app_localizations.dart';
 import '../../bloc/car_share/bloc.dart';
 import '../../bloc/car_share/event.dart';
 import '../../bloc/car_share/state.dart';
-import 'share_origin.dart';
 
-/// The printable QR, on its own over a dimmed page.
+/// The printable QR, on its own over a dimmed page. Tapping anywhere off the
+/// card closes it — the card carries no chrome of its own.
 ///
 /// [bloc] is passed in rather than created: it already holds the link (and the
 /// in-flight `qr.svg` request) from the share sheet that opened this. Its owner
@@ -23,6 +23,7 @@ Future<void> showShareQrDialog(
 }) {
   return showDialog<void>(
     context: context,
+    barrierDismissible: true,
     barrierColor: Colors.black.withValues(alpha: 0.55),
     builder: (_) => BlocProvider<CarShareBloc>.value(
       value: bloc,
@@ -38,65 +39,33 @@ class _ShareQrDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned(
-          top: MediaQuery.paddingOf(context).top + 8,
-          right: 12,
-          child: _DismissButton(onTap: () => Navigator.of(context).pop()),
-        ),
-        Center(
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 28),
+        child: Material(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(24),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 28),
-            child: Material(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(24),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: BlocBuilder<CarShareBloc, CarShareState>(
-                  builder: (context, state) => Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _QrPanel(state: state, carId: carId),
-                      const SizedBox(height: 16),
-                      _DownloadButton(state: state),
-                    ],
-                  ),
-                ),
+            padding: const EdgeInsets.all(16),
+            child: BlocBuilder<CarShareBloc, CarShareState>(
+              builder: (context, state) => Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _QrPanel(state: state, carId: carId),
+                  const SizedBox(height: 16),
+                  _DownloadButton(state: state),
+                ],
               ),
             ),
           ),
         ),
-      ],
-    );
-  }
-}
-
-class _DismissButton extends StatelessWidget {
-  final VoidCallback onTap;
-  const _DismissButton({required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(18),
-      child: Container(
-        width: 36,
-        height: 36,
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.9),
-          shape: BoxShape.circle,
-        ),
-        child: const Icon(Icons.close, size: 20, color: AppColors.ink),
       ),
     );
   }
 }
 
 /// The white card holding the code itself, kept square so the QR never
-/// stretches, with the code spelled out underneath: a sticker too scuffed to
-/// scan can still be typed into the website by hand.
+/// stretches.
 class _QrPanel extends StatelessWidget {
   final CarShareState state;
   final String carId;
@@ -115,43 +84,24 @@ class _QrPanel extends StatelessWidget {
         border: Border.all(color: AppColors.line),
       ),
       padding: const EdgeInsets.all(18),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AspectRatio(
-            aspectRatio: 1,
-            child: switch (current) {
-              CarShareLoaded(:final qrSvg?) => SvgPicture.string(
-                qrSvg,
-                fit: BoxFit.contain,
-              ),
-              CarShareLoaded(qrError: != null) => _QrRetry(
-                message: l10n.garageShareQrLoadFailed,
-                label: l10n.garageShareRetry,
-                // The link is already on the state; only the SVG fetch failed,
-                // so a retry is the same event again.
-                onRetry: () =>
-                    context.read<CarShareBloc>().add(LoadShareQr(carId)),
-              ),
-              _ => const Center(
-                child: CircularProgressIndicator(color: AppColors.accent),
-              ),
-            },
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: switch (current) {
+          CarShareLoaded(:final qrSvg?) => SvgPicture.string(
+            qrSvg,
+            fit: BoxFit.contain,
           ),
-          if (current is CarShareLoaded) ...[
-            const SizedBox(height: 12),
-            Text(
-              current.link.groupedCode,
-              style: const TextStyle(
-                color: AppColors.mute,
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 2,
-                fontFamily: 'monospace',
-              ),
-            ),
-          ],
-        ],
+          CarShareLoaded(qrError: != null) => _QrRetry(
+            message: l10n.garageShareQrLoadFailed,
+            label: l10n.garageShareRetry,
+            // The link is already on the state; only the SVG fetch failed,
+            // so a retry is the same event again.
+            onRetry: () => context.read<CarShareBloc>().add(LoadShareQr(carId)),
+          ),
+          _ => const Center(
+            child: CircularProgressIndicator(color: AppColors.accent),
+          ),
+        },
       ),
     );
   }
@@ -214,35 +164,36 @@ class _DownloadButton extends StatelessWidget {
 
     return SizedBox(
       width: double.infinity,
-      child: Builder(
-        builder: (buttonContext) => ElevatedButton.icon(
-          onPressed: svg == null
-              ? null
-              : () => _download(buttonContext, svg, loaded!.link.code),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.accent,
-            disabledBackgroundColor: AppColors.line,
-            foregroundColor: Colors.white,
-            disabledForegroundColor: AppColors.muteSoft,
-            elevation: 0,
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
+      child: ElevatedButton.icon(
+        onPressed: svg == null
+            ? null
+            : () => _download(context, svg, loaded!.link.code),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.accent,
+          disabledBackgroundColor: AppColors.line,
+          foregroundColor: Colors.white,
+          disabledForegroundColor: AppColors.muteSoft,
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
           ),
-          icon: const Icon(Icons.file_download_outlined, size: 20),
-          label: Text(
-            l10n.garageShareQrDownload,
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
-          ),
+        ),
+        icon: const Icon(Icons.file_download_outlined, size: 20),
+        label: Text(
+          l10n.garageShareQrDownload,
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
         ),
       ),
     );
   }
 
-  /// Hands the SVG to the system share sheet as a file. On iOS that is what
-  /// puts "Save to Files" in front of the user; there is no "save to gallery"
-  /// because the photo library cannot hold a vector.
+  /// Saves the QR as a PNG to wherever on the phone the user picks — Files on
+  /// iOS, the document picker (Downloads and friends) on Android.
+  ///
+  /// Not the share sheet: what the button promises is a copy on the phone, and
+  /// the chat apps people reach for first drop an image attachment into a
+  /// conversation rather than into storage.
   Future<void> _download(
     BuildContext context,
     String svg,
@@ -250,21 +201,25 @@ class _DownloadButton extends StatelessWidget {
   ) async {
     final l10n = AppLocalizations.of(context)!;
     final messenger = ScaffoldMessenger.of(context);
-    final origin = shareOriginOf(context);
 
-    final saved = await getIt<ShareLauncherService>().shareSvgFile(
+    final result = await getIt<ShareLauncherService>().saveQrImage(
       svg: svg,
-      fileName: 'tweakd-$code.svg',
-      origin: origin,
+      fileName: 'tweakd-$code.png',
     );
 
-    if (!saved) {
-      messenger.showSnackBar(
-        SnackBar(
-          content: Text(l10n.garageShareQrDownloadFailed),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-    }
+    // Backing out of the picker is a decision, not an error: say nothing.
+    final message = switch (result) {
+      QrSaveResult.saved => l10n.garageShareQrDownloadSaved,
+      QrSaveResult.failed => l10n.garageShareQrDownloadFailed,
+      QrSaveResult.cancelled => null,
+    };
+    if (message == null) return;
+
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 }

@@ -2,12 +2,18 @@ import 'dart:io' show File, Platform;
 import 'dart:ui' show Rect;
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 import 'package:injectable/injectable.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../features/garage/domain/entities/car_share.dart';
+import '../utils/qr_png_rasterizer.dart';
+
+/// How [ShareLauncherService.saveQrImage] ended. Cancelled is separate from
+/// failed because only one of the two is worth telling the user about.
+enum QrSaveResult { saved, cancelled, failed }
 
 /// Hands a share link to one specific app, or to the OS share sheet.
 ///
@@ -57,36 +63,49 @@ class ShareLauncherService {
     await _share(ShareParams(text: body, sharePositionOrigin: origin));
   }
 
-  /// Writes [svg] to a temporary file and offers it to the share sheet.
+  /// Rasterises [svg] to a PNG and opens the OS *save* dialog on it.
   ///
-  /// A file, not an image: on iOS this is what puts "Save to Files" in the
-  /// sheet, which is how a print-ready vector actually leaves the phone. The
-  /// gallery cannot hold an SVG, so there is deliberately no "save to photos".
+  /// PNG and not the SVG the backend serves, even though the vector is the
+  /// better print master — see [rasterizeQrToPng] for why.
   ///
-  /// Returns false when the file could not be written; the caller shows the
-  /// error, since the share sheet never opened.
-  Future<bool> shareSvgFile({
+  /// Deliberately the save dialog and not the share sheet. The share sheet
+  /// hands the file to another app, and what the user actually asked for is a
+  /// copy on the phone. This is `ACTION_CREATE_DOCUMENT` on Android and the
+  /// Files "export" picker on iOS: the user chooses a folder and the file
+  /// lands there.
+  ///
+  /// Needs no storage permission on either platform — the user picking the
+  /// destination is what grants the write.
+  Future<QrSaveResult> saveQrImage({
     required String svg,
     required String fileName,
-    Rect? origin,
   }) async {
     final File file;
     try {
+      final png = await rasterizeQrToPng(svg);
       final dir = await getTemporaryDirectory();
       file = File('${dir.path}/$fileName');
-      await file.writeAsString(svg, flush: true);
+      await file.writeAsBytes(png, flush: true);
     } catch (e) {
       debugPrint('🔗 writing $fileName failed: $e');
-      return false;
+      return QrSaveResult.failed;
     }
 
-    await _share(
-      ShareParams(
-        files: [XFile(file.path, mimeType: 'image/svg+xml')],
-        sharePositionOrigin: origin,
-      ),
-    );
-    return true;
+    try {
+      final savedPath = await FlutterFileDialog.saveFile(
+        params: SaveFileDialogParams(
+          sourceFilePath: file.path,
+          fileName: fileName,
+          mimeTypesFilter: const ['image/png'],
+        ),
+      );
+      // Null means the user backed out of the picker, which is not a failure
+      // and must not raise an error toast at them.
+      return savedPath == null ? QrSaveResult.cancelled : QrSaveResult.saved;
+    } catch (e) {
+      debugPrint('🔗 saving $fileName failed: $e');
+      return QrSaveResult.failed;
+    }
   }
 
   /// The compose URL for [channel], or null when the channel has no deep link
