@@ -6,7 +6,8 @@ import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/reference_data.dart';
 import 'register_car_fields.dart';
 
-/// Step 3 — drivetrain layout, paint colour and mileage unit.
+/// Config tab of the specs step — drivetrain layout, paint colour and mileage
+/// unit. The step title and the tab bar belong to [SpecsStep].
 class DrivetrainStep extends StatelessWidget {
   final List<CarDrivetrainEntity> drivetrains;
   final List<CarColorEntity> colors;
@@ -39,11 +40,6 @@ class DrivetrainStep extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        RegisterSectionHeader(
-          label: l10n.garageRegisterConfigurationLabel,
-          title: l10n.garageRegisterConfigurationTitle,
-        ),
-        const SizedBox(height: 20),
         RegisterFieldLabel(l10n.garageFieldDrivetrain),
         const SizedBox(height: 8),
         RegisterSelectorTile(
@@ -110,7 +106,6 @@ class _ColorSwatch extends StatelessWidget {
       decoration: BoxDecoration(
         color: parseColorCode(code),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppColors.line),
       ),
     );
   }
@@ -134,8 +129,8 @@ class _MileageToggle extends StatelessWidget {
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.line),
+        borderRadius: BorderRadius.circular(kRegisterRadius),
+        boxShadow: kRegisterSurfaceShadow,
       ),
       child: Row(
         children: [
@@ -150,7 +145,7 @@ class _MileageToggle extends StatelessWidget {
                     color: selected?.id == unit.id
                         ? AppColors.ink
                         : Colors.transparent,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(kRegisterRadius - 5),
                   ),
                   child: Center(
                     child: Text(

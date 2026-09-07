@@ -792,35 +792,6 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garagePhaseSavingPhotos => 'Se salvează fotografiile…';
 
   @override
-  String get garageRegisterStepIdentity => 'IDENTITATE';
-
-  @override
-  String get garageRegisterStepPerformance => 'PERFORMANȚĂ';
-
-  @override
-  String get garageRegisterStepConfiguration => 'CONFIGURAȚIE';
-
-  @override
-  String get garageRegisterStepStory => 'POVESTE';
-
-  @override
-  String get garageRegisterStepGallery => 'GALERIE';
-
-  @override
-  String get garageRegisterStepMods => 'MODIFICĂRI';
-
-  @override
-  String get garageRegisterStart => 'START';
-
-  @override
-  String get garageRegisterFinish => 'FINAL';
-
-  @override
-  String garageRegisterStepCounter(int current, int total) {
-    return 'PASUL $current / $total';
-  }
-
-  @override
   String get garageRegisterBack => 'ÎNAPOI';
 
   @override
@@ -845,13 +816,16 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageNoMatches => 'Niciun rezultat';
 
   @override
-  String get garageRegisterIdentityLabel => '01 — IDENTITATE';
+  String get garageRegisterSpecsTitle => 'Detaliile mașinii';
 
   @override
-  String get garageRegisterIdentityTitle => 'Imagine & detalii';
+  String get garageSpecsTabBasics => 'GENERAL';
 
   @override
-  String get garageFieldPrimaryAsset => 'IMAGINE PRINCIPALĂ';
+  String get garageSpecsTabPower => 'PUTERE';
+
+  @override
+  String get garageSpecsTabConfig => 'CONFIG';
 
   @override
   String get garageFieldMake => 'MARCĂ';
@@ -878,7 +852,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageFieldYear => 'AN';
 
   @override
-  String get garageFieldChassisCode => 'COD ȘASIU';
+  String get garageFieldChassisCode => 'SERIA DE ȘASIU';
 
   @override
   String get garageFieldModelCode => 'COD MODEL';
@@ -887,23 +861,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageHintModelCode => 'ex. G30';
 
   @override
-  String get garagePrimaryAssetBadge => 'PRINCIPALĂ · 1 / 1';
-
-  @override
-  String get garageStudioShotReplace =>
-      'Cadru de studio · atinge pentru a înlocui';
-
-  @override
-  String get garageAddStudioShot => 'Adaugă cadrul de studio';
-
-  @override
   String get garagePickFromGallery => 'Atinge pentru a alege din galerie';
-
-  @override
-  String get garageRegisterPerformanceLabel => '02 — PERFORMANȚĂ';
-
-  @override
-  String get garageRegisterPerformanceTitle => 'Putere & greutate';
 
   @override
   String get garageFieldPower => 'PUTERE';
@@ -933,15 +891,6 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garagePickerFuelType => 'Alege tipul de combustibil';
 
   @override
-  String get garagePowerToWeight => 'PUTERE-LA-GREUTATE · AUTO';
-
-  @override
-  String get garageRegisterConfigurationLabel => '03 — CONFIGURAȚIE';
-
-  @override
-  String get garageRegisterConfigurationTitle => 'Configurație';
-
-  @override
   String get garageFieldDrivetrain => 'TRACȚIUNE';
 
   @override
@@ -969,9 +918,6 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageHintMileage => 'ex. 42000';
 
   @override
-  String get garageRegisterStoryLabel => '04 — POVESTE';
-
-  @override
   String get garageRegisterStoryTitle =>
       'Care e povestea acestei mașini? Spune-o…';
 
@@ -985,42 +931,32 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageHintStory => 'Care e povestea acestei mașini? Spune-o…';
 
   @override
-  String get garageRegisterGalleryLabel => '05 — GALERIE';
-
-  @override
   String get garageRegisterGalleryTitle => 'Arat-o';
 
   @override
-  String get garageFieldPhotos => 'FOTOGRAFII';
+  String get garageFieldGallery => 'GALERIE';
+
+  @override
+  String get garageAddCoverPhoto => 'Adaugă fotografia principală';
 
   @override
   String get garageGalleryAdd => 'ADAUGĂ';
 
   @override
   String get garageGalleryHint =>
-      'Până la 8 fotografii. Coperta deschide fișa mașinii — trage pentru a reordona.';
-
-  @override
-  String get garageGalleryCover => 'COPERTĂ';
-
-  @override
-  String get garageRegisterModsLabel => '06 — MODIFICĂRI';
+      'Doar pentru showcase — cele mai clare și mai spectaculoase cadre. Cele mai bune unghiuri, culori și lumini. Până la 15 fotografii.';
 
   @override
   String get garageRegisterModsTitle => 'Jurnal de proiect';
 
   @override
-  String get garageRegisterModsSubtitle =>
-      'Opțional — notează munca ce o face a ta.';
+  String get garageRegisterModsSubtitle => '';
 
   @override
   String get garageModFallbackCategory => 'MODIFICARE';
 
   @override
   String get garageAddModification => 'ADAUGĂ MODIFICARE';
-
-  @override
-  String get garageModSheetLabel => '— MODIFICARE';
 
   @override
   String get garageModSheetTitleEdit => 'Editează elementul';
@@ -1074,12 +1010,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageModAddToBuildLog => 'ADAUGĂ ÎN JURNAL';
 
   @override
-  String get garageModValidationEdit =>
+  String get garageModValidation =>
       'Categoria, titlul și data sunt obligatorii.';
-
-  @override
-  String get garageModValidationAdd =>
-      'Categoria, titlul, data și ambele imagini sunt obligatorii.';
 
   @override
   String get garageAboutTitle => 'DESPRE';
@@ -1295,17 +1227,17 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageValStatus => 'Selectează o stare.';
 
   @override
-  String get garageDiscardTitle => 'Renunți la acest proiect?';
-
-  @override
-  String get garageDiscardBody =>
-      'Încă nu ai înregistrat această mașină. Dacă pleci acum, tot ce ai introdus se va pierde.';
-
-  @override
   String get garageKeepEditing => 'Continuă editarea';
 
   @override
   String get garageDiscard => 'Renunță';
+
+  @override
+  String get garageBuildLogDiscardTitle => 'Renunți la această intrare?';
+
+  @override
+  String get garageBuildLogDiscardBody =>
+      'Încă nu ai adăugat această intrare în jurnalul de modificări. Dacă pleci acum, tot ce ai completat aici se va pierde.';
 
   @override
   String get garageLogModTitle => 'ADAUGĂ MODIFICARE';
@@ -3644,7 +3576,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get profileCreateEvent => 'Eveniment auto nou';
 
   @override
-  String get profileCreateCar => 'Mașină nouă';
+  String get profileCreateCar => 'Adaugă o mașină nouă';
 
   @override
   String get garageCarStatPower => 'PUTERE';

@@ -1466,60 +1466,6 @@ abstract class AppLocalizations {
   /// **'Saving photos…'**
   String get garagePhaseSavingPhotos;
 
-  /// No description provided for @garageRegisterStepIdentity.
-  ///
-  /// In en, this message translates to:
-  /// **'IDENTITY'**
-  String get garageRegisterStepIdentity;
-
-  /// No description provided for @garageRegisterStepPerformance.
-  ///
-  /// In en, this message translates to:
-  /// **'PERFORMANCE'**
-  String get garageRegisterStepPerformance;
-
-  /// No description provided for @garageRegisterStepConfiguration.
-  ///
-  /// In en, this message translates to:
-  /// **'CONFIGURATION'**
-  String get garageRegisterStepConfiguration;
-
-  /// No description provided for @garageRegisterStepStory.
-  ///
-  /// In en, this message translates to:
-  /// **'STORY'**
-  String get garageRegisterStepStory;
-
-  /// No description provided for @garageRegisterStepGallery.
-  ///
-  /// In en, this message translates to:
-  /// **'GALLERY'**
-  String get garageRegisterStepGallery;
-
-  /// No description provided for @garageRegisterStepMods.
-  ///
-  /// In en, this message translates to:
-  /// **'MODS'**
-  String get garageRegisterStepMods;
-
-  /// No description provided for @garageRegisterStart.
-  ///
-  /// In en, this message translates to:
-  /// **'START'**
-  String get garageRegisterStart;
-
-  /// No description provided for @garageRegisterFinish.
-  ///
-  /// In en, this message translates to:
-  /// **'FINISH'**
-  String get garageRegisterFinish;
-
-  /// No description provided for @garageRegisterStepCounter.
-  ///
-  /// In en, this message translates to:
-  /// **'STEP {current} / {total}'**
-  String garageRegisterStepCounter(int current, int total);
-
   /// No description provided for @garageRegisterBack.
   ///
   /// In en, this message translates to:
@@ -1568,23 +1514,29 @@ abstract class AppLocalizations {
   /// **'No matches'**
   String get garageNoMatches;
 
-  /// No description provided for @garageRegisterIdentityLabel.
+  /// No description provided for @garageRegisterSpecsTitle.
   ///
   /// In en, this message translates to:
-  /// **'01 — IDENTITY'**
-  String get garageRegisterIdentityLabel;
+  /// **'Car details'**
+  String get garageRegisterSpecsTitle;
 
-  /// No description provided for @garageRegisterIdentityTitle.
+  /// No description provided for @garageSpecsTabBasics.
   ///
   /// In en, this message translates to:
-  /// **'Visual & basics'**
-  String get garageRegisterIdentityTitle;
+  /// **'BASICS'**
+  String get garageSpecsTabBasics;
 
-  /// No description provided for @garageFieldPrimaryAsset.
+  /// No description provided for @garageSpecsTabPower.
   ///
   /// In en, this message translates to:
-  /// **'PRIMARY ASSET'**
-  String get garageFieldPrimaryAsset;
+  /// **'POWER'**
+  String get garageSpecsTabPower;
+
+  /// No description provided for @garageSpecsTabConfig.
+  ///
+  /// In en, this message translates to:
+  /// **'CONFIG'**
+  String get garageSpecsTabConfig;
 
   /// No description provided for @garageFieldMake.
   ///
@@ -1637,7 +1589,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageFieldChassisCode.
   ///
   /// In en, this message translates to:
-  /// **'CHASSIS CODE'**
+  /// **'VIN'**
   String get garageFieldChassisCode;
 
   /// No description provided for @garageFieldModelCode.
@@ -1652,41 +1604,11 @@ abstract class AppLocalizations {
   /// **'e.g. G30'**
   String get garageHintModelCode;
 
-  /// No description provided for @garagePrimaryAssetBadge.
-  ///
-  /// In en, this message translates to:
-  /// **'PRIMARY · 1 / 1'**
-  String get garagePrimaryAssetBadge;
-
-  /// No description provided for @garageStudioShotReplace.
-  ///
-  /// In en, this message translates to:
-  /// **'Studio shot · tap to replace'**
-  String get garageStudioShotReplace;
-
-  /// No description provided for @garageAddStudioShot.
-  ///
-  /// In en, this message translates to:
-  /// **'Add the studio shot'**
-  String get garageAddStudioShot;
-
   /// No description provided for @garagePickFromGallery.
   ///
   /// In en, this message translates to:
   /// **'Tap to pick from your gallery'**
   String get garagePickFromGallery;
-
-  /// No description provided for @garageRegisterPerformanceLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'02 — PERFORMANCE'**
-  String get garageRegisterPerformanceLabel;
-
-  /// No description provided for @garageRegisterPerformanceTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Power & weight'**
-  String get garageRegisterPerformanceTitle;
 
   /// No description provided for @garageFieldPower.
   ///
@@ -1742,24 +1664,6 @@ abstract class AppLocalizations {
   /// **'Select Fuel Type'**
   String get garagePickerFuelType;
 
-  /// No description provided for @garagePowerToWeight.
-  ///
-  /// In en, this message translates to:
-  /// **'POWER-TO-WEIGHT · AUTO'**
-  String get garagePowerToWeight;
-
-  /// No description provided for @garageRegisterConfigurationLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'03 — CONFIGURATION'**
-  String get garageRegisterConfigurationLabel;
-
-  /// No description provided for @garageRegisterConfigurationTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Configuration'**
-  String get garageRegisterConfigurationTitle;
-
   /// No description provided for @garageFieldDrivetrain.
   ///
   /// In en, this message translates to:
@@ -1814,12 +1718,6 @@ abstract class AppLocalizations {
   /// **'e.g. 42000'**
   String get garageHintMileage;
 
-  /// No description provided for @garageRegisterStoryLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'04 — STORY'**
-  String get garageRegisterStoryLabel;
-
   /// No description provided for @garageRegisterStoryTitle.
   ///
   /// In en, this message translates to:
@@ -1844,23 +1742,23 @@ abstract class AppLocalizations {
   /// **'What\'s this car\'s story? Share it…'**
   String get garageHintStory;
 
-  /// No description provided for @garageRegisterGalleryLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'05 — GALLERY'**
-  String get garageRegisterGalleryLabel;
-
   /// No description provided for @garageRegisterGalleryTitle.
   ///
   /// In en, this message translates to:
   /// **'Show it off'**
   String get garageRegisterGalleryTitle;
 
-  /// No description provided for @garageFieldPhotos.
+  /// No description provided for @garageFieldGallery.
   ///
   /// In en, this message translates to:
-  /// **'PHOTOS'**
-  String get garageFieldPhotos;
+  /// **'GALLERY'**
+  String get garageFieldGallery;
+
+  /// No description provided for @garageAddCoverPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the cover photo'**
+  String get garageAddCoverPhoto;
 
   /// No description provided for @garageGalleryAdd.
   ///
@@ -1871,20 +1769,8 @@ abstract class AppLocalizations {
   /// No description provided for @garageGalleryHint.
   ///
   /// In en, this message translates to:
-  /// **'Up to 8 photos. The cover leads your chassis card — drag to reorder.'**
+  /// **'Showcase only — your sharpest, most striking shots. Best angles, colour and light. Up to 15 photos.'**
   String get garageGalleryHint;
-
-  /// No description provided for @garageGalleryCover.
-  ///
-  /// In en, this message translates to:
-  /// **'COVER'**
-  String get garageGalleryCover;
-
-  /// No description provided for @garageRegisterModsLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'06 — MODS'**
-  String get garageRegisterModsLabel;
 
   /// No description provided for @garageRegisterModsTitle.
   ///
@@ -1895,7 +1781,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageRegisterModsSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Optional — log the work that makes it yours.'**
+  /// **''**
   String get garageRegisterModsSubtitle;
 
   /// No description provided for @garageModFallbackCategory.
@@ -1909,12 +1795,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'ADD MODIFICATION'**
   String get garageAddModification;
-
-  /// No description provided for @garageModSheetLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'— MODIFICATION'**
-  String get garageModSheetLabel;
 
   /// No description provided for @garageModSheetTitleEdit.
   ///
@@ -2018,17 +1898,11 @@ abstract class AppLocalizations {
   /// **'ADD TO BUILD LOG'**
   String get garageModAddToBuildLog;
 
-  /// No description provided for @garageModValidationEdit.
+  /// No description provided for @garageModValidation.
   ///
   /// In en, this message translates to:
   /// **'Category, title and date are required.'**
-  String get garageModValidationEdit;
-
-  /// No description provided for @garageModValidationAdd.
-  ///
-  /// In en, this message translates to:
-  /// **'Category, title, date and both images are required.'**
-  String get garageModValidationAdd;
+  String get garageModValidation;
 
   /// No description provided for @garageAboutTitle.
   ///
@@ -2432,18 +2306,6 @@ abstract class AppLocalizations {
   /// **'Please select a status.'**
   String get garageValStatus;
 
-  /// No description provided for @garageDiscardTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Discard this build?'**
-  String get garageDiscardTitle;
-
-  /// No description provided for @garageDiscardBody.
-  ///
-  /// In en, this message translates to:
-  /// **'You haven\'t registered this car yet. If you leave now, everything you entered will be lost.'**
-  String get garageDiscardBody;
-
   /// No description provided for @garageKeepEditing.
   ///
   /// In en, this message translates to:
@@ -2455,6 +2317,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Discard'**
   String get garageDiscard;
+
+  /// No description provided for @garageBuildLogDiscardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard this build item?'**
+  String get garageBuildLogDiscardTitle;
+
+  /// No description provided for @garageBuildLogDiscardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t added this item to the build log yet. If you leave now, everything you entered here will be lost.'**
+  String get garageBuildLogDiscardBody;
 
   /// No description provided for @garageLogModTitle.
   ///
@@ -6455,7 +6329,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileCreateCar.
   ///
   /// In en, this message translates to:
-  /// **'New car'**
+  /// **'Add new car'**
   String get profileCreateCar;
 
   /// No description provided for @garageCarStatPower.

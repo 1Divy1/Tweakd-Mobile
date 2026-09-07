@@ -4,16 +4,30 @@ import 'package:flutter/services.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 
-/// Accent eyebrow label + large title + optional supporting line that opens
-/// every step of the register-car wizard.
+/// The one corner radius the register-car wizard uses for every boxy control —
+/// buttons, inputs, selector tiles, image cards and tiles. Pills (the status
+/// chips) are the deliberate exception; they stay pill-shaped.
+const double kRegisterRadius = 16;
+
+/// The soft lift that replaces the borders on white surfaces, matching the
+/// onboarding flow.
+const List<BoxShadow> kRegisterSurfaceShadow = [
+  BoxShadow(
+    color: Color(0x06000000),
+    blurRadius: 10,
+    offset: Offset(0, 4),
+  ),
+];
+
+/// Large title that opens every step of the register-car wizard. The accent
+/// "NN — STEP" eyebrow it used to carry is gone; the progress bar is the only
+/// step indicator now.
 class RegisterSectionHeader extends StatelessWidget {
-  final String label;
   final String title;
   final String? subtitle;
 
   const RegisterSectionHeader({
     super.key,
-    required this.label,
     required this.title,
     this.subtitle,
   });
@@ -23,16 +37,6 @@ class RegisterSectionHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: const TextStyle(
-            color: AppColors.accent,
-            fontSize: 12,
-            fontWeight: FontWeight.w800,
-            letterSpacing: 2.2,
-          ),
-        ),
-        const SizedBox(height: 8),
         Text(
           title,
           style: const TextStyle(
@@ -62,6 +66,10 @@ class RegisterSectionHeader extends StatelessWidget {
 
 /// Small uppercase field caption. An optional muted `OPTIONAL` suffix can be
 /// appended inline.
+///
+/// A [Wrap] rather than a [Row]: half-width fields ("CHASSIS CODE OPTIONAL")
+/// run out of room on narrow screens and again at raised text scales, and the
+/// suffix should drop to a second line rather than overflow.
 class RegisterFieldLabel extends StatelessWidget {
   final String text;
   final bool optional;
@@ -70,9 +78,9 @@ class RegisterFieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      textBaseline: TextBaseline.alphabetic,
+    return Wrap(
+      spacing: 6,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         Text(
           text,
@@ -83,8 +91,7 @@ class RegisterFieldLabel extends StatelessWidget {
             letterSpacing: 1.4,
           ),
         ),
-        if (optional) ...[
-          const SizedBox(width: 6),
+        if (optional)
           Text(
             AppLocalizations.of(context)!.garageOptional,
             style: const TextStyle(
@@ -94,9 +101,25 @@ class RegisterFieldLabel extends StatelessWidget {
               letterSpacing: 1.2,
             ),
           ),
-        ],
       ],
     );
+  }
+}
+
+/// Shrinks [child] to fit instead of overflowing.
+///
+/// The wizard's buttons and tiles are fixed-height boxes holding an icon and a
+/// short uppercase label. There is nowhere for that content to grow when the
+/// reader raises their text scale, so it scales down to fit rather than
+/// spilling out of the box.
+class RegisterFitted extends StatelessWidget {
+  final Widget child;
+
+  const RegisterFitted({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return FittedBox(fit: BoxFit.scaleDown, child: child);
   }
 }
 
@@ -112,8 +135,7 @@ class RegisterUnitChip extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: AppColors.bg,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppColors.line),
+        borderRadius: BorderRadius.circular(kRegisterRadius),
       ),
       child: Text(
         text.toUpperCase(),
@@ -155,15 +177,8 @@ class RegisterFormField extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.line),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(6),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(kRegisterRadius),
+        boxShadow: kRegisterSurfaceShadow,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -186,6 +201,11 @@ class RegisterFormField extends StatelessWidget {
               ),
               decoration: InputDecoration(
                 isDense: true,
+                // The app theme sets `filled: true` with a square fill and no
+                // border. Painted over this rounded container it squares the
+                // corners off, so every field in the wizard opts out and lets
+                // the container do the painting.
+                filled: false,
                 hintText: hint,
                 hintStyle: const TextStyle(
                   color: AppColors.muteSoft,
@@ -289,15 +309,8 @@ class RegisterSelectorTile extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
           decoration: BoxDecoration(
             color: AppColors.surface,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppColors.line),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withAlpha(6),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
+            borderRadius: BorderRadius.circular(kRegisterRadius),
+            boxShadow: kRegisterSurfaceShadow,
           ),
           child: Row(
             children: [
@@ -372,7 +385,7 @@ class RegisterRefDataError extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
                 decoration: BoxDecoration(
                   color: AppColors.accent,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(kRegisterRadius),
                 ),
                 child: Text(
                   AppLocalizations.of(context)!.commonRetry.toUpperCase(),
@@ -389,6 +402,32 @@ class RegisterRefDataError extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Filters [items] to those whose label contains [query], ranked so labels that
+/// *start with* the query come before labels that merely contain it elsewhere.
+/// Typing "m" against BMW's models therefore surfaces "M2", "M3", "M4" ahead of
+/// "1er M Coupe" and "318 Gran Turismo". Each group keeps the incoming order,
+/// so results still read alphabetically/numerically within a rank.
+///
+/// Mirrors the ranking the onboarding pickers use.
+List<T> _searchRanked<T>(
+  List<T> items,
+  String Function(T) labelOf,
+  String query,
+) {
+  if (query.isEmpty) return items;
+  final startsWith = <T>[];
+  final contains = <T>[];
+  for (final item in items) {
+    final label = labelOf(item).toLowerCase();
+    if (label.startsWith(query)) {
+      startsWith.add(item);
+    } else if (label.contains(query)) {
+      contains.add(item);
+    }
+  }
+  return [...startsWith, ...contains];
 }
 
 /// A bottom-sheet list picker used for brand / model / drivetrain / color /
@@ -431,7 +470,6 @@ class _RegisterPickerSheet<T> extends StatefulWidget {
   final bool searchable;
 
   const _RegisterPickerSheet({
-    super.key,
     required this.title,
     required this.items,
     required this.labelOf,
@@ -458,11 +496,7 @@ class _RegisterPickerSheetState<T> extends State<_RegisterPickerSheet<T>> {
   @override
   Widget build(BuildContext context) {
     final query = _query.trim().toLowerCase();
-    final filtered = query.isEmpty
-        ? widget.items
-        : widget.items
-            .where((item) => widget.labelOf(item).toLowerCase().contains(query))
-            .toList();
+    final filtered = _searchRanked(widget.items, widget.labelOf, query);
 
     return DraggableScrollableSheet(
       initialChildSize: 0.6,
@@ -471,31 +505,8 @@ class _RegisterPickerSheetState<T> extends State<_RegisterPickerSheet<T>> {
       expand: false,
       builder: (_, scrollCtrl) => Column(
         children: [
-          const SizedBox(height: 12),
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: AppColors.line,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                widget.title,
-                style: const TextStyle(
-                  color: AppColors.ink,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: -0.3,
-                ),
-              ),
-            ),
-          ),
+          const _SheetGrabber(),
+          _SheetTitle(widget.title),
           if (widget.searchable) ...[
             const SizedBox(height: 14),
             Padding(
@@ -510,16 +521,7 @@ class _RegisterPickerSheetState<T> extends State<_RegisterPickerSheet<T>> {
           const Divider(height: 1, color: AppColors.line),
           Expanded(
             child: filtered.isEmpty
-                ? Center(
-                    child: Text(
-                      AppLocalizations.of(context)!.garageNoMatches,
-                      style: const TextStyle(
-                        color: AppColors.muteSoft,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  )
+                ? const _NoMatches()
                 : ListView.separated(
                     controller: scrollCtrl,
                     padding: const EdgeInsets.symmetric(vertical: 4),
@@ -555,6 +557,70 @@ class _RegisterPickerSheetState<T> extends State<_RegisterPickerSheet<T>> {
   }
 }
 
+class _SheetGrabber extends StatelessWidget {
+  const _SheetGrabber();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 12),
+        Container(
+          width: 40,
+          height: 4,
+          decoration: BoxDecoration(
+            color: AppColors.line,
+            borderRadius: BorderRadius.circular(2),
+          ),
+        ),
+        const SizedBox(height: 16),
+      ],
+    );
+  }
+}
+
+class _SheetTitle extends StatelessWidget {
+  final String title;
+  const _SheetTitle(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          title,
+          style: const TextStyle(
+            color: AppColors.ink,
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            letterSpacing: -0.3,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _NoMatches extends StatelessWidget {
+  const _NoMatches();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        AppLocalizations.of(context)!.garageNoMatches,
+        style: const TextStyle(
+          color: AppColors.muteSoft,
+          fontSize: 15,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+}
+
 /// Compact search input shown atop a searchable [showRegisterPicker] sheet.
 class _PickerSearchField extends StatelessWidget {
   final TextEditingController controller;
@@ -569,9 +635,8 @@ class _PickerSearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.bg,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.line),
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(kRegisterRadius),
       ),
       child: Row(
         children: [
@@ -581,7 +646,6 @@ class _PickerSearchField extends StatelessWidget {
             child: TextField(
               controller: controller,
               onChanged: onChanged,
-              autofocus: true,
               cursorColor: AppColors.accent,
               style: const TextStyle(
                 color: AppColors.ink,
@@ -590,6 +654,7 @@ class _PickerSearchField extends StatelessWidget {
               ),
               decoration: InputDecoration(
                 isDense: true,
+                filled: false,
                 hintText: AppLocalizations.of(context)!.garageSearchHint,
                 hintStyle: const TextStyle(
                   color: AppColors.muteSoft,
@@ -607,62 +672,32 @@ class _PickerSearchField extends StatelessWidget {
   }
 }
 
-/// Paints a dashed rounded-rectangle border around [child]. Used for the
-/// various "add" affordances in the wizard.
-class DashedRoundedBorder extends StatelessWidget {
+/// The neutral filled tile behind the wizard's "add" affordances (add photo,
+/// add build item). Replaces the dashed borders the wizard used to draw.
+class RegisterAddSurface extends StatelessWidget {
   final Widget child;
-  final double radius;
-  final Color color;
+  final VoidCallback onTap;
 
-  const DashedRoundedBorder({
+  const RegisterAddSurface({
     super.key,
     required this.child,
-    this.radius = 16,
-    this.color = AppColors.muteSoft,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _DashedRRectPainter(radius: radius, color: color),
-      child: child,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(kRegisterRadius),
+          boxShadow: kRegisterSurfaceShadow,
+        ),
+        child: child,
+      ),
     );
   }
-}
-
-class _DashedRRectPainter extends CustomPainter {
-  final double radius;
-  final Color color;
-
-  _DashedRRectPainter({required this.radius, required this.color});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5;
-
-    final rrect = RRect.fromRectAndRadius(
-      Offset.zero & size,
-      Radius.circular(radius),
-    );
-    final path = Path()..addRRect(rrect);
-
-    const dash = 7.0;
-    const gap = 5.0;
-    for (final metric in path.computeMetrics()) {
-      var distance = 0.0;
-      while (distance < metric.length) {
-        canvas.drawPath(metric.extractPath(distance, distance + dash), paint);
-        distance += dash + gap;
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _DashedRRectPainter oldDelegate) =>
-      oldDelegate.radius != radius || oldDelegate.color != color;
 }
 
 /// Parses a "#RRGGBB" / "RRGGBB" color code into a [Color], falling back to a

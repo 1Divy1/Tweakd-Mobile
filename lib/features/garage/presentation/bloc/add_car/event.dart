@@ -25,17 +25,18 @@ class AddCarBrandSelected extends AddCarEvent {
 }
 
 /// One modification collected in the wizard. Before and after images are
-/// optional — the user may provide either, both, or neither. Each image is
-/// already being compressed (see [CompressedImage]).
+/// optional — the user may provide either, both, or neither, and up to
+/// [maxModImagesPerPhase] of each. Every image is already being compressed
+/// (see [CompressedImage]).
 class NewModInput extends Equatable {
   final ModRequestParams request;
-  final CompressedImage? before;
-  final CompressedImage? after;
+  final List<CompressedImage> before;
+  final List<CompressedImage> after;
 
   const NewModInput({
     required this.request,
-    this.before,
-    this.after,
+    this.before = const [],
+    this.after = const [],
   });
 
   @override

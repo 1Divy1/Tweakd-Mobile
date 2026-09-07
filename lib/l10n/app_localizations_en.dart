@@ -785,35 +785,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garagePhaseSavingPhotos => 'Saving photos…';
 
   @override
-  String get garageRegisterStepIdentity => 'IDENTITY';
-
-  @override
-  String get garageRegisterStepPerformance => 'PERFORMANCE';
-
-  @override
-  String get garageRegisterStepConfiguration => 'CONFIGURATION';
-
-  @override
-  String get garageRegisterStepStory => 'STORY';
-
-  @override
-  String get garageRegisterStepGallery => 'GALLERY';
-
-  @override
-  String get garageRegisterStepMods => 'MODS';
-
-  @override
-  String get garageRegisterStart => 'START';
-
-  @override
-  String get garageRegisterFinish => 'FINISH';
-
-  @override
-  String garageRegisterStepCounter(int current, int total) {
-    return 'STEP $current / $total';
-  }
-
-  @override
   String get garageRegisterBack => 'BACK';
 
   @override
@@ -838,13 +809,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageNoMatches => 'No matches';
 
   @override
-  String get garageRegisterIdentityLabel => '01 — IDENTITY';
+  String get garageRegisterSpecsTitle => 'Car details';
 
   @override
-  String get garageRegisterIdentityTitle => 'Visual & basics';
+  String get garageSpecsTabBasics => 'BASICS';
 
   @override
-  String get garageFieldPrimaryAsset => 'PRIMARY ASSET';
+  String get garageSpecsTabPower => 'POWER';
+
+  @override
+  String get garageSpecsTabConfig => 'CONFIG';
 
   @override
   String get garageFieldMake => 'MAKE';
@@ -871,7 +845,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageFieldYear => 'YEAR';
 
   @override
-  String get garageFieldChassisCode => 'CHASSIS CODE';
+  String get garageFieldChassisCode => 'VIN';
 
   @override
   String get garageFieldModelCode => 'MODEL CODE';
@@ -880,22 +854,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageHintModelCode => 'e.g. G30';
 
   @override
-  String get garagePrimaryAssetBadge => 'PRIMARY · 1 / 1';
-
-  @override
-  String get garageStudioShotReplace => 'Studio shot · tap to replace';
-
-  @override
-  String get garageAddStudioShot => 'Add the studio shot';
-
-  @override
   String get garagePickFromGallery => 'Tap to pick from your gallery';
-
-  @override
-  String get garageRegisterPerformanceLabel => '02 — PERFORMANCE';
-
-  @override
-  String get garageRegisterPerformanceTitle => 'Power & weight';
 
   @override
   String get garageFieldPower => 'POWER';
@@ -925,15 +884,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garagePickerFuelType => 'Select Fuel Type';
 
   @override
-  String get garagePowerToWeight => 'POWER-TO-WEIGHT · AUTO';
-
-  @override
-  String get garageRegisterConfigurationLabel => '03 — CONFIGURATION';
-
-  @override
-  String get garageRegisterConfigurationTitle => 'Configuration';
-
-  @override
   String get garageFieldDrivetrain => 'DRIVETRAIN';
 
   @override
@@ -961,9 +911,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageHintMileage => 'e.g. 42000';
 
   @override
-  String get garageRegisterStoryLabel => '04 — STORY';
-
-  @override
   String get garageRegisterStoryTitle => 'What\'s this car\'s story? Share it…';
 
   @override
@@ -976,42 +923,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageHintStory => 'What\'s this car\'s story? Share it…';
 
   @override
-  String get garageRegisterGalleryLabel => '05 — GALLERY';
-
-  @override
   String get garageRegisterGalleryTitle => 'Show it off';
 
   @override
-  String get garageFieldPhotos => 'PHOTOS';
+  String get garageFieldGallery => 'GALLERY';
+
+  @override
+  String get garageAddCoverPhoto => 'Add the cover photo';
 
   @override
   String get garageGalleryAdd => 'ADD';
 
   @override
   String get garageGalleryHint =>
-      'Up to 8 photos. The cover leads your chassis card — drag to reorder.';
-
-  @override
-  String get garageGalleryCover => 'COVER';
-
-  @override
-  String get garageRegisterModsLabel => '06 — MODS';
+      'Showcase only — your sharpest, most striking shots. Best angles, colour and light. Up to 15 photos.';
 
   @override
   String get garageRegisterModsTitle => 'Build log';
 
   @override
-  String get garageRegisterModsSubtitle =>
-      'Optional — log the work that makes it yours.';
+  String get garageRegisterModsSubtitle => '';
 
   @override
   String get garageModFallbackCategory => 'MODIFICATION';
 
   @override
   String get garageAddModification => 'ADD MODIFICATION';
-
-  @override
-  String get garageModSheetLabel => '— MODIFICATION';
 
   @override
   String get garageModSheetTitleEdit => 'Edit build item';
@@ -1065,12 +1002,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageModAddToBuildLog => 'ADD TO BUILD LOG';
 
   @override
-  String get garageModValidationEdit =>
-      'Category, title and date are required.';
-
-  @override
-  String get garageModValidationAdd =>
-      'Category, title, date and both images are required.';
+  String get garageModValidation => 'Category, title and date are required.';
 
   @override
   String get garageAboutTitle => 'ABOUT';
@@ -1284,17 +1216,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageValStatus => 'Please select a status.';
 
   @override
-  String get garageDiscardTitle => 'Discard this build?';
-
-  @override
-  String get garageDiscardBody =>
-      'You haven\'t registered this car yet. If you leave now, everything you entered will be lost.';
-
-  @override
   String get garageKeepEditing => 'Keep editing';
 
   @override
   String get garageDiscard => 'Discard';
+
+  @override
+  String get garageBuildLogDiscardTitle => 'Discard this build item?';
+
+  @override
+  String get garageBuildLogDiscardBody =>
+      'You haven\'t added this item to the build log yet. If you leave now, everything you entered here will be lost.';
 
   @override
   String get garageLogModTitle => 'LOG BUILD ITERATION';
@@ -3611,7 +3543,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileCreateEvent => 'New car event';
 
   @override
-  String get profileCreateCar => 'New car';
+  String get profileCreateCar => 'Add new car';
 
   @override
   String get garageCarStatPower => 'POWER';

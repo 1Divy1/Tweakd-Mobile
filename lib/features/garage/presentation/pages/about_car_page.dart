@@ -1094,35 +1094,9 @@ class _ModCard extends StatelessWidget {
             ),
             if (beforeMedia.isNotEmpty || afterMedia.isNotEmpty) ...[
               const SizedBox(height: 10),
-              Row(
-                children: [
-                  if (beforeMedia.isNotEmpty)
-                    Expanded(
-                      child: _ModImage(
-                        url: beforeMedia.first.url,
-                        label: AppLocalizations.of(context)!.garageModBefore,
-                        pairUrls: [
-                          beforeMedia.first.url,
-                          if (afterMedia.isNotEmpty) afterMedia.first.url,
-                        ],
-                        pairIndex: 0,
-                      ),
-                    ),
-                  if (beforeMedia.isNotEmpty && afterMedia.isNotEmpty)
-                    const SizedBox(width: 8),
-                  if (afterMedia.isNotEmpty)
-                    Expanded(
-                      child: _ModImage(
-                        url: afterMedia.first.url,
-                        label: AppLocalizations.of(context)!.garageModAfter,
-                        pairUrls: [
-                          if (beforeMedia.isNotEmpty) beforeMedia.first.url,
-                          afterMedia.first.url,
-                        ],
-                        pairIndex: beforeMedia.isNotEmpty ? 1 : 0,
-                      ),
-                    ),
-                ],
+              _ModMediaStrip(
+                beforeMedia: beforeMedia,
+                afterMedia: afterMedia,
               ),
             ],
             if (mod.description != null && mod.description!.isNotEmpty) ...[
@@ -1245,6 +1219,58 @@ class _ModCard extends StatelessWidget {
     if (confirmed == true) {
       bloc.add(DeleteModificationFromDetail(carId: carId, modId: mod.id));
     }
+  }
+}
+
+/// A modification's before/after shots — befores first, then afters, each
+/// tagged with its phase.
+///
+/// A phase can hold several photos, so the strip scrolls sideways rather than
+/// splitting the row in two: two tiles fill the card, and any extras are a
+/// swipe away. Tapping one opens the whole set in the fullscreen viewer.
+class _ModMediaStrip extends StatelessWidget {
+  final List<ModificationMediaEntity> beforeMedia;
+  final List<ModificationMediaEntity> afterMedia;
+
+  const _ModMediaStrip({required this.beforeMedia, required this.afterMedia});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final items = [
+      for (final m in beforeMedia) (url: m.url, label: l10n.garageModBefore),
+      for (final m in afterMedia) (url: m.url, label: l10n.garageModAfter),
+    ];
+    final urls = [for (final item in items) item.url];
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Two tiles plus the gap fill the card exactly; a third peeks in.
+        const gap = 8.0;
+        final tileWidth = (constraints.maxWidth - gap) / 2;
+
+        return SizedBox(
+          height: tileWidth * 9 / 16,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            physics: items.length > 2
+                ? const ClampingScrollPhysics()
+                : const NeverScrollableScrollPhysics(),
+            itemCount: items.length,
+            separatorBuilder: (_, _) => const SizedBox(width: gap),
+            itemBuilder: (context, i) => SizedBox(
+              width: tileWidth,
+              child: _ModImage(
+                url: items[i].url,
+                label: items[i].label,
+                pairUrls: urls,
+                pairIndex: i,
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 

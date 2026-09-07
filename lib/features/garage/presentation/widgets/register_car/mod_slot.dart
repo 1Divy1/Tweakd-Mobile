@@ -3,6 +3,9 @@ import '../../../domain/entities/car_modification.dart';
 import '../../../domain/repositories/garage_repository.dart';
 import '../../bloc/add_car/event.dart';
 
+/// How many photos a single before/after phase can hold.
+const maxModImagesPerPhase = 3;
+
 /// A modification row in the register/edit wizard. Either a brand-new mod to be
 /// created ([NewModSlot]) or an existing mod being edited ([ExistingModSlot]).
 sealed class ModSlot {
@@ -34,30 +37,36 @@ class NewModSlot extends ModSlot {
   @override
   double? get price => input.request.price;
   @override
-  String? get thumbFilePath => (input.after ?? input.before)?.path;
+  String? get thumbFilePath =>
+      _firstOrNull(input.after)?.path ?? _firstOrNull(input.before)?.path;
   @override
   String? get thumbUrl => null;
 }
 
 /// An existing mod being edited. Holds the current text values plus the image
-/// delta: newly picked before/after images to upload+add, the remaining
-/// existing image urls, and the existing media (by R2 key) the user removed.
+/// delta: newly picked before/after images to upload+add, the existing media
+/// kept as-is, and the existing media (by R2 key) the user removed.
 class ExistingModSlot extends ModSlot {
   final CarModificationEntity original;
   final ModRequestParams request;
-  final CompressedImage? newBefore;
-  final CompressedImage? newAfter;
-  final String? beforeUrl;
-  final String? afterUrl;
+
+  /// Freshly picked images to upload, per phase.
+  final List<CompressedImage> newBefore;
+  final List<CompressedImage> newAfter;
+
+  /// Existing media kept as-is, per phase. Never re-uploaded.
+  final List<ModificationMediaEntity> keptBefore;
+  final List<ModificationMediaEntity> keptAfter;
+
   final List<String> removeMediaKeys;
 
   const ExistingModSlot({
     required this.original,
     required this.request,
-    this.newBefore,
-    this.newAfter,
-    this.beforeUrl,
-    this.afterUrl,
+    this.newBefore = const [],
+    this.newAfter = const [],
+    this.keptBefore = const [],
+    this.keptAfter = const [],
     this.removeMediaKeys = const [],
   });
 
@@ -72,10 +81,12 @@ class ExistingModSlot extends ModSlot {
   @override
   double? get price => request.price;
   @override
-  String? get thumbFilePath => (newAfter ?? newBefore)?.path;
+  String? get thumbFilePath =>
+      _firstOrNull(newAfter)?.path ?? _firstOrNull(newBefore)?.path;
   @override
-  String? get thumbUrl =>
-      thumbFilePath != null ? null : (afterUrl ?? beforeUrl);
+  String? get thumbUrl => thumbFilePath != null
+      ? null
+      : (_firstOrNull(keptAfter)?.url ?? _firstOrNull(keptBefore)?.url);
 
   /// Text-only partial update vs the original. Only changed fields are set, so
   /// an untouched mod with no media changes yields an empty patch.
@@ -101,8 +112,10 @@ class ExistingModSlot extends ModSlot {
   bool get hasChanges {
     final patch = toPatchParams();
     return patch.toJson().isNotEmpty ||
-        newBefore != null ||
-        newAfter != null ||
+        newBefore.isNotEmpty ||
+        newAfter.isNotEmpty ||
         removeMediaKeys.isNotEmpty;
   }
 }
+
+T? _firstOrNull<T>(List<T> items) => items.isEmpty ? null : items.first;
