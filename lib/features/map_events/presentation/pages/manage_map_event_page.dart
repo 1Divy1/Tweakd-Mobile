@@ -133,6 +133,8 @@ class ManageMapEventPage extends StatelessWidget {
                 ManageWithdrawalsSection(state: state),
                 const SizedBox(height: 22),
                 if (managed != null) ...[
+                  ManageContestsSection(event: managed),
+                  const SizedBox(height: 22),
                   ManageOrganizersSection(state: state, event: managed),
                   const SizedBox(height: 22),
                   ManageLifecycleSection(state: state, event: managed),

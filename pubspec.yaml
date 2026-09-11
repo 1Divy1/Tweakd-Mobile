@@ -57,6 +57,7 @@ dependencies:
   flutter_file_dialog: ^3.0.3
   v_video_compressor: ^2.2.1
   video_trimmer: ^5.0.0
+  license_checker: ^1.6.2
 
 dev_dependencies:
   flutter_test:

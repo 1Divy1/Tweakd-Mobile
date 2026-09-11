@@ -56,7 +56,20 @@ import '../../features/garage/presentation/pages/share_landing_page.dart';
 import '../../features/map/presentation/bloc/map/bloc.dart';
 import '../../features/map/presentation/bloc/map/event.dart';
 import '../../features/map/presentation/pages/map_page.dart';
+import '../../features/map_events/domain/entities/contest.dart';
 import '../../features/map_events/domain/entities/map_event.dart';
+import '../../features/map_events/presentation/bloc/car_event_history/bloc.dart';
+import '../../features/map_events/presentation/bloc/car_event_history/event.dart';
+import '../../features/map_events/presentation/bloc/contest_detail/bloc.dart';
+import '../../features/map_events/presentation/bloc/contest_detail/event.dart';
+import '../../features/map_events/presentation/bloc/create_contest/cubit.dart';
+import '../../features/map_events/presentation/bloc/event_contests/bloc.dart';
+import '../../features/map_events/presentation/bloc/event_contests/event.dart';
+import '../../features/map_events/presentation/bloc/manage_contests/bloc.dart';
+import '../../features/map_events/presentation/bloc/manage_contests/event.dart';
+import '../../features/map_events/presentation/pages/contest_page.dart';
+import '../../features/map_events/presentation/pages/create_contest_page.dart';
+import '../../features/map_events/presentation/pages/organizer_contests_page.dart';
 import '../../features/map_events/presentation/bloc/attendees/bloc.dart';
 import '../../features/map_events/presentation/bloc/attendees/event.dart';
 import '../../features/map_events/presentation/bloc/create_event/bloc.dart';
@@ -117,7 +130,6 @@ import '../../features/feedback_feed/presentation/pages/compose_feedback_page.da
 import '../../features/feedback_feed/presentation/pages/feedback_feed_page.dart';
 import '../../features/onboarding/presentation/bloc/username_availability/bloc.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
-import '../../features/badges/presentation/bloc/bloc.dart';
 import '../../features/badges/presentation/pages/badge_detail_page.dart';
 import '../../features/profile/domain/entities/profile.dart';
 import '../../features/profile/presentation/bloc/bloc.dart';
@@ -133,6 +145,7 @@ import '../../features/search/presentation/bloc/bloc.dart';
 import '../../features/tags/presentation/bloc/tags/bloc.dart';
 import '../../features/search/presentation/pages/search_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
+import '../../features/map_events/presentation/bloc/participant_cards/cubit.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
@@ -220,10 +233,6 @@ final appRouter = GoRouter(
             BlocProvider<GarageBloc>(
               create: (_) => getIt<GarageBloc>()..add(const LoadMyGarage()),
             ),
-            // No event dispatched: earned badges come down with the profile.
-            // This bloc only serves the locked list, fetched the first time
-            // the badges sheet is opened.
-            BlocProvider<BadgesBloc>(create: (_) => getIt<BadgesBloc>()),
             BlocProvider<ProfilePostsBloc>(
               create: (_) =>
                   getIt<ProfilePostsBloc>()..add(const LoadMyPosts()),
@@ -402,13 +411,53 @@ final appRouter = GoRouter(
       path: '/map-events/:eventId',
       builder: (context, state) {
         final eventId = state.pathParameters['eventId']!;
-        return BlocProvider<MapEventDetailBloc>(
-          create: (_) =>
-              getIt<MapEventDetailBloc>()..add(LoadMapEvent(eventId)),
+        // The contests bloc lives beside the event bloc for the page's whole
+        // life: it owns the event's realtime board subscription.
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<MapEventDetailBloc>(
+              create: (_) =>
+                  getIt<MapEventDetailBloc>()..add(LoadMapEvent(eventId)),
+            ),
+            BlocProvider<EventContestsBloc>(
+              create: (_) =>
+                  getIt<EventContestsBloc>()..add(LoadEventContests(eventId)),
+            ),
+            // The viewer's participant cards; empty until the event is
+            // marked finished, and always for spectators.
+            BlocProvider<ParticipantCardsCubit>(
+              create: (_) => getIt<ParticipantCardsCubit>()..load(eventId),
+            ),
+          ],
           child: MapEventDetailPage(eventId: eventId),
         );
       },
       routes: [
+        // One contest. `extra` carries the tab's copy (instant paint), the
+        // event title and the tab's bloc (so a vote here updates the card
+        // behind without a read); a deep link arrives with none of them.
+        GoRoute(
+          path: 'contests/:contestId',
+          builder: (context, state) {
+            final eventId = state.pathParameters['eventId']!;
+            final contestId = state.pathParameters['contestId']!;
+            final extra = state.extra as Map<String, dynamic>? ?? const {};
+            final initial = extra['contest'] as ContestEntity?;
+            return BlocProvider<ContestDetailBloc>(
+              create: (_) => getIt<ContestDetailBloc>()
+                ..add(LoadContest(
+                  eventId: eventId,
+                  contestId: contestId,
+                  initial: initial,
+                )),
+              child: ContestPage(
+                eventId: eventId,
+                eventTitle: extra['eventTitle'] as String? ?? '',
+                tabBloc: extra['tabBloc'] as EventContestsBloc?,
+              ),
+            );
+          },
+        ),
         GoRoute(
           path: 'attendees',
           builder: (context, state) {
@@ -436,6 +485,52 @@ final appRouter = GoRouter(
               child: ManageMapEventPage(eventId: eventId, event: event),
             );
           },
+          routes: [
+            // The organizer's contests console needs the event (title,
+            // schedule) and is only ever reached from the manage page with
+            // it; a bare deep link falls back to the event page.
+            GoRoute(
+              path: 'contests',
+              redirect: (context, state) => state.extra is MapEventEntity ||
+                      state.extra is Map<String, dynamic>
+                  ? null
+                  : '/map-events/${state.pathParameters['eventId']}',
+              builder: (context, state) {
+                final eventId = state.pathParameters['eventId']!;
+                final event = state.extra as MapEventEntity;
+                return BlocProvider<ManageContestsBloc>(
+                  create: (_) => getIt<ManageContestsBloc>()
+                    ..add(LoadManagedContests(eventId)),
+                  child: OrganizerContestsPage(event: event),
+                );
+              },
+              routes: [
+                GoRoute(
+                  path: 'new',
+                  builder: (context, state) {
+                    final event = state.extra as MapEventEntity;
+                    return BlocProvider<CreateContestCubit>(
+                      create: (_) => getIt<CreateContestCubit>()..load(event: event),
+                      child: CreateContestPage(event: event),
+                    );
+                  },
+                ),
+                GoRoute(
+                  path: ':contestId/edit',
+                  builder: (context, state) {
+                    final extra = state.extra as Map<String, dynamic>;
+                    final event = extra['event'] as MapEventEntity;
+                    final contest = extra['contest'] as ContestEntity;
+                    return BlocProvider<CreateContestCubit>(
+                      create: (_) =>
+                          getIt<CreateContestCubit>()..load(editing: contest),
+                      child: CreateContestPage(event: event, editing: contest),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
         GoRoute(
           path: 'edit',
@@ -706,8 +801,18 @@ final appRouter = GoRouter(
         final carId = state.pathParameters['carId']!;
         final isOwner = state.extra as bool? ?? false;
 
-        return BlocProvider<CarDetailBloc>(
-          create: (_) => getIt<CarDetailBloc>()..add(LoadCar(carId)),
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<CarDetailBloc>(
+              create: (_) => getIt<CarDetailBloc>()..add(LoadCar(carId)),
+            ),
+            // The car's attended events and podium places — a small read that
+            // paints its own section and stays silent on failure.
+            BlocProvider<CarEventHistoryBloc>(
+              create: (_) =>
+                  getIt<CarEventHistoryBloc>()..add(LoadCarEventHistory(carId)),
+            ),
+          ],
           child: AboutCarPage(isOwner: isOwner),
         );
       },
@@ -794,7 +899,7 @@ final appRouter = GoRouter(
         return MaterialPage(
           key: state.pageKey,
           fullscreenDialog: true,
-          child: BadgeDetailPage(badge: args.badge, locked: args.locked),
+          child: BadgeDetailPage(badge: args.badge),
         );
       },
     ),

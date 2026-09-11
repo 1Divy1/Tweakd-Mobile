@@ -113,7 +113,7 @@ class _PublicProfileDataViewState extends State<PublicProfileDataView> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        BadgeStrip(badges: profile.badges, isOwner: false),
+                        BadgeStrip(badges: profile.badges),
                         const SizedBox(height: 20),
                       ],
                     ),

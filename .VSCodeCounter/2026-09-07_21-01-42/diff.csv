@@ -1,0 +1,198 @@
+"filename", "language", "YAML", "Markdown", "Dart", "HTML", "JavaScript JSX", "XML", "JavaScript", "PostCSS", "Swift", "comment", "blank", "total"
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/ADD_CAR_UI_REFACTOR_PROGRESS.md", "Markdown", 0, 320, 0, 0, 0, 0, 0, 0, 0, 0, 70, 390
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/EVENT_CONTESTS_PLAN.md", "Markdown", 0, 766, 0, 0, 0, 0, 0, 0, 0, 0, 109, 875
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/EVENT_CONTESTS_PROGRESS.md", "Markdown", 0, 211, 0, 0, 0, 0, 0, 0, 0, 0, 51, 262
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/MAP_EVENTS_NOTES.md", "Markdown", 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/android/app/src/main/AndroidManifest.xml", "XML", 0, 0, 0, 0, 0, 4, 0, 0, 0, 18, 1, 23
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/About car page.html", "HTML", 0, 0, 0, 37, 0, 0, 0, 0, 0, 0, 6, 43
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Add to Garage.html", "HTML", 0, 0, 0, 71, 0, 0, 0, 0, 0, 0, 10, 81
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Auth Page.html", "HTML", 0, 0, 0, 60, 0, 0, 0, 0, 0, 0, 7, 67
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Car Meet Page.html", "HTML", 0, 0, 0, 80, 0, 0, 0, 0, 0, 0, 6, 86
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Chat Page.html", "HTML", 0, 0, 0, 60, 0, 0, 0, 0, 0, 0, 7, 67
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Event Contests.html", "HTML", 0, 0, 0, 110, 0, 0, 0, 0, 0, 0, 9, 119
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Feed Page.html", "HTML", 0, 0, 0, 76, 0, 0, 0, 0, 0, 0, 8, 84
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Feedback Feed Page.html", "HTML", 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 11, 100
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Feedback Page.html", "HTML", 0, 0, 0, 71, 0, 0, 0, 0, 0, 0, 9, 80
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Followers Page.html", "HTML", 0, 0, 0, 58, 0, 0, 0, 0, 0, 0, 7, 65
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Forums.html", "HTML", 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 15, 116
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Garage Card Explorations.html", "HTML", 0, 0, 0, 49, 0, 0, 0, 0, 0, 0, 1, 50
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Garage Section.html", "HTML", 0, 0, 0, 58, 0, 0, 0, 0, 0, 0, 7, 65
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Map Page.html", "HTML", 0, 0, 0, 95, 0, 0, 0, 0, 0, 0, 11, 106
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Messages Page.html", "HTML", 0, 0, 0, 60, 0, 0, 0, 0, 0, 0, 7, 67
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Onboarding.html", "HTML", 0, 0, 0, 58, 0, 0, 0, 0, 0, 0, 8, 66
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Post Composer.html", "HTML", 0, 0, 0, 71, 0, 0, 0, 0, 0, 0, 9, 80
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Profile Page v2.html", "HTML", 0, 0, 0, 54, 0, 0, 0, 0, 0, 0, 1, 55
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Profile Page.html", "HTML", 0, 0, 0, 53, 0, 0, 0, 0, 0, 0, 7, 60
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Reels Page.html", "HTML", 0, 0, 0, 93, 0, 0, 0, 0, 0, 0, 9, 102
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Search Page.html", "HTML", 0, 0, 0, 136, 0, 0, 0, 0, 0, 0, 10, 146
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Service Book v2 (Minimal).html", "HTML", 0, 0, 0, 78, 0, 0, 0, 0, 0, 0, 5, 83
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Service Book.html", "HTML", 0, 0, 0, 80, 0, 0, 0, 0, 0, 0, 9, 89
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Shared Car Page (web).html", "HTML", 0, 0, 0, 483, 0, 0, 0, 0, 0, 5, 26, 514
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Tweakd Landing v1 (app screens).html", "HTML", 0, 0, 0, 249, 0, 0, 0, 0, 0, 0, 9, 258
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Tweakd Landing.html", "HTML", 0, 0, 0, 138, 0, 0, 0, 0, 0, 0, 8, 146
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/about-car.jsx", "JavaScript JSX", 0, 0, 0, 0, 349, 0, 0, 0, 0, 28, 27, 404
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/add-flow-screens.jsx", "JavaScript JSX", 0, 0, 0, 0, 326, 0, 0, 0, 0, 15, 13, 354
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/add-flow.jsx", "JavaScript JSX", 0, 0, 0, 0, 365, 0, 0, 0, 0, 22, 22, 409
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-1.svg", "XML", 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 10
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-2.svg", "XML", 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 10
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-3.svg", "XML", 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 10
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-4.svg", "XML", 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 10
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-5.svg", "XML", 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 10
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-6.svg", "XML", 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 10
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-7.svg", "XML", 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 10
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/badges/pioneer-unlocked.svg", "XML", 0, 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 68
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/auth.jsx", "JavaScript JSX", 0, 0, 0, 0, 351, 0, 0, 0, 0, 29, 34, 414
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/car-meet.jsx", "JavaScript JSX", 0, 0, 0, 0, 582, 0, 0, 0, 0, 16, 52, 650
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/chat.jsx", "JavaScript JSX", 0, 0, 0, 0, 238, 0, 0, 0, 0, 23, 23, 284
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/contest-attendee.jsx", "JavaScript JSX", 0, 0, 0, 0, 479, 0, 0, 0, 0, 14, 26, 519
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/contest-data.jsx", "JavaScript JSX", 0, 0, 0, 0, 129, 0, 0, 0, 0, 11, 13, 153
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/contest-extras.jsx", "JavaScript JSX", 0, 0, 0, 0, 121, 0, 0, 0, 0, 6, 9, 136
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/contest-organizer.jsx", "JavaScript JSX", 0, 0, 0, 0, 358, 0, 0, 0, 0, 7, 30, 395
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/contest-ui.jsx", "JavaScript JSX", 0, 0, 0, 0, 275, 0, 0, 0, 0, 14, 16, 305
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Feedback.html", "HTML", 0, 0, 0, 190, 0, 0, 0, 0, 0, 3, 11, 204
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Login.html", "HTML", 0, 0, 0, 144, 0, 0, 0, 0, 0, 2, 13, 159
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Moderation.html", "HTML", 0, 0, 0, 211, 0, 0, 0, 0, 0, 2, 17, 230
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Moderators.html", "HTML", 0, 0, 0, 193, 0, 0, 0, 0, 0, 3, 13, 209
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Overview.html", "HTML", 0, 0, 0, 199, 0, 0, 0, 0, 0, 6, 12, 217
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Support.html", "HTML", 0, 0, 0, 193, 0, 0, 0, 0, 0, 2, 14, 209
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/charts.js", "JavaScript", 0, 0, 0, 0, 0, 0, 132, 0, 0, 15, 7, 154
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/dashboard.css", "PostCSS", 0, 0, 0, 0, 0, 0, 0, 245, 0, 19, 28, 292
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/tweaks.js", "JavaScript", 0, 0, 0, 0, 0, 0, 90, 0, 0, 5, 5, 100
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/design-canvas.jsx", "JavaScript JSX", 0, 0, 0, 0, 484, 0, 0, 0, 0, 91, 48, 623
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/event-create.jsx", "JavaScript JSX", 0, 0, 0, 0, 544, 0, 0, 0, 0, 15, 45, 604
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/event-data.jsx", "JavaScript JSX", 0, 0, 0, 0, 193, 0, 0, 0, 0, 8, 22, 223
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/event-widget.jsx", "JavaScript JSX", 0, 0, 0, 0, 334, 0, 0, 0, 0, 12, 35, 381
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/feed.jsx", "JavaScript JSX", 0, 0, 0, 0, 408, 0, 0, 0, 0, 41, 32, 481
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/feedback-feed.jsx", "JavaScript JSX", 0, 0, 0, 0, 432, 0, 0, 0, 0, 23, 39, 494
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/feedback.jsx", "JavaScript JSX", 0, 0, 0, 0, 371, 0, 0, 0, 0, 24, 28, 423
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/followers.jsx", "JavaScript JSX", 0, 0, 0, 0, 347, 0, 0, 0, 0, 36, 25, 408
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/forums-data.jsx", "JavaScript JSX", 0, 0, 0, 0, 190, 0, 0, 0, 0, 21, 8, 219
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/forums-screens-2.jsx", "JavaScript JSX", 0, 0, 0, 0, 342, 0, 0, 0, 0, 41, 35, 418
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/forums-screens.jsx", "JavaScript JSX", 0, 0, 0, 0, 317, 0, 0, 0, 0, 36, 28, 381
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/forums-ui.jsx", "JavaScript JSX", 0, 0, 0, 0, 426, 0, 0, 0, 0, 47, 34, 507
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/garage-card-variants.jsx", "JavaScript JSX", 0, 0, 0, 0, 147, 0, 0, 0, 0, 7, 13, 167
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/garage.jsx", "JavaScript JSX", 0, 0, 0, 0, 979, 0, 0, 0, 0, 42, 54, 1075
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/github.md", "Markdown", 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 4, 16
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/ios-frame.jsx", "JavaScript JSX", 0, 0, 0, 0, 287, 0, 0, 0, 0, 35, 17, 339
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/map.jsx", "JavaScript JSX", 0, 0, 0, 0, 661, 0, 0, 0, 0, 57, 72, 790
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/messages.jsx", "JavaScript JSX", 0, 0, 0, 0, 301, 0, 0, 0, 0, 28, 18, 347
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/onboarding-flow.jsx", "JavaScript JSX", 0, 0, 0, 0, 151, 0, 0, 0, 0, 20, 11, 182
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/onboarding-screens.jsx", "JavaScript JSX", 0, 0, 0, 0, 256, 0, 0, 0, 0, 14, 22, 292
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/palette.js", "JavaScript", 0, 0, 0, 0, 0, 0, 20, 0, 0, 8, 7, 35
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/post-flow-screens.jsx", "JavaScript JSX", 0, 0, 0, 0, 307, 0, 0, 0, 0, 33, 11, 351
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/post-flow.jsx", "JavaScript JSX", 0, 0, 0, 0, 174, 0, 0, 0, 0, 13, 16, 203
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/profile-v2.jsx", "JavaScript JSX", 0, 0, 0, 0, 316, 0, 0, 0, 0, 17, 23, 356
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/profile.jsx", "JavaScript JSX", 0, 0, 0, 0, 473, 0, 0, 0, 0, 36, 32, 541
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/reels.jsx", "JavaScript JSX", 0, 0, 0, 0, 526, 0, 0, 0, 0, 53, 39, 618
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/search.jsx", "JavaScript JSX", 0, 0, 0, 0, 294, 0, 0, 0, 0, 23, 22, 339
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/servicebook-minimal.jsx", "JavaScript JSX", 0, 0, 0, 0, 327, 0, 0, 0, 0, 11, 25, 363
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/servicebook.jsx", "JavaScript JSX", 0, 0, 0, 0, 615, 0, 0, 0, 0, 40, 52, 707
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/sharing.jsx", "JavaScript JSX", 0, 0, 0, 0, 139, 0, 0, 0, 0, 13, 19, 171
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/tweaks-panel.jsx", "JavaScript JSX", 0, 0, 0, 0, 417, 0, 0, 0, 0, 95, 30, 542
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/uploads/Tweakd SVG logo - Dark theme.svg", "XML", 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/uploads/Tweakd SVG logo - Light theme.svg", "XML", 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/uploads/Tweakd-3.svg", "XML", 0, 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 68
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/uploads/badge-unlocked.svg", "XML", 0, 0, 0, 0, 0, 73, 0, 0, 0, 0, 0, 73
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/deeplinks/deep_link_service.dart", "Dart", 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 8
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/deeplinks/share_link_route.dart", "Dart", 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 1, 11
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/di/injection.config.dart", "Dart", 0, 0, 134, 0, 0, 0, 0, 0, 0, 0, 0, 134
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/realtime/contest_realtime_service.dart", "Dart", 0, 0, 8, 0, 0, 0, 0, 0, 0, 20, 6, 34
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/realtime/supabase_contest_realtime_service.dart", "Dart", 0, 0, 122, 0, 0, 0, 0, 0, 0, 16, 20, 158
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/routes/app_router.dart", "Dart", 0, 0, 94, 0, 0, 0, 0, 0, 0, 10, 0, 104
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/services/share_launcher_service.dart", "Dart", 0, 0, 28, 0, 0, 0, 0, 0, 0, 13, 2, 43
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/utils/qr_png_rasterizer.dart", "Dart", 0, 0, 39, 0, 0, 0, 0, 0, 0, 24, 6, 69
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/data/datasources/garage_api_data_source.dart", "Dart", 0, 0, 3, 0, 0, 0, 0, 0, 0, 5, 0, 8
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/domain/entities/car_share.dart", "Dart", 0, 0, -8, 0, 0, 0, 0, 0, 0, -2, -1, -11
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/bloc/add_car/bloc.dart", "Dart", 0, 0, 3, 0, 0, 0, 0, 0, 0, 8, 1, 12
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/bloc/add_car/event.dart", "Dart", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/pages/about_car_page.dart", "Dart", 0, 0, 16, 0, 0, 0, 0, 0, 0, 9, 5, 30
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/pages/build_log_entry_page.dart", "Dart", 0, 0, 591, 0, 0, 0, 0, 0, 0, 30, 48, 669
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/pages/fullscreen_image_page.dart", "Dart", 0, 0, 84, 0, 0, 0, 0, 0, 0, 25, 11, 120
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/pages/register_car_page.dart", "Dart", 0, 0, -85, 0, 0, 0, 0, 0, 0, 22, 5, -58
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/car_events_section.dart", "Dart", 0, 0, 204, 0, 0, 0, 0, 0, 0, 5, 16, 225
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/garage_car_card.dart", "Dart", 0, 0, -31, 0, 0, 0, 0, 0, 0, -11, -3, -45
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/add_mod_sheet.dart", "Dart", 0, 0, -491, 0, 0, 0, 0, 0, 0, -14, -26, -531
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/drivetrain_step.dart", "Dart", 0, 0, -6, 0, 0, 0, 0, 0, 0, 1, 0, -5
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/gallery_step.dart", "Dart", 0, 0, 99, 0, 0, 0, 0, 0, 0, 16, 11, 126
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/identity_step.dart", "Dart", 0, 0, -156, 0, 0, 0, 0, 0, 0, 0, -7, -163
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/mod_slot.dart", "Dart", 0, 0, 5, 0, 0, 0, 0, 0, 0, 3, 5, 13
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/mods_step.dart", "Dart", 0, 0, -2, 0, 0, 0, 0, 0, 0, 3, 0, 1
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/performance_step.dart", "Dart", 0, 0, -101, 0, 0, 0, 0, 0, 0, -1, -7, -109
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/register_car_chrome.dart", "Dart", 0, 0, -297, 0, 0, 0, 0, 0, 0, -1, -20, -318
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/register_car_fields.dart", "Dart", 0, 0, 2, 0, 0, 0, 0, 0, 0, 27, 6, 35
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/register_discard_dialog.dart", "Dart", 0, 0, 100, 0, 0, 0, 0, 0, 0, 3, 6, 109
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/reorderable_photo_tile.dart", "Dart", 0, 0, 59, 0, 0, 0, 0, 0, 0, 17, 12, 88
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/specs_step.dart", "Dart", 0, 0, 204, 0, 0, 0, 0, 0, 0, 28, 15, 247
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/story_step.dart", "Dart", 0, 0, -8, 0, 0, 0, 0, 0, 0, 0, 0, -8
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/share/share_qr_dialog.dart", "Dart", 0, 0, -48, 0, 0, 0, 0, 0, 0, 4, -1, -45
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/data/datasources/map_event_contests_api_data_source.dart", "Dart", 0, 0, 141, 0, 0, 0, 0, 0, 0, 4, 16, 161
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/data/models/contest_models.dart", "Dart", 0, 0, 332, 0, 0, 0, 0, 0, 0, 8, 41, 381
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/data/repositories/map_event_contests_repository_impl.dart", "Dart", 0, 0, 213, 0, 0, 0, 0, 0, 0, 5, 23, 241
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/domain/entities/car_event_history.dart", "Dart", 0, 0, 63, 0, 0, 0, 0, 0, 0, 3, 12, 78
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/domain/entities/contest.dart", "Dart", 0, 0, 288, 0, 0, 0, 0, 0, 0, 36, 48, 372
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/domain/entities/contest_board_update.dart", "Dart", 0, 0, 32, 0, 0, 0, 0, 0, 0, 5, 11, 48
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/domain/entities/contest_enums.dart", "Dart", 0, 0, 46, 0, 0, 0, 0, 0, 0, 13, 13, 72
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/domain/failures/map_event_failures.dart", "Dart", 0, 0, 3, 0, 0, 0, 0, 0, 0, 3, 1, 7
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/domain/repositories/map_event_contests_repository.dart", "Dart", 0, 0, 71, 0, 0, 0, 0, 0, 0, 12, 16, 99
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/domain/usecases/map_event_contests.dart", "Dart", 0, 0, 249, 0, 0, 0, 0, 0, 0, 27, 61, 337
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/car_event_history/bloc.dart", "Dart", 0, 0, 36, 0, 0, 0, 0, 0, 0, 1, 5, 42
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/car_event_history/event.dart", "Dart", 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 6, 18
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/car_event_history/state.dart", "Dart", 0, 0, 18, 0, 0, 0, 0, 0, 0, 4, 8, 30
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/contest_detail/bloc.dart", "Dart", 0, 0, 137, 0, 0, 0, 0, 0, 0, 8, 17, 162
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/contest_detail/event.dart", "Dart", 0, 0, 44, 0, 0, 0, 0, 0, 0, 4, 18, 66
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/contest_detail/state.dart", "Dart", 0, 0, 60, 0, 0, 0, 0, 0, 0, 3, 9, 72
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/create_contest/cubit.dart", "Dart", 0, 0, 117, 0, 0, 0, 0, 0, 0, 12, 15, 144
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/create_contest/state.dart", "Dart", 0, 0, 94, 0, 0, 0, 0, 0, 0, 5, 17, 116
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/event_contests/bloc.dart", "Dart", 0, 0, 211, 0, 0, 0, 0, 0, 0, 15, 25, 251
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/event_contests/event.dart", "Dart", 0, 0, 50, 0, 0, 0, 0, 0, 0, 7, 21, 78
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/event_contests/state.dart", "Dart", 0, 0, 63, 0, 0, 0, 0, 0, 0, 7, 16, 86
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/manage_contests/bloc.dart", "Dart", 0, 0, 235, 0, 0, 0, 0, 0, 0, 9, 23, 267
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/manage_contests/event.dart", "Dart", 0, 0, 74, 0, 0, 0, 0, 0, 0, 3, 31, 108
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/manage_contests/state.dart", "Dart", 0, 0, 63, 0, 0, 0, 0, 0, 0, 2, 12, 77
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/share_win/cubit.dart", "Dart", 0, 0, 84, 0, 0, 0, 0, 0, 0, 9, 10, 103
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/share_win/state.dart", "Dart", 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 6, 18
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/pages/contest_page.dart", "Dart", 0, 0, 618, 0, 0, 0, 0, 0, 0, 8, 42, 668
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/pages/create_contest_page.dart", "Dart", 0, 0, 488, 0, 0, 0, 0, 0, 0, 3, 26, 517
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/pages/manage_map_event_page.dart", "Dart", 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/pages/map_event_detail_page.dart", "Dart", 0, 0, 79, 0, 0, 0, 0, 0, 0, 4, 2, 85
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/pages/organizer_contests_page.dart", "Dart", 0, 0, 468, 0, 0, 0, 0, 0, 0, 1, 35, 504
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/utils/contest_formatting.dart", "Dart", 0, 0, 37, 0, 0, 0, 0, 0, 0, 8, 8, 53
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/utils/map_event_error_mapper.dart", "Dart", 0, 0, 9, 0, 0, 0, 0, 0, 0, 2, 1, 12
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/contest_card.dart", "Dart", 0, 0, 295, 0, 0, 0, 0, 0, 0, 4, 18, 317
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/contest_category_icon.dart", "Dart", 0, 0, 25, 0, 0, 0, 0, 0, 0, 3, 6, 34
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/contest_rank_badge.dart", "Dart", 0, 0, 107, 0, 0, 0, 0, 0, 0, 4, 7, 118
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/contest_status_chip.dart", "Dart", 0, 0, 96, 0, 0, 0, 0, 0, 0, 5, 13, 114
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/contests_overview_block.dart", "Dart", 0, 0, 125, 0, 0, 0, 0, 0, 0, 3, 8, 136
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/contests_tab.dart", "Dart", 0, 0, 260, 0, 0, 0, 0, 0, 0, 5, 18, 283
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/enter_contests_sheet.dart", "Dart", 0, 0, 414, 0, 0, 0, 0, 0, 0, 7, 26, 447
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/leaderboard_row.dart", "Dart", 0, 0, 199, 0, 0, 0, 0, 0, 0, 4, 15, 218
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/org_contest_card.dart", "Dart", 0, 0, 427, 0, 0, 0, 0, 0, 0, 4, 24, 455
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/organizer_sheets.dart", "Dart", 0, 0, 384, 0, 0, 0, 0, 0, 0, 7, 17, 408
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/share_win_sheet.dart", "Dart", 0, 0, 238, 0, 0, 0, 0, 0, 0, 4, 13, 255
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/vote_sheet.dart", "Dart", 0, 0, 273, 0, 0, 0, 0, 0, 0, 3, 14, 290
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/winner_card.dart", "Dart", 0, 0, 224, 0, 0, 0, 0, 0, 0, 8, 11, 243
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/winner_reveal.dart", "Dart", 0, 0, 229, 0, 0, 0, 0, 0, 0, 3, 8, 240
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/detail/map_event_overview_tab.dart", "Dart", 0, 0, -25, 0, 0, 0, 0, 0, 0, -2, -3, -30
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/detail/map_event_tabs.dart", "Dart", 0, 0, 28, 0, 0, 0, 0, 0, 0, 4, 3, 35
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/manage/manage_event_sections.dart", "Dart", 0, 0, 25, 0, 0, 0, 0, 0, 0, 2, 4, 31
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/shared/map_event_chips.dart", "Dart", 0, 0, 1, 0, 0, 0, 0, 0, 0, 5, 0, 6
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/notifications/domain/entities/notification.dart", "Dart", 0, 0, 30, 0, 0, 0, 0, 0, 0, 5, 1, 36
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/notifications/presentation/widgets/notification_tile.dart", "Dart", 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 5
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/profile/presentation/widgets/my_profile/create_button.dart", "Dart", 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/profile/presentation/widgets/my_profile/create_picker_sheet.dart", "Dart", 0, 0, -13, 0, 0, 0, 0, 0, 0, 0, 0, -13
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/profile/presentation/widgets/shared/garage_section.dart", "Dart", 0, 0, -34, 0, 0, 0, 0, 0, 0, -2, -2, -38
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/l10n/app_localizations.dart", "Dart", 0, 0, 145, 0, 0, 0, 0, 0, 0, 560, 140, 845
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/l10n/app_localizations_en.dart", "Dart", 0, 0, 439, 0, 0, 0, 0, 0, 0, 0, 140, 579
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/l10n/app_localizations_ro.dart", "Dart", 0, 0, 439, 0, 0, 0, 0, 0, 0, 0, 140, 579
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/main.dart", "Dart", 0, 0, 3, 0, 0, 0, 0, 0, 0, 4, 0, 7
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/macos/Flutter/GeneratedPluginRegistrant.swift", "Swift", 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/pubspec.yaml", "YAML", 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/test/core/qr_png_rasterizer_test.dart", "Dart", 0, 0, 49, 0, 0, 0, 0, 0, 0, 13, 15, 77
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/test/features/garage/fullscreen_image_zoom_test.dart", "Dart", 0, 0, 58, 0, 0, 0, 0, 0, 0, 11, 11, 80
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/test/features/garage/register_car_layout_test.dart", "Dart", 0, 0, 267, 0, 0, 0, 0, 0, 0, 42, 34, 343
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/test/features/garage/share_link_route_test.dart", "Dart", 0, 0, -3, 0, 0, 0, 0, 0, 0, 3, 0, 0
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/test/features/map_events/contest_detail_bloc_test.dart", "Dart", 0, 0, 135, 0, 0, 0, 0, 0, 0, 4, 25, 164
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/test/features/map_events/contest_models_test.dart", "Dart", 0, 0, 171, 0, 0, 0, 0, 0, 0, 7, 16, 194
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/test/features/map_events/contests_layout_test.dart", "Dart", 0, 0, 185, 0, 0, 0, 0, 0, 0, 4, 18, 207
+"/Users/mbpro/Developer/Apps/Tweakd-Mobile/test/features/map_events/fakes/contest_fixtures.dart", "Dart", 0, 0, 302, 0, 0, 0, 0, 0, 0, 6, 32, 340
+"Total", "-", 3, 1313, 10516, 3698, 14331, 285, 242, 245, 2, 2445, 3183, 36263

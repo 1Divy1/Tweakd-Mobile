@@ -7,7 +7,9 @@ import '../../domain/entities/post.dart';
 /// A single tile in a posts grid (the profile Posts tab, the Saved Posts page):
 /// the post's cover image cropped to fill a square cell, edge to edge with no
 /// border or rounded corners. A stacked-squares glyph sits in the top-right
-/// corner when the post holds more than one image. Tapping opens the post.
+/// corner when the post holds more than one image, or a trophy when it shares a
+/// participant card (whose car cover stands in for the missing image). Tapping
+/// opens the post.
 class PostCard extends StatelessWidget {
   final PostEntity post;
   final VoidCallback onTap;
@@ -16,7 +18,11 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final coverUrl = post.images.isNotEmpty ? post.images.first.imageUrl : null;
+    // A participant-card post carries no images; its car's cover stands in.
+    final card = post.participantCard;
+    final coverUrl = post.images.isNotEmpty
+        ? post.images.first.imageUrl
+        : card?.car.coverImage?.url;
 
     return GestureDetector(
       onTap: onTap,
@@ -34,7 +40,20 @@ class PostCard extends StatelessWidget {
               )
             else
               const _PlaceholderTile(),
-            if (post.images.length > 1)
+            if (card != null)
+              const Positioned(
+                top: 8,
+                right: 8,
+                child: Icon(
+                  Icons.emoji_events_rounded,
+                  color: Colors.white,
+                  size: 16,
+                  shadows: [
+                    Shadow(color: Colors.black45, blurRadius: 4),
+                  ],
+                ),
+              )
+            else if (post.images.length > 1)
               const Positioned(
                 top: 8,
                 right: 8,

@@ -11,6 +11,7 @@ import '../bloc/car_detail/bloc.dart';
 import '../bloc/car_detail/event.dart';
 import '../bloc/car_detail/state.dart';
 import '../utils/garage_error_mapper.dart';
+import '../widgets/car_events_section.dart';
 import '../widgets/car_image.dart';
 import '../widgets/share/share_build_sheet.dart';
 import 'fullscreen_image_page.dart';
@@ -137,6 +138,9 @@ class _AboutCarView extends StatelessWidget {
                     isOwner: isOwner,
                   ),
                 ],
+                // Attended events and contest badges. Paints only when the
+                // car has a history; nothing while loading or on failure.
+                const CarEventsSection(),
                 if (isOwner) ...[
                   const SizedBox(height: 20),
                   _AddModButton(carId: car.id),
@@ -968,45 +972,44 @@ class _TimelineEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(
-            width: 24,
-            child: Stack(
-              children: [
-                // Continuous rail. Stops short of the bottom on the last entry.
-                Positioned(
-                  left: 11,
-                  top: 6,
-                  bottom: isLast ? null : 0,
-                  height: isLast ? 18 : null,
-                  child: Container(width: 2, color: AppColors.accent),
-                ),
-                // Marker aligned with the date label.
-                Positioned(
-                  left: 4,
-                  top: 6,
-                  child: Container(
-                    width: 16,
-                    height: 16,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.bg,
-                      border: Border.all(color: AppColors.accent, width: 2),
-                    ),
-                  ),
-                ),
-              ],
+    // A Stack overlay (rather than IntrinsicHeight) so the rail stretches to
+    // match the card's height: IntrinsicHeight forces every descendant to
+    // answer an intrinsic-dimensions query, which the card's LayoutBuilder
+    // (in _ModMediaStrip) cannot support.
+    return Stack(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(width: 32),
+            Expanded(
+              child: _ModCard(carId: carId, mod: mod, isOwner: isOwner),
+            ),
+          ],
+        ),
+        // Continuous rail. Stops short of the bottom on the last entry.
+        Positioned(
+          left: 11,
+          top: 6,
+          bottom: isLast ? null : 0,
+          height: isLast ? 18 : null,
+          child: Container(width: 2, color: AppColors.accent),
+        ),
+        // Marker aligned with the date label.
+        Positioned(
+          left: 4,
+          top: 6,
+          child: Container(
+            width: 16,
+            height: 16,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.bg,
+              border: Border.all(color: AppColors.accent, width: 2),
             ),
           ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: _ModCard(carId: carId, mod: mod, isOwner: isOwner),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

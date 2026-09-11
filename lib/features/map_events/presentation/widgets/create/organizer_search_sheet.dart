@@ -33,6 +33,13 @@ Future<OrganizerCandidateEntity?> showOrganizerSearchSheet(
   );
 }
 
+/// Fully rounded (pill) field outline, applied to every state so a themed
+/// square `enabledBorder`/`focusedBorder` can't win once the field is focused.
+final _fieldBorder = OutlineInputBorder(
+  borderRadius: BorderRadius.circular(20),
+  borderSide: BorderSide.none,
+);
+
 class _OrganizerSearchSheet extends StatefulWidget {
   const _OrganizerSearchSheet();
 
@@ -156,11 +163,16 @@ class _OrganizerSearchSheetState extends State<_OrganizerSearchSheet> {
                 ),
                 filled: true,
                 fillColor: AppColors.surface,
-                contentPadding: const EdgeInsets.symmetric(vertical: 14),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide.none,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
                 ),
+                border: _fieldBorder,
+                enabledBorder: _fieldBorder,
+                focusedBorder: _fieldBorder,
+                disabledBorder: _fieldBorder,
+                errorBorder: _fieldBorder,
+                focusedErrorBorder: _fieldBorder,
               ),
             ),
           ),
@@ -177,14 +189,6 @@ class _OrganizerSearchSheetState extends State<_OrganizerSearchSheet> {
         padding: EdgeInsets.symmetric(vertical: 34),
         child: Center(child: CircularProgressIndicator()),
       );
-    }
-
-    if (!_hasSearched && _results.isEmpty) {
-      return _Message(text: l10n.mapEventsSearchOrganizersPrompt);
-    }
-
-    if (_results.isEmpty) {
-      return _Message(text: l10n.mapEventsSearchOrganizersEmpty);
     }
 
     return ListView.separated(

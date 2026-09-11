@@ -5,6 +5,7 @@ import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/post.dart';
 import '../post_card/post_author_header.dart';
 import '../post_card/post_media_carousel.dart';
+import '../post_card/post_participant_card_view.dart';
 import '../post_card/post_tags.dart';
 import 'post_time.dart';
 
@@ -35,12 +36,18 @@ class PostDetailView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         PostAuthorHeader(author: post.author, createdAt: post.createdAt),
-        PostMediaCarousel(
-          images: post.images,
-          aspectRatio: 4 / 3,
-          fit: BoxFit.contain,
-          enableZoom: true,
-        ),
+        if (post.participantCard != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: PostParticipantCardView(card: post.participantCard!),
+          )
+        else
+          PostMediaCarousel(
+            images: post.images,
+            aspectRatio: 4 / 3,
+            fit: BoxFit.contain,
+            enableZoom: true,
+          ),
         _Actions(
           post: post,
           onToggleLike: onToggleLike,

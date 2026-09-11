@@ -2997,7 +2997,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsCategoryTrackDay => 'Track Day';
 
   @override
-  String get mapEventsCategoryCarShow => 'Car Show';
+  String get mapEventsCategoryCarsAndCoffee => 'Cars & Coffee';
 
   @override
   String get mapEventsCategoryCruise => 'Cruise';
@@ -3006,8 +3006,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsFieldDescription => 'DESCRIPTION';
 
   @override
-  String get mapEventsFieldDescriptionHint =>
-      'What\'s the event about, who\'s it for, anything people should know before showing up…';
+  String get mapEventsFieldDescriptionHint => 'What\'s the event about ?';
 
   @override
   String get mapEventsFieldLocation => 'LOCATION';
@@ -3047,7 +3046,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsRequired => 'REQUIRED';
 
   @override
-  String get mapEventsCapacityHint => 'No limit — e.g. 40 spots';
+  String get mapEventsCapacityHint => 'Empty defaults to no limit';
 
   @override
   String get mapEventsCapacityLockedHint =>
@@ -3135,6 +3134,245 @@ class AppLocalizationsEn extends AppLocalizations {
       'The event was created, but the cover photo didn\'t upload. You can add it from My events.';
 
   @override
+  String get mapEventsWizardNext => 'NEXT';
+
+  @override
+  String get mapEventsWizardBack => 'BACK';
+
+  @override
+  String get mapEventsWizardClose => 'Close';
+
+  @override
+  String get mapEventsWizardDiscardTitle => 'Leave the event draft?';
+
+  @override
+  String get mapEventsWizardDiscardBody =>
+      'Your progress is saved on this device, so you can pick it up where you left off. Or throw it away and start fresh next time.';
+
+  @override
+  String get mapEventsWizardKeepDraft => 'SAVE & LEAVE';
+
+  @override
+  String get mapEventsWizardDiscardDraft => 'DISCARD';
+
+  @override
+  String get mapEventsWizardStay => 'KEEP EDITING';
+
+  @override
+  String get mapEventsDraftRestored => 'Picked up where you left off.';
+
+  @override
+  String get mapEventsDraftStartOver => 'START OVER';
+
+  @override
+  String get mapEventsStepBasicsTitle => 'The basics';
+
+  @override
+  String get mapEventsStepBasicsSubtitle =>
+      'What\'s the event called, and what should people expect?';
+
+  @override
+  String get mapEventsStepOrganizersTitle => 'Who\'s running it';
+
+  @override
+  String get mapEventsStepOrganizersSubtitle =>
+      'You\'re the creator. Add individual or certified business accounts to co-organize with you.';
+
+  @override
+  String get mapEventsStepOrganizersEmpty =>
+      'No co-organizers yet. You can add them later too.';
+
+  @override
+  String get mapEventsStepWhenWhereTitle => 'When & where';
+
+  @override
+  String get mapEventsStepWhenWhereSubtitle =>
+      'Set the schedule, then drop the pin on the map.';
+
+  @override
+  String get mapEventsLocationPickCta => 'PICK THE LOCATION ON THE MAP';
+
+  @override
+  String get mapEventsLocationChangeCta => 'CHANGE LOCATION';
+
+  @override
+  String get mapEventsLocationCardCity => 'City';
+
+  @override
+  String get mapEventsLocationCardStreet => 'Street';
+
+  @override
+  String get mapEventsLocationCardNumber => 'Number';
+
+  @override
+  String get mapEventsLocationCardPin => 'Pin dropped';
+
+  @override
+  String get mapEventsLocationEmptyHint =>
+      'Pick a location and we\'ll fill in the city, street and number from the address you search.';
+
+  @override
+  String get mapEventsDeadlineHint =>
+      'Car meets need one: the last moment someone can enter a car.';
+
+  @override
+  String get mapEventsStepRulesTitle => 'Rules & entry';
+
+  @override
+  String get mapEventsStepRulesSubtitle =>
+      'House rules, how many cars fit, and whether you vet each one.';
+
+  @override
+  String get mapEventsRulesEmpty =>
+      'No rules yet. Plenty of meets run fine without any.';
+
+  @override
+  String get mapEventsCapacityUnlimited => 'Unlimited';
+
+  @override
+  String get mapEventsCapacityUnlimitedHint => 'Leave it empty for no limit.';
+
+  @override
+  String get mapEventsStepContestsTitle => 'Contests';
+
+  @override
+  String get mapEventsStepContestsSubtitle =>
+      'Line up the categories people will vote on. You can add, edit or remove them any time after the event is approved.';
+
+  @override
+  String get mapEventsContestsEmpty => 'No contests yet.';
+
+  @override
+  String get mapEventsAddContest => 'ADD A CONTEST';
+
+  @override
+  String get mapEventsEditContest => 'Edit contest';
+
+  @override
+  String get mapEventsRemoveContest => 'Remove contest';
+
+  @override
+  String get mapEventsContestsUnavailable =>
+      'Contest categories couldn\'t be loaded. You can add contests from the event page once it\'s approved.';
+
+  @override
+  String mapEventsContestsFullHint(int count) {
+    return 'An event can hold up to $count contests.';
+  }
+
+  @override
+  String mapEventsContestsFailed(int count) {
+    return 'The event was created, but $count of its contests weren\'t. You can add them from My events.';
+  }
+
+  @override
+  String get mapEventsContestOpensLabel => 'Voting opens';
+
+  @override
+  String get mapEventsContestClosesLabel => 'Voting closes';
+
+  @override
+  String get mapEventsContestOpensAtStart => 'When the meet starts';
+
+  @override
+  String get mapEventsContestOpensNow => 'As soon as it\'s approved';
+
+  @override
+  String get mapEventsContestCustomTime => 'Pick a time';
+
+  @override
+  String get mapEventsContestClosesManualNote =>
+      'Attendees see this time. You still open and close voting yourself, from the contests list once the event is approved.';
+
+  @override
+  String get mapEventsContestTitleLabel => 'CONTEST TITLE';
+
+  @override
+  String get mapEventsContestTitleHint => 'e.g. Best exhaust system';
+
+  @override
+  String get mapEventsContestCriteriaLabel => 'JUDGING NOTE';
+
+  @override
+  String get mapEventsContestCriteriaHint => 'What are people voting on?';
+
+  @override
+  String get mapEventsContestCategoryLabel => 'CATEGORY';
+
+  @override
+  String get mapEventsContestSave => 'SAVE CONTEST';
+
+  @override
+  String get mapEventsStepCoverTitle => 'Cover photo';
+
+  @override
+  String get mapEventsStepCoverSubtitle =>
+      'The one image people see on the map, in the feed and at the top of the event.';
+
+  @override
+  String get mapEventsStepReviewTitle => 'Review & publish';
+
+  @override
+  String get mapEventsStepReviewSubtitle =>
+      'This is how people will see it. Tap any section to go back and change it.';
+
+  @override
+  String get mapEventsReviewEdit => 'EDIT';
+
+  @override
+  String get mapEventsReviewNoDescription => 'No description yet';
+
+  @override
+  String get mapEventsReviewNoRules => 'No rules';
+
+  @override
+  String get mapEventsReviewNoContests => 'No contests';
+
+  @override
+  String get mapEventsReviewNoOrganizers => 'Just you';
+
+  @override
+  String get mapEventsReviewOpenEnded => 'Open-ended';
+
+  @override
+  String get mapEventsReviewApprovalOn => 'You approve each car';
+
+  @override
+  String get mapEventsReviewApprovalOff => 'Anyone can enter a car';
+
+  @override
+  String get mapEventsReviewSectionOrganizers => 'ORGANIZERS';
+
+  @override
+  String get mapEventsReviewSectionSchedule => 'SCHEDULE';
+
+  @override
+  String get mapEventsReviewSectionEntry => 'ENTRY';
+
+  @override
+  String get mapEventsPublishCta => 'PUBLISH FOR REVIEW';
+
+  @override
+  String get mapEventsValidationTitle => 'Give the event a title.';
+
+  @override
+  String get mapEventsValidationDescription =>
+      'Add a short description so people know what it is.';
+
+  @override
+  String get mapEventsValidationLocation => 'Pick the location on the map.';
+
+  @override
+  String get mapEventsValidationStart => 'Set when the event starts.';
+
+  @override
+  String get mapEventsValidationDeadlineRequired =>
+      'A car meet needs a registration deadline.';
+
+  @override
+  String get mapEventsValidationCover => 'Add a cover photo.';
+
+  @override
   String get mapEventsUseThisLocation => 'USE THIS LOCATION';
 
   @override
@@ -3148,19 +3386,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsLocationCity => 'CITY';
 
   @override
-  String get mapEventsLocationCityHint => 'Cluj-Napoca';
+  String get mapEventsLocationCityHint => 'eg: Cluj-Napoca';
 
   @override
   String get mapEventsLocationStreet => 'STREET';
 
   @override
-  String get mapEventsLocationStreetHint => 'Strada Memorandumului';
+  String get mapEventsLocationStreetHint => 'eg: Strada Memorandumului';
 
   @override
   String get mapEventsLocationNumber => 'NUMBER';
 
   @override
-  String get mapEventsLocationNumberHint => '28B';
+  String get mapEventsLocationNumberHint => 'eg: 28B';
 
   @override
   String get mapEventsLocationSearchButton => 'SEARCH';
@@ -3498,23 +3736,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileBadgesSheetTitle => 'Badges';
 
   @override
-  String profileBadgesSheetSubtitle(int earned, int total) {
-    return '$earned of $total unlocked';
-  }
-
-  @override
-  String get profileBadgesLocked => 'LOCKED';
-
-  @override
-  String get profileBadgesEmptyOwner =>
-      'No badges yet. Join meets, enter contests and help out on the forums to start collecting.';
-
-  @override
   String get profileBadgesEmptyVisitor => 'No badges yet.';
-
-  @override
-  String get profileBadgesLoadError =>
-      'We couldn’t load the badges. Please try again.';
 
   @override
   String get garageCarStatYear => 'YEAR';
@@ -3562,4 +3784,737 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get badgeCelebrationHeadline => 'New badge unlocked!';
+
+  @override
+  String get contestsTab => 'CONTESTS';
+
+  @override
+  String get contestsSectionVotingOpen => 'VOTING OPEN NOW';
+
+  @override
+  String get contestsSectionOpensLater => 'OPENS LATER';
+
+  @override
+  String get contestsSectionResults => 'RESULTS';
+
+  @override
+  String contestsStandingEntered(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Your car is entered in $count contests',
+      one: 'Your car is entered in 1 contest',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get contestsStandingNotEntered => 'Your car isn\'t entered yet';
+
+  @override
+  String contestsVotesOpenToYou(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count votes still open to you',
+      one: '1 vote still open to you',
+      zero: 'You\'ve voted in every open contest',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get contestsManage => 'MANAGE';
+
+  @override
+  String get contestsEnterCar => 'ENTER';
+
+  @override
+  String get contestsFooterNote =>
+      'One vote per contest. You can change it any time until the organizer closes voting.';
+
+  @override
+  String get contestsEmptyTitle => 'No contests here';
+
+  @override
+  String get contestsEmptyBody =>
+      'The organizer hasn\'t opened any votes for this meet.';
+
+  @override
+  String contestsAllCount(int count) {
+    return 'ALL $count CONTESTS';
+  }
+
+  @override
+  String contestsCarsAndVotes(int cars, int votes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      cars,
+      locale: localeName,
+      other: '$cars cars',
+      one: '1 car',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      votes,
+      locale: localeName,
+      other: '$votes votes',
+      one: '1 vote',
+    );
+    return '$_temp0 · $_temp1';
+  }
+
+  @override
+  String contestsCarsEnteredCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count cars entered',
+      one: '1 car entered',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get contestsYoursIsIn => '· yours is in';
+
+  @override
+  String get contestsCastYourVote => 'CAST YOUR VOTE';
+
+  @override
+  String get contestsVoteBeforeClose => 'VOTE BEFORE IT CLOSES';
+
+  @override
+  String get contestsVote => 'VOTE';
+
+  @override
+  String get contestsVoted => 'VOTED';
+
+  @override
+  String get contestsYourVote => 'YOUR VOTE';
+
+  @override
+  String get contestsChange => 'CHANGE';
+
+  @override
+  String contestsTimeLeftHours(int hours, int minutes) {
+    return '${hours}h ${minutes}m left';
+  }
+
+  @override
+  String contestsTimeLeftMinutes(int minutes) {
+    return '${minutes}m left';
+  }
+
+  @override
+  String contestsOpensInHours(int hours, int minutes) {
+    return 'opens in ${hours}h ${minutes}m';
+  }
+
+  @override
+  String contestsOpensInMinutes(int minutes) {
+    return 'opens in ${minutes}m';
+  }
+
+  @override
+  String get contestsOpensSoon => 'waiting for the organizer';
+
+  @override
+  String get contestsVotingOpenNow => 'voting open';
+
+  @override
+  String get contestsClosing => 'closing';
+
+  @override
+  String get contestsResultsIn => 'RESULTS IN';
+
+  @override
+  String get contestsClosed => 'CLOSED';
+
+  @override
+  String get contestsStatVotesCast => 'VOTES CAST';
+
+  @override
+  String get contestsStatCarsIn => 'CARS IN';
+
+  @override
+  String get contestsStatRemaining => 'REMAINING';
+
+  @override
+  String get contestsStatStatus => 'STATUS';
+
+  @override
+  String get contestsStatVoting => 'VOTING';
+
+  @override
+  String get contestsHowItWorks => 'HOW IT WORKS';
+
+  @override
+  String get contestsHowItWasJudged => 'HOW IT WAS JUDGED';
+
+  @override
+  String contestsSetBy(String username) {
+    return 'Set by @$username';
+  }
+
+  @override
+  String get contestsLeaderboard => 'LEADERBOARD';
+
+  @override
+  String get contestsCarsEntered => 'CARS ENTERED';
+
+  @override
+  String get contestsFinalStandings => 'FINAL STANDINGS';
+
+  @override
+  String get contestsUpdatingLive => 'UPDATING LIVE';
+
+  @override
+  String contestsVotingOpensAt(String time) {
+    return 'Planned to open at $time — the organizer starts it';
+  }
+
+  @override
+  String get contestsNoEntriesYet => 'No cars on the ballot yet.';
+
+  @override
+  String get contestsWinner => 'WINNER';
+
+  @override
+  String contestsVotesOf(int votes, int total) {
+    return '$votes of $total votes';
+  }
+
+  @override
+  String contestsBadgeAwarded(String category) {
+    return '$category badge awarded';
+  }
+
+  @override
+  String get contestsBadgeAwardedBody =>
+      'Now on the car and the owner\'s profile';
+
+  @override
+  String get contestsNoWinner =>
+      'Nobody voted, so there is no winner this time.';
+
+  @override
+  String get contestsThatsYourCar => 'That\'s your car';
+
+  @override
+  String get contestsPostToFeedHint => 'Post the card to your feed';
+
+  @override
+  String get contestsShare => 'SHARE';
+
+  @override
+  String get contestsShareYourWin => 'SHARE YOUR WIN';
+
+  @override
+  String get contestsShareTheResult => 'SHARE THE RESULT';
+
+  @override
+  String get contestsShareSheetTitle => 'Share your win';
+
+  @override
+  String get contestsShareResultSheetTitle => 'Share the result';
+
+  @override
+  String get contestsPostToFeed => 'POST TO FEED';
+
+  @override
+  String get contestsPostedTitle => 'Posted to the feed';
+
+  @override
+  String get contestsPostedBody => 'Your followers can see it now';
+
+  @override
+  String get contestsPostFailed => 'Couldn\'t post the card. Try again.';
+
+  @override
+  String get contestsCaptionHint => 'Say something about the win (optional)';
+
+  @override
+  String contestsShareText(
+    String car,
+    String place,
+    String contest,
+    String event,
+  ) {
+    return '$car took $place in \"$contest\" at $event on Tweakd';
+  }
+
+  @override
+  String contestsOfVotes(int total) {
+    return 'OF $total VOTES';
+  }
+
+  @override
+  String get contestsPickFavourite => 'Pick your favourite';
+
+  @override
+  String get contestsChangeYourVote => 'Change your vote';
+
+  @override
+  String get contestsSaveNewVote => 'SAVE NEW VOTE';
+
+  @override
+  String get contestsCastVote => 'CAST VOTE';
+
+  @override
+  String get contestsYourCar => 'YOUR CAR';
+
+  @override
+  String get contestsEnterTitle => 'Enter your car';
+
+  @override
+  String get contestsApprovedForMeet => 'Approved for this meet';
+
+  @override
+  String get contestsEnterHint =>
+      'Pick the categories you want to be judged in. The organizer approves each entry. You can pull out until voting opens.';
+
+  @override
+  String get contestsEntryLocked => 'Voting open — entry locked in';
+
+  @override
+  String get contestsVotingAlreadyOpen => 'Voting already open';
+
+  @override
+  String get contestsEntryPending => 'Waiting for the organizer';
+
+  @override
+  String get contestsEntryRejected => 'Not accepted';
+
+  @override
+  String get contestsWhy => 'WHY';
+
+  @override
+  String get contestsSaveEntries => 'SAVE ENTRIES';
+
+  @override
+  String get contestsEntriesSaved => 'Entries updated';
+
+  @override
+  String contestsVoteCounted(String car) {
+    return 'Vote counted for $car';
+  }
+
+  @override
+  String get contestsCannotVoteOwnCar => 'You can\'t vote for your own car';
+
+  @override
+  String get contestsVotingClosedHint => 'Voting has closed';
+
+  @override
+  String get contestsAttendToVote =>
+      'RSVP as attending to vote in this contest';
+
+  @override
+  String get contestsOrganizerTitle => 'Contests';
+
+  @override
+  String contestsOrganizerSubtitle(String event) {
+    return '$event · you\'re an organizer';
+  }
+
+  @override
+  String get contestsNew => 'NEW';
+
+  @override
+  String get contestsStatRunning => 'RUNNING';
+
+  @override
+  String get contestsStatScheduled => 'SCHEDULED';
+
+  @override
+  String get contestsStatVotesTonight => 'VOTES SO FAR';
+
+  @override
+  String get contestsRunningNow => 'RUNNING NOW';
+
+  @override
+  String get contestsScheduled => 'SCHEDULED';
+
+  @override
+  String get contestsFinished => 'FINISHED';
+
+  @override
+  String get contestsChipOpen => 'OPEN';
+
+  @override
+  String get contestsChipClosed => 'CLOSED';
+
+  @override
+  String get contestsChipScheduled => 'SCHEDULED';
+
+  @override
+  String get contestsFullBoard => 'FULL BOARD';
+
+  @override
+  String get contestsFinishNow => 'FINISH NOW';
+
+  @override
+  String get contestsEdit => 'EDIT';
+
+  @override
+  String get contestsOpenVotingNow => 'OPEN VOTING NOW';
+
+  @override
+  String get contestsExtend => 'EXTEND';
+
+  @override
+  String get contestsDelete => 'DELETE';
+
+  @override
+  String get contestsResultsPublished => 'Results published · badge awarded';
+
+  @override
+  String get contestsNoVotesResult => 'Closed with no votes';
+
+  @override
+  String get contestsAddAnother => 'ADD ANOTHER CONTEST';
+
+  @override
+  String get contestsAddFirst => 'CREATE A CONTEST';
+
+  @override
+  String get contestsOrganizerEmpty =>
+      'No contests yet. Open a vote and everyone at the meet can pick their favourite.';
+
+  @override
+  String contestsClosedAtVotes(String time, int votes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      votes,
+      locale: localeName,
+      other: '$votes votes',
+      one: '1 vote',
+    );
+    return 'Closed $time · $_temp0';
+  }
+
+  @override
+  String contestsLeftAndVotes(String left, int votes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      votes,
+      locale: localeName,
+      other: '$votes votes',
+      one: '1 vote',
+    );
+    return '$left · $_temp0';
+  }
+
+  @override
+  String contestsOpensAndCars(String opens, int cars) {
+    String _temp0 = intl.Intl.pluralLogic(
+      cars,
+      locale: localeName,
+      other: '$cars cars entered',
+      one: '1 car entered',
+    );
+    return '$opens · $_temp0';
+  }
+
+  @override
+  String contestsFinishTitle(String title) {
+    return 'Finish \"$title\"?';
+  }
+
+  @override
+  String contestsFinishBody(String timeLeft) {
+    return 'Voting closes immediately — $timeLeft early. The standings freeze as they are now and the winner gets the badge.';
+  }
+
+  @override
+  String get contestsFinishBodyNoVotes =>
+      'Voting closes immediately. Nobody has voted yet, so there will be no winner.';
+
+  @override
+  String get contestsFinishBodyPastPlan =>
+      'Voting closes immediately. It has been running past the time you planned. The standings freeze as they are now and the winner gets the badge.';
+
+  @override
+  String get contestsWinsIfFinishNow => 'WINS IF YOU FINISH NOW';
+
+  @override
+  String contestsCloseRace(int gap) {
+    String _temp0 = intl.Intl.pluralLogic(
+      gap,
+      locale: localeName,
+      other: 'Only $gap votes ahead of second — it could still flip.',
+      one: 'Only 1 vote ahead of second — it could still flip.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String contestsClearLead(int gap) {
+    return 'Clear lead — $gap votes ahead of second.';
+  }
+
+  @override
+  String get contestsKeepOpen => 'KEEP IT OPEN';
+
+  @override
+  String get contestsFinishPublish => 'FINISH & PUBLISH';
+
+  @override
+  String contestsFinishedBanner(String title) {
+    return '\"$title\" finished';
+  }
+
+  @override
+  String get contestsFinishedBannerBody =>
+      'Results are live · everyone at the meet was notified';
+
+  @override
+  String contestsPendingEntries(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count CARS WAITING',
+      one: '1 CAR WAITING',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get contestsAccept => 'ACCEPT';
+
+  @override
+  String get contestsDecline => 'DECLINE';
+
+  @override
+  String get contestsDeclineEntryTitle => 'Decline this car?';
+
+  @override
+  String get contestsDeclineEntryHint =>
+      'Tell the owner why. They\'ll see this.';
+
+  @override
+  String get contestsExtendTitle => 'Extend voting';
+
+  @override
+  String get contestsExtendBody =>
+      'Pick the new closing time attendees see. It is a plan, not a deadline — voting runs until you finish the contest.';
+
+  @override
+  String contestsExtendClosesAt(String time) {
+    return 'Closes $time';
+  }
+
+  @override
+  String get contestsExtendConfirm => 'EXTEND VOTING';
+
+  @override
+  String get contestsDeleteTitle => 'Delete this contest?';
+
+  @override
+  String get contestsDeleteBody =>
+      'It hasn\'t opened yet, so nothing is lost — the cars that entered are simply released.';
+
+  @override
+  String get contestsCreateTitle => 'New contest';
+
+  @override
+  String get contestsEditTitle => 'Edit contest';
+
+  @override
+  String get contestsCategory => 'CATEGORY';
+
+  @override
+  String get contestsCategoryCustom => 'Custom';
+
+  @override
+  String get contestsName => 'CONTEST NAME';
+
+  @override
+  String get contestsNameHint => 'Name shown to attendees';
+
+  @override
+  String get contestsNameHintCustom => 'e.g. Best daily driver';
+
+  @override
+  String get contestsCriteria => 'HOW SHOULD PEOPLE JUDGE IT?';
+
+  @override
+  String get contestsCriteriaHint =>
+      'One or two lines. Attendees see this above the leaderboard.';
+
+  @override
+  String get contestsVotingOpens => 'VOTING OPENS';
+
+  @override
+  String get contestsOpensNow => 'Right away';
+
+  @override
+  String get contestsOpensAtStart => 'At the start of the meet';
+
+  @override
+  String get contestsSetATime => 'Set a time';
+
+  @override
+  String get contestsVotingCloses => 'VOTING CLOSES';
+
+  @override
+  String get contestsFinishEarlyNote =>
+      'These times are what attendees see. You open the voting and close it yourself, from the contests list.';
+
+  @override
+  String get contestsLockedOpenNote =>
+      'Voting is open: only the judging note and the closing time can change now.';
+
+  @override
+  String get contestsPublish => 'PUBLISH CONTEST';
+
+  @override
+  String get contestsSaveChanges => 'SAVE CHANGES';
+
+  @override
+  String get contestsManageSectionTitle => 'CONTESTS';
+
+  @override
+  String get contestsManageOpen => 'Open contests';
+
+  @override
+  String contestsManageSummary(int running, int scheduled) {
+    String _temp0 = intl.Intl.pluralLogic(
+      running,
+      locale: localeName,
+      other: '$running running',
+      one: '1 running',
+      zero: 'None running',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      scheduled,
+      locale: localeName,
+      other: '$scheduled scheduled',
+      one: '1 scheduled',
+      zero: 'none scheduled',
+    );
+    return '$_temp0 · $_temp1';
+  }
+
+  @override
+  String get contestsErrorNotEligible => 'You can\'t vote in this contest.';
+
+  @override
+  String get contestsRank1 => '1st';
+
+  @override
+  String get contestsRank2 => '2nd';
+
+  @override
+  String get contestsRank3 => '3rd';
+
+  @override
+  String contestsRankN(int rank) {
+    return '${rank}th';
+  }
+
+  @override
+  String participantCardPlace(String rank) {
+    return '$rank Place';
+  }
+
+  @override
+  String get participantCardEvent => 'EVENT';
+
+  @override
+  String get participantCardContests => 'CONTESTS ENTERED';
+
+  @override
+  String participantCardContestWithRank(String contest, String rank) {
+    return '$contest ($rank)';
+  }
+
+  @override
+  String participantCardMore(int count) {
+    return '+$count more';
+  }
+
+  @override
+  String participantCardAttendees(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count people were at the event.',
+      one: '1 person was at the event.',
+      zero: 'Nobody checked in at the event.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get participantCardContestsSheetTitle => 'Contests entered';
+
+  @override
+  String get participantCardTookPart => 'Took part';
+
+  @override
+  String get participantCardShareSheetTitle => 'Share your card';
+
+  @override
+  String participantCardShareText(String car, String event) {
+    return '$car was at $event on Tweakd';
+  }
+
+  @override
+  String participantCardShareTextPlaced(
+    String car,
+    String place,
+    String contest,
+    String event,
+  ) {
+    return '$car took $place in \"$contest\" at $event on Tweakd';
+  }
+
+  @override
+  String get participantCardShare => 'SHARE THE CARD';
+
+  @override
+  String participantCardSectionTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'YOUR CARDS',
+      one: 'YOUR CARD',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get participantCardYourCard => 'YOUR CARD';
+
+  @override
+  String get participantCardNotReady =>
+      'Your card will be ready once the organizer finishes the event.';
+
+  @override
+  String participantCardCooldown(String date) {
+    return 'You shared this card recently. You can share it again on $date.';
+  }
+
+  @override
+  String get carEventsContestBadges => 'CONTEST BADGES';
+
+  @override
+  String carEventsBadgesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count CONTEST BADGES',
+      one: '1 CONTEST BADGE',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get carEventsAttended => 'ATTENDED EVENTS';
+
+  @override
+  String get carEventsWhereFrom => 'WHERE THEY CAME FROM';
+
+  @override
+  String carEventsPlacement(String rank, String category) {
+    return '$rank · $category';
+  }
 }

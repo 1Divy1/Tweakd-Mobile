@@ -5372,11 +5372,11 @@ abstract class AppLocalizations {
   /// **'Track Day'**
   String get mapEventsCategoryTrackDay;
 
-  /// No description provided for @mapEventsCategoryCarShow.
+  /// No description provided for @mapEventsCategoryCarsAndCoffee.
   ///
   /// In en, this message translates to:
-  /// **'Car Show'**
-  String get mapEventsCategoryCarShow;
+  /// **'Cars & Coffee'**
+  String get mapEventsCategoryCarsAndCoffee;
 
   /// No description provided for @mapEventsCategoryCruise.
   ///
@@ -5393,7 +5393,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsFieldDescriptionHint.
   ///
   /// In en, this message translates to:
-  /// **'What\'s the event about, who\'s it for, anything people should know before showing up…'**
+  /// **'What\'s the event about ?'**
   String get mapEventsFieldDescriptionHint;
 
   /// No description provided for @mapEventsFieldLocation.
@@ -5471,7 +5471,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsCapacityHint.
   ///
   /// In en, this message translates to:
-  /// **'No limit — e.g. 40 spots'**
+  /// **'Empty defaults to no limit'**
   String get mapEventsCapacityHint;
 
   /// No description provided for @mapEventsCapacityLockedHint.
@@ -5630,6 +5630,444 @@ abstract class AppLocalizations {
   /// **'The event was created, but the cover photo didn\'t upload. You can add it from My events.'**
   String get mapEventsCoverUploadFailed;
 
+  /// No description provided for @mapEventsWizardNext.
+  ///
+  /// In en, this message translates to:
+  /// **'NEXT'**
+  String get mapEventsWizardNext;
+
+  /// No description provided for @mapEventsWizardBack.
+  ///
+  /// In en, this message translates to:
+  /// **'BACK'**
+  String get mapEventsWizardBack;
+
+  /// No description provided for @mapEventsWizardClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get mapEventsWizardClose;
+
+  /// No description provided for @mapEventsWizardDiscardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave the event draft?'**
+  String get mapEventsWizardDiscardTitle;
+
+  /// No description provided for @mapEventsWizardDiscardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your progress is saved on this device, so you can pick it up where you left off. Or throw it away and start fresh next time.'**
+  String get mapEventsWizardDiscardBody;
+
+  /// No description provided for @mapEventsWizardKeepDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE & LEAVE'**
+  String get mapEventsWizardKeepDraft;
+
+  /// No description provided for @mapEventsWizardDiscardDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'DISCARD'**
+  String get mapEventsWizardDiscardDraft;
+
+  /// No description provided for @mapEventsWizardStay.
+  ///
+  /// In en, this message translates to:
+  /// **'KEEP EDITING'**
+  String get mapEventsWizardStay;
+
+  /// No description provided for @mapEventsDraftRestored.
+  ///
+  /// In en, this message translates to:
+  /// **'Picked up where you left off.'**
+  String get mapEventsDraftRestored;
+
+  /// No description provided for @mapEventsDraftStartOver.
+  ///
+  /// In en, this message translates to:
+  /// **'START OVER'**
+  String get mapEventsDraftStartOver;
+
+  /// No description provided for @mapEventsStepBasicsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The basics'**
+  String get mapEventsStepBasicsTitle;
+
+  /// No description provided for @mapEventsStepBasicsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s the event called, and what should people expect?'**
+  String get mapEventsStepBasicsSubtitle;
+
+  /// No description provided for @mapEventsStepOrganizersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Who\'s running it'**
+  String get mapEventsStepOrganizersTitle;
+
+  /// No description provided for @mapEventsStepOrganizersSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re the creator. Add individual or certified business accounts to co-organize with you.'**
+  String get mapEventsStepOrganizersSubtitle;
+
+  /// No description provided for @mapEventsStepOrganizersEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No co-organizers yet. You can add them later too.'**
+  String get mapEventsStepOrganizersEmpty;
+
+  /// No description provided for @mapEventsStepWhenWhereTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When & where'**
+  String get mapEventsStepWhenWhereTitle;
+
+  /// No description provided for @mapEventsStepWhenWhereSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set the schedule, then drop the pin on the map.'**
+  String get mapEventsStepWhenWhereSubtitle;
+
+  /// No description provided for @mapEventsLocationPickCta.
+  ///
+  /// In en, this message translates to:
+  /// **'PICK THE LOCATION ON THE MAP'**
+  String get mapEventsLocationPickCta;
+
+  /// No description provided for @mapEventsLocationChangeCta.
+  ///
+  /// In en, this message translates to:
+  /// **'CHANGE LOCATION'**
+  String get mapEventsLocationChangeCta;
+
+  /// No description provided for @mapEventsLocationCardCity.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get mapEventsLocationCardCity;
+
+  /// No description provided for @mapEventsLocationCardStreet.
+  ///
+  /// In en, this message translates to:
+  /// **'Street'**
+  String get mapEventsLocationCardStreet;
+
+  /// No description provided for @mapEventsLocationCardNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Number'**
+  String get mapEventsLocationCardNumber;
+
+  /// No description provided for @mapEventsLocationCardPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin dropped'**
+  String get mapEventsLocationCardPin;
+
+  /// No description provided for @mapEventsLocationEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a location and we\'ll fill in the city, street and number from the address you search.'**
+  String get mapEventsLocationEmptyHint;
+
+  /// No description provided for @mapEventsDeadlineHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Car meets need one: the last moment someone can enter a car.'**
+  String get mapEventsDeadlineHint;
+
+  /// No description provided for @mapEventsStepRulesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rules & entry'**
+  String get mapEventsStepRulesTitle;
+
+  /// No description provided for @mapEventsStepRulesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'House rules, how many cars fit, and whether you vet each one.'**
+  String get mapEventsStepRulesSubtitle;
+
+  /// No description provided for @mapEventsRulesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No rules yet. Plenty of meets run fine without any.'**
+  String get mapEventsRulesEmpty;
+
+  /// No description provided for @mapEventsCapacityUnlimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited'**
+  String get mapEventsCapacityUnlimited;
+
+  /// No description provided for @mapEventsCapacityUnlimitedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave it empty for no limit.'**
+  String get mapEventsCapacityUnlimitedHint;
+
+  /// No description provided for @mapEventsStepContestsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contests'**
+  String get mapEventsStepContestsTitle;
+
+  /// No description provided for @mapEventsStepContestsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Line up the categories people will vote on. You can add, edit or remove them any time after the event is approved.'**
+  String get mapEventsStepContestsSubtitle;
+
+  /// No description provided for @mapEventsContestsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No contests yet.'**
+  String get mapEventsContestsEmpty;
+
+  /// No description provided for @mapEventsAddContest.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD A CONTEST'**
+  String get mapEventsAddContest;
+
+  /// No description provided for @mapEventsEditContest.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit contest'**
+  String get mapEventsEditContest;
+
+  /// No description provided for @mapEventsRemoveContest.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove contest'**
+  String get mapEventsRemoveContest;
+
+  /// No description provided for @mapEventsContestsUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Contest categories couldn\'t be loaded. You can add contests from the event page once it\'s approved.'**
+  String get mapEventsContestsUnavailable;
+
+  /// No description provided for @mapEventsContestsFullHint.
+  ///
+  /// In en, this message translates to:
+  /// **'An event can hold up to {count} contests.'**
+  String mapEventsContestsFullHint(int count);
+
+  /// No description provided for @mapEventsContestsFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The event was created, but {count} of its contests weren\'t. You can add them from My events.'**
+  String mapEventsContestsFailed(int count);
+
+  /// No description provided for @mapEventsContestOpensLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Voting opens'**
+  String get mapEventsContestOpensLabel;
+
+  /// No description provided for @mapEventsContestClosesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Voting closes'**
+  String get mapEventsContestClosesLabel;
+
+  /// No description provided for @mapEventsContestOpensAtStart.
+  ///
+  /// In en, this message translates to:
+  /// **'When the meet starts'**
+  String get mapEventsContestOpensAtStart;
+
+  /// No description provided for @mapEventsContestOpensNow.
+  ///
+  /// In en, this message translates to:
+  /// **'As soon as it\'s approved'**
+  String get mapEventsContestOpensNow;
+
+  /// No description provided for @mapEventsContestCustomTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a time'**
+  String get mapEventsContestCustomTime;
+
+  /// No description provided for @mapEventsContestClosesManualNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Attendees see this time. You still open and close voting yourself, from the contests list once the event is approved.'**
+  String get mapEventsContestClosesManualNote;
+
+  /// No description provided for @mapEventsContestTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTEST TITLE'**
+  String get mapEventsContestTitleLabel;
+
+  /// No description provided for @mapEventsContestTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Best exhaust system'**
+  String get mapEventsContestTitleHint;
+
+  /// No description provided for @mapEventsContestCriteriaLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'JUDGING NOTE'**
+  String get mapEventsContestCriteriaLabel;
+
+  /// No description provided for @mapEventsContestCriteriaHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What are people voting on?'**
+  String get mapEventsContestCriteriaHint;
+
+  /// No description provided for @mapEventsContestCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'CATEGORY'**
+  String get mapEventsContestCategoryLabel;
+
+  /// No description provided for @mapEventsContestSave.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE CONTEST'**
+  String get mapEventsContestSave;
+
+  /// No description provided for @mapEventsStepCoverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover photo'**
+  String get mapEventsStepCoverTitle;
+
+  /// No description provided for @mapEventsStepCoverSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The one image people see on the map, in the feed and at the top of the event.'**
+  String get mapEventsStepCoverSubtitle;
+
+  /// No description provided for @mapEventsStepReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review & publish'**
+  String get mapEventsStepReviewTitle;
+
+  /// No description provided for @mapEventsStepReviewSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This is how people will see it. Tap any section to go back and change it.'**
+  String get mapEventsStepReviewSubtitle;
+
+  /// No description provided for @mapEventsReviewEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'EDIT'**
+  String get mapEventsReviewEdit;
+
+  /// No description provided for @mapEventsReviewNoDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'No description yet'**
+  String get mapEventsReviewNoDescription;
+
+  /// No description provided for @mapEventsReviewNoRules.
+  ///
+  /// In en, this message translates to:
+  /// **'No rules'**
+  String get mapEventsReviewNoRules;
+
+  /// No description provided for @mapEventsReviewNoContests.
+  ///
+  /// In en, this message translates to:
+  /// **'No contests'**
+  String get mapEventsReviewNoContests;
+
+  /// No description provided for @mapEventsReviewNoOrganizers.
+  ///
+  /// In en, this message translates to:
+  /// **'Just you'**
+  String get mapEventsReviewNoOrganizers;
+
+  /// No description provided for @mapEventsReviewOpenEnded.
+  ///
+  /// In en, this message translates to:
+  /// **'Open-ended'**
+  String get mapEventsReviewOpenEnded;
+
+  /// No description provided for @mapEventsReviewApprovalOn.
+  ///
+  /// In en, this message translates to:
+  /// **'You approve each car'**
+  String get mapEventsReviewApprovalOn;
+
+  /// No description provided for @mapEventsReviewApprovalOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Anyone can enter a car'**
+  String get mapEventsReviewApprovalOff;
+
+  /// No description provided for @mapEventsReviewSectionOrganizers.
+  ///
+  /// In en, this message translates to:
+  /// **'ORGANIZERS'**
+  String get mapEventsReviewSectionOrganizers;
+
+  /// No description provided for @mapEventsReviewSectionSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'SCHEDULE'**
+  String get mapEventsReviewSectionSchedule;
+
+  /// No description provided for @mapEventsReviewSectionEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'ENTRY'**
+  String get mapEventsReviewSectionEntry;
+
+  /// No description provided for @mapEventsPublishCta.
+  ///
+  /// In en, this message translates to:
+  /// **'PUBLISH FOR REVIEW'**
+  String get mapEventsPublishCta;
+
+  /// No description provided for @mapEventsValidationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Give the event a title.'**
+  String get mapEventsValidationTitle;
+
+  /// No description provided for @mapEventsValidationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a short description so people know what it is.'**
+  String get mapEventsValidationDescription;
+
+  /// No description provided for @mapEventsValidationLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the location on the map.'**
+  String get mapEventsValidationLocation;
+
+  /// No description provided for @mapEventsValidationStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Set when the event starts.'**
+  String get mapEventsValidationStart;
+
+  /// No description provided for @mapEventsValidationDeadlineRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'A car meet needs a registration deadline.'**
+  String get mapEventsValidationDeadlineRequired;
+
+  /// No description provided for @mapEventsValidationCover.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a cover photo.'**
+  String get mapEventsValidationCover;
+
   /// No description provided for @mapEventsUseThisLocation.
   ///
   /// In en, this message translates to:
@@ -5657,7 +6095,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsLocationCityHint.
   ///
   /// In en, this message translates to:
-  /// **'Cluj-Napoca'**
+  /// **'eg: Cluj-Napoca'**
   String get mapEventsLocationCityHint;
 
   /// No description provided for @mapEventsLocationStreet.
@@ -5669,7 +6107,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsLocationStreetHint.
   ///
   /// In en, this message translates to:
-  /// **'Strada Memorandumului'**
+  /// **'eg: Strada Memorandumului'**
   String get mapEventsLocationStreetHint;
 
   /// No description provided for @mapEventsLocationNumber.
@@ -5681,7 +6119,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsLocationNumberHint.
   ///
   /// In en, this message translates to:
-  /// **'28B'**
+  /// **'eg: 28B'**
   String get mapEventsLocationNumberHint;
 
   /// No description provided for @mapEventsLocationSearchButton.
@@ -6272,35 +6710,11 @@ abstract class AppLocalizations {
   /// **'Badges'**
   String get profileBadgesSheetTitle;
 
-  /// Sub-header of the all-badges sheet, e.g. "5 of 9 unlocked"
-  ///
-  /// In en, this message translates to:
-  /// **'{earned} of {total} unlocked'**
-  String profileBadgesSheetSubtitle(int earned, int total);
-
-  /// No description provided for @profileBadgesLocked.
-  ///
-  /// In en, this message translates to:
-  /// **'LOCKED'**
-  String get profileBadgesLocked;
-
-  /// No description provided for @profileBadgesEmptyOwner.
-  ///
-  /// In en, this message translates to:
-  /// **'No badges yet. Join meets, enter contests and help out on the forums to start collecting.'**
-  String get profileBadgesEmptyOwner;
-
   /// No description provided for @profileBadgesEmptyVisitor.
   ///
   /// In en, this message translates to:
   /// **'No badges yet.'**
   String get profileBadgesEmptyVisitor;
-
-  /// No description provided for @profileBadgesLoadError.
-  ///
-  /// In en, this message translates to:
-  /// **'We couldn’t load the badges. Please try again.'**
-  String get profileBadgesLoadError;
 
   /// No description provided for @garageCarStatYear.
   ///
@@ -6367,6 +6781,1084 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New badge unlocked!'**
   String get badgeCelebrationHeadline;
+
+  /// No description provided for @contestsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTESTS'**
+  String get contestsTab;
+
+  /// No description provided for @contestsSectionVotingOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'VOTING OPEN NOW'**
+  String get contestsSectionVotingOpen;
+
+  /// No description provided for @contestsSectionOpensLater.
+  ///
+  /// In en, this message translates to:
+  /// **'OPENS LATER'**
+  String get contestsSectionOpensLater;
+
+  /// No description provided for @contestsSectionResults.
+  ///
+  /// In en, this message translates to:
+  /// **'RESULTS'**
+  String get contestsSectionResults;
+
+  /// No description provided for @contestsStandingEntered.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Your car is entered in 1 contest} other{Your car is entered in {count} contests}}'**
+  String contestsStandingEntered(int count);
+
+  /// No description provided for @contestsStandingNotEntered.
+  ///
+  /// In en, this message translates to:
+  /// **'Your car isn\'t entered yet'**
+  String get contestsStandingNotEntered;
+
+  /// No description provided for @contestsVotesOpenToYou.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{You\'ve voted in every open contest} =1{1 vote still open to you} other{{count} votes still open to you}}'**
+  String contestsVotesOpenToYou(int count);
+
+  /// No description provided for @contestsManage.
+  ///
+  /// In en, this message translates to:
+  /// **'MANAGE'**
+  String get contestsManage;
+
+  /// No description provided for @contestsEnterCar.
+  ///
+  /// In en, this message translates to:
+  /// **'ENTER'**
+  String get contestsEnterCar;
+
+  /// No description provided for @contestsFooterNote.
+  ///
+  /// In en, this message translates to:
+  /// **'One vote per contest. You can change it any time until the organizer closes voting.'**
+  String get contestsFooterNote;
+
+  /// No description provided for @contestsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No contests here'**
+  String get contestsEmptyTitle;
+
+  /// No description provided for @contestsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The organizer hasn\'t opened any votes for this meet.'**
+  String get contestsEmptyBody;
+
+  /// No description provided for @contestsAllCount.
+  ///
+  /// In en, this message translates to:
+  /// **'ALL {count} CONTESTS'**
+  String contestsAllCount(int count);
+
+  /// No description provided for @contestsCarsAndVotes.
+  ///
+  /// In en, this message translates to:
+  /// **'{cars, plural, =1{1 car} other{{cars} cars}} · {votes, plural, =1{1 vote} other{{votes} votes}}'**
+  String contestsCarsAndVotes(int cars, int votes);
+
+  /// No description provided for @contestsCarsEnteredCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 car entered} other{{count} cars entered}}'**
+  String contestsCarsEnteredCount(int count);
+
+  /// No description provided for @contestsYoursIsIn.
+  ///
+  /// In en, this message translates to:
+  /// **'· yours is in'**
+  String get contestsYoursIsIn;
+
+  /// No description provided for @contestsCastYourVote.
+  ///
+  /// In en, this message translates to:
+  /// **'CAST YOUR VOTE'**
+  String get contestsCastYourVote;
+
+  /// No description provided for @contestsVoteBeforeClose.
+  ///
+  /// In en, this message translates to:
+  /// **'VOTE BEFORE IT CLOSES'**
+  String get contestsVoteBeforeClose;
+
+  /// No description provided for @contestsVote.
+  ///
+  /// In en, this message translates to:
+  /// **'VOTE'**
+  String get contestsVote;
+
+  /// No description provided for @contestsVoted.
+  ///
+  /// In en, this message translates to:
+  /// **'VOTED'**
+  String get contestsVoted;
+
+  /// No description provided for @contestsYourVote.
+  ///
+  /// In en, this message translates to:
+  /// **'YOUR VOTE'**
+  String get contestsYourVote;
+
+  /// No description provided for @contestsChange.
+  ///
+  /// In en, this message translates to:
+  /// **'CHANGE'**
+  String get contestsChange;
+
+  /// No description provided for @contestsTimeLeftHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours}h {minutes}m left'**
+  String contestsTimeLeftHours(int hours, int minutes);
+
+  /// No description provided for @contestsTimeLeftMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes}m left'**
+  String contestsTimeLeftMinutes(int minutes);
+
+  /// No description provided for @contestsOpensInHours.
+  ///
+  /// In en, this message translates to:
+  /// **'opens in {hours}h {minutes}m'**
+  String contestsOpensInHours(int hours, int minutes);
+
+  /// No description provided for @contestsOpensInMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'opens in {minutes}m'**
+  String contestsOpensInMinutes(int minutes);
+
+  /// No description provided for @contestsOpensSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'waiting for the organizer'**
+  String get contestsOpensSoon;
+
+  /// No description provided for @contestsVotingOpenNow.
+  ///
+  /// In en, this message translates to:
+  /// **'voting open'**
+  String get contestsVotingOpenNow;
+
+  /// No description provided for @contestsClosing.
+  ///
+  /// In en, this message translates to:
+  /// **'closing'**
+  String get contestsClosing;
+
+  /// No description provided for @contestsResultsIn.
+  ///
+  /// In en, this message translates to:
+  /// **'RESULTS IN'**
+  String get contestsResultsIn;
+
+  /// No description provided for @contestsClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'CLOSED'**
+  String get contestsClosed;
+
+  /// No description provided for @contestsStatVotesCast.
+  ///
+  /// In en, this message translates to:
+  /// **'VOTES CAST'**
+  String get contestsStatVotesCast;
+
+  /// No description provided for @contestsStatCarsIn.
+  ///
+  /// In en, this message translates to:
+  /// **'CARS IN'**
+  String get contestsStatCarsIn;
+
+  /// No description provided for @contestsStatRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'REMAINING'**
+  String get contestsStatRemaining;
+
+  /// No description provided for @contestsStatStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'STATUS'**
+  String get contestsStatStatus;
+
+  /// No description provided for @contestsStatVoting.
+  ///
+  /// In en, this message translates to:
+  /// **'VOTING'**
+  String get contestsStatVoting;
+
+  /// No description provided for @contestsHowItWorks.
+  ///
+  /// In en, this message translates to:
+  /// **'HOW IT WORKS'**
+  String get contestsHowItWorks;
+
+  /// No description provided for @contestsHowItWasJudged.
+  ///
+  /// In en, this message translates to:
+  /// **'HOW IT WAS JUDGED'**
+  String get contestsHowItWasJudged;
+
+  /// No description provided for @contestsSetBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Set by @{username}'**
+  String contestsSetBy(String username);
+
+  /// No description provided for @contestsLeaderboard.
+  ///
+  /// In en, this message translates to:
+  /// **'LEADERBOARD'**
+  String get contestsLeaderboard;
+
+  /// No description provided for @contestsCarsEntered.
+  ///
+  /// In en, this message translates to:
+  /// **'CARS ENTERED'**
+  String get contestsCarsEntered;
+
+  /// No description provided for @contestsFinalStandings.
+  ///
+  /// In en, this message translates to:
+  /// **'FINAL STANDINGS'**
+  String get contestsFinalStandings;
+
+  /// No description provided for @contestsUpdatingLive.
+  ///
+  /// In en, this message translates to:
+  /// **'UPDATING LIVE'**
+  String get contestsUpdatingLive;
+
+  /// No description provided for @contestsVotingOpensAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned to open at {time} — the organizer starts it'**
+  String contestsVotingOpensAt(String time);
+
+  /// No description provided for @contestsNoEntriesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No cars on the ballot yet.'**
+  String get contestsNoEntriesYet;
+
+  /// No description provided for @contestsWinner.
+  ///
+  /// In en, this message translates to:
+  /// **'WINNER'**
+  String get contestsWinner;
+
+  /// No description provided for @contestsVotesOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{votes} of {total} votes'**
+  String contestsVotesOf(int votes, int total);
+
+  /// No description provided for @contestsBadgeAwarded.
+  ///
+  /// In en, this message translates to:
+  /// **'{category} badge awarded'**
+  String contestsBadgeAwarded(String category);
+
+  /// No description provided for @contestsBadgeAwardedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Now on the car and the owner\'s profile'**
+  String get contestsBadgeAwardedBody;
+
+  /// No description provided for @contestsNoWinner.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody voted, so there is no winner this time.'**
+  String get contestsNoWinner;
+
+  /// No description provided for @contestsThatsYourCar.
+  ///
+  /// In en, this message translates to:
+  /// **'That\'s your car'**
+  String get contestsThatsYourCar;
+
+  /// No description provided for @contestsPostToFeedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Post the card to your feed'**
+  String get contestsPostToFeedHint;
+
+  /// No description provided for @contestsShare.
+  ///
+  /// In en, this message translates to:
+  /// **'SHARE'**
+  String get contestsShare;
+
+  /// No description provided for @contestsShareYourWin.
+  ///
+  /// In en, this message translates to:
+  /// **'SHARE YOUR WIN'**
+  String get contestsShareYourWin;
+
+  /// No description provided for @contestsShareTheResult.
+  ///
+  /// In en, this message translates to:
+  /// **'SHARE THE RESULT'**
+  String get contestsShareTheResult;
+
+  /// No description provided for @contestsShareSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your win'**
+  String get contestsShareSheetTitle;
+
+  /// No description provided for @contestsShareResultSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share the result'**
+  String get contestsShareResultSheetTitle;
+
+  /// No description provided for @contestsPostToFeed.
+  ///
+  /// In en, this message translates to:
+  /// **'POST TO FEED'**
+  String get contestsPostToFeed;
+
+  /// No description provided for @contestsPostedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted to the feed'**
+  String get contestsPostedTitle;
+
+  /// No description provided for @contestsPostedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your followers can see it now'**
+  String get contestsPostedBody;
+
+  /// No description provided for @contestsPostFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t post the card. Try again.'**
+  String get contestsPostFailed;
+
+  /// No description provided for @contestsCaptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Say something about the win (optional)'**
+  String get contestsCaptionHint;
+
+  /// No description provided for @contestsShareText.
+  ///
+  /// In en, this message translates to:
+  /// **'{car} took {place} in \"{contest}\" at {event} on Tweakd'**
+  String contestsShareText(
+    String car,
+    String place,
+    String contest,
+    String event,
+  );
+
+  /// No description provided for @contestsOfVotes.
+  ///
+  /// In en, this message translates to:
+  /// **'OF {total} VOTES'**
+  String contestsOfVotes(int total);
+
+  /// No description provided for @contestsPickFavourite.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick your favourite'**
+  String get contestsPickFavourite;
+
+  /// No description provided for @contestsChangeYourVote.
+  ///
+  /// In en, this message translates to:
+  /// **'Change your vote'**
+  String get contestsChangeYourVote;
+
+  /// No description provided for @contestsSaveNewVote.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE NEW VOTE'**
+  String get contestsSaveNewVote;
+
+  /// No description provided for @contestsCastVote.
+  ///
+  /// In en, this message translates to:
+  /// **'CAST VOTE'**
+  String get contestsCastVote;
+
+  /// No description provided for @contestsYourCar.
+  ///
+  /// In en, this message translates to:
+  /// **'YOUR CAR'**
+  String get contestsYourCar;
+
+  /// No description provided for @contestsEnterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your car'**
+  String get contestsEnterTitle;
+
+  /// No description provided for @contestsApprovedForMeet.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved for this meet'**
+  String get contestsApprovedForMeet;
+
+  /// No description provided for @contestsEnterHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the categories you want to be judged in. The organizer approves each entry. You can pull out until voting opens.'**
+  String get contestsEnterHint;
+
+  /// No description provided for @contestsEntryLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Voting open — entry locked in'**
+  String get contestsEntryLocked;
+
+  /// No description provided for @contestsVotingAlreadyOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Voting already open'**
+  String get contestsVotingAlreadyOpen;
+
+  /// No description provided for @contestsEntryPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for the organizer'**
+  String get contestsEntryPending;
+
+  /// No description provided for @contestsEntryRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Not accepted'**
+  String get contestsEntryRejected;
+
+  /// No description provided for @contestsWhy.
+  ///
+  /// In en, this message translates to:
+  /// **'WHY'**
+  String get contestsWhy;
+
+  /// No description provided for @contestsSaveEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE ENTRIES'**
+  String get contestsSaveEntries;
+
+  /// No description provided for @contestsEntriesSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Entries updated'**
+  String get contestsEntriesSaved;
+
+  /// No description provided for @contestsVoteCounted.
+  ///
+  /// In en, this message translates to:
+  /// **'Vote counted for {car}'**
+  String contestsVoteCounted(String car);
+
+  /// No description provided for @contestsCannotVoteOwnCar.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t vote for your own car'**
+  String get contestsCannotVoteOwnCar;
+
+  /// No description provided for @contestsVotingClosedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Voting has closed'**
+  String get contestsVotingClosedHint;
+
+  /// No description provided for @contestsAttendToVote.
+  ///
+  /// In en, this message translates to:
+  /// **'RSVP as attending to vote in this contest'**
+  String get contestsAttendToVote;
+
+  /// No description provided for @contestsOrganizerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contests'**
+  String get contestsOrganizerTitle;
+
+  /// No description provided for @contestsOrganizerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{event} · you\'re an organizer'**
+  String contestsOrganizerSubtitle(String event);
+
+  /// No description provided for @contestsNew.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW'**
+  String get contestsNew;
+
+  /// No description provided for @contestsStatRunning.
+  ///
+  /// In en, this message translates to:
+  /// **'RUNNING'**
+  String get contestsStatRunning;
+
+  /// No description provided for @contestsStatScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'SCHEDULED'**
+  String get contestsStatScheduled;
+
+  /// No description provided for @contestsStatVotesTonight.
+  ///
+  /// In en, this message translates to:
+  /// **'VOTES SO FAR'**
+  String get contestsStatVotesTonight;
+
+  /// No description provided for @contestsRunningNow.
+  ///
+  /// In en, this message translates to:
+  /// **'RUNNING NOW'**
+  String get contestsRunningNow;
+
+  /// No description provided for @contestsScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'SCHEDULED'**
+  String get contestsScheduled;
+
+  /// No description provided for @contestsFinished.
+  ///
+  /// In en, this message translates to:
+  /// **'FINISHED'**
+  String get contestsFinished;
+
+  /// No description provided for @contestsChipOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'OPEN'**
+  String get contestsChipOpen;
+
+  /// No description provided for @contestsChipClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'CLOSED'**
+  String get contestsChipClosed;
+
+  /// No description provided for @contestsChipScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'SCHEDULED'**
+  String get contestsChipScheduled;
+
+  /// No description provided for @contestsFullBoard.
+  ///
+  /// In en, this message translates to:
+  /// **'FULL BOARD'**
+  String get contestsFullBoard;
+
+  /// No description provided for @contestsFinishNow.
+  ///
+  /// In en, this message translates to:
+  /// **'FINISH NOW'**
+  String get contestsFinishNow;
+
+  /// No description provided for @contestsEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'EDIT'**
+  String get contestsEdit;
+
+  /// No description provided for @contestsOpenVotingNow.
+  ///
+  /// In en, this message translates to:
+  /// **'OPEN VOTING NOW'**
+  String get contestsOpenVotingNow;
+
+  /// No description provided for @contestsExtend.
+  ///
+  /// In en, this message translates to:
+  /// **'EXTEND'**
+  String get contestsExtend;
+
+  /// No description provided for @contestsDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'DELETE'**
+  String get contestsDelete;
+
+  /// No description provided for @contestsResultsPublished.
+  ///
+  /// In en, this message translates to:
+  /// **'Results published · badge awarded'**
+  String get contestsResultsPublished;
+
+  /// No description provided for @contestsNoVotesResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed with no votes'**
+  String get contestsNoVotesResult;
+
+  /// No description provided for @contestsAddAnother.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD ANOTHER CONTEST'**
+  String get contestsAddAnother;
+
+  /// No description provided for @contestsAddFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'CREATE A CONTEST'**
+  String get contestsAddFirst;
+
+  /// No description provided for @contestsOrganizerEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No contests yet. Open a vote and everyone at the meet can pick their favourite.'**
+  String get contestsOrganizerEmpty;
+
+  /// No description provided for @contestsClosedAtVotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed {time} · {votes, plural, =1{1 vote} other{{votes} votes}}'**
+  String contestsClosedAtVotes(String time, int votes);
+
+  /// No description provided for @contestsLeftAndVotes.
+  ///
+  /// In en, this message translates to:
+  /// **'{left} · {votes, plural, =1{1 vote} other{{votes} votes}}'**
+  String contestsLeftAndVotes(String left, int votes);
+
+  /// No description provided for @contestsOpensAndCars.
+  ///
+  /// In en, this message translates to:
+  /// **'{opens} · {cars, plural, =1{1 car entered} other{{cars} cars entered}}'**
+  String contestsOpensAndCars(String opens, int cars);
+
+  /// No description provided for @contestsFinishTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish \"{title}\"?'**
+  String contestsFinishTitle(String title);
+
+  /// No description provided for @contestsFinishBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Voting closes immediately — {timeLeft} early. The standings freeze as they are now and the winner gets the badge.'**
+  String contestsFinishBody(String timeLeft);
+
+  /// No description provided for @contestsFinishBodyNoVotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Voting closes immediately. Nobody has voted yet, so there will be no winner.'**
+  String get contestsFinishBodyNoVotes;
+
+  /// No description provided for @contestsFinishBodyPastPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Voting closes immediately. It has been running past the time you planned. The standings freeze as they are now and the winner gets the badge.'**
+  String get contestsFinishBodyPastPlan;
+
+  /// No description provided for @contestsWinsIfFinishNow.
+  ///
+  /// In en, this message translates to:
+  /// **'WINS IF YOU FINISH NOW'**
+  String get contestsWinsIfFinishNow;
+
+  /// No description provided for @contestsCloseRace.
+  ///
+  /// In en, this message translates to:
+  /// **'{gap, plural, =1{Only 1 vote ahead of second — it could still flip.} other{Only {gap} votes ahead of second — it could still flip.}}'**
+  String contestsCloseRace(int gap);
+
+  /// No description provided for @contestsClearLead.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear lead — {gap} votes ahead of second.'**
+  String contestsClearLead(int gap);
+
+  /// No description provided for @contestsKeepOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'KEEP IT OPEN'**
+  String get contestsKeepOpen;
+
+  /// No description provided for @contestsFinishPublish.
+  ///
+  /// In en, this message translates to:
+  /// **'FINISH & PUBLISH'**
+  String get contestsFinishPublish;
+
+  /// No description provided for @contestsFinishedBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'\"{title}\" finished'**
+  String contestsFinishedBanner(String title);
+
+  /// No description provided for @contestsFinishedBannerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Results are live · everyone at the meet was notified'**
+  String get contestsFinishedBannerBody;
+
+  /// No description provided for @contestsPendingEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 CAR WAITING} other{{count} CARS WAITING}}'**
+  String contestsPendingEntries(int count);
+
+  /// No description provided for @contestsAccept.
+  ///
+  /// In en, this message translates to:
+  /// **'ACCEPT'**
+  String get contestsAccept;
+
+  /// No description provided for @contestsDecline.
+  ///
+  /// In en, this message translates to:
+  /// **'DECLINE'**
+  String get contestsDecline;
+
+  /// No description provided for @contestsDeclineEntryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline this car?'**
+  String get contestsDeclineEntryTitle;
+
+  /// No description provided for @contestsDeclineEntryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell the owner why. They\'ll see this.'**
+  String get contestsDeclineEntryHint;
+
+  /// No description provided for @contestsExtendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Extend voting'**
+  String get contestsExtendTitle;
+
+  /// No description provided for @contestsExtendBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the new closing time attendees see. It is a plan, not a deadline — voting runs until you finish the contest.'**
+  String get contestsExtendBody;
+
+  /// No description provided for @contestsExtendClosesAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Closes {time}'**
+  String contestsExtendClosesAt(String time);
+
+  /// No description provided for @contestsExtendConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'EXTEND VOTING'**
+  String get contestsExtendConfirm;
+
+  /// No description provided for @contestsDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this contest?'**
+  String get contestsDeleteTitle;
+
+  /// No description provided for @contestsDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It hasn\'t opened yet, so nothing is lost — the cars that entered are simply released.'**
+  String get contestsDeleteBody;
+
+  /// No description provided for @contestsCreateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New contest'**
+  String get contestsCreateTitle;
+
+  /// No description provided for @contestsEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit contest'**
+  String get contestsEditTitle;
+
+  /// No description provided for @contestsCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'CATEGORY'**
+  String get contestsCategory;
+
+  /// No description provided for @contestsCategoryCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get contestsCategoryCustom;
+
+  /// No description provided for @contestsName.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTEST NAME'**
+  String get contestsName;
+
+  /// No description provided for @contestsNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Name shown to attendees'**
+  String get contestsNameHint;
+
+  /// No description provided for @contestsNameHintCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Best daily driver'**
+  String get contestsNameHintCustom;
+
+  /// No description provided for @contestsCriteria.
+  ///
+  /// In en, this message translates to:
+  /// **'HOW SHOULD PEOPLE JUDGE IT?'**
+  String get contestsCriteria;
+
+  /// No description provided for @contestsCriteriaHint.
+  ///
+  /// In en, this message translates to:
+  /// **'One or two lines. Attendees see this above the leaderboard.'**
+  String get contestsCriteriaHint;
+
+  /// No description provided for @contestsVotingOpens.
+  ///
+  /// In en, this message translates to:
+  /// **'VOTING OPENS'**
+  String get contestsVotingOpens;
+
+  /// No description provided for @contestsOpensNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Right away'**
+  String get contestsOpensNow;
+
+  /// No description provided for @contestsOpensAtStart.
+  ///
+  /// In en, this message translates to:
+  /// **'At the start of the meet'**
+  String get contestsOpensAtStart;
+
+  /// No description provided for @contestsSetATime.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a time'**
+  String get contestsSetATime;
+
+  /// No description provided for @contestsVotingCloses.
+  ///
+  /// In en, this message translates to:
+  /// **'VOTING CLOSES'**
+  String get contestsVotingCloses;
+
+  /// No description provided for @contestsFinishEarlyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'These times are what attendees see. You open the voting and close it yourself, from the contests list.'**
+  String get contestsFinishEarlyNote;
+
+  /// No description provided for @contestsLockedOpenNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Voting is open: only the judging note and the closing time can change now.'**
+  String get contestsLockedOpenNote;
+
+  /// No description provided for @contestsPublish.
+  ///
+  /// In en, this message translates to:
+  /// **'PUBLISH CONTEST'**
+  String get contestsPublish;
+
+  /// No description provided for @contestsSaveChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE CHANGES'**
+  String get contestsSaveChanges;
+
+  /// No description provided for @contestsManageSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTESTS'**
+  String get contestsManageSectionTitle;
+
+  /// No description provided for @contestsManageOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open contests'**
+  String get contestsManageOpen;
+
+  /// No description provided for @contestsManageSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{running, plural, =0{None running} =1{1 running} other{{running} running}} · {scheduled, plural, =0{none scheduled} =1{1 scheduled} other{{scheduled} scheduled}}'**
+  String contestsManageSummary(int running, int scheduled);
+
+  /// No description provided for @contestsErrorNotEligible.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t vote in this contest.'**
+  String get contestsErrorNotEligible;
+
+  /// No description provided for @contestsRank1.
+  ///
+  /// In en, this message translates to:
+  /// **'1st'**
+  String get contestsRank1;
+
+  /// No description provided for @contestsRank2.
+  ///
+  /// In en, this message translates to:
+  /// **'2nd'**
+  String get contestsRank2;
+
+  /// No description provided for @contestsRank3.
+  ///
+  /// In en, this message translates to:
+  /// **'3rd'**
+  String get contestsRank3;
+
+  /// No description provided for @contestsRankN.
+  ///
+  /// In en, this message translates to:
+  /// **'{rank}th'**
+  String contestsRankN(int rank);
+
+  /// No description provided for @participantCardPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'{rank} Place'**
+  String participantCardPlace(String rank);
+
+  /// No description provided for @participantCardEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'EVENT'**
+  String get participantCardEvent;
+
+  /// No description provided for @participantCardContests.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTESTS ENTERED'**
+  String get participantCardContests;
+
+  /// No description provided for @participantCardContestWithRank.
+  ///
+  /// In en, this message translates to:
+  /// **'{contest} ({rank})'**
+  String participantCardContestWithRank(String contest, String rank);
+
+  /// No description provided for @participantCardMore.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count} more'**
+  String participantCardMore(int count);
+
+  /// No description provided for @participantCardAttendees.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nobody checked in at the event.} =1{1 person was at the event.} other{{count} people were at the event.}}'**
+  String participantCardAttendees(int count);
+
+  /// No description provided for @participantCardContestsSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contests entered'**
+  String get participantCardContestsSheetTitle;
+
+  /// No description provided for @participantCardTookPart.
+  ///
+  /// In en, this message translates to:
+  /// **'Took part'**
+  String get participantCardTookPart;
+
+  /// No description provided for @participantCardShareSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your card'**
+  String get participantCardShareSheetTitle;
+
+  /// No description provided for @participantCardShareText.
+  ///
+  /// In en, this message translates to:
+  /// **'{car} was at {event} on Tweakd'**
+  String participantCardShareText(String car, String event);
+
+  /// No description provided for @participantCardShareTextPlaced.
+  ///
+  /// In en, this message translates to:
+  /// **'{car} took {place} in \"{contest}\" at {event} on Tweakd'**
+  String participantCardShareTextPlaced(
+    String car,
+    String place,
+    String contest,
+    String event,
+  );
+
+  /// No description provided for @participantCardShare.
+  ///
+  /// In en, this message translates to:
+  /// **'SHARE THE CARD'**
+  String get participantCardShare;
+
+  /// No description provided for @participantCardSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{YOUR CARD} other{YOUR CARDS}}'**
+  String participantCardSectionTitle(int count);
+
+  /// No description provided for @participantCardYourCard.
+  ///
+  /// In en, this message translates to:
+  /// **'YOUR CARD'**
+  String get participantCardYourCard;
+
+  /// No description provided for @participantCardNotReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Your card will be ready once the organizer finishes the event.'**
+  String get participantCardNotReady;
+
+  /// No description provided for @participantCardCooldown.
+  ///
+  /// In en, this message translates to:
+  /// **'You shared this card recently. You can share it again on {date}.'**
+  String participantCardCooldown(String date);
+
+  /// No description provided for @carEventsContestBadges.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTEST BADGES'**
+  String get carEventsContestBadges;
+
+  /// No description provided for @carEventsBadgesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 CONTEST BADGE} other{{count} CONTEST BADGES}}'**
+  String carEventsBadgesCount(int count);
+
+  /// No description provided for @carEventsAttended.
+  ///
+  /// In en, this message translates to:
+  /// **'ATTENDED EVENTS'**
+  String get carEventsAttended;
+
+  /// No description provided for @carEventsWhereFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'WHERE THEY CAME FROM'**
+  String get carEventsWhereFrom;
+
+  /// No description provided for @carEventsPlacement.
+  ///
+  /// In en, this message translates to:
+  /// **'{rank} · {category}'**
+  String carEventsPlacement(String rank, String category);
 }
 
 class _AppLocalizationsDelegate

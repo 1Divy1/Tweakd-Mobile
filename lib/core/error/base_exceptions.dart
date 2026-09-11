@@ -15,7 +15,11 @@ class UnauthenticatedException implements Exception {
 class ConflictException implements Exception {
   final String? errorCode;
   final String message;
-  ConflictException({this.errorCode, this.message = 'Conflict.'});
+
+  /// Structured detail the backend attaches to some conflicts (e.g. a
+  /// cooldown's `next_post_allowed_at`), or null.
+  final Map<String, dynamic>? details;
+  ConflictException({this.errorCode, this.message = 'Conflict.', this.details});
 }
 
 class ApiException implements Exception {

@@ -162,7 +162,15 @@ class MapEventSectionLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    // A Wrap, not a Row: a Row hands its non-flex children an unbounded width,
+    // so a label that no longer fits at a large text scale overflows instead of
+    // folding. Wrap passes the incoming width down, so the label soft-wraps and
+    // the trailing suffix drops to its own line — and unlike Flexible, it is
+    // still safe if this ever lands somewhere width-unbounded.
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: 8,
+      runSpacing: 2,
       children: [
         Text(
           label,
@@ -173,8 +181,7 @@ class MapEventSectionLabel extends StatelessWidget {
             color: AppColors.mute,
           ),
         ),
-        if (trailing != null) ...[
-          const SizedBox(width: 8),
+        if (trailing != null)
           Text(
             trailing!,
             style: const TextStyle(
@@ -184,7 +191,6 @@ class MapEventSectionLabel extends StatelessWidget {
               color: AppColors.muteSoft,
             ),
           ),
-        ],
       ],
     );
   }

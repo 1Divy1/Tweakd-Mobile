@@ -36,8 +36,9 @@ class MapEventHero extends StatelessWidget {
             children: [
               _HeroButton(
                 icon: Icons.chevron_left_rounded,
-                semanticLabel: MaterialLocalizations.of(context)
-                    .backButtonTooltip,
+                semanticLabel: MaterialLocalizations.of(
+                  context,
+                ).backButtonTooltip,
                 onTap: () => context.pop(),
               ),
               _HeroButton(
@@ -56,18 +57,25 @@ class MapEventHero extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              MapEventStatusChip(status: event.status),
-              const SizedBox(height: 10),
-              Text(
-                event.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 26,
-                  height: 1.15,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white,
-                ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    child: Text(
+                      event.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 26,
+                        height: 1.15,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  MapEventStatusChip(status: event.status),
+                ],
               ),
               if (event.locationName.isNotEmpty) ...[
                 const SizedBox(height: 7),
@@ -113,7 +121,8 @@ class MapEventHero extends StatelessWidget {
 
     await Clipboard.setData(
       ClipboardData(
-        text: '${event.title}\n${event.locationName}\n'
+        text:
+            '${event.title}\n${event.locationName}\n'
             'https://maps.google.com/?q='
             '${event.position.lat},${event.position.lng}',
       ),

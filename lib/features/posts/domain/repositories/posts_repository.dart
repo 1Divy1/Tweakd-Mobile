@@ -15,6 +15,11 @@ abstract class PostsRepository {
   /// Creates a post from text data only. The returned post has no images yet.
   Future<Either<Failure, PostEntity>> createPost(CreatePostParams params);
 
+  /// Shares a participant card to the feed. Fails with
+  /// [ParticipantCardCooldownFailure] inside the repost cooldown.
+  Future<Either<Failure, PostEntity>> shareParticipantCard(
+      ShareParticipantCardParams params);
+
   /// Requests [count] presigned R2 upload slots for a post's images.
   Future<Either<Failure, PostUploadUrlsResult>> getImageUploadUrls(
     String postId,

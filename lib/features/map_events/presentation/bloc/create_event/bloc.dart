@@ -4,10 +4,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../data/datasources/create_event_draft_local_data_source.dart';
+import '../../../domain/entities/contest.dart';
 import '../../../domain/entities/map_event.dart';
 import '../../../domain/usecases/manage_map_event.dart';
+import '../../../domain/usecases/map_event_contests.dart';
 import '../../../domain/usecases/map_event_organizers.dart';
 import '../../../domain/usecases/map_event_reads.dart';
+import '../../utils/create_event_draft.dart';
 import '../../utils/map_event_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
@@ -35,12 +39,20 @@ class CreateMapEventBloc extends Bloc<CreateMapEventEvent, CreateMapEventState> 
   final SetMapEventCoverUseCase setCover;
   final AddMapEventOrganizerUseCase addOrganizer;
   final RemoveMapEventOrganizerUseCase removeOrganizer;
+  final GetContestCategoriesUseCase getContestCategories;
+  final CreateContestUseCase createContest;
   final ImageService imageService;
+  final CreateEventDraftLocalDataSource draftStore;
 
   /// Backend limits on `PUT /rules`, mirrored here so the form can stop the
   /// user before a round trip does.
   static const maxRules = 50;
   static const maxRuleLength = 300;
+
+  /// `MapEventContestsServiceImpl.MAX_CONTESTS_PER_EVENT`, mirrored so the
+  /// CONTESTS step caps the draft list rather than failing at flush time, once
+  /// the event already exists and the wizard is gone.
+  static const maxContests = 20;
 
   CreateMapEventBloc({
     required this.getCategories,
@@ -51,7 +63,10 @@ class CreateMapEventBloc extends Bloc<CreateMapEventEvent, CreateMapEventState> 
     required this.setCover,
     required this.addOrganizer,
     required this.removeOrganizer,
+    required this.getContestCategories,
+    required this.createContest,
     required this.imageService,
+    required this.draftStore,
   }) : super(const CreateMapEventState()) {
     on<LoadCreateEventRefs>(_onLoadRefs);
     on<ChangeEventTitle>((e, emit) => emit(state.copyWith(title: e.value)));
@@ -61,11 +76,16 @@ class CreateMapEventBloc extends Bloc<CreateMapEventEvent, CreateMapEventState> 
     on<ChangeEventDescription>(
       (e, emit) => emit(state.copyWith(description: e.value)),
     );
-    on<ChangeEventLocationName>(
-      (e, emit) => emit(state.copyWith(locationName: e.value)),
-    );
-    on<ChangeEventPosition>(
-      (e, emit) => emit(state.copyWith(position: e.position)),
+    on<ChangeEventLocation>(
+      (e, emit) => emit(
+        state.copyWith(
+          position: e.picked.position,
+          city: e.picked.city,
+          street: e.picked.street,
+          number: e.picked.number,
+          locationName: e.picked.addressLabel,
+        ),
+      ),
     );
     on<ChangeEventStart>(_onChangeStart);
     on<ChangeEventEnd>(
@@ -101,6 +121,10 @@ class CreateMapEventBloc extends Bloc<CreateMapEventEvent, CreateMapEventState> 
     on<RemoveEventRule>(_onRemoveRule);
     on<AddEventOrganizer>(_onAddOrganizer);
     on<RemoveEventOrganizer>(_onRemoveOrganizer);
+    on<AddDraftContest>(_onAddDraftContest);
+    on<UpdateDraftContest>(_onUpdateDraftContest);
+    on<RemoveDraftContest>(_onRemoveDraftContest);
+    on<DiscardEventDraft>(_onDiscardDraft);
     on<SubmitMapEvent>(_onSubmit);
     on<ClearCreateEventError>(
       (e, emit) => emit(state.copyWith(clearError: true, clearValidation: true)),
@@ -118,6 +142,19 @@ class CreateMapEventBloc extends Bloc<CreateMapEventEvent, CreateMapEventState> 
 
     final result = await getCategories(NoParams());
 
+    // Contest categories back the CONTESTS step, which edit mode doesn't run —
+    // and a failure here must not block the wizard, since the step is optional.
+    // The step shows its own empty state when the list didn't arrive.
+    final contestCategories = edit != null
+        ? const <ContestCategoryEntity>[]
+        : (await getContestCategories(NoParams())).fold(
+            (failure) {
+              debugPrint('Contest categories unavailable: ${failure.message}');
+              return const <ContestCategoryEntity>[];
+            },
+            (categories) => categories,
+          );
+
     result.fold(
       (failure) => emit(state.copyWith(
         status: CreateEventStatus.failure,
@@ -127,6 +164,7 @@ class CreateMapEventBloc extends Bloc<CreateMapEventEvent, CreateMapEventState> 
         state.copyWith(
           status: CreateEventStatus.ready,
           categories: categories,
+          contestCategories: contestCategories,
           // Seed the form from the event being edited; on a fresh form fall
           // back to the first enabled category (today, the only one).
           categoryId: edit?.categoryId ??
@@ -144,6 +182,36 @@ class CreateMapEventBloc extends Bloc<CreateMapEventEvent, CreateMapEventState> 
         ),
       ),
     );
+
+    if (state.status == CreateEventStatus.ready) await _restoreDraft(emit);
+  }
+
+  /// Lays a saved draft over the freshly loaded form.
+  ///
+  /// Create mode only. Restoring a stale draft over a live event in edit mode
+  /// would silently reintroduce fields the organizer has already changed on the
+  /// server, which is worse than losing the draft.
+  Future<void> _restoreDraft(Emitter<CreateMapEventState> emit) async {
+    if (state.isEditing) return;
+
+    final draft = await draftStore.read();
+    if (draft == null || !CreateEventDraft.isWorthRestoring(draft)) return;
+
+    emit(CreateEventDraft.decode(draft, state, imageService));
+  }
+
+  /// Every change to a usable form is written straight back to disk.
+  ///
+  /// No debounce: the writes are small, they go through
+  /// [CreateEventDraftLocalDataSource], which swallows its own failures, and a
+  /// timer would mean the one keystroke before a crash is the one that is lost.
+  @override
+  void onChange(Change<CreateMapEventState> change) {
+    super.onChange(change);
+    final next = change.nextState;
+    if (next.isEditing) return;
+    if (next.status != CreateEventStatus.ready) return;
+    draftStore.write(CreateEventDraft.encode(next));
   }
 
   /// Moving the start forward past the end (or past the deadline) would submit
@@ -250,18 +318,79 @@ class CreateMapEventBloc extends Bloc<CreateMapEventEvent, CreateMapEventState> 
     );
   }
 
+  // ── Draft contests ───────────────────────────────────────────────────────
+
+  void _onAddDraftContest(
+    AddDraftContest event,
+    Emitter<CreateMapEventState> emit,
+  ) {
+    if (state.pendingContests.length >= maxContests) return;
+    emit(state.copyWith(
+      pendingContests: [...state.pendingContests, event.contest],
+    ));
+  }
+
+  void _onUpdateDraftContest(
+    UpdateDraftContest event,
+    Emitter<CreateMapEventState> emit,
+  ) {
+    emit(state.copyWith(
+      pendingContests: [
+        for (final contest in state.pendingContests)
+          contest.localId == event.contest.localId ? event.contest : contest,
+      ],
+    ));
+  }
+
+  void _onRemoveDraftContest(
+    RemoveDraftContest event,
+    Emitter<CreateMapEventState> emit,
+  ) {
+    emit(state.copyWith(
+      pendingContests: [
+        for (final contest in state.pendingContests)
+          if (contest.localId != event.localId) contest,
+      ],
+    ));
+  }
+
+  // ── Draft ────────────────────────────────────────────────────────────────
+
+  Future<void> _onDiscardDraft(
+    DiscardEventDraft event,
+    Emitter<CreateMapEventState> emit,
+  ) async {
+    await draftStore.clear();
+    // Rebuilt rather than copyWith-ed: the point is to clear fields, and
+    // copyWith's null-means-unchanged contract can't express that.
+    emit(CreateMapEventState(
+      status: CreateEventStatus.ready,
+      categories: state.categories,
+      contestCategories: state.contestCategories,
+      categoryId: state.categories.isNotEmpty
+          ? state.categories.first.id
+          : state.categoryId,
+    ));
+  }
+
   // ── Submit ───────────────────────────────────────────────────────────────
 
   Future<void> _onSubmit(
     SubmitMapEvent event,
     Emitter<CreateMapEventState> emit,
   ) async {
-    if (state.isSubmitting || !state.isComplete) return;
+    if (state.isSubmitting) return;
 
-    final validation = _validate();
-    if (validation != null) {
-      emit(state.copyWith(validationMessage: validation));
-      return;
+    // The wizard gates each step on the way through, so reaching REVIEW should
+    // mean everything is in order. Re-checking here is what makes the submit
+    // path safe on its own — a restored draft lands on a filled form the user
+    // may never have stepped through.
+    for (final step in state.steps) {
+      final blocker = state.blockerFor(step);
+      if (blocker != null) {
+        emit(state.copyWith(validationMessage: blocker));
+        return;
+      }
     }
 
     emit(state.copyWith(
@@ -302,11 +431,56 @@ class CreateMapEventBloc extends Bloc<CreateMapEventEvent, CreateMapEventState> 
       );
     }
 
+    final contestsFailed = await _flushContests(saved!);
+
+    // The event exists and is on its way to review; the draft has done its job.
+    await draftStore.clear();
+
     emit(state.copyWith(
       status: CreateEventStatus.success,
       result: saved,
       coverUploadFailed: coverFailed,
+      contestsFailed: contestsFailed,
     ));
+  }
+
+  /// Creates the contests queued on the CONTESTS step, now that there's an id
+  /// to hang them on, and returns how many failed.
+  ///
+  /// Failures are counted rather than thrown: the event is already created and
+  /// under review, and the organizer can add the missing contests from the
+  /// manage screen. Losing the event over a contest would be strictly worse.
+  ///
+  /// This is the call that needs the backend's authoring guard to accept a
+  /// *pending* event — see `MapEventContestsServiceImpl.requireEventNotFinished`.
+  Future<int> _flushContests(MapEventEntity saved) async {
+    if (state.pendingContests.isEmpty) return 0;
+
+    var failed = 0;
+    for (final pending in state.pendingContests) {
+      final times = pending.resolve(saved.startsAt, saved.endsAt);
+      final criteria = pending.criteria.trim();
+
+      final result = await createContest(
+        CreateContestParams(
+          eventId: saved.id,
+          categoryId: pending.categoryId,
+          title: pending.title.trim(),
+          criteria: criteria.isEmpty ? null : criteria,
+          opensAt: times.opensAt,
+          closesAt: times.closesAt,
+        ),
+      );
+
+      result.fold(
+        (f) {
+          failed++;
+          debugPrint('Failed to create contest after event create: ${f.message}');
+        },
+        (_) {},
+      );
+    }
+    return failed;
   }
 
   /// Returns the saved event, or null after emitting the failure.
@@ -420,26 +594,6 @@ class CreateMapEventBloc extends Bloc<CreateMapEventEvent, CreateMapEventState> 
 
   // ── Validation ───────────────────────────────────────────────────────────
 
-  /// Client-side checks the backend would otherwise answer with a 400. Returns
-  /// a key the page localizes, or null when everything is in order.
-  String? _validate() {
-    final start = state.startsAt;
-    final end = state.endsAt;
-    final deadline = state.registrationDeadline;
-    final capacity = state.capacity;
-
-    if (start != null && end != null && !end.isAfter(start)) {
-      return CreateEventValidation.endBeforeStart;
-    }
-    if (start != null && deadline != null && deadline.isAfter(start)) {
-      return CreateEventValidation.deadlineAfterStart;
-    }
-    if (capacity != null && capacity < 1) {
-      return CreateEventValidation.capacityTooSmall;
-    }
-    return null;
-  }
-
   /// Blank rows are the user adding a rule and not filling it in; they'd be
   /// rejected as non-blank violations, so they're dropped rather than sent.
   List<String>? _cleanRules() {
@@ -452,14 +606,4 @@ class CreateMapEventBloc extends Bloc<CreateMapEventEvent, CreateMapEventState> 
     ];
     return cleaned.isEmpty ? null : cleaned;
   }
-}
-
-/// Keys for the inline validation line. Strings rather than an enum so the
-/// state stays trivially comparable, and the page maps them to l10n.
-class CreateEventValidation {
-  CreateEventValidation._();
-
-  static const endBeforeStart = 'end_before_start';
-  static const deadlineAfterStart = 'deadline_after_start';
-  static const capacityTooSmall = 'capacity_too_small';
 }
