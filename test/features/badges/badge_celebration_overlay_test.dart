@@ -137,10 +137,6 @@ class _RecordingBadgeRepository implements BadgeRepository {
   }
 
   @override
-  Future<Either<Failure, List<BadgeEntity>>> getMyLockedBadges() async =>
-      const Right([]);
-
-  @override
   Future<Either<Failure, List<UserBadgeEntity>>>
   getPendingCelebrations() async => const Right([]);
 }

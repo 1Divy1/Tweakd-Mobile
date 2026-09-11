@@ -3,6 +3,7 @@ import '../../domain/entities/post_image.dart';
 import '../../domain/entities/post_pages.dart';
 import '../../domain/entities/post_tagged_car.dart';
 import '../../domain/entities/post_user.dart';
+import 'package:tweakd/features/map_events/data/models/participant_card_model.dart';
 
 /// A minimal user reference: post author, tagged person, comment author, liker.
 class PostUserModel {
@@ -113,6 +114,7 @@ class PostModel {
   final bool viewerHasSaved;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final ParticipantCardModel? participantCard;
 
   const PostModel({
     required this.id,
@@ -133,6 +135,7 @@ class PostModel {
     required this.viewerHasSaved,
     required this.createdAt,
     required this.updatedAt,
+    this.participantCard,
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
@@ -165,6 +168,7 @@ class PostModel {
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(
           (json['updated_at'] ?? json['created_at']) as String),
+      participantCard: ParticipantCardModel.tryParse(json['participant_card']),
     );
   }
 
@@ -187,6 +191,7 @@ class PostModel {
         viewerHasSaved: viewerHasSaved,
         createdAt: createdAt,
         updatedAt: updatedAt,
+        participantCard: participantCard?.toEntity(),
       );
 }
 

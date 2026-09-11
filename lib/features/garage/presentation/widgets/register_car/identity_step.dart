@@ -1,20 +1,17 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/reference_data.dart';
 import 'register_car_fields.dart';
 
-/// Step 1 — visual identity and the car's basic make/model/year details.
+/// Basics tab of the specs step — the car's make/model/year details. The
+/// cover photo used to live here; it now sits with the rest of the imagery on
+/// the gallery step.
+///
+/// The step title and the tab bar belong to [SpecsStep], so this body starts
+/// straight at its first field.
 class IdentityStep extends StatelessWidget {
-  final String? coverFilePath;
-
-  /// In edit mode, the URL of the existing cover. Shown when no new local file
-  /// has been picked. A newly picked [coverFilePath] takes precedence.
-  final String? coverNetworkUrl;
   final CarBrandEntity? selectedBrand;
   final CarModelEntity? selectedModel;
   final List<CarBrandEntity> brands;
@@ -23,14 +20,11 @@ class IdentityStep extends StatelessWidget {
   final TextEditingController yearCtrl;
   final TextEditingController chassisCodeCtrl;
   final TextEditingController modelCodeCtrl;
-  final VoidCallback onPickCover;
   final ValueChanged<CarBrandEntity> onSelectBrand;
   final ValueChanged<CarModelEntity> onSelectModel;
 
   const IdentityStep({
     super.key,
-    required this.coverFilePath,
-    this.coverNetworkUrl,
     required this.selectedBrand,
     required this.selectedModel,
     required this.brands,
@@ -39,7 +33,6 @@ class IdentityStep extends StatelessWidget {
     required this.yearCtrl,
     required this.chassisCodeCtrl,
     required this.modelCodeCtrl,
-    required this.onPickCover,
     required this.onSelectBrand,
     required this.onSelectModel,
   });
@@ -50,19 +43,6 @@ class IdentityStep extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        RegisterSectionHeader(
-          label: l10n.garageRegisterIdentityLabel,
-          title: l10n.garageRegisterIdentityTitle,
-        ),
-        const SizedBox(height: 20),
-        RegisterFieldLabel(l10n.garageFieldPrimaryAsset),
-        const SizedBox(height: 8),
-        _PrimaryAssetCard(
-          filePath: coverFilePath,
-          networkUrl: coverNetworkUrl,
-          onTap: onPickCover,
-        ),
-        const SizedBox(height: 20),
         RegisterFieldLabel(l10n.garageFieldMake),
         const SizedBox(height: 8),
         RegisterSelectorTile(
@@ -141,149 +121,6 @@ class IdentityStep extends StatelessWidget {
           ],
         ),
       ],
-    );
-  }
-}
-
-/// The hero image card at the top of the identity step. Doubles as the picker
-/// affordance whether or not a photo has been chosen yet.
-class _PrimaryAssetCard extends StatelessWidget {
-  final String? filePath;
-  final String? networkUrl;
-  final VoidCallback onTap;
-
-  const _PrimaryAssetCard({
-    required this.filePath,
-    this.networkUrl,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    // A freshly picked local file always wins over an existing remote cover.
-    final ImageProvider? image = filePath != null
-        ? FileImage(File(filePath!))
-        : (networkUrl != null ? NetworkImage(networkUrl!) : null);
-    final hasImage = image != null;
-    return GestureDetector(
-      onTap: onTap,
-      child: AspectRatio(
-        aspectRatio: 16 / 10,
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppColors.surface,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.line),
-            image: hasImage
-                ? DecorationImage(
-                    image: image,
-                    fit: BoxFit.cover,
-                  )
-                : null,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withAlpha(hasImage ? 28 : 8),
-                blurRadius: 16,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
-          child: hasImage
-              ? _filledOverlay(context)
-              : _emptyPrompt(context),
-        ),
-      ),
-    );
-  }
-
-  Widget _filledOverlay(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned(
-          top: 14,
-          left: 14,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-            decoration: BoxDecoration(
-              color: Colors.white.withAlpha(235),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text(
-              AppLocalizations.of(context)!.garagePrimaryAssetBadge,
-              style: const TextStyle(
-                color: AppColors.ink,
-                fontSize: 11,
-                fontWeight: FontWeight.w800,
-                letterSpacing: 1,
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          top: 14,
-          right: 14,
-          child: Container(
-            width: 42,
-            height: 42,
-            decoration: BoxDecoration(
-              color: Colors.white.withAlpha(235),
-              borderRadius: BorderRadius.circular(13),
-            ),
-            child: const Icon(Icons.photo_camera_rounded,
-                color: AppColors.ink, size: 20),
-          ),
-        ),
-        Positioned(
-          left: 16,
-          bottom: 14,
-          child: Text(
-            AppLocalizations.of(context)!.garageStudioShotReplace,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              shadows: [
-                Shadow(color: Colors.black54, blurRadius: 8),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _emptyPrompt(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              color: AppColors.accentSoft,
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: const Icon(Icons.add_a_photo_rounded,
-                color: AppColors.accent, size: 26),
-          ),
-          const SizedBox(height: 14),
-          Text(
-            l10n.garageAddStudioShot,
-            style: const TextStyle(
-              color: AppColors.ink,
-              fontWeight: FontWeight.w800,
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            l10n.garagePickFromGallery,
-            style: const TextStyle(color: AppColors.mute, fontSize: 13),
-          ),
-        ],
-      ),
     );
   }
 }

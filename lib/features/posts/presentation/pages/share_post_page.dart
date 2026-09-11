@@ -115,7 +115,9 @@ class _PostPreview extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final images = [...post.images]
       ..sort((a, b) => a.displayOrder.compareTo(b.displayOrder));
-    final thumbUrl = images.isNotEmpty ? images.first.imageUrl : null;
+    final thumbUrl = images.isNotEmpty
+        ? images.first.imageUrl
+        : post.participantCard?.car.coverImage?.url;
     final caption = post.description?.trim();
 
     return Container(

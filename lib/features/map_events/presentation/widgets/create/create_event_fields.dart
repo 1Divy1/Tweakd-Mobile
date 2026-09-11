@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../shared/map_event_chips.dart';
+import 'create_event_chrome.dart';
 
 /// A labelled text input in the create form's house style: uppercase micro
 /// label, white rounded field, no visible border until focus.
@@ -63,15 +64,15 @@ class EventTextField extends StatelessWidget {
               vertical: 14,
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(kCreateEventRadius),
               borderSide: BorderSide.none,
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(kCreateEventRadius),
               borderSide: const BorderSide(color: AppColors.accent),
             ),
             disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(kCreateEventRadius),
               borderSide: BorderSide.none,
             ),
           ),
@@ -100,10 +101,10 @@ class EventPickerField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: AppColors.surface,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(kCreateEventRadius),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(kCreateEventRadius),
         child: Container(
           height: 50,
           padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -158,7 +159,7 @@ class EventDashedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(kCreateEventRadius),
       child: CustomPaint(
         painter: const _DashedBorderPainter(),
         child: SizedBox(
@@ -304,4 +305,151 @@ class EventToggleCard extends StatelessWidget {
       ),
     );
   }
+}
+
+/// A small muted line of explanatory text under a field.
+class EventHint extends StatelessWidget {
+  final String text;
+
+  const EventHint(this.text, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontSize: 12,
+        height: 1.35,
+        color: AppColors.muteSoft,
+      ),
+    );
+  }
+}
+
+/// A date field and a time field side by side, editing one [DateTime].
+///
+/// Picking a date on a null value defaults the time to the top of the next
+/// hour rather than midnight — an event at 00:00 is almost never what was
+/// meant, and a wrong default that looks deliberate is worse than an obvious
+/// one.
+class EventDateTimeRow extends StatelessWidget {
+  final String label;
+  final DateTime? value;
+
+  /// The earliest the picker will offer. Defaults to now.
+  final DateTime? minimum;
+
+  /// The latest the picker will offer, for fields that must precede another —
+  /// the registration deadline against the start time.
+  final DateTime? maximum;
+
+  final bool enabled;
+  final ValueChanged<DateTime> onChanged;
+  final VoidCallback? onClear;
+
+  /// How the date reads once set. Passed in so this widget stays free of the
+  /// formatting helpers' import.
+  final String Function(DateTime) formatDate;
+  final String Function(DateTime) formatTime;
+
+  const EventDateTimeRow({
+    super.key,
+    required this.label,
+    required this.value,
+    this.minimum,
+    this.maximum,
+    this.enabled = true,
+    required this.onChanged,
+    this.onClear,
+    required this.formatDate,
+    required this.formatTime,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final current = value;
+
+    return Row(
+      children: [
+        Expanded(
+          child: EventPickerField(
+            value: current == null ? label : formatDate(current),
+            icon: Icons.calendar_today_rounded,
+            isPlaceholder: current == null,
+            onTap: enabled ? () => _pickDate(context) : null,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: EventPickerField(
+            value: current == null ? '—' : formatTime(current),
+            icon: Icons.schedule_rounded,
+            isPlaceholder: current == null,
+            onTap: (enabled && current != null)
+                ? () => _pickTime(context, current)
+                : null,
+          ),
+        ),
+        if (onClear != null) ...[
+          const SizedBox(width: 4),
+          IconButton(
+            onPressed: onClear,
+            icon: const Icon(Icons.close_rounded, size: 18),
+            color: AppColors.mute,
+            visualDensity: VisualDensity.compact,
+          ),
+        ],
+      ],
+    );
+  }
+
+  Future<void> _pickDate(BuildContext context) async {
+    final now = DateTime.now();
+    final floor = minimum ?? now;
+    final ceiling = maximum ?? now.add(const Duration(days: 365 * 3));
+    // A maximum earlier than the floor would throw inside showDatePicker; it
+    // means the anchoring field moved, so fall back to an open range.
+    final last = ceiling.isBefore(floor)
+        ? now.add(const Duration(days: 365 * 3))
+        : ceiling;
+
+    final seed = value ?? _nextHour(floor);
+    final initial = seed.isBefore(floor)
+        ? floor
+        : (seed.isAfter(last) ? last : seed);
+
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: initial,
+      firstDate: DateTime(floor.year, floor.month, floor.day),
+      lastDate: last,
+    );
+    if (picked == null) return;
+
+    final time = value ?? _nextHour(floor);
+    onChanged(
+      DateTime(picked.year, picked.month, picked.day, time.hour, time.minute),
+    );
+  }
+
+  Future<void> _pickTime(BuildContext context, DateTime current) async {
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(current),
+    );
+    if (picked == null) return;
+    onChanged(
+      DateTime(
+        current.year,
+        current.month,
+        current.day,
+        picked.hour,
+        picked.minute,
+      ),
+    );
+  }
+
+  static DateTime _nextHour(DateTime from) =>
+      DateTime(from.year, from.month, from.day, from.hour)
+          .add(const Duration(hours: 1));
 }

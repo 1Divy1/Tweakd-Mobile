@@ -146,6 +146,30 @@ class ShareLauncherService {
     };
   }
 
+  /// Hands an in-memory image to the OS share sheet — the winner card, drawn
+  /// by the app and never stored. The bytes go through a temp file because
+  /// share_plus shares files by path; the file is small and the OS reaps
+  /// the temp directory.
+  Future<void> shareImage(
+    Uint8List bytes, {
+    required String fileName,
+    String? text,
+    Rect? origin,
+  }) async {
+    try {
+      final dir = await getTemporaryDirectory();
+      final file = File('${dir.path}/$fileName');
+      await file.writeAsBytes(bytes, flush: true);
+      await _share(ShareParams(
+        files: [XFile(file.path, mimeType: 'image/png')],
+        text: text,
+        sharePositionOrigin: origin,
+      ));
+    } catch (e) {
+      debugPrint('🔗 image share failed: $e');
+    }
+  }
+
   Future<bool> _launch(Uri uri) async {
     try {
       return await launchUrl(uri, mode: LaunchMode.externalApplication);

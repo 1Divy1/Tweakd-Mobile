@@ -13,9 +13,9 @@ const _monthsShort = [
   'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC',
 ];
 
-/// Step 6 — the optional build log. Lists each logged modification as a rich
-/// card and offers an add affordance that opens the build-item sheet. Each row
-/// is a [ModSlot] — a new mod or an existing one being edited.
+/// Step 2 — the optional build log. Lists each logged modification as a rich
+/// card and offers an add affordance that opens the full-screen build-log
+/// editor. Each row is a [ModSlot] — a new mod or an existing one being edited.
 class ModsStep extends StatelessWidget {
   final List<ModSlot> mods;
   final List<CarModCategoryEntity> categories;
@@ -46,7 +46,6 @@ class ModsStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         RegisterSectionHeader(
-          label: l10n.garageRegisterModsLabel,
           title: l10n.garageRegisterModsTitle,
           subtitle: l10n.garageRegisterModsSubtitle,
         ),
@@ -94,15 +93,8 @@ class _ModCard extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: AppColors.line),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withAlpha(8),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
-          ],
+          borderRadius: BorderRadius.circular(kRegisterRadius),
+          boxShadow: kRegisterSurfaceShadow,
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -155,11 +147,13 @@ class _ModCard extends StatelessWidget {
                 height: 40,
                 decoration: BoxDecoration(
                   color: AppColors.bg,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.line),
+                  borderRadius: BorderRadius.circular(kRegisterRadius),
                 ),
-                child: const Icon(Icons.delete_outline_rounded,
-                    color: AppColors.mute, size: 20),
+                child: const Icon(
+                  Icons.delete_outline_rounded,
+                  color: AppColors.mute,
+                  size: 20,
+                ),
               ),
             ),
           ],
@@ -184,7 +178,7 @@ class _Thumb extends StatelessWidget {
       height: 64,
       decoration: BoxDecoration(
         color: AppColors.bg,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(kRegisterRadius),
         image: image != null
             ? DecorationImage(image: image, fit: BoxFit.cover)
             : null,
@@ -202,26 +196,33 @@ class _AddModButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return RegisterAddSurface(
       onTap: onTap,
-      child: DashedRoundedBorder(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 18),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.add_rounded, color: AppColors.accent, size: 20),
-              const SizedBox(width: 8),
-              Text(
-                AppLocalizations.of(context)!.garageAddModification,
-                style: const TextStyle(
-                  color: AppColors.ink,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 14,
-                  letterSpacing: 0.8,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 18, 16, 18),
+        // Left-aligned like every other control in the wizard — a centred
+        // label here read as a different kind of widget than the mod cards
+        // stacked above it.
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: RegisterFitted(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.add_rounded,
+                    color: AppColors.accent, size: 20),
+                const SizedBox(width: 8),
+                Text(
+                  AppLocalizations.of(context)!.garageAddModification,
+                  style: const TextStyle(
+                    color: AppColors.ink,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 14,
+                    letterSpacing: 0.8,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

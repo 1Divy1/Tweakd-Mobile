@@ -792,35 +792,6 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garagePhaseSavingPhotos => 'Se salvează fotografiile…';
 
   @override
-  String get garageRegisterStepIdentity => 'IDENTITATE';
-
-  @override
-  String get garageRegisterStepPerformance => 'PERFORMANȚĂ';
-
-  @override
-  String get garageRegisterStepConfiguration => 'CONFIGURAȚIE';
-
-  @override
-  String get garageRegisterStepStory => 'POVESTE';
-
-  @override
-  String get garageRegisterStepGallery => 'GALERIE';
-
-  @override
-  String get garageRegisterStepMods => 'MODIFICĂRI';
-
-  @override
-  String get garageRegisterStart => 'START';
-
-  @override
-  String get garageRegisterFinish => 'FINAL';
-
-  @override
-  String garageRegisterStepCounter(int current, int total) {
-    return 'PASUL $current / $total';
-  }
-
-  @override
   String get garageRegisterBack => 'ÎNAPOI';
 
   @override
@@ -845,13 +816,16 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageNoMatches => 'Niciun rezultat';
 
   @override
-  String get garageRegisterIdentityLabel => '01 — IDENTITATE';
+  String get garageRegisterSpecsTitle => 'Detaliile mașinii';
 
   @override
-  String get garageRegisterIdentityTitle => 'Imagine & detalii';
+  String get garageSpecsTabBasics => 'GENERAL';
 
   @override
-  String get garageFieldPrimaryAsset => 'IMAGINE PRINCIPALĂ';
+  String get garageSpecsTabPower => 'PUTERE';
+
+  @override
+  String get garageSpecsTabConfig => 'CONFIG';
 
   @override
   String get garageFieldMake => 'MARCĂ';
@@ -878,7 +852,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageFieldYear => 'AN';
 
   @override
-  String get garageFieldChassisCode => 'COD ȘASIU';
+  String get garageFieldChassisCode => 'SERIA DE ȘASIU';
 
   @override
   String get garageFieldModelCode => 'COD MODEL';
@@ -887,23 +861,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageHintModelCode => 'ex. G30';
 
   @override
-  String get garagePrimaryAssetBadge => 'PRINCIPALĂ · 1 / 1';
-
-  @override
-  String get garageStudioShotReplace =>
-      'Cadru de studio · atinge pentru a înlocui';
-
-  @override
-  String get garageAddStudioShot => 'Adaugă cadrul de studio';
-
-  @override
   String get garagePickFromGallery => 'Atinge pentru a alege din galerie';
-
-  @override
-  String get garageRegisterPerformanceLabel => '02 — PERFORMANȚĂ';
-
-  @override
-  String get garageRegisterPerformanceTitle => 'Putere & greutate';
 
   @override
   String get garageFieldPower => 'PUTERE';
@@ -933,15 +891,6 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garagePickerFuelType => 'Alege tipul de combustibil';
 
   @override
-  String get garagePowerToWeight => 'PUTERE-LA-GREUTATE · AUTO';
-
-  @override
-  String get garageRegisterConfigurationLabel => '03 — CONFIGURAȚIE';
-
-  @override
-  String get garageRegisterConfigurationTitle => 'Configurație';
-
-  @override
   String get garageFieldDrivetrain => 'TRACȚIUNE';
 
   @override
@@ -969,9 +918,6 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageHintMileage => 'ex. 42000';
 
   @override
-  String get garageRegisterStoryLabel => '04 — POVESTE';
-
-  @override
   String get garageRegisterStoryTitle =>
       'Care e povestea acestei mașini? Spune-o…';
 
@@ -985,42 +931,32 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageHintStory => 'Care e povestea acestei mașini? Spune-o…';
 
   @override
-  String get garageRegisterGalleryLabel => '05 — GALERIE';
-
-  @override
   String get garageRegisterGalleryTitle => 'Arat-o';
 
   @override
-  String get garageFieldPhotos => 'FOTOGRAFII';
+  String get garageFieldGallery => 'GALERIE';
+
+  @override
+  String get garageAddCoverPhoto => 'Adaugă fotografia principală';
 
   @override
   String get garageGalleryAdd => 'ADAUGĂ';
 
   @override
   String get garageGalleryHint =>
-      'Până la 8 fotografii. Coperta deschide fișa mașinii — trage pentru a reordona.';
-
-  @override
-  String get garageGalleryCover => 'COPERTĂ';
-
-  @override
-  String get garageRegisterModsLabel => '06 — MODIFICĂRI';
+      'Doar pentru showcase — cele mai clare și mai spectaculoase cadre. Cele mai bune unghiuri, culori și lumini. Până la 15 fotografii.';
 
   @override
   String get garageRegisterModsTitle => 'Jurnal de proiect';
 
   @override
-  String get garageRegisterModsSubtitle =>
-      'Opțional — notează munca ce o face a ta.';
+  String get garageRegisterModsSubtitle => '';
 
   @override
   String get garageModFallbackCategory => 'MODIFICARE';
 
   @override
   String get garageAddModification => 'ADAUGĂ MODIFICARE';
-
-  @override
-  String get garageModSheetLabel => '— MODIFICARE';
 
   @override
   String get garageModSheetTitleEdit => 'Editează elementul';
@@ -1074,12 +1010,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageModAddToBuildLog => 'ADAUGĂ ÎN JURNAL';
 
   @override
-  String get garageModValidationEdit =>
+  String get garageModValidation =>
       'Categoria, titlul și data sunt obligatorii.';
-
-  @override
-  String get garageModValidationAdd =>
-      'Categoria, titlul, data și ambele imagini sunt obligatorii.';
 
   @override
   String get garageAboutTitle => 'DESPRE';
@@ -1295,17 +1227,17 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageValStatus => 'Selectează o stare.';
 
   @override
-  String get garageDiscardTitle => 'Renunți la acest proiect?';
-
-  @override
-  String get garageDiscardBody =>
-      'Încă nu ai înregistrat această mașină. Dacă pleci acum, tot ce ai introdus se va pierde.';
-
-  @override
   String get garageKeepEditing => 'Continuă editarea';
 
   @override
   String get garageDiscard => 'Renunță';
+
+  @override
+  String get garageBuildLogDiscardTitle => 'Renunți la această intrare?';
+
+  @override
+  String get garageBuildLogDiscardBody =>
+      'Încă nu ai adăugat această intrare în jurnalul de modificări. Dacă pleci acum, tot ce ai completat aici se va pierde.';
 
   @override
   String get garageLogModTitle => 'ADAUGĂ MODIFICARE';
@@ -3087,20 +3019,19 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsCategoriesSoonNote => 'Urmează și alte categorii.';
 
   @override
-  String get mapEventsCategoryTrackDay => 'Zi pe circuit';
+  String get mapEventsCategoryTrackDay => 'Track Day';
 
   @override
-  String get mapEventsCategoryCarShow => 'Expoziție auto';
+  String get mapEventsCategoryCarsAndCoffee => 'Cars & Coffee';
 
   @override
-  String get mapEventsCategoryCruise => 'Tură';
+  String get mapEventsCategoryCruise => 'Cruise';
 
   @override
   String get mapEventsFieldDescription => 'DESCRIERE';
 
   @override
-  String get mapEventsFieldDescriptionHint =>
-      'Despre ce este evenimentul, pentru cine e, ce ar trebui să știe lumea înainte să vină…';
+  String get mapEventsFieldDescriptionHint => 'Despre ce e evenimentul ?';
 
   @override
   String get mapEventsFieldLocation => 'LOCAȚIE';
@@ -3140,7 +3071,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsRequired => 'OBLIGATORIU';
 
   @override
-  String get mapEventsCapacityHint => 'Fără limită — ex. 40 de locuri';
+  String get mapEventsCapacityHint => 'Fără o limită explicită, e nelimitat';
 
   @override
   String get mapEventsCapacityLockedHint =>
@@ -3229,6 +3160,245 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get mapEventsCoverUploadFailed =>
       'Evenimentul a fost creat, dar fotografia de copertă nu s-a încărcat. O poți adăuga din Evenimentele mele.';
+
+  @override
+  String get mapEventsWizardNext => 'MAI DEPARTE';
+
+  @override
+  String get mapEventsWizardBack => 'ÎNAPOI';
+
+  @override
+  String get mapEventsWizardClose => 'Închide';
+
+  @override
+  String get mapEventsWizardDiscardTitle => 'Ieși din ciorna evenimentului?';
+
+  @override
+  String get mapEventsWizardDiscardBody =>
+      'Progresul e salvat pe telefon, așa că poți relua de unde ai rămas. Sau îl arunci și o iei de la capăt data viitoare.';
+
+  @override
+  String get mapEventsWizardKeepDraft => 'SALVEAZĂ & IEȘI';
+
+  @override
+  String get mapEventsWizardDiscardDraft => 'ARUNCĂ';
+
+  @override
+  String get mapEventsWizardStay => 'CONTINUĂ';
+
+  @override
+  String get mapEventsDraftRestored => 'Am reluat de unde ai rămas.';
+
+  @override
+  String get mapEventsDraftStartOver => 'IA DE LA CAPĂT';
+
+  @override
+  String get mapEventsStepBasicsTitle => 'Datele de bază';
+
+  @override
+  String get mapEventsStepBasicsSubtitle =>
+      'Cum se numește evenimentul și la ce să se aștepte lumea?';
+
+  @override
+  String get mapEventsStepOrganizersTitle => 'Cine îl organizează';
+
+  @override
+  String get mapEventsStepOrganizersSubtitle =>
+      'Tu ești creatorul. Adaugă conturi individuale sau de business certificate care să organizeze împreună cu tine.';
+
+  @override
+  String get mapEventsStepOrganizersEmpty =>
+      'Niciun co-organizator încă. Îi poți adăuga și mai târziu.';
+
+  @override
+  String get mapEventsStepWhenWhereTitle => 'Când & unde';
+
+  @override
+  String get mapEventsStepWhenWhereSubtitle =>
+      'Stabilește programul, apoi pune pinul pe hartă.';
+
+  @override
+  String get mapEventsLocationPickCta => 'ALEGE LOCAȚIA PE HARTĂ';
+
+  @override
+  String get mapEventsLocationChangeCta => 'SCHIMBĂ LOCAȚIA';
+
+  @override
+  String get mapEventsLocationCardCity => 'Oraș';
+
+  @override
+  String get mapEventsLocationCardStreet => 'Stradă';
+
+  @override
+  String get mapEventsLocationCardNumber => 'Număr';
+
+  @override
+  String get mapEventsLocationCardPin => 'Pin plasat';
+
+  @override
+  String get mapEventsLocationEmptyHint =>
+      'Alege o locație și completăm orașul, strada și numărul din adresa căutată.';
+
+  @override
+  String get mapEventsDeadlineHint =>
+      'Întâlnirile auto au nevoie de una: ultimul moment în care cineva poate înscrie o mașină.';
+
+  @override
+  String get mapEventsStepRulesTitle => 'Reguli & înscriere';
+
+  @override
+  String get mapEventsStepRulesSubtitle =>
+      'Regulile casei, câte mașini încap și dacă verifici fiecare înscriere.';
+
+  @override
+  String get mapEventsRulesEmpty =>
+      'Nicio regulă încă. Multe întâlniri merg bine și fără.';
+
+  @override
+  String get mapEventsCapacityUnlimited => 'Nelimitat';
+
+  @override
+  String get mapEventsCapacityUnlimitedHint => 'Lasă gol pentru fără limită.';
+
+  @override
+  String get mapEventsStepContestsTitle => 'Concursuri';
+
+  @override
+  String get mapEventsStepContestsSubtitle =>
+      'Pregătește categoriile la care se votează. Le poți adăuga, edita sau șterge oricând după ce evenimentul e aprobat.';
+
+  @override
+  String get mapEventsContestsEmpty => 'Niciun concurs încă.';
+
+  @override
+  String get mapEventsAddContest => 'ADAUGĂ UN CONCURS';
+
+  @override
+  String get mapEventsEditContest => 'Editează concursul';
+
+  @override
+  String get mapEventsRemoveContest => 'Șterge concursul';
+
+  @override
+  String get mapEventsContestsUnavailable =>
+      'Categoriile de concurs nu au putut fi încărcate. Poți adăuga concursuri din pagina evenimentului după aprobare.';
+
+  @override
+  String mapEventsContestsFullHint(int count) {
+    return 'Un eveniment poate avea până la $count concursuri.';
+  }
+
+  @override
+  String mapEventsContestsFailed(int count) {
+    return 'Evenimentul a fost creat, dar $count dintre concursurile lui nu. Le poți adăuga din Evenimentele mele.';
+  }
+
+  @override
+  String get mapEventsContestOpensLabel => 'Votul se deschide';
+
+  @override
+  String get mapEventsContestClosesLabel => 'Votul se închide';
+
+  @override
+  String get mapEventsContestOpensAtStart => 'Când începe întâlnirea';
+
+  @override
+  String get mapEventsContestOpensNow => 'Imediat ce e aprobat';
+
+  @override
+  String get mapEventsContestCustomTime => 'Alege o oră';
+
+  @override
+  String get mapEventsContestClosesManualNote =>
+      'Participanții văd această oră. Tot tu deschizi și închizi votarea, din lista de concursuri după ce evenimentul e aprobat.';
+
+  @override
+  String get mapEventsContestTitleLabel => 'TITLUL CONCURSULUI';
+
+  @override
+  String get mapEventsContestTitleHint => 'ex. Cel mai bun sistem de evacuare';
+
+  @override
+  String get mapEventsContestCriteriaLabel => 'NOTĂ DE JURIZARE';
+
+  @override
+  String get mapEventsContestCriteriaHint => 'La ce se votează, mai exact?';
+
+  @override
+  String get mapEventsContestCategoryLabel => 'CATEGORIE';
+
+  @override
+  String get mapEventsContestSave => 'SALVEAZĂ CONCURSUL';
+
+  @override
+  String get mapEventsStepCoverTitle => 'Poza de copertă';
+
+  @override
+  String get mapEventsStepCoverSubtitle =>
+      'Singura imagine pe care lumea o vede pe hartă, în feed și în capul evenimentului.';
+
+  @override
+  String get mapEventsStepReviewTitle => 'Verifică & publică';
+
+  @override
+  String get mapEventsStepReviewSubtitle =>
+      'Așa îl va vedea lumea. Atinge orice secțiune ca să te întorci și să o modifici.';
+
+  @override
+  String get mapEventsReviewEdit => 'MODIFICĂ';
+
+  @override
+  String get mapEventsReviewNoDescription => 'Încă fără descriere';
+
+  @override
+  String get mapEventsReviewNoRules => 'Fără reguli';
+
+  @override
+  String get mapEventsReviewNoContests => 'Fără concursuri';
+
+  @override
+  String get mapEventsReviewNoOrganizers => 'Doar tu';
+
+  @override
+  String get mapEventsReviewOpenEnded => 'Fără oră de final';
+
+  @override
+  String get mapEventsReviewApprovalOn => 'Aprobi fiecare mașină';
+
+  @override
+  String get mapEventsReviewApprovalOff => 'Oricine poate înscrie o mașină';
+
+  @override
+  String get mapEventsReviewSectionOrganizers => 'ORGANIZATORI';
+
+  @override
+  String get mapEventsReviewSectionSchedule => 'PROGRAM';
+
+  @override
+  String get mapEventsReviewSectionEntry => 'ÎNSCRIERE';
+
+  @override
+  String get mapEventsPublishCta => 'TRIMITE SPRE APROBARE';
+
+  @override
+  String get mapEventsValidationTitle => 'Dă-i evenimentului un titlu.';
+
+  @override
+  String get mapEventsValidationDescription =>
+      'Adaugă o descriere scurtă, ca lumea să știe despre ce e vorba.';
+
+  @override
+  String get mapEventsValidationLocation => 'Alege locația pe hartă.';
+
+  @override
+  String get mapEventsValidationStart => 'Stabilește când începe evenimentul.';
+
+  @override
+  String get mapEventsValidationDeadlineRequired =>
+      'O întâlnire auto are nevoie de un termen limită de înscriere.';
+
+  @override
+  String get mapEventsValidationCover => 'Adaugă o poză de copertă.';
 
   @override
   String get mapEventsUseThisLocation => 'FOLOSEȘTE ACEASTĂ LOCAȚIE';
@@ -3599,23 +3769,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get profileBadgesSheetTitle => 'Insigne';
 
   @override
-  String profileBadgesSheetSubtitle(int earned, int total) {
-    return '$earned din $total deblocate';
-  }
-
-  @override
-  String get profileBadgesLocked => 'BLOCATĂ';
-
-  @override
-  String get profileBadgesEmptyOwner =>
-      'Încă nu ai insigne. Participă la întâlniri, intră în concursuri și ajută pe forum ca să începi colecția.';
-
-  @override
   String get profileBadgesEmptyVisitor => 'Încă nu are insigne.';
-
-  @override
-  String get profileBadgesLoadError =>
-      'Nu am putut încărca insignele. Încearcă din nou.';
 
   @override
   String get garageCarStatYear => 'AN';
@@ -3644,7 +3798,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get profileCreateEvent => 'Eveniment auto nou';
 
   @override
-  String get profileCreateCar => 'Mașină nouă';
+  String get profileCreateCar => 'Adaugă o mașină nouă';
 
   @override
   String get garageCarStatPower => 'PUTERE';
@@ -3663,4 +3817,740 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get badgeCelebrationHeadline => 'Insignă nouă deblocată!';
+
+  @override
+  String get contestsTab => 'CONCURSURI';
+
+  @override
+  String get contestsSectionVotingOpen => 'VOTAREA E DESCHISĂ';
+
+  @override
+  String get contestsSectionOpensLater => 'SE DESCHID MAI TÂRZIU';
+
+  @override
+  String get contestsSectionResults => 'REZULTATE';
+
+  @override
+  String contestsStandingEntered(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Mașina ta e înscrisă în $count concursuri',
+      one: 'Mașina ta e înscrisă într-un concurs',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get contestsStandingNotEntered => 'Mașina ta nu e înscrisă încă';
+
+  @override
+  String contestsVotesOpenToYou(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Mai ai $count voturi de dat',
+      one: 'Mai ai un vot de dat',
+      zero: 'Ai votat în toate concursurile deschise',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get contestsManage => 'GESTIONEAZĂ';
+
+  @override
+  String get contestsEnterCar => 'ÎNSCRIE';
+
+  @override
+  String get contestsFooterNote =>
+      'Un vot per concurs. Îl poți schimba oricând până când organizatorul închide votarea.';
+
+  @override
+  String get contestsEmptyTitle => 'Niciun concurs aici';
+
+  @override
+  String get contestsEmptyBody =>
+      'Organizatorul nu a deschis niciun vot pentru această întâlnire.';
+
+  @override
+  String contestsAllCount(int count) {
+    return 'TOATE CELE $count CONCURSURI';
+  }
+
+  @override
+  String contestsCarsAndVotes(int cars, int votes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      cars,
+      locale: localeName,
+      other: '$cars mașini',
+      one: '1 mașină',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      votes,
+      locale: localeName,
+      other: '$votes voturi',
+      one: '1 vot',
+    );
+    return '$_temp0 · $_temp1';
+  }
+
+  @override
+  String contestsCarsEnteredCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mașini înscrise',
+      one: '1 mașină înscrisă',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get contestsYoursIsIn => '· a ta e înscrisă';
+
+  @override
+  String get contestsCastYourVote => 'VOTEAZĂ';
+
+  @override
+  String get contestsVoteBeforeClose => 'VOTEAZĂ ÎNAINTE SĂ SE ÎNCHIDĂ';
+
+  @override
+  String get contestsVote => 'VOTEAZĂ';
+
+  @override
+  String get contestsVoted => 'VOTAT';
+
+  @override
+  String get contestsYourVote => 'VOTUL TĂU';
+
+  @override
+  String get contestsChange => 'SCHIMBĂ';
+
+  @override
+  String contestsTimeLeftHours(int hours, int minutes) {
+    return '${hours}h ${minutes}m rămase';
+  }
+
+  @override
+  String contestsTimeLeftMinutes(int minutes) {
+    return '${minutes}m rămase';
+  }
+
+  @override
+  String contestsOpensInHours(int hours, int minutes) {
+    return 'se deschide în ${hours}h ${minutes}m';
+  }
+
+  @override
+  String contestsOpensInMinutes(int minutes) {
+    return 'se deschide în ${minutes}m';
+  }
+
+  @override
+  String get contestsOpensSoon => 'așteaptă organizatorul';
+
+  @override
+  String get contestsVotingOpenNow => 'votare deschisă';
+
+  @override
+  String get contestsClosing => 'se închide';
+
+  @override
+  String get contestsResultsIn => 'REZULTATE';
+
+  @override
+  String get contestsClosed => 'ÎNCHIS';
+
+  @override
+  String get contestsStatVotesCast => 'VOTURI';
+
+  @override
+  String get contestsStatCarsIn => 'MAȘINI';
+
+  @override
+  String get contestsStatRemaining => 'RĂMAS';
+
+  @override
+  String get contestsStatStatus => 'STARE';
+
+  @override
+  String get contestsStatVoting => 'VOTARE';
+
+  @override
+  String get contestsHowItWorks => 'CUM FUNCȚIONEAZĂ';
+
+  @override
+  String get contestsHowItWasJudged => 'CUM S-A JURIZAT';
+
+  @override
+  String contestsSetBy(String username) {
+    return 'Stabilit de @$username';
+  }
+
+  @override
+  String get contestsLeaderboard => 'CLASAMENT';
+
+  @override
+  String get contestsCarsEntered => 'MAȘINI ÎNSCRISE';
+
+  @override
+  String get contestsFinalStandings => 'CLASAMENT FINAL';
+
+  @override
+  String get contestsUpdatingLive => 'LIVE';
+
+  @override
+  String contestsVotingOpensAt(String time) {
+    return 'Planificată să se deschidă la $time — o pornește organizatorul';
+  }
+
+  @override
+  String get contestsNoEntriesYet => 'Nicio mașină pe buletin încă.';
+
+  @override
+  String get contestsWinner => 'CÂȘTIGĂTOR';
+
+  @override
+  String contestsVotesOf(int votes, int total) {
+    return '$votes din $total voturi';
+  }
+
+  @override
+  String contestsBadgeAwarded(String category) {
+    return 'Insigna $category a fost acordată';
+  }
+
+  @override
+  String get contestsBadgeAwardedBody =>
+      'Apare acum pe mașină și pe profilul proprietarului';
+
+  @override
+  String get contestsNoWinner =>
+      'Nimeni nu a votat, așa că nu există câștigător de data aceasta.';
+
+  @override
+  String get contestsThatsYourCar => 'E mașina ta';
+
+  @override
+  String get contestsPostToFeedHint => 'Postează cardul în feed';
+
+  @override
+  String get contestsShare => 'DISTRIBUIE';
+
+  @override
+  String get contestsShareYourWin => 'DISTRIBUIE VICTORIA';
+
+  @override
+  String get contestsShareTheResult => 'DISTRIBUIE REZULTATUL';
+
+  @override
+  String get contestsShareSheetTitle => 'Distribuie victoria';
+
+  @override
+  String get contestsShareResultSheetTitle => 'Distribuie rezultatul';
+
+  @override
+  String get contestsPostToFeed => 'POSTEAZĂ ÎN FEED';
+
+  @override
+  String get contestsPostedTitle => 'Postat în feed';
+
+  @override
+  String get contestsPostedBody => 'Urmăritorii tăi îl pot vedea acum';
+
+  @override
+  String get contestsPostFailed =>
+      'Nu s-a putut posta cardul. Încearcă din nou.';
+
+  @override
+  String get contestsCaptionHint => 'Spune ceva despre victorie (opțional)';
+
+  @override
+  String contestsShareText(
+    String car,
+    String place,
+    String contest,
+    String event,
+  ) {
+    return '$car a luat locul $place la „$contest” la $event, pe Tweakd';
+  }
+
+  @override
+  String contestsOfVotes(int total) {
+    return 'DIN $total VOTURI';
+  }
+
+  @override
+  String get contestsPickFavourite => 'Alege favorita';
+
+  @override
+  String get contestsChangeYourVote => 'Schimbă votul';
+
+  @override
+  String get contestsSaveNewVote => 'SALVEAZĂ NOUL VOT';
+
+  @override
+  String get contestsCastVote => 'VOTEAZĂ';
+
+  @override
+  String get contestsYourCar => 'MAȘINA TA';
+
+  @override
+  String get contestsEnterTitle => 'Înscrie-ți mașina';
+
+  @override
+  String get contestsApprovedForMeet => 'Aprobată pentru această întâlnire';
+
+  @override
+  String get contestsEnterHint =>
+      'Alege categoriile în care vrei să fii jurizat. Organizatorul aprobă fiecare înscriere. Te poți retrage până se deschide votarea.';
+
+  @override
+  String get contestsEntryLocked => 'Votare deschisă — înscrierea e blocată';
+
+  @override
+  String get contestsVotingAlreadyOpen => 'Votarea e deja deschisă';
+
+  @override
+  String get contestsEntryPending => 'Așteaptă organizatorul';
+
+  @override
+  String get contestsEntryRejected => 'Neacceptată';
+
+  @override
+  String get contestsWhy => 'DE CE';
+
+  @override
+  String get contestsSaveEntries => 'SALVEAZĂ ÎNSCRIERILE';
+
+  @override
+  String get contestsEntriesSaved => 'Înscrierile au fost actualizate';
+
+  @override
+  String contestsVoteCounted(String car) {
+    return 'Vot înregistrat pentru $car';
+  }
+
+  @override
+  String get contestsCannotVoteOwnCar => 'Nu poți vota propria mașină';
+
+  @override
+  String get contestsVotingClosedHint => 'Votarea s-a închis';
+
+  @override
+  String get contestsAttendToVote =>
+      'Confirmă participarea pentru a vota în acest concurs';
+
+  @override
+  String get contestsOrganizerTitle => 'Concursuri';
+
+  @override
+  String contestsOrganizerSubtitle(String event) {
+    return '$event · ești organizator';
+  }
+
+  @override
+  String get contestsNew => 'NOU';
+
+  @override
+  String get contestsStatRunning => 'ÎN DESFĂȘURARE';
+
+  @override
+  String get contestsStatScheduled => 'PROGRAMATE';
+
+  @override
+  String get contestsStatVotesTonight => 'VOTURI PÂNĂ ACUM';
+
+  @override
+  String get contestsRunningNow => 'ÎN DESFĂȘURARE';
+
+  @override
+  String get contestsScheduled => 'PROGRAMATE';
+
+  @override
+  String get contestsFinished => 'ÎNCHEIATE';
+
+  @override
+  String get contestsChipOpen => 'DESCHIS';
+
+  @override
+  String get contestsChipClosed => 'ÎNCHIS';
+
+  @override
+  String get contestsChipScheduled => 'PROGRAMAT';
+
+  @override
+  String get contestsFullBoard => 'CLASAMENT COMPLET';
+
+  @override
+  String get contestsFinishNow => 'ÎNCHEIE ACUM';
+
+  @override
+  String get contestsEdit => 'EDITEAZĂ';
+
+  @override
+  String get contestsOpenVotingNow => 'DESCHIDE VOTAREA';
+
+  @override
+  String get contestsExtend => 'PRELUNGEȘTE';
+
+  @override
+  String get contestsDelete => 'ȘTERGE';
+
+  @override
+  String get contestsResultsPublished =>
+      'Rezultate publicate · insignă acordată';
+
+  @override
+  String get contestsNoVotesResult => 'Închis fără voturi';
+
+  @override
+  String get contestsAddAnother => 'ADAUGĂ ALT CONCURS';
+
+  @override
+  String get contestsAddFirst => 'CREEAZĂ UN CONCURS';
+
+  @override
+  String get contestsOrganizerEmpty =>
+      'Niciun concurs încă. Deschide un vot și toți cei de la întâlnire își pot alege favorita.';
+
+  @override
+  String contestsClosedAtVotes(String time, int votes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      votes,
+      locale: localeName,
+      other: '$votes voturi',
+      one: '1 vot',
+    );
+    return 'Închis la $time · $_temp0';
+  }
+
+  @override
+  String contestsLeftAndVotes(String left, int votes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      votes,
+      locale: localeName,
+      other: '$votes voturi',
+      one: '1 vot',
+    );
+    return '$left · $_temp0';
+  }
+
+  @override
+  String contestsOpensAndCars(String opens, int cars) {
+    String _temp0 = intl.Intl.pluralLogic(
+      cars,
+      locale: localeName,
+      other: '$cars mașini înscrise',
+      one: '1 mașină înscrisă',
+    );
+    return '$opens · $_temp0';
+  }
+
+  @override
+  String contestsFinishTitle(String title) {
+    return 'Închei „$title”?';
+  }
+
+  @override
+  String contestsFinishBody(String timeLeft) {
+    return 'Votarea se închide imediat — cu $timeLeft mai devreme. Clasamentul îngheață așa cum e acum și câștigătorul primește insigna.';
+  }
+
+  @override
+  String get contestsFinishBodyNoVotes =>
+      'Votarea se închide imediat. Nimeni nu a votat încă, așa că nu va exista câștigător.';
+
+  @override
+  String get contestsFinishBodyPastPlan =>
+      'Votarea se închide imediat. A rulat peste ora pe care ai planificat-o. Clasamentul îngheață așa cum e acum, iar câștigătorul primește insigna.';
+
+  @override
+  String get contestsWinsIfFinishNow => 'CÂȘTIGĂ DACĂ ÎNCHEI ACUM';
+
+  @override
+  String contestsCloseRace(int gap) {
+    String _temp0 = intl.Intl.pluralLogic(
+      gap,
+      locale: localeName,
+      other: 'Doar $gap voturi în fața locului doi — se mai poate schimba.',
+      one: 'Doar un vot în fața locului doi — se mai poate schimba.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String contestsClearLead(int gap) {
+    return 'Avans clar — $gap voturi în fața locului doi.';
+  }
+
+  @override
+  String get contestsKeepOpen => 'LASĂ DESCHIS';
+
+  @override
+  String get contestsFinishPublish => 'ÎNCHEIE & PUBLICĂ';
+
+  @override
+  String contestsFinishedBanner(String title) {
+    return '„$title” s-a încheiat';
+  }
+
+  @override
+  String get contestsFinishedBannerBody =>
+      'Rezultatele sunt publice · toți cei de la întâlnire au fost anunțați';
+
+  @override
+  String contestsPendingEntries(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count MAȘINI ÎN AȘTEPTARE',
+      one: '1 MAȘINĂ ÎN AȘTEPTARE',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get contestsAccept => 'ACCEPTĂ';
+
+  @override
+  String get contestsDecline => 'REFUZĂ';
+
+  @override
+  String get contestsDeclineEntryTitle => 'Refuzi această mașină?';
+
+  @override
+  String get contestsDeclineEntryHint =>
+      'Spune-i proprietarului de ce. Va vedea mesajul.';
+
+  @override
+  String get contestsExtendTitle => 'Prelungește votarea';
+
+  @override
+  String get contestsExtendBody =>
+      'Alege noua oră de închidere pe care o văd participanții. E un plan, nu un termen — votarea merge până când închei concursul.';
+
+  @override
+  String contestsExtendClosesAt(String time) {
+    return 'Se închide $time';
+  }
+
+  @override
+  String get contestsExtendConfirm => 'PRELUNGEȘTE VOTAREA';
+
+  @override
+  String get contestsDeleteTitle => 'Ștergi acest concurs?';
+
+  @override
+  String get contestsDeleteBody =>
+      'Nu s-a deschis încă, așa că nu se pierde nimic — mașinile înscrise sunt pur și simplu eliberate.';
+
+  @override
+  String get contestsCreateTitle => 'Concurs nou';
+
+  @override
+  String get contestsEditTitle => 'Editează concursul';
+
+  @override
+  String get contestsCategory => 'CATEGORIE';
+
+  @override
+  String get contestsCategoryCustom => 'Personalizat';
+
+  @override
+  String get contestsName => 'NUMELE CONCURSULUI';
+
+  @override
+  String get contestsNameHint => 'Numele afișat participanților';
+
+  @override
+  String get contestsNameHintCustom => 'ex. Cea mai bună mașină de zi cu zi';
+
+  @override
+  String get contestsCriteria => 'CUM AR TREBUI JURIZAT?';
+
+  @override
+  String get contestsCriteriaHint =>
+      'Una sau două rânduri. Participanții văd asta deasupra clasamentului.';
+
+  @override
+  String get contestsVotingOpens => 'VOTAREA SE DESCHIDE';
+
+  @override
+  String get contestsOpensNow => 'Imediat';
+
+  @override
+  String get contestsOpensAtStart => 'La începutul întâlnirii';
+
+  @override
+  String get contestsSetATime => 'Setează o oră';
+
+  @override
+  String get contestsVotingCloses => 'VOTAREA SE ÎNCHIDE';
+
+  @override
+  String get contestsFinishEarlyNote =>
+      'Aceste ore sunt ce văd participanții. Tu deschizi votarea și tot tu o închizi, din lista de concursuri.';
+
+  @override
+  String get contestsLockedOpenNote =>
+      'Votarea e deschisă: acum se pot schimba doar nota de jurizare și ora de închidere.';
+
+  @override
+  String get contestsPublish => 'PUBLICĂ CONCURSUL';
+
+  @override
+  String get contestsSaveChanges => 'SALVEAZĂ MODIFICĂRILE';
+
+  @override
+  String get contestsManageSectionTitle => 'CONCURSURI';
+
+  @override
+  String get contestsManageOpen => 'Deschide concursurile';
+
+  @override
+  String contestsManageSummary(int running, int scheduled) {
+    String _temp0 = intl.Intl.pluralLogic(
+      running,
+      locale: localeName,
+      other: '$running în desfășurare',
+      one: '1 în desfășurare',
+      zero: 'Niciunul în desfășurare',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      scheduled,
+      locale: localeName,
+      other: '$scheduled programate',
+      one: '1 programat',
+      zero: 'niciunul programat',
+    );
+    return '$_temp0 · $_temp1';
+  }
+
+  @override
+  String get contestsErrorNotEligible => 'Nu poți vota în acest concurs.';
+
+  @override
+  String get contestsRank1 => '1';
+
+  @override
+  String get contestsRank2 => '2';
+
+  @override
+  String get contestsRank3 => '3';
+
+  @override
+  String contestsRankN(int rank) {
+    return '$rank';
+  }
+
+  @override
+  String participantCardPlace(String rank) {
+    return 'Locul $rank';
+  }
+
+  @override
+  String get participantCardEvent => 'EVENIMENT';
+
+  @override
+  String get participantCardContests => 'CONCURSURI';
+
+  @override
+  String participantCardContestWithRank(String contest, String rank) {
+    return '$contest ($rank)';
+  }
+
+  @override
+  String participantCardMore(int count) {
+    return '+$count altele';
+  }
+
+  @override
+  String participantCardAttendees(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persoane au fost la eveniment.',
+      one: '1 persoană a fost la eveniment.',
+      zero: 'Nimeni nu s-a înregistrat la eveniment.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get participantCardContestsSheetTitle =>
+      'Concursurile la care a participat';
+
+  @override
+  String get participantCardTookPart => 'A participat';
+
+  @override
+  String get participantCardShareSheetTitle => 'Distribuie cardul';
+
+  @override
+  String participantCardShareText(String car, String event) {
+    return '$car a fost la $event pe Tweakd';
+  }
+
+  @override
+  String participantCardShareTextPlaced(
+    String car,
+    String place,
+    String contest,
+    String event,
+  ) {
+    return '$car a luat $place la \"$contest\" în $event pe Tweakd';
+  }
+
+  @override
+  String get participantCardShare => 'DISTRIBUIE CARDUL';
+
+  @override
+  String participantCardSectionTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'CARDURILE TALE',
+      one: 'CARDUL TĂU',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get participantCardYourCard => 'CARDUL TĂU';
+
+  @override
+  String get participantCardNotReady =>
+      'Cardul tău va fi gata după ce organizatorul încheie evenimentul.';
+
+  @override
+  String participantCardCooldown(String date) {
+    return 'Ai distribuit recent acest card. Îl poți distribui din nou pe $date.';
+  }
+
+  @override
+  String get carEventsContestBadges => 'INSIGNE DIN CONCURSURI';
+
+  @override
+  String carEventsBadgesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count INSIGNE DIN CONCURSURI',
+      one: '1 INSIGNĂ DIN CONCURSURI',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get carEventsAttended => 'EVENIMENTE LA CARE A PARTICIPAT';
+
+  @override
+  String get carEventsWhereFrom => 'DE UNDE PROVIN';
+
+  @override
+  String carEventsPlacement(String rank, String category) {
+    return '$rank · $category';
+  }
 }

@@ -18,6 +18,10 @@ enum MapEventErrorCode {
   /// A 400 the user can fix by editing what they typed.
   invalidInput,
 
+  /// A 403 on a contest endpoint — not at the event, or voting for your own car.
+  /// The backend's sentence is shown, since it says which.
+  notEligible,
+
   /// A multi-car registration hit a conflict partway through and some of the
   /// cars that already landed as **accepted** (a no-approval event) couldn't
   /// be automatically undone — only a still-pending row can be cancelled.
@@ -81,6 +85,12 @@ class MapEventErrorMapper {
         serverMessage: failure.message,
       );
     }
+    if (failure is ContestNotEligibleFailure) {
+      return MapEventError(
+        MapEventErrorCode.notEligible,
+        serverMessage: failure.message,
+      );
+    }
     return const MapEventError(MapEventErrorCode.generic);
   }
 
@@ -101,6 +111,8 @@ String mapEventErrorMessage(AppLocalizations l10n, MapEventError error) {
       serverIsUseful ? server : l10n.mapEventsErrorConflict,
     MapEventErrorCode.invalidInput =>
       serverIsUseful ? server : l10n.mapEventsErrorInvalidInput,
+    MapEventErrorCode.notEligible =>
+      serverIsUseful ? server : l10n.contestsErrorNotEligible,
     MapEventErrorCode.partialRegistration => l10n.mapEventsBulkRegisterPartial(
         error.registeredCount ?? 0,
         (error.requestedCount ?? 0) - (error.registeredCount ?? 0),

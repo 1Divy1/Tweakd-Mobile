@@ -1,0 +1,309 @@
+Date : 2026-09-07 21:01:42
+Directory : /Users/mbpro/Developer/Apps/Tweakd-Mobile
+Total : 196 files,  30635 codes, 2445 comments, 3183 blanks, all 36263 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| JavaScript JSX |         40 |     14,331 |      1,117 |      1,120 |     16,568 |
+| Dart           |        100 |     10,516 |      1,240 |      1,478 |     13,234 |
+| HTML           |         32 |      3,698 |         23 |        302 |      4,023 |
+| Markdown       |          5 |      1,313 |          0 |        235 |      1,548 |
+| XML            |         13 |        285 |         18 |          1 |        304 |
+| PostCSS        |          1 |        245 |         19 |         28 |        292 |
+| JavaScript     |          3 |        242 |         28 |         19 |        289 |
+| YAML           |          1 |          3 |          0 |          0 |          3 |
+| Swift          |          1 |          2 |          0 |          0 |          2 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                         | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                            |        196 |     30,635 |      2,445 |      3,183 |     36,263 |
+| . (Files)                                                                                                                    |          5 |      1,304 |          0 |        231 |      1,535 |
+| android                                                                                                                      |          1 |          4 |         18 |          1 |         23 |
+| android/app                                                                                                                  |          1 |          4 |         18 |          1 |         23 |
+| android/app/src                                                                                                              |          1 |          4 |         18 |          1 |         23 |
+| android/app/src/main                                                                                                         |          1 |          4 |         18 |          1 |         23 |
+| design                                                                                                                       |         89 |     18,809 |      1,187 |      1,473 |     21,469 |
+| design/contests                                                                                                              |         89 |     18,809 |      1,187 |      1,473 |     21,469 |
+| design/contests (Files)                                                                                                      |         68 |     16,931 |      1,130 |      1,353 |     19,414 |
+| design/contests/assets                                                                                                       |          8 |        138 |          0 |          0 |        138 |
+| design/contests/assets (Files)                                                                                               |          7 |         70 |          0 |          0 |         70 |
+| design/contests/assets/badges                                                                                                |          1 |         68 |          0 |          0 |         68 |
+| design/contests/dashboard                                                                                                    |          9 |      1,597 |         57 |        120 |      1,774 |
+| design/contests/uploads                                                                                                      |          4 |        143 |          0 |          0 |        143 |
+| lib                                                                                                                          |         92 |      9,352 |      1,150 |      1,327 |     11,829 |
+| lib (Files)                                                                                                                  |          1 |          3 |          4 |          0 |          7 |
+| lib/core                                                                                                                     |          8 |        425 |        101 |         35 |        561 |
+| lib/core/deeplinks                                                                                                           |          2 |          0 |         18 |          1 |         19 |
+| lib/core/di                                                                                                                  |          1 |        134 |          0 |          0 |        134 |
+| lib/core/realtime                                                                                                            |          2 |        130 |         36 |         26 |        192 |
+| lib/core/routes                                                                                                              |          1 |         94 |         10 |          0 |        104 |
+| lib/core/services                                                                                                            |          1 |         28 |         13 |          2 |         43 |
+| lib/core/utils                                                                                                               |          1 |         39 |         24 |          6 |         69 |
+| lib/features                                                                                                                 |         80 |      7,901 |        485 |        872 |      9,258 |
+| lib/features/garage                                                                                                          |         24 |        137 |        178 |         76 |        391 |
+| lib/features/garage/data                                                                                                     |          1 |          3 |          5 |          0 |          8 |
+| lib/features/garage/data/datasources                                                                                         |          1 |          3 |          5 |          0 |          8 |
+| lib/features/garage/domain                                                                                                   |          1 |         -8 |         -2 |         -1 |        -11 |
+| lib/features/garage/domain/entities                                                                                          |          1 |         -8 |         -2 |         -1 |        -11 |
+| lib/features/garage/presentation                                                                                             |         22 |        142 |        175 |         77 |        394 |
+| lib/features/garage/presentation/bloc                                                                                        |          2 |          3 |          9 |          1 |         13 |
+| lib/features/garage/presentation/bloc/add_car                                                                                |          2 |          3 |          9 |          1 |         13 |
+| lib/features/garage/presentation/pages                                                                                       |          4 |        606 |         86 |         69 |        761 |
+| lib/features/garage/presentation/widgets                                                                                     |         16 |       -467 |         80 |          7 |       -380 |
+| lib/features/garage/presentation/widgets (Files)                                                                             |          2 |        173 |         -6 |         13 |        180 |
+| lib/features/garage/presentation/widgets/register_car                                                                        |         13 |       -592 |         82 |         -5 |       -515 |
+| lib/features/garage/presentation/widgets/share                                                                               |          1 |        -48 |          4 |         -1 |        -45 |
+| lib/features/map_events                                                                                                      |         51 |      7,774 |        304 |        797 |      8,875 |
+| lib/features/map_events/data                                                                                                 |          3 |        686 |         17 |         80 |        783 |
+| lib/features/map_events/data/datasources                                                                                     |          1 |        141 |          4 |         16 |        161 |
+| lib/features/map_events/data/models                                                                                          |          1 |        332 |          8 |         41 |        381 |
+| lib/features/map_events/data/repositories                                                                                    |          1 |        213 |          5 |         23 |        241 |
+| lib/features/map_events/domain                                                                                               |          7 |        752 |         99 |        162 |      1,013 |
+| lib/features/map_events/domain/entities                                                                                      |          4 |        429 |         57 |         84 |        570 |
+| lib/features/map_events/domain/failures                                                                                      |          1 |          3 |          3 |          1 |          7 |
+| lib/features/map_events/domain/repositories                                                                                  |          1 |         71 |         12 |         16 |         99 |
+| lib/features/map_events/domain/usecases                                                                                      |          1 |        249 |         27 |         61 |        337 |
+| lib/features/map_events/presentation                                                                                         |         41 |      6,336 |        188 |        555 |      7,079 |
+| lib/features/map_events/presentation/bloc                                                                                    |         16 |      1,310 |         89 |        239 |      1,638 |
+| lib/features/map_events/presentation/bloc/car_event_history                                                                  |          3 |         66 |          5 |         19 |         90 |
+| lib/features/map_events/presentation/bloc/contest_detail                                                                     |          3 |        241 |         15 |         44 |        300 |
+| lib/features/map_events/presentation/bloc/create_contest                                                                     |          2 |        211 |         17 |         32 |        260 |
+| lib/features/map_events/presentation/bloc/event_contests                                                                     |          3 |        324 |         29 |         62 |        415 |
+| lib/features/map_events/presentation/bloc/manage_contests                                                                    |          3 |        372 |         14 |         66 |        452 |
+| lib/features/map_events/presentation/bloc/share_win                                                                          |          2 |         96 |          9 |         16 |        121 |
+| lib/features/map_events/presentation/pages                                                                                   |          5 |      1,655 |         16 |        105 |      1,776 |
+| lib/features/map_events/presentation/utils                                                                                   |          2 |         46 |         10 |          9 |         65 |
+| lib/features/map_events/presentation/widgets                                                                                 |         18 |      3,325 |         73 |        202 |      3,600 |
+| lib/features/map_events/presentation/widgets/contests                                                                        |         14 |      3,296 |         64 |        198 |      3,558 |
+| lib/features/map_events/presentation/widgets/detail                                                                          |          2 |          3 |          2 |          0 |          5 |
+| lib/features/map_events/presentation/widgets/manage                                                                          |          1 |         25 |          2 |          4 |         31 |
+| lib/features/map_events/presentation/widgets/shared                                                                          |          1 |          1 |          5 |          0 |          6 |
+| lib/features/notifications                                                                                                   |          2 |         35 |          5 |          1 |         41 |
+| lib/features/notifications/domain                                                                                            |          1 |         30 |          5 |          1 |         36 |
+| lib/features/notifications/domain/entities                                                                                   |          1 |         30 |          5 |          1 |         36 |
+| lib/features/notifications/presentation                                                                                      |          1 |          5 |          0 |          0 |          5 |
+| lib/features/notifications/presentation/widgets                                                                              |          1 |          5 |          0 |          0 |          5 |
+| lib/features/profile                                                                                                         |          3 |        -45 |         -2 |         -2 |        -49 |
+| lib/features/profile/presentation                                                                                            |          3 |        -45 |         -2 |         -2 |        -49 |
+| lib/features/profile/presentation/widgets                                                                                    |          3 |        -45 |         -2 |         -2 |        -49 |
+| lib/features/profile/presentation/widgets/my_profile                                                                         |          2 |        -11 |          0 |          0 |        -11 |
+| lib/features/profile/presentation/widgets/shared                                                                             |          1 |        -34 |         -2 |         -2 |        -38 |
+| lib/l10n                                                                                                                     |          3 |      1,023 |        560 |        420 |      2,003 |
+| macos                                                                                                                        |          1 |          2 |          0 |          0 |          2 |
+| macos/Flutter                                                                                                                |          1 |          2 |          0 |          0 |          2 |
+| test                                                                                                                         |          8 |      1,164 |         90 |        151 |      1,405 |
+| test/core                                                                                                                    |          1 |         49 |         13 |         15 |         77 |
+| test/features                                                                                                                |          7 |      1,115 |         77 |        136 |      1,328 |
+| test/features/garage                                                                                                         |          3 |        322 |         56 |         45 |        423 |
+| test/features/map_events                                                                                                     |          4 |        793 |         21 |         91 |        905 |
+| test/features/map_events (Files)                                                                                             |          3 |        491 |         15 |         59 |        565 |
+| test/features/map_events/fakes                                                                                               |          1 |        302 |          6 |         32 |        340 |
++------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                                                                     | language       | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/ADD_CAR_UI_REFACTOR_PROGRESS.md                                                    | Markdown       |        320 |          0 |         70 |        390 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/EVENT_CONTESTS_PLAN.md                                                             | Markdown       |        766 |          0 |        109 |        875 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/EVENT_CONTESTS_PROGRESS.md                                                         | Markdown       |        211 |          0 |         51 |        262 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/MAP_EVENTS_NOTES.md                                                                | Markdown       |          4 |          0 |          1 |          5 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/android/app/src/main/AndroidManifest.xml                                           | XML            |          4 |         18 |          1 |         23 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/About car page.html                                                | HTML           |         37 |          0 |          6 |         43 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Add to Garage.html                                                 | HTML           |         71 |          0 |         10 |         81 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Auth Page.html                                                     | HTML           |         60 |          0 |          7 |         67 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Car Meet Page.html                                                 | HTML           |         80 |          0 |          6 |         86 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Chat Page.html                                                     | HTML           |         60 |          0 |          7 |         67 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Event Contests.html                                                | HTML           |        110 |          0 |          9 |        119 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Feed Page.html                                                     | HTML           |         76 |          0 |          8 |         84 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Feedback Feed Page.html                                            | HTML           |         89 |          0 |         11 |        100 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Feedback Page.html                                                 | HTML           |         71 |          0 |          9 |         80 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Followers Page.html                                                | HTML           |         58 |          0 |          7 |         65 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Forums.html                                                        | HTML           |        101 |          0 |         15 |        116 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Garage Card Explorations.html                                      | HTML           |         49 |          0 |          1 |         50 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Garage Section.html                                                | HTML           |         58 |          0 |          7 |         65 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Map Page.html                                                      | HTML           |         95 |          0 |         11 |        106 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Messages Page.html                                                 | HTML           |         60 |          0 |          7 |         67 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Onboarding.html                                                    | HTML           |         58 |          0 |          8 |         66 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Post Composer.html                                                 | HTML           |         71 |          0 |          9 |         80 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Profile Page v2.html                                               | HTML           |         54 |          0 |          1 |         55 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Profile Page.html                                                  | HTML           |         53 |          0 |          7 |         60 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Reels Page.html                                                    | HTML           |         93 |          0 |          9 |        102 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Search Page.html                                                   | HTML           |        136 |          0 |         10 |        146 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Service Book v2 (Minimal).html                                     | HTML           |         78 |          0 |          5 |         83 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Service Book.html                                                  | HTML           |         80 |          0 |          9 |         89 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Shared Car Page (web).html                                         | HTML           |        483 |          5 |         26 |        514 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Tweakd Landing v1 (app screens).html                               | HTML           |        249 |          0 |          9 |        258 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Tweakd Landing.html                                                | HTML           |        138 |          0 |          8 |        146 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/about-car.jsx                                                      | JavaScript JSX |        349 |         28 |         27 |        404 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/add-flow-screens.jsx                                               | JavaScript JSX |        326 |         15 |         13 |        354 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/add-flow.jsx                                                       | JavaScript JSX |        365 |         22 |         22 |        409 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-1.svg                                                    | XML            |         10 |          0 |          0 |         10 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-2.svg                                                    | XML            |         10 |          0 |          0 |         10 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-3.svg                                                    | XML            |         10 |          0 |          0 |         10 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-4.svg                                                    | XML            |         10 |          0 |          0 |         10 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-5.svg                                                    | XML            |         10 |          0 |          0 |         10 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-6.svg                                                    | XML            |         10 |          0 |          0 |         10 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-7.svg                                                    | XML            |         10 |          0 |          0 |         10 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/badges/pioneer-unlocked.svg                                 | XML            |         68 |          0 |          0 |         68 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/auth.jsx                                                           | JavaScript JSX |        351 |         29 |         34 |        414 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/car-meet.jsx                                                       | JavaScript JSX |        582 |         16 |         52 |        650 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/chat.jsx                                                           | JavaScript JSX |        238 |         23 |         23 |        284 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/contest-attendee.jsx                                               | JavaScript JSX |        479 |         14 |         26 |        519 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/contest-data.jsx                                                   | JavaScript JSX |        129 |         11 |         13 |        153 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/contest-extras.jsx                                                 | JavaScript JSX |        121 |          6 |          9 |        136 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/contest-organizer.jsx                                              | JavaScript JSX |        358 |          7 |         30 |        395 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/contest-ui.jsx                                                     | JavaScript JSX |        275 |         14 |         16 |        305 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Feedback.html                                            | HTML           |        190 |          3 |         11 |        204 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Login.html                                               | HTML           |        144 |          2 |         13 |        159 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Moderation.html                                          | HTML           |        211 |          2 |         17 |        230 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Moderators.html                                          | HTML           |        193 |          3 |         13 |        209 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Overview.html                                            | HTML           |        199 |          6 |         12 |        217 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Support.html                                             | HTML           |        193 |          2 |         14 |        209 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/charts.js                                                | JavaScript     |        132 |         15 |          7 |        154 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/dashboard.css                                            | PostCSS        |        245 |         19 |         28 |        292 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/tweaks.js                                                | JavaScript     |         90 |          5 |          5 |        100 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/design-canvas.jsx                                                  | JavaScript JSX |        484 |         91 |         48 |        623 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/event-create.jsx                                                   | JavaScript JSX |        544 |         15 |         45 |        604 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/event-data.jsx                                                     | JavaScript JSX |        193 |          8 |         22 |        223 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/event-widget.jsx                                                   | JavaScript JSX |        334 |         12 |         35 |        381 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/feed.jsx                                                           | JavaScript JSX |        408 |         41 |         32 |        481 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/feedback-feed.jsx                                                  | JavaScript JSX |        432 |         23 |         39 |        494 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/feedback.jsx                                                       | JavaScript JSX |        371 |         24 |         28 |        423 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/followers.jsx                                                      | JavaScript JSX |        347 |         36 |         25 |        408 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/forums-data.jsx                                                    | JavaScript JSX |        190 |         21 |          8 |        219 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/forums-screens-2.jsx                                               | JavaScript JSX |        342 |         41 |         35 |        418 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/forums-screens.jsx                                                 | JavaScript JSX |        317 |         36 |         28 |        381 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/forums-ui.jsx                                                      | JavaScript JSX |        426 |         47 |         34 |        507 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/garage-card-variants.jsx                                           | JavaScript JSX |        147 |          7 |         13 |        167 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/garage.jsx                                                         | JavaScript JSX |        979 |         42 |         54 |      1,075 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/github.md                                                          | Markdown       |         12 |          0 |          4 |         16 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/ios-frame.jsx                                                      | JavaScript JSX |        287 |         35 |         17 |        339 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/map.jsx                                                            | JavaScript JSX |        661 |         57 |         72 |        790 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/messages.jsx                                                       | JavaScript JSX |        301 |         28 |         18 |        347 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/onboarding-flow.jsx                                                | JavaScript JSX |        151 |         20 |         11 |        182 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/onboarding-screens.jsx                                             | JavaScript JSX |        256 |         14 |         22 |        292 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/palette.js                                                         | JavaScript     |         20 |          8 |          7 |         35 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/post-flow-screens.jsx                                              | JavaScript JSX |        307 |         33 |         11 |        351 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/post-flow.jsx                                                      | JavaScript JSX |        174 |         13 |         16 |        203 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/profile-v2.jsx                                                     | JavaScript JSX |        316 |         17 |         23 |        356 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/profile.jsx                                                        | JavaScript JSX |        473 |         36 |         32 |        541 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/reels.jsx                                                          | JavaScript JSX |        526 |         53 |         39 |        618 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/search.jsx                                                         | JavaScript JSX |        294 |         23 |         22 |        339 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/servicebook-minimal.jsx                                            | JavaScript JSX |        327 |         11 |         25 |        363 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/servicebook.jsx                                                    | JavaScript JSX |        615 |         40 |         52 |        707 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/sharing.jsx                                                        | JavaScript JSX |        139 |         13 |         19 |        171 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/tweaks-panel.jsx                                                   | JavaScript JSX |        417 |         95 |         30 |        542 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/uploads/Tweakd SVG logo - Dark theme.svg                           | XML            |          1 |          0 |          0 |          1 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/uploads/Tweakd SVG logo - Light theme.svg                          | XML            |          1 |          0 |          0 |          1 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/uploads/Tweakd-3.svg                                               | XML            |         68 |          0 |          0 |         68 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/uploads/badge-unlocked.svg                                         | XML            |         73 |          0 |          0 |         73 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/deeplinks/deep_link_service.dart                                          | Dart           |          0 |          8 |          0 |          8 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/deeplinks/share_link_route.dart                                           | Dart           |          0 |         10 |          1 |         11 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/di/injection.config.dart                                                  | Dart           |        134 |          0 |          0 |        134 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/realtime/contest_realtime_service.dart                                    | Dart           |          8 |         20 |          6 |         34 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/realtime/supabase_contest_realtime_service.dart                           | Dart           |        122 |         16 |         20 |        158 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/routes/app_router.dart                                                    | Dart           |         94 |         10 |          0 |        104 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/services/share_launcher_service.dart                                      | Dart           |         28 |         13 |          2 |         43 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/utils/qr_png_rasterizer.dart                                              | Dart           |         39 |         24 |          6 |         69 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/data/datasources/garage_api_data_source.dart                   | Dart           |          3 |          5 |          0 |          8 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/domain/entities/car_share.dart                                 | Dart           |         -8 |         -2 |         -1 |        -11 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/bloc/add_car/bloc.dart                            | Dart           |          3 |          8 |          1 |         12 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/bloc/add_car/event.dart                           | Dart           |          0 |          1 |          0 |          1 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/pages/about_car_page.dart                         | Dart           |         16 |          9 |          5 |         30 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/pages/build_log_entry_page.dart                   | Dart           |        591 |         30 |         48 |        669 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/pages/fullscreen_image_page.dart                  | Dart           |         84 |         25 |         11 |        120 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/pages/register_car_page.dart                      | Dart           |        -85 |         22 |          5 |        -58 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/car_events_section.dart                   | Dart           |        204 |          5 |         16 |        225 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/garage_car_card.dart                      | Dart           |        -31 |        -11 |         -3 |        -45 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/add_mod_sheet.dart           | Dart           |       -491 |        -14 |        -26 |       -531 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/drivetrain_step.dart         | Dart           |         -6 |          1 |          0 |         -5 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/gallery_step.dart            | Dart           |         99 |         16 |         11 |        126 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/identity_step.dart           | Dart           |       -156 |          0 |         -7 |       -163 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/mod_slot.dart                | Dart           |          5 |          3 |          5 |         13 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/mods_step.dart               | Dart           |         -2 |          3 |          0 |          1 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/performance_step.dart        | Dart           |       -101 |         -1 |         -7 |       -109 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/register_car_chrome.dart     | Dart           |       -297 |         -1 |        -20 |       -318 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/register_car_fields.dart     | Dart           |          2 |         27 |          6 |         35 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/register_discard_dialog.dart | Dart           |        100 |          3 |          6 |        109 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/reorderable_photo_tile.dart  | Dart           |         59 |         17 |         12 |         88 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/specs_step.dart              | Dart           |        204 |         28 |         15 |        247 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/story_step.dart              | Dart           |         -8 |          0 |          0 |         -8 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/share/share_qr_dialog.dart                | Dart           |        -48 |          4 |         -1 |        -45 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/data/datasources/map_event_contests_api_data_source.dart   | Dart           |        141 |          4 |         16 |        161 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/data/models/contest_models.dart                            | Dart           |        332 |          8 |         41 |        381 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/data/repositories/map_event_contests_repository_impl.dart  | Dart           |        213 |          5 |         23 |        241 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/domain/entities/car_event_history.dart                     | Dart           |         63 |          3 |         12 |         78 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/domain/entities/contest.dart                               | Dart           |        288 |         36 |         48 |        372 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/domain/entities/contest_board_update.dart                  | Dart           |         32 |          5 |         11 |         48 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/domain/entities/contest_enums.dart                         | Dart           |         46 |         13 |         13 |         72 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/domain/failures/map_event_failures.dart                    | Dart           |          3 |          3 |          1 |          7 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/domain/repositories/map_event_contests_repository.dart     | Dart           |         71 |         12 |         16 |         99 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/domain/usecases/map_event_contests.dart                    | Dart           |        249 |         27 |         61 |        337 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/car_event_history/bloc.dart              | Dart           |         36 |          1 |          5 |         42 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/car_event_history/event.dart             | Dart           |         12 |          0 |          6 |         18 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/car_event_history/state.dart             | Dart           |         18 |          4 |          8 |         30 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/contest_detail/bloc.dart                 | Dart           |        137 |          8 |         17 |        162 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/contest_detail/event.dart                | Dart           |         44 |          4 |         18 |         66 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/contest_detail/state.dart                | Dart           |         60 |          3 |          9 |         72 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/create_contest/cubit.dart                | Dart           |        117 |         12 |         15 |        144 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/create_contest/state.dart                | Dart           |         94 |          5 |         17 |        116 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/event_contests/bloc.dart                 | Dart           |        211 |         15 |         25 |        251 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/event_contests/event.dart                | Dart           |         50 |          7 |         21 |         78 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/event_contests/state.dart                | Dart           |         63 |          7 |         16 |         86 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/manage_contests/bloc.dart                | Dart           |        235 |          9 |         23 |        267 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/manage_contests/event.dart               | Dart           |         74 |          3 |         31 |        108 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/manage_contests/state.dart               | Dart           |         63 |          2 |         12 |         77 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/share_win/cubit.dart                     | Dart           |         84 |          9 |         10 |        103 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/bloc/share_win/state.dart                     | Dart           |         12 |          0 |          6 |         18 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/pages/contest_page.dart                       | Dart           |        618 |          8 |         42 |        668 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/pages/create_contest_page.dart                | Dart           |        488 |          3 |         26 |        517 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/pages/manage_map_event_page.dart              | Dart           |          2 |          0 |          0 |          2 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/pages/map_event_detail_page.dart              | Dart           |         79 |          4 |          2 |         85 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/pages/organizer_contests_page.dart            | Dart           |        468 |          1 |         35 |        504 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/utils/contest_formatting.dart                 | Dart           |         37 |          8 |          8 |         53 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/utils/map_event_error_mapper.dart             | Dart           |          9 |          2 |          1 |         12 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/contest_card.dart            | Dart           |        295 |          4 |         18 |        317 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/contest_category_icon.dart   | Dart           |         25 |          3 |          6 |         34 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/contest_rank_badge.dart      | Dart           |        107 |          4 |          7 |        118 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/contest_status_chip.dart     | Dart           |         96 |          5 |         13 |        114 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/contests_overview_block.dart | Dart           |        125 |          3 |          8 |        136 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/contests_tab.dart            | Dart           |        260 |          5 |         18 |        283 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/enter_contests_sheet.dart    | Dart           |        414 |          7 |         26 |        447 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/leaderboard_row.dart         | Dart           |        199 |          4 |         15 |        218 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/org_contest_card.dart        | Dart           |        427 |          4 |         24 |        455 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/organizer_sheets.dart        | Dart           |        384 |          7 |         17 |        408 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/share_win_sheet.dart         | Dart           |        238 |          4 |         13 |        255 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/vote_sheet.dart              | Dart           |        273 |          3 |         14 |        290 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/winner_card.dart             | Dart           |        224 |          8 |         11 |        243 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/winner_reveal.dart           | Dart           |        229 |          3 |          8 |        240 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/detail/map_event_overview_tab.dart    | Dart           |        -25 |         -2 |         -3 |        -30 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/detail/map_event_tabs.dart            | Dart           |         28 |          4 |          3 |         35 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/manage/manage_event_sections.dart     | Dart           |         25 |          2 |          4 |         31 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/shared/map_event_chips.dart           | Dart           |          1 |          5 |          0 |          6 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/notifications/domain/entities/notification.dart                       | Dart           |         30 |          5 |          1 |         36 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/notifications/presentation/widgets/notification_tile.dart             | Dart           |          5 |          0 |          0 |          5 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/profile/presentation/widgets/my_profile/create_button.dart            | Dart           |          2 |          0 |          0 |          2 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/profile/presentation/widgets/my_profile/create_picker_sheet.dart      | Dart           |        -13 |          0 |          0 |        -13 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/profile/presentation/widgets/shared/garage_section.dart               | Dart           |        -34 |         -2 |         -2 |        -38 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/l10n/app_localizations.dart                                                    | Dart           |        145 |        560 |        140 |        845 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/l10n/app_localizations_en.dart                                                 | Dart           |        439 |          0 |        140 |        579 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/l10n/app_localizations_ro.dart                                                 | Dart           |        439 |          0 |        140 |        579 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/main.dart                                                                      | Dart           |          3 |          4 |          0 |          7 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/macos/Flutter/GeneratedPluginRegistrant.swift                                      | Swift          |          2 |          0 |          0 |          2 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/pubspec.yaml                                                                       | YAML           |          3 |          0 |          0 |          3 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/test/core/qr_png_rasterizer_test.dart                                              | Dart           |         49 |         13 |         15 |         77 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/test/features/garage/fullscreen_image_zoom_test.dart                               | Dart           |         58 |         11 |         11 |         80 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/test/features/garage/register_car_layout_test.dart                                 | Dart           |        267 |         42 |         34 |        343 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/test/features/garage/share_link_route_test.dart                                    | Dart           |         -3 |          3 |          0 |          0 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/test/features/map_events/contest_detail_bloc_test.dart                             | Dart           |        135 |          4 |         25 |        164 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/test/features/map_events/contest_models_test.dart                                  | Dart           |        171 |          7 |         16 |        194 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/test/features/map_events/contests_layout_test.dart                                 | Dart           |        185 |          4 |         18 |        207 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/test/features/map_events/fakes/contest_fixtures.dart                               | Dart           |        302 |          6 |         32 |        340 |
+| Total                                                                                                                        |                |     30,635 |      2,445 |      3,183 |     36,263 |
++------------------------------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+

@@ -128,16 +128,22 @@ class DioHttpClient implements AbstractHTTP {
 
     String? errorCode;
     String message = e.message ?? 'An error occurred.';
+    Map<String, dynamic>? details;
     if (data is Map<String, dynamic>) {
       errorCode = data['error'] as String?;
       message = (data['message'] as String?) ?? message;
+      details = data['details'] as Map<String, dynamic>?;
     }
 
     if (status == 401) {
       throw UnauthenticatedException(message);
     }
     if (status == 409) {
-      throw ConflictException(errorCode: errorCode, message: message);
+      throw ConflictException(
+        errorCode: errorCode,
+        message: message,
+        details: details,
+      );
     }
     if (status != null && status >= 500) {
       throw ServerException(message);

@@ -30,7 +30,8 @@ import 'package:tweakd/features/profile/presentation/widgets/shared/profile_tabs
 import 'package:tweakd/features/profile/presentation/widgets/shared/profile_top_bar.dart';
 import 'package:tweakd/l10n/app_localizations.dart';
 
-/// Five badges, so the strip has to hide one behind the "+N" slot.
+/// Five badges — exactly what the strip's five slots hold, so it draws all of
+/// them and no "ALL" slot. The widest the row ever gets.
 ///
 /// The artwork URL is deliberately empty: a widget test has no network, and
 /// flutter_svg surfaces a failed fetch as an unhandled async error that fails
@@ -117,7 +118,7 @@ Widget _profileSurface() {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      BadgeStrip(badges: _badges, isOwner: false),
+                      BadgeStrip(badges: _badges),
                       const SizedBox(height: 20),
                     ],
                   ),

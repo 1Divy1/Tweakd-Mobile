@@ -17,6 +17,37 @@ import '../shared/map_event_organizer_row.dart';
 import 'decline_entry_dialog.dart';
 
 /// The pending-entry queue: every car waiting on an organizer's yes or no.
+/// The way into the organizer's contests console. The count line comes from
+/// the event page's own contests read; this section never fetches.
+class ManageContestsSection extends StatelessWidget {
+  final MapEventEntity event;
+
+  const ManageContestsSection({super.key, required this.event});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        MapEventSectionLabel(label: l10n.contestsManageSectionTitle),
+        const SizedBox(height: 10),
+        _ActionRow(
+          icon: Icons.emoji_events_outlined,
+          label: l10n.contestsManageOpen,
+          onTap: event.status.isActionable
+              ? () => context.push(
+                    '/map-events/${event.id}/manage/contests',
+                    extra: event,
+                  )
+              : null,
+        ),
+      ],
+    );
+  }
+}
+
 class ManageEntriesSection extends StatelessWidget {
   final ManageMapEventState state;
 

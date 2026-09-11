@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../domain/entities/contest.dart';
 import '../../../domain/entities/map_event.dart';
+import '../../bloc/event_contests/state.dart';
 import '../../bloc/event_detail/bloc.dart';
 import '../../bloc/event_detail/event.dart';
 import '../../bloc/event_detail/state.dart';
+import '../contests/contests_overview_block.dart';
 import '../../utils/map_event_formatting.dart';
 import '../shared/event_car_picker_sheet.dart';
 import '../shared/map_event_attendee_stack.dart';
@@ -20,12 +23,18 @@ import '../shared/map_event_participation_strip.dart';
 /// organizers, their rules, the contests placeholder and the attendee row.
 class MapEventOverviewTab extends StatelessWidget {
   final MapEventDetailState state;
+  final EventContestsState contests;
   final VoidCallback onSeeAllCars;
+  final ValueChanged<ContestEntity> onOpenContest;
+  final VoidCallback onSeeAllContests;
 
   const MapEventOverviewTab({
     super.key,
     required this.state,
+    required this.contests,
     required this.onSeeAllCars,
+    required this.onOpenContest,
+    required this.onSeeAllContests,
   });
 
   @override
@@ -76,9 +85,35 @@ class MapEventOverviewTab extends StatelessWidget {
           _RulesCard(event: event),
         ],
         const SizedBox(height: 20),
-        MapEventSectionLabel(label: l10n.mapEventsSectionContests),
+        Row(
+          children: [
+            Expanded(
+              child: MapEventSectionLabel(label: l10n.mapEventsSectionContests),
+            ),
+            if (contests.hasContests)
+              TextButton(
+                onPressed: onSeeAllContests,
+                style: TextButton.styleFrom(
+                  foregroundColor: AppColors.accent,
+                  visualDensity: VisualDensity.compact,
+                  padding: EdgeInsets.zero,
+                  textStyle: const TextStyle(
+                    fontSize: 10.5,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 0.6,
+                  ),
+                ),
+                child: Text(l10n.mapEventsSeeAll),
+              ),
+          ],
+        ),
         const SizedBox(height: 8),
-        const _ContestsPlaceholder(),
+        ContestsOverviewBlock(
+          state: contests,
+          now: DateTime.now(),
+          onOpen: onOpenContest,
+          onSeeAll: onSeeAllContests,
+        ),
         const SizedBox(height: 20),
         _AttendeesSection(state: state),
         const SizedBox(height: 14),
@@ -282,71 +317,6 @@ class _RulesCard extends StatelessWidget {
               ],
             ),
           ],
-        ],
-      ),
-    );
-  }
-}
-
-/// A UI-only stub, exactly as the design shows it: there is no contests
-/// endpoint, no state and nothing to tap. It exists to set the expectation.
-class _ContestsPlaceholder extends StatelessWidget {
-  const _ContestsPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
-    return _Card(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(
-              color: AppColors.bg,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            alignment: Alignment.center,
-            child: const Icon(
-              Icons.emoji_events_outlined,
-              size: 17,
-              color: AppColors.muteSoft,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      l10n.mapEventsContestsTitle,
-                      style: const TextStyle(
-                        fontSize: 14.5,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.ink,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    const MapEventSoonChip(),
-                  ],
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  l10n.mapEventsContestsBody,
-                  style: const TextStyle(
-                    fontSize: 13.5,
-                    height: 1.4,
-                    color: AppColors.mute,
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );
