@@ -1,11 +1,18 @@
 # badges
 
 Achievements shown as a circular strip on a profile, under the follow/edit
-actions. Tapping a badge circle opens that badge on its own screen
-(`BadgeDetailPage`, route `/badge`, presented as a modal) — the artwork blown
-up, its title and its "how you get it" copy. The trailing `ALL` slot opens a
-sheet listing every badge — unlocked first, then, on your own profile, the
-locked ones; each row in that sheet opens the same detail screen.
+actions. **Only earned badges are ever shown** — there is no locked catalogue
+anywhere in the app, so a profile with nothing earned draws no strip at all.
+Tapping a badge circle opens that badge on its own screen (`BadgeDetailPage`,
+route `/badge`, presented as a modal) — the artwork blown up, its title and its
+"how you get it" copy.
+
+The strip is laid out for five slots. Up to five badges are drawn outright and
+there is **no `ALL` button** — the whole collection is already on screen. Only a
+sixth badge makes the strip give up its last slot to an `ALL` circle (`+N`),
+which opens a sheet listing every earned badge, newest unlock first; each row
+there opens the same detail screen. Badges repeat: a top-3 finish is earned once
+per contest, so a regular is expected to overflow while most profiles never do.
 
 ## Where the data comes from
 
@@ -16,22 +23,22 @@ trip as the header — `ProfileEntity.badges`, typed as `List<UserBadgeEntity>`.
 `BadgeStrip` is handed that list; it has no bloc, no loading state and no error
 state.
 
-This feature owns two calls of its own:
+`BadgeStrip` and the sheet are handed that list — no bloc, no loading state, no
+error state, and no request of their own.
 
-- **`GET /badges/me/locked`** — the badges the signed-in user hasn't earned.
-  Fires the first time the "all badges" sheet is opened, not on profile load,
-  and only on your own profile — there is deliberately no public locked list,
-  so a visitor's sheet is the earned half alone.
+This feature owns one call:
+
 - **`POST /badges/me/pending-celebration/{badgeId}`** — acknowledges that the
   one-time unlock animation for a badge has played. Fired once per badge as the
   celebration is dismissed. Returns `{ "celebrated": bool }`; the flag isn't
   surfaced (a repeat ack is a no-op, never an error).
 
-Two other endpoints exist and are **not used**: `GET /badges/me` and
+Several endpoints exist and are **not used**: `GET /badges/me` and
 `GET /profile/by-username/{u}/badges` refetch a badge row after an unlock
-animation, and `GET /badges/catalogue` returns everything earnable. Refreshing
-the profile already re-reads the badges, and `/me` + `/me/locked` partition the
-catalogue between them. `GET /badges/me/pending-celebration` is wired
+animation, `GET /badges/catalogue` returns everything earnable, and
+`GET /badges/me/locked` returns what the caller hasn't earned. Refreshing the
+profile already re-reads the badges, and locked badges are not a thing the UI
+shows. `GET /badges/me/pending-celebration` is wired
 (`GetPendingBadgeCelebrationsUseCase`) but not called on launch — the list
 rides on the feed instead (below).
 
@@ -72,17 +79,15 @@ payload.
 ```
 
 - `id` is the stable code, not a uuid.
-- `description` and `locked_url` are **nullable**. No description → the sheet
-  row is the title alone. No locked art → `BadgeArt` desaturates and dims the
-  unlocked art itself.
+- `description` is **nullable** — no description → the sheet row is the title
+  alone. `locked_url` is parsed off the payload but never drawn.
 - `available: false` is a retired badge. It never comes back from the
   catalogue, but a holder still sees it, so the app renders it normally.
 - The artwork is **remote SVG**, drawn by `presentation/widgets/badge_art.dart`
   (`flutter_svg`). A missing or unparseable file falls back to a generic medal,
   so a broken asset can never blank a profile.
 
-`GET /badges/me/locked` returns the bare badge object (nothing was earned, so
-there is no `earned_at`); the profile's `badges` and the badge-row endpoints
-return `{ badge, earned_at }` — `UserBadgeModel`.
+The profile's `badges` and the badge-row endpoints return
+`{ badge, earned_at }` — `UserBadgeModel`.
 
 Display order is the backend's: newest unlock first.

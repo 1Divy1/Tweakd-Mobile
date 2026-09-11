@@ -22,6 +22,12 @@ enum NotificationType {
   mapEventOrganizerAdded,
   mapEventWithdrawalRequested,
   mapEventWithdrawalDecided,
+  contestEntryRequested,
+  contestEntryDecided,
+  contestOpened,
+  contestResults,
+  contestPlaced,
+  participantCardReady,
   feedbackStatus,
   feedbackFeedStatusChanged,
   ticketReply,
@@ -75,6 +81,18 @@ enum NotificationType {
         return NotificationType.mapEventWithdrawalRequested;
       case 'map_event_withdrawal_decided':
         return NotificationType.mapEventWithdrawalDecided;
+      case 'contest_entry_requested':
+        return NotificationType.contestEntryRequested;
+      case 'contest_entry_decided':
+        return NotificationType.contestEntryDecided;
+      case 'contest_opened':
+        return NotificationType.contestOpened;
+      case 'contest_results':
+        return NotificationType.contestResults;
+      case 'contest_placed':
+        return NotificationType.contestPlaced;
+      case 'participant_card_ready':
+        return NotificationType.participantCardReady;
       case 'feedback_status':
         return NotificationType.feedbackStatus;
       case 'feedback_status_changed':
@@ -109,9 +127,10 @@ enum NotificationType {
       this == NotificationType.forumThreadTag ||
       this == NotificationType.forumReplyTag;
 
-  /// Anything whose payload carries `event_id`. All seven open the event —
+  /// Anything whose payload carries `event_id`. All of these open the event —
   /// the organiser-facing ones (`car_registered`, `organizer_added`,
-  /// `withdrawal_requested`) included, since the manage screen hangs off it.
+  /// `withdrawal_requested`) included, since the manage screen hangs off it,
+  /// and `participant_card_ready`, since the event page is where the card lives.
   bool get isMapEvent =>
       this == NotificationType.mapEventApproved ||
       this == NotificationType.mapEventRejected ||
@@ -119,7 +138,18 @@ enum NotificationType {
       this == NotificationType.mapEventCarRegistered ||
       this == NotificationType.mapEventOrganizerAdded ||
       this == NotificationType.mapEventWithdrawalRequested ||
-      this == NotificationType.mapEventWithdrawalDecided;
+      this == NotificationType.mapEventWithdrawalDecided ||
+      this == NotificationType.participantCardReady;
+
+  /// Contest notifications carry `event_id` and `contest_id`. The four
+  /// attendee-facing ones open the contest; the organizer-facing entry
+  /// request opens the organizer's console via the event page.
+  bool get isContest =>
+      this == NotificationType.contestEntryRequested ||
+      this == NotificationType.contestEntryDecided ||
+      this == NotificationType.contestOpened ||
+      this == NotificationType.contestResults ||
+      this == NotificationType.contestPlaced;
 
   /// A direct message. Unlike the others this one is written by Postgres and
   /// pushed by a Supabase edge function, so its payload has its own shape:
@@ -239,6 +269,17 @@ String? notificationRouteFor(NotificationType type, Map<String, String> payload)
   if (type.isMapEvent) {
     final id = safeRouteId(payload, 'event_id');
     return id == null ? null : '/map-events/$id';
+  }
+  if (type.isContest) {
+    final eventId = safeRouteId(payload, 'event_id');
+    if (eventId == null) return null;
+    final contestId = safeRouteId(payload, 'contest_id');
+    // An entry request is the organizer's to decide; the console hangs off
+    // the event page, so that's where it lands.
+    if (contestId == null || type == NotificationType.contestEntryRequested) {
+      return '/map-events/$eventId';
+    }
+    return '/map-events/$eventId/contests/$contestId';
   }
   if (type.isDm) {
     final id = safeRouteId(payload, 'conversation_id');

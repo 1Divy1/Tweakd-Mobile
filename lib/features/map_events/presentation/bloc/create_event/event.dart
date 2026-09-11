@@ -1,9 +1,10 @@
 import 'package:tweakd/core/services/image_service.dart';
-import 'package:tweakd/features/map/domain/entities/geo_position.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/map_event.dart';
 import '../../../domain/entities/organizer_candidate.dart';
+import '../../pages/pick_event_location_page.dart';
+import 'state.dart';
 
 sealed class CreateMapEventEvent extends Equatable {
   const CreateMapEventEvent();
@@ -47,18 +48,21 @@ class ChangeEventDescription extends CreateMapEventEvent {
   List<Object?> get props => [value];
 }
 
-class ChangeEventLocationName extends CreateMapEventEvent {
-  final String value;
-  const ChangeEventLocationName(this.value);
+/// The whole result of the map picker: the pin plus the three address parts.
+///
+/// There is deliberately no event for typing a location by hand — the WHEN &
+/// WHERE step has no venue text field, and `location_name` is always the
+/// address composed from what the organizer entered in the picker.
+class ChangeEventLocation extends CreateMapEventEvent {
+  final PickedEventLocation picked;
+  const ChangeEventLocation(this.picked);
   @override
-  List<Object?> get props => [value];
-}
-
-class ChangeEventPosition extends CreateMapEventEvent {
-  final GeoPosition position;
-  const ChangeEventPosition(this.position);
-  @override
-  List<Object?> get props => [position];
+  List<Object?> get props => [
+        picked.position,
+        picked.city,
+        picked.street,
+        picked.number,
+      ];
 }
 
 class ChangeEventStart extends CreateMapEventEvent {
@@ -143,6 +147,36 @@ class RemoveEventOrganizer extends CreateMapEventEvent {
 
   @override
   List<Object?> get props => [id];
+}
+
+/// Queues a contest for the event being created. Contests can only be created
+/// against an event id, so — like organizers — these are held locally and
+/// flushed once `POST /map-events` has landed.
+class AddDraftContest extends CreateMapEventEvent {
+  final PendingContest contest;
+  const AddDraftContest(this.contest);
+  @override
+  List<Object?> get props => [contest];
+}
+
+class UpdateDraftContest extends CreateMapEventEvent {
+  final PendingContest contest;
+  const UpdateDraftContest(this.contest);
+  @override
+  List<Object?> get props => [contest];
+}
+
+class RemoveDraftContest extends CreateMapEventEvent {
+  final String localId;
+  const RemoveDraftContest(this.localId);
+  @override
+  List<Object?> get props => [localId];
+}
+
+/// Throws away the saved local draft and empties the form. Fired from the
+/// wizard's "start over" affordance.
+class DiscardEventDraft extends CreateMapEventEvent {
+  const DiscardEventDraft();
 }
 
 class SubmitMapEvent extends CreateMapEventEvent {

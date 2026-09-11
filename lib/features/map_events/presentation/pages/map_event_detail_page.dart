@@ -4,11 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../domain/entities/contest.dart';
+import '../bloc/event_contests/bloc.dart';
+import '../bloc/event_contests/event.dart' as contests_events;
+import '../bloc/event_contests/state.dart';
 import '../bloc/event_detail/bloc.dart';
 import '../bloc/event_detail/event.dart';
 import '../bloc/event_detail/state.dart';
 import '../utils/map_event_error_mapper.dart';
 import '../utils/map_event_formatting.dart';
+import '../widgets/contests/contests_tab.dart';
+import '../widgets/contests/enter_contests_sheet.dart';
 import '../widgets/detail/map_event_cars_tab.dart';
 import '../widgets/detail/map_event_hero.dart';
 import '../widgets/detail/map_event_overview_tab.dart';
@@ -17,6 +23,9 @@ import '../widgets/shared/event_car_picker_sheet.dart';
 import '../widgets/shared/map_event_actions_row.dart';
 import '../widgets/shared/map_event_stat_tiles.dart';
 import '../widgets/shared/withdraw_event_dialog.dart';
+import '../bloc/participant_cards/cubit.dart';
+import '../widgets/contests/participant_cards_section.dart';
+import '../../domain/entities/map_event_enums.dart';
 
 /// The full event page: hero, stat tiles, the action row, and the
 /// Overview / Cars segmented content.
@@ -42,36 +51,74 @@ class _MapEventDetailPageState extends State<MapEventDetailPage> {
 
     return Scaffold(
       backgroundColor: AppColors.bg,
-      body: BlocConsumer<MapEventDetailBloc, MapEventDetailState>(
-        // Action failures are one-shot: a snackbar, then cleared, so they never
-        // stack up or reappear on a later rebuild.
-        listenWhen: (a, b) => a.actionError != b.actionError,
-        listener: (context, state) {
-          final error = state.actionError;
-          if (error == null) return;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(mapEventErrorMessage(l10n, error)),
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
-          context
-              .read<MapEventDetailBloc>()
-              .add(const ClearMapEventActionError());
-        },
-        builder: (context, state) {
-          if (state.event == null) {
-            return switch (state.status) {
-              MapEventDetailStatus.failure => _DetailError(state: state),
-              _ => const Center(child: CircularProgressIndicator()),
-            };
-          }
-          return _DetailContent(
-            state: state,
-            tab: _tab,
-            onTabChanged: (tab) => setState(() => _tab = tab),
-          );
-        },
+      body: BlocListener<MapEventDetailBloc, MapEventDetailState>(
+        // Marking the event finished is what creates the viewer's cards, so
+        // fetch them the moment the status flips — e.g. an organizer who also
+        // brought a car, coming back from the manage screen.
+        listenWhen: (a, b) =>
+            a.event?.status != b.event?.status &&
+            b.event?.status == MapEventStatus.previous,
+        listener: (context, state) =>
+            context.read<ParticipantCardsCubit>().load(state.event!.id),
+        child: BlocListener<EventContestsBloc, EventContestsState>(
+          // The enter sheet's failures surface here, like every other action.
+          listenWhen: (a, b) => a.actionError != b.actionError,
+          listener: (context, state) {
+            final error = state.actionError;
+            if (error == null) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(mapEventErrorMessage(l10n, error)),
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+            context.read<EventContestsBloc>().add(
+              const contests_events.ClearEventContestsError(),
+            );
+          },
+          child: BlocConsumer<MapEventDetailBloc, MapEventDetailState>(
+            // Action failures are one-shot: a snackbar, then cleared, so they never
+            // stack up or reappear on a later rebuild.
+            listenWhen: (a, b) => a.actionError != b.actionError,
+            listener: (context, state) {
+              final error = state.actionError;
+              if (error == null) return;
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(mapEventErrorMessage(l10n, error)),
+                  behavior: SnackBarBehavior.floating,
+                ),
+              );
+              context.read<MapEventDetailBloc>().add(
+                const ClearMapEventActionError(),
+              );
+            },
+            builder: (context, state) {
+              if (state.event == null) {
+                return switch (state.status) {
+                  MapEventDetailStatus.failure => _DetailError(state: state),
+                  _ => const Center(child: CircularProgressIndicator()),
+                };
+              }
+              return BlocBuilder<EventContestsBloc, EventContestsState>(
+                builder: (context, contests) {
+                  // The contests segment only exists while there are contests;
+                  // if the last one vanishes under an open tab, fall back.
+                  final tab =
+                      _tab == MapEventTab.contests && !contests.hasContests
+                      ? MapEventTab.overview
+                      : _tab;
+                  return _DetailContent(
+                    state: state,
+                    contests: contests,
+                    tab: tab,
+                    onTabChanged: (tab) => setState(() => _tab = tab),
+                  );
+                },
+              );
+            },
+          ),
+        ),
       ),
     );
   }
@@ -79,11 +126,13 @@ class _MapEventDetailPageState extends State<MapEventDetailPage> {
 
 class _DetailContent extends StatelessWidget {
   final MapEventDetailState state;
+  final EventContestsState contests;
   final MapEventTab tab;
   final ValueChanged<MapEventTab> onTabChanged;
 
   const _DetailContent({
     required this.state,
+    required this.contests,
     required this.tab,
     required this.onTabChanged,
   });
@@ -95,8 +144,13 @@ class _DetailContent extends StatelessWidget {
 
     return RefreshIndicator(
       color: AppColors.accent,
-      onRefresh: () async =>
-          context.read<MapEventDetailBloc>().add(const RefreshMapEvent()),
+      onRefresh: () async {
+        context.read<MapEventDetailBloc>().add(const RefreshMapEvent());
+        context.read<EventContestsBloc>().add(
+          const contests_events.RefreshEventContests(),
+        );
+        context.read<ParticipantCardsCubit>().load(event.id);
+      },
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -109,23 +163,20 @@ class _DetailContent extends StatelessWidget {
                 MapEventStatRow(
                   tiles: [
                     MapEventStatTile(
-                      icon: Icons.people_alt_rounded,
                       value: '${event.attendeesCount}',
                       label: l10n.mapEventsStatAttendees,
                     ),
                     MapEventStatTile(
-                      icon: Icons.directions_car_rounded,
                       value: event.maxParticipantCapacity == null
                           ? '${event.attendingCarsCount}'
                           : '${event.attendingCarsCount}/'
-                              '${event.maxParticipantCapacity}',
+                                '${event.maxParticipantCapacity}',
                       label: l10n.mapEventsStatCars,
                       // Orange when the viewer's own car is on the list — the
                       // design's way of saying "you're in this one".
                       isHighlighted: state.myAcceptedEntry != null,
                     ),
                     MapEventStatTile(
-                      icon: Icons.schedule_rounded,
                       value: MapEventFormat.time(context, event.startsAt),
                       label: event.isLive
                           ? l10n.mapEventsStatStarted
@@ -136,9 +187,9 @@ class _DetailContent extends StatelessWidget {
                 const SizedBox(height: 12),
                 MapEventRsvpButtons(
                   state: state,
-                  onToggle: (status) => context
-                      .read<MapEventDetailBloc>()
-                      .add(ToggleMapEventRsvp(status)),
+                  onToggle: (status) => context.read<MapEventDetailBloc>().add(
+                    ToggleMapEventRsvp(status),
+                  ),
                 ),
                 if (event.viewer.canRegisterCars) ...[
                   const SizedBox(height: 8),
@@ -158,20 +209,45 @@ class _DetailContent extends StatelessWidget {
                   const SizedBox(height: 8),
                   _ManageButton(eventId: event.id),
                 ],
+                // Once an organizer marks the event finished, every
+                // participant has a card; the section stays empty otherwise.
+                if (event.status == MapEventStatus.previous) ...[
+                  const SizedBox(height: 18),
+                  ParticipantCardsSection(eventId: event.id),
+                ],
                 const SizedBox(height: 14),
                 MapEventTabs(
                   active: tab,
                   onChanged: onTabChanged,
                   overviewLabel: l10n.mapEventsTabOverview,
                   carsLabel: l10n.mapEventsTabCars(event.attendingCarsCount),
+                  contestsLabel: contests.hasContests ? l10n.contestsTab : null,
+                  contestsLive: contests.hasLiveContest,
                 ),
                 const SizedBox(height: 16),
                 switch (tab) {
                   MapEventTab.overview => MapEventOverviewTab(
-                      state: state,
-                      onSeeAllCars: () => onTabChanged(MapEventTab.cars),
-                    ),
+                    state: state,
+                    contests: contests,
+                    onSeeAllCars: () => onTabChanged(MapEventTab.cars),
+                    onOpenContest: (c) => _openContest(context, c),
+                    onSeeAllContests: () => onTabChanged(MapEventTab.contests),
+                  ),
                   MapEventTab.cars => MapEventCarsTab(state: state),
+                  MapEventTab.contests => ContestsTab(
+                    state: contests,
+                    now: DateTime.now(),
+                    myCarName: state.myAcceptedEntry == null
+                        ? null
+                        : '${state.myAcceptedEntry!.car.brand} '
+                              '${state.myAcceptedEntry!.car.model}',
+                    // Only an accepted event car can enter a contest.
+                    showEnter:
+                        state.myAcceptedEntries.isNotEmpty &&
+                        event.status.isActionable,
+                    onOpen: (c) => _openContest(context, c),
+                    onEnter: () => _enterContests(context),
+                  ),
                 },
                 SizedBox(height: MediaQuery.paddingOf(context).bottom + 24),
               ],
@@ -192,6 +268,36 @@ class _DetailContent extends StatelessWidget {
     if (carIds != null && carIds.isNotEmpty) {
       bloc.add(RegisterCarsForEvent(carIds));
     }
+  }
+
+  void _openContest(BuildContext context, ContestEntity contest) {
+    final event = state.event!;
+    context.push(
+      '/map-events/${event.id}/contests/${contest.id}',
+      extra: {
+        'contest': contest,
+        'eventTitle': event.title,
+        'tabBloc': context.read<EventContestsBloc>(),
+      },
+    );
+  }
+
+  Future<void> _enterContests(BuildContext context) async {
+    final bloc = context.read<EventContestsBloc>();
+    final diff = await showEnterContestsSheet(
+      context,
+      contests: contests.contests,
+      myCars: [for (final p in state.myAcceptedEntries) p.car],
+      now: DateTime.now(),
+    );
+    if (diff == null || diff.isEmpty) return;
+    bloc.add(
+      contests_events.SaveContestEntries(
+        carId: diff.carId,
+        enterContestIds: diff.enter,
+        leaveContestIds: diff.leave,
+      ),
+    );
   }
 
   Future<void> _withdraw(BuildContext context) async {
@@ -239,11 +345,7 @@ class _ManageButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
-                Icons.tune_rounded,
-                size: 16,
-                color: AppColors.ink,
-              ),
+              const Icon(Icons.tune_rounded, size: 16, color: AppColors.ink),
               const SizedBox(width: 8),
               Text(
                 l10n.mapEventsManageTitle.toUpperCase(),
@@ -331,9 +433,9 @@ class _DetailError extends StatelessWidget {
                   if (canRetry) ...[
                     const SizedBox(height: 16),
                     TextButton(
-                      onPressed: () => context
-                          .read<MapEventDetailBloc>()
-                          .add(const RefreshMapEvent()),
+                      onPressed: () => context.read<MapEventDetailBloc>().add(
+                        const RefreshMapEvent(),
+                      ),
                       style: TextButton.styleFrom(
                         foregroundColor: AppColors.accent,
                         textStyle: const TextStyle(

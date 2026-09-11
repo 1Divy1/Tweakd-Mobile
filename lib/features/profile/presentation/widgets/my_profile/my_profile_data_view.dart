@@ -5,9 +5,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/shared/widgets/app_bottom_nav.dart';
-import '../../../../badges/presentation/bloc/bloc.dart';
-import '../../../../badges/presentation/bloc/event.dart';
-import '../../../../badges/presentation/bloc/state.dart';
 import '../../../../badges/presentation/widgets/badge_strip.dart';
 import '../../../../garage/presentation/bloc/bloc.dart';
 import '../../../../garage/presentation/bloc/event.dart';
@@ -66,13 +63,8 @@ class _MyProfileDataViewState extends State<MyProfileDataView> {
     // open.
     context.read<GarageBloc>().add(const LoadMyGarage());
     context.read<ProfilePostsBloc>().add(const LoadMyPosts());
-    // Earned badges ride along with the profile fetch above. Only the locked
-    // list is its own call, and only worth repeating if the sheet has already
-    // pulled it this visit.
-    final badgesBloc = context.read<BadgesBloc>();
-    if (badgesBloc.state is! BadgesInitial) {
-      badgesBloc.add(const LoadLockedBadges());
-    }
+    // Earned badges ride along with the profile fetch above — the badges
+    // feature has no call of its own to repeat here.
     // Tags load lazily, so only refresh them once the tab has actually been
     // opened — otherwise pull-to-refresh would trigger the very fetch the lazy
     // load is avoiding.
@@ -141,7 +133,7 @@ class _MyProfileDataViewState extends State<MyProfileDataView> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        BadgeStrip(badges: profile.badges, isOwner: true),
+                        BadgeStrip(badges: profile.badges),
                         const SizedBox(height: 20),
                       ],
                     ),

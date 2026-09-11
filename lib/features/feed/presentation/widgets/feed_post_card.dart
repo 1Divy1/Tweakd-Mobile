@@ -5,6 +5,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../posts/domain/entities/post.dart';
 import '../../../posts/presentation/widgets/post_card/post_author_header.dart';
 import '../../../posts/presentation/widgets/post_card/post_media_carousel.dart';
+import '../../../posts/presentation/widgets/post_card/post_participant_card_view.dart';
 import '../../../posts/presentation/widgets/post_card/post_tags.dart';
 
 /// A single post in the feed, styled after the Tweakd feed design: an author
@@ -59,14 +60,17 @@ class FeedPostCard extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: PostMediaCarousel(
-              images: post.images,
-              aspectRatio: 16 / 9,
-              fit: BoxFit.cover,
-              borderRadius: BorderRadius.circular(16),
-              peek: true,
-              enableZoom: true,
-            ),
+            // A participant-card post carries the card instead of images.
+            child: post.participantCard != null
+                ? PostParticipantCardView(card: post.participantCard!)
+                : PostMediaCarousel(
+                    images: post.images,
+                    aspectRatio: 16 / 9,
+                    fit: BoxFit.cover,
+                    borderRadius: BorderRadius.circular(16),
+                    peek: true,
+                    enableZoom: true,
+                  ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),

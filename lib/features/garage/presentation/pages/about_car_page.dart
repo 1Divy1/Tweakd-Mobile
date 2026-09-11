@@ -11,6 +11,7 @@ import '../bloc/car_detail/bloc.dart';
 import '../bloc/car_detail/event.dart';
 import '../bloc/car_detail/state.dart';
 import '../utils/garage_error_mapper.dart';
+import '../widgets/car_events_section.dart';
 import '../widgets/car_image.dart';
 import '../widgets/share/share_build_sheet.dart';
 import 'fullscreen_image_page.dart';
@@ -137,6 +138,9 @@ class _AboutCarView extends StatelessWidget {
                     isOwner: isOwner,
                   ),
                 ],
+                // Attended events and contest badges. Paints only when the
+                // car has a history; nothing while loading or on failure.
+                const CarEventsSection(),
                 if (isOwner) ...[
                   const SizedBox(height: 20),
                   _AddModButton(carId: car.id),
@@ -968,45 +972,44 @@ class _TimelineEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(
-            width: 24,
-            child: Stack(
-              children: [
-                // Continuous rail. Stops short of the bottom on the last entry.
-                Positioned(
-                  left: 11,
-                  top: 6,
-                  bottom: isLast ? null : 0,
-                  height: isLast ? 18 : null,
-                  child: Container(width: 2, color: AppColors.accent),
-                ),
-                // Marker aligned with the date label.
-                Positioned(
-                  left: 4,
-                  top: 6,
-                  child: Container(
-                    width: 16,
-                    height: 16,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.bg,
-                      border: Border.all(color: AppColors.accent, width: 2),
-                    ),
-                  ),
-                ),
-              ],
+    // A Stack overlay (rather than IntrinsicHeight) so the rail stretches to
+    // match the card's height: IntrinsicHeight forces every descendant to
+    // answer an intrinsic-dimensions query, which the card's LayoutBuilder
+    // (in _ModMediaStrip) cannot support.
+    return Stack(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(width: 32),
+            Expanded(
+              child: _ModCard(carId: carId, mod: mod, isOwner: isOwner),
+            ),
+          ],
+        ),
+        // Continuous rail. Stops short of the bottom on the last entry.
+        Positioned(
+          left: 11,
+          top: 6,
+          bottom: isLast ? null : 0,
+          height: isLast ? 18 : null,
+          child: Container(width: 2, color: AppColors.accent),
+        ),
+        // Marker aligned with the date label.
+        Positioned(
+          left: 4,
+          top: 6,
+          child: Container(
+            width: 16,
+            height: 16,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.bg,
+              border: Border.all(color: AppColors.accent, width: 2),
             ),
           ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: _ModCard(carId: carId, mod: mod, isOwner: isOwner),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -1094,35 +1097,9 @@ class _ModCard extends StatelessWidget {
             ),
             if (beforeMedia.isNotEmpty || afterMedia.isNotEmpty) ...[
               const SizedBox(height: 10),
-              Row(
-                children: [
-                  if (beforeMedia.isNotEmpty)
-                    Expanded(
-                      child: _ModImage(
-                        url: beforeMedia.first.url,
-                        label: AppLocalizations.of(context)!.garageModBefore,
-                        pairUrls: [
-                          beforeMedia.first.url,
-                          if (afterMedia.isNotEmpty) afterMedia.first.url,
-                        ],
-                        pairIndex: 0,
-                      ),
-                    ),
-                  if (beforeMedia.isNotEmpty && afterMedia.isNotEmpty)
-                    const SizedBox(width: 8),
-                  if (afterMedia.isNotEmpty)
-                    Expanded(
-                      child: _ModImage(
-                        url: afterMedia.first.url,
-                        label: AppLocalizations.of(context)!.garageModAfter,
-                        pairUrls: [
-                          if (beforeMedia.isNotEmpty) beforeMedia.first.url,
-                          afterMedia.first.url,
-                        ],
-                        pairIndex: beforeMedia.isNotEmpty ? 1 : 0,
-                      ),
-                    ),
-                ],
+              _ModMediaStrip(
+                beforeMedia: beforeMedia,
+                afterMedia: afterMedia,
               ),
             ],
             if (mod.description != null && mod.description!.isNotEmpty) ...[
@@ -1245,6 +1222,58 @@ class _ModCard extends StatelessWidget {
     if (confirmed == true) {
       bloc.add(DeleteModificationFromDetail(carId: carId, modId: mod.id));
     }
+  }
+}
+
+/// A modification's before/after shots — befores first, then afters, each
+/// tagged with its phase.
+///
+/// A phase can hold several photos, so the strip scrolls sideways rather than
+/// splitting the row in two: two tiles fill the card, and any extras are a
+/// swipe away. Tapping one opens the whole set in the fullscreen viewer.
+class _ModMediaStrip extends StatelessWidget {
+  final List<ModificationMediaEntity> beforeMedia;
+  final List<ModificationMediaEntity> afterMedia;
+
+  const _ModMediaStrip({required this.beforeMedia, required this.afterMedia});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final items = [
+      for (final m in beforeMedia) (url: m.url, label: l10n.garageModBefore),
+      for (final m in afterMedia) (url: m.url, label: l10n.garageModAfter),
+    ];
+    final urls = [for (final item in items) item.url];
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Two tiles plus the gap fill the card exactly; a third peeks in.
+        const gap = 8.0;
+        final tileWidth = (constraints.maxWidth - gap) / 2;
+
+        return SizedBox(
+          height: tileWidth * 9 / 16,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            physics: items.length > 2
+                ? const ClampingScrollPhysics()
+                : const NeverScrollableScrollPhysics(),
+            itemCount: items.length,
+            separatorBuilder: (_, _) => const SizedBox(width: gap),
+            itemBuilder: (context, i) => SizedBox(
+              width: tileWidth,
+              child: _ModImage(
+                url: items[i].url,
+                label: items[i].label,
+                pairUrls: urls,
+                pairIndex: i,
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 

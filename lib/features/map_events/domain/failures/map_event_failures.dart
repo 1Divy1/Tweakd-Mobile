@@ -38,3 +38,11 @@ class MapEventParticipationConflictFailure extends Failure {
 class MapEventInvalidInputFailure extends Failure {
   const MapEventInvalidInputFailure(String message) : super(message: message);
 }
+
+/// A 403 on the contest endpoints: the viewer is not at the event (no
+/// `attending` RSVP and no accepted car in the line-up), or tried to vote for
+/// their own car. The backend says which in prose, so the
+/// message is shown verbatim (same rule as the participation 409s).
+class ContestNotEligibleFailure extends Failure {
+  const ContestNotEligibleFailure(String message) : super(message: message);
+}

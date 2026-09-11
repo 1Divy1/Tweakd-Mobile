@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'post_image.dart';
+import 'package:tweakd/features/map_events/domain/entities/participant_card.dart';
 import 'post_tagged_car.dart';
 import 'post_user.dart';
 
@@ -31,6 +32,10 @@ class PostEntity extends Equatable {
   final DateTime createdAt;
   final DateTime updatedAt;
 
+  /// The participant card this post shares, drawn in place of images. Null on
+  /// every ordinary post.
+  final ParticipantCardEntity? participantCard;
+
   const PostEntity({
     required this.id,
     required this.description,
@@ -50,6 +55,7 @@ class PostEntity extends Equatable {
     required this.viewerHasSaved,
     required this.createdAt,
     required this.updatedAt,
+    this.participantCard,
   });
 
   PostEntity copyWith({
@@ -88,6 +94,7 @@ class PostEntity extends Equatable {
       viewerHasSaved: viewerHasSaved ?? this.viewerHasSaved,
       createdAt: createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      participantCard: participantCard,
     );
   }
 
@@ -111,5 +118,6 @@ class PostEntity extends Equatable {
         viewerHasSaved,
         createdAt,
         updatedAt,
+        participantCard,
       ];
 }

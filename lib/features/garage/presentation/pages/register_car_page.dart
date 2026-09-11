@@ -16,17 +16,26 @@ import '../bloc/add_car/bloc.dart';
 import '../bloc/add_car/event.dart';
 import '../bloc/add_car/state.dart';
 import '../utils/garage_error_mapper.dart';
-import '../widgets/register_car/add_mod_sheet.dart';
-import '../widgets/register_car/drivetrain_step.dart';
 import '../widgets/register_car/editable_image.dart';
 import '../widgets/register_car/gallery_step.dart';
-import '../widgets/register_car/identity_step.dart';
 import '../widgets/register_car/mod_slot.dart';
 import '../widgets/register_car/mods_step.dart';
-import '../widgets/register_car/performance_step.dart';
 import '../widgets/register_car/register_car_chrome.dart';
 import '../widgets/register_car/register_car_fields.dart';
+import '../widgets/register_car/reorderable_photo_tile.dart';
+import '../widgets/register_car/specs_step.dart';
 import '../widgets/register_car/story_step.dart';
+import 'build_log_entry_page.dart';
+
+/// Wizard step indices. Every technical figure lives on one tabbed specs
+/// step; the build log follows it — it's the part owners care most about —
+/// and all of the imagery is collected last, on the gallery step.
+class _Step {
+  static const specs = 0;
+  static const buildLog = 1;
+  static const story = 2;
+  static const gallery = 3;
+}
 
 /// Returns the first element matching [test], or null. Dependency-free
 /// alternative to package:collection's firstWhereOrNull.
@@ -52,7 +61,16 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
   // ready by the time the user reaches the submit step.
   final ImageService _imageService = getIt<ImageService>();
 
-  int _step = 0;
+  int _step = _Step.specs;
+
+  /// Which tab of the specs step is showing. Owned here rather than by
+  /// [SpecsStep] so a failed validation can pull the user to the tab holding
+  /// the missing field, and so the tab survives stepping away and back.
+  SpecsTab _specsTab = SpecsTab.basics;
+
+  /// Every step shares one scroll view, so moving between steps — or between
+  /// specs tabs — has to put the user back at the top of the new content.
+  final ScrollController _scrollCtrl = ScrollController();
 
   bool get _isEdit => widget.editCar != null;
 
@@ -64,19 +82,14 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
   bool _seededSelections = false;
   bool _seededModel = false;
 
-  // Step 1 — Identity
-  CompressedImage? _cover;
-  // Edit mode: the existing cover URL (shown until replaced) and whether an
-  // existing cover should be deleted from R2 once a new cover is picked.
-  String? _existingCoverUrl;
-  bool _removedCover = false;
+  // Identity
   CarBrandEntity? _selectedBrand;
   CarModelEntity? _selectedModel;
   final _yearCtrl = TextEditingController();
   final _chassisCodeCtrl = TextEditingController();
   final _modelCodeCtrl = TextEditingController();
 
-  // Step 2 — Performance
+  // Performance
   final _hpCtrl = TextEditingController();
   final _torqueCtrl = TextEditingController();
   final _zeroToHundredCtrl = TextEditingController();
@@ -85,22 +98,27 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
   final _engineCodeCtrl = TextEditingController();
   CarFuelTypeOptionEntity? _selectedFuelType;
 
-  // Step 3 — Configuration
+  // Configuration
   CarDrivetrainEntity? _selectedDrivetrain;
   CarColorEntity? _selectedColor;
   CarDistanceUnitEntity? _selectedDistanceUnit;
   final _mileageCtrl = TextEditingController();
 
-  // Step 4 — Story
+  // Story
   CarStatusOptionEntity? _selectedStatus;
   final _storyCtrl = TextEditingController();
 
-  // Step 5 — Gallery. A mix of existing remote photos and new local picks.
+  // Gallery — the cover plus a mix of existing remote photos and new picks.
+  CompressedImage? _cover;
+  // Edit mode: the existing cover URL (shown until replaced) and whether an
+  // existing cover should be deleted from R2 once a new cover is picked.
+  String? _existingCoverUrl;
+  bool _removedCover = false;
   final List<SlotImage> _gallery = [];
   // Edit mode: existing gallery R2 keys removed by the user (deleted from R2).
   final List<String> _removedGalleryKeys = [];
 
-  // Step 6 — Modifications. New mods to create + existing mods being edited.
+  // Build log — new mods to create + existing mods being edited.
   final List<ModSlot> _mods = [];
   // Edit mode: existing mod ids removed by the user (deleted on submit).
   final List<String> _removedModIds = [];
@@ -138,8 +156,8 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
           price: m.price,
           mileageAtInstall: m.mileageAtInstall,
         ),
-        beforeUrl: m.beforeMedia.isEmpty ? null : m.beforeMedia.first.url,
-        afterUrl: m.afterMedia.isEmpty ? null : m.afterMedia.first.url,
+        keptBefore: m.beforeMedia,
+        keptAfter: m.afterMedia,
       ),
     ));
   }
@@ -157,6 +175,7 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
     _weightCtrl.dispose();
     _displacementCtrl.dispose();
     _engineCodeCtrl.dispose();
+    _scrollCtrl.dispose();
     super.dispose();
   }
 
@@ -198,10 +217,6 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
           body: SafeArea(
             child: Column(
               children: [
-                RegisterTopBar(
-                  step: _step,
-                  onClose: isSubmitting ? () {} : () => _confirmClose(context),
-                ),
                 RegisterStepProgress(step: _step),
                 if (state is AddCarRefDataLoading)
                   const Expanded(
@@ -221,6 +236,7 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
                 else
                   Expanded(
                     child: SingleChildScrollView(
+                      controller: _scrollCtrl,
                       padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
                       child: _stepContent(context, refData),
                     ),
@@ -229,9 +245,10 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
                   step: _step,
                   isSubmitting: isSubmitting,
                   submitLabel: submitLabel,
-                  lastLabel:
-                      _isEdit ? l10n.garageRegisterSave : l10n.garageRegisterAddCar,
-                  onBack: _step > 0 ? () => setState(() => _step--) : null,
+                  lastLabel: _isEdit
+                      ? l10n.garageRegisterSave
+                      : l10n.garageRegisterAddCar,
+                  onBack: _step > 0 ? () => _goToStep(_step - 1) : null,
                   onNext:
                       refData != null ? () => _onNext(context, refData) : null,
                 ),
@@ -245,9 +262,9 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
 
   Widget _stepContent(BuildContext context, AddCarRefDataLoaded? refData) {
     return switch (_step) {
-      0 => IdentityStep(
-          coverFilePath: _cover?.path,
-          coverNetworkUrl: _existingCoverUrl,
+      _Step.specs => SpecsStep(
+          tab: _specsTab,
+          onTabChanged: _showSpecsTab,
           selectedBrand: _selectedBrand,
           selectedModel: _selectedModel,
           models: refData?.models ?? [],
@@ -256,7 +273,6 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
           yearCtrl: _yearCtrl,
           chassisCodeCtrl: _chassisCodeCtrl,
           modelCodeCtrl: _modelCodeCtrl,
-          onPickCover: _pickCover,
           onSelectBrand: (brand) {
             setState(() {
               _selectedBrand = brand;
@@ -265,8 +281,6 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
             context.read<AddCarBloc>().add(AddCarBrandSelected(brand.id));
           },
           onSelectModel: (m) => setState(() => _selectedModel = m),
-        ),
-      1 => PerformanceStep(
           hpCtrl: _hpCtrl,
           torqueCtrl: _torqueCtrl,
           zeroToHundredCtrl: _zeroToHundredCtrl,
@@ -276,8 +290,6 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
           fuelTypeOptions: refData?.fuelTypeOptions ?? [],
           selectedFuelType: _selectedFuelType,
           onSelectFuelType: (f) => setState(() => _selectedFuelType = f),
-        ),
-      2 => DrivetrainStep(
           drivetrains: refData?.drivetrains ?? [],
           colors: refData?.colors ?? [],
           distanceUnits: refData?.distanceUnits ?? [],
@@ -289,26 +301,47 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
           onSelectColor: (c) => setState(() => _selectedColor = c),
           onSelectDistanceUnit: (u) => setState(() => _selectedDistanceUnit = u),
         ),
-      3 => StoryStep(
-          statusOptions: refData?.statusOptions ?? [],
-          selectedStatus: _selectedStatus,
-          storyCtrl: _storyCtrl,
-          onSelectStatus: (s) => setState(() => _selectedStatus = s),
-        ),
-      4 => GalleryStep(
-          images: _gallery,
-          onAdd: _pickGalleryImages,
-          onRemove: _removeGalleryImage,
-        ),
-      5 => ModsStep(
+      _Step.buildLog => ModsStep(
           mods: _mods,
           categories: refData?.modCategories ?? [],
           onAdd: () => _addModification(context, refData),
           onRemove: _removeMod,
           onEdit: _isEdit ? (i) => _editModification(context, refData, i) : null,
         ),
+      _Step.story => StoryStep(
+          statusOptions: refData?.statusOptions ?? [],
+          selectedStatus: _selectedStatus,
+          storyCtrl: _storyCtrl,
+          onSelectStatus: (s) => setState(() => _selectedStatus = s),
+        ),
+      _Step.gallery => GalleryStep(
+          images: _gallery,
+          coverFilePath: _cover?.path,
+          coverNetworkUrl: _existingCoverUrl,
+          onPickCover: _pickCover,
+          onAdd: _pickGalleryImages,
+          onRemove: _removeGalleryImage,
+          onReorder: _reorderGalleryImage,
+        ),
       _ => const SizedBox.shrink(),
     };
+  }
+
+  /// Moves to [step] and returns the shared scroll view to the top, so the
+  /// new step opens at its title rather than wherever the last one was left.
+  void _goToStep(int step) {
+    setState(() => _step = step);
+    _scrollToTop();
+  }
+
+  void _showSpecsTab(SpecsTab tab) {
+    if (tab == _specsTab) return;
+    setState(() => _specsTab = tab);
+    _scrollToTop();
+  }
+
+  void _scrollToTop() {
+    if (_scrollCtrl.hasClients) _scrollCtrl.jumpTo(0);
   }
 
   Future<void> _pickCover() async {
@@ -337,17 +370,23 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
 
   Future<void> _pickGalleryImages() async {
     if (_isPicking) return;
+    // The grid hides its add tile at the cap, but a multi-pick could still
+    // blow past it in one go, so the picker is capped too.
+    final remaining = maxGalleryPhotos - _gallery.length;
+    if (remaining <= 0) return;
+
     _isPicking = true;
     try {
       final picker = ImagePicker();
-      final files = await picker.pickMultiImage();
+      final files = await picker.pickMultiImage(limit: remaining);
       if (files.isEmpty) return;
       if (!mounted) return;
       setState(() => _gallery.addAll(
-            files.map(
-              (f) => LocalSlotImage(
-                  CompressedImage.compress(f.path, _imageService)),
-            ),
+            // pickMultiImage's limit isn't honoured on every platform.
+            files.take(remaining).map(
+                  (f) => LocalSlotImage(
+                      CompressedImage.compress(f.path, _imageService)),
+                ),
           ));
     } on PlatformException {
       // A pick was already in progress (e.g. a double tap) — safe to ignore.
@@ -364,6 +403,14 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
     });
   }
 
+  /// Drag-to-reorder from the gallery grid. This list's order is what gets
+  /// written by `saveGalleryKeys`, and `car_gallery` has a `position` column
+  /// the backend sorts on, so the order the user lands on is the order that
+  /// comes back.
+  void _reorderGalleryImage(int oldIndex, int newIndex) {
+    setState(() => reorderInPlace(_gallery, oldIndex, newIndex));
+  }
+
   void _removeMod(int i) {
     setState(() {
       final removed = _mods.removeAt(i);
@@ -376,24 +423,17 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
     AddCarRefDataLoaded? refData,
   ) async {
     if (refData == null) return;
-    final result = await showModalBottomSheet<ModSlot>(
-      context: context,
-      backgroundColor: AppColors.bg,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (_) => AddModSheet(
-        categories: refData.modCategories,
-        imageService: _imageService,
-      ),
+    final result = await showBuildLogEntry(
+      context,
+      categories: refData.modCategories,
+      imageService: _imageService,
     );
     if (result != null) {
       setState(() => _mods.add(result));
     }
   }
 
-  /// Opens the build-item sheet pre-filled to edit an existing mod, then
+  /// Opens the build-log editor pre-filled to edit an existing mod, then
   /// replaces the slot with the updated [ExistingModSlot]. New (unsaved) mods
   /// are not editable in place — remove and re-add instead.
   Future<void> _editModification(
@@ -405,89 +445,21 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
     final slot = _mods[index];
     if (slot is! ExistingModSlot) return;
 
-    final result = await showModalBottomSheet<ModSlot>(
-      context: context,
-      backgroundColor: AppColors.bg,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (_) => AddModSheet(
-        categories: refData.modCategories,
-        imageService: _imageService,
-        initialMod: slot.original,
-      ),
+    final result = await showBuildLogEntry(
+      context,
+      categories: refData.modCategories,
+      imageService: _imageService,
+      initialMod: slot.original,
     );
     if (result != null) {
       setState(() => _mods[index] = result);
     }
   }
 
-  Future<void> _confirmClose(BuildContext context) async {
-    final l10n = AppLocalizations.of(context)!;
-    final navigator = Navigator.of(context);
-    final discard = await showDialog<bool>(
-      context: context,
-      barrierColor: Colors.black54,
-      builder: (dialogContext) => Dialog(
-        backgroundColor: AppColors.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 22, 20, 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                l10n.garageDiscardTitle,
-                style: const TextStyle(
-                  color: AppColors.ink,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                l10n.garageDiscardBody,
-                style: const TextStyle(
-                  color: AppColors.mute,
-                  fontSize: 14,
-                  height: 1.4,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(height: 22),
-              Row(
-                children: [
-                  Expanded(
-                    child: _CloseDialogButton(
-                      label: l10n.garageKeepEditing,
-                      onTap: () => Navigator.of(dialogContext).pop(false),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _CloseDialogButton(
-                      label: l10n.garageDiscard,
-                      isDestructive: true,
-                      onTap: () => Navigator.of(dialogContext).pop(true),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-
-    if (discard == true && navigator.canPop()) navigator.pop();
-  }
-
   void _onNext(BuildContext context, AddCarRefDataLoaded refData) {
     if (_step < registerStepCount - 1) {
       if (!_validateStep(context)) return;
-      setState(() => _step++);
+      _goToStep(_step + 1);
       return;
     }
     if (_isEdit) {
@@ -569,14 +541,7 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
   }
 
   void _submitEdit(BuildContext context) {
-    if (_selectedStatus == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.garageValStatus),
-        ),
-      );
-      return;
-    }
+    if (!_validateSubmit(context)) return;
 
     context.read<AddCarBloc>().add(
           SubmitCarEdit(
@@ -592,41 +557,49 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
         );
   }
 
+  /// The first missing required value across the specs tabs, paired with the
+  /// tab it lives on. Ordered basics → power → config, so the user is walked
+  /// through the gaps left to right.
+  (SpecsTab, String)? _specsProblem(AppLocalizations l10n) {
+    if (_selectedBrand == null) {
+      return (SpecsTab.basics, l10n.garageValMake);
+    } else if (_selectedModel == null) {
+      return (SpecsTab.basics, l10n.garageValModel);
+    } else if (_yearCtrl.text.trim().isEmpty) {
+      return (SpecsTab.basics, l10n.garageValYear);
+    } else if (_hpCtrl.text.trim().isEmpty) {
+      return (SpecsTab.power, l10n.garageValHorsepower);
+    } else if (_torqueCtrl.text.trim().isEmpty) {
+      return (SpecsTab.power, l10n.garageValTorque);
+    } else if (_weightCtrl.text.trim().isEmpty) {
+      return (SpecsTab.power, l10n.garageValWeight);
+    } else if (_displacementCtrl.text.trim().isEmpty) {
+      return (SpecsTab.power, l10n.garageValDisplacement);
+    } else if (_selectedFuelType == null) {
+      return (SpecsTab.power, l10n.garageValFuelType);
+    } else if (_selectedDrivetrain == null) {
+      return (SpecsTab.config, l10n.garageValDrivetrain);
+    } else if (_selectedColor == null) {
+      return (SpecsTab.config, l10n.garageValColor);
+    } else if (_selectedDistanceUnit == null) {
+      return (SpecsTab.config, l10n.garageValMileageUnit);
+    }
+    return null;
+  }
+
   bool _validateStep(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     String? error;
     switch (_step) {
-      case 0:
-        if (_cover == null && _existingCoverUrl == null) {
-          error = l10n.garageValCoverPhoto;
-        } else if (_selectedBrand == null) {
-          error = l10n.garageValMake;
-        } else if (_selectedModel == null) {
-          error = l10n.garageValModel;
-        } else if (_yearCtrl.text.trim().isEmpty) {
-          error = l10n.garageValYear;
+      case _Step.specs:
+        final problem = _specsProblem(l10n);
+        if (problem != null) {
+          // A message about a field on a tab the user can't see would be a
+          // dead end, so open that tab before complaining about it.
+          _showSpecsTab(problem.$1);
+          error = problem.$2;
         }
-      case 1:
-        if (_hpCtrl.text.trim().isEmpty) {
-          error = l10n.garageValHorsepower;
-        } else if (_torqueCtrl.text.trim().isEmpty) {
-          error = l10n.garageValTorque;
-        } else if (_weightCtrl.text.trim().isEmpty) {
-          error = l10n.garageValWeight;
-        } else if (_displacementCtrl.text.trim().isEmpty) {
-          error = l10n.garageValDisplacement;
-        } else if (_selectedFuelType == null) {
-          error = l10n.garageValFuelType;
-        }
-      case 2:
-        if (_selectedDrivetrain == null) {
-          error = l10n.garageValDrivetrain;
-        } else if (_selectedColor == null) {
-          error = l10n.garageValColor;
-        } else if (_selectedDistanceUnit == null) {
-          error = l10n.garageValMileageUnit;
-        }
-      case 3:
+      case _Step.story:
         if (_selectedStatus == null) {
           error = l10n.garageValStatus;
         }
@@ -638,15 +611,25 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
     return true;
   }
 
-  void _submit(BuildContext context) {
-    if (_selectedStatus == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.garageValStatus),
-        ),
-      );
-      return;
+  /// Final gate before submitting. The cover now lives on the last step, so it
+  /// is checked here rather than on the way out of an earlier one.
+  bool _validateSubmit(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    String? error;
+    if (_cover == null && _existingCoverUrl == null) {
+      error = l10n.garageValCoverPhoto;
+    } else if (_selectedStatus == null) {
+      error = l10n.garageValStatus;
     }
+    if (error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+      return false;
+    }
+    return true;
+  }
+
+  void _submit(BuildContext context) {
+    if (!_validateSubmit(context)) return;
 
     final newMods = _mods.whereType<NewModSlot>().map((s) => s.input).toList();
     context.read<AddCarBloc>().add(
@@ -660,46 +643,5 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
             car: _buildCarParams(),
           ),
         );
-  }
-}
-
-/// Pill button used in the "discard build" confirmation dialog. Mirrors the
-/// destructive/neutral styling used by the delete dialogs elsewhere.
-class _CloseDialogButton extends StatelessWidget {
-  final String label;
-  final VoidCallback onTap;
-  final bool isDestructive;
-
-  const _CloseDialogButton({
-    required this.label,
-    required this.onTap,
-    this.isDestructive = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 48,
-        decoration: BoxDecoration(
-          color: isDestructive ? Colors.red : AppColors.surface,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isDestructive ? Colors.red : AppColors.line,
-          ),
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(
-              color: isDestructive ? Colors.white : AppColors.ink,
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }

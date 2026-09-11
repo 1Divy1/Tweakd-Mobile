@@ -229,41 +229,72 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
   }
 
   /// Requests batch presigned URLs for a modification's before/after images,
-  /// uploads them in parallel, then PATCHes the final URLs onto the mod.
+  /// uploads them in parallel, then PATCHes the final keys onto the mod.
   Future<void> _uploadModMedia(
     String carId,
     String modId,
     NewModInput mod,
   ) async {
-    final files = <ModUploadRequest>[
-      if (mod.before != null)
-        const ModUploadRequest(phase: 'BEFORE', format: 'WEBP'),
-      if (mod.after != null)
-        const ModUploadRequest(phase: 'AFTER', format: 'WEBP'),
-    ];
-    if (files.isEmpty) return;
+    final addMedia = await _uploadPhaseImages(
+      carId: carId,
+      modId: modId,
+      before: mod.before,
+      after: mod.after,
+    );
+    if (addMedia.isEmpty) return;
 
-    final uploads = (await getModificationUploadUrls(
-      GetModificationUploadUrlsParams(carId: carId, modId: modId, files: files),
-    ))
-        .fold((f) => throw Exception('$f'),
-            (r) => r.uploads);
-
-    await Future.wait(uploads.map((upload) async {
-      final image = upload.phase == 'before' ? mod.before : mod.after;
-      if (image == null) return;
-      await imageService.uploadToR2(upload.uploadUrl, await image.bytes);
-    }));
-
-    final addMedia = uploads
-        .map((u) => ModMediaInput(key: u.key, phase: u.phase))
-        .toList();
     (await patchModification(PatchModificationParams(
       carId: carId,
       modId: modId,
       params: ModPatchParams(addMedia: addMedia),
     )))
         .fold((f) => throw Exception('$f'), (_) {});
+  }
+
+  /// Uploads every before/after image for one modification and returns the
+  /// media entries to attach.
+  ///
+  /// A phase can now carry several images, so the response's `phase` field is
+  /// no longer enough to tell which image a slot belongs to. The backend
+  /// returns slots **in the same order as the request**, so the request is
+  /// built as `[...before, ...after]` and paired back by index.
+  Future<List<ModMediaInput>> _uploadPhaseImages({
+    required String carId,
+    required String modId,
+    required List<CompressedImage> before,
+    required List<CompressedImage> after,
+  }) async {
+    final images = <CompressedImage>[...before, ...after];
+    if (images.isEmpty) return const [];
+
+    final files = <ModUploadRequest>[
+      for (var i = 0; i < before.length; i++)
+        const ModUploadRequest(phase: 'BEFORE', format: 'WEBP'),
+      for (var i = 0; i < after.length; i++)
+        const ModUploadRequest(phase: 'AFTER', format: 'WEBP'),
+    ];
+
+    final uploads = (await getModificationUploadUrls(
+      GetModificationUploadUrlsParams(carId: carId, modId: modId, files: files),
+    ))
+        .fold((f) => throw Exception('$f'), (r) => r.uploads);
+
+    // Defensive: a short response would silently mis-pair images with slots.
+    if (uploads.length != images.length) {
+      throw Exception(
+        'Expected ${images.length} upload slots, got ${uploads.length}',
+      );
+    }
+
+    await Future.wait([
+      for (var i = 0; i < uploads.length; i++)
+        imageService.uploadToR2(uploads[i].uploadUrl, await images[i].bytes),
+    ]);
+
+    return [
+      for (final upload in uploads)
+        ModMediaInput(key: upload.key, phase: upload.phase),
+    ];
   }
 
   // ── Edit ───────────────────────────────────────────────────────────────────
@@ -412,31 +443,12 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
   /// PATCHes the text diff + added media + removed media in a single call.
   /// No-ops when nothing changed.
   Future<void> _patchExistingMod(String carId, ExistingModSlot slot) async {
-    final files = <ModUploadRequest>[
-      if (slot.newBefore != null)
-        const ModUploadRequest(phase: 'BEFORE', format: 'WEBP'),
-      if (slot.newAfter != null)
-        const ModUploadRequest(phase: 'AFTER', format: 'WEBP'),
-    ];
-
-    final addMedia = <ModMediaInput>[];
-    if (files.isNotEmpty) {
-      final uploads = (await getModificationUploadUrls(
-        GetModificationUploadUrlsParams(
-            carId: carId, modId: slot.modId, files: files),
-      ))
-          .fold((f) => throw Exception('$f'),
-              (r) => r.uploads);
-
-      await Future.wait(uploads.map((upload) async {
-        final image = upload.phase == 'before' ? slot.newBefore : slot.newAfter;
-        if (image == null) return;
-        await imageService.uploadToR2(upload.uploadUrl, await image.bytes);
-      }));
-
-      addMedia.addAll(
-          uploads.map((u) => ModMediaInput(key: u.key, phase: u.phase)));
-    }
+    final addMedia = await _uploadPhaseImages(
+      carId: carId,
+      modId: slot.modId,
+      before: slot.newBefore,
+      after: slot.newAfter,
+    );
 
     final patch =
         slot.toPatchParams(addMedia: addMedia.isEmpty ? null : addMedia);

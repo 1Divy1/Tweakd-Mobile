@@ -16,3 +16,12 @@ class InvalidTagFailure extends Failure {
   const InvalidTagFailure([String message = 'Invalid tags.'])
       : super(message: message);
 }
+
+/// This participant card was shared to the feed recently; it may be shared
+/// again at [nextAllowedAt] (409 `participant_card_cooldown`).
+class ParticipantCardCooldownFailure extends Failure {
+  final DateTime nextAllowedAt;
+
+  const ParticipantCardCooldownFailure(this.nextAllowedAt)
+      : super(message: 'This card was shared recently.');
+}

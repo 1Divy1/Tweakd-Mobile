@@ -51,6 +51,35 @@ class PostsRepositoryImpl implements PostsRepository {
   }
 
   @override
+  Future<Either<Failure, PostEntity>> shareParticipantCard(
+      ShareParticipantCardParams params) async {
+    try {
+      final model = await dataSource.shareParticipantCard(params.toJson());
+      return Right(model.toEntity());
+    } on ConflictException catch (e) {
+      // The cooldown says exactly when the card may go out again.
+      final next = DateTime.tryParse(
+        e.details?['next_post_allowed_at'] as String? ?? '',
+      )?.toLocal();
+      if (e.errorCode == 'participant_card_cooldown' && next != null) {
+        return Left(ParticipantCardCooldownFailure(next));
+      }
+      return Left(ServerFailure(e.message));
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ApiException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('shareParticipantCard error: $e');
+      return const Left(UnknownFailure('An unexpected error occurred.'));
+    }
+  }
+
+  @override
   Future<Either<Failure, PostUploadUrlsResult>> getImageUploadUrls(
     String postId,
     int count,

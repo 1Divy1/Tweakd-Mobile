@@ -31,7 +31,9 @@ class FeedTopBar extends StatelessWidget {
                 letterSpacing: -0.5,
               ),
               children: [
-                TextSpan(text: 'Tweakd'),
+                TextSpan(text: 'Twea'),
+                TextSpan(text: 'k', style: TextStyle(color: AppColors.accent)),
+                TextSpan(text: 'd'),
                 TextSpan(text: '.', style: TextStyle(color: AppColors.accent)),
               ],
             ),

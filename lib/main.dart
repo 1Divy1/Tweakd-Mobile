@@ -13,6 +13,7 @@ import 'package:tweakd/core/push/push_navigator.dart';
 import 'package:tweakd/core/push/push_notification_service.dart';
 import 'package:tweakd/core/push/push_registration.dart';
 import 'package:tweakd/core/realtime/dm_realtime_service.dart';
+import 'package:tweakd/core/realtime/contest_realtime_service.dart';
 import 'package:tweakd/core/realtime/presence_service.dart';
 import 'package:tweakd/core/storage/secure_local_storage.dart';
 import 'package:tweakd/core/theme/app_theme.dart';
@@ -81,6 +82,9 @@ void main() async {
   // stale subscription outlives the session.
   final dmRealtime = getIt<DmRealtimeService>();
   final presence = getIt<PresenceService>();
+  // Contest boards join per event page, not at app start; sign-out still has
+  // to drop whatever is open so no topic outlives the session.
+  final contestRealtime = getIt<ContestRealtimeService>();
   void connectRealtime() {
     dmRealtime.connect();
     presence.connect();
@@ -149,6 +153,7 @@ void main() async {
       case AuthChangeEvent.signedOut:
         dmRealtime.disconnect();
         presence.disconnect();
+        contestRealtime.disconnect();
         badgeCelebrations.reset();
         // Unregistering the device happens in the auth data source, before the
         // session is torn down — by here the JWT is already gone. All that is

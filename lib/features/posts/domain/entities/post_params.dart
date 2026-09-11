@@ -66,3 +66,24 @@ class UpdatePostParams {
         if (savedCountEnabled != null) 'saved_count_enabled': savedCountEnabled,
       };
 }
+
+/// Shares one of the viewer's participant cards to the feed. It only names
+/// the card — the backend checks it is theirs and derives everything on it.
+class ShareParticipantCardParams {
+  final String eventId;
+  final String carId;
+  final String? description;
+
+  const ShareParticipantCardParams({
+    required this.eventId,
+    required this.carId,
+    this.description,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'event_id': eventId,
+        'car_id': carId,
+        if (description != null && description!.trim().isNotEmpty)
+          'description': description!.trim(),
+      };
+}

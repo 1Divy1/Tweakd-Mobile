@@ -26,13 +26,25 @@ import '../widgets/location_picker/geocode_result_list.dart';
 class PickedEventLocation {
   final GeoPosition position;
 
-  /// `"{street} {number}, {city}"`, built from the form fields.
-  final String addressLabel;
+  /// The three address fields, kept apart so the create wizard can show them
+  /// on their own lines rather than re-splitting a joined string.
+  final String city;
+  final String street;
+  final String number;
 
   const PickedEventLocation({
     required this.position,
-    required this.addressLabel,
+    required this.city,
+    required this.street,
+    required this.number,
   });
+
+  /// `"{street} {number}, {city}"` — what the event's `location_name` is set
+  /// to. Composed here so the one format lives in one place.
+  String get addressLabel {
+    final line = [street, number].where((p) => p.isNotEmpty).join(' ');
+    return [line, city].where((p) => p.isNotEmpty).join(', ');
+  }
 }
 
 /// "SET LOCATION ON MAP" — search an address, then place the pin by hand.
@@ -50,10 +62,14 @@ class PickedEventLocation {
 Future<PickedEventLocation?> showPickEventLocation(
   BuildContext context, {
   GeoPosition? initial,
+  PickedEventLocation? initialAddress,
 }) {
   return Navigator.of(context).push<PickedEventLocation>(
     MaterialPageRoute(
-      builder: (_) => PickEventLocationPage(initial: initial),
+      builder: (_) => PickEventLocationPage(
+        initial: initial,
+        initialAddress: initialAddress,
+      ),
     ),
   );
 }
@@ -65,7 +81,11 @@ class PickEventLocationPage extends StatefulWidget {
   /// rather than back at the fallback city.
   final GeoPosition? initial;
 
-  const PickEventLocationPage({super.key, this.initial});
+  /// The address that pin was confirmed with. Seeds the three form fields, so
+  /// re-opening and confirming doesn't hand back a blank address.
+  final PickedEventLocation? initialAddress;
+
+  const PickEventLocationPage({super.key, this.initial, this.initialAddress});
 
   @override
   State<PickEventLocationPage> createState() => _PickEventLocationPageState();
@@ -124,6 +144,12 @@ class _PickEventLocationPageState extends State<PickEventLocationPage> {
     // Re-opening the picker on an existing pin: show it straight away, and
     // start in the placing stage so the user can adjust or confirm without
     // being made to search again.
+    final address = widget.initialAddress;
+    if (address != null) {
+      _cityController.text = address.city;
+      _streetController.text = address.street;
+      _numberController.text = address.number;
+    }
     if (widget.initial != null) {
       _dropped = widget.initial;
       _stage = _PickerStage.placing;
@@ -334,7 +360,9 @@ class _PickEventLocationPageState extends State<PickEventLocationPage> {
                   : () => Navigator.of(context).pop(
                         PickedEventLocation(
                           position: dropped,
-                          addressLabel: _addressLabel,
+                          city: _cityController.text.trim(),
+                          street: _streetController.text.trim(),
+                          number: _numberController.text.trim(),
                         ),
                       ),
             )

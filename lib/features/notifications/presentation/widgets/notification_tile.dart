@@ -117,6 +117,12 @@ class NotificationTile extends StatelessWidget {
       case NotificationType.mapEventOrganizerAdded:
       case NotificationType.mapEventWithdrawalRequested:
       case NotificationType.mapEventWithdrawalDecided:
+      case NotificationType.contestEntryRequested:
+      case NotificationType.contestEntryDecided:
+      case NotificationType.contestOpened:
+      case NotificationType.contestResults:
+      case NotificationType.contestPlaced:
+      case NotificationType.participantCardReady:
         return _NotificationIconKind.event;
       case NotificationType.moderationWarning:
       case NotificationType.contentRemoved:

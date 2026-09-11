@@ -1,0 +1,23 @@
+# Licențe considerate SIGURE pentru uz comercial fără obligații de open-sourcing
+permittedLicenses:
+  - MIT
+  - BSD-2-Clause
+  - BSD-3-Clause
+  - Apache-2.0
+  - ISC
+  - Zlib
+  - Unlicense
+
+# Licențe explicit interzise (copyleft puternic, incompatibil cu app-uri comerciale închise)
+# Orice altă licență nelistată aici sau mai sus va fi raportată ca "necunoscută" -> de verificat manual
+disallowedLicenses:
+  - GPL-2.0
+  - GPL-3.0
+  - AGPL-3.0
+  - LGPL-2.1
+  - LGPL-3.0
+
+# Excepții per-pachet, dacă știi sigur că un pachet e ok
+# packages:
+#   nume_pachet:
+#     licenses: [MIT]

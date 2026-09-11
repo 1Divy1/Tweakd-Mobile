@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tweakd/features/posts/domain/entities/post.dart';
 import 'package:tweakd/features/posts/presentation/widgets/post_card/post_author_header.dart';
 import 'package:tweakd/features/posts/presentation/widgets/post_card/post_media_carousel.dart';
+import 'package:tweakd/features/posts/presentation/widgets/post_card/post_participant_card_view.dart';
 import 'package:tweakd/features/posts/presentation/widgets/post_card/post_tags.dart';
 
 import '../../../../core/theme/app_colors.dart';
@@ -32,7 +33,17 @@ class TaggedPostCard extends StatelessWidget {
           createdAt: post.createdAt,
           showRing: true,
         ),
-        if (post.images.isNotEmpty)
+        if (post.participantCard != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: IgnorePointer(
+              child: PostParticipantCardView(
+                card: post.participantCard!,
+                interactive: false,
+              ),
+            ),
+          )
+        else if (post.images.isNotEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: IgnorePointer(

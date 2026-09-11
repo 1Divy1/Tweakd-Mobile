@@ -5,7 +5,7 @@ import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/car_status_option.dart';
 import 'register_car_fields.dart';
 
-/// Step 4 — the car's role/status, picked from a wrap of selectable pills,
+/// Step 5 — the car's role/status, picked from a wrap of selectable pills,
 /// plus an optional free-text story for the build.
 class StoryStep extends StatelessWidget {
   final List<CarStatusOptionEntity> statusOptions;
@@ -27,10 +27,7 @@ class StoryStep extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        RegisterSectionHeader(
-          label: l10n.garageRegisterStoryLabel,
-          title: l10n.garageRegisterStoryTitle,
-        ),
+        RegisterSectionHeader(title: l10n.garageRegisterStoryTitle),
         const SizedBox(height: 20),
         RegisterFieldLabel(l10n.garageFieldStatus),
         const SizedBox(height: 12),
@@ -80,18 +77,13 @@ class _StatusPill extends StatelessWidget {
         decoration: BoxDecoration(
           color: selected ? AppColors.ink : AppColors.surface,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(
-            color: selected ? AppColors.ink : AppColors.line,
-          ),
-          boxShadow: selected
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withAlpha(28),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
-                  ),
-                ]
-              : null,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha(selected ? 28 : 6),
+              blurRadius: selected ? 12 : 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Text(
           label,
