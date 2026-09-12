@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/deeplinks/deep_link_service.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/push/push_navigator.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../bloc/bloc.dart';
 import '../bloc/state.dart';
 
@@ -16,12 +17,15 @@ import '../bloc/state.dart';
 /// (CheckAuthStatus, dispatched at app start), then routes to the right
 /// destination.
 ///
-/// Dark mode isn't implemented anywhere else in the app yet (no dark
-/// [ThemeData], no user toggle) — this keys off the OS-level brightness
-/// directly since that's also what the native launch screen (configured via
-/// flutter_native_splash's color_dark/image_dark) already follows. It's
-/// intentionally the one piece of UI prepared for dark mode ahead of the
-/// rest of the app.
+/// Reads [AppColors.isDark] rather than `MediaQuery.platformBrightnessOf`
+/// directly: by the time this page builds, `main.dart` has already resolved
+/// `ThemeModeCubit`'s preference (which may override the OS setting) against
+/// the platform brightness and applied it to `AppColors`. Reading the raw
+/// platform brightness here would ignore a manual light/dark override and
+/// mismatch the rest of the app for a frame. The native launch screen itself
+/// (flutter_native_splash's color_dark/image_dark) still only ever sees the
+/// OS setting — the two can only briefly disagree if the user manually
+/// overrides the theme, which happens after this page has already painted.
 /// Size flutter_native_splash renders the launch image at (256dp/pt on both
 /// platforms). Keep in step with the generated launch assets.
 const double _nativeSplashLogoSize = 256;
@@ -46,7 +50,7 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = MediaQuery.platformBrightnessOf(context) == Brightness.dark;
+    final isDark = AppColors.isDark;
 
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {

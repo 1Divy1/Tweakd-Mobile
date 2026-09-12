@@ -28,7 +28,7 @@ class MessagesTopBar extends StatelessWidget {
             child: Text(
               l10n.messagesTitle,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 15,
                 fontWeight: FontWeight.w800,

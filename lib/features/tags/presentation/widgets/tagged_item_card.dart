@@ -72,7 +72,7 @@ class TaggedItemCard extends StatelessWidget {
                           _kindLabel(l10n),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.mute,
                             fontSize: 10,
                             fontWeight: FontWeight.w900,
@@ -82,7 +82,7 @@ class TaggedItemCard extends StatelessWidget {
                       ),
                       Text(
                         '  ·  ${postTimeAgo(l10n, item.taggedAt)}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.muteSoft,
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
@@ -168,7 +168,7 @@ class _MenuButton extends StatelessWidget {
         height: 28,
         child: Center(
           child: isBusy
-              ? const SizedBox(
+              ? SizedBox(
                   width: 14,
                   height: 14,
                   child: CircularProgressIndicator(
@@ -176,7 +176,7 @@ class _MenuButton extends StatelessWidget {
                     color: AppColors.mute,
                   ),
                 )
-              : const Icon(Icons.more_horiz, size: 18, color: AppColors.mute),
+              : Icon(Icons.more_horiz, size: 18, color: AppColors.mute),
         ),
       ),
     );

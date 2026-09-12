@@ -63,7 +63,7 @@ class FeedbackVoteBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: AppColors.line),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.delete_outline_rounded,
                   size: 18,
                   color: AppColors.mute,
@@ -93,7 +93,12 @@ class _VoteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final foreground = isActive ? Colors.white : AppColors.ink2;
+    // activeColor may be AppColors.ink (flips black/white with the theme),
+    // so its paired foreground must un-invert with it rather than staying a
+    // fixed white — otherwise dark mode renders white text on a white pill.
+    final foreground = isActive
+        ? (activeColor == AppColors.ink ? AppColors.inkPanel : AppColors.onAccent)
+        : AppColors.ink2;
 
     return InkWell(
       onTap: onTap,

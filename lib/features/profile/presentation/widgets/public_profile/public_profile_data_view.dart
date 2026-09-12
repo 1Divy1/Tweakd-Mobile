@@ -190,7 +190,7 @@ class _ProfileMenuButton extends StatelessWidget {
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(18),
         ),
-        child: const Icon(Icons.more_horiz, color: AppColors.ink, size: 20),
+        child: Icon(Icons.more_horiz, color: AppColors.ink, size: 20),
       ),
     );
   }

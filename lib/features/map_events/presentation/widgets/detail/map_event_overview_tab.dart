@@ -61,7 +61,7 @@ class MapEventOverviewTab extends StatelessWidget {
           _Card(
             child: Text(
               event.description,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14.5,
                 height: 1.45,
                 color: AppColors.ink2,
@@ -168,7 +168,7 @@ class _WhenCard extends StatelessWidget {
                         event.startsAt,
                         event.endsAt,
                       ),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14.5,
                         fontWeight: FontWeight.w700,
                         color: AppColors.ink,
@@ -177,7 +177,7 @@ class _WhenCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       event.locationName,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13.5,
                         color: AppColors.mute,
                       ),
@@ -189,7 +189,7 @@ class _WhenCard extends StatelessWidget {
           ),
           if (deadline != null) ...[
             const SizedBox(height: 14),
-            const Divider(color: AppColors.line2, height: 1),
+            Divider(color: AppColors.line2, height: 1),
             const SizedBox(height: 12),
             Row(
               children: [
@@ -210,7 +210,7 @@ class _WhenCard extends StatelessWidget {
                         : l10n.mapEventsRegisterBefore(
                             MapEventFormat.deadline(context, deadline),
                           ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13.5,
                       color: AppColors.ink2,
                     ),
@@ -244,7 +244,7 @@ class _CalendarTile extends StatelessWidget {
         children: [
           Text(
             MapEventFormat.monthShort(context, date),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.w800,
               letterSpacing: 0.7,
@@ -254,7 +254,7 @@ class _CalendarTile extends StatelessWidget {
           const SizedBox(height: 1),
           Text(
             MapEventFormat.dayNumber(context, date),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 21,
               fontWeight: FontWeight.w800,
               color: AppColors.ink,
@@ -296,7 +296,7 @@ class _RulesCard extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     '${i + 1}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w800,
                       color: AppColors.mute,
@@ -307,7 +307,7 @@ class _RulesCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     event.rules[i].rule,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       height: 1.4,
                       color: AppColors.ink2,
@@ -364,7 +364,7 @@ class _AttendeesSection extends StatelessWidget {
           _Card(
             child: Text(
               l10n.mapEventsAttendeesEmpty,
-              style: const TextStyle(fontSize: 13.5, color: AppColors.mute),
+              style: TextStyle(fontSize: 13.5, color: AppColors.mute),
             ),
           )
         else ...[
@@ -440,7 +440,7 @@ class _WideButton extends StatelessWidget {
                   label,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 0.5,

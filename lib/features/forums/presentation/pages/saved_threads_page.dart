@@ -136,7 +136,7 @@ class _SavedList extends StatelessWidget {
             onToggleSave: () => bloc.add(UnsaveSavedThread(thread.id)),
           ),
         if (state.isLoadingMore)
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(vertical: 20),
             child: Center(
               child: SizedBox(
@@ -168,13 +168,13 @@ class _EmptySaved extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(32, 80, 32, 24),
           child: Column(
             children: [
-              const Icon(Icons.bookmark_border_rounded,
+              Icon(Icons.bookmark_border_rounded,
                   color: AppColors.muteSoft, size: 44),
               const SizedBox(height: 16),
               Text(
                 l10n.forumsSavedEmptyTitle,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 16,
                   fontWeight: FontWeight.w800,
@@ -184,7 +184,7 @@ class _EmptySaved extends StatelessWidget {
               Text(
                 l10n.forumsSavedEmptyBody,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.mute,
                   fontSize: 13,
                   fontWeight: FontWeight.w500,

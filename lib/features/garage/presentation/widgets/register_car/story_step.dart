@@ -79,7 +79,7 @@ class _StatusPill extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withAlpha(selected ? 28 : 6),
+              color: AppColors.shadowAlpha(selected ? 28 : 6),
               blurRadius: selected ? 12 : 8,
               offset: const Offset(0, 4),
             ),
@@ -88,7 +88,7 @@ class _StatusPill extends StatelessWidget {
         child: Text(
           label,
           style: TextStyle(
-            color: selected ? Colors.white : AppColors.ink2,
+            color: selected ? AppColors.inkPanel : AppColors.ink2,
             fontWeight: FontWeight.w800,
             fontSize: 13,
             letterSpacing: 0.6,

@@ -20,7 +20,7 @@ class ChatDatePill extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.mute,
             fontSize: 11,
             fontWeight: FontWeight.w800,

@@ -29,6 +29,20 @@
     "description": "Snackbar shown when picking a language fails to save"
   },
 
+  "settingsTheme": "Theme",
+  "@settingsTheme": {
+    "description": "Label for the theme selector in settings"
+  },
+
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System",
+
+  "settingsThemePickerTitle": "Choose your theme",
+  "@settingsThemePickerTitle": {
+    "description": "Title of the theme picker bottom sheet"
+  },
+
   "commonSave": "Save",
   "commonCancel": "Cancel",
   "commonRetry": "Retry",
@@ -326,7 +340,12 @@
 
   "profileEditButton": "Edit profile",
   "profileShareButton": "Share profile",
-  "profileCreateButton": "Create",
+  "profileFeedbackButton": "Feedback",
+  "navFeed": "Feed",
+  "navMap": "Map",
+  "navCreate": "Create",
+  "navSearch": "Search",
+  "navProfile": "Profile",
   "editProfileTitle": "EDIT PROFILE",
   "editProfileChangePhoto": "Change photo",
   "editProfileNameLabel": "NAME",
@@ -396,15 +415,10 @@
   },
   "searchErrorGeneric": "Something went wrong. Please try again.",
 
-  "navFeed": "FEED",
-  "navMap": "MAP",
-  "navSearch": "SEARCH",
-  "navContests": "CONTESTS",
-  "navCreate": "CREATE",
-  "navProfile": "PROFILE",
 
   "feedEmptyTitle": "Your feed is quiet",
-  "feedEmptyMessage": "Posts from the community will show up here. Check back soon.",
+  "feedEmptyMessage": "Be one of the first to show your car. Posts from the community land here.",
+  "feedEmptyCta": "Share a post",
   "feedErrorNetwork": "No internet connection. Check your network and try again.",
   "feedErrorGeneric": "Couldn't load the feed. Please try again.",
 
@@ -596,25 +610,13 @@
   "garageBuildLogDiscardTitle": "Discard this build item?",
   "garageBuildLogDiscardBody": "You haven't added this item to the build log yet. If you leave now, everything you entered here will be lost.",
 
-  "garageLogModTitle": "LOG BUILD ITERATION",
-  "garageLogModSectionLabel": "— MODIFICATION",
-  "garageLogModSectionTitle": "Log a build iteration",
-  "garageLogModCategoryHint": "e.g. Engine, Suspension, Aesthetics",
-  "garageLogModTitleHint": "e.g. Stage 2 turbo upgrade",
-  "garageLogModDescLabel": "DESCRIPTION (OPTIONAL)",
-  "garageLogModDescHint": "Notes, observations, upgrades done…",
-  "garageLogModBeforeAfter": "BEFORE & AFTER",
-  "garageLogModInstallDate": "INSTALLATION DATE",
-  "garageLogModPriceLabel": "PRICE (OPTIONAL)",
-  "garageLogModMileageLabel": "MILEAGE AT INSTALL (OPTIONAL)",
-  "garageLogModMileageHint": "e.g. 45000",
-  "garageLogModSubmit": "LOG MODIFICATION",
   "garageLogModLogged": "Modification logged!",
-  "garageLogModValCategory": "Please select a category.",
-  "garageLogModValTitle": "Please enter a title.",
-  "garageLogModValBefore": "Please pick a before image.",
-  "garageLogModValAfter": "Please pick an after image.",
-  "garageLogModValDate": "Please select the installation date.",
+  "garageAddModCarTitle": "Which car?",
+  "garageAddModCarSubtitle": "Pick the car this work went into.",
+  "garageAddModNoCarsTitle": "No cars yet",
+  "garageAddModNoCarsBody": "Add a car to your garage first, then log the work you've done on it.",
+  "garageAddModAddCar": "ADD A CAR",
+  "garageAddModPickCar": "Pick a car to continue.",
 
   "authErrorSessionExpired": "Your session is not active. Please log in again.",
   "authErrorInvalidCredentials": "That email or password is incorrect.",
@@ -633,24 +635,9 @@
   "settingsLogoutTitle": "Log out?",
   "settingsLogoutBody": "You will need to sign in again to access your account.",
 
-  "postNewPost": "NEW POST",
-  "postStepPhotos": "PHOTOS",
-  "postStepCaption": "CAPTION",
-  "postStepTags": "TAGS",
-  "postStepVisibility": "VISIBILITY",
-  "postStepReview": "REVIEW",
-  "postStart": "START",
-  "postPublishStep": "PUBLISH",
   "postBack": "BACK",
   "postNext": "NEXT",
   "postPublish": "PUBLISH POST",
-  "postStepCounter": "STEP {current} / {total}",
-  "@postStepCounter": {
-    "placeholders": {
-      "current": { "type": "int" },
-      "total": { "type": "int" }
-    }
-  },
 
   "postPhotosTitle": "Pick your shots",
   "postPhotosSubtitle": "Drag to reorder — the cover leads your post. Photos only for now.",
@@ -897,7 +884,6 @@
   "myFeedbackEmpty": "You haven't sent any feedback yet.",
   "myFeedbackResponseLabel": "RESPONSE",
 
-  "navForums": "FORUMS",
 
   "forumsTitle": "Forums",
   "forumsSubtitle": "Your paddock",
@@ -1638,9 +1624,17 @@
   "@profileBadgesSheetUnlocked": {
     "placeholders": { "count": { "type": "num", "format": "compact" } }
   },
-  "profileCreatePost": "New post",
-  "profileCreateEvent": "New car event",
-  "profileCreateCar": "Add new car",
+  "createPostTitle": "Post",
+  "createPostSubtitle": "Photos of your build, a drive or a detail",
+  "createThreadTitle": "Forum thread",
+  "createThreadSubtitle": "Ask a question or start a discussion",
+  "createEventTitle": "Car event",
+  "createEventSubtitle": "Host a meet, a cruise or a track day",
+  "createModTitle": "Add modification",
+  "createModSubtitle": "Log a new part or upgrade on one of your cars",
+  "feedSegmentFeed": "Feed",
+  "forumsBrowseAction": "Browse forums",
+  "forumsSavedAction": "Saved threads",
   "garageCarStatPower": "POWER",
   "garageCarStatTorque": "TORQUE",
   "garageCarUnitPower": "hp",

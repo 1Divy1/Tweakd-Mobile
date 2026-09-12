@@ -56,7 +56,7 @@ class _LoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: CircularProgressIndicator(color: AppColors.accent),
     );
   }
@@ -79,7 +79,7 @@ class _ErrorView extends StatelessWidget {
                 child: Text(
                   message,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(color: AppColors.mute, fontSize: 14),
+                  style: TextStyle(color: AppColors.mute, fontSize: 14),
                 ),
               ),
             ),
@@ -189,7 +189,7 @@ class _TopBar extends StatelessWidget {
         children: [
           _PillButton(
             onTap: () => context.pop(),
-            child: const Icon(
+            child: Icon(
               Icons.chevron_left,
               color: AppColors.ink,
               size: 20,
@@ -199,7 +199,7 @@ class _TopBar extends StatelessWidget {
             child: Center(
               child: Text(
                 AppLocalizations.of(context)!.garageAboutTitle,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 14,
                   fontWeight: FontWeight.w800,
@@ -211,7 +211,7 @@ class _TopBar extends StatelessWidget {
           if (isOwner) ...[
             _PillButton(
               onTap: car == null ? null : () => _openShare(context, car!),
-              child: const Icon(
+              child: Icon(
                 Icons.ios_share,
                 color: AppColors.ink,
                 size: 19,
@@ -221,7 +221,7 @@ class _TopBar extends StatelessWidget {
             _PillButton(
               onTap: isDeleting ? null : () => _showMenu(context),
               child: isDeleting
-                  ? const SizedBox(
+                  ? SizedBox(
                       width: 16,
                       height: 16,
                       child: CircularProgressIndicator(
@@ -229,7 +229,7 @@ class _TopBar extends StatelessWidget {
                         color: AppColors.ink,
                       ),
                     )
-                  : const Icon(
+                  : Icon(
                       Icons.more_horiz,
                       color: AppColors.ink,
                       size: 20,
@@ -278,10 +278,10 @@ class _TopBar extends StatelessWidget {
             const SizedBox(height: 16),
             if (car != null)
               ListTile(
-                leading: const Icon(Icons.edit_outlined, color: AppColors.ink),
+                leading: Icon(Icons.edit_outlined, color: AppColors.ink),
                 title: Text(
                   AppLocalizations.of(context)!.garageEditCar,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontWeight: FontWeight.w600,
                   ),
@@ -292,11 +292,11 @@ class _TopBar extends StatelessWidget {
                 },
               ),
             ListTile(
-              leading: const Icon(Icons.delete_outline, color: Colors.red),
+              leading: Icon(Icons.delete_outline, color: AppColors.danger),
               title: Text(
                 AppLocalizations.of(context)!.garageDeleteCar,
-                style: const TextStyle(
-                  color: Colors.red,
+                style: TextStyle(
+                  color: AppColors.danger,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -336,7 +336,7 @@ class _TopBar extends StatelessWidget {
             children: [
               Text(
                 l10n.garageDeleteMachineTitle,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
@@ -345,7 +345,7 @@ class _TopBar extends StatelessWidget {
               const SizedBox(height: 10),
               Text(
                 l10n.garageDeleteMachineBody,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.mute,
                   fontSize: 14,
                   height: 1.4,
@@ -401,17 +401,17 @@ class _DialogButton extends StatelessWidget {
       child: Container(
         height: 48,
         decoration: BoxDecoration(
-          color: isDestructive ? Colors.red : AppColors.surface,
+          color: isDestructive ? AppColors.danger : AppColors.surface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isDestructive ? Colors.red : AppColors.line,
+            color: isDestructive ? AppColors.danger : AppColors.line,
           ),
         ),
         child: Center(
           child: Text(
             label,
             style: TextStyle(
-              color: isDestructive ? Colors.white : AppColors.ink,
+              color: isDestructive ? AppColors.onDanger : AppColors.ink,
               fontSize: 15,
               fontWeight: FontWeight.w700,
             ),
@@ -462,7 +462,7 @@ class _CoverImage extends StatelessWidget {
             Text(
               AppLocalizations.of(context)!
                   .garageBuildIdentifier(car.chassisCode!),
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.accent,
                 fontSize: 11,
                 fontWeight: FontWeight.w800,
@@ -473,7 +473,7 @@ class _CoverImage extends StatelessWidget {
           ],
           Text(
             '${car.brandName} ${car.modelName}'.toUpperCase(),
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 28,
               fontWeight: FontWeight.w900,
@@ -509,7 +509,7 @@ class _CoverImage extends StatelessWidget {
                     ),
                     child: Text(
                       '${car.year} · ${car.colorName}'.toUpperCase(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.ink,
                         fontSize: 10,
                         fontWeight: FontWeight.w800,
@@ -611,7 +611,7 @@ class _SpecCard extends StatelessWidget {
         children: [
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 10,
               fontWeight: FontWeight.w700,
@@ -625,7 +625,7 @@ class _SpecCard extends StatelessWidget {
             children: [
               Text(
                 value,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 28,
                   fontWeight: FontWeight.w800,
@@ -634,7 +634,7 @@ class _SpecCard extends StatelessWidget {
               const SizedBox(width: 3),
               Text(
                 unit,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.mute,
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
@@ -682,14 +682,14 @@ class _InfoTable extends StatelessWidget {
         children: [
           for (int i = 0; i < rows.length; i++) ...[
             if (i > 0)
-              const Divider(height: 1, thickness: 1, color: AppColors.line),
+              Divider(height: 1, thickness: 1, color: AppColors.line),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               child: Row(
                 children: [
                   Text(
                     rows[i].$1,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.mute,
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
@@ -699,7 +699,7 @@ class _InfoTable extends StatelessWidget {
                   const Spacer(),
                   Text(
                     rows[i].$2,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.ink,
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
@@ -730,7 +730,7 @@ class _StorySection extends StatelessWidget {
         children: [
           Text(
             AppLocalizations.of(context)!.garageStoryHeading,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 20,
               fontWeight: FontWeight.w900,
@@ -746,7 +746,7 @@ class _StorySection extends StatelessWidget {
             ),
             child: Text(
               story,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink2,
                 fontSize: 15,
                 height: 1.5,
@@ -782,7 +782,7 @@ class _GallerySection extends StatelessWidget {
         children: [
           Text(
             AppLocalizations.of(context)!.garageGalleryHeading,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 20,
               fontWeight: FontWeight.w900,
@@ -869,7 +869,7 @@ class _GallerySection extends StatelessWidget {
               bloc.add(DeleteGalleryImage(carId: carId, imageKey: imageKey));
             },
             child: Text(l10n.garageDialogDelete,
-                style: const TextStyle(color: Colors.red)),
+                style: TextStyle(color: AppColors.danger)),
           ),
         ],
       ),
@@ -888,7 +888,14 @@ class _AddModButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: GestureDetector(
-        onTap: () => context.push('/garage/cars/$carId/modifications/add'),
+        onTap: () async {
+          final added = await context
+              .push<bool>('/garage/cars/$carId/modifications/add');
+          // Reload so the new entry shows in the build log straight away.
+          if (added == true && context.mounted) {
+            context.read<CarDetailBloc>().add(LoadCar(carId));
+          }
+        },
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 14),
@@ -935,7 +942,7 @@ class _ModificationsList extends StatelessWidget {
         children: [
           Text(
             AppLocalizations.of(context)!.garageModLogHeading,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 20,
               fontWeight: FontWeight.w900,
@@ -1046,7 +1053,7 @@ class _ModCard extends StatelessWidget {
               children: [
                 Text(
                   _formatModDate(date),
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.accent,
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
@@ -1066,7 +1073,7 @@ class _ModCard extends StatelessWidget {
                     ),
                     child: Text(
                       _formatPrice(mod.price!),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.ink,
                         fontSize: 12,
                         fontWeight: FontWeight.w800,
@@ -1077,7 +1084,7 @@ class _ModCard extends StatelessWidget {
                   const SizedBox(width: 8),
                   GestureDetector(
                     onTap: () => _showModMenu(context),
-                    child: const Icon(
+                    child: Icon(
                       Icons.more_horiz,
                       color: AppColors.mute,
                       size: 20,
@@ -1089,7 +1096,7 @@ class _ModCard extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               mod.title,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 16,
                 fontWeight: FontWeight.w800,
@@ -1106,7 +1113,7 @@ class _ModCard extends StatelessWidget {
               const SizedBox(height: 10),
               Text(
                 mod.description!,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.mute,
                   fontSize: 13,
                   height: 1.4,
@@ -1142,11 +1149,11 @@ class _ModCard extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             ListTile(
-              leading: const Icon(Icons.delete_outline, color: Colors.red),
+              leading: Icon(Icons.delete_outline, color: AppColors.danger),
               title: Text(
                 AppLocalizations.of(context)!.garageDeleteModMenu,
-                style: const TextStyle(
-                  color: Colors.red,
+                style: TextStyle(
+                  color: AppColors.danger,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -1178,7 +1185,7 @@ class _ModCard extends StatelessWidget {
             children: [
               Text(
                 l10n.garageDeleteModTitle,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
@@ -1187,7 +1194,7 @@ class _ModCard extends StatelessWidget {
               const SizedBox(height: 10),
               Text(
                 l10n.garageDeleteModBody,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.mute,
                   fontSize: 14,
                   height: 1.4,
@@ -1225,67 +1232,138 @@ class _ModCard extends StatelessWidget {
   }
 }
 
-/// A modification's before/after shots — befores first, then afters, each
-/// tagged with its phase.
+/// A modification's before/after shots: one labelled row per phase, every
+/// photo in it visible at once.
 ///
-/// A phase can hold several photos, so the strip scrolls sideways rather than
-/// splitting the row in two: two tiles fill the card, and any extras are a
-/// swipe away. Tapping one opens the whole set in the fullscreen viewer.
+/// A phase holds up to three photos and the point of the card is the
+/// comparison, so nothing is hidden behind a swipe — the tiles share the card
+/// width and both rows use one tile size (taken from the fuller phase) so the
+/// befores line up with the afters. Tapping one opens the whole set in the
+/// fullscreen viewer.
 class _ModMediaStrip extends StatelessWidget {
   final List<ModificationMediaEntity> beforeMedia;
   final List<ModificationMediaEntity> afterMedia;
 
   const _ModMediaStrip({required this.beforeMedia, required this.afterMedia});
 
+  static const _gap = 8.0;
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final items = [
-      for (final m in beforeMedia) (url: m.url, label: l10n.garageModBefore),
-      for (final m in afterMedia) (url: m.url, label: l10n.garageModAfter),
+
+    // Befores first, then afters — the order the fullscreen viewer pages in.
+    final urls = [
+      for (final m in beforeMedia) m.url,
+      for (final m in afterMedia) m.url,
     ];
-    final urls = [for (final item in items) item.url];
+    final perRow = beforeMedia.length > afterMedia.length
+        ? beforeMedia.length
+        : afterMedia.length;
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Two tiles plus the gap fill the card exactly; a third peeks in.
-        const gap = 8.0;
-        final tileWidth = (constraints.maxWidth - gap) / 2;
+        final tileWidth =
+            (constraints.maxWidth - _gap * (perRow - 1)) / perRow;
+        // Three tiles across get squarer crops so they stay tall enough to
+        // read; one or two keep the cinematic 16:9.
+        final tileHeight = tileWidth * (perRow >= 3 ? 3 / 4 : 9 / 16);
 
-        return SizedBox(
-          height: tileWidth * 9 / 16,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            physics: items.length > 2
-                ? const ClampingScrollPhysics()
-                : const NeverScrollableScrollPhysics(),
-            itemCount: items.length,
-            separatorBuilder: (_, _) => const SizedBox(width: gap),
-            itemBuilder: (context, i) => SizedBox(
-              width: tileWidth,
-              child: _ModImage(
-                url: items[i].url,
-                label: items[i].label,
-                pairUrls: urls,
-                pairIndex: i,
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (beforeMedia.isNotEmpty)
+              _PhaseRow(
+                label: l10n.garageModBefore,
+                media: beforeMedia,
+                tileWidth: tileWidth,
+                tileHeight: tileHeight,
+                urls: urls,
+                firstIndex: 0,
               ),
-            ),
-          ),
+            if (beforeMedia.isNotEmpty && afterMedia.isNotEmpty)
+              const SizedBox(height: 10),
+            if (afterMedia.isNotEmpty)
+              _PhaseRow(
+                label: l10n.garageModAfter,
+                media: afterMedia,
+                tileWidth: tileWidth,
+                tileHeight: tileHeight,
+                urls: urls,
+                firstIndex: beforeMedia.length,
+              ),
+          ],
         );
       },
     );
   }
 }
 
+/// One phase's caption and its photos, left-aligned so a single "after" sits
+/// under the first "before" rather than stretching across the card.
+class _PhaseRow extends StatelessWidget {
+  final String label;
+  final List<ModificationMediaEntity> media;
+  final double tileWidth;
+  final double tileHeight;
+
+  /// The whole mod's photos and where this phase starts in them, so a tap
+  /// opens the viewer on the right page.
+  final List<String> urls;
+  final int firstIndex;
+
+  const _PhaseRow({
+    required this.label,
+    required this.media,
+    required this.tileWidth,
+    required this.tileHeight,
+    required this.urls,
+    required this.firstIndex,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: AppColors.mute,
+            fontSize: 9,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 0.8,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Row(
+          children: [
+            for (var i = 0; i < media.length; i++) ...[
+              if (i > 0) const SizedBox(width: _ModMediaStrip._gap),
+              SizedBox(
+                width: tileWidth,
+                height: tileHeight,
+                child: _ModImage(
+                  url: media[i].url,
+                  pairUrls: urls,
+                  pairIndex: firstIndex + i,
+                ),
+              ),
+            ],
+          ],
+        ),
+      ],
+    );
+  }
+}
+
 class _ModImage extends StatelessWidget {
   final String url;
-  final String label;
   final List<String> pairUrls;
   final int pairIndex;
 
   const _ModImage({
     required this.url,
-    required this.label,
     required this.pairUrls,
     required this.pairIndex,
   });
@@ -1297,37 +1375,10 @@ class _ModImage extends StatelessWidget {
         '/full-screen-image',
         extra: FullscreenImageArgs(images: pairUrls, initialIndex: pairIndex),
       ),
-      child: Stack(
-        children: [
-          AspectRatio(
-            aspectRatio: 16 / 9,
-            child: CarImage(
-              imageUrl: url,
-              fit: BoxFit.cover,
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-          Positioned(
-            top: 6,
-            left: 6,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-              decoration: BoxDecoration(
-                color: AppColors.ink.withAlpha(180),
-                borderRadius: BorderRadius.circular(3),
-              ),
-              child: Text(
-                label,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 9,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 0.8,
-                ),
-              ),
-            ),
-          ),
-        ],
+      child: CarImage(
+        imageUrl: url,
+        fit: BoxFit.cover,
+        borderRadius: BorderRadius.circular(10),
       ),
     );
   }

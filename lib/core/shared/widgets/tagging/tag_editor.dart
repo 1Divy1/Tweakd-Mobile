@@ -61,7 +61,7 @@ class TagEditor extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             l10n.forumsTagHelper,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.muteSoft,
               fontSize: 12,
               fontWeight: FontWeight.w500,
@@ -172,7 +172,7 @@ class _PeopleResults extends StatelessWidget {
             borderRadius: BorderRadius.circular(14),
           ),
           child: switch (state.peopleStatus) {
-            TagLoadStatus.loading => const Padding(
+            TagLoadStatus.loading => Padding(
               padding: EdgeInsets.symmetric(vertical: 18),
               child: Center(
                 child: SizedBox(
@@ -194,7 +194,7 @@ class _PeopleResults extends StatelessWidget {
               padding: EdgeInsets.zero,
               itemCount: results.length,
               separatorBuilder: (_, _) =>
-                  const Divider(height: 1, color: AppColors.line2, indent: 14),
+                  Divider(height: 1, color: AppColors.line2, indent: 14),
               itemBuilder: (_, i) => _PersonResultRow(
                 result: results[i],
                 onTap: () => onPick(results[i]),
@@ -231,14 +231,14 @@ class _PersonResultRow extends StatelessWidget {
               child: Text(
                 '@${result.username}',
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ),
-            const Icon(Icons.add_rounded, color: AppColors.accent, size: 22),
+            Icon(Icons.add_rounded, color: AppColors.accent, size: 22),
           ],
         ),
       ),
@@ -262,7 +262,7 @@ class _PeopleSearchField extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.search_rounded, size: 18, color: AppColors.mute),
+          Icon(Icons.search_rounded, size: 18, color: AppColors.mute),
           const SizedBox(width: 8),
           Expanded(
             child: TextField(
@@ -270,7 +270,7 @@ class _PeopleSearchField extends StatelessWidget {
               cursorColor: AppColors.accent,
               onChanged: (q) =>
                   context.read<TagPickerBloc>().add(PeopleQueryChanged(q)),
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -281,7 +281,7 @@ class _PeopleSearchField extends StatelessWidget {
                 isDense: true,
                 contentPadding: const EdgeInsets.symmetric(vertical: 13),
                 hintText: hint,
-                hintStyle: const TextStyle(
+                hintStyle: TextStyle(
                   color: AppColors.muteSoft,
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -304,7 +304,7 @@ class _SectionLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       label,
-      style: const TextStyle(
+      style: TextStyle(
         color: AppColors.mute,
         fontSize: 11,
         fontWeight: FontWeight.w800,
@@ -322,7 +322,7 @@ class _MiniLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(
+      style: TextStyle(
         color: AppColors.mute,
         fontSize: 10.5,
         fontWeight: FontWeight.w800,
@@ -342,7 +342,7 @@ class _ResultMessage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
       child: Text(
         text,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.muteSoft,
           fontSize: 14,
           fontWeight: FontWeight.w600,
@@ -377,7 +377,7 @@ class _AddCarTile extends StatelessWidget {
                 color: AppColors.accentSoft,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.add_rounded,
                 color: AppColors.accent,
                 size: 19,
@@ -386,7 +386,7 @@ class _AddCarTile extends StatelessWidget {
             const SizedBox(width: 12),
             Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
@@ -424,7 +424,7 @@ class _PersonChip extends StatelessWidget {
           const SizedBox(width: 8),
           Text(
             '@${person.username}',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 13,
               fontWeight: FontWeight.w800,
@@ -465,7 +465,7 @@ class _CarChip extends StatelessWidget {
                   ? CachedNetworkImage(imageUrl: url, fit: BoxFit.cover)
                   : Container(
                       color: AppColors.bg,
-                      child: const Icon(
+                      child: Icon(
                         Icons.directions_car_rounded,
                         color: AppColors.muteSoft,
                         size: 18,
@@ -480,7 +480,7 @@ class _CarChip extends StatelessWidget {
             children: [
               Text(
                 car.name,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 13,
                   fontWeight: FontWeight.w800,
@@ -489,7 +489,7 @@ class _CarChip extends StatelessWidget {
               if (car.ownerHandle.isNotEmpty)
                 Text(
                   '@${car.ownerHandle}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.mute,
                     fontSize: 10.5,
                     fontWeight: FontWeight.w600,
@@ -520,7 +520,7 @@ class _RemoveButton extends StatelessWidget {
           color: AppColors.bg,
           borderRadius: BorderRadius.circular(6),
         ),
-        child: const Icon(Icons.close_rounded, size: 13, color: AppColors.mute),
+        child: Icon(Icons.close_rounded, size: 13, color: AppColors.mute),
       ),
     );
   }

@@ -29,37 +29,43 @@ class CarEventsSection extends StatelessWidget {
           return const SizedBox.shrink();
         }
         final l10n = AppLocalizations.of(context)!;
-        final placements = state.placements;
+        // Kept paired with the event they were won at: a badge is a link to
+        // that contest's leaderboard, and the route needs both ids.
+        final badges = [
+          for (final item in state.items)
+            for (final p in item.placements) (event: item.event, placement: p),
+        ];
 
         return Padding(
           padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (placements.isNotEmpty) ...[
+              if (badges.isNotEmpty) ...[
                 _Label(l10n.carEventsContestBadges),
                 const SizedBox(height: 10),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                  decoration: BoxDecoration(
-                    color: AppColors.surface,
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        for (final p in placements)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: ContestRankBadge(
-                              icon: p.category.icon,
-                              rank: p.finalRank,
-                              label: p.title,
+                // A Material, not a plain Container: the badges are buttons
+                // now and their ripple has to land on this card.
+                Material(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(18),
+                  clipBehavior: Clip.antiAlias,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 4,
+                      vertical: 12,
+                    ),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          for (final badge in badges)
+                            _ContestBadgeButton(
+                              event: badge.event,
+                              placement: badge.placement,
                             ),
-                          ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -79,6 +85,50 @@ class CarEventsSection extends StatelessWidget {
   }
 }
 
+/// A badge that opens the contest it was won at.
+///
+/// The plate alone read as decoration, so it is a real control now: it ripples,
+/// announces itself to screen readers and lands on that contest's leaderboard,
+/// where the placing it stands for can actually be seen. The event title rides
+/// along as `extra` so the contest page opens titled instead of blank while it
+/// loads.
+class _ContestBadgeButton extends StatelessWidget {
+  final CarEventHistoryEventEntity event;
+  final CarEventPlacementEntity placement;
+
+  const _ContestBadgeButton({required this.event, required this.placement});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    return Semantics(
+      button: true,
+      label: l10n.carEventsPlacement(
+        ContestFormat.rank(l10n, placement.finalRank),
+        placement.title,
+      ),
+      child: InkWell(
+        onTap: () => context.push(
+          '/map-events/${event.id}/contests/${placement.contestId}',
+          extra: {'eventTitle': event.title},
+        ),
+        borderRadius: BorderRadius.circular(14),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          child: ExcludeSemantics(
+            child: ContestRankBadge(
+              icon: placement.category.icon,
+              rank: placement.finalRank,
+              label: placement.title,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _Label extends StatelessWidget {
   final String text;
 
@@ -88,7 +138,7 @@ class _Label extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 11,
         fontWeight: FontWeight.w800,
         letterSpacing: 0.8,
@@ -137,7 +187,7 @@ class _EventRow extends StatelessWidget {
                           event.title,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 13.5,
                             fontWeight: FontWeight.w800,
                             color: AppColors.ink,
@@ -149,13 +199,13 @@ class _EventRow extends StatelessWidget {
                           '${event.locationName}',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 11.5, color: AppColors.mute),
+                          style: TextStyle(fontSize: 11.5, color: AppColors.mute),
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(width: 6),
-                  const Icon(Icons.chevron_right_rounded, size: 18, color: AppColors.muteSoft),
+                  Icon(Icons.chevron_right_rounded, size: 18, color: AppColors.muteSoft),
                 ],
               ),
               if (item.placements.isNotEmpty) ...[

@@ -16,6 +16,7 @@ import 'package:tweakd/core/realtime/dm_realtime_service.dart';
 import 'package:tweakd/core/realtime/contest_realtime_service.dart';
 import 'package:tweakd/core/realtime/presence_service.dart';
 import 'package:tweakd/core/storage/secure_local_storage.dart';
+import 'package:tweakd/core/theme/app_colors.dart';
 import 'package:tweakd/core/theme/app_theme.dart';
 import 'package:tweakd/features/authentication/presentation/bloc/bloc.dart';
 import 'package:tweakd/features/authentication/presentation/bloc/event.dart';
@@ -24,6 +25,7 @@ import 'package:tweakd/features/badges/presentation/widgets/badge_celebration_ov
 import 'package:tweakd/features/messages/presentation/bloc/unread/cubit.dart';
 import 'package:tweakd/features/notifications/presentation/bloc/unread/cubit.dart';
 import 'package:tweakd/features/profile/presentation/bloc/locale/cubit.dart';
+import 'package:tweakd/features/settings/presentation/bloc/theme/cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -204,27 +206,57 @@ class TweakdApp extends StatelessWidget {
         BlocProvider<BadgeCelebrationCubit>(
           create: (context) => getIt<BadgeCelebrationCubit>(),
         ),
+        // App-level theme preference (light / dark / follow the OS). Seeded
+        // from local secure storage, exactly like the locale above; the
+        // settings theme picker flips it live via ThemeModeCubit.setThemeMode.
+        BlocProvider<ThemeModeCubit>(
+          create: (context) => getIt<ThemeModeCubit>()..loadPersisted(),
+        ),
       ],
       // Inside the providers on purpose: the unread cubits are factories, so
       // this is the only place that can reach the instances the feed reads.
       child: PushMessageListener(
-        child: BlocBuilder<LocaleCubit, Locale?>(
-          builder: (context, locale) => MaterialApp.router(
-            onGenerateTitle: (context) =>
-                AppLocalizations.of(context)!.appTitle,
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.light(),
-            locale: locale,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            routerConfig: appRouter,
-            // Floats the badge unlock celebration above every route.
-            builder: (context, child) => BadgeCelebrationOverlay(
-              child: child ?? const SizedBox.shrink(),
-            ),
+        child: BlocBuilder<ThemeModeCubit, ThemeMode>(
+          builder: (context, themeMode) => BlocBuilder<LocaleCubit, Locale?>(
+            builder: (context, locale) =>
+                _themedApp(context, themeMode, locale),
           ),
         ),
       ),
+    );
+  }
+
+  /// Resolves the theme preference against the OS setting and builds the app
+  /// beneath it.
+  ///
+  /// `AppColors` resolves its tokens against one process-wide brightness
+  /// rather than a `BuildContext`, so that brightness has to be set before
+  /// anything below paints — this is the single place that does it. Reading
+  /// `platformBrightnessOf` here also registers the dependency that rebuilds
+  /// the app when the user flips their phone's appearance while it is open.
+  ///
+  /// Only the resolved theme is built, not a `theme`/`darkTheme` pair:
+  /// `AppTheme.of` reads the tokens eagerly, so building both would produce
+  /// two `ThemeData` with whichever palette was active at the time.
+  Widget _themedApp(BuildContext context, ThemeMode mode, Locale? locale) {
+    final brightness = switch (mode) {
+      ThemeMode.light => Brightness.light,
+      ThemeMode.dark => Brightness.dark,
+      ThemeMode.system => MediaQuery.platformBrightnessOf(context),
+    };
+    AppColors.applyBrightness(brightness);
+
+    return MaterialApp.router(
+      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.of(brightness),
+      locale: locale,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      routerConfig: appRouter,
+      // Floats the badge unlock celebration above every route.
+      builder: (context, child) =>
+          BadgeCelebrationOverlay(child: child ?? const SizedBox.shrink()),
     );
   }
 }

@@ -64,7 +64,7 @@ class _MapEventAttendeesPageState extends State<MapEventAttendeesPage> {
         ),
         title: Text(
           l10n.mapEventsAttendeesPageTitle,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w800,
             color: AppColors.ink,
@@ -166,7 +166,7 @@ class _Body extends StatelessWidget {
           child: Text(
             mapEventErrorMessage(l10n, error),
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 14, color: AppColors.ink2),
+            style: TextStyle(fontSize: 14, color: AppColors.ink2),
           ),
         ),
       );
@@ -176,7 +176,7 @@ class _Body extends StatelessWidget {
       return Center(
         child: Text(
           l10n.mapEventsAttendeesEmpty,
-          style: const TextStyle(fontSize: 14, color: AppColors.mute),
+          style: TextStyle(fontSize: 14, color: AppColors.mute),
         ),
       );
     }
@@ -236,7 +236,7 @@ class _AttendeeRow extends StatelessWidget {
               Container(
                 width: 38,
                 height: 38,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: AppColors.accentSoft,
                   shape: BoxShape.circle,
                 ),
@@ -248,7 +248,7 @@ class _AttendeeRow extends StatelessWidget {
                               ? '?'
                               : attendee.username.characters.first
                                   .toUpperCase(),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w800,
                             color: AppColors.accent,
@@ -267,7 +267,7 @@ class _AttendeeRow extends StatelessWidget {
                       hasName ? name : '@${attendee.username}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14.5,
                         fontWeight: FontWeight.w600,
                         color: AppColors.ink,
@@ -279,7 +279,7 @@ class _AttendeeRow extends StatelessWidget {
                         '@${attendee.username}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12,
                           color: AppColors.mute,
                         ),
@@ -288,7 +288,7 @@ class _AttendeeRow extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(
+              Icon(
                 Icons.chevron_right_rounded,
                 color: AppColors.muteSoft,
               ),

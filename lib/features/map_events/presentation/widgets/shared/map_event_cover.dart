@@ -38,7 +38,7 @@ class MapEventCover extends StatelessWidget {
             CachedNetworkImage(
               imageUrl: url,
               fit: BoxFit.cover,
-              placeholder: (_, _) => const ColoredBox(color: AppColors.line2),
+              placeholder: (_, _) => ColoredBox(color: AppColors.line2),
               errorWidget: (_, _, _) => const _CoverFallback(),
             ),
           if (withScrim)
@@ -71,7 +71,7 @@ class _CoverFallback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ColoredBox(
+    return ColoredBox(
       color: AppColors.accentSoft,
       child: Center(
         child: Icon(

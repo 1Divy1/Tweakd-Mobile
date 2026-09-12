@@ -1,31 +1,88 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/shared/widgets/app_bottom_nav.dart';
+import '../../../../core/shared/widgets/create_sheet.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../badges/presentation/bloc/celebration/cubit.dart';
-import '../../../posts/domain/entities/post.dart';
-import '../../../posts/presentation/widgets/post_card/post_options_sheet.dart';
-import '../../../posts/presentation/widgets/post_detail/comments_sheet.dart';
-import '../../../posts/presentation/widgets/post_detail/likers_sheet.dart';
-import '../../../report/domain/entities/report_target.dart';
-import '../../../report/presentation/widgets/report_reason_sheet.dart';
+import '../../../forums/presentation/bloc/home/bloc.dart';
+import '../../../forums/presentation/bloc/home/event.dart';
+import '../../../forums/presentation/widgets/home/forums_home_actions.dart';
+import '../../../forums/presentation/widgets/home/forums_home_view.dart';
 import '../bloc/feed/bloc.dart';
 import '../bloc/feed/event.dart';
 import '../bloc/feed/state.dart';
 import '../utils/feed_error_mapper.dart';
-import '../widgets/feed_empty_view.dart';
+import '../utils/feed_segment.dart';
 import '../widgets/feed_error_view.dart';
+import '../widgets/feed_list_view.dart';
 import '../widgets/feed_loading_view.dart';
-import '../widgets/feed_post_card.dart';
+import '../widgets/feed_segment_bar.dart';
 import '../widgets/feed_top_bar.dart';
 
-class FeedPage extends StatelessWidget {
-  const FeedPage({super.key});
+/// The home tab: the post feed and the forums, switched in place by the
+/// segmented control under the top bar.
+///
+/// Both views stay mounted, so a switch keeps each one's scroll position. Each
+/// loads the first time it is shown — the route creates both blocs bare — so
+/// opening the feed doesn't pay for the forums, and vice versa.
+class FeedPage extends StatefulWidget {
+  final FeedSegment initialSegment;
+
+  const FeedPage({super.key, this.initialSegment = FeedSegment.feed});
+
+  @override
+  State<FeedPage> createState() => _FeedPageState();
+}
+
+class _FeedPageState extends State<FeedPage> {
+  late FeedSegment _segment = widget.initialSegment;
+  final _loaded = <FeedSegment>{};
+
+  @override
+  void initState() {
+    super.initState();
+    _ensureLoaded(_segment);
+  }
+
+  void _ensureLoaded(FeedSegment segment) {
+    if (!_loaded.add(segment)) return;
+    switch (segment) {
+      case FeedSegment.feed:
+        context.read<FeedBloc>().add(const LoadFeed());
+      case FeedSegment.forums:
+        context.read<ForumsHomeBloc>().add(const LoadForumsHome());
+    }
+  }
+
+  void _select(FeedSegment segment) {
+    if (segment == _segment) return;
+    HapticFeedback.selectionClick();
+    _ensureLoaded(segment);
+    setState(() => _segment = segment);
+  }
+
+  /// Pulls in what a composer may just have published. Only for views that
+  /// have loaded — the other one fetches fresh when first opened anyway.
+  void _onCreateClosed(CreateAction action) {
+    switch (action) {
+      case CreateAction.post when _loaded.contains(FeedSegment.feed):
+        context.read<FeedBloc>().add(const RefreshFeed());
+      case CreateAction.thread when _loaded.contains(FeedSegment.forums):
+        context.read<ForumsHomeBloc>().add(const RefreshForumsHome());
+      default:
+        break;
+    }
+  }
+
+  /// The empty feed's call to action — straight to the post composer.
+  Future<void> _createPost() async {
+    await context.push(CreateAction.post.route);
+    if (mounted) _onCreateClosed(CreateAction.post);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,182 +103,55 @@ class FeedPage extends StatelessWidget {
           child: Column(
             children: [
               const FeedTopBar(),
+              FeedSegmentBar(
+                active: _segment,
+                onChanged: _select,
+                trailing: _segment == FeedSegment.forums
+                    ? const ForumsHomeActions()
+                    : null,
+              ),
               Expanded(
-                child: BlocBuilder<FeedBloc, FeedState>(
-                  builder: (context, state) {
-                    return switch (state) {
-                      FeedInitial() || FeedLoading() => const FeedLoadingView(),
-                      FeedError(:final code) => FeedErrorView(
-                        message: feedErrorMessage(
-                          AppLocalizations.of(context)!,
-                          code,
-                        ),
-                        onRetry: () =>
-                            context.read<FeedBloc>().add(const LoadFeed()),
+                child: IndexedStack(
+                  index: _segment.index,
+                  children: [
+                    // TickerMode pauses the hidden view's animations
+                    // (skeleton shimmer, spinners) while it is off-screen.
+                    TickerMode(
+                      enabled: _segment == FeedSegment.feed,
+                      child: BlocBuilder<FeedBloc, FeedState>(
+                        builder: (context, state) {
+                          return switch (state) {
+                            FeedInitial() ||
+                            FeedLoading() => const FeedLoadingView(),
+                            FeedError(:final code) => FeedErrorView(
+                              message: feedErrorMessage(
+                                AppLocalizations.of(context)!,
+                                code,
+                              ),
+                              onRetry: () => context.read<FeedBloc>().add(
+                                const LoadFeed(),
+                              ),
+                            ),
+                            FeedLoaded() => FeedListView(
+                              state: state,
+                              onCreatePost: _createPost,
+                            ),
+                          };
+                        },
                       ),
-                      FeedLoaded() => _FeedList(state: state),
-                    };
-                  },
+                    ),
+                    TickerMode(
+                      enabled: _segment == FeedSegment.forums,
+                      child: const ForumsHomeView(),
+                    ),
+                  ],
                 ),
               ),
-              const AppBottomNav(activeTab: AppBottomNavTab.feed),
+              AppBottomNav(
+                activeTab: AppBottomNavTab.feed,
+                onCreateClosed: _onCreateClosed,
+              ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// The loaded feed list: pull-to-refresh, cursor paging on scroll, and a
-/// trailing loader / empty state.
-class _FeedList extends StatefulWidget {
-  final FeedLoaded state;
-  const _FeedList({required this.state});
-
-  @override
-  State<_FeedList> createState() => _FeedListState();
-}
-
-class _FeedListState extends State<_FeedList> {
-  final _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_onScroll);
-  }
-
-  @override
-  void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (!_scrollController.hasClients) return;
-    final position = _scrollController.position;
-    if (position.pixels >= position.maxScrollExtent - 600) {
-      context.read<FeedBloc>().add(const LoadMoreFeed());
-    }
-  }
-
-  Future<void> _refresh() async {
-    // A Completer (not a state-change listener) drives the indicator: a refresh
-    // that returns identical data emits no new state, so waiting on the stream
-    // would hang the spinner forever.
-    final completer = Completer<void>();
-    context.read<FeedBloc>().add(RefreshFeed(completer));
-    await completer.future;
-  }
-
-  /// Opens the post "⋯" menu; if the viewer reports the post, hide it so the
-  /// next post takes its place.
-  Future<void> _openPostMenu(PostEntity post) async {
-    final l10n = AppLocalizations.of(context)!;
-    final feedBloc = context.read<FeedBloc>();
-
-    final action = await showPostOptionsSheet(context);
-    if (action != PostMenuAction.report || !mounted) return;
-
-    final reported = await showReportSheet(
-      context,
-      target: PostReportTarget(post.id),
-      title: l10n.postReport,
-    );
-    if (reported) feedBloc.add(HideFeedPost(post.id));
-  }
-
-  void _openComments(PostEntity post) {
-    final bloc = context.read<FeedBloc>();
-    showCommentsSheet(
-      context,
-      postId: post.id,
-      initialCount: post.commentsCount,
-      postOwnerId: post.author.id,
-      onCountChanged: (count) =>
-          bloc.add(UpdateFeedPostCommentCount(post.id, count)),
-    );
-  }
-
-  Future<void> _share(PostEntity post) async {
-    final l10n = AppLocalizations.of(context)!;
-    final messenger = ScaffoldMessenger.of(context);
-    final shared = await context.push<bool>(
-      '/posts/${post.id}/share',
-      extra: post,
-    );
-    if (shared == true) {
-      messenger.showSnackBar(SnackBar(content: Text(l10n.postShareSuccess)));
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final posts = widget.state.posts;
-
-    if (posts.isEmpty) {
-      return RefreshIndicator(
-        color: AppColors.accent,
-        onRefresh: _refresh,
-        child: ListView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          children: const [SizedBox(height: 120), FeedEmptyView()],
-        ),
-      );
-    }
-
-    return RefreshIndicator(
-      color: AppColors.accent,
-      onRefresh: _refresh,
-      child: ListView.builder(
-        controller: _scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.only(top: 8, bottom: 16),
-        itemCount: posts.length + 1,
-        itemBuilder: (context, index) {
-          if (index == posts.length) {
-            return _Footer(isLoadingMore: widget.state.isLoadingMore);
-          }
-          final post = posts[index];
-          return FeedPostCard(
-            key: ValueKey(post.id),
-            post: post,
-            onToggleLike: () =>
-                context.read<FeedBloc>().add(ToggleLikeFeedPost(post.id)),
-            onToggleSave: () =>
-                context.read<FeedBloc>().add(ToggleSaveFeedPost(post.id)),
-            onShare: () => _share(post),
-            onOpenComments: () => _openComments(post),
-            onOpenLikers: () => showLikersSheet(context, postId: post.id),
-            onSubmitComment: (text) =>
-                context.read<FeedBloc>().add(SubmitFeedComment(post.id, text)),
-            onMenu: () => _openPostMenu(post),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class _Footer extends StatelessWidget {
-  final bool isLoadingMore;
-  const _Footer({required this.isLoadingMore});
-
-  @override
-  Widget build(BuildContext context) {
-    if (!isLoadingMore) return const SizedBox(height: 8);
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 20),
-      child: Center(
-        child: SizedBox(
-          width: 22,
-          height: 22,
-          child: CircularProgressIndicator(
-            strokeWidth: 2,
-            color: AppColors.accent,
           ),
         ),
       ),

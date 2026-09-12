@@ -57,7 +57,7 @@ class _WithdrawEventDialogState extends State<_WithdrawEventDialog> {
           children: [
             Text(
               l10n.mapEventsWithdrawTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.w800,
                 color: AppColors.ink,
@@ -66,7 +66,7 @@ class _WithdrawEventDialogState extends State<_WithdrawEventDialog> {
             const SizedBox(height: 10),
             Text(
               l10n.mapEventsWithdrawBody,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 height: 1.45,
                 color: AppColors.ink2,
@@ -86,7 +86,7 @@ class _WithdrawEventDialogState extends State<_WithdrawEventDialog> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.info_outline_rounded,
                       size: 16,
                       color: AppColors.mute,
@@ -95,7 +95,7 @@ class _WithdrawEventDialogState extends State<_WithdrawEventDialog> {
                     Expanded(
                       child: Text(
                         l10n.mapEventsWithdrawAllCars(widget.carCount),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 13,
                           height: 1.4,
                           color: AppColors.ink2,
@@ -109,7 +109,7 @@ class _WithdrawEventDialogState extends State<_WithdrawEventDialog> {
             const SizedBox(height: 18),
             Text(
               l10n.mapEventsWithdrawNoteLabel,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 10.5,
                 fontWeight: FontWeight.w800,
                 letterSpacing: 0.7,
@@ -122,10 +122,10 @@ class _WithdrawEventDialogState extends State<_WithdrawEventDialog> {
               maxLines: 3,
               maxLength: 500,
               textCapitalization: TextCapitalization.sentences,
-              style: const TextStyle(fontSize: 14, color: AppColors.ink),
+              style: TextStyle(fontSize: 14, color: AppColors.ink),
               decoration: InputDecoration(
                 hintText: l10n.mapEventsWithdrawNoteHint,
-                hintStyle: const TextStyle(
+                hintStyle: TextStyle(
                   fontSize: 14,
                   color: AppColors.muteSoft,
                 ),
@@ -135,11 +135,11 @@ class _WithdrawEventDialogState extends State<_WithdrawEventDialog> {
                 contentPadding: const EdgeInsets.all(12),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: const BorderSide(color: AppColors.line),
+                  borderSide: BorderSide(color: AppColors.line),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: const BorderSide(color: AppColors.accent),
+                  borderSide: BorderSide(color: AppColors.accent),
                 ),
               ),
             ),

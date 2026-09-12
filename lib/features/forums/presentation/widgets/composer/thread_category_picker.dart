@@ -70,7 +70,7 @@ class ThreadCategoryPicker extends StatelessWidget {
         const SizedBox(height: 10),
         Text(
           l10n.forumsTagCarHelper,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.muteSoft,
             fontSize: 12,
             fontWeight: FontWeight.w500,
@@ -111,7 +111,7 @@ class _ModelStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (state.isLoadingModels) {
-      return const Padding(
+      return Padding(
         padding: EdgeInsets.symmetric(vertical: 10),
         child: SizedBox(
           width: 18,
@@ -161,19 +161,19 @@ class _PickerField extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Icon(Icons.search, size: 18, color: AppColors.mute),
+            Icon(Icons.search, size: 18, color: AppColors.mute),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
                 hint,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.muteSoft,
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
               ),
             ),
-            const Icon(
+            Icon(
               Icons.expand_more_rounded,
               size: 20,
               color: AppColors.mute,
@@ -196,7 +196,7 @@ class _EmptyNote extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Text(
         label,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.muteSoft,
           fontSize: 13,
           fontWeight: FontWeight.w600,
@@ -216,7 +216,7 @@ class _StepLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       label,
-      style: const TextStyle(
+      style: TextStyle(
         color: AppColors.mute,
         fontSize: 11,
         fontWeight: FontWeight.w700,
@@ -245,7 +245,7 @@ class _SelectedChip extends StatelessWidget {
           Container(
             width: 6,
             height: 6,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: AppColors.accent,
               shape: BoxShape.circle,
             ),
@@ -254,7 +254,7 @@ class _SelectedChip extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 14,
                 fontWeight: FontWeight.w800,
@@ -263,7 +263,7 @@ class _SelectedChip extends StatelessWidget {
           ),
           GestureDetector(
             onTap: onClear,
-            child: const Icon(Icons.close, size: 18, color: AppColors.mute),
+            child: Icon(Icons.close, size: 18, color: AppColors.mute),
           ),
         ],
       ),

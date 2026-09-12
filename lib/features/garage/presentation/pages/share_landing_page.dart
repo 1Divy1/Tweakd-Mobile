@@ -54,11 +54,11 @@ class _ResolvingView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const CircularProgressIndicator(color: AppColors.accent),
+          CircularProgressIndicator(color: AppColors.accent),
           const SizedBox(height: 18),
           Text(
             message,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 14,
               fontWeight: FontWeight.w500,
@@ -95,7 +95,7 @@ class _UnavailableView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: AppColors.line),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.link_off,
                   size: 28,
                   color: AppColors.mute,
@@ -105,7 +105,7 @@ class _UnavailableView extends StatelessWidget {
               Text(
                 l10n.garageShareUnavailableTitle,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
@@ -115,7 +115,7 @@ class _UnavailableView extends StatelessWidget {
               Text(
                 l10n.garageShareUnavailableBody,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.mute,
                   fontSize: 14,
                   height: 1.4,

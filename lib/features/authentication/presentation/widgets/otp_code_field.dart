@@ -35,7 +35,7 @@ class OtpCodeField extends StatelessWidget {
       keyboardType: TextInputType.number,
       textInputAction: TextInputAction.done,
       autofillHints: const [AutofillHints.oneTimeCode],
-      style: const TextStyle(
+      style: TextStyle(
         color: AppColors.ink,
         fontSize: 28,
         fontWeight: FontWeight.w800,

@@ -166,7 +166,7 @@ class _CommentsSheetState extends State<_CommentsSheet> {
             buildWhen: (a, b) => a.totalCount != b.totalCount,
             builder: (_, state) => Text(
               l10n.postCommentsTitle(state.totalCount),
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 16,
                 fontWeight: FontWeight.w800,
@@ -178,7 +178,7 @@ class _CommentsSheetState extends State<_CommentsSheet> {
             child: BlocBuilder<CommentsBloc, CommentsState>(
               builder: (context, state) {
                 return switch (state.status) {
-                  CommentsStatus.loading => const Center(
+                  CommentsStatus.loading => Center(
                       child: CircularProgressIndicator(color: AppColors.accent),
                     ),
                   CommentsStatus.failure => _CenteredMessage(
@@ -352,7 +352,7 @@ class _RepliesToggle extends StatelessWidget {
             const SizedBox(width: 10),
             Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 12.5,
                 fontWeight: FontWeight.w700,
@@ -428,7 +428,7 @@ class _CommentBody extends StatelessWidget {
               children: [
                 RichText(
                   text: TextSpan(
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.ink2,
                       fontSize: 14,
                       height: 1.35,
@@ -437,7 +437,7 @@ class _CommentBody extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: '${author.username} ',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.ink,
                           fontWeight: FontWeight.w800,
                         ),
@@ -462,7 +462,7 @@ class _CommentBody extends StatelessWidget {
                   children: [
                     Text(
                       postTimeAgo(l10n, comment.createdAt),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.muteSoft,
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
@@ -472,7 +472,7 @@ class _CommentBody extends StatelessWidget {
                       const SizedBox(width: 14),
                       Text(
                         l10n.postCommentLikesCount(comment.likeCount),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.mute,
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
@@ -485,7 +485,7 @@ class _CommentBody extends StatelessWidget {
                         onTap: onReply,
                         child: Text(
                           l10n.postCommentReply,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.mute,
                             fontSize: 11,
                             fontWeight: FontWeight.w700,
@@ -499,7 +499,7 @@ class _CommentBody extends StatelessWidget {
                         onTap: onReport,
                         child: Text(
                           l10n.commentReport,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.mute,
                             fontSize: 11,
                             fontWeight: FontWeight.w700,
@@ -513,7 +513,7 @@ class _CommentBody extends StatelessWidget {
                         onTap: () => _confirmDelete(context),
                         child: Text(
                           l10n.postCommentDelete,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.mute,
                             fontSize: 11,
                             fontWeight: FontWeight.w700,
@@ -567,7 +567,7 @@ class _CommentBody extends StatelessWidget {
             onPressed: () => Navigator.of(dialogContext).pop(true),
             child: Text(
               l10n.garageDialogDelete,
-              style: const TextStyle(color: Colors.red),
+              style: TextStyle(color: AppColors.danger),
             ),
           ),
         ],
@@ -601,7 +601,7 @@ class _CommentInput extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: EdgeInsets.fromLTRB(16, 10, 16, 12 + bottomInset),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
       ),
       child: SafeArea(
@@ -617,7 +617,7 @@ class _CommentInput extends StatelessWidget {
                     Expanded(
                       child: Text(
                         l10n.postReplyingTo(replyingTo!),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.mute,
                           fontSize: 12.5,
                           fontWeight: FontWeight.w700,
@@ -626,7 +626,7 @@ class _CommentInput extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: onCancelReply,
-                      child: const Icon(Icons.close_rounded,
+                      child: Icon(Icons.close_rounded,
                           size: 18, color: AppColors.mute),
                     ),
                   ],
@@ -673,7 +673,7 @@ class _CommentInput extends StatelessWidget {
                       onSubmitted: (_) => onSend(),
                       minLines: 1,
                       maxLines: 4,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.ink,
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
@@ -682,7 +682,7 @@ class _CommentInput extends StatelessWidget {
                         isDense: true,
                         filled: false,
                         hintText: l10n.postCommentHint,
-                        hintStyle: const TextStyle(
+                        hintStyle: TextStyle(
                           color: AppColors.muteSoft,
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
@@ -704,7 +704,7 @@ class _CommentInput extends StatelessWidget {
                     child: Container(
                       width: 44,
                       height: 44,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: AppColors.accent,
                         shape: BoxShape.circle,
                       ),
@@ -771,7 +771,7 @@ class _LoadingRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.all(16),
       child: Center(
         child: SizedBox(
@@ -796,7 +796,7 @@ class _CenteredMessage extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.mute,
             fontSize: 15,
             fontWeight: FontWeight.w600,

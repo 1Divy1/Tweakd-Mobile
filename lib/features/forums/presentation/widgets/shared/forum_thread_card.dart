@@ -73,7 +73,7 @@ class ForumThreadCard extends StatelessWidget {
             ],
             Text(
               thread.title,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 16,
                 fontWeight: FontWeight.w800,
@@ -88,7 +88,7 @@ class ForumThreadCard extends StatelessWidget {
                 (thread as ForumThreadDetailEntity).content!,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.mute,
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
@@ -120,7 +120,7 @@ class ForumThreadCard extends StatelessWidget {
                 ),
                 Text(
                   '     ${forumActiveAgo(l10n, thread.lastActivityAt)}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.mute,
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -223,7 +223,7 @@ class _CountItem extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           forumCompactCount(count),
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.mute,
             fontSize: 12,
             fontWeight: FontWeight.w700,

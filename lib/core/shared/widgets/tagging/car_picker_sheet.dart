@@ -105,7 +105,7 @@ class _CarPickerSheetState extends State<_CarPickerSheet> {
                 if (onGarage)
                   GestureDetector(
                     onTap: _back,
-                    child: const Padding(
+                    child: Padding(
                       padding: EdgeInsets.only(right: 10),
                       child: Icon(
                         Icons.arrow_back_rounded,
@@ -119,7 +119,7 @@ class _CarPickerSheetState extends State<_CarPickerSheet> {
                     onGarage
                         ? l10n.forumsTagChooseCar
                         : l10n.forumsTagChoosePerson,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.ink,
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
@@ -130,7 +130,7 @@ class _CarPickerSheetState extends State<_CarPickerSheet> {
             ),
           ),
           const SizedBox(height: 12),
-          const Divider(height: 1, color: AppColors.line),
+          Divider(height: 1, color: AppColors.line),
           Expanded(
             child: !onGarage
                 ? _GarageChooser(
@@ -182,7 +182,7 @@ class _GarageChooser extends StatelessWidget {
               color: AppColors.accentSoft,
               borderRadius: BorderRadius.circular(11),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.garage_rounded,
               size: 19,
               color: AppColors.accent,
@@ -190,13 +190,13 @@ class _GarageChooser extends StatelessWidget {
           ),
           title: Text(
             l10n.forumsTagYourGarage,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontWeight: FontWeight.w800,
               fontSize: 16,
             ),
           ),
-          trailing: const Icon(
+          trailing: Icon(
             Icons.chevron_right_rounded,
             color: AppColors.mute,
           ),
@@ -207,7 +207,7 @@ class _GarageChooser extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 18, 20, 8),
             child: Text(
               l10n.forumsTagPersonFirst,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 14,
                 height: 1.4,
@@ -217,7 +217,7 @@ class _GarageChooser extends StatelessWidget {
           )
         else
           for (final person in people) ...[
-            const Divider(
+            Divider(
               height: 1,
               color: AppColors.line2,
               indent: 20,
@@ -232,13 +232,13 @@ class _GarageChooser extends StatelessWidget {
               ),
               title: Text(
                 '@${person.username}',
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontWeight: FontWeight.w700,
                   fontSize: 16,
                 ),
               ),
-              trailing: const Icon(
+              trailing: Icon(
                 Icons.chevron_right_rounded,
                 color: AppColors.mute,
               ),
@@ -278,7 +278,7 @@ class _CarChooser extends StatelessWidget {
         if (status == TagLoadStatus.loading ||
             status == TagLoadStatus.idle ||
             stale) {
-          return const Center(
+          return Center(
             child: CircularProgressIndicator(color: AppColors.accent),
           );
         }
@@ -300,7 +300,7 @@ class _CarChooser extends StatelessWidget {
           controller: scrollController,
           padding: const EdgeInsets.symmetric(vertical: 4),
           itemCount: cars.length,
-          separatorBuilder: (_, _) => const Divider(
+          separatorBuilder: (_, _) => Divider(
             height: 1,
             color: AppColors.line2,
             indent: 20,
@@ -346,7 +346,7 @@ class _CarRow extends StatelessWidget {
               ? CachedNetworkImage(imageUrl: url, fit: BoxFit.cover)
               : Container(
                   color: AppColors.bg,
-                  child: const Icon(
+                  child: Icon(
                     Icons.directions_car_rounded,
                     color: AppColors.muteSoft,
                     size: 20,
@@ -356,7 +356,7 @@ class _CarRow extends StatelessWidget {
       ),
       title: Text(
         '${car.brand} ${car.model}'.trim(),
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.ink,
           fontWeight: FontWeight.w700,
           fontSize: 16,
@@ -379,7 +379,7 @@ class _CenteredMessage extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.mute,
             fontSize: 15,
             fontWeight: FontWeight.w600,

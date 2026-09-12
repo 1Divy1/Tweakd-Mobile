@@ -75,7 +75,7 @@ class _StripChip extends StatelessWidget {
           const SizedBox(width: 5),
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 12,
               fontWeight: FontWeight.w700,
@@ -84,7 +84,7 @@ class _StripChip extends StatelessWidget {
           const SizedBox(width: 4),
           GestureDetector(
             onTap: onRemove,
-            child: const Icon(
+            child: Icon(
               Icons.close_rounded,
               size: 14,
               color: AppColors.mute,

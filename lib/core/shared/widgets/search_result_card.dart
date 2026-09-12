@@ -39,7 +39,7 @@ class SearchResultCard extends StatelessWidget {
             ),
             IconButton(
               onPressed: onTap,
-              icon: const Icon(
+              icon: Icon(
                 Icons.chevron_right,
                 color: AppColors.mute,
                 size: 22,
@@ -61,14 +61,9 @@ class _Avatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final url = avatarUrl;
-    return Container(
+    return SizedBox(
       width: 44,
       height: 44,
-      padding: const EdgeInsets.all(2),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: AppColors.accent, width: 2),
-      ),
       child: ClipOval(
         child: (url != null && url.isNotEmpty)
             ? Image.network(
@@ -90,7 +85,7 @@ class _AvatarPlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.line2,
-      child: const Icon(
+      child: Icon(
         Icons.person,
         size: 22,
         color: AppColors.muteSoft,
@@ -112,7 +107,7 @@ class _HighlightedUsername extends StatelessWidget {
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       text: TextSpan(
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.ink,
           fontSize: 15,
           fontWeight: FontWeight.w700,
@@ -155,7 +150,7 @@ class _HighlightedUsername extends StatelessWidget {
             ),
             child: Text(
               username.substring(matchIdx, matchEnd),
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.accent,
                 fontSize: 15,
                 fontWeight: FontWeight.w700,

@@ -174,8 +174,13 @@ class _CelebrationViewState extends State<_CelebrationView>
       // it.
       canPop: false,
       child: AnnotatedRegion<SystemUiOverlayStyle>(
-        // Dark status-bar icons over the white takeover.
-        value: SystemUiOverlayStyle.dark,
+        // The takeover's ground is AppColors.surface, so the status bar icons
+        // have to flip with it just like AppTheme's app bar does — dark icons
+        // over the light-mode white surface, light icons over the dark-mode
+        // near-black one.
+        value: AppColors.isDark
+            ? SystemUiOverlayStyle.light
+            : SystemUiOverlayStyle.dark,
         child: Material(
           type: MaterialType.transparency,
           child: AnimatedBuilder(
@@ -189,7 +194,7 @@ class _CelebrationViewState extends State<_CelebrationView>
                 opacity: _closing ? _entry.value.clamp(0.0, 1.0) : 1.0,
                 child: Stack(
                   children: [
-                    const Positioned.fill(
+                    Positioned.fill(
                       child: ColoredBox(color: AppColors.surface),
                     ),
                     Positioned.fill(
@@ -267,7 +272,7 @@ class _CelebrationViewState extends State<_CelebrationView>
   static List<_Particle> _buildParticles(int seed) {
     final rnd = math.Random(seed);
     // Saturated flecks only — anything pale washes out on the white ground.
-    const palette = <Color>[
+    final palette = <Color>[
       AppColors.accent,
       AppColors.accentHot,
       Color(0xFFFFC93C),
@@ -320,7 +325,7 @@ class _Reward extends StatelessWidget {
           child: Text(
             headline.toUpperCase(),
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.accent,
               fontSize: 14,
               fontWeight: FontWeight.w800,
@@ -342,7 +347,7 @@ class _Reward extends StatelessWidget {
               Text(
                 title,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 26,
                   fontWeight: FontWeight.w900,
@@ -355,7 +360,7 @@ class _Reward extends StatelessWidget {
                 Text(
                   desc,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.mute,
                     fontSize: 15,
                     height: 1.4,

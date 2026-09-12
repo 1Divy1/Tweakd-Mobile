@@ -46,7 +46,7 @@ class CompletedFeedbackCard extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             message.message,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 14.5,
               fontWeight: FontWeight.w600,
@@ -60,7 +60,7 @@ class CompletedFeedbackCard extends StatelessWidget {
           const SizedBox(height: 14),
           Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.arrow_upward_rounded,
                 size: 15,
                 color: AppColors.ink2,
@@ -68,7 +68,7 @@ class CompletedFeedbackCard extends StatelessWidget {
               const SizedBox(width: 6),
               Text(
                 l10n.feedbackFeedNetVotes(message.netVotes),
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink2,
                   fontSize: 13,
                   fontWeight: FontWeight.w700,

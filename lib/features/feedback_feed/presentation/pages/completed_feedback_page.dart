@@ -151,7 +151,7 @@ class _TopBar extends StatelessWidget {
               title,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 17,
                 fontWeight: FontWeight.w800,

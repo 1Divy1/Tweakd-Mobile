@@ -409,6 +409,7 @@ import '../../features/search/domain/repositories/search_repository.dart'
     as _i357;
 import '../../features/search/domain/usecases/search_users.dart' as _i14;
 import '../../features/search/presentation/bloc/bloc.dart' as _i462;
+import '../../features/settings/presentation/bloc/theme/cubit.dart' as _i158;
 import '../../features/tags/data/datasources/tags_api_data_source.dart'
     as _i446;
 import '../../features/tags/data/repositories/tags_repository_impl.dart'
@@ -438,6 +439,7 @@ import '../services/push_permission_service.dart' as _i792;
 import '../services/share_launcher_service.dart' as _i1031;
 import '../shared/bloc/tag_picker/bloc.dart' as _i155;
 import '../storage/locale_local_storage.dart' as _i1069;
+import '../storage/theme_local_storage.dart' as _i156;
 import 'modules/app_links_module.dart' as _i195;
 import 'modules/dio_module.dart' as _i983;
 import 'modules/supabase_module.dart' as _i388;
@@ -471,6 +473,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1069.LocaleLocalStorage>(
       () => _i1069.LocaleLocalStorage(),
     );
+    gh.lazySingleton<_i156.ThemeLocalStorage>(() => _i156.ThemeLocalStorage());
     gh.lazySingleton<_i178.DeviceLocationDataSource>(
       () => _i178.DeviceLocationDataSource(),
     );
@@ -513,6 +516,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i311.AbstractHTTP>(
       () => _i554.DioHttpClient(gh<_i361.Dio>()),
+    );
+    gh.factory<_i158.ThemeModeCubit>(
+      () => _i158.ThemeModeCubit(gh<_i156.ThemeLocalStorage>()),
     );
     gh.lazySingleton<_i637.MessagesDataSource>(
       () => _i637.MessagesApiDataSource(

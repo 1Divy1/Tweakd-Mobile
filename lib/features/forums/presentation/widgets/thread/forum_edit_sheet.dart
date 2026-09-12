@@ -126,7 +126,7 @@ class _ForumEditSheetState extends State<_ForumEditSheet> {
           const SizedBox(height: 18),
           Text(
             widget.title,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 20,
               fontWeight: FontWeight.w800,
@@ -146,7 +146,7 @@ class _ForumEditSheetState extends State<_ForumEditSheet> {
               minLines: 3,
               maxLines: 8,
               cursorColor: AppColors.accent,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
@@ -206,7 +206,7 @@ class _ForumEditSheetState extends State<_ForumEditSheet> {
                     onPressed: () => Navigator.of(context).pop(),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppColors.ink,
-                      side: const BorderSide(color: AppColors.line),
+                      side: BorderSide(color: AppColors.line),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),

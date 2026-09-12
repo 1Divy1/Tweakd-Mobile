@@ -84,7 +84,7 @@ class _SaveShortcutSheetState extends State<_SaveShortcutSheet> {
           const SizedBox(height: 18),
           Text(
             l10n.forumsSaveShortcut,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 20,
               fontWeight: FontWeight.w800,
@@ -93,7 +93,7 @@ class _SaveShortcutSheetState extends State<_SaveShortcutSheet> {
           const SizedBox(height: 6),
           Text(
             l10n.forumsSaveShortcutSubtitle,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 14,
               fontWeight: FontWeight.w500,
@@ -125,7 +125,7 @@ class _SaveShortcutSheetState extends State<_SaveShortcutSheet> {
               controller: _nameController,
               maxLength: 100,
               cursorColor: AppColors.accent,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
@@ -138,7 +138,7 @@ class _SaveShortcutSheetState extends State<_SaveShortcutSheet> {
             ),
           ),
           const SizedBox(height: 16),
-          const Divider(color: AppColors.line2, height: 1),
+          Divider(color: AppColors.line2, height: 1),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -148,7 +148,7 @@ class _SaveShortcutSheetState extends State<_SaveShortcutSheet> {
                   children: [
                     Text(
                       l10n.forumsNotifyMe,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.ink,
                         fontSize: 15,
                         fontWeight: FontWeight.w800,
@@ -157,7 +157,7 @@ class _SaveShortcutSheetState extends State<_SaveShortcutSheet> {
                     const SizedBox(height: 2),
                     Text(
                       l10n.forumsNotifyMeSubtitle,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.mute,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -184,7 +184,7 @@ class _SaveShortcutSheetState extends State<_SaveShortcutSheet> {
                     onPressed: () => Navigator.of(context).pop(),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppColors.ink,
-                      side: const BorderSide(color: AppColors.line),
+                      side: BorderSide(color: AppColors.line),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),

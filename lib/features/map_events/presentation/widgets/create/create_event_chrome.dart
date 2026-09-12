@@ -43,7 +43,7 @@ class CreateEventTopBar extends StatelessWidget {
               child: InkWell(
                 onTap: onClose,
                 customBorder: const CircleBorder(),
-                child: const SizedBox(
+                child: SizedBox(
                   width: 38,
                   height: 38,
                   child: Icon(
@@ -91,7 +91,7 @@ class CreateEventProgress extends StatelessWidget {
                 duration: const Duration(milliseconds: 450),
                 curve: Curves.easeOutCubic,
                 width: constraints.maxWidth * fraction,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: AppColors.accent,
                   borderRadius: BorderRadius.all(Radius.circular(99)),
                 ),
@@ -126,7 +126,7 @@ class CreateEventStepHeader extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 25,
             height: 1.15,
             fontWeight: FontWeight.w800,
@@ -136,7 +136,7 @@ class CreateEventStepHeader extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           subtitle,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 14,
             height: 1.45,
             color: AppColors.ink2,
@@ -165,7 +165,7 @@ class CreateEventOptionalChip extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.w800,
           letterSpacing: 0.8,
@@ -227,7 +227,7 @@ class CreateEventBottomBar extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.info_outline_rounded,
                         size: 15,
                         color: AppColors.accentHot,
@@ -236,7 +236,7 @@ class CreateEventBottomBar extends StatelessWidget {
                       Expanded(
                         child: Text(
                           blocker!,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12.5,
                             height: 1.35,
                             color: AppColors.accentHot,

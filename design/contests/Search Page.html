@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Search — Kinetic Edge</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  html, body { margin: 0; padding: 0; background: #EDEFF3; font-family: Manrope, system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="palette.js"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="ios-frame.jsx"></script>
+<script type="text/babel" src="search.jsx"></script>
+
+<script type="text/babel">
+  const { DesignCanvas, DCSection, DCArtboard } = window;
+  const { IOSDevice } = window;
+  const { SearchScreen, KE } = window;
+
+  function Frame({ state }) {
+    return (
+      <IOSDevice width={390} height={844}>
+        <SearchScreen state={state}/>
+      </IOSDevice>
+    );
+  }
+
+  function PaletteLegend() {
+    const groups = [
+      { title: "Surfaces", tokens: [
+        ["bg",       KE.bg,       "Page background — slightly darker warm white"],
+        ["bgSoft",   KE.bgSoft,   "Alt panel"],
+        ["surface",  KE.surface,  "Cards & inputs — pure white"],
+      ]},
+      { title: "Ink", tokens: [
+        ["ink",      KE.ink,      "Primary text · logo · active tab"],
+        ["ink2",     KE.ink2,     "Secondary text"],
+        ["mute",     KE.mute,     "Tertiary / metadata"],
+        ["muteSoft", KE.muteSoft, "Inactive icons"],
+      ]},
+      { title: "Lines", tokens: [
+        ["line",     KE.line,     "Hairline borders"],
+        ["line2",    KE.line2,    "Softest divider"],
+      ]},
+      { title: "Accent (sparing use)", tokens: [
+        ["accent",     KE.accent,     "Primary CTA · verified · highlight text"],
+        ["accentHot",  KE.accentHot,  "Pressed state"],
+        ["accentSoft", KE.accentSoft, "Highlight chip background"],
+      ]},
+    ];
+    return (
+      <div style={{
+        background: "#fff", borderRadius: 16, border: `1px solid ${KE.line}`,
+        padding: 24, width: 320, fontFamily: window.KE_FONT_BODY,
+      }}>
+        <div style={{
+          fontFamily: window.KE_FONT_DISPLAY, fontWeight: 700, fontSize: 11,
+          letterSpacing: 1.6, color: KE.accent, marginBottom: 4,
+        }}>KINETIC EDGE</div>
+        <div style={{
+          fontFamily: window.KE_FONT_DISPLAY, fontWeight: 700, fontSize: 22,
+          color: KE.ink, letterSpacing: -0.5, marginBottom: 18,
+        }}>Color tokens</div>
+
+        {groups.map((g, gi) => (
+          <div key={g.title} style={{ marginBottom: gi < groups.length - 1 ? 18 : 0 }}>
+            <div style={{
+              fontFamily: window.KE_FONT_DISPLAY, fontWeight: 700, fontSize: 9,
+              letterSpacing: 1.4, color: KE.mute, marginBottom: 8,
+            }}>{g.title.toUpperCase()}</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {g.tokens.map(([k, v, desc]) => (
+                <div key={k} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{
+                    width: 32, height: 32, borderRadius: 8, background: v,
+                    border: `1px solid ${KE.line}`, flexShrink: 0,
+                  }}/>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                      <span style={{
+                        fontFamily: window.KE_FONT_DISPLAY, fontWeight: 700, fontSize: 12,
+                        color: KE.ink,
+                      }}>{k}</span>
+                      <span style={{
+                        fontFamily: window.KE_FONT_DISPLAY, fontSize: 10,
+                        color: KE.mute, letterSpacing: 0.4,
+                      }}>{v}</span>
+                    </div>
+                    <div style={{ fontFamily: window.KE_FONT_BODY, fontSize: 11, color: KE.mute, marginTop: 1 }}>
+                      {desc}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function App() {
+    const states = [
+      { id: "empty",   label: "Empty" },
+      { id: "typing",  label: "Typing" },
+      { id: "results", label: "Results" },
+    ];
+    return (
+      <DesignCanvas
+        title="Search Page — Kinetic Edge"
+        subtitle="Warm-white surfaces · near-black ink · orange used sparingly as accent"
+      >
+        <DCSection id="search" title="Search · three states" subtitle="Username-only · 2-char minimum">
+          {states.map(s => (
+            <DCArtboard key={s.id} id={`search-${s.id}`} label={s.label} width={430} height={920}>
+              <Frame state={s.id}/>
+            </DCArtboard>
+          ))}
+        </DCSection>
+
+        <DCSection id="palette" title="Color palette" subtitle="Shared across the whole app">
+          <DCArtboard id="legend" label="Tokens" width={360} height={780}>
+            <PaletteLegend/>
+          </DCArtboard>
+        </DCSection>
+      </DesignCanvas>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

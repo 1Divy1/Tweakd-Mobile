@@ -91,7 +91,7 @@ class _VerifyResetCodePageState extends State<VerifyResetCodePage> {
                   Text(
                     l10n.authVerifyCodeTitle,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.ink,
                       fontSize: 30,
                       fontWeight: FontWeight.w900,
@@ -101,7 +101,7 @@ class _VerifyResetCodePageState extends State<VerifyResetCodePage> {
                   Text(
                     l10n.authVerifyCodeSubtitle(widget.email),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.mute,
                       fontSize: 15,
                       height: 1.45,

@@ -108,7 +108,7 @@ class MapEventOrganizerTypeChip extends StatelessWidget {
         type == MapEventOrganizerType.business
             ? l10n.mapEventsChipBusiness
             : l10n.mapEventsChipIndividual,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 9,
           fontWeight: FontWeight.w800,
           letterSpacing: 0.6,
@@ -135,7 +135,7 @@ class MapEventSoonChip extends StatelessWidget {
       ),
       child: Text(
         l10n.mapEventsSoon,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 9,
           fontWeight: FontWeight.w800,
           letterSpacing: 0.6,
@@ -174,7 +174,7 @@ class MapEventSectionLabel extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 11,
             fontWeight: FontWeight.w800,
             letterSpacing: 0.8,
@@ -184,7 +184,7 @@ class MapEventSectionLabel extends StatelessWidget {
         if (trailing != null)
           Text(
             trailing!,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.w700,
               letterSpacing: 0.6,

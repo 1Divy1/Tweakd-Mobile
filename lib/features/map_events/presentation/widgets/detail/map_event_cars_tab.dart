@@ -42,7 +42,7 @@ class MapEventCarsTab extends StatelessWidget {
           children: [
             Text(
               l10n.mapEventsEntryListTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w800,
                 color: AppColors.ink,
@@ -50,7 +50,7 @@ class MapEventCarsTab extends StatelessWidget {
             ),
             Text(
               l10n.mapEventsApprovedCount(event.attendingCarsCount),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 10.5,
                 fontWeight: FontWeight.w800,
                 letterSpacing: 0.6,
@@ -75,7 +75,7 @@ class MapEventCarsTab extends StatelessWidget {
             ),
             child: Column(
               children: [
-                const Icon(
+                Icon(
                   Icons.directions_car_outlined,
                   size: 28,
                   color: AppColors.muteSoft,
@@ -84,7 +84,7 @@ class MapEventCarsTab extends StatelessWidget {
                 Text(
                   l10n.mapEventsEntryListEmpty,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13.5,
                     color: AppColors.mute,
                   ),

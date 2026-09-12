@@ -11,8 +11,10 @@ import '../../../authentication/presentation/utils/auth_error_mapper.dart';
 import '../../../profile/presentation/bloc/locale/cubit.dart';
 import '../../../profile/presentation/widgets/settings/language_picker_sheet.dart';
 import '../../../profile/presentation/widgets/shared/profile_top_bar.dart';
+import '../bloc/theme/cubit.dart';
 import '../widgets/logout_button.dart';
 import '../widgets/settings_tile.dart';
+import '../widgets/theme_picker_sheet.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -30,14 +32,14 @@ class SettingsPage extends StatelessWidget {
             onPressed: () => Navigator.of(dialogContext).pop(false),
             child: Text(
               l10n.commonCancel,
-              style: const TextStyle(color: AppColors.ink2),
+              style: TextStyle(color: AppColors.ink2),
             ),
           ),
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
             child: Text(
               l10n.settingsLogout,
-              style: const TextStyle(color: AppColors.accent),
+              style: TextStyle(color: AppColors.accent),
             ),
           ),
         ],
@@ -117,6 +119,22 @@ class SettingsPage extends StatelessWidget {
                                 context,
                                 currentCode: code,
                               ),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 12),
+                        BlocBuilder<ThemeModeCubit, ThemeMode>(
+                          builder: (context, mode) {
+                            final label = switch (mode) {
+                              ThemeMode.light => l10n.themeLight,
+                              ThemeMode.dark => l10n.themeDark,
+                              ThemeMode.system => l10n.themeSystem,
+                            };
+                            return SettingsTile(
+                              icon: Icons.dark_mode_outlined,
+                              label: l10n.settingsTheme,
+                              trailingLabel: label,
+                              onTap: () => showThemePickerSheet(context),
                             );
                           },
                         ),

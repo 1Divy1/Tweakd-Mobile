@@ -345,11 +345,11 @@ class _ManageButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.tune_rounded, size: 16, color: AppColors.ink),
+              Icon(Icons.tune_rounded, size: 16, color: AppColors.ink),
               const SizedBox(width: 8),
               Text(
                 l10n.mapEventsManageTitle.toUpperCase(),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w800,
                   letterSpacing: 0.5,
@@ -373,12 +373,12 @@ class _Notice extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Icon(Icons.info_outline_rounded, size: 14, color: AppColors.mute),
+        Icon(Icons.info_outline_rounded, size: 14, color: AppColors.mute),
         const SizedBox(width: 7),
         Expanded(
           child: Text(
             text,
-            style: const TextStyle(fontSize: 12.5, color: AppColors.mute),
+            style: TextStyle(fontSize: 12.5, color: AppColors.mute),
           ),
         ),
       ],
@@ -415,7 +415,7 @@ class _DetailError extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.error_outline_rounded,
                     size: 34,
                     color: AppColors.muteSoft,
@@ -424,7 +424,7 @@ class _DetailError extends StatelessWidget {
                   Text(
                     mapEventErrorMessage(l10n, error),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14.5,
                       height: 1.4,
                       color: AppColors.ink2,

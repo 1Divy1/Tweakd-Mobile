@@ -71,7 +71,7 @@ class MapEventOrganizerRow extends StatelessWidget {
                             organizer.name,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 14.5,
                               fontWeight: FontWeight.w700,
                               color: AppColors.ink,
@@ -95,7 +95,7 @@ class MapEventOrganizerRow extends StatelessWidget {
                       _subtitle(l10n),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
                         color: AppColors.mute,
                       ),
@@ -115,7 +115,7 @@ class MapEventOrganizerRow extends StatelessWidget {
               else ...[
                 MapEventOrganizerTypeChip(type: organizer.type),
                 if (canOpenProfile)
-                  const Icon(
+                  Icon(
                     Icons.chevron_right_rounded,
                     size: 20,
                     color: AppColors.muteSoft,
@@ -170,7 +170,7 @@ class _OrganizerAvatar extends StatelessWidget {
           : CachedNetworkImage(
               imageUrl: url,
               fit: BoxFit.cover,
-              errorWidget: (_, _, _) => const Icon(
+              errorWidget: (_, _, _) => Icon(
                 Icons.person_rounded,
                 size: 20,
                 color: AppColors.accent,

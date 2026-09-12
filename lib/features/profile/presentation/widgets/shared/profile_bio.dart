@@ -11,7 +11,7 @@ class ProfileBio extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       bio,
-      style: const TextStyle(color: AppColors.ink2, fontSize: 14, height: 1.45),
+      style: TextStyle(color: AppColors.ink2, fontSize: 14, height: 1.45),
     );
   }
 }

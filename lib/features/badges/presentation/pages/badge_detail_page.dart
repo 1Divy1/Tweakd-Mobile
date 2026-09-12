@@ -65,7 +65,7 @@ class BadgeDetailPage extends StatelessWidget {
                           Text(
                             badge.title.toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: AppColors.ink,
                               fontSize: 30,
                               fontWeight: FontWeight.w900,
@@ -78,7 +78,7 @@ class BadgeDetailPage extends StatelessWidget {
                             Text(
                               badge.description!,
                               textAlign: TextAlign.center,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: AppColors.mute,
                                 fontSize: 16,
                                 height: 1.45,

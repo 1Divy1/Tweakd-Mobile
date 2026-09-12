@@ -74,7 +74,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                   ),
                   Expanded(
                     child: switch (state) {
-                      PostDetailLoading() => const Center(
+                      PostDetailLoading() => Center(
                           child: CircularProgressIndicator(
                               color: AppColors.accent),
                         ),
@@ -191,10 +191,10 @@ class _PostDetailPageState extends State<PostDetailPage> {
             ),
             const SizedBox(height: 16),
             ListTile(
-              leading: const Icon(Icons.edit_outlined, color: AppColors.ink),
+              leading: Icon(Icons.edit_outlined, color: AppColors.ink),
               title: Text(
                 l10n.postEditAction,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontWeight: FontWeight.w600,
                 ),
@@ -205,11 +205,11 @@ class _PostDetailPageState extends State<PostDetailPage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.delete_outline, color: Colors.red),
+              leading: Icon(Icons.delete_outline, color: AppColors.danger),
               title: Text(
                 l10n.postDeleteAction,
-                style: const TextStyle(
-                  color: Colors.red,
+                style: TextStyle(
+                  color: AppColors.danger,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -241,7 +241,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
             children: [
               Text(
                 l10n.postDeleteTitle,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
@@ -250,7 +250,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
               const SizedBox(height: 10),
               Text(
                 l10n.postDeleteBody,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.mute,
                   fontSize: 14,
                   height: 1.4,
@@ -304,13 +304,13 @@ class _TopBar extends StatelessWidget {
         children: [
           _PillButton(
             onTap: onBack,
-            child: const Icon(Icons.chevron_left, color: AppColors.ink, size: 20),
+            child: Icon(Icons.chevron_left, color: AppColors.ink, size: 20),
           ),
           Expanded(
             child: Center(
               child: Text(
                 AppLocalizations.of(context)!.postDetailTitle,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 14,
                   fontWeight: FontWeight.w800,
@@ -323,7 +323,7 @@ class _TopBar extends StatelessWidget {
             _PillButton(
               onTap: isDeleting ? null : onMenu,
               child: isDeleting
-                  ? const SizedBox(
+                  ? SizedBox(
                       width: 16,
                       height: 16,
                       child: CircularProgressIndicator(
@@ -331,7 +331,7 @@ class _TopBar extends StatelessWidget {
                         color: AppColors.ink,
                       ),
                     )
-                  : const Icon(Icons.more_horiz, color: AppColors.ink, size: 20),
+                  : Icon(Icons.more_horiz, color: AppColors.ink, size: 20),
             )
           else
             const SizedBox(width: 44),
@@ -382,15 +382,15 @@ class _DialogButton extends StatelessWidget {
       child: Container(
         height: 48,
         decoration: BoxDecoration(
-          color: isDestructive ? Colors.red : AppColors.surface,
+          color: isDestructive ? AppColors.danger : AppColors.surface,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: isDestructive ? Colors.red : AppColors.line),
+          border: Border.all(color: isDestructive ? AppColors.danger : AppColors.line),
         ),
         child: Center(
           child: Text(
             label,
             style: TextStyle(
-              color: isDestructive ? Colors.white : AppColors.ink,
+              color: isDestructive ? AppColors.onDanger : AppColors.ink,
               fontSize: 15,
               fontWeight: FontWeight.w700,
             ),
@@ -413,7 +413,7 @@ class _ErrorView extends StatelessWidget {
         child: Text(
           message,
           textAlign: TextAlign.center,
-          style: const TextStyle(color: AppColors.mute, fontSize: 14),
+          style: TextStyle(color: AppColors.mute, fontSize: 14),
         ),
       ),
     );

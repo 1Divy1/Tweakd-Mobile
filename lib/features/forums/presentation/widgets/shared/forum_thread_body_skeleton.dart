@@ -89,7 +89,7 @@ class _ThreadHeaderSkeleton extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          const Divider(color: AppColors.line, height: 1),
+          Divider(color: AppColors.line, height: 1),
           const SizedBox(height: 12),
           // Action row.
           Row(
@@ -102,7 +102,7 @@ class _ThreadHeaderSkeleton extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          const Divider(color: AppColors.line, height: 1),
+          Divider(color: AppColors.line, height: 1),
         ],
       ),
     );
@@ -183,7 +183,7 @@ class _Circle extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.line2,
         shape: BoxShape.circle,
       ),

@@ -217,7 +217,7 @@ class _Cover extends StatelessWidget {
           // one "Apple" move in the design. Drawn inside the cover so it
           // overlaps without leaving an 18pt hole at the card's foot, which is
           // what translating the sheet itself did.
-          const Positioned(
+          Positioned(
             left: 0,
             right: 0,
             bottom: 0,
@@ -248,7 +248,7 @@ class _Cover extends StatelessWidget {
                     Container(
                       width: 20,
                       height: 20,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         // The design's one use of the accent. Keep it that way.
                         color: AppColors.accent,
                         shape: BoxShape.circle,
@@ -263,7 +263,7 @@ class _Cover extends StatelessWidget {
                     const SizedBox(width: 6),
                     Text(
                       l10n.participantCardPlace(ContestFormat.rank(l10n, best)),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12.5,
                         fontWeight: FontWeight.w600,
                         letterSpacing: -0.1,
@@ -303,7 +303,7 @@ class _CarName extends StatelessWidget {
               data.car.name,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
                 letterSpacing: -0.4,
@@ -380,7 +380,7 @@ class _CardRow extends StatelessWidget {
                       value ?? '',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                         color: AppColors.ink,
@@ -452,7 +452,7 @@ class _ContestsRow extends StatelessWidget {
                   ),
       valueWidget: LayoutBuilder(
         builder: (context, constraints) {
-          final style = const TextStyle(
+          final style = TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w500,
             color: AppColors.ink,

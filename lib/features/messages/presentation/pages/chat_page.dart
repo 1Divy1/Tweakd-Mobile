@@ -149,13 +149,13 @@ class _ChatMessagesList extends StatelessWidget {
           children: [
             const SizedBox(height: 14),
             ListTile(
-              leading: const Icon(
+              leading: Icon(
                 Icons.delete_outline_rounded,
                 color: AppColors.accent,
               ),
               title: Text(
                 l10n.messagesDeleteMessage,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
@@ -163,7 +163,7 @@ class _ChatMessagesList extends StatelessWidget {
               ),
               subtitle: Text(
                 l10n.messagesDeleteMessageBody,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.mute,
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
@@ -222,7 +222,7 @@ class _ChatMessagesList extends StatelessWidget {
 
   Widget _buildRow(BuildContext context, _ChatRow row, AppLocalizations l10n) {
     return switch (row) {
-      _LoadingOlderRow() => const Padding(
+      _LoadingOlderRow() => Padding(
           padding: EdgeInsets.symmetric(vertical: 14),
           child: Center(
             child: SizedBox(
@@ -241,7 +241,7 @@ class _ChatMessagesList extends StatelessWidget {
           child: Center(
             child: Text(
               l10n.messagesEmptyChat,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
@@ -356,7 +356,7 @@ class _GroupTimeLabel extends StatelessWidget {
             message.isMine ? Alignment.centerRight : Alignment.centerLeft,
         child: Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.muteSoft,
             fontSize: 12,
             fontWeight: FontWeight.w600,

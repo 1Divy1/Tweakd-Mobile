@@ -75,8 +75,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  # Opaque (no alpha): iOS flattens transparency in app icons to black.
-  image_path: "design/icon/tweakd_icon_light.png"
+  image_path: "design/icon/letter_only_logo.png"
   min_sdk_android: 21
 
 # Native (OS-level) launch screen shown the instant the app is tapped, before

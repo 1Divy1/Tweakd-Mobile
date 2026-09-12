@@ -58,7 +58,7 @@ class _FinishSheet extends StatelessWidget {
                           ContestFormat.timeLeft(l10n, contest.timeLeft(now)),
                         )
                       : l10n.contestsFinishBodyPastPlan,
-              style: const TextStyle(fontSize: 13, height: 1.55, color: AppColors.ink2),
+              style: TextStyle(fontSize: 13, height: 1.55, color: AppColors.ink2),
             ),
             if (lead != null && hasVotes) ...[
               const SizedBox(height: 14),
@@ -74,7 +74,7 @@ class _FinishSheet extends StatelessWidget {
                   children: [
                     Text(
                       l10n.contestsWinsIfFinishNow,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 9,
                         fontWeight: FontWeight.w800,
                         letterSpacing: 1.2,
@@ -100,7 +100,7 @@ class _FinishSheet extends StatelessWidget {
                                 '${lead.car.brand} ${lead.car.model}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w800,
                                   color: AppColors.ink,
@@ -114,7 +114,7 @@ class _FinishSheet extends StatelessWidget {
                                 ].join(' · '),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(fontSize: 11.5, color: AppColors.mute),
+                                style: TextStyle(fontSize: 11.5, color: AppColors.mute),
                               ),
                             ],
                           ),
@@ -141,7 +141,7 @@ class _FinishSheet extends StatelessWidget {
                           Expanded(
                             child: Text(
                               gap <= 3 ? l10n.contestsCloseRace(gap) : l10n.contestsClearLead(gap),
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 11.5,
                                 height: 1.4,
                                 color: AppColors.ink2,
@@ -220,7 +220,7 @@ Future<DateTime?> showExtendContestSheet(
             const SizedBox(height: 10),
             Text(
               l10n.contestsExtendBody,
-              style: const TextStyle(fontSize: 13, height: 1.5, color: AppColors.ink2),
+              style: TextStyle(fontSize: 13, height: 1.5, color: AppColors.ink2),
             ),
             const SizedBox(height: 12),
             Container(
@@ -231,7 +231,7 @@ Future<DateTime?> showExtendContestSheet(
               ),
               child: Text(
                 l10n.contestsExtendClosesAt(MapEventFormat.deadline(sheetContext, picked)),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13.5,
                   fontWeight: FontWeight.w800,
                   color: AppColors.ink,
@@ -264,7 +264,7 @@ Future<String?> showDeclineContestEntryDialog(BuildContext context) {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
           l10n.contestsDeclineEntryTitle,
-          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: AppColors.ink),
+          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: AppColors.ink),
         ),
         content: TextField(
           controller: controller,
@@ -311,11 +311,11 @@ Future<bool> showDeleteContestDialog(BuildContext context) async {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       title: Text(
         l10n.contestsDeleteTitle,
-        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: AppColors.ink),
+        style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: AppColors.ink),
       ),
       content: Text(
         l10n.contestsDeleteBody,
-        style: const TextStyle(fontSize: 13.5, height: 1.5, color: AppColors.ink2),
+        style: TextStyle(fontSize: 13.5, height: 1.5, color: AppColors.ink2),
       ),
       actions: [
         TextButton(
@@ -370,7 +370,7 @@ class _SheetTitle extends StatelessWidget {
         Expanded(
           child: Text(
             title,
-            style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: AppColors.ink),
+            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: AppColors.ink),
           ),
         ),
         IconButton(

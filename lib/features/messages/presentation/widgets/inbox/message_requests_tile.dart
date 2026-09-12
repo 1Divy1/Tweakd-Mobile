@@ -39,7 +39,7 @@ class MessageRequestsTile extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(color: AppColors.line),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.chat_bubble_outline_rounded,
                 color: AppColors.ink,
                 size: 24,
@@ -52,7 +52,7 @@ class MessageRequestsTile extends StatelessWidget {
                 children: [
                   Text(
                     l10n.messagesRequestsTitle,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.ink,
                       fontSize: 16,
                       fontWeight: FontWeight.w800,
@@ -63,7 +63,7 @@ class MessageRequestsTile extends StatelessWidget {
                     subtitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.mute,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
@@ -76,7 +76,7 @@ class MessageRequestsTile extends StatelessWidget {
             Container(
               width: 24,
               height: 24,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: AppColors.accent,
                 shape: BoxShape.circle,
               ),

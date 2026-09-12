@@ -224,8 +224,9 @@ class _Header extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final finished = contest.isFinished;
     final live = contest.isOpen;
-    final fg = finished ? Colors.white : AppColors.ink;
-    final muted = finished ? Colors.white.withValues(alpha: 0.6) : AppColors.mute;
+    final fg = finished ? AppColors.inkPanel : AppColors.ink;
+    final muted =
+        finished ? AppColors.inkPanel.withValues(alpha: 0.6) : AppColors.mute;
 
     final stats = [
       ('${contest.votesCount}', l10n.contestsStatVotesCast, false),
@@ -372,7 +373,7 @@ class _Criteria extends StatelessWidget {
               if (criteria != null && criteria.isNotEmpty)
                 Text(
                   criteria,
-                  style: const TextStyle(fontSize: 13, height: 1.55, color: AppColors.ink2),
+                  style: TextStyle(fontSize: 13, height: 1.55, color: AppColors.ink2),
                 ),
               if (author != null) ...[
                 if (criteria != null && criteria.isNotEmpty) const SizedBox(height: 11),
@@ -380,7 +381,7 @@ class _Criteria extends StatelessWidget {
                   l10n.contestsSetBy(author),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 11.5, color: AppColors.mute),
+                  style: TextStyle(fontSize: 11.5, color: AppColors.mute),
                 ),
               ],
             ],
@@ -429,11 +430,11 @@ class _Board extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const LiveDot(color: AppColors.accent),
+                  LiveDot(color: AppColors.accent),
                   const SizedBox(width: 5),
                   Text(
                     l10n.contestsUpdatingLive,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 9,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 1,
@@ -456,7 +457,7 @@ class _Board extends StatelessWidget {
             child: Text(
               l10n.contestsNoEntriesYet,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 13, color: AppColors.mute),
+              style: TextStyle(fontSize: 13, color: AppColors.mute),
             ),
           ),
         for (final entry in contest.entries) ...[
@@ -474,7 +475,7 @@ class _Board extends StatelessWidget {
           Center(
             child: Text(
               l10n.contestsVotingOpensAt(TimeOfDay.fromDateTime(contest.opensAt).format(context)),
-              style: const TextStyle(fontSize: 12, color: AppColors.muteSoft),
+              style: TextStyle(fontSize: 12, color: AppColors.muteSoft),
             ),
           ),
         ],
@@ -531,7 +532,7 @@ class _Footer extends StatelessWidget {
                 children: [
                   Text(
                     l10n.contestsYourVote,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 8.5,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 1,
@@ -542,7 +543,7 @@ class _Footer extends StatelessWidget {
                     entry == null ? '—' : '${entry.car.brand} ${entry.car.model}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w800,
                       color: AppColors.ink,
@@ -641,10 +642,10 @@ class _Hint extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Icon(Icons.info_outline_rounded, size: 14, color: AppColors.mute),
+        Icon(Icons.info_outline_rounded, size: 14, color: AppColors.mute),
         const SizedBox(width: 8),
         Expanded(
-          child: Text(text, style: const TextStyle(fontSize: 12.5, color: AppColors.mute)),
+          child: Text(text, style: TextStyle(fontSize: 12.5, color: AppColors.mute)),
         ),
       ],
     );
@@ -681,12 +682,12 @@ class _LoadingOrError extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.error_outline_rounded, size: 34, color: AppColors.muteSoft),
+                        Icon(Icons.error_outline_rounded, size: 34, color: AppColors.muteSoft),
                         const SizedBox(height: 14),
                         Text(
                           mapEventErrorMessage(l10n, error),
                           textAlign: TextAlign.center,
-                          style: const TextStyle(fontSize: 14.5, height: 1.4, color: AppColors.ink2),
+                          style: TextStyle(fontSize: 14.5, height: 1.4, color: AppColors.ink2),
                         ),
                         const SizedBox(height: 16),
                         TextButton(

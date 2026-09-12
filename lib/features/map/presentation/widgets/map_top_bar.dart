@@ -29,17 +29,17 @@ class MapTopBar extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.surface,
               borderRadius: BorderRadius.circular(22),
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
-                  color: Color(0x14000000),
+                  color: AppColors.shadowAlpha(0x14),
                   blurRadius: 14,
-                  offset: Offset(0, 3),
+                  offset: const Offset(0, 3),
                 ),
               ],
             ),
             child: Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.search_rounded,
                   size: 18,
                   color: AppColors.muteSoft,
@@ -50,7 +50,7 @@ class MapTopBar extends StatelessWidget {
                     l10n.mapSearchPlaceholder,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13.5,
                       color: AppColors.muteSoft,
                     ),

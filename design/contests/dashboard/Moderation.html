@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Content Moderation — Tweakd Admin</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="dashboard.css"/>
+<style>
+  .mod-filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:var(--gap);}
+  .fchip{display:inline-flex;align-items:center;gap:7px;padding:9px 15px;border-radius:11px;
+    border:1px solid var(--line);background:var(--surface);cursor:pointer;
+    font-family:var(--fdisplay);font-weight:700;font-size:12.5px;color:var(--ink2);}
+  .fchip .n{font-size:11px;color:var(--mute);}
+  .fchip:hover{border-color:var(--muteSoft);}
+  .fchip.on{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .fchip.on .n{color:rgba(255,255,255,.6);}
+
+  .mod-grid{display:grid;grid-template-columns:400px 1fr;gap:var(--gap);align-items:start;}
+  @media (max-width:1200px){.mod-grid{grid-template-columns:1fr;}}
+
+  .queue{display:flex;flex-direction:column;}
+  .queue-item{display:flex;gap:13px;padding:16px 18px;border-bottom:1px solid var(--line2);cursor:pointer;position:relative;}
+  .queue-item:last-child{border-bottom:none;}
+  .queue-item:hover{background:var(--bgSoft);}
+  .queue-item.sel{background:var(--accentWash);}
+  .queue-item.sel::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);}
+  .qi-thumb{width:44px;height:44px;border-radius:11px;flex-shrink:0;object-fit:cover;background:var(--line2);}
+  .qi-body{flex:1;min-width:0;}
+  .qi-top{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+  .qi-text{font-size:13px;color:var(--ink);line-height:1.4;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .qi-meta{display:flex;align-items:center;gap:10px;margin-top:7px;font-size:11.5px;color:var(--mute);}
+  .qi-meta .rep{display:inline-flex;align-items:center;gap:4px;font-family:var(--fdisplay);font-weight:700;color:var(--ink2);}
+
+  .detail-content{background:var(--bgSoft);border:1px solid var(--line);border-radius:14px;padding:20px 22px;}
+  .quote{font-size:17px;line-height:1.55;color:var(--ink);font-weight:500;}
+  .author-strip{display:flex;align-items:center;gap:14px;padding:16px 0;}
+  .author-strip .meta{flex:1;min-width:0;}
+  .author-strip .nm{font-family:var(--fdisplay);font-weight:700;font-size:15px;color:var(--ink);display:flex;align-items:center;gap:7px;}
+  .author-strip .sb{font-size:12.5px;color:var(--mute);margin-top:2px;}
+  .kv{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:4px 0 4px;}
+  .kv .cell{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:12px 14px;}
+  .kv .cell .v{font-family:var(--fdisplay);font-weight:700;font-size:18px;color:var(--ink);letter-spacing:-.4px;}
+  .kv .cell .k{font-size:10.5px;color:var(--mute);font-family:var(--fdisplay);font-weight:700;letter-spacing:.6px;margin-top:2px;}
+  .kv .cell.warn .v{color:var(--danger);}
+
+  .report{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid var(--line2);}
+  .report:last-child{border-bottom:none;}
+  .report .ri{width:32px;height:32px;border-radius:9px;background:var(--dangerSoft);color:var(--danger);display:grid;place-items:center;flex-shrink:0;}
+  .report .rt{flex:1;}
+  .report .rt .rr{font-family:var(--fdisplay);font-weight:700;font-size:13px;color:var(--ink);}
+  .report .rt .rm{font-size:12px;color:var(--mute);margin-top:2px;}
+
+  .actions{display:flex;flex-wrap:wrap;gap:10px;padding-top:4px;}
+  .tox{display:flex;align-items:center;gap:12px;background:var(--dangerSoft);border-radius:12px;padding:13px 16px;}
+  .tox .bar{flex:1;height:7px;border-radius:999px;background:rgba(196,61,46,.18);overflow:hidden;}
+  .tox .bar i{display:block;height:100%;background:var(--danger);border-radius:999px;}
+</style>
+</head>
+<body>
+<script>window.TWEAK_DEFAULTS=/*EDITMODE-BEGIN*/{"accent":"ember","density":"airy","sidebar":"expanded"}/*EDITMODE-END*/;</script>
+
+<div class="app">
+  <aside class="sidebar">
+    <a class="side-brand" href="Overview.html">
+      <div class="side-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 13h6l-1 9 9-12h-6l1-8z" style="fill:var(--accent)"/></svg></div>
+      <div class="side-word">Tweakd<span class="dot">.</span></div>
+    </a>
+    <nav class="side-nav">
+      <div class="nav-group"><div class="nav-group-label">Analytics</div>
+        <a class="nav-item" href="Overview.html"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="13" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="3" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="13" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2"/></svg><span class="nav-label">Overview</span></a>
+      </div>
+      <div class="nav-group"><div class="nav-group-label">Moderation</div>
+        <a class="nav-item active" href="Moderation.html"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span class="nav-label">Content Queue</span><span class="nav-badge">24</span></a>
+        <a class="nav-item" href="Feedback.html"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v11H9l-4 4V5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span class="nav-label">Feedback</span><span class="nav-badge mute">57</span></a>
+      </div>
+      <div class="nav-group"><div class="nav-group-label">Support</div>
+        <a class="nav-item" href="Support.html"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M3 8a2 2 0 012-2h14a2 2 0 012 2v2a2 2 0 000 4v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2a2 2 0 000-4V8z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M15 6v12" stroke="currentColor" stroke-width="2" stroke-dasharray="2 2"/></svg><span class="nav-label">Tickets</span><span class="nav-badge">12</span></a>
+      </div>
+      <div class="nav-group"><div class="nav-group-label">Team</div>
+        <a class="nav-item" href="Moderators.html"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3.4" stroke="currentColor" stroke-width="2"/><path d="M3.5 20c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 5.2A3.2 3.2 0 0119 8m-2.5 6.6c2.4.3 4.5 2.2 4.5 4.9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="nav-label">Moderators</span></a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <img class="avatar" src="../assets/avatar.jpg" width="38" height="38" alt=""/>
+      <div class="side-foot-meta"><div class="side-foot-name">Jordan Vale</div><div class="side-foot-role">OWNER</div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="title"><h1>Content Moderation</h1><p>24 items awaiting review · 5 flagged high priority</p></div>
+      <div class="topbar-actions">
+        <div class="segmented"><span class="on">Newest</span><span>Most reported</span><span>Severity</span></div>
+        <div class="searchbox">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#8A8680" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="#8A8680" stroke-width="2" stroke-linecap="round"/></svg>
+          <input placeholder="Search flagged content…"/>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="mod-filters">
+        <div class="fchip on">All <span class="n">24</span></div>
+        <div class="fchip">Posts <span class="n">6</span></div>
+        <div class="fchip">Comments <span class="n">8</span></div>
+        <div class="fchip">Threads <span class="n">3</span></div>
+        <div class="fchip">Replies <span class="n">4</span></div>
+        <div class="fchip">Photos <span class="n">2</span></div>
+        <div class="fchip">Profiles <span class="n">1</span></div>
+      </div>
+
+      <div class="mod-grid">
+        <!-- QUEUE -->
+        <div class="card queue">
+          <div class="queue-item sel">
+            <div class="av-mono qi-thumb" style="background:linear-gradient(135deg,#FFDBD0,#AA3000);color:#5b1a00;font-size:16px">L</div>
+            <div class="qi-body">
+              <div class="qi-top"><span class="tag">Comment</span><span class="badge danger" style="margin-left:auto"><span class="bdot"></span>HIGH</span></div>
+              <div class="qi-text">"This mod is straight garbage, don't even bother posting here anymore you clowns…"</div>
+              <div class="qi-meta"><span class="rep">7 reports</span>·<span>Harassment</span>·<span>4m ago</span></div>
+            </div>
+          </div>
+          <div class="queue-item">
+            <div class="av-mono qi-thumb" style="background:linear-gradient(135deg,#FFE0C4,#B85c00);color:#5b2f00;font-size:16px">V</div>
+            <div class="qi-body">
+              <div class="qi-top"><span class="tag">Post</span><span class="badge danger" style="margin-left:auto"><span class="bdot"></span>HIGH</span></div>
+              <div class="qi-text">"DM me for cheap ECU tunes 🔧 stage 2 maps $40 no questions asked, link in bio…"</div>
+              <div class="qi-meta"><span class="rep">11 reports</span>·<span>Scam / fraud</span>·<span>28m ago</span></div>
+            </div>
+          </div>
+          <div class="queue-item">
+            <img class="qi-thumb" src="../assets/car-3.png" alt=""/>
+            <div class="qi-body">
+              <div class="qi-top"><span class="tag">Photo</span><span class="badge warn" style="margin-left:auto"><span class="bdot"></span>MED</span></div>
+              <div class="qi-text">Engine bay closeup — flagged for graphic content by community filter.</div>
+              <div class="qi-meta"><span class="rep">2 reports</span>·<span>Graphic content</span>·<span>21m ago</span></div>
+            </div>
+          </div>
+          <div class="queue-item">
+            <div class="av-mono qi-thumb" style="background:linear-gradient(135deg,#D9E0FF,#3358C4);color:#1a2a6b;font-size:16px">S</div>
+            <div class="qi-body">
+              <div class="qi-top"><span class="tag">Thread</span><span class="badge warn" style="margin-left:auto"><span class="bdot"></span>MED</span></div>
+              <div class="qi-text">RX-7 build thread — dyno numbers. Repeated self-promo links across replies.</div>
+              <div class="qi-meta"><span class="rep">3 reports</span>·<span>Spam</span>·<span>12m ago</span></div>
+            </div>
+          </div>
+          <div class="queue-item">
+            <div class="av-mono qi-thumb" style="background:linear-gradient(135deg,#D6F2E4,#1F8A5B);color:#0c422b;font-size:16px">R</div>
+            <div class="qi-body">
+              <div class="qi-top"><span class="tag">Reply</span><span class="badge neutral" style="margin-left:auto"><span class="bdot"></span>LOW</span></div>
+              <div class="qi-text">Reply on "Best coilovers under $1k" — disputed technical claim.</div>
+              <div class="qi-meta"><span class="rep">1 report</span>·<span>Misinformation</span>·<span>36m ago</span></div>
+            </div>
+          </div>
+          <div class="queue-item">
+            <div class="av-mono qi-thumb" style="background:linear-gradient(135deg,#EADBFF,#6B3FB8);color:#2f1a5b;font-size:16px">N</div>
+            <div class="qi-body">
+              <div class="qi-top"><span class="tag">Profile</span><span class="badge warn" style="margin-left:auto"><span class="bdot"></span>MED</span></div>
+              <div class="qi-text">@noctis_nico — impersonation report, using another creator's photos.</div>
+              <div class="qi-meta"><span class="rep">4 reports</span>·<span>Impersonation</span>·<span>1h ago</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DETAIL -->
+        <div class="card">
+          <div class="card-head">
+            <div class="row" style="gap:10px"><h3>Case #4821</h3><span class="tag">Comment</span><span class="badge danger"><span class="bdot"></span>HIGH PRIORITY</span></div>
+            <span class="muted" style="font-size:12.5px">Flagged 4m ago</span>
+          </div>
+          <div class="card-pad">
+            <div class="detail-content">
+              <div class="quote">"This mod is straight garbage, don't even bother posting here anymore you clowns. Whole community's a joke and so is anyone who runs it."</div>
+              <div style="display:flex;gap:10px;margin-top:16px;font-size:12px;color:var(--mute);">
+                <span>On thread · <b style="color:var(--ink2)">"Weekend meet at Route 9"</b></span><span>·</span><span>Posted 22m ago</span>
+              </div>
+            </div>
+
+            <div class="author-strip">
+              <div class="av-mono" style="width:52px;height:52px;background:linear-gradient(135deg,#FFDBD0,#AA3000);color:#5b1a00;font-size:20px">L</div>
+              <div class="meta">
+                <div class="nm">@low_n_slow_leo</div>
+                <div class="sb">Mazda RX-7 · Member since Mar 2024 · 1,240 followers</div>
+              </div>
+              <a class="btn btn-ghost btn-sm" href="#">View profile</a>
+            </div>
+
+            <div class="kv">
+              <div class="cell warn"><div class="v">2</div><div class="k">PRIOR WARNINGS</div></div>
+              <div class="cell"><div class="v">1</div><div class="k">REMOVED POSTS</div></div>
+              <div class="cell"><div class="v">28mo</div><div class="k">ACCOUNT AGE</div></div>
+            </div>
+
+            <div class="tox" style="margin-top:14px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3l9 16H3L12 3z" stroke="#C43D2E" stroke-width="2" stroke-linejoin="round"/><path d="M12 10v4M12 17h.01" stroke="#C43D2E" stroke-width="2" stroke-linecap="round"/></svg>
+              <div style="flex:1">
+                <div style="font-family:var(--fdisplay);font-weight:700;font-size:12px;color:var(--danger)">Auto-toxicity score · 0.86</div>
+                <div class="bar" style="margin-top:7px"><i style="width:86%"></i></div>
+              </div>
+            </div>
+
+            <div style="margin:22px 0 6px" class="eyebrow">Reports · 7</div>
+            <div class="report"><div class="ri"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 21V4h11l-1 4h7l-2 6H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="rt"><div class="rr">Harassment &amp; bullying</div><div class="rm">by @turbo_tess · 4m ago — "targeted insult at the mod team"</div></div></div>
+            <div class="report"><div class="ri"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 21V4h11l-1 4h7l-2 6H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="rt"><div class="rr">Hate / abusive language</div><div class="rm">by @jdm_jules · 6m ago</div></div></div>
+            <div class="report"><div class="ri"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 21V4h11l-1 4h7l-2 6H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="rt"><div class="rr">Harassment &amp; bullying</div><div class="rm">by @kenji_apex · 9m ago · <span style="color:var(--ink2)">+4 more reporters</span></div></div></div>
+
+            <hr class="hairline" style="margin:20px 0"/>
+            <div class="actions">
+              <button class="btn btn-danger"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 7h14M9 7V5h6v2M6 7l1 13h10l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Remove content</button>
+              <button class="btn btn-ghost"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 3l9 16H3L12 3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 10v4M12 17h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Warn author</button>
+              <button class="btn btn-dark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Ban author</button>
+              <button class="btn btn-ghost"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 15V6a1 1 0 011-1h9M15 5l4 4-4 4M19 9v9a1 1 0 01-1 1H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Escalate to senior admin</button>
+              <button class="btn btn-ghost" style="margin-left:auto;color:var(--ok);border-color:var(--okSoft)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Approve &amp; keep</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="charts.js"></script>
+<script src="tweaks.js"></script>
+</body>
+</html>

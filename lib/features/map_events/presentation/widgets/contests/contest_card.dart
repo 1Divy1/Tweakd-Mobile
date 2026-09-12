@@ -68,7 +68,7 @@ class ContestCard extends StatelessWidget {
                           contest.title,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w800,
                             height: 1.2,
@@ -87,7 +87,7 @@ class ContestCard extends StatelessWidget {
                                 contest.entries.length,
                                 contest.votesCount,
                               ),
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 11.5,
                                 color: AppColors.mute,
                               ),
@@ -98,7 +98,7 @@ class ContestCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 6),
-                  const Icon(
+                  Icon(
                     Icons.chevron_right_rounded,
                     size: 18,
                     color: AppColors.muteSoft,
@@ -139,7 +139,7 @@ class _WinnerRow extends StatelessWidget {
       child: winner == null
           ? Text(
               l10n.contestsNoVotesResult,
-              style: const TextStyle(fontSize: 12.5, color: AppColors.mute),
+              style: TextStyle(fontSize: 12.5, color: AppColors.mute),
             )
           : Row(
               children: [
@@ -157,7 +157,7 @@ class _WinnerRow extends StatelessWidget {
                     children: [
                       Text(
                         l10n.contestsWinner,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 8.5,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 1.1,
@@ -168,7 +168,7 @@ class _WinnerRow extends StatelessWidget {
                         '${winner.car.brand} ${winner.car.model}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w800,
                           color: AppColors.ink,
@@ -180,7 +180,7 @@ class _WinnerRow extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   '${winner.votesCount}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w800,
                     color: AppColors.ink,
@@ -240,7 +240,7 @@ class _EntrantsRow extends StatelessWidget {
             ].join(' '),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 11.5, color: AppColors.mute),
+            style: TextStyle(fontSize: 11.5, color: AppColors.mute),
           ),
         ),
       ],
@@ -268,7 +268,7 @@ class _LiveRows extends StatelessWidget {
         if (top.isEmpty)
           Text(
             l10n.contestsNoEntriesYet,
-            style: const TextStyle(fontSize: 12.5, color: AppColors.mute),
+            style: TextStyle(fontSize: 12.5, color: AppColors.mute),
           ),
         for (var i = 0; i < top.length; i++) ...[
           if (i > 0) const SizedBox(height: 5),

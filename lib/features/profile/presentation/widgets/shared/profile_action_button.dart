@@ -44,7 +44,7 @@ class ProfileActionButton extends StatelessWidget {
           label,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.ink,
             fontSize: 14,
             fontWeight: FontWeight.w800,

@@ -127,7 +127,7 @@ class LeaderboardRow extends StatelessWidget {
                   ),
                   Text(
                     '$pct%',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 8.5,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.8,

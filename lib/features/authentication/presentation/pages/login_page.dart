@@ -154,7 +154,7 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                           Text(
                             l10n.authLoginTitle,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: AppColors.ink,
                               fontSize: 32,
                               fontWeight: FontWeight.w900,
@@ -164,7 +164,7 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                           Text(
                             l10n.authLoginSubtitle,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: AppColors.mute,
                               fontSize: 15,
                             ),
@@ -198,7 +198,7 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                               onTap: () => context.push('/forgot-password'),
                               child: Text(
                                 l10n.authForgotPassword,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: AppColors.mute,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
@@ -248,12 +248,12 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
         onTap: () => context.go('/signup'),
         child: RichText(
           text: TextSpan(
-            style: const TextStyle(fontSize: 15, color: AppColors.mute),
+            style: TextStyle(fontSize: 15, color: AppColors.mute),
             children: [
               TextSpan(text: l10n.authNoAccountPrefix),
               TextSpan(
                 text: l10n.authCreateAccount,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontWeight: FontWeight.w700,
                   decoration: TextDecoration.underline,

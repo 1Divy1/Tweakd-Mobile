@@ -37,7 +37,7 @@ FeedbackBadgeColors feedbackTypeColors(String typeId) => switch (typeId) {
           foreground: _bugRed,
           dot: _bugRed,
         ),
-      kFeedbackTypeFeatureRequest => const FeedbackBadgeColors(
+      kFeedbackTypeFeatureRequest => FeedbackBadgeColors(
           background: AppColors.accentSoft,
           foreground: AppColors.accentHot,
           dot: AppColors.accent,
@@ -47,7 +47,7 @@ FeedbackBadgeColors feedbackTypeColors(String typeId) => switch (typeId) {
           foreground: _improvementBlue,
           dot: _improvementBlue,
         ),
-      _ => const FeedbackBadgeColors(
+      _ => FeedbackBadgeColors(
           background: AppColors.line2,
           foreground: AppColors.ink2,
           dot: AppColors.mute,
@@ -67,7 +67,7 @@ FeedbackBadgeColors feedbackStatusColors(String statusId) => switch (statusId) {
           foreground: _progressAmber,
           dot: _progressAmber,
         ),
-      _ => const FeedbackBadgeColors(
+      _ => FeedbackBadgeColors(
           background: AppColors.line2,
           foreground: AppColors.ink2,
           dot: AppColors.mute,

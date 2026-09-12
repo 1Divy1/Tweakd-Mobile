@@ -1,509 +1,273 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
-import '../../../../../l10n/app_localizations.dart';
+import 'create_post_fields.dart';
 
-/// Localized display names for each wizard step, in order. Index 0..4 map to the
-/// five steps; the progress rail also uses "START" / "PUBLISH" book-ends.
-List<String> postStepNames(AppLocalizations l10n) => [
-      l10n.postStepPhotos,
-      l10n.postStepCaption,
-      l10n.postStepTags,
-      l10n.postStepVisibility,
-      l10n.postStepReview,
-    ];
-
+/// Photos → caption → tags → visibility → review.
 const postStepCount = 5;
 
 // ── Top bar ─────────────────────────────────────────────────────────────────
 
-/// Wizard top bar: a close affordance, the "NEW POST" wordmark, and a stacked
-/// `NN / 05` step counter.
+/// The X, and the slim progress bar under it — the same top as the
+/// create-event wizard, which is also opened from the create sheet.
 class PostTopBar extends StatelessWidget {
   final int step;
-  final VoidCallback onClose;
+  final VoidCallback? onClose;
 
   const PostTopBar({super.key, required this.step, required this.onClose});
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final current = (step + 1).toString().padLeft(2, '0');
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 6),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: onClose,
-            child: Container(
-              width: 42,
-              height: 42,
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: AppColors.line),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withAlpha(8),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Material(
+              color: AppColors.surface,
+              shape: const CircleBorder(),
+              child: InkWell(
+                onTap: onClose,
+                customBorder: const CircleBorder(),
+                child: SizedBox(
+                  width: 38,
+                  height: 38,
+                  child: Icon(
+                    Icons.close_rounded,
+                    size: 19,
+                    color: onClose == null ? AppColors.muteSoft : AppColors.ink,
                   ),
-                ],
-              ),
-              child: const Icon(Icons.close_rounded,
-                  size: 20, color: AppColors.ink),
-            ),
-          ),
-          Expanded(
-            child: Center(
-              child: Text(
-                l10n.postNewPost,
-                style: const TextStyle(
-                  color: AppColors.ink,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 4,
                 ),
               ),
             ),
           ),
-          SizedBox(
-            width: 42,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  current,
-                  style: const TextStyle(
-                    color: AppColors.ink,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
-                    height: 1,
-                  ),
-                ),
-                Text(
-                  '/${postStepCount.toString().padLeft(2, '0')}',
-                  style: const TextStyle(
-                    color: AppColors.muteSoft,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    height: 1.1,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+        PostStepProgress(step: step),
+      ],
     );
   }
 }
 
-// ── Step progress ─────────────────────────────────────────────────────────
-
-/// The three-up progress rail showing the previous, current and next step.
-/// The previous node collapses to a "START" marker before step 0, and the next
-/// node becomes a "PUBLISH" arrow marker after the final step.
+/// Slim fluid progress bar, mirroring onboarding and the other wizards. Fills
+/// by one [postStepCount]th per step, animating between them.
 class PostStepProgress extends StatelessWidget {
   final int step;
 
   const PostStepProgress({super.key, required this.step});
 
-  static const double _railHeight = 58;
-
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final stepNames = postStepNames(l10n);
-    final isFirst = step == 0;
-    final isLast = step == postStepCount - 1;
+    final fraction = (step + 1) / postStepCount;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 6, 20, 18),
-      child: Column(
-        children: [
-          SizedBox(
-            height: _railHeight,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // Connector line behind the nodes: accent up to the current
-                // node, neutral after it.
-                Row(
-                  children: [
-                    const Spacer(flex: 1),
-                    Expanded(
-                      flex: 2,
-                      child: Container(height: 3, color: AppColors.accent),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Container(height: 3, color: AppColors.line),
-                    ),
-                    const Spacer(flex: 1),
-                  ],
+      padding: const EdgeInsets.fromLTRB(20, 14, 20, 12),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(99),
+        child: Container(
+          height: 6,
+          color: AppColors.line,
+          child: LayoutBuilder(
+            builder: (context, constraints) => Align(
+              alignment: Alignment.centerLeft,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 450),
+                curve: Curves.easeOutCubic,
+                width: constraints.maxWidth * fraction,
+                decoration: BoxDecoration(
+                  color: AppColors.accent,
+                  borderRadius: BorderRadius.all(Radius.circular(99)),
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Center(
-                        child:
-                            isFirst ? const _StartNode() : const _DoneNode(),
-                      ),
-                    ),
-                    Expanded(
-                      child: Center(child: _CurrentNode(step: step)),
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: isLast
-                            ? const _PublishNode()
-                            : _UpcomingNode(step: step + 1),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
           ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              Expanded(
-                child: _NodeLabel(
-                  text: isFirst ? l10n.postStart : stepNames[step - 1],
-                  active: false,
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    _NodeLabel(text: stepNames[step], active: true),
-                    const SizedBox(height: 2),
-                    Text(
-                      l10n.postStepCounter(step + 1, postStepCount),
-                      style: const TextStyle(
-                        color: AppColors.muteSoft,
-                        fontSize: 9,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 1.2,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: _NodeLabel(
-                  text: isLast ? l10n.postPublishStep : stepNames[step + 1],
-                  active: false,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _NodeLabel extends StatelessWidget {
-  final String text;
-  final bool active;
-
-  const _NodeLabel({required this.text, required this.active});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      textAlign: TextAlign.center,
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      style: TextStyle(
-        color: active ? AppColors.ink : AppColors.muteSoft,
-        fontSize: active ? 12 : 10,
-        fontWeight: active ? FontWeight.w800 : FontWeight.w700,
-        letterSpacing: 0.8,
-      ),
-    );
-  }
-}
-
-class _CurrentNode extends StatelessWidget {
-  final int step;
-  const _CurrentNode({required this.step});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 54,
-      height: 54,
-      decoration: BoxDecoration(
-        color: AppColors.ink,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.accentSoft, width: 4),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.accent.withAlpha(60),
-            blurRadius: 16,
-            spreadRadius: 1,
-          ),
-        ],
-      ),
-      child: Center(
-        child: Text(
-          (step + 1).toString().padLeft(2, '0'),
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
-          ),
         ),
       ),
-    );
-  }
-}
-
-class _DoneNode extends StatelessWidget {
-  const _DoneNode();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: AppColors.accent,
-        borderRadius: BorderRadius.circular(13),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.accent.withAlpha(45),
-            blurRadius: 10,
-          ),
-        ],
-      ),
-      child: const Icon(Icons.check_rounded, color: Colors.white, size: 22),
-    );
-  }
-}
-
-class _UpcomingNode extends StatelessWidget {
-  final int step;
-  const _UpcomingNode({required this.step});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(13),
-        border: Border.all(color: AppColors.line),
-      ),
-      child: Center(
-        child: Text(
-          (step + 1).toString().padLeft(2, '0'),
-          style: const TextStyle(
-            color: AppColors.muteSoft,
-            fontSize: 13,
-            fontWeight: FontWeight.w800,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _StartNode extends StatelessWidget {
-  const _StartNode();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: AppColors.muteSoft, width: 2),
-      ),
-      child: Center(
-        child: Container(
-          width: 8,
-          height: 8,
-          decoration: const BoxDecoration(
-            color: AppColors.muteSoft,
-            shape: BoxShape.circle,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _PublishNode extends StatelessWidget {
-  const _PublishNode();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(13),
-        border: Border.all(color: AppColors.muteSoft, width: 2),
-      ),
-      child: const Icon(Icons.arrow_forward_rounded,
-          color: AppColors.muteSoft, size: 18),
     );
   }
 }
 
 // ── Bottom bar ──────────────────────────────────────────────────────────────
 
-/// Sticky bottom navigation. Shows BACK once past the first step and a primary
-/// action that reads NEXT until the final step, where it becomes PUBLISH POST.
+/// BACK / NEXT, flush on the page background — no divider, no lift, no glow.
+///
+/// [blocker] is what the step is still missing. It is shown above the buttons
+/// rather than greying NEXT out, so the user is never left guessing why the
+/// flow won't move.
 class PostBottomBar extends StatelessWidget {
-  final int step;
+  final bool canGoBack;
+  final bool isLastStep;
   final bool isSubmitting;
-
-  /// Label shown beside the spinner while publishing (e.g. the current phase).
-  final String? submitLabel;
+  final String nextLabel;
+  final String backLabel;
+  final String? blocker;
   final VoidCallback? onBack;
   final VoidCallback? onNext;
 
   const PostBottomBar({
     super.key,
-    required this.step,
-    this.isSubmitting = false,
-    this.submitLabel,
+    required this.canGoBack,
+    required this.isLastStep,
+    required this.isSubmitting,
+    required this.nextLabel,
+    required this.backLabel,
+    this.blocker,
     this.onBack,
     this.onNext,
   });
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final isLast = step == postStepCount - 1;
-    final showBack = onBack != null && !isSubmitting;
+    // Buttons hold text, so their height has to follow the text scale rather
+    // than sit at a fixed 56.
+    final scale = MediaQuery.textScalerOf(context);
+    final height = scale.scale(56).clamp(56.0, 92.0);
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 14, 20, 26),
-      decoration: BoxDecoration(
-        color: AppColors.bg,
-        border: const Border(top: BorderSide(color: AppColors.line)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(10),
-            blurRadius: 16,
-            offset: const Offset(0, -4),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          if (showBack) ...[
-            Expanded(
-              child: GestureDetector(
-                onTap: onBack,
-                child: Container(
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: AppColors.surface,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppColors.line),
-                  ),
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 22),
+      color: AppColors.bg,
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: kPostMaxWidth),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (blocker != null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.arrow_back_rounded,
-                          size: 18, color: AppColors.ink),
-                      const SizedBox(width: 8),
-                      Text(
-                        l10n.postBack,
-                        style: const TextStyle(
-                          color: AppColors.ink,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 14,
-                          letterSpacing: 1,
+                      Icon(
+                        Icons.info_outline_rounded,
+                        size: 15,
+                        color: AppColors.accentHot,
+                      ),
+                      const SizedBox(width: 7),
+                      Expanded(
+                        child: Text(
+                          blocker!,
+                          style: TextStyle(
+                            fontSize: 12.5,
+                            height: 1.35,
+                            color: AppColors.accentHot,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
+              Row(
+                children: [
+                  if (canGoBack && !isSubmitting) ...[
+                    Expanded(
+                      child: _BarButton(
+                        height: height,
+                        background: AppColors.surface,
+                        foreground: AppColors.ink,
+                        label: backLabel,
+                        icon: Icons.arrow_back_rounded,
+                        iconLeading: true,
+                        onTap: onBack,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                  ],
+                  Expanded(
+                    flex: 2,
+                    child: _BarButton(
+                      height: height,
+                      background:
+                          isSubmitting ? AppColors.muteSoft : AppColors.accent,
+                      foreground: Colors.white,
+                      label: nextLabel,
+                      icon: isLastStep ? null : Icons.arrow_forward_rounded,
+                      isBusy: isSubmitting,
+                      onTap: isSubmitting ? null : onNext,
+                    ),
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(width: 12),
-          ],
-          Expanded(
-            flex: 2,
-            child: GestureDetector(
-              onTap: isSubmitting ? null : onNext,
-              child: Container(
-                height: 56,
-                decoration: BoxDecoration(
-                  color: isSubmitting ? AppColors.muteSoft : AppColors.accent,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: isSubmitting
-                      ? null
-                      : [
-                          BoxShadow(
-                            color: AppColors.accent.withAlpha(70),
-                            blurRadius: 18,
-                            offset: const Offset(0, 6),
-                          ),
-                        ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BarButton extends StatelessWidget {
+  final double height;
+  final Color background;
+  final Color foreground;
+  final String label;
+  final IconData? icon;
+  final bool iconLeading;
+  final bool isBusy;
+  final VoidCallback? onTap;
+
+  const _BarButton({
+    required this.height,
+    required this.background,
+    required this.foreground,
+    required this.label,
+    this.icon,
+    this.iconLeading = false,
+    this.isBusy = false,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: height,
+        decoration: BoxDecoration(
+          color: background,
+          borderRadius: BorderRadius.circular(kPostRadius),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Center(
+          // Scales the label down rather than letting a long translation at a
+          // large text scale overflow the button.
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (isBusy) ...[
+                  SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.5,
+                      color: foreground,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                ] else if (icon != null && iconLeading) ...[
+                  Icon(icon, size: 18, color: foreground),
+                  const SizedBox(width: 8),
+                ],
+                Text(
+                  label,
+                  maxLines: 1,
+                  style: TextStyle(
+                    color: foreground,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 14,
+                    letterSpacing: 1,
+                  ),
                 ),
-                child: Center(
-                  child: isSubmitting
-                      ? Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2.5,
-                                color: Colors.white,
-                              ),
-                            ),
-                            if (submitLabel != null) ...[
-                              const SizedBox(width: 12),
-                              Text(
-                                submitLabel!,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 13,
-                                  letterSpacing: 0.6,
-                                ),
-                              ),
-                            ],
-                          ],
-                        )
-                      : Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              isLast ? l10n.postPublish : l10n.postNext,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w800,
-                                fontSize: 14,
-                                letterSpacing: 1,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            const Icon(Icons.arrow_forward_rounded,
-                                size: 18, color: Colors.white),
-                          ],
-                        ),
-                ),
-              ),
+                if (!isBusy && icon != null && !iconLeading) ...[
+                  const SizedBox(width: 8),
+                  Icon(icon, size: 18, color: foreground),
+                ],
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

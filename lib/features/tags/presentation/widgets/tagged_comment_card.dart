@@ -42,7 +42,7 @@ class TaggedCommentCard extends StatelessWidget {
                   l10n.tagsOnPostBy(post.author.username),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.mute,
                     fontSize: 12.5,
                     fontWeight: FontWeight.w700,
@@ -69,7 +69,7 @@ class TaggedCommentCard extends StatelessWidget {
                       '@${comment.author.username}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.ink,
                         fontSize: 13,
                         fontWeight: FontWeight.w800,
@@ -78,7 +78,7 @@ class TaggedCommentCard extends StatelessWidget {
                   ),
                   Text(
                     '  ·  ${postTimeAgo(l10n, comment.createdAt)}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.mute,
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
@@ -89,7 +89,7 @@ class TaggedCommentCard extends StatelessWidget {
               const SizedBox(height: 6),
               Text(
                 comment.content ?? '',
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink2,
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -150,12 +150,12 @@ class _CoverThumb extends StatelessWidget {
       ),
       clipBehavior: Clip.hardEdge,
       child: imageUrl == null
-          ? const Icon(Icons.image_outlined, size: 18, color: AppColors.muteSoft)
+          ? Icon(Icons.image_outlined, size: 18, color: AppColors.muteSoft)
           : CachedNetworkImage(
               imageUrl: imageUrl,
               fit: BoxFit.cover,
-              placeholder: (_, _) => const ColoredBox(color: AppColors.line2),
-              errorWidget: (_, _, _) => const Icon(
+              placeholder: (_, _) => ColoredBox(color: AppColors.line2),
+              errorWidget: (_, _, _) => Icon(
                 Icons.image_outlined,
                 size: 18,
                 color: AppColors.muteSoft,

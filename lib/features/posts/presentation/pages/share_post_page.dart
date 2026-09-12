@@ -80,7 +80,7 @@ class _SharePostPageState extends State<SharePostPage> {
                         const SizedBox(height: 24),
                         Text(
                           l10n.postShareNoteLabel,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.ink,
                             fontSize: 14,
                             fontWeight: FontWeight.w800,
@@ -142,13 +142,13 @@ class _PostPreview extends StatelessWidget {
                       placeholder: (_, _) => Container(color: AppColors.bg),
                       errorWidget: (_, _, _) => Container(
                         color: AppColors.bg,
-                        child: const Icon(Icons.image_not_supported_outlined,
+                        child: Icon(Icons.image_not_supported_outlined,
                             color: AppColors.muteSoft, size: 22),
                       ),
                     )
                   : Container(
                       color: AppColors.bg,
-                      child: const Icon(Icons.photo_outlined,
+                      child: Icon(Icons.photo_outlined,
                           color: AppColors.muteSoft, size: 22),
                     ),
             ),
@@ -162,7 +162,7 @@ class _PostPreview extends StatelessWidget {
                   post.author.username,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontSize: 14,
                     fontWeight: FontWeight.w800,
@@ -220,21 +220,21 @@ class _NoteField extends StatelessWidget {
         minLines: 3,
         maxLines: 6,
         maxLength: 500,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.ink,
           fontSize: 15,
           fontWeight: FontWeight.w500,
         ),
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: const TextStyle(
+          hintStyle: TextStyle(
             color: AppColors.muteSoft,
             fontSize: 15,
             fontWeight: FontWeight.w500,
           ),
           contentPadding: const EdgeInsets.symmetric(vertical: 12),
           border: InputBorder.none,
-          counterStyle: const TextStyle(
+          counterStyle: TextStyle(
             color: AppColors.muteSoft,
             fontSize: 11,
           ),
@@ -272,7 +272,7 @@ class _TopBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: AppColors.line),
               ),
-              child: const Icon(Icons.close_rounded,
+              child: Icon(Icons.close_rounded,
                   color: AppColors.ink, size: 20),
             ),
           ),
@@ -280,7 +280,7 @@ class _TopBar extends StatelessWidget {
             child: Center(
               child: Text(
                 l10n.postShareTitle,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 14,
                   fontWeight: FontWeight.w800,

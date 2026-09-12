@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Moderators — Tweakd Admin</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="dashboard.css"/>
+<style>
+  .team-stats{grid-template-columns:repeat(4,1fr);margin-bottom:var(--gap);}
+  .lower{display:grid;grid-template-columns:1.6fr 1fr;gap:var(--gap);align-items:start;margin-top:var(--gap);}
+  @media (max-width:1200px){.lower{grid-template-columns:1fr;} .team-stats{grid-template-columns:repeat(2,1fr);}}
+
+  .who-cell{display:flex;align-items:center;gap:12px;}
+  .who-cell .av-mono{width:40px;height:40px;font-size:15px;}
+  .perm-chips{display:flex;gap:6px;flex-wrap:wrap;}
+  .rowact{display:flex;gap:6px;justify-content:flex-end;}
+  .iconlink{width:32px;height:32px;border-radius:9px;border:1px solid var(--line);background:var(--surface);
+    display:grid;place-items:center;cursor:pointer;color:var(--ink2);}
+  .iconlink:hover{border-color:var(--muteSoft);}
+  .iconlink.danger:hover{background:var(--dangerSoft);color:var(--danger);border-color:var(--dangerSoft);}
+  .owner-row td{background:var(--accentWash);}
+
+  .matrix{width:100%;border-collapse:collapse;}
+  .matrix th,.matrix td{padding:12px 10px;text-align:center;border-bottom:1px solid var(--line2);}
+  .matrix th{font-family:var(--fdisplay);font-weight:700;font-size:9.5px;letter-spacing:.6px;color:var(--mute);text-transform:uppercase;}
+  .matrix th:first-child,.matrix td:first-child{text-align:left;}
+  .matrix td:first-child{font-size:13px;color:var(--ink2);font-weight:500;}
+  .matrix tr:last-child td{border-bottom:none;}
+  .yes{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:7px;background:var(--accentSoft);color:var(--accent);}
+  .no{color:var(--muteSoft);}
+
+  .invite label{display:block;font-family:var(--fdisplay);font-weight:700;font-size:10px;letter-spacing:1.3px;color:var(--ink);margin-bottom:8px;}
+  .invite .box{height:48px;border-radius:11px;border:1px solid var(--line);background:var(--surface);display:flex;align-items:center;gap:10px;padding:0 13px;margin-bottom:16px;}
+  .invite .box:focus-within{border-color:var(--ink);}
+  .invite input{flex:1;border:none;outline:none;background:transparent;font-family:var(--fbody);font-size:14px;color:var(--ink);}
+  .role-opts{display:flex;flex-direction:column;gap:9px;margin-bottom:18px;}
+  .role-opt{display:flex;align-items:center;gap:11px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;cursor:pointer;}
+  .role-opt.on{border-color:var(--ink);background:var(--bgSoft);}
+  .radio{width:18px;height:18px;border-radius:999px;border:2px solid var(--muteSoft);flex-shrink:0;display:grid;place-items:center;}
+  .role-opt.on .radio{border-color:var(--accent);}
+  .role-opt.on .radio::after{content:"";width:8px;height:8px;border-radius:999px;background:var(--accent);}
+  .role-opt .rt{flex:1;}
+  .role-opt .rt .n{font-family:var(--fdisplay);font-weight:700;font-size:13px;color:var(--ink);}
+  .role-opt .rt .d{font-size:11.5px;color:var(--mute);margin-top:1px;}
+</style>
+</head>
+<body>
+<script>window.TWEAK_DEFAULTS=/*EDITMODE-BEGIN*/{"accent":"ember","density":"airy","sidebar":"expanded"}/*EDITMODE-END*/;</script>
+
+<div class="app">
+  <aside class="sidebar">
+    <a class="side-brand" href="Overview.html">
+      <div class="side-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 13h6l-1 9 9-12h-6l1-8z" style="fill:var(--accent)"/></svg></div>
+      <div class="side-word">Tweakd<span class="dot">.</span></div>
+    </a>
+    <nav class="side-nav">
+      <div class="nav-group"><div class="nav-group-label">Analytics</div>
+        <a class="nav-item" href="Overview.html"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="13" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="3" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="13" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2"/></svg><span class="nav-label">Overview</span></a>
+      </div>
+      <div class="nav-group"><div class="nav-group-label">Moderation</div>
+        <a class="nav-item" href="Moderation.html"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span class="nav-label">Content Queue</span><span class="nav-badge">24</span></a>
+        <a class="nav-item" href="Feedback.html"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v11H9l-4 4V5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span class="nav-label">Feedback</span><span class="nav-badge mute">57</span></a>
+      </div>
+      <div class="nav-group"><div class="nav-group-label">Support</div>
+        <a class="nav-item" href="Support.html"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M3 8a2 2 0 012-2h14a2 2 0 012 2v2a2 2 0 000 4v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2a2 2 0 000-4V8z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M15 6v12" stroke="currentColor" stroke-width="2" stroke-dasharray="2 2"/></svg><span class="nav-label">Tickets</span><span class="nav-badge">12</span></a>
+      </div>
+      <div class="nav-group"><div class="nav-group-label">Team</div>
+        <a class="nav-item active" href="Moderators.html"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3.4" stroke="currentColor" stroke-width="2"/><path d="M3.5 20c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 5.2A3.2 3.2 0 0119 8m-2.5 6.6c2.4.3 4.5 2.2 4.5 4.9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="nav-label">Moderators</span></a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <img class="avatar" src="../assets/avatar.jpg" width="38" height="38" alt=""/>
+      <div class="side-foot-meta"><div class="side-foot-name">Jordan Vale</div><div class="side-foot-role">OWNER</div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="title"><h1>Moderators</h1><p>1 owner · 2 senior admins · 14 team members</p></div>
+      <div class="topbar-actions">
+        <div class="searchbox">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#8A8680" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="#8A8680" stroke-width="2" stroke-linecap="round"/></svg>
+          <input placeholder="Search team…"/>
+        </div>
+        <button class="btn btn-primary"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Add moderator</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="grid team-stats">
+        <div class="card stat"><div class="stat-top"><span class="stat-label">Team Members</span></div><div class="stat-num">17</div><div class="stat-note">1 owner · 16 staff</div></div>
+        <div class="card stat"><div class="stat-top"><span class="stat-label">Online Now</span></div><div class="stat-num" style="color:var(--ok)">6</div><div class="stat-note">actively moderating</div></div>
+        <div class="card stat"><div class="stat-top"><span class="stat-label">Pending Invites</span></div><div class="stat-num">2</div><div class="stat-note">awaiting acceptance</div></div>
+        <div class="card stat"><div class="stat-top"><span class="stat-label">Mod Actions Today</span></div><div class="stat-num">342</div><div class="stat-note">removals, bans, replies</div></div>
+      </div>
+
+      <!-- TEAM TABLE -->
+      <div class="card">
+        <div class="card-head"><div><h3>Team &amp; privileges</h3><div class="sub">You are the owner — full control over every role below</div></div></div>
+        <table class="table">
+          <thead><tr><th>Member</th><th>Role</th><th>Scope</th><th>Status</th><th>Last active</th><th style="text-align:right">Manage</th></tr></thead>
+          <tbody>
+            <tr class="owner-row">
+              <td><div class="who-cell"><span class="av-mono" style="width:40px;height:40px"><img src="../assets/avatar.jpg" style="width:100%;height:100%;border-radius:999px;object-fit:cover" alt=""/></span><div><div class="cell-main">Jordan Vale <span class="badge accent" style="margin-left:4px"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M3 7l4 4 5-7 5 7 4-4v11H3V7z"/></svg>YOU</span></div><div class="cell-sub">jordan@tweakd.co</div></div></div></td>
+              <td><span class="badge accent"><span class="bdot"></span>OWNER</span></td>
+              <td><span class="tag">Full access</span></td>
+              <td><span class="badge ok"><span class="bdot"></span>ACTIVE</span></td>
+              <td>Now</td>
+              <td><div class="rowact"><span class="iconlink" title="Owner account is protected"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="10" rx="2.5" stroke="currentColor" stroke-width="2"/><path d="M8 10V7a4 4 0 018 0v3" stroke="currentColor" stroke-width="2"/></svg></span></div></td>
+            </tr>
+            <tr>
+              <td><div class="who-cell"><span class="av-mono" style="background:linear-gradient(135deg,#EADBFF,#6B3FB8);color:#2f1a5b">P</span><div><div class="cell-main">Priya Menon</div><div class="cell-sub">priya@tweakd.co</div></div></div></td>
+              <td><span class="badge info"><span class="bdot"></span>SENIOR ADMIN</span></td>
+              <td><div class="perm-chips"><span class="tag">Moderate</span><span class="tag">Tickets</span><span class="tag">Analytics</span></div></td>
+              <td><span class="badge ok"><span class="bdot"></span>ACTIVE</span></td>
+              <td>Now</td>
+              <td><div class="rowact"><span class="iconlink" title="Edit"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4L18 10l-4-4L4 16v4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 6l4 4" stroke="currentColor" stroke-width="2"/></svg></span><span class="iconlink danger" title="Remove"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 7h14M9 7V5h6v2M6 7l1 13h10l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></td>
+            </tr>
+            <tr>
+              <td><div class="who-cell"><span class="av-mono" style="background:linear-gradient(135deg,#FFDBD0,#AA3000);color:#5b1a00">M</span><div><div class="cell-main">Marcus Vlox</div><div class="cell-sub">marcus@tweakd.co</div></div></div></td>
+              <td><span class="badge neutral"><span class="bdot"></span>CONTENT MODERATOR</span></td>
+              <td><div class="perm-chips"><span class="tag">Review content</span><span class="tag">Warn / ban</span></div></td>
+              <td><span class="badge ok"><span class="bdot"></span>ACTIVE</span></td>
+              <td>4m ago</td>
+              <td><div class="rowact"><span class="iconlink" title="Edit"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4L18 10l-4-4L4 16v4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 6l4 4" stroke="currentColor" stroke-width="2"/></svg></span><span class="iconlink danger" title="Remove"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 7h14M9 7V5h6v2M6 7l1 13h10l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></td>
+            </tr>
+            <tr>
+              <td><div class="who-cell"><span class="av-mono" style="background:linear-gradient(135deg,#D6F2E4,#1F8A5B);color:#0c422b">S</span><div><div class="cell-main">Sasha Ford</div><div class="cell-sub">sasha@tweakd.co</div></div></div></td>
+              <td><span class="badge ok"><span class="bdot"></span>SUPPORT AGENT</span></td>
+              <td><div class="perm-chips"><span class="tag">Answer tickets</span><span class="tag">Refunds</span></div></td>
+              <td><span class="badge ok"><span class="bdot"></span>ACTIVE</span></td>
+              <td>1m ago</td>
+              <td><div class="rowact"><span class="iconlink" title="Edit"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4L18 10l-4-4L4 16v4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 6l4 4" stroke="currentColor" stroke-width="2"/></svg></span><span class="iconlink danger" title="Remove"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 7h14M9 7V5h6v2M6 7l1 13h10l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></td>
+            </tr>
+            <tr>
+              <td><div class="who-cell"><span class="av-mono" style="background:linear-gradient(135deg,#D9E0FF,#3358C4);color:#1a2a6b">K</span><div><div class="cell-main">Kenji Arata</div><div class="cell-sub">kenji@tweakd.co</div></div></div></td>
+              <td><span class="badge warn"><span class="bdot"></span>TECHNICAL</span></td>
+              <td><div class="perm-chips"><span class="tag">Tickets (Eng)</span><span class="tag">Logs / tools</span></div></td>
+              <td><span class="badge warn"><span class="bdot"></span>AWAY</span></td>
+              <td>2h ago</td>
+              <td><div class="rowact"><span class="iconlink" title="Edit"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4L18 10l-4-4L4 16v4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 6l4 4" stroke="currentColor" stroke-width="2"/></svg></span><span class="iconlink danger" title="Remove"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 7h14M9 7V5h6v2M6 7l1 13h10l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></td>
+            </tr>
+            <tr>
+              <td><div class="who-cell"><span class="av-mono" style="background:linear-gradient(135deg,#FFE0C4,#B85c00);color:#5b2f00">R</span><div><div class="cell-main">Rae Nakamura</div><div class="cell-sub">rae@tweakd.co</div></div></div></td>
+              <td><span class="badge neutral"><span class="bdot"></span>CONTENT MODERATOR</span></td>
+              <td><div class="perm-chips"><span class="tag">Review content</span><span class="tag">Warn only</span></div></td>
+              <td><span class="badge neutral"><span class="bdot"></span>INVITED</span></td>
+              <td>—</td>
+              <td><div class="rowact"><span class="iconlink" title="Resend invite"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12l16-8-5 16-3-6-8-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span class="iconlink danger" title="Revoke"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 7h14M9 7V5h6v2M6 7l1 13h10l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- LOWER: matrix + invite -->
+      <div class="lower">
+        <div class="card">
+          <div class="card-head"><div><h3>Roles &amp; permissions</h3><div class="sub">What each role can do · only the owner can change this</div></div></div>
+          <div class="card-pad" style="overflow-x:auto">
+            <table class="matrix">
+              <thead><tr><th>Capability</th><th>Owner</th><th>Sr. Admin</th><th>Content Mod</th><th>Support</th><th>Technical</th></tr></thead>
+              <tbody>
+                <tr><td>Review &amp; remove content</td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td class="no">—</td><td class="no">—</td></tr>
+                <tr><td>Warn / ban users</td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td class="no">—</td><td class="no">—</td></tr>
+                <tr><td>Answer support tickets</td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td class="no">—</td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
+                <tr><td>Process refunds / billing</td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td class="no">—</td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td class="no">—</td></tr>
+                <tr><td>View analytics</td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td class="no">—</td><td class="no">—</td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
+                <tr><td>Manage moderators</td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+                <tr><td>Transfer / delete ownership</td><td><span class="yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- INVITE -->
+        <div class="card invite">
+          <div class="card-head"><div><h3>Add a moderator</h3><div class="sub">Send an invite &amp; assign a role</div></div></div>
+          <div class="card-pad">
+            <label>WORK EMAIL</label>
+            <div class="box">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="#8A8680" stroke-width="2"/><path d="M4 7l8 6 8-6" stroke="#8A8680" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <input placeholder="name@tweakd.co"/>
+            </div>
+
+            <label>ROLE</label>
+            <div class="role-opts">
+              <div class="role-opt on"><span class="radio"></span><div class="rt"><div class="n">Content Moderator</div><div class="d">Review &amp; remove content, warn / ban users</div></div></div>
+              <div class="role-opt"><span class="radio"></span><div class="rt"><div class="n">Support Agent</div><div class="d">Answer tickets, process refunds</div></div></div>
+              <div class="role-opt"><span class="radio"></span><div class="rt"><div class="n">Technical / Engineering</div><div class="d">Eng tickets, logs, analytics</div></div></div>
+              <div class="role-opt"><span class="radio"></span><div class="rt"><div class="n">Senior Admin</div><div class="d">Near-full access, cannot transfer ownership</div></div></div>
+            </div>
+
+            <button class="btn btn-primary" style="width:100%;height:48px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12l16-8-5 16-3-6-8-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Send invite</button>
+            <div class="muted" style="font-size:11.5px;text-align:center;margin-top:12px;line-height:1.5">The invitee sets their own password and 2FA on first sign-in.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="charts.js"></script>
+<script src="tweaks.js"></script>
+</body>
+</html>

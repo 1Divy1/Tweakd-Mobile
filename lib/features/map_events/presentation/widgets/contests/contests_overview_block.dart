@@ -45,7 +45,7 @@ class ContestsOverviewBlock extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               alignment: Alignment.center,
-              child: const Icon(
+              child: Icon(
                 Icons.emoji_events_outlined,
                 size: 17,
                 color: AppColors.muteSoft,
@@ -59,7 +59,7 @@ class ContestsOverviewBlock extends StatelessWidget {
                 children: [
                   Text(
                     l10n.contestsEmptyTitle,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13.5,
                       fontWeight: FontWeight.w800,
                       color: AppColors.ink,
@@ -68,7 +68,7 @@ class ContestsOverviewBlock extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     l10n.contestsEmptyBody,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12.5,
                       height: 1.45,
                       color: AppColors.ink2,
@@ -110,7 +110,7 @@ class ContestsOverviewBlock extends StatelessWidget {
                         l10n.contestsAllCount(state.contests.length),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 0.8,
@@ -119,7 +119,7 @@ class ContestsOverviewBlock extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 6),
-                    const Icon(
+                    Icon(
                       Icons.chevron_right_rounded,
                       size: 16,
                       color: AppColors.ink,

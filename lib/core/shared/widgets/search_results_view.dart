@@ -64,7 +64,7 @@ class _ResultsHeader extends StatelessWidget {
         children: [
           Text(
             l10n.searchResultsDrivers(count),
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.muteSoft,
               fontSize: 11,
               fontWeight: FontWeight.w700,
@@ -74,7 +74,7 @@ class _ResultsHeader extends StatelessWidget {
           const Spacer(),
           Text(
             l10n.searchForQuery(query),
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.muteSoft,
               fontSize: 11,
               fontWeight: FontWeight.w700,
@@ -100,12 +100,12 @@ class _NoResults extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.search_off, size: 36, color: AppColors.muteSoft),
+            Icon(Icons.search_off, size: 36, color: AppColors.muteSoft),
             const SizedBox(height: 14),
             Text(
               AppLocalizations.of(context)!.searchNoResults(query),
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,

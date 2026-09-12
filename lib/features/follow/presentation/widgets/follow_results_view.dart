@@ -85,7 +85,7 @@ class _ResultsHeader extends StatelessWidget {
         children: [
           Text(
             '$count $label',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.muteSoft,
               fontSize: 11,
               fontWeight: FontWeight.w700,
@@ -96,7 +96,7 @@ class _ResultsHeader extends StatelessWidget {
             const Spacer(),
             Text(
               AppLocalizations.of(context)!.followResultsForQuery(query),
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.muteSoft,
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
@@ -131,7 +131,7 @@ class _NoResults extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               Icons.group_outlined,
               size: 36,
               color: AppColors.muteSoft,
@@ -140,7 +140,7 @@ class _NoResults extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,

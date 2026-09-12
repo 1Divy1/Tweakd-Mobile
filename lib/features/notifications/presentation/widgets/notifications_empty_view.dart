@@ -16,7 +16,7 @@ class NotificationsEmptyView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               Icons.notifications_none_rounded,
               color: AppColors.muteSoft,
               size: 46,
@@ -25,7 +25,7 @@ class NotificationsEmptyView extends StatelessWidget {
             Text(
               l10n.notificationsEmptyTitle,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 16,
                 fontWeight: FontWeight.w800,
@@ -35,7 +35,7 @@ class NotificationsEmptyView extends StatelessWidget {
             Text(
               l10n.notificationsEmptyBody,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 13.5,
                 fontWeight: FontWeight.w500,

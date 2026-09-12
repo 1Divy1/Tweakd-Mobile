@@ -137,7 +137,7 @@ class _NavigationAppSheetState extends State<_NavigationAppSheet> {
             const SizedBox(height: 18),
             Text(
               l10n.mapNavigateSheetTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
@@ -148,7 +148,7 @@ class _NavigationAppSheetState extends State<_NavigationAppSheet> {
               widget.destinationLabel,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
@@ -215,7 +215,7 @@ class _AppRow extends StatelessWidget {
                 child: Text(
                   // Brand names, never translated.
                   _name(app),
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontSize: 15,
                     fontWeight: FontWeight.w800,
@@ -223,7 +223,7 @@ class _AppRow extends StatelessWidget {
                 ),
               ),
               if (isProbing)
-                const SizedBox(
+                SizedBox(
                   width: 16,
                   height: 16,
                   child: CircularProgressIndicator(
@@ -232,7 +232,7 @@ class _AppRow extends StatelessWidget {
                   ),
                 )
               else if (isInstalled)
-                const Icon(
+                Icon(
                   Icons.chevron_right_rounded,
                   size: 22,
                   color: AppColors.muteSoft,
@@ -240,7 +240,7 @@ class _AppRow extends StatelessWidget {
               else
                 Text(
                   l10n.mapNavigateInstall,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.accent,
                     fontSize: 12,
                     fontWeight: FontWeight.w800,

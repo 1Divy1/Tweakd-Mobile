@@ -122,7 +122,7 @@ class _EmptyView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
+          Icon(
             Icons.event_outlined,
             size: 34,
             color: AppColors.muteSoft,
@@ -130,7 +130,7 @@ class _EmptyView extends StatelessWidget {
           const SizedBox(height: 14),
           Text(
             l10n.mapEventsMineEmptyTitle,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
               color: AppColors.ink,
@@ -140,7 +140,7 @@ class _EmptyView extends StatelessWidget {
           Text(
             l10n.mapEventsMineEmptyBody,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13.5,
               height: 1.4,
               color: AppColors.ink2,
@@ -183,7 +183,7 @@ class _ErrorView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
+          Icon(
             Icons.error_outline_rounded,
             size: 30,
             color: AppColors.muteSoft,
@@ -192,7 +192,7 @@ class _ErrorView extends StatelessWidget {
           Text(
             mapEventErrorMessage(l10n, error),
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 14, color: AppColors.ink2),
+            style: TextStyle(fontSize: 14, color: AppColors.ink2),
           ),
           const SizedBox(height: 12),
           TextButton(

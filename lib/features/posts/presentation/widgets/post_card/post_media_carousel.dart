@@ -79,7 +79,7 @@ class _PostMediaCarouselState extends State<PostMediaCarousel> {
         aspectRatio: widget.aspectRatio,
         child: ClipRRect(
           borderRadius: widget.borderRadius,
-          child: const ColoredBox(
+          child: ColoredBox(
             color: AppColors.bg,
             child: Center(
               child:
@@ -163,8 +163,8 @@ class _PostMediaCarouselState extends State<PostMediaCarousel> {
       height: double.infinity,
       memCacheWidth: cacheWidth,
       fadeInDuration: const Duration(milliseconds: 150),
-      placeholder: (_, _) => const ColoredBox(color: AppColors.bg),
-      errorWidget: (_, _, _) => const ColoredBox(
+      placeholder: (_, _) => ColoredBox(color: AppColors.bg),
+      errorWidget: (_, _, _) => ColoredBox(
         color: AppColors.bg,
         child: Center(
           child: Icon(Icons.broken_image_outlined,

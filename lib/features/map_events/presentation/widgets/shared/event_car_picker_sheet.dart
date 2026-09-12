@@ -95,7 +95,7 @@ class _EventCarPickerSheetState extends State<_EventCarPickerSheet> {
       constraints: BoxConstraints(
         maxHeight: MediaQuery.sizeOf(context).height * 0.8,
       ),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.bg,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
@@ -118,7 +118,7 @@ class _EventCarPickerSheetState extends State<_EventCarPickerSheet> {
             padding: const EdgeInsets.fromLTRB(20, 18, 20, 4),
             child: Text(
               l10n.mapEventsPickCarTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
                 color: AppColors.ink,
@@ -133,7 +133,7 @@ class _EventCarPickerSheetState extends State<_EventCarPickerSheet> {
                   : widget.remainingSpots != null
                       ? l10n.mapEventsPickCarSpotsLeft(widget.remainingSpots!)
                       : l10n.mapEventsPickCarSubtitle,
-              style: const TextStyle(fontSize: 12.5, color: AppColors.mute),
+              style: TextStyle(fontSize: 12.5, color: AppColors.mute),
             ),
           ),
           Flexible(
@@ -318,7 +318,7 @@ class _CarList extends StatelessWidget {
                             '${car.brand} ${car.model}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 14.5,
                               fontWeight: FontWeight.w700,
                               color: AppColors.ink,
@@ -368,7 +368,7 @@ class _EmptyGarage extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
+          Icon(
             Icons.garage_outlined,
             size: 34,
             color: AppColors.muteSoft,
@@ -376,7 +376,7 @@ class _EmptyGarage extends StatelessWidget {
           const SizedBox(height: 14),
           Text(
             l10n.mapEventsPickCarEmptyTitle,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
               color: AppColors.ink,
@@ -386,7 +386,7 @@ class _EmptyGarage extends StatelessWidget {
           Text(
             l10n.mapEventsPickCarEmptyBody,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13.5,
               height: 1.4,
               color: AppColors.ink2,
@@ -429,7 +429,7 @@ class _LoadFailed extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
+          Icon(
             Icons.error_outline_rounded,
             size: 28,
             color: AppColors.muteSoft,
@@ -438,7 +438,7 @@ class _LoadFailed extends StatelessWidget {
           Text(
             l10n.mapEventsErrorGeneric,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 13.5, color: AppColors.ink2),
+            style: TextStyle(fontSize: 13.5, color: AppColors.ink2),
           ),
           const SizedBox(height: 12),
           TextButton(

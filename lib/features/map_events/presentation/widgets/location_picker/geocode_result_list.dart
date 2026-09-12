@@ -42,7 +42,7 @@ class GeocodeResultList extends StatelessWidget {
                 children: [
                   Text(
                     l10n.mapEventsLocationResultsTitle,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w800,
                       color: AppColors.ink,
@@ -51,7 +51,7 @@ class GeocodeResultList extends StatelessWidget {
                   const SizedBox(height: 3),
                   Text(
                     l10n.mapEventsLocationResultsSubtitle,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12.5,
                       height: 1.35,
                       color: AppColors.mute,
@@ -113,7 +113,7 @@ class _ResultRow extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
           child: Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.place_outlined,
                 size: 19,
                 color: AppColors.accent,
@@ -128,7 +128,7 @@ class _ResultRow extends StatelessWidget {
                       candidate.placeName,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
                         height: 1.3,
                         fontWeight: FontWeight.w600,
@@ -151,7 +151,7 @@ class _ResultRow extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 6),
-              const Icon(
+              Icon(
                 Icons.chevron_right_rounded,
                 size: 20,
                 color: AppColors.muteSoft,

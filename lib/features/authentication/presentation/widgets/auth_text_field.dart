@@ -62,7 +62,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
       children: [
         Text(
           widget.label.toUpperCase(),
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.ink,
             fontSize: 13,
             fontWeight: FontWeight.w800,
@@ -80,7 +80,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
           autofillHints: widget.autofillHints,
           maxLength: widget.maxLength,
           onSubmitted: widget.onSubmitted,
-          style: const TextStyle(color: AppColors.ink, fontSize: 15),
+          style: TextStyle(color: AppColors.ink, fontSize: 15),
           decoration: InputDecoration(
             hintText: widget.hint,
             counterText: '',

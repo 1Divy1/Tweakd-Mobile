@@ -28,11 +28,11 @@ class LogoutButton extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Icon(Icons.logout, color: AppColors.accent, size: 20),
+            Icon(Icons.logout, color: AppColors.accent, size: 20),
             const SizedBox(width: 12),
             Text(
               AppLocalizations.of(context)!.settingsLogout,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.accent,
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
@@ -40,7 +40,7 @@ class LogoutButton extends StatelessWidget {
             ),
             const Spacer(),
             if (isLoading)
-              const SizedBox(
+              SizedBox(
                 width: 18,
                 height: 18,
                 child: CircularProgressIndicator(

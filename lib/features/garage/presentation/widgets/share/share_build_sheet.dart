@@ -11,7 +11,7 @@ import '../../bloc/car_share/bloc.dart';
 import '../../bloc/car_share/event.dart';
 import '../../bloc/car_share/state.dart';
 import '../../utils/garage_error_mapper.dart';
-import 'share_origin.dart';
+import 'share_channel_tile.dart';
 import 'share_qr_dialog.dart';
 
 /// What the sheet was closed for, so the caller knows whether to open the QR
@@ -122,7 +122,7 @@ class _Header extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.accent,
                   fontSize: 11,
                   fontWeight: FontWeight.w800,
@@ -134,7 +134,7 @@ class _Header extends StatelessWidget {
                 title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 22,
                   fontWeight: FontWeight.w800,
@@ -168,7 +168,7 @@ class _CloseButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: AppColors.line),
         ),
-        child: const Icon(Icons.close, size: 18, color: AppColors.ink),
+        child: Icon(Icons.close, size: 18, color: AppColors.ink),
       ),
     );
   }
@@ -181,7 +181,7 @@ class _LoadingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
+    return SizedBox(
       height: 220,
       child: Center(child: CircularProgressIndicator(color: AppColors.accent)),
     );
@@ -203,7 +203,7 @@ class _ErrorBody extends StatelessWidget {
           child: Text(
             garageErrorMessage(l10n, code),
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 14,
               fontWeight: FontWeight.w500,
@@ -327,6 +327,10 @@ class _QrCallToAction extends StatelessWidget {
 
 /// The per-app tiles. Each one tags its own channel on the URL — that tagging
 /// is the reason these exist instead of a single system-share button.
+///
+/// Laid out like the iOS share sheet: brand icons on one line that scrolls
+/// sideways rather than squeezing, so the row survives a narrow phone and a
+/// large text scale instead of clipping the labels.
 class _ChannelRow extends StatelessWidget {
   final CarShareEntity link;
   final String carTitle;
@@ -337,104 +341,39 @@ class _ChannelRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    final tiles = <({CarShareChannel channel, IconData icon, String label})>[
-      (
-        channel: CarShareChannel.messages,
-        icon: Icons.sms_outlined,
-        label: l10n.garageShareChannelMessages,
-      ),
-      (
-        channel: CarShareChannel.whatsapp,
-        icon: Icons.chat_bubble_outline,
-        label: l10n.garageShareChannelWhatsApp,
-      ),
+    final tiles = <({CarShareChannel channel, String label})>[
+      (channel: CarShareChannel.messages, label: l10n.garageShareChannelMessages),
+      (channel: CarShareChannel.whatsapp, label: l10n.garageShareChannelWhatsApp),
       (
         channel: CarShareChannel.instagram,
-        icon: Icons.photo_camera_outlined,
         label: l10n.garageShareChannelInstagram,
       ),
-      (
-        channel: CarShareChannel.x,
-        icon: Icons.close,
-        label: l10n.garageShareChannelX,
-      ),
-      (
-        channel: CarShareChannel.telegram,
-        icon: Icons.near_me_outlined,
-        label: l10n.garageShareChannelTelegram,
-      ),
+      (channel: CarShareChannel.x, label: l10n.garageShareChannelX),
+      (channel: CarShareChannel.telegram, label: l10n.garageShareChannelTelegram),
     ];
 
-    return Row(
-      children: [
-        for (var i = 0; i < tiles.length; i++) ...[
-          if (i > 0) const SizedBox(width: 8),
-          Expanded(
-            child: _ChannelTile(
-              icon: tiles[i].icon,
-              label: tiles[i].label,
-              onTap: (origin) => getIt<ShareLauncherService>().shareTo(
-                tiles[i].channel,
-                link: link,
-                text: l10n.garageShareMessage(carTitle),
-                origin: origin,
-              ),
-            ),
-          ),
-        ],
-      ],
-    );
-  }
-}
+    // Icon + gap + the label's own line height, so a large text scale grows
+    // the row instead of clipping the names.
+    final labelHeight = MediaQuery.textScalerOf(context).scale(11) * 1.4;
 
-class _ChannelTile extends StatelessWidget {
-  final IconData icon;
-  final String label;
-
-  /// Handed the tile's position on screen, which iPad needs to anchor the
-  /// system share popover when a channel falls back to it.
-  final void Function(Rect? origin) onTap;
-
-  const _ChannelTile({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Builder(
-          builder: (tileContext) => Material(
-            color: AppColors.bgSoft,
-            borderRadius: BorderRadius.circular(14),
-            child: InkWell(
-              onTap: () => onTap(shareOriginOf(tileContext)),
-              borderRadius: BorderRadius.circular(14),
-              child: Container(
-                height: 52,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: AppColors.line),
-                ),
-                child: Icon(icon, size: 22, color: AppColors.ink),
-              ),
-            ),
+    return SizedBox(
+      height: 60 + 7 + labelHeight,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 2),
+        itemCount: tiles.length,
+        separatorBuilder: (_, _) => const SizedBox(width: 14),
+        itemBuilder: (context, i) => ShareChannelTile(
+          channel: tiles[i].channel,
+          label: tiles[i].label,
+          onTap: (origin) => getIt<ShareLauncherService>().shareTo(
+            tiles[i].channel,
+            link: link,
+            text: l10n.garageShareMessage(carTitle),
+            origin: origin,
           ),
         ),
-        const SizedBox(height: 6),
-        Text(
-          label,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            color: AppColors.mute,
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
@@ -469,7 +408,7 @@ class _CopyLinkRow extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: AppColors.line),
                 ),
-                child: const Icon(Icons.link, size: 20, color: AppColors.ink),
+                child: Icon(Icons.link, size: 20, color: AppColors.ink),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -478,7 +417,7 @@ class _CopyLinkRow extends StatelessWidget {
                   children: [
                     Text(
                       l10n.garageShareCopyLink,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.ink,
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
@@ -489,7 +428,7 @@ class _CopyLinkRow extends StatelessWidget {
                       link.displayUrl,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.mute,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -498,7 +437,7 @@ class _CopyLinkRow extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(
+              Icon(
                 Icons.chevron_right,
                 color: AppColors.muteSoft,
                 size: 22,
@@ -559,7 +498,7 @@ class _SharingFooter extends StatelessWidget {
               children: [
                 Text(
                   l10n.garageShareToggleLabel,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
@@ -570,7 +509,7 @@ class _SharingFooter extends StatelessWidget {
                   link.enabled
                       ? l10n.garageShareStats(link.qrScanCount, link.viewCount)
                       : l10n.garageSharePausedHint,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.mute,
                     fontSize: 12,
                     fontWeight: FontWeight.w500,

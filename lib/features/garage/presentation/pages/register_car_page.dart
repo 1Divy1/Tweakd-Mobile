@@ -219,7 +219,7 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
               children: [
                 RegisterStepProgress(step: _step),
                 if (state is AddCarRefDataLoading)
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: CircularProgressIndicator(color: AppColors.accent),
                     ),

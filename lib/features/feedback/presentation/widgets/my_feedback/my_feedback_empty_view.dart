@@ -15,7 +15,7 @@ class MyFeedbackEmptyView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               Icons.forum_outlined,
               size: 48,
               color: AppColors.muteSoft,
@@ -24,7 +24,7 @@ class MyFeedbackEmptyView extends StatelessWidget {
             Text(
               l10n.myFeedbackEmpty,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 15,
                 fontWeight: FontWeight.w600,

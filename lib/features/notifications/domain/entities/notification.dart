@@ -195,6 +195,12 @@ class NotificationEntity extends Equatable {
   String? get threadId => payload['thread_id'];
   String? get conversationId => payload['conversation_id'];
 
+  /// The user who caused this notification. Absent on system-originated
+  /// types (moderation, contest results, card-ready…), which have no actor.
+  String? get actorId => payload['actor_id'];
+  String? get actorUsername => payload['actor_username'];
+  String? get actorAvatarUrl => payload['actor_avatar_url'];
+
   /// The in-app route this notification points at, or null when there is
   /// nothing to open. See [notificationRouteFor].
   String? get targetRoute => notificationRouteFor(type, payload);

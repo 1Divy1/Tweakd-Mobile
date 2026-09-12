@@ -43,6 +43,8 @@ class _SocialButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Material(
       color: Colors.transparent,
       shape: const CircleBorder(),
@@ -52,16 +54,24 @@ class _SocialButton extends StatelessWidget {
         child: SizedBox(
           width: _size,
           height: _size,
-          child: Center(child: _logo()),
+          child: Center(child: _logo(isDark)),
         ),
       ),
     );
   }
 
-  Widget _logo() => switch (provider) {
-    SocialProvider.google =>
-      SvgPicture.asset('assets/logos/google_logo_button_light.svg', height: _size),
-    SocialProvider.apple =>
-      Image.asset('assets/logos/apple_logo_button_light@3x.png', height: _size),
-  };
+  Widget _logo(bool isDark) {
+    final suffix = isDark ? 'dark' : 'light';
+
+    return switch (provider) {
+      SocialProvider.google => SvgPicture.asset(
+          'assets/logos/google_logo_button_$suffix.svg',
+          height: _size,
+        ),
+      SocialProvider.apple => Image.asset(
+          'assets/logos/apple_logo_button_$suffix@3x.png',
+          height: _size,
+        ),
+    };
+  }
 }

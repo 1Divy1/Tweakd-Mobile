@@ -136,7 +136,7 @@ class _OrganizerContestsPageState extends State<OrganizerContestsPage> {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const Icon(Icons.add_rounded, size: 18, color: AppColors.accent),
+                                    Icon(Icons.add_rounded, size: 18, color: AppColors.accent),
                                     const SizedBox(width: 8),
                                     Flexible(
                                       child: Text(
@@ -145,7 +145,7 @@ class _OrganizerContestsPageState extends State<OrganizerContestsPage> {
                                             : l10n.contestsAddAnother,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w800,
                                           letterSpacing: 0.9,
@@ -300,13 +300,13 @@ class _Header extends StatelessWidget {
                   children: [
                     Text(
                       l10n.contestsOrganizerTitle,
-                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: AppColors.ink),
+                      style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: AppColors.ink),
                     ),
                     Text(
                       l10n.contestsOrganizerSubtitle(event.title),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 11.5, color: AppColors.mute),
+                      style: TextStyle(fontSize: 11.5, color: AppColors.mute),
                     ),
                   ],
                 ),
@@ -373,7 +373,7 @@ class _Stats extends StatelessWidget {
                     tiles[i].$2,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 8.5,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 1,
@@ -408,11 +408,11 @@ class _FinishedBanner extends StatelessWidget {
             width: 34,
             height: 34,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.1),
+              color: AppColors.inkPanel.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(11),
             ),
             alignment: Alignment.center,
-            child: const Icon(Icons.emoji_events_rounded, size: 16, color: AppColors.accent),
+            child: Icon(Icons.emoji_events_rounded, size: 16, color: AppColors.accent),
           ),
           const SizedBox(width: 11),
           Expanded(
@@ -424,14 +424,14 @@ class _FinishedBanner extends StatelessWidget {
                   l10n.contestsFinishedBanner(contest.title),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white),
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: AppColors.inkPanel),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   l10n.contestsFinishedBannerBody,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 11.5, color: Colors.white.withValues(alpha: 0.6)),
+                  style: TextStyle(fontSize: 11.5, color: AppColors.inkPanel.withValues(alpha: 0.6)),
                 ),
               ],
             ),
@@ -439,8 +439,8 @@ class _FinishedBanner extends StatelessWidget {
           IconButton(
             onPressed: onDismiss,
             icon: const Icon(Icons.close_rounded, size: 14),
-            color: Colors.white,
-            style: IconButton.styleFrom(backgroundColor: Colors.white.withValues(alpha: 0.12)),
+            color: AppColors.inkPanel,
+            style: IconButton.styleFrom(backgroundColor: AppColors.inkPanel.withValues(alpha: 0.12)),
           ),
         ],
       ),
@@ -463,7 +463,7 @@ class _EmptyCard extends StatelessWidget {
       child: Text(
         text,
         textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 13.5, height: 1.5, color: AppColors.mute),
+        style: TextStyle(fontSize: 13.5, height: 1.5, color: AppColors.mute),
       ),
     );
   }
@@ -487,7 +487,7 @@ class _Error extends StatelessWidget {
             Text(
               mapEventErrorMessage(l10n, error),
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 14.5, height: 1.4, color: AppColors.ink2),
+              style: TextStyle(fontSize: 14.5, height: 1.4, color: AppColors.ink2),
             ),
             const SizedBox(height: 16),
             TextButton(

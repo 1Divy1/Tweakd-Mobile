@@ -85,7 +85,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
               children: [
                 Text(
                   '— ${l10n.feedbackEyebrow}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.accent,
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
@@ -95,7 +95,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
                 const SizedBox(height: 8),
                 Text(
                   l10n.feedbackHeadline,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontSize: 28,
                     fontWeight: FontWeight.w800,
@@ -105,7 +105,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
                 const SizedBox(height: 10),
                 Text(
                   l10n.feedbackSubtitle,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.mute,
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
@@ -183,7 +183,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
                 Text(
                   feedbackErrorMessage(l10n, state.errorCode!),
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.accentHot,
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
@@ -240,7 +240,7 @@ class _FeedbackTextArea extends StatelessWidget {
             maxLines: null,
             maxLength: maxLength,
             cursorColor: AppColors.accent,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 15,
               fontWeight: FontWeight.w500,
@@ -250,7 +250,7 @@ class _FeedbackTextArea extends StatelessWidget {
               isCollapsed: true,
               border: InputBorder.none,
               hintText: hint,
-              hintStyle: const TextStyle(
+              hintStyle: TextStyle(
                 color: AppColors.muteSoft,
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
@@ -264,7 +264,7 @@ class _FeedbackTextArea extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               '${controller.text.length} / $maxLength',
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.muteSoft,
                 fontSize: 12,
                 fontWeight: FontWeight.w600,

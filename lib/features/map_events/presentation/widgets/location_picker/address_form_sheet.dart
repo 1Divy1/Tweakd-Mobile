@@ -47,7 +47,7 @@ class AddressFormSheet extends StatelessWidget {
       children: [
         Text(
           l10n.mapEventsLocationFormTitle,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w800,
             color: AppColors.ink,
@@ -56,7 +56,7 @@ class AddressFormSheet extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           l10n.mapEventsLocationFormSubtitle,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12.5,
             height: 1.35,
             color: AppColors.mute,
@@ -94,7 +94,7 @@ class AddressFormSheet extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(
+              Icon(
                 Icons.error_outline_rounded,
                 size: 16,
                 color: AppColors.accent,
@@ -103,7 +103,7 @@ class AddressFormSheet extends StatelessWidget {
               Expanded(
                 child: Text(
                   errorText,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12.5,
                     height: 1.35,
                     color: AppColors.ink2,
@@ -132,7 +132,7 @@ class AddressFormSheet extends StatelessWidget {
               ),
             ),
             child: isSearching
-                ? const SizedBox(
+                ? SizedBox(
                     width: 18,
                     height: 18,
                     child: CircularProgressIndicator(

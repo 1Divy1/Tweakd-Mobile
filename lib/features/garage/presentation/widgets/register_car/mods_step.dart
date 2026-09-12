@@ -109,7 +109,7 @@ class _ModCard extends StatelessWidget {
                     category.toUpperCase(),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.accent,
                       fontSize: 11,
                       fontWeight: FontWeight.w800,
@@ -121,7 +121,7 @@ class _ModCard extends StatelessWidget {
                     mod.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.ink,
                       fontSize: 16,
                       fontWeight: FontWeight.w800,
@@ -130,7 +130,7 @@ class _ModCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     priceText == null ? date : '$date · $priceText',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.mute,
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
@@ -149,7 +149,7 @@ class _ModCard extends StatelessWidget {
                   color: AppColors.bg,
                   borderRadius: BorderRadius.circular(kRegisterRadius),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.delete_outline_rounded,
                   color: AppColors.mute,
                   size: 20,
@@ -184,7 +184,7 @@ class _Thumb extends StatelessWidget {
             : null,
       ),
       child: image == null
-          ? const Icon(Icons.build_rounded, color: AppColors.muteSoft, size: 24)
+          ? Icon(Icons.build_rounded, color: AppColors.muteSoft, size: 24)
           : null,
     );
   }
@@ -209,12 +209,12 @@ class _AddModButton extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.add_rounded,
+                Icon(Icons.add_rounded,
                     color: AppColors.accent, size: 20),
                 const SizedBox(width: 8),
                 Text(
                   AppLocalizations.of(context)!.garageAddModification,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontWeight: FontWeight.w800,
                     fontSize: 14,

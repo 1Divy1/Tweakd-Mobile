@@ -82,7 +82,7 @@ class IdentityStep extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: Text(
                       '${bioCtrl.text.characters.length} / $kOnboardingBioMaxLength',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.muteSoft,
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
@@ -115,7 +115,7 @@ class _NameField extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(6),
+            color: AppColors.shadowAlpha(6),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -127,7 +127,7 @@ class _NameField extends StatelessWidget {
         textCapitalization: TextCapitalization.words,
         textInputAction: TextInputAction.next,
         cursorColor: AppColors.accent,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.ink,
           fontSize: 16,
           fontWeight: FontWeight.w800,
@@ -143,7 +143,7 @@ class _NameField extends StatelessWidget {
           isDense: true,
           filled: false,
           hintText: AppLocalizations.of(context)!.onboardingNameHint,
-          hintStyle: const TextStyle(
+          hintStyle: TextStyle(
             color: AppColors.muteSoft,
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -173,7 +173,7 @@ class _UsernameField extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(6),
+            color: AppColors.shadowAlpha(6),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -189,7 +189,7 @@ class _UsernameField extends StatelessWidget {
               color: AppColors.bg,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Center(
+            child: Center(
               child: Text(
                 '@',
                 style: TextStyle(
@@ -208,7 +208,7 @@ class _UsernameField extends StatelessWidget {
               enableSuggestions: false,
               textInputAction: TextInputAction.next,
               cursorColor: AppColors.accent,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 16,
                 fontWeight: FontWeight.w800,
@@ -218,7 +218,7 @@ class _UsernameField extends StatelessWidget {
                 isDense: true,
                 filled: false,
                 hintText: AppLocalizations.of(context)!.onboardingUsernameHint,
-                hintStyle: const TextStyle(
+                hintStyle: TextStyle(
                   color: AppColors.muteSoft,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -258,7 +258,7 @@ class _AvailabilityHint extends StatelessWidget {
     if (state is UsernameAvailabilityChecking) {
       return Row(
         children: [
-          const SizedBox(
+          SizedBox(
             width: 16,
             height: 16,
             child: CircularProgressIndicator(
@@ -335,7 +335,7 @@ class _AvailabilityHint extends StatelessWidget {
               children: [
                 TextSpan(
                   text: '@$username',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontWeight: FontWeight.w800,
                   ),
@@ -366,7 +366,7 @@ class _BioField extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(6),
+            color: AppColors.shadowAlpha(6),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -380,7 +380,7 @@ class _BioField extends StatelessWidget {
         maxLength: kOnboardingBioMaxLength,
         textInputAction: TextInputAction.newline,
         cursorColor: AppColors.accent,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.ink,
           fontSize: 15,
           height: 1.35,
@@ -396,7 +396,7 @@ class _BioField extends StatelessWidget {
           isDense: true,
           filled: false,
           hintText: AppLocalizations.of(context)!.onboardingBioHint,
-          hintStyle: const TextStyle(
+          hintStyle: TextStyle(
             color: AppColors.muteSoft,
             fontSize: 15,
             height: 1.35,
