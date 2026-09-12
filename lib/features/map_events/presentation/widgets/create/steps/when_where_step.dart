@@ -195,7 +195,7 @@ class _PickedLocationCard extends StatelessWidget {
           const SizedBox(height: 10),
           Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.place_rounded,
                 size: 15,
                 color: AppColors.accent,
@@ -208,7 +208,7 @@ class _PickedLocationCard extends StatelessWidget {
                   '${position.lng.toStringAsFixed(5)}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 11.5,
                     fontWeight: FontWeight.w700,
                     color: AppColors.mute,
@@ -240,7 +240,7 @@ class _Line extends StatelessWidget {
             width: 74,
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
                 color: AppColors.mute,
@@ -251,7 +251,7 @@ class _Line extends StatelessWidget {
           Expanded(
             child: Text(
               value,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14.5,
                 height: 1.3,
                 fontWeight: FontWeight.w700,

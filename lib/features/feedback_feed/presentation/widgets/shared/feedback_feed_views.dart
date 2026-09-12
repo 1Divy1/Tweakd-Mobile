@@ -111,7 +111,7 @@ class FeedbackFeedErrorView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               Icons.wifi_off_rounded,
               color: AppColors.muteSoft,
               size: 40,
@@ -120,7 +120,7 @@ class FeedbackFeedErrorView extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -173,7 +173,7 @@ class FeedbackFeedEmptyView extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 16,
                 fontWeight: FontWeight.w800,
@@ -183,7 +183,7 @@ class FeedbackFeedEmptyView extends StatelessWidget {
             Text(
               body,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 13.5,
                 fontWeight: FontWeight.w600,
@@ -206,7 +206,7 @@ class FeedbackFeedListFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!isLoadingMore) return const SizedBox(height: 8);
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.symmetric(vertical: 20),
       child: Center(
         child: SizedBox(

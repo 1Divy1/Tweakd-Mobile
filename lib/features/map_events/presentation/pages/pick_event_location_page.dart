@@ -339,7 +339,7 @@ class _PickEventLocationPageState extends State<PickEventLocationPage> {
               child: InkWell(
                 onTap: () => Navigator.of(context).pop(),
                 customBorder: const CircleBorder(),
-                child: const SizedBox(
+                child: SizedBox(
                   width: 40,
                   height: 40,
                   child: Icon(Icons.chevron_left_rounded, color: AppColors.ink),
@@ -414,11 +414,11 @@ class _Sheet extends StatelessWidget {
         constraints: BoxConstraints(
           maxHeight: MediaQuery.sizeOf(context).height * 0.72,
         ),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: AppColors.bg,
           borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
           boxShadow: [
-            BoxShadow(color: Color(0x22000000), blurRadius: 18, offset: Offset(0, -4)),
+            BoxShadow(color: AppColors.shadowAlpha(0x22), blurRadius: 18, offset: Offset(0, -4)),
           ],
         ),
         padding: EdgeInsets.fromLTRB(
@@ -510,7 +510,7 @@ class _PlacingBar extends StatelessWidget {
                     addressLabel,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
                       color: AppColors.mute,
                     ),
@@ -590,7 +590,7 @@ class _InstructionPill extends StatelessWidget {
           ),
           child: Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12.5,
               fontWeight: FontWeight.w700,
               color: AppColors.surface,

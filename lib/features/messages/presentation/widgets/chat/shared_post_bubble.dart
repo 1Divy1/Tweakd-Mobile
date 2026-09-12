@@ -59,7 +59,7 @@ class SharedPostBubble extends StatelessWidget {
                         '@${post.authorUsername}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.ink,
                           fontSize: 13,
                           fontWeight: FontWeight.w800,
@@ -77,7 +77,7 @@ class SharedPostBubble extends StatelessWidget {
                     post.caption!,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.ink2,
                       fontSize: 13.5,
                       fontWeight: FontWeight.w500,

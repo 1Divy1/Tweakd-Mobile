@@ -20,14 +20,13 @@ class CaptionStep extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PostSectionHeader(
-          label: '02 — ${l10n.postStepCaption}',
+        PostStepHeader(
           title: l10n.postCaptionTitle,
           subtitle: l10n.postCaptionSubtitle,
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 24),
         PostFieldLabel(l10n.postCaptionLabel),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
         // Rebuilds the live character counter as the user types.
         AnimatedBuilder(
           animation: controller,
@@ -58,26 +57,15 @@ class _DescriptionBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return PostSurface(
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.accent, width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.accent.withAlpha(18),
-            blurRadius: 16,
-            offset: const Offset(0, 6),
-          ),
-        ],
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           TextField(
             controller: controller,
-            maxLines: 6,
+            minLines: 5,
+            maxLines: 8,
             maxLength: postMaxCaptionLength,
             cursorColor: AppColors.accent,
             buildCounter: (_,
@@ -85,7 +73,7 @@ class _DescriptionBox extends StatelessWidget {
                     required isFocused,
                     maxLength}) =>
                 null,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 16,
               height: 1.4,
@@ -93,8 +81,11 @@ class _DescriptionBox extends StatelessWidget {
             ),
             decoration: InputDecoration(
               isDense: true,
+              // Opts out of the theme's square fill, which would otherwise
+              // square off the surface's rounded corners.
+              filled: false,
               hintText: hint,
-              hintStyle: const TextStyle(
+              hintStyle: TextStyle(
                 color: AppColors.muteSoft,
                 fontSize: 16,
                 height: 1.4,
@@ -107,7 +98,7 @@ class _DescriptionBox extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             counter,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.muteSoft,
               fontSize: 12,
               fontWeight: FontWeight.w700,

@@ -140,7 +140,7 @@ class _ChatInputBarState extends State<ChatInputBar>
         if (_selectedCars.isNotEmpty)
           TaggedCarChips(cars: _selectedCars, onRemove: _removeCar),
         Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: AppColors.surface,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(28),
@@ -159,11 +159,11 @@ class _ChatInputBarState extends State<ChatInputBar>
                     child: Container(
                       width: 46,
                       height: 46,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: AppColors.bgSoft,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.directions_car_outlined,
+                      child: Icon(Icons.directions_car_outlined,
                           color: AppColors.ink, size: 24),
                     ),
                   ),
@@ -187,7 +187,7 @@ class _ChatInputBarState extends State<ChatInputBar>
                               }
                             },
                             cursorColor: AppColors.accent,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: AppColors.ink,
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
@@ -195,7 +195,7 @@ class _ChatInputBarState extends State<ChatInputBar>
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: l10n.messagesInputHint,
-                              hintStyle: const TextStyle(
+                              hintStyle: TextStyle(
                                 color: AppColors.muteSoft,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
@@ -292,13 +292,13 @@ class _EmojiPanel extends StatelessWidget {
         onBackspacePressed: onChanged,
         config: Config(
           height: _height,
-          emojiViewConfig: const EmojiViewConfig(
+          emojiViewConfig: EmojiViewConfig(
             backgroundColor: AppColors.bg,
             columns: 8,
             emojiSizeMax: 28,
             buttonMode: ButtonMode.MATERIAL,
           ),
-          categoryViewConfig: const CategoryViewConfig(
+          categoryViewConfig: CategoryViewConfig(
             backgroundColor: AppColors.bg,
             indicatorColor: AppColors.accent,
             iconColor: AppColors.muteSoft,
@@ -307,7 +307,7 @@ class _EmojiPanel extends StatelessWidget {
             dividerColor: AppColors.line,
             tabBarHeight: 44,
           ),
-          skinToneConfig: const SkinToneConfig(
+          skinToneConfig: SkinToneConfig(
             dialogBackgroundColor: AppColors.surface,
             indicatorColor: AppColors.line,
           ),

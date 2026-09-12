@@ -117,7 +117,7 @@ class _TitledBody extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.ink,
             fontSize: 17,
             fontWeight: FontWeight.w800,
@@ -135,7 +135,7 @@ class _LoadingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.symmetric(vertical: 40),
       child: CircularProgressIndicator(color: AppColors.accent),
     );
@@ -158,7 +158,7 @@ class _ReasonsErrorBody extends StatelessWidget {
           Text(
             l10n.reportReasonsLoadError,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 14,
               fontWeight: FontWeight.w600,
@@ -169,7 +169,7 @@ class _ReasonsErrorBody extends StatelessWidget {
             onPressed: onRetry,
             child: Text(
               l10n.reportRetry,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.accent,
                 fontWeight: FontWeight.w800,
               ),
@@ -203,7 +203,7 @@ class _ReasonsBody extends StatelessWidget {
             padding: EdgeInsets.zero,
             itemCount: state.reasons.length,
             separatorBuilder: (_, _) =>
-                const Divider(height: 1, color: AppColors.line),
+                Divider(height: 1, color: AppColors.line),
             itemBuilder: (context, i) {
               final reason = state.reasons[i];
               return _ReasonRow(
@@ -222,7 +222,7 @@ class _ReasonsBody extends StatelessWidget {
           Text(
             reportErrorMessage(l10n, state.errorCode!),
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.accentHot,
               fontSize: 13,
               fontWeight: FontWeight.w700,
@@ -266,7 +266,7 @@ class _ReasonRow extends StatelessWidget {
             Expanded(
               child: Text(
                 reason.reason,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -354,11 +354,11 @@ class _SuccessView extends StatelessWidget {
           Container(
             width: 64,
             height: 64,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: AppColors.accentSoft,
               shape: BoxShape.circle,
             ),
-            child: const Icon(
+            child: Icon(
               Icons.check_rounded,
               color: AppColors.accent,
               size: 36,
@@ -367,7 +367,7 @@ class _SuccessView extends StatelessWidget {
           const SizedBox(height: 18),
           Text(
             l10n.reportSuccessTitle,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 17,
               fontWeight: FontWeight.w800,
@@ -377,7 +377,7 @@ class _SuccessView extends StatelessWidget {
           Text(
             l10n.reportSuccessBody,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 14,
               fontWeight: FontWeight.w600,

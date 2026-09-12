@@ -5,10 +5,14 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/shared/widgets/app_bottom_nav.dart';
+import '../../../../../core/shared/widgets/create_sheet.dart';
 import '../../../../badges/presentation/widgets/badge_strip.dart';
 import '../../../../garage/presentation/bloc/bloc.dart';
 import '../../../../garage/presentation/bloc/event.dart';
 import '../../../../garage/presentation/bloc/state.dart';
+import '../../../../map_events/presentation/bloc/my_events/bloc.dart';
+import '../../../../map_events/presentation/bloc/my_events/event.dart';
+import '../../../../map_events/presentation/bloc/my_events/state.dart';
 import '../../../../posts/presentation/bloc/profile_posts/bloc.dart';
 import '../../../../posts/presentation/bloc/profile_posts/event.dart';
 import '../../../../posts/presentation/bloc/profile_posts/state.dart';
@@ -27,8 +31,8 @@ import '../shared/profile_header.dart';
 import '../shared/profile_section_tabs.dart';
 import '../shared/profile_tabs_sliver_header.dart';
 import '../shared/profile_top_bar.dart';
-import 'create_button.dart';
 import 'edit_profile_button.dart';
+import 'feedback_button.dart';
 import 'share_profile_button.dart';
 import 'settings_button.dart';
 
@@ -50,6 +54,28 @@ class _MyProfileDataViewState extends State<MyProfileDataView> {
     // The repository cache is already refreshed by a successful edit; force a
     // remote fetch anyway so the profile always reflects the latest on return.
     bloc.add(const FetchUserProfileData(fetchFromRemote: true));
+  }
+
+  /// Pulls in what a composer opened from the bottom nav's create button may
+  /// have added to this profile.
+  void _onCreateClosed(CreateAction action) {
+    switch (action) {
+      case CreateAction.post:
+        context.read<ProfilePostsBloc>().add(const LoadMyPosts());
+      case CreateAction.modification:
+        // With an empty garage the flow sends the user to add a car first, so
+        // the garage may have changed.
+        context.read<GarageBloc>().add(const LoadMyGarage());
+      case CreateAction.event:
+        // Events load lazily with their tab; only refresh once it has.
+        final events = context.read<MyMapEventsBloc>();
+        if (events.state is! MyMapEventsInitial) {
+          events.add(const RefreshMyMapEvents());
+        }
+      case CreateAction.thread:
+        // Threads don't show on the profile.
+        break;
+    }
   }
 
   Future<void> _refresh() async {
@@ -97,9 +123,9 @@ class _MyProfileDataViewState extends State<MyProfileDataView> {
             showBackButton: false,
             isHandle: true,
             // Nothing to go back to on your own profile, so the leading slot
-            // carries the create action and the handle sits centred between
-            // the two pills instead of floating on its own.
-            leading: const CreateButton(),
+            // carries the feedback board (creating moved to the bottom nav)
+            // and the handle sits centred between the two pills.
+            leading: const FeedbackButton(),
             trailing: SettingsButton(onTap: () => context.push('/settings')),
           ),
           Expanded(
@@ -171,7 +197,10 @@ class _MyProfileDataViewState extends State<MyProfileDataView> {
               ),
             ),
           ),
-          const AppBottomNav(activeTab: AppBottomNavTab.profile),
+          AppBottomNav(
+            activeTab: AppBottomNavTab.profile,
+            onCreateClosed: _onCreateClosed,
+          ),
         ],
       ),
     );

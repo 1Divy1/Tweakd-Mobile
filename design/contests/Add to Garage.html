@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Add to Garage — Kinetic Edge</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+  html, body { margin: 0; padding: 0; background: #f0eee9; font-family: Manrope, system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="palette.js"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="ios-frame.jsx"></script>
+<script type="text/babel" src="add-flow.jsx"></script>
+<script type="text/babel" src="add-flow-screens.jsx"></script>
+
+<script type="text/babel">
+  const { DesignCanvas, DCSection, DCArtboard } = window;
+  const { IOSDevice } = window;
+  const { Step1, Step2, Step3, Step4, Step5, Step6, AddModSheet, ProgressDemo } = window;
+
+  function Frame({ children }) {
+    return <IOSDevice width={390} height={844}>{children}</IOSDevice>;
+  }
+
+  const steps = [
+    { id: "s1", label: "01 · Identity", node: <Step1/> },
+    { id: "s2", label: "02 · Performance", node: <Step2/> },
+    { id: "s3", label: "03 · Drivetrain", node: <Step3/> },
+    { id: "s4", label: "04 · Story", node: <Step4/> },
+    { id: "s5", label: "05 · Gallery", node: <Step5/> },
+    { id: "s6", label: "06 · Mods", node: <Step6/> },
+  ];
+
+  function App() {
+    return (
+      <DesignCanvas
+        title="Add to Garage — Kinetic Edge"
+        subtitle="Premium redesign · windowed 3-step progress bar (prev · current · next) + refined screens"
+      >
+        <DCSection id="bar" title="The new progress bar — windowed, prev · current · next (slides as you advance)">
+          {[1,2,3,4,5,6].map(n => (
+            <DCArtboard key={n} id={"bar-"+n} label={"Step "+n+" of 6"} width={380} height={140}>
+              <ProgressDemo step={n}/>
+            </DCArtboard>
+          ))}
+        </DCSection>
+
+        <DCSection id="flow" title="The flow — six steps, fully redesigned">
+          {steps.map(s => (
+            <DCArtboard key={s.id} id={s.id} label={s.label} width={430} height={910}>
+              <Frame>{s.node}</Frame>
+            </DCArtboard>
+          ))}
+        </DCSection>
+
+        <DCSection id="mod" title="Add a modification — bottom sheet (opens from the Mods step)">
+          <DCArtboard id="mod-sheet" label="New build item" width={430} height={910}>
+            <Frame><AddModSheet/></Frame>
+          </DCArtboard>
+        </DCSection>
+      </DesignCanvas>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

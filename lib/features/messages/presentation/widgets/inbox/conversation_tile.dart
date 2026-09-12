@@ -39,7 +39,6 @@ class ConversationTile extends StatelessWidget {
               username: user.username,
               avatarUrl: user.avatarUrl,
               size: 56,
-              showRing: _hasUnread || user.isOnline || user.isVerified,
               showOnlineDot: user.isOnline,
             ),
             const SizedBox(width: 14),
@@ -54,7 +53,7 @@ class ConversationTile extends StatelessWidget {
                           user.username,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.ink,
                             fontSize: 16,
                             fontWeight: FontWeight.w800,
@@ -144,7 +143,7 @@ class _PreviewLine extends StatelessWidget {
     if (conversation.previewKind == ConversationPreviewKind.sharedPost) {
       return Row(
         children: [
-          const Icon(Icons.ios_share_rounded, size: 15, color: AppColors.mute),
+          Icon(Icons.ios_share_rounded, size: 15, color: AppColors.mute),
           const SizedBox(width: 6),
           Flexible(
             child: Text(
@@ -183,7 +182,7 @@ class _TrailingBadge extends StatelessWidget {
       return Container(
         width: 22,
         height: 22,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: AppColors.accent,
           shape: BoxShape.circle,
         ),

@@ -15,12 +15,12 @@ class MyReportsEmptyView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.flag_outlined, size: 48, color: AppColors.muteSoft),
+            Icon(Icons.flag_outlined, size: 48, color: AppColors.muteSoft),
             const SizedBox(height: 16),
             Text(
               l10n.myReportsEmpty,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 15,
                 fontWeight: FontWeight.w600,

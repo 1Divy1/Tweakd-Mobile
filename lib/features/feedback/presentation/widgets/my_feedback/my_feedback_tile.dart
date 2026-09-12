@@ -56,7 +56,7 @@ class MyFeedbackTile extends StatelessWidget {
                         Expanded(
                           child: Text(
                             feedback.type,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: AppColors.ink,
                               fontSize: 15,
                               fontWeight: FontWeight.w800,
@@ -72,7 +72,7 @@ class MyFeedbackTile extends StatelessWidget {
                       feedback.content,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.ink2,
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
@@ -87,7 +87,7 @@ class MyFeedbackTile extends StatelessWidget {
                     const SizedBox(height: 8),
                     Text(
                       date,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.muteSoft,
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
@@ -159,7 +159,7 @@ class _ResponseBox extends StatelessWidget {
         children: [
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 10,
               fontWeight: FontWeight.w800,
@@ -169,7 +169,7 @@ class _ResponseBox extends StatelessWidget {
           const SizedBox(height: 5),
           Text(
             response,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink2,
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -197,7 +197,7 @@ class _FeaturePill extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.ink2,
           fontSize: 11,
           fontWeight: FontWeight.w700,

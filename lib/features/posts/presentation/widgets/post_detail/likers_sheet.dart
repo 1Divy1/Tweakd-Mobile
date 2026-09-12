@@ -52,19 +52,19 @@ class _LikersSheet extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             l10n.postLikersTitle,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 16,
               fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: 8),
-          const Divider(height: 1, color: AppColors.line),
+          Divider(height: 1, color: AppColors.line),
           Expanded(
             child: BlocBuilder<LikersBloc, LikersState>(
               builder: (context, state) {
                 return switch (state.status) {
-                  LikersStatus.loading => const Center(
+                  LikersStatus.loading => Center(
                       child: CircularProgressIndicator(color: AppColors.accent),
                     ),
                   LikersStatus.failure => _CenteredMessage(
@@ -85,14 +85,14 @@ class _LikersSheet extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         itemCount:
                             state.likers.length + (state.isLoadingMore ? 1 : 0),
-                        separatorBuilder: (_, _) => const Divider(
+                        separatorBuilder: (_, _) => Divider(
                           height: 1,
                           color: AppColors.line2,
                           indent: 70,
                         ),
                         itemBuilder: (context, i) {
                           if (i >= state.likers.length) {
-                            return const Padding(
+                            return Padding(
                               padding: EdgeInsets.all(16),
                               child: Center(
                                 child: SizedBox(
@@ -122,7 +122,7 @@ class _LikersSheet extends StatelessWidget {
                               child: user.avatarUrl == null
                                   ? Text(
                                       initial,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         color: AppColors.accentHot,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w800,
@@ -132,7 +132,7 @@ class _LikersSheet extends StatelessWidget {
                             ),
                             title: Text(
                               '@${user.username}',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: AppColors.ink,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w700,
@@ -171,7 +171,7 @@ class _CenteredMessage extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.mute,
             fontSize: 15,
             fontWeight: FontWeight.w600,

@@ -52,10 +52,10 @@ class EventTextField extends StatelessWidget {
           textCapitalization: maxLines > 1
               ? TextCapitalization.sentences
               : TextCapitalization.words,
-          style: const TextStyle(fontSize: 15, color: AppColors.ink),
+          style: TextStyle(fontSize: 15, color: AppColors.ink),
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: const TextStyle(fontSize: 15, color: AppColors.muteSoft),
+            hintStyle: TextStyle(fontSize: 15, color: AppColors.muteSoft),
             counterText: '',
             filled: true,
             fillColor: AppColors.surface,
@@ -69,7 +69,7 @@ class EventTextField extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(kCreateEventRadius),
-              borderSide: const BorderSide(color: AppColors.accent),
+              borderSide: BorderSide(color: AppColors.accent),
             ),
             disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(kCreateEventRadius),
@@ -176,7 +176,7 @@ class EventDashedButton extends StatelessWidget {
                       label,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 11.5,
                         fontWeight: FontWeight.w800,
                         letterSpacing: 0.6,
@@ -269,7 +269,7 @@ class EventToggleCard extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14.5,
                         fontWeight: FontWeight.w700,
                         color: AppColors.ink,
@@ -278,7 +278,7 @@ class EventToggleCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       body,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13,
                         height: 1.35,
                         color: AppColors.mute,
@@ -297,7 +297,7 @@ class EventToggleCard extends StatelessWidget {
           ),
           if (nested != null) ...[
             const SizedBox(height: 14),
-            const Divider(color: AppColors.line2, height: 1),
+            Divider(color: AppColors.line2, height: 1),
             const SizedBox(height: 14),
             nested!,
           ],
@@ -317,7 +317,7 @@ class EventHint extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 12,
         height: 1.35,
         color: AppColors.muteSoft,

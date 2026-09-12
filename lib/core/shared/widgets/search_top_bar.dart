@@ -11,14 +11,14 @@ class SearchTopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.bg,
         border: Border(bottom: BorderSide(color: AppColors.line)),
       ),
       child: Center(
         child: Text(
           AppLocalizations.of(context)!.searchTitle,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.ink,
             fontSize: 14,
             fontWeight: FontWeight.w800,

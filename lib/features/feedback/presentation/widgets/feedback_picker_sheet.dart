@@ -33,7 +33,7 @@ class FeedbackPickerSheet extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 17,
               fontWeight: FontWeight.w800,

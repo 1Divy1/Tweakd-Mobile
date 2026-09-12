@@ -15,7 +15,7 @@ class ProfileIdentity extends StatelessWidget {
       name.isEmpty ? '—' : name,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
-      style: const TextStyle(
+      style: TextStyle(
         color: AppColors.ink,
         fontSize: 20,
         fontWeight: FontWeight.w800,

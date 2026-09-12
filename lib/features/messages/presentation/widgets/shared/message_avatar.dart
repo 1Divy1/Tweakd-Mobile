@@ -3,28 +3,25 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 
-/// Circular avatar for messaging surfaces, with an initial-letter fallback,
-/// an optional accent ring (highlighted conversations) and an optional
-/// online dot pinned to the bottom-right edge.
+/// Circular avatar for messaging surfaces, with an initial-letter fallback
+/// and an optional online dot pinned to the bottom-right edge.
 class MessageAvatar extends StatelessWidget {
   final String username;
   final String? avatarUrl;
   final double size;
-  final bool showRing;
   final bool showOnlineDot;
 
   /// Color behind the online dot's border, so it visually "punches through"
   /// whatever the avatar sits on (page bg, surface tile, …).
-  final Color dotBorderColor;
+  final Color? dotBorderColor;
 
   const MessageAvatar({
     super.key,
     required this.username,
     this.avatarUrl,
     this.size = 48,
-    this.showRing = false,
     this.showOnlineDot = false,
-    this.dotBorderColor = AppColors.bg,
+    this.dotBorderColor,
   });
 
   /// Fallback tint derived from the username so mock users without photos
@@ -49,7 +46,7 @@ class MessageAvatar extends StatelessWidget {
     // inbox/chat row built while scrolling.
     final cachePx = (size * MediaQuery.devicePixelRatioOf(context)).round();
 
-    Widget avatar = Container(
+    final avatar = Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
@@ -72,23 +69,15 @@ class MessageAvatar extends StatelessWidget {
           : Text(
               username.isEmpty ? '?' : username[0].toUpperCase(),
               style: TextStyle(
-                color: AppColors.ink.withValues(alpha: 0.55),
+                // _fallbackColor is a fixed pastel, not a theme token, so the
+                // glyph on it must stay fixed-dark too rather than flipping
+                // to white in dark mode.
+                color: AppColors.onLight.withValues(alpha: 0.55),
                 fontSize: size * 0.4,
                 fontWeight: FontWeight.w800,
               ),
             ),
     );
-
-    if (showRing) {
-      avatar = Container(
-        padding: EdgeInsets.all(size * 0.05),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: AppColors.accent, width: 2),
-        ),
-        child: avatar,
-      );
-    }
 
     if (!showOnlineDot) return avatar;
 
@@ -106,7 +95,10 @@ class MessageAvatar extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.accent,
               shape: BoxShape.circle,
-              border: Border.all(color: dotBorderColor, width: 2),
+              border: Border.all(
+                color: dotBorderColor ?? AppColors.bg,
+                width: 2,
+              ),
             ),
           ),
         ),

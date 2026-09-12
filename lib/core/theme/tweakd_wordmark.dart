@@ -25,6 +25,12 @@ class TweakdWordmark extends StatelessWidget {
   Widget build(BuildContext context) {
     final canvas = height / _bandHeightFraction;
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final logoAsset = isDark
+        ? 'assets/app_logo/Tweakd SVG logo transparent - Dark version.svg'
+        : 'assets/app_logo/Tweakd SVG logo transparent - Light version.svg';
+
     return SizedBox(
       width: canvas * _bandWidthFraction,
       height: height,
@@ -34,11 +40,7 @@ class TweakdWordmark extends StatelessWidget {
           maxWidth: canvas,
           minHeight: canvas,
           maxHeight: canvas,
-          child: SvgPicture.asset(
-            'assets/app_logo/Tweakd SVG logo transparent - Light version.svg',
-            width: canvas,
-            height: canvas,
-          ),
+          child: SvgPicture.asset(logoAsset, width: canvas, height: canvas),
         ),
       ),
     );

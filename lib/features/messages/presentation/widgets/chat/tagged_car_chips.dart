@@ -66,7 +66,7 @@ class _CarChip extends StatelessWidget {
               '${car.brand} ${car.model}',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
@@ -77,7 +77,7 @@ class _CarChip extends StatelessWidget {
           GestureDetector(
             onTap: onRemove,
             behavior: HitTestBehavior.opaque,
-            child: const Padding(
+            child: Padding(
               padding: EdgeInsets.all(6),
               child: Icon(Icons.close_rounded, size: 16, color: AppColors.mute),
             ),

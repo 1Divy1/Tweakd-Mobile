@@ -32,7 +32,7 @@ class SavedPostsEmptyView extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(32, 80, 32, 24),
             child: Column(
               children: [
-                const Icon(
+                Icon(
                   Icons.bookmark_border_rounded,
                   color: AppColors.muteSoft,
                   size: 44,
@@ -41,7 +41,7 @@ class SavedPostsEmptyView extends StatelessWidget {
                 Text(
                   l10n.savedPostsEmptyTitle,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
@@ -51,7 +51,7 @@ class SavedPostsEmptyView extends StatelessWidget {
                 Text(
                   l10n.savedPostsEmptyBody,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.mute,
                     fontSize: 13,
                     fontWeight: FontWeight.w500,

@@ -26,7 +26,7 @@ class ContestStatusChip extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final live = contest.isOpen;
     final (bg, fg) = contest.isFinished
-        ? (AppColors.ink, Colors.white)
+        ? (AppColors.ink, AppColors.inkPanel)
         : live
             ? (AppColors.accent, Colors.white)
             : (AppColors.bg, AppColors.mute);

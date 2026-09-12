@@ -196,7 +196,7 @@ class _OnboardingPageState extends State<OnboardingPage>
     OnboardingRefLoaded? refData,
   ) {
     if (state is OnboardingRefLoading) {
-      return const Center(
+      return Center(
         child: CircularProgressIndicator(color: AppColors.accent),
       );
     }
@@ -449,13 +449,13 @@ class _RefErrorView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.cloud_off_rounded,
+            Icon(Icons.cloud_off_rounded,
                 color: AppColors.muteSoft, size: 40),
             const SizedBox(height: 16),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: AppColors.mute, fontSize: 15),
+              style: TextStyle(color: AppColors.mute, fontSize: 15),
             ),
             const SizedBox(height: 20),
             GestureDetector(

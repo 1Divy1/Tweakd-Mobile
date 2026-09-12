@@ -19,11 +19,19 @@ const registerStepCount = 4;
 class RegisterStepProgress extends StatelessWidget {
   final int step;
 
-  const RegisterStepProgress({super.key, required this.step});
+  /// How many steps the bar is divided into. The add-car wizard's own count by
+  /// default; the add-modification flow passes its shorter one.
+  final int stepCount;
+
+  const RegisterStepProgress({
+    super.key,
+    required this.step,
+    this.stepCount = registerStepCount,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final fraction = (step + 1) / registerStepCount;
+    final fraction = (step + 1) / stepCount;
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 18, 20, 12),
       child: ClipRRect(
@@ -38,12 +46,48 @@ class RegisterStepProgress extends StatelessWidget {
                 duration: const Duration(milliseconds: 450),
                 curve: Curves.easeOutCubic,
                 width: constraints.maxWidth * fraction,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: AppColors.accent,
                   borderRadius: BorderRadius.all(Radius.circular(99)),
                 ),
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ── Close ───────────────────────────────────────────────────────────────────
+
+/// The square "×" the build-log editor and the add-modification flow open
+/// with. The add-car wizard itself deliberately has none.
+class RegisterCloseButton extends StatelessWidget {
+  final VoidCallback? onTap;
+
+  const RegisterCloseButton({super.key, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      container: true,
+      button: true,
+      label: MaterialLocalizations.of(context).closeButtonLabel,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Container(
+          width: 42,
+          height: 42,
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(kRegisterRadius),
+          ),
+          child: Icon(
+            Icons.close_rounded,
+            size: 20,
+            color: AppColors.ink,
           ),
         ),
       ),
@@ -68,6 +112,9 @@ class RegisterBottomBar extends StatelessWidget {
   /// Defaults to the localized "ADD CAR" when null.
   final String? lastLabel;
 
+  /// How many steps the flow has, so the bar knows when it is on the last one.
+  final int stepCount;
+
   const RegisterBottomBar({
     super.key,
     required this.step,
@@ -76,12 +123,13 @@ class RegisterBottomBar extends StatelessWidget {
     this.onBack,
     this.onNext,
     this.lastLabel,
+    this.stepCount = registerStepCount,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isLast = step == registerStepCount - 1;
+    final isLast = step == stepCount - 1;
     final showBack = onBack != null && !isSubmitting;
 
     return Container(
@@ -103,7 +151,7 @@ class RegisterBottomBar extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.arrow_back_rounded,
                           size: 18,
                           color: AppColors.ink,
@@ -111,7 +159,7 @@ class RegisterBottomBar extends StatelessWidget {
                         const SizedBox(width: 8),
                         Text(
                           l10n.garageRegisterBack,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.ink,
                             fontWeight: FontWeight.w800,
                             fontSize: 14,

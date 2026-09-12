@@ -24,7 +24,7 @@ class FeedbackSectionLabel extends StatelessWidget {
         Flexible(
           child: Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink2,
               fontSize: 12,
               fontWeight: FontWeight.w800,
@@ -36,7 +36,7 @@ class FeedbackSectionLabel extends StatelessWidget {
           const SizedBox(width: 8),
           Text(
             AppLocalizations.of(context)!.feedbackOptional,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.muteSoft,
               fontSize: 12,
               fontWeight: FontWeight.w800,

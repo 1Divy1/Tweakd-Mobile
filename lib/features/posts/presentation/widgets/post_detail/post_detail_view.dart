@@ -71,10 +71,7 @@ class PostDetailView extends StatelessWidget {
         if (post.taggedCars.isNotEmpty || post.taggedPeople.isNotEmpty)
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
-            child: PostTags(
-              people: post.taggedPeople,
-              cars: post.taggedCars,
-            ),
+            child: PostTags(people: post.taggedPeople, cars: post.taggedCars),
           ),
         if (post.commentsCountEnabled && post.commentsCount > 0)
           Padding(
@@ -82,9 +79,10 @@ class PostDetailView extends StatelessWidget {
             child: GestureDetector(
               onTap: onOpenComments,
               child: Text(
-                AppLocalizations.of(context)!
-                    .postViewAllComments(post.commentsCount),
-                style: const TextStyle(
+                AppLocalizations.of(
+                  context,
+                )!.postViewAllComments(post.commentsCount),
+                style: TextStyle(
                   color: AppColors.mute,
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -95,9 +93,11 @@ class PostDetailView extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
           child: Text(
-            postTimeAgo(AppLocalizations.of(context)!, post.createdAt)
-                .toUpperCase(),
-            style: const TextStyle(
+            postTimeAgo(
+              AppLocalizations.of(context)!,
+              post.createdAt,
+            ).toUpperCase(),
+            style: TextStyle(
               color: AppColors.muteSoft,
               fontSize: 11,
               fontWeight: FontWeight.w700,
@@ -168,14 +168,14 @@ class _Actions extends StatelessWidget {
 class _ActionItem extends StatelessWidget {
   final IconData icon;
   final String? label;
-  final Color color;
+  final Color? color;
   final VoidCallback onTap;
 
   const _ActionItem({
     required this.icon,
     required this.onTap,
     this.label,
-    this.color = AppColors.ink,
+    this.color,
   });
 
   @override
@@ -185,12 +185,12 @@ class _ActionItem extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          Icon(icon, size: 24, color: color),
+          Icon(icon, size: 24, color: color ?? AppColors.ink),
           if (label != null) ...[
             const SizedBox(width: 7),
             Text(
               label!,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 14,
                 fontWeight: FontWeight.w800,
@@ -215,7 +215,7 @@ class _LikesLine extends StatelessWidget {
       onTap: onTap,
       child: Text(
         AppLocalizations.of(context)!.postLikesCount(count),
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.ink,
           fontSize: 14,
           fontWeight: FontWeight.w800,
@@ -235,7 +235,7 @@ class _Caption extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.ink2,
           fontSize: 14,
           height: 1.4,
@@ -244,10 +244,7 @@ class _Caption extends StatelessWidget {
         children: [
           TextSpan(
             text: '${author.toLowerCase()} ',
-            style: const TextStyle(
-              color: AppColors.ink,
-              fontWeight: FontWeight.w800,
-            ),
+            style: TextStyle(color: AppColors.ink, fontWeight: FontWeight.w800),
           ),
           TextSpan(text: caption),
         ],
@@ -255,4 +252,3 @@ class _Caption extends StatelessWidget {
     );
   }
 }
-

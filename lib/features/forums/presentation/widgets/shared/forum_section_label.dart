@@ -12,7 +12,7 @@ class ForumSectionLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       label,
-      style: const TextStyle(
+      style: TextStyle(
         color: AppColors.mute,
         fontSize: 11,
         fontWeight: FontWeight.w800,

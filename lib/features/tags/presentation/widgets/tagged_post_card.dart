@@ -31,7 +31,6 @@ class TaggedPostCard extends StatelessWidget {
         PostAuthorHeader(
           author: post.author,
           createdAt: post.createdAt,
-          showRing: true,
         ),
         if (post.participantCard != null)
           Padding(
@@ -91,7 +90,7 @@ class TaggedPostCard extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
             child: Text(
               l10n.postLikesCount(post.likesCount),
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 14,
                 fontWeight: FontWeight.w800,
@@ -105,7 +104,7 @@ class TaggedPostCard extends StatelessWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               text: TextSpan(
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink2,
                   fontSize: 14,
                   height: 1.4,
@@ -114,7 +113,7 @@ class TaggedPostCard extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: '@${post.author.username} ',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.ink,
                       fontWeight: FontWeight.w800,
                     ),

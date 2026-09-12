@@ -35,7 +35,7 @@ class PostCard extends StatelessWidget {
               CachedNetworkImage(
                 imageUrl: coverUrl,
                 fit: BoxFit.cover,
-                placeholder: (_, _) => const ColoredBox(color: AppColors.bg),
+                placeholder: (_, _) => ColoredBox(color: AppColors.bg),
                 errorWidget: (_, _, _) => const _PlaceholderTile(),
               )
             else
@@ -78,7 +78,7 @@ class _PlaceholderTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ColoredBox(
+    return ColoredBox(
       color: AppColors.bg,
       child: Center(
         child: Icon(Icons.image_outlined, color: AppColors.muteSoft, size: 32),

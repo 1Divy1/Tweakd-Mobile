@@ -2,19 +2,31 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 
-/// Accent eyebrow label + large title + supporting line that opens every step
-/// of the create-post wizard. The eyebrow reads e.g. "02 — CAPTION".
-class PostSectionHeader extends StatelessWidget {
-  final String label;
+/// The one corner radius every boxy control in the create-post wizard uses —
+/// the same 16 the add-car and create-event wizards use.
+const double kPostRadius = 16;
+
+/// Widest the wizard's content ever gets, so the steps don't sprawl into
+/// unreadable line lengths on a tablet.
+const double kPostMaxWidth = 560;
+
+/// The soft lift that replaces borders on white surfaces, matching the other
+/// wizards.
+List<BoxShadow> get kPostSurfaceShadow => [
+      BoxShadow(
+        color: AppColors.shadowAlpha(0x06),
+        blurRadius: 10,
+        offset: const Offset(0, 4),
+      ),
+    ];
+
+/// Large title + supporting line that opens every step. There is no step
+/// eyebrow; the progress bar is the only step indicator.
+class PostStepHeader extends StatelessWidget {
   final String title;
   final String? subtitle;
 
-  const PostSectionHeader({
-    super.key,
-    required this.label,
-    required this.title,
-    this.subtitle,
-  });
+  const PostStepHeader({super.key, required this.title, this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -22,18 +34,8 @@ class PostSectionHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          label,
-          style: const TextStyle(
-            color: AppColors.accent,
-            fontSize: 12,
-            fontWeight: FontWeight.w800,
-            letterSpacing: 2.2,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.ink,
             fontSize: 30,
             height: 1.05,
@@ -45,7 +47,7 @@ class PostSectionHeader extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             subtitle!,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 15,
               height: 1.3,
@@ -68,43 +70,80 @@ class PostFieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Wrap(
+      spacing: 8,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.ink2,
             fontSize: 11,
             fontWeight: FontWeight.w800,
             letterSpacing: 1.4,
           ),
         ),
-        if (count != null) ...[
-          const SizedBox(width: 8),
+        if (count != null)
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
-              color: AppColors.bg,
+              color: AppColors.line2,
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: AppColors.line),
             ),
             child: Text(
               count.toString(),
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 11,
                 fontWeight: FontWeight.w800,
               ),
             ),
           ),
-        ],
       ],
     );
   }
 }
 
-/// A pill-shaped search input used on the tags step. Visual only for now — the
-/// query is surfaced via [onChanged] for when search wiring lands.
+/// The white rounded surface every field and card in the wizard sits on.
+class PostSurface extends StatelessWidget {
+  final Widget child;
+  final EdgeInsetsGeometry? padding;
+
+  const PostSurface({super.key, required this.child, this.padding});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: padding,
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(kPostRadius),
+        boxShadow: kPostSurfaceShadow,
+      ),
+      child: child,
+    );
+  }
+}
+
+/// The filled tile behind the wizard's "add" affordances (add photo, tag a
+/// car) — a plain surface, not a dashed outline.
+class PostAddSurface extends StatelessWidget {
+  final Widget child;
+  final VoidCallback onTap;
+
+  const PostAddSurface({super.key, required this.child, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: PostSurface(child: child),
+    );
+  }
+}
+
+/// The search input used on the tags step.
 class PostSearchField extends StatelessWidget {
   final String hint;
   final TextEditingController controller;
@@ -119,37 +158,29 @@ class PostSearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.line),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(6),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
+    return PostSurface(
       child: Row(
         children: [
           const SizedBox(width: 14),
-          const Icon(Icons.search_rounded, color: AppColors.mute, size: 20),
+          Icon(Icons.search_rounded, color: AppColors.mute, size: 20),
           Expanded(
             child: TextField(
               controller: controller,
               onChanged: onChanged,
               cursorColor: AppColors.accent,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
               ),
               decoration: InputDecoration(
                 isDense: true,
+                // The app theme sets `filled: true` with a square fill. Painted
+                // over this rounded surface it squares the corners off, so the
+                // field opts out and lets the surface do the painting.
+                filled: false,
                 hintText: hint,
-                hintStyle: const TextStyle(
+                hintStyle: TextStyle(
                   color: AppColors.muteSoft,
                   fontSize: 15,
                   fontWeight: FontWeight.w500,

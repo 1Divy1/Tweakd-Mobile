@@ -37,7 +37,7 @@ class SettingsTile extends StatelessWidget {
             const SizedBox(width: 12),
             Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
@@ -47,7 +47,7 @@ class SettingsTile extends StatelessWidget {
             if (trailingLabel != null) ...[
               Text(
                 trailingLabel!,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.mute,
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
@@ -55,7 +55,7 @@ class SettingsTile extends StatelessWidget {
               ),
               const SizedBox(width: 8),
             ],
-            const Icon(Icons.chevron_right, color: AppColors.muteSoft, size: 20),
+            Icon(Icons.chevron_right, color: AppColors.muteSoft, size: 20),
           ],
         ),
       ),

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Reels — Kinetic Edge</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  html, body { margin: 0; padding: 0; background: #EDEFF3; font-family: Manrope, system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+  ::-webkit-scrollbar { width: 0; height: 0; }
+
+  @keyframes ke-kenburns {
+    0%   { transform: scale(1.04) translate(0, 0); }
+    100% { transform: scale(1.16) translate(-2%, -2%); }
+  }
+  @keyframes ke-progress { 0% { width: 0%; } 100% { width: 100%; } }
+  @keyframes ke-marquee  { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  @keyframes ke-burst {
+    0%   { transform: scale(0.3); opacity: 0; }
+    18%  { transform: scale(1.15); opacity: 1; }
+    40%  { transform: scale(0.95); opacity: 1; }
+    70%  { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.25); opacity: 0; }
+  }
+  @keyframes ke-fade  { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes ke-sheet { from { transform: translateY(100%); } to { transform: translateY(0); } }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="palette.js"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="ios-frame.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="reels.jsx"></script>
+
+<script type="text/babel">
+  const { DesignCanvas, DCSection, DCArtboard } = window;
+  const { IOSDevice } = window;
+  const { ReelsScreen } = window;
+  const { useTweaks, TweaksPanel, TweakSection, TweakSlider, TweakColor } = window;
+
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "overlay": 1,
+    "accent": "#FF4D00",
+    "railIcon": 31,
+    "radius": 0
+  }/*EDITMODE-END*/;
+
+  function App() {
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+    const cfg = { overlay: t.overlay, accent: t.accent, railIcon: t.railIcon, radius: t.radius };
+    return (
+      <React.Fragment>
+        <DesignCanvas
+          title="Reels — Kinetic Edge"
+          subtitle="Full-bleed vertical reels · auto-play · like / comment / share / save · infinite scroll"
+        >
+          <DCSection id="reels" title="Reels — two overlay layouts">
+            <DCArtboard id="rail" label="A · Classic right rail" width={430} height={920}>
+              <IOSDevice width={390} height={844} dark={true}>
+                <ReelsScreen layout="rail" cfg={cfg}/>
+              </IOSDevice>
+            </DCArtboard>
+            <DCArtboard id="dock" label="B · Docked glass bar" width={430} height={920}>
+              <IOSDevice width={390} height={844} dark={true}>
+                <ReelsScreen layout="dock" cfg={cfg}/>
+              </IOSDevice>
+            </DCArtboard>
+          </DCSection>
+        </DesignCanvas>
+
+        <TweaksPanel title="Tweaks">
+          <TweakSection label="Overlay & motion"/>
+          <TweakSlider label="Overlay darkness" value={t.overlay} min={0.4} max={1.4} step={0.05}
+                       onChange={(v) => setTweak('overlay', v)}/>
+          <TweakSlider label="Video corners" value={t.radius} min={0} max={36} step={2} unit="px"
+                       onChange={(v) => setTweak('radius', v)}/>
+          <TweakSection label="Action rail"/>
+          <TweakSlider label="Icon size" value={t.railIcon} min={24} max={38} step={1} unit="px"
+                       onChange={(v) => setTweak('railIcon', v)}/>
+          <TweakColor label="Accent" value={t.accent}
+                      options={['#FF4D00', '#2A6FDB', '#1F8A5B', '#E0245E', '#7A5AE0']}
+                      onChange={(v) => setTweak('accent', v)}/>
+        </TweaksPanel>
+      </React.Fragment>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

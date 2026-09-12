@@ -60,7 +60,7 @@ class ProfileTabsSliverHeader extends SliverPersistentHeaderDelegate {
             // The hairline closing the header, drawn under the tabs so the
             // active tab's 2pt underline paints over it rather than sitting a
             // pixel above it.
-            const Positioned(
+            Positioned(
               left: 0,
               right: 0,
               bottom: 0,

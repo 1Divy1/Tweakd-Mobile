@@ -81,7 +81,7 @@ class _TypeRow extends StatelessWidget {
                 children: [
                   Text(
                     type.label,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.ink,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -91,7 +91,7 @@ class _TypeRow extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       visual.description!,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.mute,
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
@@ -102,7 +102,7 @@ class _TypeRow extends StatelessWidget {
               ),
             ),
             if (selected)
-              const Icon(Icons.check_rounded, color: AppColors.accent, size: 22),
+              Icon(Icons.check_rounded, color: AppColors.accent, size: 22),
           ],
         ),
       ),

@@ -32,6 +32,21 @@ class AppLocalizationsEn extends AppLocalizations {
       'We couldn\'t update your language. Please try again.';
 
   @override
+  String get settingsTheme => 'Theme';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get themeSystem => 'System';
+
+  @override
+  String get settingsThemePickerTitle => 'Choose your theme';
+
+  @override
   String get commonSave => 'Save';
 
   @override
@@ -568,7 +583,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileShareButton => 'Share profile';
 
   @override
-  String get profileCreateButton => 'Create';
+  String get profileFeedbackButton => 'Feedback';
+
+  @override
+  String get navFeed => 'Feed';
+
+  @override
+  String get navMap => 'Map';
+
+  @override
+  String get navCreate => 'Create';
+
+  @override
+  String get navSearch => 'Search';
+
+  @override
+  String get navProfile => 'Profile';
 
   @override
   String get editProfileTitle => 'EDIT PROFILE';
@@ -706,29 +736,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchErrorGeneric => 'Something went wrong. Please try again.';
 
   @override
-  String get navFeed => 'FEED';
-
-  @override
-  String get navMap => 'MAP';
-
-  @override
-  String get navSearch => 'SEARCH';
-
-  @override
-  String get navContests => 'CONTESTS';
-
-  @override
-  String get navCreate => 'CREATE';
-
-  @override
-  String get navProfile => 'PROFILE';
-
-  @override
   String get feedEmptyTitle => 'Your feed is quiet';
 
   @override
   String get feedEmptyMessage =>
-      'Posts from the community will show up here. Check back soon.';
+      'Be one of the first to show your car. Posts from the community land here.';
+
+  @override
+  String get feedEmptyCta => 'Share a post';
 
   @override
   String get feedErrorNetwork =>
@@ -1229,61 +1244,26 @@ class AppLocalizationsEn extends AppLocalizations {
       'You haven\'t added this item to the build log yet. If you leave now, everything you entered here will be lost.';
 
   @override
-  String get garageLogModTitle => 'LOG BUILD ITERATION';
-
-  @override
-  String get garageLogModSectionLabel => '— MODIFICATION';
-
-  @override
-  String get garageLogModSectionTitle => 'Log a build iteration';
-
-  @override
-  String get garageLogModCategoryHint => 'e.g. Engine, Suspension, Aesthetics';
-
-  @override
-  String get garageLogModTitleHint => 'e.g. Stage 2 turbo upgrade';
-
-  @override
-  String get garageLogModDescLabel => 'DESCRIPTION (OPTIONAL)';
-
-  @override
-  String get garageLogModDescHint => 'Notes, observations, upgrades done…';
-
-  @override
-  String get garageLogModBeforeAfter => 'BEFORE & AFTER';
-
-  @override
-  String get garageLogModInstallDate => 'INSTALLATION DATE';
-
-  @override
-  String get garageLogModPriceLabel => 'PRICE (OPTIONAL)';
-
-  @override
-  String get garageLogModMileageLabel => 'MILEAGE AT INSTALL (OPTIONAL)';
-
-  @override
-  String get garageLogModMileageHint => 'e.g. 45000';
-
-  @override
-  String get garageLogModSubmit => 'LOG MODIFICATION';
-
-  @override
   String get garageLogModLogged => 'Modification logged!';
 
   @override
-  String get garageLogModValCategory => 'Please select a category.';
+  String get garageAddModCarTitle => 'Which car?';
 
   @override
-  String get garageLogModValTitle => 'Please enter a title.';
+  String get garageAddModCarSubtitle => 'Pick the car this work went into.';
 
   @override
-  String get garageLogModValBefore => 'Please pick a before image.';
+  String get garageAddModNoCarsTitle => 'No cars yet';
 
   @override
-  String get garageLogModValAfter => 'Please pick an after image.';
+  String get garageAddModNoCarsBody =>
+      'Add a car to your garage first, then log the work you\'ve done on it.';
 
   @override
-  String get garageLogModValDate => 'Please select the installation date.';
+  String get garageAddModAddCar => 'ADD A CAR';
+
+  @override
+  String get garageAddModPickCar => 'Pick a car to continue.';
 
   @override
   String get authErrorSessionExpired =>
@@ -1342,30 +1322,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'You will need to sign in again to access your account.';
 
   @override
-  String get postNewPost => 'NEW POST';
-
-  @override
-  String get postStepPhotos => 'PHOTOS';
-
-  @override
-  String get postStepCaption => 'CAPTION';
-
-  @override
-  String get postStepTags => 'TAGS';
-
-  @override
-  String get postStepVisibility => 'VISIBILITY';
-
-  @override
-  String get postStepReview => 'REVIEW';
-
-  @override
-  String get postStart => 'START';
-
-  @override
-  String get postPublishStep => 'PUBLISH';
-
-  @override
   String get postBack => 'BACK';
 
   @override
@@ -1373,11 +1329,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get postPublish => 'PUBLISH POST';
-
-  @override
-  String postStepCounter(int current, int total) {
-    return 'STEP $current / $total';
-  }
 
   @override
   String get postPhotosTitle => 'Pick your shots';
@@ -1940,9 +1891,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get myFeedbackResponseLabel => 'RESPONSE';
-
-  @override
-  String get navForums => 'FORUMS';
 
   @override
   String get forumsTitle => 'Forums';
@@ -3759,13 +3707,38 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get profileCreatePost => 'New post';
+  String get createPostTitle => 'Post';
 
   @override
-  String get profileCreateEvent => 'New car event';
+  String get createPostSubtitle => 'Photos of your build, a drive or a detail';
 
   @override
-  String get profileCreateCar => 'Add new car';
+  String get createThreadTitle => 'Forum thread';
+
+  @override
+  String get createThreadSubtitle => 'Ask a question or start a discussion';
+
+  @override
+  String get createEventTitle => 'Car event';
+
+  @override
+  String get createEventSubtitle => 'Host a meet, a cruise or a track day';
+
+  @override
+  String get createModTitle => 'Add modification';
+
+  @override
+  String get createModSubtitle =>
+      'Log a new part or upgrade on one of your cars';
+
+  @override
+  String get feedSegmentFeed => 'Feed';
+
+  @override
+  String get forumsBrowseAction => 'Browse forums';
+
+  @override
+  String get forumsSavedAction => 'Saved threads';
 
   @override
   String get garageCarStatPower => 'POWER';

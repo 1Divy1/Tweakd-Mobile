@@ -108,7 +108,7 @@ class _ReferencePickerSheetState<T> extends State<_ReferencePickerSheet<T>> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   widget.title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
@@ -126,7 +126,7 @@ class _ReferencePickerSheetState<T> extends State<_ReferencePickerSheet<T>> {
               ),
             ),
             const SizedBox(height: 12),
-            const Divider(height: 1, color: AppColors.line),
+            Divider(height: 1, color: AppColors.line),
             Flexible(
               child: results.isEmpty
                   ? Padding(
@@ -134,7 +134,7 @@ class _ReferencePickerSheetState<T> extends State<_ReferencePickerSheet<T>> {
                       child: Text(
                         widget.noMatchesLabel,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.mute,
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -144,7 +144,7 @@ class _ReferencePickerSheetState<T> extends State<_ReferencePickerSheet<T>> {
                   : ListView.separated(
                       padding: const EdgeInsets.only(bottom: 12),
                       itemCount: results.length,
-                      separatorBuilder: (_, _) => const Divider(
+                      separatorBuilder: (_, _) => Divider(
                         height: 1,
                         color: AppColors.line2,
                         indent: 20,
@@ -156,7 +156,7 @@ class _ReferencePickerSheetState<T> extends State<_ReferencePickerSheet<T>> {
                         ),
                         title: Text(
                           widget.labelOf(results[i]),
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.ink,
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -194,7 +194,7 @@ class _SheetSearchField extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.search, size: 18, color: AppColors.mute),
+          Icon(Icons.search, size: 18, color: AppColors.mute),
           const SizedBox(width: 8),
           Expanded(
             child: TextField(
@@ -202,7 +202,7 @@ class _SheetSearchField extends StatelessWidget {
               onChanged: onChanged,
               textInputAction: TextInputAction.search,
               cursorColor: AppColors.accent,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -211,7 +211,7 @@ class _SheetSearchField extends StatelessWidget {
                 border: InputBorder.none,
                 filled: false,
                 hintText: hint,
-                hintStyle: const TextStyle(
+                hintStyle: TextStyle(
                   color: AppColors.muteSoft,
                   fontSize: 14,
                   fontWeight: FontWeight.w500,

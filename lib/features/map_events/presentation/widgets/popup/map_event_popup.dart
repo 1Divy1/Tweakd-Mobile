@@ -56,11 +56,11 @@ class MapEventPopup extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.surface,
             borderRadius: BorderRadius.circular(40),
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
-                color: Color(0x1F000000),
+                color: AppColors.shadowAlpha(0x1F),
                 blurRadius: 28,
-                offset: Offset(0, 8),
+                offset: const Offset(0, 8),
               ),
             ],
           ),
@@ -159,7 +159,7 @@ class _PopupBody extends StatelessWidget {
                 title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.w800,
                   color: AppColors.ink,
@@ -171,7 +171,7 @@ class _PopupBody extends StatelessWidget {
                   event.description,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13.5,
                     height: 1.35,
                     color: AppColors.ink2,
@@ -226,7 +226,7 @@ class _PopupBody extends StatelessWidget {
               ),
               if (event == null) ...[
                 const SizedBox(height: 18),
-                const Center(
+                Center(
                   child: SizedBox(
                     width: 20,
                     height: 20,
@@ -329,7 +329,7 @@ class _PopupFooter extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         border: Border(top: BorderSide(color: AppColors.line2)),
       ),
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
@@ -354,7 +354,7 @@ class _PopupFooter extends StatelessWidget {
                 child: Semantics(
                   button: true,
                   label: l10n.mapNavigate,
-                  child: const Icon(
+                  child: Icon(
                     Icons.near_me_rounded,
                     size: 19,
                     color: AppColors.ink,
@@ -470,7 +470,7 @@ class _PopupError extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
+          Icon(
             Icons.error_outline_rounded,
             size: 28,
             color: AppColors.muteSoft,
@@ -479,7 +479,7 @@ class _PopupError extends StatelessWidget {
           Text(
             mapEventErrorMessage(l10n, error),
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 14, color: AppColors.ink2),
+            style: TextStyle(fontSize: 14, color: AppColors.ink2),
           ),
           if (canRetry) ...[
             const SizedBox(height: 12),

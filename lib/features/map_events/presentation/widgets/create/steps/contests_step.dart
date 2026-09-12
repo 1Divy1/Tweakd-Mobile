@@ -123,7 +123,7 @@ class _DraftContestCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(top: 2),
                 child: Icon(
                   Icons.emoji_events_rounded,
@@ -140,7 +140,7 @@ class _DraftContestCard extends StatelessWidget {
                       contest.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14.5,
                         height: 1.25,
                         fontWeight: FontWeight.w700,
@@ -152,7 +152,7 @@ class _DraftContestCard extends StatelessWidget {
                       _window(context, l10n),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 11.5,
                         height: 1.3,
                         color: AppColors.mute,

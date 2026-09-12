@@ -33,12 +33,11 @@ class ReviewStep extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PostSectionHeader(
-          label: '05 — ${l10n.postStepReview}',
+        PostStepHeader(
           title: l10n.postReviewTitle,
           subtitle: l10n.postReviewSubtitle,
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 24),
         _FeedPreviewCard(
           photos: photos,
           caption: caption,
@@ -70,13 +69,13 @@ class _FeedPreviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Container(
+      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.line),
+        borderRadius: BorderRadius.circular(kPostRadius),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(12),
+            color: AppColors.shadowAlpha(12),
             blurRadius: 24,
             offset: const Offset(0, 10),
           ),
@@ -134,7 +133,7 @@ class _Header extends StatelessWidget {
             child: authorAvatarUrl == null
                 ? Text(
                     initial,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.accentHot,
                       fontSize: 16,
                       fontWeight: FontWeight.w800,
@@ -151,7 +150,7 @@ class _Header extends StatelessWidget {
                   children: [
                     Text(
                       authorName,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.ink,
                         fontSize: 15,
                         fontWeight: FontWeight.w800,
@@ -161,7 +160,7 @@ class _Header extends StatelessWidget {
                     Container(
                       width: 7,
                       height: 7,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: AppColors.accent,
                         shape: BoxShape.circle,
                       ),
@@ -171,7 +170,7 @@ class _Header extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   justNow,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.mute,
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
@@ -181,7 +180,7 @@ class _Header extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(Icons.more_horiz_rounded, color: AppColors.mute),
+          Icon(Icons.more_horiz_rounded, color: AppColors.mute),
         ],
       ),
     );
@@ -221,7 +220,7 @@ class _MediaState extends State<_Media> {
         aspectRatio: 4 / 3,
         child: Container(
           color: AppColors.bg,
-          child: const Center(
+          child: Center(
             child: Icon(Icons.image_outlined,
                 color: AppColors.muteSoft, size: 40),
           ),
@@ -344,7 +343,7 @@ class _ActionItem extends StatelessWidget {
           const SizedBox(width: 7),
           Text(
             label!,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 14,
               fontWeight: FontWeight.w800,
@@ -366,7 +365,7 @@ class _Caption extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.ink2,
           fontSize: 14,
           height: 1.4,
@@ -375,7 +374,7 @@ class _Caption extends StatelessWidget {
         children: [
           TextSpan(
             text: '${author.toLowerCase()} ',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontWeight: FontWeight.w800,
             ),

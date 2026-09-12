@@ -83,7 +83,7 @@ class _LanguagePickerSheet extends StatelessWidget {
               const SizedBox(height: 16),
               Text(
                 l10n.settingsLanguagePickerTitle,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 17,
                   fontWeight: FontWeight.w800,
@@ -93,7 +93,7 @@ class _LanguagePickerSheet extends StatelessWidget {
               BlocBuilder<LanguagePickerBloc, LanguagePickerState>(
                 builder: (context, state) {
                   return switch (state.status) {
-                    LanguagePickerStatus.loading => const Padding(
+                    LanguagePickerStatus.loading => Padding(
                         padding: EdgeInsets.symmetric(vertical: 40),
                         child:
                             CircularProgressIndicator(color: AppColors.accent),
@@ -133,7 +133,7 @@ class _ErrorBody extends StatelessWidget {
           Text(
             message,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 14,
               fontWeight: FontWeight.w600,
@@ -144,7 +144,7 @@ class _ErrorBody extends StatelessWidget {
             onPressed: onRetry,
             child: Text(
               l10n.commonRetry,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.accent,
                 fontWeight: FontWeight.w800,
               ),
@@ -172,7 +172,7 @@ class _OptionsList extends StatelessWidget {
         padding: EdgeInsets.zero,
         itemCount: state.options.length,
         separatorBuilder: (_, _) =>
-            const Divider(height: 1, color: AppColors.line),
+            Divider(height: 1, color: AppColors.line),
         itemBuilder: (context, i) {
           final option = state.options[i];
           return _OptionRow(
@@ -215,7 +215,7 @@ class _OptionRow extends StatelessWidget {
               Expanded(
                 child: Text(
                   option.label,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
@@ -227,7 +227,7 @@ class _OptionRow extends StatelessWidget {
                 width: 22,
                 height: 22,
                 child: selected
-                    ? const Icon(
+                    ? Icon(
                         Icons.check_rounded,
                         color: AppColors.accent,
                         size: 22,

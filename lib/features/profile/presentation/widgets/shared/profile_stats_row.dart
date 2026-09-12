@@ -119,7 +119,7 @@ class _Stat extends StatelessWidget {
           _formatCount(value),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.ink,
             fontSize: 20,
             fontWeight: FontWeight.w800,
@@ -131,7 +131,7 @@ class _Stat extends StatelessWidget {
           label,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.mute,
             fontSize: 13,
             fontWeight: FontWeight.w500,

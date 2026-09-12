@@ -17,7 +17,7 @@ class FeedbackStaffResponse extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.bgSoft,
         border: Border(
           left: BorderSide(color: Color(0xFF2E7D5B), width: 3),
@@ -28,7 +28,7 @@ class FeedbackStaffResponse extends StatelessWidget {
         children: [
           Text(
             l10n.feedbackFeedStaffLabel,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 10,
               fontWeight: FontWeight.w800,
@@ -38,7 +38,7 @@ class FeedbackStaffResponse extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             response,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink2,
               fontSize: 13.5,
               fontWeight: FontWeight.w600,

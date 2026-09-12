@@ -101,7 +101,7 @@ class OrgContestCard extends StatelessWidget {
                         contest.title,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14.5,
                           fontWeight: FontWeight.w800,
                           color: AppColors.ink,
@@ -112,7 +112,7 @@ class OrgContestCard extends StatelessWidget {
                         subtitle,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 11.5, color: AppColors.mute),
+                        style: TextStyle(fontSize: 11.5, color: AppColors.mute),
                       ),
                     ],
                   ),
@@ -188,14 +188,14 @@ class OrgContestCard extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.check_rounded, size: 14, color: AppColors.mute),
+                  Icon(Icons.check_rounded, size: 14, color: AppColors.mute),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       contest.winner == null
                           ? l10n.contestsNoVotesResult
                           : l10n.contestsResultsPublished,
-                      style: const TextStyle(fontSize: 11.5, color: AppColors.ink2),
+                      style: TextStyle(fontSize: 11.5, color: AppColors.ink2),
                     ),
                   ),
                 ],
@@ -203,7 +203,7 @@ class OrgContestCard extends StatelessWidget {
             ),
           if (isBusy) ...[
             const SizedBox(height: 8),
-            const LinearProgressIndicator(minHeight: 2, color: AppColors.accent),
+            LinearProgressIndicator(minHeight: 2, color: AppColors.accent),
           ],
         ],
       ),
@@ -222,7 +222,7 @@ class _StateChip extends StatelessWidget {
     final (bg, fg, label) = contest.isOpen
         ? (AppColors.accent, Colors.white, l10n.contestsChipOpen)
         : contest.isFinished
-            ? (AppColors.ink, Colors.white, l10n.contestsChipClosed)
+            ? (AppColors.ink, AppColors.inkPanel, l10n.contestsChipClosed)
             : (AppColors.bg, AppColors.mute, l10n.contestsChipScheduled);
 
     return Container(
@@ -276,7 +276,7 @@ class _PendingEntries extends StatelessWidget {
         children: [
           Text(
             l10n.contestsPendingEntries(contest.pendingEntries.length),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 9,
               fontWeight: FontWeight.w800,
               letterSpacing: 1,
@@ -303,7 +303,7 @@ class _PendingEntries extends StatelessWidget {
                         '${pending.car.brand} ${pending.car.model}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12.5,
                           fontWeight: FontWeight.w800,
                           color: AppColors.ink,
@@ -313,7 +313,7 @@ class _PendingEntries extends StatelessWidget {
                         pending.car.ownerUsername == null ? '' : '@${pending.car.ownerUsername}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 11, color: AppColors.mute),
+                        style: TextStyle(fontSize: 11, color: AppColors.mute),
                       ),
                     ],
                   ),
@@ -357,7 +357,11 @@ class _Action extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bg = accent ? AppColors.accent : dark ? AppColors.ink : AppColors.bg;
-    final fg = accent || dark ? Colors.white : AppColors.ink;
+    final fg = accent
+        ? AppColors.onAccent
+        : dark
+            ? AppColors.inkPanel
+            : AppColors.ink;
 
     return Material(
       color: onTap == null ? bg.withValues(alpha: 0.6) : bg,

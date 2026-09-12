@@ -47,7 +47,7 @@ class GarageCarCard extends StatelessWidget {
                       '${car.brand} ${car.model}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.ink,
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
@@ -56,7 +56,7 @@ class GarageCarCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  const Icon(
+                  Icon(
                     Icons.chevron_right_rounded,
                     size: 22,
                     color: AppColors.muteSoft,
@@ -65,7 +65,7 @@ class GarageCarCard extends StatelessWidget {
               ),
             ),
             if (stats.isNotEmpty) ...[
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
                 child: Divider(height: 1, color: AppColors.line),
               ),
@@ -79,7 +79,7 @@ class GarageCarCard extends StatelessWidget {
                       children: [
                         for (var i = 0; i < stats.length; i++) ...[
                           if (i > 0)
-                            const VerticalDivider(
+                            VerticalDivider(
                               width: 1,
                               thickness: 1,
                               color: AppColors.line,
@@ -154,7 +154,7 @@ class _CarStat extends StatelessWidget {
                 value,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 17,
                   fontWeight: FontWeight.w800,
@@ -168,7 +168,7 @@ class _CarStat extends StatelessWidget {
                   unit!,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.mute,
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
@@ -183,7 +183,7 @@ class _CarStat extends StatelessWidget {
           label,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.muteSoft,
             fontSize: 9,
             fontWeight: FontWeight.w800,
@@ -234,7 +234,7 @@ class _StatusBadge extends StatelessWidget {
         status.toUpperCase(),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.surface,
           fontSize: 10,
           fontWeight: FontWeight.w800,

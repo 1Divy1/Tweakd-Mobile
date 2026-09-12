@@ -82,7 +82,7 @@ class _FeatureRow extends StatelessWidget {
               ),
             ),
             if (selected)
-              const Icon(Icons.check_rounded, color: AppColors.accent, size: 22),
+              Icon(Icons.check_rounded, color: AppColors.accent, size: 22),
           ],
         ),
       ),

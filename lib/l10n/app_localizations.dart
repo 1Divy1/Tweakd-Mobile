@@ -140,6 +140,36 @@ abstract class AppLocalizations {
   /// **'We couldn\'t update your language. Please try again.'**
   String get settingsLanguageUpdateError;
 
+  /// Label for the theme selector in settings
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingsTheme;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// No description provided for @themeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeSystem;
+
+  /// Title of the theme picker bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your theme'**
+  String get settingsThemePickerTitle;
+
   /// No description provided for @commonSave.
   ///
   /// In en, this message translates to:
@@ -1088,11 +1118,41 @@ abstract class AppLocalizations {
   /// **'Share profile'**
   String get profileShareButton;
 
-  /// No description provided for @profileCreateButton.
+  /// No description provided for @profileFeedbackButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback'**
+  String get profileFeedbackButton;
+
+  /// No description provided for @navFeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Feed'**
+  String get navFeed;
+
+  /// No description provided for @navMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Map'**
+  String get navMap;
+
+  /// No description provided for @navCreate.
   ///
   /// In en, this message translates to:
   /// **'Create'**
-  String get profileCreateButton;
+  String get navCreate;
+
+  /// No description provided for @navSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get navSearch;
+
+  /// No description provided for @navProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get navProfile;
 
   /// No description provided for @editProfileTitle.
   ///
@@ -1322,42 +1382,6 @@ abstract class AppLocalizations {
   /// **'Something went wrong. Please try again.'**
   String get searchErrorGeneric;
 
-  /// No description provided for @navFeed.
-  ///
-  /// In en, this message translates to:
-  /// **'FEED'**
-  String get navFeed;
-
-  /// No description provided for @navMap.
-  ///
-  /// In en, this message translates to:
-  /// **'MAP'**
-  String get navMap;
-
-  /// No description provided for @navSearch.
-  ///
-  /// In en, this message translates to:
-  /// **'SEARCH'**
-  String get navSearch;
-
-  /// No description provided for @navContests.
-  ///
-  /// In en, this message translates to:
-  /// **'CONTESTS'**
-  String get navContests;
-
-  /// No description provided for @navCreate.
-  ///
-  /// In en, this message translates to:
-  /// **'CREATE'**
-  String get navCreate;
-
-  /// No description provided for @navProfile.
-  ///
-  /// In en, this message translates to:
-  /// **'PROFILE'**
-  String get navProfile;
-
   /// No description provided for @feedEmptyTitle.
   ///
   /// In en, this message translates to:
@@ -1367,8 +1391,14 @@ abstract class AppLocalizations {
   /// No description provided for @feedEmptyMessage.
   ///
   /// In en, this message translates to:
-  /// **'Posts from the community will show up here. Check back soon.'**
+  /// **'Be one of the first to show your car. Posts from the community land here.'**
   String get feedEmptyMessage;
+
+  /// No description provided for @feedEmptyCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Share a post'**
+  String get feedEmptyCta;
 
   /// No description provided for @feedErrorNetwork.
   ///
@@ -2330,119 +2360,47 @@ abstract class AppLocalizations {
   /// **'You haven\'t added this item to the build log yet. If you leave now, everything you entered here will be lost.'**
   String get garageBuildLogDiscardBody;
 
-  /// No description provided for @garageLogModTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'LOG BUILD ITERATION'**
-  String get garageLogModTitle;
-
-  /// No description provided for @garageLogModSectionLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'— MODIFICATION'**
-  String get garageLogModSectionLabel;
-
-  /// No description provided for @garageLogModSectionTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Log a build iteration'**
-  String get garageLogModSectionTitle;
-
-  /// No description provided for @garageLogModCategoryHint.
-  ///
-  /// In en, this message translates to:
-  /// **'e.g. Engine, Suspension, Aesthetics'**
-  String get garageLogModCategoryHint;
-
-  /// No description provided for @garageLogModTitleHint.
-  ///
-  /// In en, this message translates to:
-  /// **'e.g. Stage 2 turbo upgrade'**
-  String get garageLogModTitleHint;
-
-  /// No description provided for @garageLogModDescLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'DESCRIPTION (OPTIONAL)'**
-  String get garageLogModDescLabel;
-
-  /// No description provided for @garageLogModDescHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Notes, observations, upgrades done…'**
-  String get garageLogModDescHint;
-
-  /// No description provided for @garageLogModBeforeAfter.
-  ///
-  /// In en, this message translates to:
-  /// **'BEFORE & AFTER'**
-  String get garageLogModBeforeAfter;
-
-  /// No description provided for @garageLogModInstallDate.
-  ///
-  /// In en, this message translates to:
-  /// **'INSTALLATION DATE'**
-  String get garageLogModInstallDate;
-
-  /// No description provided for @garageLogModPriceLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'PRICE (OPTIONAL)'**
-  String get garageLogModPriceLabel;
-
-  /// No description provided for @garageLogModMileageLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'MILEAGE AT INSTALL (OPTIONAL)'**
-  String get garageLogModMileageLabel;
-
-  /// No description provided for @garageLogModMileageHint.
-  ///
-  /// In en, this message translates to:
-  /// **'e.g. 45000'**
-  String get garageLogModMileageHint;
-
-  /// No description provided for @garageLogModSubmit.
-  ///
-  /// In en, this message translates to:
-  /// **'LOG MODIFICATION'**
-  String get garageLogModSubmit;
-
   /// No description provided for @garageLogModLogged.
   ///
   /// In en, this message translates to:
   /// **'Modification logged!'**
   String get garageLogModLogged;
 
-  /// No description provided for @garageLogModValCategory.
+  /// No description provided for @garageAddModCarTitle.
   ///
   /// In en, this message translates to:
-  /// **'Please select a category.'**
-  String get garageLogModValCategory;
+  /// **'Which car?'**
+  String get garageAddModCarTitle;
 
-  /// No description provided for @garageLogModValTitle.
+  /// No description provided for @garageAddModCarSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Please enter a title.'**
-  String get garageLogModValTitle;
+  /// **'Pick the car this work went into.'**
+  String get garageAddModCarSubtitle;
 
-  /// No description provided for @garageLogModValBefore.
+  /// No description provided for @garageAddModNoCarsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Please pick a before image.'**
-  String get garageLogModValBefore;
+  /// **'No cars yet'**
+  String get garageAddModNoCarsTitle;
 
-  /// No description provided for @garageLogModValAfter.
+  /// No description provided for @garageAddModNoCarsBody.
   ///
   /// In en, this message translates to:
-  /// **'Please pick an after image.'**
-  String get garageLogModValAfter;
+  /// **'Add a car to your garage first, then log the work you\'ve done on it.'**
+  String get garageAddModNoCarsBody;
 
-  /// No description provided for @garageLogModValDate.
+  /// No description provided for @garageAddModAddCar.
   ///
   /// In en, this message translates to:
-  /// **'Please select the installation date.'**
-  String get garageLogModValDate;
+  /// **'ADD A CAR'**
+  String get garageAddModAddCar;
+
+  /// No description provided for @garageAddModPickCar.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a car to continue.'**
+  String get garageAddModPickCar;
 
   /// No description provided for @authErrorSessionExpired.
   ///
@@ -2534,54 +2492,6 @@ abstract class AppLocalizations {
   /// **'You will need to sign in again to access your account.'**
   String get settingsLogoutBody;
 
-  /// No description provided for @postNewPost.
-  ///
-  /// In en, this message translates to:
-  /// **'NEW POST'**
-  String get postNewPost;
-
-  /// No description provided for @postStepPhotos.
-  ///
-  /// In en, this message translates to:
-  /// **'PHOTOS'**
-  String get postStepPhotos;
-
-  /// No description provided for @postStepCaption.
-  ///
-  /// In en, this message translates to:
-  /// **'CAPTION'**
-  String get postStepCaption;
-
-  /// No description provided for @postStepTags.
-  ///
-  /// In en, this message translates to:
-  /// **'TAGS'**
-  String get postStepTags;
-
-  /// No description provided for @postStepVisibility.
-  ///
-  /// In en, this message translates to:
-  /// **'VISIBILITY'**
-  String get postStepVisibility;
-
-  /// No description provided for @postStepReview.
-  ///
-  /// In en, this message translates to:
-  /// **'REVIEW'**
-  String get postStepReview;
-
-  /// No description provided for @postStart.
-  ///
-  /// In en, this message translates to:
-  /// **'START'**
-  String get postStart;
-
-  /// No description provided for @postPublishStep.
-  ///
-  /// In en, this message translates to:
-  /// **'PUBLISH'**
-  String get postPublishStep;
-
   /// No description provided for @postBack.
   ///
   /// In en, this message translates to:
@@ -2599,12 +2509,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PUBLISH POST'**
   String get postPublish;
-
-  /// No description provided for @postStepCounter.
-  ///
-  /// In en, this message translates to:
-  /// **'STEP {current} / {total}'**
-  String postStepCounter(int current, int total);
 
   /// No description provided for @postPhotosTitle.
   ///
@@ -3565,12 +3469,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'RESPONSE'**
   String get myFeedbackResponseLabel;
-
-  /// No description provided for @navForums.
-  ///
-  /// In en, this message translates to:
-  /// **'FORUMS'**
-  String get navForums;
 
   /// No description provided for @forumsTitle.
   ///
@@ -6728,23 +6626,71 @@ abstract class AppLocalizations {
   /// **'{count, plural, =0{No badges yet} =1{1 unlocked} other{{count} unlocked}}'**
   String profileBadgesSheetUnlocked(num count);
 
-  /// No description provided for @profileCreatePost.
+  /// No description provided for @createPostTitle.
   ///
   /// In en, this message translates to:
-  /// **'New post'**
-  String get profileCreatePost;
+  /// **'Post'**
+  String get createPostTitle;
 
-  /// No description provided for @profileCreateEvent.
+  /// No description provided for @createPostSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'New car event'**
-  String get profileCreateEvent;
+  /// **'Photos of your build, a drive or a detail'**
+  String get createPostSubtitle;
 
-  /// No description provided for @profileCreateCar.
+  /// No description provided for @createThreadTitle.
   ///
   /// In en, this message translates to:
-  /// **'Add new car'**
-  String get profileCreateCar;
+  /// **'Forum thread'**
+  String get createThreadTitle;
+
+  /// No description provided for @createThreadSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask a question or start a discussion'**
+  String get createThreadSubtitle;
+
+  /// No description provided for @createEventTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Car event'**
+  String get createEventTitle;
+
+  /// No description provided for @createEventSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Host a meet, a cruise or a track day'**
+  String get createEventSubtitle;
+
+  /// No description provided for @createModTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add modification'**
+  String get createModTitle;
+
+  /// No description provided for @createModSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log a new part or upgrade on one of your cars'**
+  String get createModSubtitle;
+
+  /// No description provided for @feedSegmentFeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Feed'**
+  String get feedSegmentFeed;
+
+  /// No description provided for @forumsBrowseAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse forums'**
+  String get forumsBrowseAction;
+
+  /// No description provided for @forumsSavedAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved threads'**
+  String get forumsSavedAction;
 
   /// No description provided for @garageCarStatPower.
   ///

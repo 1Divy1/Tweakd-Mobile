@@ -32,7 +32,7 @@ class BusinessPopupContent extends StatelessWidget {
           const SizedBox(height: 14),
           Text(
             business.description,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
               height: 1.4,
               color: AppColors.ink2,
@@ -40,7 +40,7 @@ class BusinessPopupContent extends StatelessWidget {
           ),
         ],
         const SizedBox(height: 16),
-        const Divider(color: AppColors.line2, height: 1),
+        Divider(color: AppColors.line2, height: 1),
         const SizedBox(height: 14),
         _IconRow(
           icon: Icons.place_outlined,
@@ -59,7 +59,7 @@ class BusinessPopupContent extends StatelessWidget {
         const SizedBox(height: 16),
         Text(
           l10n.mapHoursTitle,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w700,
             letterSpacing: 0.6,
@@ -98,7 +98,7 @@ class _Header extends StatelessWidget {
                       business.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w800,
                         color: AppColors.ink,
@@ -118,7 +118,7 @@ class _Header extends StatelessWidget {
               const SizedBox(height: 3),
               Text(
                 business.typeLabel,
-                style: const TextStyle(fontSize: 13, color: AppColors.mute),
+                style: TextStyle(fontSize: 13, color: AppColors.mute),
               ),
             ],
           ),
@@ -140,7 +140,7 @@ class BusinessLogo extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.accentSoft,
         shape: BoxShape.circle,
       ),
@@ -251,7 +251,7 @@ class _IconRow extends StatelessWidget {
         Expanded(
           child: Text(
             text,
-            style: const TextStyle(fontSize: 13.5, color: AppColors.ink2),
+            style: TextStyle(fontSize: 13.5, color: AppColors.ink2),
           ),
         ),
       ],

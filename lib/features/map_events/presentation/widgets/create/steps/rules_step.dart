@@ -99,13 +99,13 @@ class _RulesSection extends StatelessWidget {
                       maxLength: CreateMapEventBloc.maxRuleLength,
                       maxLines: null,
                       textCapitalization: TextCapitalization.sentences,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14.5,
                         color: AppColors.ink,
                       ),
                       decoration: InputDecoration(
                         hintText: l10n.mapEventsRuleHint,
-                        hintStyle: const TextStyle(
+                        hintStyle: TextStyle(
                           fontSize: 14.5,
                           color: AppColors.muteSoft,
                         ),
@@ -115,7 +115,7 @@ class _RulesSection extends StatelessWidget {
                           child: Center(
                             child: Text(
                               '${i + 1}',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w800,
                                 color: AppColors.mute,
@@ -138,7 +138,7 @@ class _RulesSection extends StatelessWidget {
                         focusedBorder: OutlineInputBorder(
                           borderRadius:
                               BorderRadius.circular(kCreateEventRadius),
-                          borderSide: const BorderSide(color: AppColors.accent),
+                          borderSide: BorderSide(color: AppColors.accent),
                         ),
                       ),
                     ),

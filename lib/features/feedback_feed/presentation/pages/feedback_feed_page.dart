@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/shared/widgets/app_bottom_nav.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../bloc/board/bloc.dart';
@@ -18,9 +17,10 @@ import '../widgets/board/feedback_message_card.dart';
 import '../widgets/board/feedback_sort_tabs.dart';
 import '../widgets/shared/feedback_feed_views.dart';
 
-/// The community feedback board — the bottom-nav tab. Sorting and the
-/// completed-requests link stay pinned above the list; only the list itself
-/// swaps between loading / error / empty / loaded.
+/// The community feedback board, pushed from the megaphone on your own profile
+/// (and from status-change notifications). Sorting and the completed-requests
+/// link stay pinned above the list; only the list itself swaps between
+/// loading / error / empty / loaded.
 class FeedbackFeedPage extends StatefulWidget {
   const FeedbackFeedPage({super.key});
 
@@ -156,7 +156,12 @@ class _FeedbackFeedPageState extends State<FeedbackFeedPage> {
                         : ListView.builder(
                             controller: _scrollController,
                             physics: const AlwaysScrollableScrollPhysics(),
-                            padding: const EdgeInsets.only(top: 2, bottom: 16),
+                            // No bottom nav any more, so clear the home
+                            // indicator while still scrolling under it.
+                            padding: EdgeInsets.only(
+                              top: 2,
+                              bottom: 16 + MediaQuery.paddingOf(context).bottom,
+                            ),
                             itemCount: state.messages.length + 1,
                             itemBuilder: (context, index) {
                               if (index == state.messages.length) {
@@ -183,7 +188,6 @@ class _FeedbackFeedPageState extends State<FeedbackFeedPage> {
                 },
               ),
             ),
-            const AppBottomNav(activeTab: AppBottomNavTab.feedback),
           ],
         ),
       ),

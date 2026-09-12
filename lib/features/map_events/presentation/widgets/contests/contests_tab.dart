@@ -77,7 +77,7 @@ class ContestsTab extends StatelessWidget {
           child: Text(
             l10n.contestsFooterNote,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 11.5,
               height: 1.5,
               color: AppColors.muteSoft,
@@ -150,11 +150,11 @@ class _StandingStrip extends StatelessWidget {
             width: 34,
             height: 34,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.1),
+              color: AppColors.inkPanel.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(11),
             ),
             alignment: Alignment.center,
-            child: const Icon(
+            child: Icon(
               Icons.emoji_events_rounded,
               size: 16,
               color: AppColors.accent,
@@ -172,10 +172,10 @@ class _StandingStrip extends StatelessWidget {
                       : l10n.contestsStandingNotEntered,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w800,
-                    color: Colors.white,
+                    color: AppColors.inkPanel,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -185,7 +185,7 @@ class _StandingStrip extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 11.5,
-                    color: Colors.white.withValues(alpha: 0.6),
+                    color: AppColors.inkPanel.withValues(alpha: 0.6),
                   ),
                 ),
               ],
@@ -195,8 +195,8 @@ class _StandingStrip extends StatelessWidget {
           TextButton(
             onPressed: state.isSaving ? null : onEnter,
             style: TextButton.styleFrom(
-              backgroundColor: Colors.white.withValues(alpha: 0.12),
-              foregroundColor: Colors.white,
+              backgroundColor: AppColors.inkPanel.withValues(alpha: 0.12),
+              foregroundColor: AppColors.inkPanel,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -208,12 +208,12 @@ class _StandingStrip extends StatelessWidget {
               ),
             ),
             child: state.isSaving
-                ? const SizedBox(
+                ? SizedBox(
                     width: 14,
                     height: 14,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      color: Colors.white,
+                      color: AppColors.inkPanel,
                     ),
                   )
                 : Text(entered > 0 ? l10n.contestsManage : l10n.contestsEnterCar),
@@ -249,7 +249,7 @@ class _Empty extends StatelessWidget {
               borderRadius: BorderRadius.circular(13),
             ),
             alignment: Alignment.center,
-            child: const Icon(
+            child: Icon(
               Icons.emoji_events_outlined,
               size: 20,
               color: AppColors.muteSoft,
@@ -259,7 +259,7 @@ class _Empty extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14.5,
               fontWeight: FontWeight.w800,
               color: AppColors.ink,
@@ -269,7 +269,7 @@ class _Empty extends StatelessWidget {
           Text(
             body,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12.5,
               height: 1.5,
               color: AppColors.mute,

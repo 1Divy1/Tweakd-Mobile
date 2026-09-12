@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../../core/services/image_service.dart';
-import '../../../domain/repositories/garage_repository.dart';
+import '../add_car/event.dart';
 
 abstract class LogModEvent extends Equatable {
   const LogModEvent();
@@ -16,19 +15,14 @@ class LoadModCategories extends LogModEvent {
 
 class SubmitModification extends LogModEvent {
   final String carId;
-  final ModRequestParams params;
 
-  /// Before/after images, each already being compressed since selection time.
-  final CompressedImage? before;
-  final CompressedImage? after;
+  /// The entry's text plus its before/after photos — up to
+  /// `maxModImagesPerPhase` per phase, each already being compressed since
+  /// selection time.
+  final NewModInput input;
 
-  const SubmitModification({
-    required this.carId,
-    required this.params,
-    this.before,
-    this.after,
-  });
+  const SubmitModification({required this.carId, required this.input});
 
   @override
-  List<Object?> get props => [carId, params, before, after];
+  List<Object?> get props => [carId, input];
 }

@@ -31,12 +31,12 @@ class WinnerReveal extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Icon(Icons.emoji_events_outlined, size: 20, color: AppColors.muteSoft),
+            Icon(Icons.emoji_events_outlined, size: 20, color: AppColors.muteSoft),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
                 l10n.contestsNoWinner,
-                style: const TextStyle(fontSize: 13, height: 1.45, color: AppColors.ink2),
+                style: TextStyle(fontSize: 13, height: 1.45, color: AppColors.ink2),
               ),
             ),
           ],
@@ -156,7 +156,7 @@ class WinnerReveal extends StatelessWidget {
                             l10n.contestsBadgeAwarded(shortCategory),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12.5,
                               fontWeight: FontWeight.w800,
                               color: AppColors.ink,
@@ -167,7 +167,7 @@ class WinnerReveal extends StatelessWidget {
                             l10n.contestsBadgeAwardedBody,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 11.5, color: AppColors.mute),
+                            style: TextStyle(fontSize: 11.5, color: AppColors.mute),
                           ),
                         ],
                       ),
@@ -189,7 +189,7 @@ class WinnerReveal extends StatelessWidget {
             ),
             child: Row(
               children: [
-                const Icon(Icons.bolt_rounded, size: 18, color: AppColors.accent),
+                Icon(Icons.bolt_rounded, size: 18, color: AppColors.accent),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(
@@ -198,7 +198,7 @@ class WinnerReveal extends StatelessWidget {
                     children: [
                       Text(
                         l10n.contestsThatsYourCar,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w800,
                           color: AppColors.ink,
@@ -209,7 +209,7 @@ class WinnerReveal extends StatelessWidget {
                         l10n.contestsPostToFeedHint,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 11.5, color: AppColors.ink2),
+                        style: TextStyle(fontSize: 11.5, color: AppColors.ink2),
                       ),
                     ],
                   ),

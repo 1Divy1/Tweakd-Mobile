@@ -37,7 +37,7 @@ class CoverStep extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
+                Icon(
                   Icons.photo_camera_outlined,
                   size: 26,
                   color: AppColors.mute,
@@ -46,7 +46,7 @@ class CoverStep extends StatelessWidget {
                 Text(
                   l10n.mapEventsCoverAdd,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 11.5,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 0.6,

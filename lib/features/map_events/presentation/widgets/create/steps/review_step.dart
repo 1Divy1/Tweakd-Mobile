@@ -45,7 +45,7 @@ class ReviewStep extends StatelessWidget {
             children: [
               Text(
                 state.title.trim(),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 20,
                   height: 1.2,
                   fontWeight: FontWeight.w800,
@@ -254,7 +254,7 @@ class _Section extends StatelessWidget {
                     label,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 10.5,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 1.1,
@@ -310,7 +310,7 @@ class _Row extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13.5,
                 height: 1.35,
                 color: AppColors.ink2,
@@ -340,7 +340,7 @@ class _Bullet extends StatelessWidget {
             width: 20,
             child: Text(
               '$index.',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12.5,
                 fontWeight: FontWeight.w800,
                 color: AppColors.mute,
@@ -350,7 +350,7 @@ class _Bullet extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13.5,
                 height: 1.35,
                 color: AppColors.ink2,

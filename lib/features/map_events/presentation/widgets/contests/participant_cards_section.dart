@@ -30,7 +30,7 @@ class ParticipantCardsSection extends StatelessWidget {
           children: [
             Text(
               l10n.participantCardSectionTitle(state.cards.length),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w800,
                 letterSpacing: 1.2,

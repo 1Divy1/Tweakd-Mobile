@@ -38,7 +38,7 @@ class ForumsBrowsePage extends StatelessWidget {
                 builder: (context, state) {
                   return switch (state) {
                     ForumBrowseInitial() || ForumBrowseLoading() =>
-                      const Center(
+                      Center(
                         child:
                             CircularProgressIndicator(color: AppColors.accent),
                       ),

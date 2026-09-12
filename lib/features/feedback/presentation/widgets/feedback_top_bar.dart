@@ -28,7 +28,7 @@ class FeedbackTopBar extends StatelessWidget {
                   color: AppColors.surface,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Icon(Icons.close, color: AppColors.ink, size: 20),
+                child: Icon(Icons.close, color: AppColors.ink, size: 20),
               ),
             ),
           ),
@@ -36,7 +36,7 @@ class FeedbackTopBar extends StatelessWidget {
             child: Center(
               child: Text(
                 brand.toUpperCase(),
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 14,
                   fontWeight: FontWeight.w800,

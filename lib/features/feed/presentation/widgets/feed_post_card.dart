@@ -55,7 +55,6 @@ class FeedPostCard extends StatelessWidget {
           PostAuthorHeader(
             author: post.author,
             createdAt: post.createdAt,
-            showRing: true,
             onMenu: onMenu,
           ),
           Padding(
@@ -118,7 +117,7 @@ class FeedPostCard extends StatelessWidget {
                 onTap: onOpenLikers,
                 child: Text(
                   l10n.postLikesCount(post.likesCount),
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontSize: 14,
                     fontWeight: FontWeight.w800,
@@ -179,7 +178,7 @@ class _Counter extends StatelessWidget {
             const SizedBox(width: 7),
             Text(
               label!,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 14,
                 fontWeight: FontWeight.w800,
@@ -234,7 +233,7 @@ class _CommentComposerState extends State<_CommentComposer> {
             onSubmitted: (_) => _submit(),
             minLines: 1,
             maxLines: 4,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 18,
               fontWeight: FontWeight.w500,
@@ -242,7 +241,7 @@ class _CommentComposerState extends State<_CommentComposer> {
             decoration: InputDecoration(
               isDense: true,
               hintText: l10n.postCommentHint,
-              hintStyle: const TextStyle(
+              hintStyle: TextStyle(
                 color: AppColors.muteSoft,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
@@ -260,7 +259,7 @@ class _CommentComposerState extends State<_CommentComposer> {
             return GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: _submit,
-              child: const Padding(
+              child: Padding(
                 padding: EdgeInsets.only(left: 8),
                 child: Icon(Icons.arrow_upward_rounded,
                     color: AppColors.accent, size: 22),
@@ -285,7 +284,7 @@ class _Caption extends StatelessWidget {
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
       text: TextSpan(
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.ink2,
           fontSize: 14,
           height: 1.4,
@@ -294,7 +293,7 @@ class _Caption extends StatelessWidget {
         children: [
           TextSpan(
             text: '@$author ',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontWeight: FontWeight.w800,
             ),

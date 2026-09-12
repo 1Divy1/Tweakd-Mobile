@@ -24,7 +24,7 @@ class SearchEmptyView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: AppColors.line),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.search,
                 color: AppColors.ink,
                 size: 32,
@@ -33,7 +33,7 @@ class SearchEmptyView extends StatelessWidget {
             const SizedBox(height: 18),
             Text(
               l10n.searchEmptyTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 22,
                 fontWeight: FontWeight.w800,
@@ -43,7 +43,7 @@ class SearchEmptyView extends StatelessWidget {
             Text(
               l10n.searchEmptySubtitle,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 14,
                 height: 1.4,

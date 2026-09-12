@@ -31,7 +31,7 @@ class EditProfileField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.ink2,
             fontSize: 11,
             fontWeight: FontWeight.w800,
@@ -45,7 +45,7 @@ class EditProfileField extends StatelessWidget {
             borderRadius: BorderRadius.circular(18),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withAlpha(6),
+                color: AppColors.shadowAlpha(6),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -60,7 +60,7 @@ class EditProfileField extends StatelessWidget {
             textInputAction: textInputAction,
             textCapitalization: TextCapitalization.sentences,
             cursorColor: AppColors.accent,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 15,
               height: 1.35,
@@ -75,7 +75,7 @@ class EditProfileField extends StatelessWidget {
             decoration: InputDecoration(
               isDense: true,
               hintText: hint,
-              hintStyle: const TextStyle(
+              hintStyle: TextStyle(
                 color: AppColors.muteSoft,
                 fontSize: 15,
                 height: 1.35,
@@ -93,7 +93,7 @@ class EditProfileField extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: Text(
               '${controller.text.characters.length} / $maxLength',
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.muteSoft,
                 fontSize: 12,
                 fontWeight: FontWeight.w700,

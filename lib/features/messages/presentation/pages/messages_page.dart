@@ -147,13 +147,13 @@ class _InboxList extends StatelessWidget {
           children: [
             const SizedBox(height: 14),
             ListTile(
-              leading: const Icon(
+              leading: Icon(
                 Icons.delete_outline_rounded,
                 color: AppColors.accent,
               ),
               title: Text(
                 l10n.messagesDeleteChat,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
@@ -161,7 +161,7 @@ class _InboxList extends StatelessWidget {
               ),
               subtitle: Text(
                 l10n.messagesDeleteChatBody,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.mute,
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
@@ -245,7 +245,7 @@ class _InboxList extends StatelessWidget {
                           previewNames: state.inbox.requestsPreviewNames,
                           onTap: () => _comingSoon(context),
                         ),
-                        const Divider(
+                        Divider(
                           height: 1,
                           thickness: 1,
                           color: AppColors.line2,
@@ -262,7 +262,7 @@ class _InboxList extends StatelessWidget {
                   child: Center(
                     child: Text(
                       l10n.messagesComposeEmpty,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.mute,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -290,7 +290,7 @@ class _InboxList extends StatelessWidget {
                           ),
                           // Subtle separator between rows, inset past the avatar.
                           if (index != conversations.length - 1)
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.only(left: 90, right: 20),
                               child: Divider(
                                 height: 1,
@@ -306,7 +306,7 @@ class _InboxList extends StatelessWidget {
                 ),
               ),
             if (conversations.isNotEmpty && state.isLoadingMore)
-              const SliverToBoxAdapter(
+              SliverToBoxAdapter(
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 16),
                   child: Center(

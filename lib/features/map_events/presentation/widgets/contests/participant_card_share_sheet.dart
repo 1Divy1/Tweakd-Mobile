@@ -166,7 +166,7 @@ class _ParticipantCardShareSheetState
                           state.isPosted
                               ? l10n.contestsPostedTitle
                               : l10n.participantCardShareSheetTitle,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w800,
                             color: AppColors.ink,
@@ -198,12 +198,12 @@ class _ParticipantCardShareSheetState
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.check_rounded, size: 15, color: AppColors.accent),
+                        Icon(Icons.check_rounded, size: 15, color: AppColors.accent),
                         const SizedBox(width: 8),
                         Flexible(
                           child: Text(
                             l10n.contestsPostedBody,
-                            style: const TextStyle(fontSize: 12.5, color: AppColors.mute),
+                            style: TextStyle(fontSize: 12.5, color: AppColors.mute),
                           ),
                         ),
                       ],
@@ -226,7 +226,7 @@ class _ParticipantCardShareSheetState
                             borderSide: BorderSide.none,
                           ),
                         ),
-                        style: const TextStyle(fontSize: 13.5, color: AppColors.ink),
+                        style: TextStyle(fontSize: 13.5, color: AppColors.ink),
                       ),
                       const SizedBox(height: 10),
                     ],

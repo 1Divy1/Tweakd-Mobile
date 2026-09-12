@@ -97,7 +97,7 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
                   const SizedBox(height: 16),
                   const AuthBrandHeader(),
                   const SizedBox(height: 40),
-                  const Icon(
+                  Icon(
                     Icons.mark_email_unread_outlined,
                     size: 56,
                     color: AppColors.accent,
@@ -106,7 +106,7 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
                   Text(
                     l10n.authConfirmEmailTitle,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.ink,
                       fontSize: 28,
                       fontWeight: FontWeight.w900,
@@ -116,7 +116,7 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
                   Text(
                     l10n.authConfirmEmailSubtitle(widget.email),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.mute,
                       fontSize: 15,
                       height: 1.45,

@@ -12,12 +12,12 @@ class AuthDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Expanded(child: Divider(color: AppColors.line, thickness: 1)),
+        Expanded(child: Divider(color: AppColors.line, thickness: 1)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Text(
             label.toUpperCase(),
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 12,
               fontWeight: FontWeight.w700,
@@ -25,7 +25,7 @@ class AuthDivider extends StatelessWidget {
             ),
           ),
         ),
-        const Expanded(child: Divider(color: AppColors.line, thickness: 1)),
+        Expanded(child: Divider(color: AppColors.line, thickness: 1)),
       ],
     );
   }

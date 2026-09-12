@@ -102,7 +102,7 @@ class _NewThreadPageState extends State<NewThreadPage> {
                 ),
                 Expanded(
                   child: switch ((state.isLoadingRefs, state.refsError)) {
-                    (true, _) => const Center(
+                    (true, _) => Center(
                       child: CircularProgressIndicator(color: AppColors.accent),
                     ),
                     (false, final code?) => ForumErrorView(
@@ -156,7 +156,7 @@ class _ComposerForm extends StatelessWidget {
             maxLength: 200,
             maxLines: null,
             cursorColor: AppColors.accent,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 20,
               fontWeight: FontWeight.w800,
@@ -167,7 +167,7 @@ class _ComposerForm extends StatelessWidget {
               isCollapsed: true,
               counterText: '',
               hintText: l10n.forumsThreadTitleHint,
-              hintStyle: const TextStyle(
+              hintStyle: TextStyle(
                 color: AppColors.muteSoft,
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
@@ -183,7 +183,7 @@ class _ComposerForm extends StatelessWidget {
             maxLines: null,
             maxLength: 20000,
             cursorColor: AppColors.accent,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink2,
               fontSize: 15,
               fontWeight: FontWeight.w500,
@@ -194,7 +194,7 @@ class _ComposerForm extends StatelessWidget {
               isCollapsed: true,
               counterText: '',
               hintText: l10n.forumsThreadBodyHint,
-              hintStyle: const TextStyle(
+              hintStyle: TextStyle(
                 color: AppColors.muteSoft,
                 fontSize: 15,
                 fontWeight: FontWeight.w500,

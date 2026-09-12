@@ -68,7 +68,7 @@ class FeedbackDropdownField extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       subtitle!,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.mute,
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
@@ -79,7 +79,7 @@ class FeedbackDropdownField extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            const Icon(
+            Icon(
               Icons.keyboard_arrow_down_rounded,
               color: AppColors.mute,
               size: 22,

@@ -56,7 +56,7 @@ class NotificationsPage extends StatelessWidget {
                   return switch (state) {
                     NotificationsInitial() ||
                     NotificationsLoading() =>
-                      const Center(
+                      Center(
                         child: SizedBox(
                           width: 24,
                           height: 24,

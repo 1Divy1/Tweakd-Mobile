@@ -32,6 +32,21 @@ class AppLocalizationsRo extends AppLocalizations {
       'Nu am putut actualiza limba. Te rugăm să încerci din nou.';
 
   @override
+  String get settingsTheme => 'Temă';
+
+  @override
+  String get themeLight => 'Deschisă';
+
+  @override
+  String get themeDark => 'Întunecată';
+
+  @override
+  String get themeSystem => 'Sistem';
+
+  @override
+  String get settingsThemePickerTitle => 'Alege tema';
+
+  @override
   String get commonSave => 'Salvează';
 
   @override
@@ -572,7 +587,22 @@ class AppLocalizationsRo extends AppLocalizations {
   String get profileShareButton => 'Distribuie profilul';
 
   @override
-  String get profileCreateButton => 'Creează';
+  String get profileFeedbackButton => 'Feedback';
+
+  @override
+  String get navFeed => 'Feed';
+
+  @override
+  String get navMap => 'Hartă';
+
+  @override
+  String get navCreate => 'Creează';
+
+  @override
+  String get navSearch => 'Caută';
+
+  @override
+  String get navProfile => 'Profil';
 
   @override
   String get editProfileTitle => 'EDITEAZĂ PROFILUL';
@@ -712,29 +742,14 @@ class AppLocalizationsRo extends AppLocalizations {
   String get searchErrorGeneric => 'Ceva nu a mers bine. Încearcă din nou.';
 
   @override
-  String get navFeed => 'FEED';
-
-  @override
-  String get navMap => 'HARTĂ';
-
-  @override
-  String get navSearch => 'CĂUTARE';
-
-  @override
-  String get navContests => 'CONCURSURI';
-
-  @override
-  String get navCreate => 'CREEAZĂ';
-
-  @override
-  String get navProfile => 'PROFIL';
-
-  @override
   String get feedEmptyTitle => 'Feedul tău e liniștit';
 
   @override
   String get feedEmptyMessage =>
-      'Postările din comunitate vor apărea aici. Revino în curând.';
+      'Fii printre primii care își arată mașina. Postările din comunitate apar aici.';
+
+  @override
+  String get feedEmptyCta => 'Publică o postare';
 
   @override
   String get feedErrorNetwork =>
@@ -1240,61 +1255,26 @@ class AppLocalizationsRo extends AppLocalizations {
       'Încă nu ai adăugat această intrare în jurnalul de modificări. Dacă pleci acum, tot ce ai completat aici se va pierde.';
 
   @override
-  String get garageLogModTitle => 'ADAUGĂ MODIFICARE';
-
-  @override
-  String get garageLogModSectionLabel => '— MODIFICARE';
-
-  @override
-  String get garageLogModSectionTitle => 'Adaugă o modificare';
-
-  @override
-  String get garageLogModCategoryHint => 'ex. Motor, Suspensie, Estetică';
-
-  @override
-  String get garageLogModTitleHint => 'ex. Upgrade turbo stage 2';
-
-  @override
-  String get garageLogModDescLabel => 'DESCRIERE (OPȚIONAL)';
-
-  @override
-  String get garageLogModDescHint => 'Note, observații, upgrade-uri făcute…';
-
-  @override
-  String get garageLogModBeforeAfter => 'ÎNAINTE & DUPĂ';
-
-  @override
-  String get garageLogModInstallDate => 'DATA INSTALĂRII';
-
-  @override
-  String get garageLogModPriceLabel => 'PREȚ (OPȚIONAL)';
-
-  @override
-  String get garageLogModMileageLabel => 'KILOMETRAJ LA INSTALARE (OPȚIONAL)';
-
-  @override
-  String get garageLogModMileageHint => 'ex. 45000';
-
-  @override
-  String get garageLogModSubmit => 'ADAUGĂ MODIFICAREA';
-
-  @override
   String get garageLogModLogged => 'Modificare adăugată!';
 
   @override
-  String get garageLogModValCategory => 'Selectează o categorie.';
+  String get garageAddModCarTitle => 'Care mașină?';
 
   @override
-  String get garageLogModValTitle => 'Introdu un titlu.';
+  String get garageAddModCarSubtitle => 'Alege mașina la care ai lucrat.';
 
   @override
-  String get garageLogModValBefore => 'Alege o imagine „înainte”.';
+  String get garageAddModNoCarsTitle => 'Nicio mașină încă';
 
   @override
-  String get garageLogModValAfter => 'Alege o imagine „după”.';
+  String get garageAddModNoCarsBody =>
+      'Adaugă mai întâi o mașină în garaj, apoi notează ce i-ai făcut.';
 
   @override
-  String get garageLogModValDate => 'Selectează data instalării.';
+  String get garageAddModAddCar => 'ADAUGĂ O MAȘINĂ';
+
+  @override
+  String get garageAddModPickCar => 'Alege o mașină ca să continui.';
 
   @override
   String get authErrorSessionExpired =>
@@ -1352,30 +1332,6 @@ class AppLocalizationsRo extends AppLocalizations {
       'Va trebui să te conectezi din nou pentru a-ți accesa contul.';
 
   @override
-  String get postNewPost => 'POSTARE NOUĂ';
-
-  @override
-  String get postStepPhotos => 'POZE';
-
-  @override
-  String get postStepCaption => 'DESCRIERE';
-
-  @override
-  String get postStepTags => 'ETICHETE';
-
-  @override
-  String get postStepVisibility => 'VIZIBILITATE';
-
-  @override
-  String get postStepReview => 'VERIFICARE';
-
-  @override
-  String get postStart => 'START';
-
-  @override
-  String get postPublishStep => 'PUBLICĂ';
-
-  @override
   String get postBack => 'ÎNAPOI';
 
   @override
@@ -1383,11 +1339,6 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get postPublish => 'PUBLICĂ POSTAREA';
-
-  @override
-  String postStepCounter(int current, int total) {
-    return 'PASUL $current / $total';
-  }
 
   @override
   String get postPhotosTitle => 'Alege-ți cadrele';
@@ -1952,9 +1903,6 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get myFeedbackResponseLabel => 'RĂSPUNS';
-
-  @override
-  String get navForums => 'FORUMURI';
 
   @override
   String get forumsTitle => 'Forumuri';
@@ -3792,13 +3740,40 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get profileCreatePost => 'Postare nouă';
+  String get createPostTitle => 'Postare';
 
   @override
-  String get profileCreateEvent => 'Eveniment auto nou';
+  String get createPostSubtitle =>
+      'Fotografii cu mașina ta, un drum sau un detaliu';
 
   @override
-  String get profileCreateCar => 'Adaugă o mașină nouă';
+  String get createThreadTitle => 'Thread pe forum';
+
+  @override
+  String get createThreadSubtitle => 'Pune o întrebare sau pornește o discuție';
+
+  @override
+  String get createEventTitle => 'Eveniment auto';
+
+  @override
+  String get createEventSubtitle =>
+      'Organizează o întâlnire, o plimbare sau o zi pe circuit';
+
+  @override
+  String get createModTitle => 'Adaugă o modificare';
+
+  @override
+  String get createModSubtitle =>
+      'Notează o piesă nouă sau un upgrade la una dintre mașinile tale';
+
+  @override
+  String get feedSegmentFeed => 'Feed';
+
+  @override
+  String get forumsBrowseAction => 'Explorează forumurile';
+
+  @override
+  String get forumsSavedAction => 'Thread-uri salvate';
 
   @override
   String get garageCarStatPower => 'PUTERE';

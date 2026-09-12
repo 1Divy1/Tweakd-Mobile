@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
@@ -33,7 +34,12 @@ class NotificationTile extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _LeadingIcon(kind: _kindOf(notification.type)),
+              _LeadingIcon(
+                kind: _kindOf(notification.type),
+                actorId: notification.actorId,
+                actorUsername: notification.actorUsername,
+                avatarUrl: notification.actorAvatarUrl,
+              ),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(
@@ -54,7 +60,7 @@ class NotificationTile extends StatelessWidget {
                         body,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.mute,
                           fontSize: 13,
                           height: 1.35,
@@ -65,7 +71,7 @@ class NotificationTile extends StatelessWidget {
                     const SizedBox(height: 5),
                     Text(
                       postTimeAgo(l10n, notification.createdAt),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.muteSoft,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -79,7 +85,7 @@ class NotificationTile extends StatelessWidget {
                   margin: const EdgeInsets.only(left: 10, top: 6),
                   width: 9,
                   height: 9,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: AppColors.accent,
                     shape: BoxShape.circle,
                   ),
@@ -147,20 +153,128 @@ enum _NotificationIconKind {
   generic,
 }
 
-/// The tinted round icon badge leading each row. Likes use the accent palette;
-/// comments/replies and shares use a neutral ink-on-surface treatment.
+/// The row's leading visual. When a person caused the notification it shows
+/// their avatar with a small type badge overlaid bottom-right (Instagram's
+/// pattern) — the photo when the payload carries one, otherwise their initial.
+/// System notifications with no actor get the plain tinted icon badge.
 class _LeadingIcon extends StatelessWidget {
-  final _NotificationIconKind kind;
+  static const double _size = 42;
 
-  const _LeadingIcon({required this.kind});
+  final _NotificationIconKind kind;
+  final String? actorId;
+  final String? actorUsername;
+  final String? avatarUrl;
+
+  const _LeadingIcon({
+    required this.kind,
+    this.actorId,
+    this.actorUsername,
+    this.avatarUrl,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (actorId == null) {
+      return _IconBadge(kind: kind, size: _size, iconSize: 20);
+    }
+    return SizedBox(
+      width: _size,
+      height: _size,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          _ActorAvatar(
+            username: actorUsername,
+            avatarUrl: avatarUrl,
+            size: _size,
+          ),
+          Positioned(
+            right: -3,
+            bottom: -3,
+            child: _IconBadge(
+              kind: kind,
+              size: 20,
+              iconSize: 11,
+              border: Border.all(color: AppColors.bg, width: 2),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Circular actor photo with an initial-letter fallback — the same treatment
+/// as the forum and message avatars, including the decode-size cap so a
+/// full-resolution upload isn't decoded for every row while scrolling.
+class _ActorAvatar extends StatelessWidget {
+  final String? username;
+  final String? avatarUrl;
+  final double size;
+
+  const _ActorAvatar({
+    required this.username,
+    required this.avatarUrl,
+    required this.size,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final url = avatarUrl == null || avatarUrl!.isEmpty ? null : avatarUrl;
+    final name = username;
+    final cachePx = (size * MediaQuery.devicePixelRatioOf(context)).round();
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: AppColors.accentSoft,
+        shape: BoxShape.circle,
+        image: url == null
+            ? null
+            : DecorationImage(
+                image: ResizeImage(
+                  CachedNetworkImageProvider(url),
+                  width: cachePx,
+                  height: cachePx,
+                ),
+                fit: BoxFit.cover,
+              ),
+      ),
+      alignment: Alignment.center,
+      child: url != null
+          ? null
+          : Text(
+              name == null || name.isEmpty ? '?' : name[0].toUpperCase(),
+              style: TextStyle(
+                color: AppColors.accentHot,
+                fontSize: size * 0.42,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+    );
+  }
+}
+
+class _IconBadge extends StatelessWidget {
+  final _NotificationIconKind kind;
+  final double size;
+  final double iconSize;
+  final BoxBorder? border;
+
+  const _IconBadge({
+    required this.kind,
+    required this.size,
+    required this.iconSize,
+    this.border,
+  });
 
   @override
   Widget build(BuildContext context) {
     final (icon, fg, bg) = switch (kind) {
       _NotificationIconKind.like => (
           Icons.favorite_rounded,
-          AppColors.accent,
-          AppColors.accentSoft,
+          AppColors.ink2,
+          AppColors.line,
         ),
       _NotificationIconKind.comment => (
           Icons.mode_comment_rounded,
@@ -174,8 +288,8 @@ class _LeadingIcon extends StatelessWidget {
         ),
       _NotificationIconKind.tag => (
           Icons.local_offer_rounded,
-          AppColors.accent,
-          AppColors.accentSoft,
+          AppColors.ink2,
+          AppColors.line,
         ),
       _NotificationIconKind.message => (
           Icons.mail_outline_rounded,
@@ -200,10 +314,10 @@ class _LeadingIcon extends StatelessWidget {
     };
 
     return Container(
-      width: 42,
-      height: 42,
-      decoration: BoxDecoration(color: bg, shape: BoxShape.circle),
-      child: Icon(icon, color: fg, size: 20),
+      width: size,
+      height: size,
+      decoration: BoxDecoration(color: bg, shape: BoxShape.circle, border: border),
+      child: Icon(icon, color: fg, size: iconSize),
     );
   }
 }

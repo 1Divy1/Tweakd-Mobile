@@ -65,7 +65,7 @@ class MapEventAttendeeStack extends StatelessWidget {
             l10n.mapEventsGoingCount(total),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w700,
               color: AppColors.ink2,

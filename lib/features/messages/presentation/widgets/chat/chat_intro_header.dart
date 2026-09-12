@@ -31,12 +31,11 @@ class ChatIntroHeader extends StatelessWidget {
             username: user.username,
             avatarUrl: user.avatarUrl,
             size: 96,
-            showRing: true,
           ),
           const SizedBox(height: 16),
           Text(
             user.username,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 21,
               fontWeight: FontWeight.w800,
@@ -47,7 +46,7 @@ class ChatIntroHeader extends StatelessWidget {
             Text(
               l10n.messagesMutualFollow(_compactFollowers),
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,

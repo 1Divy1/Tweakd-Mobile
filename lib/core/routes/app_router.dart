@@ -14,8 +14,8 @@ import '../../features/authentication/presentation/pages/signup_page.dart';
 import '../../features/authentication/presentation/pages/splash_page.dart';
 import '../../features/authentication/presentation/pages/verify_reset_code_page.dart';
 import '../../features/feed/presentation/bloc/feed/bloc.dart';
-import '../../features/feed/presentation/bloc/feed/event.dart';
 import '../../features/feed/presentation/pages/feed_page.dart';
+import '../../features/feed/presentation/utils/feed_segment.dart';
 import '../../features/follow/presentation/bloc/bloc.dart';
 import '../../features/forums/domain/entities/forum_filter.dart';
 import '../../features/forums/presentation/bloc/browse/bloc.dart';
@@ -23,7 +23,6 @@ import '../../features/forums/presentation/bloc/browse/event.dart';
 import '../../features/forums/presentation/bloc/composer/bloc.dart';
 import '../../features/forums/presentation/bloc/composer/event.dart';
 import '../../features/forums/presentation/bloc/home/bloc.dart';
-import '../../features/forums/presentation/bloc/home/event.dart';
 import '../../features/forums/presentation/bloc/hub/bloc.dart';
 import '../../features/forums/presentation/bloc/hub/event.dart';
 import '../../features/forums/presentation/bloc/thread/bloc.dart';
@@ -31,7 +30,6 @@ import '../../features/forums/presentation/bloc/thread/event.dart';
 import '../../features/forums/presentation/pages/forum_hub_page.dart';
 import '../../features/forums/presentation/pages/forum_thread_page.dart';
 import '../../features/forums/presentation/pages/forums_browse_page.dart';
-import '../../features/forums/presentation/pages/forums_home_page.dart';
 import '../../features/forums/presentation/pages/new_thread_page.dart';
 import '../../features/forums/presentation/pages/saved_threads_page.dart';
 import '../../features/forums/presentation/bloc/saved/bloc.dart';
@@ -49,7 +47,7 @@ import '../../features/garage/presentation/bloc/log_mod/bloc.dart';
 import '../../features/garage/presentation/bloc/log_mod/event.dart';
 import '../../features/garage/presentation/pages/about_car_page.dart';
 import '../../features/garage/presentation/pages/fullscreen_image_page.dart';
-import '../../features/garage/presentation/pages/log_mod_page.dart';
+import '../../features/garage/presentation/pages/add_modification_page.dart';
 import '../../features/garage/presentation/bloc/share_resolve/cubit.dart';
 import '../../features/garage/presentation/pages/register_car_page.dart';
 import '../../features/garage/presentation/pages/share_landing_page.dart';
@@ -357,15 +355,13 @@ final appRouter = GoRouter(
       ),
     ),
 
-    // ---------- Feed Page ----------
+    // ---------- Home tab: Feed | Forums ----------
+    // One page, two segments. `/forums` is the same page opened on the Forums
+    // segment — its sub-routes below still hang off it, so a thread or hub
+    // reached by `go` has the home tab underneath.
     GoRoute(
       path: '/feed',
-      pageBuilder: (context, state) => NoTransitionPage(
-        child: BlocProvider<FeedBloc>(
-          create: (_) => getIt<FeedBloc>()..add(const LoadFeed()),
-          child: const FeedPage(),
-        ),
-      ),
+      pageBuilder: (context, state) => _homeTab(FeedSegment.feed),
     ),
 
     // ---------- Map ----------
@@ -605,14 +601,13 @@ final appRouter = GoRouter(
     ),
 
     // ---------- Feedback board (community feed) ----------
+    // Pushed from the megaphone on your own profile, no longer a tab.
     GoRoute(
       path: '/feedback-feed',
-      pageBuilder: (context, state) => NoTransitionPage(
-        child: BlocProvider<FeedbackBoardBloc>(
-          create: (_) =>
-              getIt<FeedbackBoardBloc>()..add(const LoadFeedbackBoard()),
-          child: const FeedbackFeedPage(),
-        ),
+      builder: (context, state) => BlocProvider<FeedbackBoardBloc>(
+        create: (_) =>
+            getIt<FeedbackBoardBloc>()..add(const LoadFeedbackBoard()),
+        child: const FeedbackFeedPage(),
       ),
       routes: [
         GoRoute(
@@ -636,14 +631,10 @@ final appRouter = GoRouter(
     ),
 
     // ---------- Forums ----------
+    // The home tab opened on its Forums segment — see `/feed`.
     GoRoute(
       path: '/forums',
-      pageBuilder: (context, state) => NoTransitionPage(
-        child: BlocProvider<ForumsHomeBloc>(
-          create: (_) => getIt<ForumsHomeBloc>()..add(const LoadForumsHome()),
-          child: const ForumsHomePage(),
-        ),
-      ),
+      pageBuilder: (context, state) => _homeTab(FeedSegment.forums),
       routes: [
         GoRoute(
           path: 'browse',
@@ -787,6 +778,22 @@ final appRouter = GoRouter(
     ),
 
     // ---------- Garage Page ----------
+    // Add a modification from the create sheet: the car isn't known yet, so
+    // the page loads the garage and asks (or skips asking with one car).
+    GoRoute(
+      path: '/garage/modifications/add',
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider<LogModBloc>(
+            create: (_) => getIt<LogModBloc>()..add(const LoadModCategories()),
+          ),
+          BlocProvider<GarageBloc>(
+            create: (_) => getIt<GarageBloc>()..add(const LoadMyGarage()),
+          ),
+        ],
+        child: const AddModificationPage(),
+      ),
+    ),
     GoRoute(
       path: '/garage/cars/add',
       builder: (context, state) => BlocProvider<AddCarBloc>(
@@ -836,7 +843,7 @@ final appRouter = GoRouter(
             return BlocProvider<LogModBloc>(
               create: (_) =>
                   getIt<LogModBloc>()..add(const LoadModCategories()),
-              child: LogModificationPage(carId: carId),
+              child: AddModificationPage(carId: carId),
             );
           },
         ),
@@ -931,4 +938,17 @@ final appRouter = GoRouter(
       },
     ),
   ],
+);
+
+/// The home tab, opened on [segment]. Both blocs are created bare: `FeedPage`
+/// loads each segment the first time it is shown, so opening the feed doesn't
+/// pay for the forums and vice versa.
+NoTransitionPage<void> _homeTab(FeedSegment segment) => NoTransitionPage(
+  child: MultiBlocProvider(
+    providers: [
+      BlocProvider<FeedBloc>(create: (_) => getIt<FeedBloc>()),
+      BlocProvider<ForumsHomeBloc>(create: (_) => getIt<ForumsHomeBloc>()),
+    ],
+    child: FeedPage(initialSegment: segment),
+  ),
 );

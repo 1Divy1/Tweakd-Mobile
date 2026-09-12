@@ -25,7 +25,7 @@ class MessagesEmptyView extends StatelessWidget {
                 color: AppColors.surface,
                 borderRadius: BorderRadius.circular(26),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.chat_bubble_outline_rounded,
                 color: AppColors.ink,
                 size: 36,
@@ -34,7 +34,7 @@ class MessagesEmptyView extends StatelessWidget {
             const SizedBox(height: 28),
             Text(
               l10n.messagesEmptyTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 22,
                 fontWeight: FontWeight.w800,
@@ -44,7 +44,7 @@ class MessagesEmptyView extends StatelessWidget {
             Text(
               l10n.messagesEmptyBody,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 15,
                 fontWeight: FontWeight.w500,

@@ -25,7 +25,7 @@ class ActiveNowRow extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(20, 16, 20, 12),
           child: Text(
             l10n.messagesActiveNow,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 11,
               fontWeight: FontWeight.w800,
@@ -56,7 +56,7 @@ class ActiveNowRow extends StatelessWidget {
                     Text(
                       // "marcus_vlox" → "marcus" under the avatar.
                       user.username.split('_').first,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.ink2,
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
@@ -69,7 +69,7 @@ class ActiveNowRow extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        const Divider(height: 1, thickness: 1, color: AppColors.line2),
+        Divider(height: 1, thickness: 1, color: AppColors.line2),
       ],
     );
   }

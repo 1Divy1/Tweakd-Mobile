@@ -89,7 +89,7 @@ class _DropPinHintState extends State<DropPinHint>
                   Container(
                     width: 7,
                     height: 7,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: AppColors.accent,
                     ),
@@ -101,7 +101,7 @@ class _DropPinHintState extends State<DropPinHint>
                     offset: Offset(0, _fall.value - 21),
                     child: Opacity(
                       opacity: _fade.value,
-                      child: const Icon(
+                      child: Icon(
                         Icons.location_on,
                         size: 40,
                         color: AppColors.accent,

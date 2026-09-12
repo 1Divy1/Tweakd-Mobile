@@ -49,7 +49,7 @@ class ComposeFeedbackPage extends StatelessWidget {
                 Expanded(
                   child: switch (state.status) {
                     ComposeFeedbackStatus.loadingTypes =>
-                      const Center(
+                      Center(
                         child: SizedBox(
                           width: 24,
                           height: 24,

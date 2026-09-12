@@ -5,14 +5,10 @@ import '../../../../core/theme/app_colors.dart';
 /// One icon (+ optional count) in a [TagStaticCounters] row.
 class TagCounter {
   final IconData icon;
-  final Color color;
+  final Color? color;
   final String? label;
 
-  const TagCounter({
-    required this.icon,
-    this.color = AppColors.ink,
-    this.label,
-  });
+  const TagCounter({required this.icon, this.color, this.label});
 }
 
 /// The action row of a tagged post, rendered as a **static** preview: same
@@ -60,13 +56,17 @@ class _Counter extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(counter.icon, size: dense ? 15 : 22, color: counter.color),
+        Icon(
+          counter.icon,
+          size: dense ? 15 : 22,
+          color: counter.color ?? AppColors.ink,
+        ),
         if (counter.label != null) ...[
           SizedBox(width: dense ? 4 : 7),
           Text(
             counter.label!,
             style: TextStyle(
-              color: dense ? counter.color : AppColors.ink,
+              color: dense ? (counter.color ?? AppColors.ink) : AppColors.ink,
               fontSize: dense ? 12 : 14,
               fontWeight: dense ? FontWeight.w700 : FontWeight.w800,
             ),
