@@ -78,7 +78,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   Text(
                     l10n.authForgotPasswordTitle,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.ink,
                       fontSize: 30,
                       fontWeight: FontWeight.w900,
@@ -88,7 +88,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   Text(
                     l10n.authForgotPasswordSubtitle,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.mute,
                       fontSize: 15,
                       height: 1.45,

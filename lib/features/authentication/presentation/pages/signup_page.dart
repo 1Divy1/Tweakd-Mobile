@@ -214,7 +214,7 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
                   Text(
                     l10n.authSignupTitle,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.ink,
                       fontSize: 32,
                       fontWeight: FontWeight.w900,
@@ -224,7 +224,7 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
                   Text(
                     l10n.authSignupSubtitle,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(color: AppColors.mute, fontSize: 15),
+                    style: TextStyle(color: AppColors.mute, fontSize: 15),
                   ),
 
                   // ---- Form: fixed gaps between fields ----
@@ -303,7 +303,7 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
             }),
             activeColor: AppColors.accent,
             side: BorderSide(
-              color: _showTermsError ? Colors.red : AppColors.line,
+              color: _showTermsError ? AppColors.danger : AppColors.line,
               width: _showTermsError ? 1.5 : 1,
             ),
             shape: RoundedRectangleBorder(
@@ -315,7 +315,7 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
         Expanded(
           child: Text.rich(
             TextSpan(
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
                 color: AppColors.mute,
                 height: 1.4,
@@ -324,7 +324,7 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
                 TextSpan(text: l10n.authTermsPrefix),
                 TextSpan(
                   text: l10n.authTermsTerms,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontWeight: FontWeight.w700,
                   ),
@@ -332,7 +332,7 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
                 TextSpan(text: l10n.authTermsAnd),
                 TextSpan(
                   text: l10n.authTermsPrivacy,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontWeight: FontWeight.w700,
                   ),
@@ -352,12 +352,12 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
         onTap: () => context.go('/login'),
         child: RichText(
           text: TextSpan(
-            style: const TextStyle(fontSize: 15, color: AppColors.mute),
+            style: TextStyle(fontSize: 15, color: AppColors.mute),
             children: [
               TextSpan(text: l10n.authHaveAccountPrefix),
               TextSpan(
                 text: l10n.authSignIn,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontWeight: FontWeight.w700,
                   decoration: TextDecoration.underline,

@@ -32,7 +32,7 @@ class SavedPostsPage extends StatelessWidget {
                   return switch (state) {
                     SavedPostsInitial() ||
                     SavedPostsLoading() =>
-                      const Center(
+                      Center(
                         child: SizedBox(
                           width: 24,
                           height: 24,

@@ -19,7 +19,7 @@ class FeedbackErrorView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               Icons.error_outline_rounded,
               size: 48,
               color: AppColors.muteSoft,
@@ -28,7 +28,7 @@ class FeedbackErrorView extends StatelessWidget {
             Text(
               l10n.feedbackLoadError,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
@@ -39,7 +39,7 @@ class FeedbackErrorView extends StatelessWidget {
               onPressed: onRetry,
               child: Text(
                 l10n.feedbackRetry,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.accent,
                   fontWeight: FontWeight.w800,
                 ),

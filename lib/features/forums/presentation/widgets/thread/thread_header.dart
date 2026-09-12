@@ -54,7 +54,7 @@ class ThreadHeader extends StatelessWidget {
           ],
           Text(
             thread.title,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 22,
               fontWeight: FontWeight.w800,
@@ -89,7 +89,7 @@ class ThreadHeader extends StatelessWidget {
                     Text(
                       '${l10n.forumsPosted} · '
                       '${forumActiveAgo(l10n, thread.lastActivityAt)}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.mute,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -104,7 +104,7 @@ class ThreadHeader extends StatelessWidget {
             const SizedBox(height: 14),
             Text(
               thread.content!,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink2,
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
@@ -134,7 +134,7 @@ class ThreadHeader extends StatelessWidget {
             ),
           ],
           const SizedBox(height: 16),
-          const Divider(color: AppColors.line, height: 1),
+          Divider(color: AppColors.line, height: 1),
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -170,7 +170,7 @@ class ThreadHeader extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          const Divider(color: AppColors.line, height: 1),
+          Divider(color: AppColors.line, height: 1),
         ],
       ),
     );

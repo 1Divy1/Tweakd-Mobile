@@ -51,27 +51,14 @@ class VisibilityStep extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PostSectionHeader(
-          label: '04 — ${l10n.postStepVisibility}',
+        PostStepHeader(
           title: l10n.postVisibilityTitle,
           subtitle: l10n.postVisibilitySubtitle,
         ),
         const SizedBox(height: 24),
         PostFieldLabel(l10n.postVisibilityLabel),
-        const SizedBox(height: 12),
-        Container(
-          decoration: BoxDecoration(
-            color: AppColors.surface,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.line),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withAlpha(6),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
+        const SizedBox(height: 8),
+        PostSurface(
           child: Column(
             children: [
               _ToggleRow(
@@ -82,7 +69,7 @@ class VisibilityStep extends StatelessWidget {
                 onChanged: (v) =>
                     onChanged(visibility.copyWith(showLikes: v)),
               ),
-              const Divider(height: 1, color: AppColors.line2),
+              Divider(height: 1, color: AppColors.line2),
               _ToggleRow(
                 icon: Icons.mode_comment_rounded,
                 title: l10n.postVisibilityCommentsTitle,
@@ -91,7 +78,7 @@ class VisibilityStep extends StatelessWidget {
                 onChanged: (v) =>
                     onChanged(visibility.copyWith(showComments: v)),
               ),
-              const Divider(height: 1, color: AppColors.line2),
+              Divider(height: 1, color: AppColors.line2),
               _ToggleRow(
                 icon: Icons.ios_share_rounded,
                 title: l10n.postVisibilitySharesTitle,
@@ -100,7 +87,7 @@ class VisibilityStep extends StatelessWidget {
                 onChanged: (v) =>
                     onChanged(visibility.copyWith(showShares: v)),
               ),
-              const Divider(height: 1, color: AppColors.line2),
+              Divider(height: 1, color: AppColors.line2),
               _ToggleRow(
                 icon: Icons.bookmark_rounded,
                 title: l10n.postVisibilitySavedTitle,
@@ -158,7 +145,7 @@ class _ToggleRow extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontSize: 15,
                     fontWeight: FontWeight.w800,
@@ -167,7 +154,7 @@ class _ToggleRow extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   description,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.mute,
                     fontSize: 12.5,
                     height: 1.3,

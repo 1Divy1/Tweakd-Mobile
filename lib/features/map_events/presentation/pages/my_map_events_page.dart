@@ -29,7 +29,7 @@ class MyMapEventsPage extends StatelessWidget {
         ),
         title: Text(
           l10n.mapEventsMineTitle,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w800,
             color: AppColors.ink,

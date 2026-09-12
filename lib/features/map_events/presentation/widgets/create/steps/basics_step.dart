@@ -130,7 +130,7 @@ class _CategoryChip extends StatelessWidget {
         : (isActive ? AppColors.ink : AppColors.surface);
     final foreground = isLocked
         ? AppColors.muteSoft
-        : (isActive ? Colors.white : AppColors.ink);
+        : (isActive ? AppColors.inkPanel : AppColors.ink);
 
     return Material(
       color: background,

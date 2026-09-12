@@ -106,7 +106,7 @@ class _Segment extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (live) ...[
-                  const LiveDot(color: AppColors.accent),
+                  LiveDot(color: AppColors.accent),
                   const SizedBox(width: 5),
                 ],
                 Flexible(

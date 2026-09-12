@@ -61,7 +61,7 @@ class OnboardingSelectorTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(14),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withAlpha(6),
+                color: AppColors.shadowAlpha(6),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -75,7 +75,7 @@ class OnboardingSelectorTile extends StatelessWidget {
               ],
               Expanded(
                 child: loading
-                    ? const SizedBox(
+                    ? SizedBox(
                         height: 18,
                         width: 18,
                         child: CircularProgressIndicator(
@@ -94,7 +94,7 @@ class OnboardingSelectorTile extends StatelessWidget {
                         ),
                       ),
               ),
-              const Icon(Icons.expand_more_rounded,
+              Icon(Icons.expand_more_rounded,
                   color: AppColors.mute, size: 22),
             ],
           ),
@@ -190,7 +190,7 @@ class _OnboardingPickerSheetState<T> extends State<_OnboardingPickerSheet<T>> {
             ),
           ],
           const SizedBox(height: 12),
-          const Divider(height: 1, color: AppColors.line),
+          Divider(height: 1, color: AppColors.line),
           Expanded(
             child: filtered.isEmpty
                 ? const _NoMatches()
@@ -198,7 +198,7 @@ class _OnboardingPickerSheetState<T> extends State<_OnboardingPickerSheet<T>> {
                     controller: scrollCtrl,
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     itemCount: filtered.length,
-                    separatorBuilder: (_, _) => const Divider(
+                    separatorBuilder: (_, _) => Divider(
                       height: 1,
                       color: AppColors.line2,
                       indent: 24,
@@ -210,7 +210,7 @@ class _OnboardingPickerSheetState<T> extends State<_OnboardingPickerSheet<T>> {
                       leading: widget.leadingOf?.call(filtered[i]),
                       title: Text(
                         widget.labelOf(filtered[i]),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.ink,
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
@@ -316,7 +316,7 @@ class _OnboardingMultiPickerSheetState<T>
             ),
           ],
           const SizedBox(height: 12),
-          const Divider(height: 1, color: AppColors.line),
+          Divider(height: 1, color: AppColors.line),
           Expanded(
             child: filtered.isEmpty
                 ? const _NoMatches()
@@ -324,7 +324,7 @@ class _OnboardingMultiPickerSheetState<T>
                     controller: scrollCtrl,
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     itemCount: filtered.length,
-                    separatorBuilder: (_, _) => const Divider(
+                    separatorBuilder: (_, _) => Divider(
                       height: 1,
                       color: AppColors.line2,
                       indent: 24,
@@ -420,7 +420,7 @@ class _SheetTitle extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.ink,
             fontSize: 20,
             fontWeight: FontWeight.w800,
@@ -440,7 +440,7 @@ class _NoMatches extends StatelessWidget {
     return Center(
       child: Text(
         AppLocalizations.of(context)!.onboardingNoMatches,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.muteSoft,
           fontSize: 15,
           fontWeight: FontWeight.w600,
@@ -469,13 +469,13 @@ class _PickerSearchField extends StatelessWidget {
       child: Row(
         children: [
           const SizedBox(width: 14),
-          const Icon(Icons.search_rounded, color: AppColors.mute, size: 20),
+          Icon(Icons.search_rounded, color: AppColors.mute, size: 20),
           Expanded(
             child: TextField(
               controller: controller,
               onChanged: onChanged,
               cursorColor: AppColors.accent,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
@@ -484,7 +484,7 @@ class _PickerSearchField extends StatelessWidget {
                 isDense: true,
                 filled: false,
                 hintText: AppLocalizations.of(context)!.onboardingSearchHint,
-                hintStyle: const TextStyle(
+                hintStyle: TextStyle(
                   color: AppColors.muteSoft,
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
@@ -526,7 +526,7 @@ class OnboardingChoicePill extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withAlpha(selected ? 28 : 6),
+              color: AppColors.shadowAlpha(selected ? 28 : 6),
               blurRadius: selected ? 12 : 8,
               offset: const Offset(0, 4),
             ),
@@ -535,7 +535,7 @@ class OnboardingChoicePill extends StatelessWidget {
         child: Text(
           label,
           style: TextStyle(
-            color: selected ? Colors.white : AppColors.ink2,
+            color: selected ? AppColors.inkPanel : AppColors.ink2,
             fontWeight: FontWeight.w800,
             fontSize: 13,
             letterSpacing: 0.4,

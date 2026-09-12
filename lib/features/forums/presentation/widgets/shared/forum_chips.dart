@@ -25,7 +25,7 @@ class ForumTagChip extends StatelessWidget {
             Container(
               width: 5,
               height: 5,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: AppColors.accent,
                 shape: BoxShape.circle,
               ),
@@ -34,7 +34,7 @@ class ForumTagChip extends StatelessWidget {
           ],
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink2,
               fontSize: 11,
               fontWeight: FontWeight.w700,
@@ -80,7 +80,7 @@ class ForumChoiceChip extends StatelessWidget {
               Container(
                 width: 5,
                 height: 5,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: AppColors.accent,
                   shape: BoxShape.circle,
                 ),
@@ -90,7 +90,7 @@ class ForumChoiceChip extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                color: selected ? Colors.white : AppColors.ink2,
+                color: selected ? AppColors.inkPanel : AppColors.ink2,
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
               ),

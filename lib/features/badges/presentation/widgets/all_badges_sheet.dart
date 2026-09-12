@@ -55,7 +55,7 @@ class _AllBadgesSheet extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               l10n.profileBadgesSheetTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 17,
                 fontWeight: FontWeight.w800,
@@ -64,7 +64,7 @@ class _AllBadgesSheet extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               l10n.profileBadgesSheetUnlocked(earned.length),
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -95,7 +95,7 @@ class _BadgeList extends StatelessWidget {
         padding: EdgeInsets.zero,
         itemCount: earned.length,
         separatorBuilder: (_, _) =>
-            const Divider(height: 1, color: AppColors.line),
+            Divider(height: 1, color: AppColors.line),
         itemBuilder: (context, i) => _BadgeRow(badge: earned[i].badge),
       ),
     );
@@ -134,7 +134,7 @@ class _BadgeRow extends StatelessWidget {
                 children: [
                   Text(
                     badge.title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.ink,
                       fontSize: 15,
                       fontWeight: FontWeight.w800,
@@ -146,7 +146,7 @@ class _BadgeRow extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       badge.description!,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.mute,
                         fontSize: 12.5,
                         height: 1.35,
@@ -175,7 +175,7 @@ class _EmptyBody extends StatelessWidget {
       child: Text(
         AppLocalizations.of(context)!.profileBadgesEmptyVisitor,
         textAlign: TextAlign.center,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.mute,
           fontSize: 14,
           height: 1.4,

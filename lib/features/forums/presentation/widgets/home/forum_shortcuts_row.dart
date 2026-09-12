@@ -142,7 +142,7 @@ class _ShortcutCard extends StatelessWidget {
                   shortcut.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontSize: 14,
                     fontWeight: FontWeight.w800,
@@ -163,7 +163,7 @@ class _ShortcutCard extends StatelessWidget {
                     shape: BoxShape.circle,
                     border: Border.all(color: AppColors.line),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.close,
                     size: 13,
                     color: AppColors.ink,

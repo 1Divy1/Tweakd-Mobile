@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Profile v2 — Tweakd</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  html, body { margin: 0; padding: 0; background: #EDEFF3; font-family: Manrope, system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+  a { color: #0A0A0A; } a:hover { color: #FF4D00; }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/qrcode-generator@1.4.4/qrcode.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script src="palette.js"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="ios-frame.jsx"></script>
+<script type="text/babel" src="sharing.jsx"></script>
+<script type="text/babel" src="profile-v2.jsx"></script>
+<script type="text/babel">
+  const { DesignCanvas, DCSection, DCArtboard, IOSDevice, ProfileScreenV2 } = window;
+  function Frame({ own }) {
+    const h = 900;
+    return (
+      <IOSDevice width={390} height={h}>
+        <ProfileScreenV2 own={own} screenHeight={h}/>
+      </IOSDevice>
+    );
+  }
+  function App() {
+    return (
+      <DesignCanvas title="Profile v2 — Tweakd" subtitle="IG-informed compact header · garage-first · badge highlights">
+        <DCSection id="v2" title="Visitor view · Own profile">
+          <DCArtboard id="visitor" label="Visitor view" width={430} height={980}>
+            <Frame own={false}/>
+          </DCArtboard>
+          <DCArtboard id="own" label="Own profile" width={430} height={980}>
+            <Frame own={true}/>
+          </DCArtboard>
+        </DCSection>
+      </DesignCanvas>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

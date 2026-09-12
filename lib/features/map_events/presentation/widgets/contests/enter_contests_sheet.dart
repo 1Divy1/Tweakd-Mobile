@@ -128,7 +128,7 @@ class _EnterSheetState extends State<_EnterSheet> {
                   Expanded(
                     child: Text(
                       l10n.contestsEnterTitle,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w800,
                         color: AppColors.ink,
@@ -157,7 +157,7 @@ class _EnterSheetState extends State<_EnterSheet> {
                   const SizedBox(height: 12),
                   Text(
                     l10n.contestsEnterHint,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12.5,
                       height: 1.5,
                       color: AppColors.mute,
@@ -275,7 +275,7 @@ class _CarRow extends StatelessWidget {
                           .join(' '),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w800,
                         color: AppColors.ink,
@@ -286,13 +286,13 @@ class _CarRow extends StatelessWidget {
                       subtitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 11.5, color: AppColors.mute),
+                      style: TextStyle(fontSize: 11.5, color: AppColors.mute),
                     ),
                   ],
                 ),
               ),
               if (onTap != null)
-                const Icon(
+                Icon(
                   Icons.unfold_more_rounded,
                   size: 18,
                   color: AppColors.muteSoft,
@@ -379,7 +379,7 @@ class _ContestRow extends StatelessWidget {
                           contest.title,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w800,
                             color: AppColors.ink,
@@ -390,7 +390,7 @@ class _ContestRow extends StatelessWidget {
                           subtitle,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 11, color: AppColors.mute),
+                          style: TextStyle(fontSize: 11, color: AppColors.mute),
                         ),
                       ],
                     ),
@@ -420,7 +420,7 @@ class _ContestRow extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   l10n.contestsWhy,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 9,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 0.9,
@@ -430,7 +430,7 @@ class _ContestRow extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   reason,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12.5,
                     height: 1.4,
                     color: AppColors.ink2,

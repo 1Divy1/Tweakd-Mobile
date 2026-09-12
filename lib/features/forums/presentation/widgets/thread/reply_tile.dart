@@ -79,7 +79,7 @@ class ReplyTile extends StatelessWidget {
                   ],
                   Text(
                     '  ·  ${postTimeAgo(l10n, reply.createdAt)}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.mute,
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
@@ -89,7 +89,7 @@ class ReplyTile extends StatelessWidget {
                   if (!reply.deleted && authorName != null)
                     GestureDetector(
                       onTap: () => onMenu(node),
-                      child: const Icon(
+                      child: Icon(
                         Icons.more_horiz,
                         size: 18,
                         color: AppColors.mute,
@@ -164,7 +164,7 @@ class ReplyTile extends StatelessWidget {
                               onTap: () => onReply(node),
                               child: Text(
                                 l10n.forumsReply,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: AppColors.mute,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w800,
@@ -207,7 +207,7 @@ class ReplyTile extends StatelessWidget {
                 onTap: () => onLoadMoreChildren(node),
                 child: Text(
                   l10n.forumsShowMoreReplies,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.accent,
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
@@ -237,7 +237,7 @@ class _AuthorBadge extends StatelessWidget {
       ),
       child: Text(
         l10n.forumsAuthorBadge,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.ink,
           fontSize: 9,
           fontWeight: FontWeight.w900,
@@ -262,7 +262,7 @@ class _ExpandButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (node.childrenLoading) {
-      return const SizedBox(
+      return SizedBox(
         width: 14,
         height: 14,
         child: CircularProgressIndicator(
@@ -287,7 +287,7 @@ class _ExpandButton extends StatelessWidget {
           ),
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.accent,
               fontSize: 12,
               fontWeight: FontWeight.w800,

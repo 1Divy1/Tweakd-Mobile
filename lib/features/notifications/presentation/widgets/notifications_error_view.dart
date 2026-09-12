@@ -23,12 +23,12 @@ class NotificationsErrorView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.wifi_off_rounded, color: AppColors.mute, size: 40),
+            Icon(Icons.wifi_off_rounded, color: AppColors.mute, size: 40),
             const SizedBox(height: 16),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,

@@ -18,7 +18,7 @@ Future<bool> showDeleteFeedbackDialog(BuildContext context) async {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
       title: Text(
         l10n.feedbackFeedDeleteTitle,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w800,
           color: AppColors.ink,
@@ -26,7 +26,7 @@ Future<bool> showDeleteFeedbackDialog(BuildContext context) async {
       ),
       content: Text(
         l10n.feedbackFeedDeleteBody,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 14,
           height: 1.4,
           color: AppColors.ink2,

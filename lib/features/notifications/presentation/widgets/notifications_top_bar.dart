@@ -29,7 +29,7 @@ class NotificationsTopBar extends StatelessWidget {
             child: Text(
               l10n.notificationsTitle,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 15,
                 fontWeight: FontWeight.w800,

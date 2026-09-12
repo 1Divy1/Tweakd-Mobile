@@ -44,11 +44,11 @@ class BusinessPopup extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(40),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color(0x1F000000),
+            color: AppColors.shadowAlpha(0x1F),
             blurRadius: 28,
-            offset: Offset(0, 8),
+            offset: const Offset(0, 8),
           ),
         ],
       ),
@@ -76,7 +76,7 @@ class BusinessPopup extends StatelessWidget {
                 ),
               ),
               if (destination != null && !detailFailed) ...[
-                const Divider(color: AppColors.line2, height: 1),
+                Divider(color: AppColors.line2, height: 1),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(18, 14, 18, 18),
                   child: NavigateButton(
@@ -112,7 +112,7 @@ class _CloseButton extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(18),
-        child: const Padding(
+        child: Padding(
           padding: EdgeInsets.all(8),
           child: Icon(Icons.close_rounded, size: 20, color: AppColors.mute),
         ),
@@ -153,7 +153,7 @@ class _PopupLoading extends StatelessWidget {
                       business.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w800,
                         color: AppColors.ink,
@@ -162,7 +162,7 @@ class _PopupLoading extends StatelessWidget {
                     const SizedBox(height: 3),
                     Text(
                       business.typeLabel,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13,
                         color: AppColors.mute,
                       ),
@@ -184,7 +184,7 @@ class _PopupLoading extends StatelessWidget {
         const SizedBox(height: 10),
         const _SkeletonBar(width: 170, height: 12),
         const SizedBox(height: 20),
-        const Center(
+        Center(
           child: SizedBox(
             width: 20,
             height: 20,
@@ -236,7 +236,7 @@ class _PopupError extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
+          Icon(
             Icons.error_outline_rounded,
             size: 28,
             color: AppColors.muteSoft,
@@ -245,7 +245,7 @@ class _PopupError extends StatelessWidget {
           Text(
             mapErrorMessage(l10n, code),
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 14, color: AppColors.ink2),
+            style: TextStyle(fontSize: 14, color: AppColors.ink2),
           ),
           if (canRetry) ...[
             const SizedBox(height: 14),

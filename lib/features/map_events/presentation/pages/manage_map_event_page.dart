@@ -45,7 +45,7 @@ class ManageMapEventPage extends StatelessWidget {
         ),
         title: Text(
           l10n.mapEventsManageTitle,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w800,
             color: AppColors.ink,
@@ -88,7 +88,7 @@ class ManageMapEventPage extends StatelessWidget {
                     Text(
                       mapEventErrorMessage(l10n, error),
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14.5,
                         color: AppColors.ink2,
                       ),
@@ -175,7 +175,7 @@ class _EventSummary extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             event.title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w800,
               color: AppColors.ink,
@@ -184,7 +184,7 @@ class _EventSummary extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             event.locationName,
-            style: const TextStyle(fontSize: 13, color: AppColors.mute),
+            style: TextStyle(fontSize: 13, color: AppColors.mute),
           ),
         ],
       ),

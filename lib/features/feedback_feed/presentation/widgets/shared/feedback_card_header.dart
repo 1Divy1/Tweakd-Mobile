@@ -44,7 +44,7 @@ class FeedbackCardHeader extends StatelessWidget {
                       message.author.username,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.ink,
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
@@ -55,7 +55,7 @@ class FeedbackCardHeader extends StatelessWidget {
                     const SizedBox(width: 5),
                     Text(
                       '· ${l10n.feedbackFeedYou}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.mute,
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
@@ -67,7 +67,7 @@ class FeedbackCardHeader extends StatelessWidget {
               const SizedBox(height: 2),
               Text(
                 timeLabel,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.mute,
                   fontSize: 12,
                   fontWeight: FontWeight.w600,

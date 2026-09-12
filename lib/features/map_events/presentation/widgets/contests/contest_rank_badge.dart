@@ -70,11 +70,11 @@ class ContestRankBadge extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppColors.surface,
                     borderRadius: BorderRadius.circular(999),
-                    boxShadow: const [
+                    boxShadow: [
                       BoxShadow(
-                        color: Color(0x290A0A0A),
+                        color: AppColors.shadowAlpha(0x29),
                         blurRadius: 8,
-                        offset: Offset(0, 2),
+                        offset: const Offset(0, 2),
                       ),
                     ],
                   ),
@@ -101,7 +101,7 @@ class ContestRankBadge extends StatelessWidget {
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 8.5,
                 fontWeight: FontWeight.w800,
                 letterSpacing: 0.8,

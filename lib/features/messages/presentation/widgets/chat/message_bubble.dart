@@ -109,7 +109,7 @@ class MessageBubble extends StatelessWidget {
     if (deleted) {
       return Text(
         l10n.messagesDeletedMessage,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.mute,
           fontSize: 14.5,
           fontWeight: FontWeight.w500,
@@ -120,7 +120,7 @@ class MessageBubble extends StatelessWidget {
     }
 
     final textStyle = TextStyle(
-      color: mine ? Colors.white : AppColors.ink,
+      color: mine ? AppColors.inkPanel : AppColors.ink,
       fontSize: 15.5,
       fontWeight: FontWeight.w500,
       height: 1.35,
@@ -131,7 +131,7 @@ class MessageBubble extends StatelessWidget {
       return Text(
         l10n.messagesSharedCars,
         style: TextStyle(
-          color: mine ? Colors.white70 : AppColors.mute,
+          color: mine ? AppColors.inkPanel.withValues(alpha: 0.7) : AppColors.mute,
           fontSize: 14.5,
           fontWeight: FontWeight.w500,
           fontStyle: FontStyle.italic,

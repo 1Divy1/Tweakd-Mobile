@@ -43,20 +43,24 @@ class MapMarkerFactory {
 
   /// Colour of the ring. White reads as neutral; the accent is how a live event
   /// stands out from an upcoming one at a glance.
-  final Color ringColor;
+  final Color? ringColor;
+  Color get _ring => ringColor ?? AppColors.surface;
 
   /// Drawn (over [placeholderBackground]) until the real image arrives, and
   /// permanently for anything that has no image at all.
   final IconData placeholderIcon;
-  final Color placeholderBackground;
-  final Color placeholderForeground;
+  final Color? placeholderBackground;
+  Color get _placeholderBackground =>
+      placeholderBackground ?? AppColors.accentSoft;
+  final Color? placeholderForeground;
+  Color get _placeholderForeground => placeholderForeground ?? AppColors.accent;
 
   MapMarkerFactory({
     http.Client? client,
-    this.ringColor = AppColors.surface,
+    this.ringColor,
     this.placeholderIcon = Icons.storefront_rounded,
-    this.placeholderBackground = AppColors.accentSoft,
-    this.placeholderForeground = AppColors.accent,
+    this.placeholderBackground,
+    this.placeholderForeground,
   }) : _client = client ?? http.Client();
 
   /// A marker showing [imageUrl] inside the ring.
@@ -70,7 +74,7 @@ class MapMarkerFactory {
     final image = await _decodeImage(imageUrl);
     if (image == null) return null;
     try {
-      return _paint(image, ring ?? ringColor, placeholderIcon);
+      return _paint(image, ring ?? _ring, placeholderIcon);
     } finally {
       image.dispose();
     }
@@ -82,7 +86,7 @@ class MapMarkerFactory {
   /// [icon] overrides [placeholderIcon] — the same factory serves the business
   /// layer (a storefront) and the events layer (a car).
   Future<MbxImage> buildPlaceholderMarker({Color? ring, IconData? icon}) =>
-      _paint(null, ring ?? ringColor, icon ?? placeholderIcon);
+      _paint(null, ring ?? _ring, icon ?? placeholderIcon);
 
   Future<ui.Image?> _decodeImage(String imageUrl) async {
     if (imageUrl.isEmpty) return null;
@@ -90,7 +94,9 @@ class MapMarkerFactory {
     if (uri == null || !uri.hasScheme) return null;
 
     try {
-      final response = await _client.get(uri).timeout(const Duration(seconds: 10));
+      final response = await _client
+          .get(uri)
+          .timeout(const Duration(seconds: 10));
       if (response.statusCode != 200 || response.bodyBytes.isEmpty) return null;
 
       // Decode straight to marker size — full-resolution images would be
@@ -189,7 +195,7 @@ class MapMarkerFactory {
     double radius,
     IconData icon,
   ) {
-    canvas.drawCircle(centre, radius, Paint()..color = placeholderBackground);
+    canvas.drawCircle(centre, radius, Paint()..color = _placeholderBackground);
 
     final glyph = TextPainter(
       text: TextSpan(
@@ -198,7 +204,7 @@ class MapMarkerFactory {
           fontSize: radius * 1.1,
           fontFamily: icon.fontFamily,
           package: icon.fontPackage,
-          color: placeholderForeground,
+          color: _placeholderForeground,
         ),
       ),
       textDirection: TextDirection.ltr,

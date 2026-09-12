@@ -23,7 +23,7 @@ class FeedTopBar extends StatelessWidget {
         children: [
           // Brand wordmark — "Tweakd" with an accent full stop.
           RichText(
-            text: const TextSpan(
+            text: TextSpan(
               style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 24,

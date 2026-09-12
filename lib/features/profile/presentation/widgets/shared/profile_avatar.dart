@@ -46,7 +46,7 @@ class _AvatarImage extends StatelessWidget {
     // orange on the avatar is the verified tick.
     return Container(
       padding: const EdgeInsets.all(3),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         shape: BoxShape.circle,
       ),
@@ -71,7 +71,7 @@ class _AvatarPlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.line2,
-      child: const Icon(Icons.person, size: 40, color: AppColors.muteSoft),
+      child: Icon(Icons.person, size: 40, color: AppColors.muteSoft),
     );
   }
 }

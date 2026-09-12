@@ -52,7 +52,7 @@ class OnboardingStepProgress extends StatelessWidget {
                 duration: const Duration(milliseconds: 450),
                 curve: Curves.easeOutCubic,
                 width: constraints.maxWidth * fraction,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: AppColors.accent,
                   borderRadius: BorderRadius.all(Radius.circular(99)),
                 ),
@@ -115,12 +115,12 @@ class OnboardingBottomBar extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.arrow_back_rounded,
+                      Icon(Icons.arrow_back_rounded,
                           size: 18, color: AppColors.ink),
                       const SizedBox(width: 8),
                       Text(
                         l10n.onboardingBack,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.ink,
                           fontWeight: FontWeight.w800,
                           fontSize: 14,

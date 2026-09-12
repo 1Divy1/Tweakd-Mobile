@@ -64,7 +64,7 @@ class _FeedbackComposeFormState extends State<FeedbackComposeForm> {
               const SizedBox(height: 10),
               Text(
                 l10n.feedbackFeedComposeTitle,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 28,
                   fontWeight: FontWeight.w900,
@@ -74,7 +74,7 @@ class _FeedbackComposeFormState extends State<FeedbackComposeForm> {
               const SizedBox(height: 8),
               Text(
                 l10n.feedbackFeedComposeSubtitle,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.mute,
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -113,7 +113,7 @@ class _FeedbackComposeFormState extends State<FeedbackComposeForm> {
                 const SizedBox(height: 14),
                 Text(
                   feedbackFeedErrorMessage(l10n, state.submitError!),
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.accentHot,
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
@@ -150,7 +150,7 @@ class _Eyebrow extends StatelessWidget {
         const SizedBox(width: 6),
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.accent,
             fontSize: 11,
             fontWeight: FontWeight.w800,
@@ -171,7 +171,7 @@ class _SectionLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       label,
-      style: const TextStyle(
+      style: TextStyle(
         color: AppColors.ink2,
         fontSize: 12,
         fontWeight: FontWeight.w800,
@@ -268,7 +268,7 @@ class _MessageField extends StatelessWidget {
             // typed and then rejected server-side.
             maxLength: kFeedbackMessageMaxLength,
             textCapitalization: TextCapitalization.sentences,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 15,
               fontWeight: FontWeight.w600,
@@ -276,7 +276,7 @@ class _MessageField extends StatelessWidget {
             ),
             decoration: InputDecoration(
               hintText: hint,
-              hintStyle: const TextStyle(
+              hintStyle: TextStyle(
                 color: AppColors.muteSoft,
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
@@ -295,7 +295,7 @@ class _MessageField extends StatelessWidget {
             valueListenable: controller,
             builder: (context, value, _) => Text(
               '${value.text.length} / $kFeedbackMessageMaxLength',
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.muteSoft,
                 fontSize: 12,
                 fontWeight: FontWeight.w700,

@@ -72,7 +72,7 @@ class CarImage extends StatelessWidget {
 
   Widget _placeholder() => Container(
     color: AppColors.line2,
-    child: const Center(
+    child: Center(
       child: Icon(
         Icons.directions_car_outlined,
         color: AppColors.muteSoft,

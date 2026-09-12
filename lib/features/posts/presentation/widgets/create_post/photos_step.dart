@@ -36,14 +36,11 @@ class PhotosStep extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PostSectionHeader(
-          label: '01 — ${l10n.postStepPhotos}',
+        PostStepHeader(
           title: l10n.postPhotosTitle,
           subtitle: l10n.postPhotosSubtitle,
         ),
-        const SizedBox(height: 20),
-        const PostFieldLabel('SELECTED'),
-        const SizedBox(height: 12),
+        const SizedBox(height: 24),
         LayoutBuilder(
           builder: (context, constraints) {
             const spacing = 12.0;
@@ -74,13 +71,17 @@ class PhotosStep extends StatelessWidget {
             );
           },
         ),
-        const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        const SizedBox(height: 14),
+        // A Wrap, so the two notes stack rather than collide on a narrow
+        // screen or at a large text scale.
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          spacing: 12,
+          runSpacing: 4,
           children: [
             Text(
               l10n.postPhotosCount(photos.length, postMaxPhotos),
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 12,
                 fontWeight: FontWeight.w800,
@@ -89,7 +90,7 @@ class PhotosStep extends StatelessWidget {
             ),
             Text(
               l10n.postPhotosVideosSoon,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.muteSoft,
                 fontSize: 12,
                 fontWeight: FontWeight.w800,
@@ -183,28 +184,13 @@ class _PhotoTile extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(kPostRadius),
           child: switch (photo) {
             LocalPostPhoto(:final path) =>
               Image.file(File(path), fit: BoxFit.cover),
             RemotePostPhoto(:final url) =>
               CachedNetworkImage(imageUrl: url, fit: BoxFit.cover),
           },
-        ),
-        // Drag handle affordance (top-left).
-        Positioned(
-          top: 6,
-          left: 6,
-          child: Container(
-            width: 26,
-            height: 26,
-            decoration: BoxDecoration(
-              color: Colors.black.withAlpha(120),
-              borderRadius: BorderRadius.circular(9),
-            ),
-            child: const Icon(Icons.drag_indicator_rounded,
-                size: 16, color: Colors.white),
-          ),
         ),
         // Remove (top-right).
         Positioned(
@@ -219,8 +205,11 @@ class _PhotoTile extends StatelessWidget {
                 color: Colors.black.withAlpha(140),
                 borderRadius: BorderRadius.circular(9),
               ),
-              child: const Icon(Icons.close_rounded,
-                  size: 16, color: Colors.white),
+              child: const Icon(
+                Icons.close_rounded,
+                size: 16,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
@@ -233,7 +222,7 @@ class _PhotoTile extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
-                    color: AppColors.accent,
+                    color: Colors.black.withAlpha(140),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -276,80 +265,38 @@ class _AddTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return PostAddSurface(
       onTap: onTap,
-      child: _DashedBox(
+      child: Padding(
+        padding: const EdgeInsets.all(8),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: AppColors.accentSoft,
-                  borderRadius: BorderRadius.circular(13),
+          // The tile is a third of the screen wide; at a large text scale the
+          // label shrinks to fit rather than spilling out of it.
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.add_photo_alternate_rounded,
+                  color: AppColors.muteSoft,
+                  size: 26,
                 ),
-                child: const Icon(Icons.photo_camera_rounded,
-                    color: AppColors.accent, size: 22),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                AppLocalizations.of(context)!.postPhotosAdd,
-                style: const TextStyle(
-                  color: AppColors.mute,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 1,
+                const SizedBox(height: 6),
+                Text(
+                  AppLocalizations.of(context)!.postPhotosAdd,
+                  style: TextStyle(
+                    color: AppColors.mute,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-}
-
-/// Paints a dashed rounded border around the add tile.
-class _DashedBox extends StatelessWidget {
-  final Widget child;
-  const _DashedBox({required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _DashedRRectPainter(),
-      child: child,
-    );
-  }
-}
-
-class _DashedRRectPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = AppColors.muteSoft
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5;
-
-    final rrect = RRect.fromRectAndRadius(
-      Offset.zero & size,
-      const Radius.circular(16),
-    );
-    final path = Path()..addRRect(rrect);
-
-    const dash = 7.0;
-    const gap = 5.0;
-    for (final metric in path.computeMetrics()) {
-      var distance = 0.0;
-      while (distance < metric.length) {
-        canvas.drawPath(metric.extractPath(distance, distance + dash), paint);
-        distance += dash + gap;
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

@@ -185,7 +185,7 @@ class _PushPermissionBanner extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withAlpha(6),
+                color: AppColors.shadowAlpha(6),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -200,14 +200,14 @@ class _PushPermissionBanner extends StatelessWidget {
                   color: AppColors.ink,
                   borderRadius: BorderRadius.circular(11),
                 ),
-                child: const Icon(Icons.notifications_active_rounded,
+                child: Icon(Icons.notifications_active_rounded,
                     size: 20, color: AppColors.accent),
               ),
               const SizedBox(width: 14),
               Expanded(
                 child: Text(
                   l10n.onboardingPushGrantedText,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink2,
                     fontSize: 13.5,
                     height: 1.3,
@@ -216,7 +216,7 @@ class _PushPermissionBanner extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10),
-              const Icon(Icons.check_circle_rounded,
+              Icon(Icons.check_circle_rounded,
                   size: 22, color: AppColors.accent),
             ],
           ),
@@ -267,8 +267,13 @@ class _ActionBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final accentText = filled ? Colors.white : AppColors.ink;
-    final subtitleColor = filled ? Colors.white.withAlpha(220) : AppColors.mute;
+    // The card fill flips with the theme (AppColors.ink: black in light,
+    // white in dark), so its text must un-invert alongside it rather than
+    // staying a fixed white — otherwise dark mode renders white text on a
+    // white card. AppColors.inkPanel is the token built for exactly this.
+    final accentText = filled ? AppColors.inkPanel : AppColors.ink;
+    final subtitleColor =
+        filled ? AppColors.inkPanel.withAlpha(220) : AppColors.mute;
 
     return Container(
       width: double.infinity,
@@ -286,12 +291,13 @@ class _ActionBanner extends StatelessWidget {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: filled ? Colors.white.withAlpha(38) : AppColors.bg,
+                  color:
+                      filled ? AppColors.inkPanel.withAlpha(38) : AppColors.bg,
                   borderRadius: BorderRadius.circular(11),
                 ),
                 child: Icon(icon,
                     size: 20,
-                    color: filled ? Colors.white : AppColors.accent),
+                    color: filled ? AppColors.inkPanel : AppColors.accent),
               ),
               const SizedBox(width: 14),
               Expanded(
@@ -323,14 +329,14 @@ class _ActionBanner extends StatelessWidget {
               width: double.infinity,
               height: 46,
               decoration: BoxDecoration(
-                color: filled ? Colors.white : AppColors.accent,
+                color: filled ? AppColors.inkPanel : AppColors.accent,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Center(
                 child: Text(
                   actionLabel,
                   style: TextStyle(
-                    color: Colors.black,
+                    color: filled ? AppColors.ink : Colors.black,
                     fontWeight: FontWeight.w800,
                     fontSize: 13,
                     letterSpacing: 1,
@@ -390,7 +396,7 @@ class _ToggleRow extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withAlpha(6),
+                color: AppColors.shadowAlpha(6),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -415,7 +421,7 @@ class _ToggleRow extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.ink,
                         fontSize: 15,
                         fontWeight: FontWeight.w800,
@@ -424,7 +430,7 @@ class _ToggleRow extends StatelessWidget {
                     const SizedBox(height: 3),
                     Text(
                       subtitle,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.mute,
                         fontSize: 13,
                         height: 1.3,

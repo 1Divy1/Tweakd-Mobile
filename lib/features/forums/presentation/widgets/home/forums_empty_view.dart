@@ -79,13 +79,13 @@ class _ExplainerCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
               border: Border.all(color: AppColors.line),
             ),
-            child: const Icon(Icons.push_pin, color: AppColors.accent, size: 22),
+            child: Icon(Icons.push_pin, color: AppColors.accent, size: 22),
           ),
           const SizedBox(height: 16),
           Text(
             l10n.forumsEmptyTitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 20,
               fontWeight: FontWeight.w800,
@@ -96,7 +96,7 @@ class _ExplainerCard extends StatelessWidget {
           Text(
             l10n.forumsEmptyBody,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 14,
               fontWeight: FontWeight.w500,
@@ -138,14 +138,14 @@ class _HubChip extends StatelessWidget {
             const SizedBox(width: 6),
             Text(
               suggestion.displayName,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 13,
                 fontWeight: FontWeight.w800,
               ),
             ),
             const SizedBox(width: 6),
-            const Icon(Icons.chevron_right_rounded,
+            Icon(Icons.chevron_right_rounded,
                 size: 16, color: AppColors.mute),
           ],
         ),
@@ -175,7 +175,7 @@ class _StartThreadCard extends StatelessWidget {
         children: [
           Text(
             l10n.forumsCtaTitle,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 16,
               fontWeight: FontWeight.w800,
@@ -184,7 +184,7 @@ class _StartThreadCard extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             l10n.forumsCtaBody,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 13,
               fontWeight: FontWeight.w500,

@@ -63,7 +63,7 @@ class MyReportTile extends StatelessWidget {
               children: [
                 Text(
                   typeLabel,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontSize: 15,
                     fontWeight: FontWeight.w800,
@@ -88,7 +88,7 @@ class MyReportTile extends StatelessWidget {
                 const SizedBox(height: 6),
                 Text(
                   date,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.muteSoft,
                     fontSize: 11,
                     fontWeight: FontWeight.w700,

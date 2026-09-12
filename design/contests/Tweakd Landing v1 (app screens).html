@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Tweakd — the home for your build</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#F6F4F1;--soft:#FAF8F5;--surface:#fff;--ink:#0A0A0A;--ink2:#3F3F46;--mute:#8A8680;--line:#ECE8E2;--accent:#FF4D00;--display:"Space Grotesk",system-ui,sans-serif;--body:Manrope,system-ui,sans-serif;--mono:"Space Mono",ui-monospace,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration:none}
+a:hover{color:var(--accent)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 40px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-.025em;margin:0;text-wrap:pretty}
+h1{font-size:clamp(40px,5vw,68px);line-height:1.02}
+h2{font-size:clamp(30px,3.4vw,44px);line-height:1.06}
+h3{font-size:19px;letter-spacing:-.01em}
+p{margin:0;color:var(--ink2);line-height:1.6;text-wrap:pretty}
+.lead{font-size:18px;max-width:46ch}
+/* nav */
+.nav{position:sticky;top:0;z-index:50;background:rgba(246,244,241,.82);backdrop-filter:blur(14px)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
+.mark{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:-.03em}
+.mark i{font-style:normal;color:var(--accent)}
+.navlinks{display:flex;gap:32px;align-items:center;font-size:14px;font-weight:600;color:var(--ink2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;padding:0 22px;border-radius:999px;background:var(--accent);color:#fff;font-family:var(--body);font-weight:700;font-size:14px;letter-spacing:.01em;transition:background .15s,transform .15s}
+.btn:hover{background:#E64500;color:#fff;transform:translateY(-1px)}
+.btn.sm{height:38px;padding:0 18px;font-size:13px}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn.ghost:hover{background:#fff;color:var(--ink)}
+/* hero */
+.hero{padding:80px 0 40px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,460px);gap:40px;align-items:center}
+.hero-copy{display:flex;flex-direction:column;gap:26px;align-items:flex-start}
+.hero-cta{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.note{font-size:13px;color:var(--mute)}
+.stage{position:relative;height:600px}
+.stage .slot{position:absolute}
+.slot.back{right:0;top:56px;opacity:.96}
+.slot.front{left:0;top:0}
+/* sections */
+section{padding:96px 0}
+.sec-head{display:flex;flex-direction:column;gap:18px;max-width:52ch}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,1fr);gap:clamp(40px,5vw,72px);align-items:center}
+.split.rev>.col-media{order:2}
+.list{display:flex;flex-direction:column;gap:0;margin-top:38px}
+.item{display:grid;grid-template-columns:36px 1fr;gap:18px;padding:24px 0;border-top:1px solid var(--line)}
+.item:last-child{border-bottom:1px solid var(--line)}
+.item .n{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.1em;padding-top:4px}
+.item p{font-size:15px;margin-top:7px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:56px}
+.card{background:var(--surface);border-radius:26px;padding:38px 38px 0;display:flex;flex-direction:column;gap:16px;overflow:hidden;box-shadow:0 1px 2px rgba(20,15,10,.04),0 12px 40px -24px rgba(20,15,10,.28)}
+.card p{font-size:15px}
+.card .crop{margin:22px -38px 0;height:300px;overflow:hidden;display:flex;justify-content:center}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.media-panel{background:var(--soft);border-radius:32px;padding:56px 0;display:flex;justify-content:center;box-shadow:inset 0 0 0 1px var(--line)}
+/* beta */
+.beta{background:#0A0A0A;color:#fff;border-radius:36px;padding:72px 64px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:48px;align-items:center}
+.beta h2{color:#fff}
+.beta p{color:rgba(255,255,255,.62);margin-top:18px;max-width:44ch}
+.beta img{display:block;width:190px;margin-bottom:26px}
+.beta .side{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.beta .note{color:rgba(255,255,255,.4)}
+footer{padding:56px 0 72px}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+footer .links{display:flex;gap:28px;font-size:14px;color:var(--ink2)}
+/* phone */
+.ph{position:relative;flex:0 0 auto}
+.ph *{scrollbar-width:none}
+.ph *::-webkit-scrollbar{width:0;height:0}
+.ph>.dev{position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none}
+@media(max-width:880px){
+ .hero .wrap,.split{grid-template-columns:1fr;gap:48px}
+ .stage{height:520px}
+ .cards{grid-template-columns:1fr}
+ .split.rev>.col-media{order:0}
+ .beta{grid-template-columns:1fr;padding:56px 40px}
+ .navlinks{display:none}
+}
+@media(max-width:640px){.wrap{padding:0 22px}section{padding:64px 0}.slot.back{display:none}.stage{height:470px}}
+</style>
+</head>
+<body>
+
+<div class="nav"><div class="wrap">
+  <a class="mark" href="#top">Twea<i>k</i>d<i>.</i></a>
+  <div class="navlinks">
+    <a href="#garage">Garage</a>
+    <a href="#community">Community</a>
+    <a href="#meets">Meets</a>
+  </div>
+  <a class="btn sm" href="#beta">Join the beta</a>
+</div></div>
+
+<div class="hero" id="top"><div class="wrap">
+  <div class="hero-copy">
+    <div class="eyebrow">Private beta · 2026</div>
+    <h1>Your build deserves<br/>more than a camera roll.</h1>
+    <p class="lead">Tweakd is where your cars actually live — full specs, a dated mod log, and the people and meets around you. One app instead of nine group chats.</p>
+    <div class="hero-cta">
+      <a class="btn" href="#beta">Join the beta</a>
+      <a class="btn ghost" href="#garage">See what's inside</a>
+    </div>
+    <div class="note">Free during beta · iOS first, Android to follow</div>
+  </div>
+  <div class="stage">
+    <div class="slot back"><div class="ph" data-screen="feed" data-scale="0.52" data-crop="560"></div></div>
+    <div class="slot front"><div class="ph" data-screen="car" data-scale="0.62" data-crop="600"></div></div>
+  </div>
+</div></div>
+
+<section id="garage"><div class="wrap">
+  <div class="split">
+    <div>
+      <div class="sec-head">
+        <div class="eyebrow">Garage &amp; build log</div>
+        <h2>Every car, spec'd properly.</h2>
+        <p class="lead">Register a chassis once. Power, torque, weight, drivetrain, engine code — real numbers instead of a bio line. Everything else hangs off it.</p>
+      </div>
+      <div class="list">
+        <div class="item"><div class="n">01</div><div><h3>The build log</h3><p>Every modification dated, with the parts list, what it cost and the before/after gains.</p></div></div>
+        <div class="item"><div class="n">02</div><div><h3>History that stays</h3><p>Service entries and receipts live with the car — and go with it when you sell.</p></div></div>
+        <div class="item"><div class="n">03</div><div><h3>A profile worth sharing</h3><p>One link that shows the whole build, not a folder of screenshots.</p></div></div>
+      </div>
+    </div>
+    <div class="col-media">
+      <div class="media-panel"><div class="ph" data-screen="mod" data-scale="0.68" data-crop="640"></div></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="community" style="background:var(--soft)"><div class="wrap">
+  <div class="sec-head">
+    <div class="eyebrow">Community</div>
+    <h2>The part that isn't a group chat.</h2>
+    <p class="lead">Two places to talk, both built for cars: a feed for what you're driving, forums for what you're fixing.</p>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <div class="tag">Feed</div>
+      <h3>Only cars, in order.</h3>
+      <p>Posts from the people and shops you follow — no detours, no reruns. Meets, dyno days and builds from your area surface first.</p>
+      <div class="crop"><div class="ph" data-screen="feed" data-scale="0.6" data-crop="300"></div></div>
+    </div>
+    <div class="card">
+      <div class="tag">Forums</div>
+      <h3>Answers that stay findable.</h3>
+      <p>Threads organised by brand, model and topic, so the coilover question you asked in 2026 still helps the next owner in 2029.</p>
+      <div class="crop"><div class="ph" data-screen="forum" data-scale="0.6" data-crop="300"></div></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="meets"><div class="wrap">
+  <div class="split rev">
+    <div class="col-media">
+      <div class="media-panel"><div class="ph" data-screen="map" data-scale="0.68" data-crop="600"></div></div>
+    </div>
+    <div>
+      <div class="sec-head">
+        <div class="eyebrow">Meets &amp; map</div>
+        <h2>Everything happening, on one map.</h2>
+        <p class="lead">Meets, drives, track days and the shops worth driving to — with who's going and how far it is. Organisers post once; everyone else just shows up.</p>
+      </div>
+      <div class="list">
+        <div class="item"><div class="n">01</div><div><h3>Live and upcoming</h3><p>Filter by what's on now, what's this weekend, and what you've already been to.</p></div></div>
+        <div class="item"><div class="n">02</div><div><h3>Real attendance</h3><p>See headcount and who's confirmed before you commit the Sunday.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="beta" style="padding-top:24px"><div class="wrap">
+  <div class="beta">
+    <div>
+      <img src="assets/tweakd-wordmark.jpg" alt="Tweakd"/>
+      <h2>Beta opens in batches.</h2>
+      <p>We're letting people in a group at a time so the forums stay useful and the map stays real. Leave your email and we'll send an invite when your area opens.</p>
+    </div>
+    <div class="side">
+      <a class="btn" href="#" target="_blank" rel="noopener">Join the beta list</a>
+      <div class="note">Takes about 30 seconds · no spam, one email when it's your turn</div>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <a class="mark" href="#top">Twea<i>k</i>d<i>.</i></a>
+  <div class="links"><a href="#garage">Garage</a><a href="#community">Community</a><a href="#meets">Meets</a><a href="#beta">Beta</a></div>
+  <div class="note">© 2026 Tweakd</div>
+</div></footer>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="palette.js"></script>
+<script type="text/babel" src="ios-frame.jsx"></script>
+<script type="text/babel" src="feed.jsx"></script>
+<script type="text/babel" src="garage.jsx"></script>
+<script type="text/babel" src="event-data.jsx"></script>
+<script type="text/babel" src="event-widget.jsx"></script>
+<script type="text/babel" src="add-flow.jsx"></script>
+<script type="text/babel" src="event-create.jsx"></script>
+<script type="text/babel" src="map.jsx"></script>
+<script type="text/babel" src="forums-data.jsx"></script>
+<script type="text/babel" src="forums-ui.jsx"></script>
+<script type="text/babel" src="forums-screens.jsx"></script>
+<script type="text/babel">
+const W = 390, H = 844;
+const SCREENS = {
+  feed:  () => <window.FeedScreen/>,
+  car:   () => <window.CarDetailScreen/>,
+  mod:   () => <window.AddModificationScreen/>,
+  map:   () => <window.MapScreen/>,
+  forum: () => <window.LandingScreen/>,
+};
+function renameMark(root) {
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  let n; while ((n = w.nextNode())) {
+    const v = n.nodeValue;
+    if (/kinetic/i.test(v)) n.nodeValue = v.replace(/KINETIC EDGE/g, 'TWEAKD').replace(/Kinetic Edge/g, 'Tweakd').replace(/Kinetic/g, 'Tweakd').replace(/KINETIC/g, 'TWEAKD');
+  }
+  root.querySelectorAll('img').forEach((i) => {
+    const s = i.getAttribute('src') || '';
+    if (/car-\d\.png$/.test(s)) i.setAttribute('src', s.replace(/car-(\d)\.png$/, 'car-$1-sm.jpg'));
+  });
+}
+document.querySelectorAll('.ph').forEach((host) => {
+  const key = host.dataset.screen, scale = parseFloat(host.dataset.scale) || .6;
+  const crop = parseFloat(host.dataset.crop) || H * scale;
+  host.style.overflow = 'hidden';
+  const dev = document.createElement('div');
+  dev.className = 'dev';
+  dev.style.width = W + 'px';
+  dev.style.transform = `scale(${scale})`;
+  host.appendChild(dev);
+  ReactDOM.createRoot(dev).render(<window.IOSDevice width={W} height={H}>{SCREENS[key]()}</window.IOSDevice>);
+  const fit = () => {
+    const box = dev.firstElementChild;
+    if (!box) return requestAnimationFrame(fit);
+    const w = box.offsetWidth || W, h = box.offsetHeight || H;
+    dev.style.width = w + 'px';
+    host.style.width = Math.round(w * scale) + 'px';
+    host.style.height = Math.round(Math.min(crop, h * scale)) + 'px';
+    if (h * scale > crop + 8) host.style.maskImage = host.style.webkitMaskImage = 'linear-gradient(#000 calc(100% - 64px), transparent)';
+  };
+  requestAnimationFrame(fit);
+});
+setTimeout(() => renameMark(document.body), 400);
+setTimeout(() => renameMark(document.body), 1600);
+</script>
+</body>
+</html>

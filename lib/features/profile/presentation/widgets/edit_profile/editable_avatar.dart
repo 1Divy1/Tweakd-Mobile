@@ -82,14 +82,7 @@ class EditableAvatar extends StatelessWidget {
       child = const _AvatarPlaceholder();
     }
 
-    return Container(
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: AppColors.accent, width: 3),
-      ),
-      child: ClipOval(child: child),
-    );
+    return ClipOval(child: child);
   }
 
   Widget _uploadingOverlay() {
@@ -143,7 +136,7 @@ class _AvatarPlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.line2,
-      child: const Icon(Icons.person, size: 56, color: AppColors.muteSoft),
+      child: Icon(Icons.person, size: 56, color: AppColors.muteSoft),
     );
   }
 }

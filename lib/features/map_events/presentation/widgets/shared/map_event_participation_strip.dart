@@ -146,7 +146,7 @@ class _Strip extends StatelessWidget {
                     // Nissan Skyline R34 GT-R" read as one sentence.
                     RichText(
                       text: TextSpan(
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
                           color: AppColors.ink,
@@ -156,7 +156,7 @@ class _Strip extends StatelessWidget {
                           if (subject != null)
                             TextSpan(
                               text: ' · $subject',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.mute,
                               ),
@@ -167,7 +167,7 @@ class _Strip extends StatelessWidget {
                     const SizedBox(height: 5),
                     Text(
                       body,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13,
                         height: 1.35,
                         color: AppColors.ink2,
@@ -188,7 +188,7 @@ class _Strip extends StatelessWidget {
                           children: [
                             Text(
                               l10n.mapEventsDeclineReasonHeading,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w800,
                                 letterSpacing: 0.6,
@@ -198,7 +198,7 @@ class _Strip extends StatelessWidget {
                             const SizedBox(height: 5),
                             Text(
                               quote,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 13,
                                 height: 1.35,
                                 color: AppColors.ink2,

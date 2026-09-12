@@ -122,7 +122,7 @@ class _LoadMoreButton extends StatelessWidget {
         ),
         child: Center(
           child: isLoading
-              ? const SizedBox(
+              ? SizedBox(
                   width: 18,
                   height: 18,
                   child: CircularProgressIndicator(
@@ -132,7 +132,7 @@ class _LoadMoreButton extends StatelessWidget {
                 )
               : Text(
                   label,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
@@ -162,12 +162,12 @@ class _PostsEmptyView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Icon(Icons.grid_on_outlined, size: 36, color: AppColors.mute),
+          Icon(Icons.grid_on_outlined, size: 36, color: AppColors.mute),
           const SizedBox(height: 10),
           Text(
             isOwner ? l10n.postsEmptyOwner : l10n.postsEmptyVisitor,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 14,
               fontWeight: FontWeight.w500,
@@ -218,7 +218,7 @@ class _PostsLoadingView extends StatelessWidget {
         mainAxisSpacing: 2,
         childAspectRatio: 1,
       ),
-      itemBuilder: (_, _) => const ColoredBox(color: AppColors.line),
+      itemBuilder: (_, _) => ColoredBox(color: AppColors.line),
     );
   }
 }
@@ -240,7 +240,7 @@ class _PostsErrorView extends StatelessWidget {
       child: Text(
         message,
         textAlign: TextAlign.center,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.mute,
           fontSize: 13,
           fontWeight: FontWeight.w500,

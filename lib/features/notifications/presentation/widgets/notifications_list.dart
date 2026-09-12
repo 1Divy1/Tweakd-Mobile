@@ -46,7 +46,7 @@ class NotificationsList extends StatelessWidget {
           itemCount: items.length + (state.isLoadingMore ? 1 : 0),
           itemBuilder: (context, index) {
             if (index >= items.length) {
-              return const Padding(
+              return Padding(
                 padding: EdgeInsets.symmetric(vertical: 16),
                 child: Center(
                   child: SizedBox(
@@ -67,7 +67,7 @@ class NotificationsList extends StatelessWidget {
                   onTap: () => onTap(context, items[index]),
                 ),
                 if (index != items.length - 1)
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(left: 76, right: 20),
                     child: Divider(
                       height: 1,

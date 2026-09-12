@@ -38,7 +38,7 @@ Future<TagMenuAction?> showTagItemMenu(BuildContext context) {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.person_remove_outlined,
                     color: AppColors.accentHot,
                     size: 22,
@@ -46,7 +46,7 @@ Future<TagMenuAction?> showTagItemMenu(BuildContext context) {
                   const SizedBox(width: 16),
                   Text(
                     l10n.tagsRemove,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.accentHot,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -82,7 +82,7 @@ Future<bool> confirmRemoveTag(BuildContext context) async {
           children: [
             Text(
               l10n.tagsRemoveTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
@@ -91,7 +91,7 @@ Future<bool> confirmRemoveTag(BuildContext context) async {
             const SizedBox(height: 10),
             Text(
               l10n.tagsRemoveBody,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 14,
                 height: 1.4,
@@ -143,15 +143,15 @@ class _DialogButton extends StatelessWidget {
       child: Container(
         height: 48,
         decoration: BoxDecoration(
-          color: isDestructive ? Colors.red : AppColors.surface,
+          color: isDestructive ? AppColors.danger : AppColors.surface,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: isDestructive ? Colors.red : AppColors.line),
+          border: Border.all(color: isDestructive ? AppColors.danger : AppColors.line),
         ),
         child: Center(
           child: Text(
             label,
             style: TextStyle(
-              color: isDestructive ? Colors.white : AppColors.ink,
+              color: isDestructive ? AppColors.onDanger : AppColors.ink,
               fontSize: 15,
               fontWeight: FontWeight.w700,
             ),

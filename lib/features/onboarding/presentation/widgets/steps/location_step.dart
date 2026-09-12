@@ -173,7 +173,7 @@ class _RadiusCard extends StatelessWidget {
               children: [
                 Text(
                   AppLocalizations.of(context)!.onboardingDiscoveryRadius,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.muteSoft,
                     fontSize: 11,
                     fontWeight: FontWeight.w800,
@@ -186,14 +186,14 @@ class _RadiusCard extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: '$radiusKm',
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: AppColors.inkPanel,
                           fontSize: 30,
                           fontWeight: FontWeight.w900,
                           letterSpacing: -0.5,
                         ),
                       ),
-                      const TextSpan(
+                      TextSpan(
                         text: ' KM',
                         style: TextStyle(
                           color: AppColors.accent,
@@ -215,7 +215,7 @@ class _RadiusCard extends StatelessWidget {
               color: AppColors.accent.withAlpha(40),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(Icons.my_location_rounded,
+            child: Icon(Icons.my_location_rounded,
                 color: AppColors.accent, size: 22),
           ),
         ],

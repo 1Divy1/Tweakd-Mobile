@@ -373,11 +373,11 @@ class _SubmittedView extends StatelessWidget {
                 Container(
                   width: 64,
                   height: 64,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: AppColors.accentSoft,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.hourglass_top_rounded,
                     size: 28,
                     color: AppColors.accent,
@@ -387,7 +387,7 @@ class _SubmittedView extends StatelessWidget {
                 Text(
                   l10n.mapEventsPendingReviewTitle,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 21,
                     fontWeight: FontWeight.w800,
                     color: AppColors.ink,
@@ -397,7 +397,7 @@ class _SubmittedView extends StatelessWidget {
                 Text(
                   l10n.mapEventsPendingReviewBody,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14.5,
                     height: 1.45,
                     color: AppColors.ink2,
@@ -469,7 +469,7 @@ class _Warning extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12.5,
                 height: 1.35,
                 color: AppColors.ink2,
@@ -499,7 +499,7 @@ class _LoadFailed extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
+              Icon(
                 Icons.error_outline_rounded,
                 size: 32,
                 color: AppColors.muteSoft,
@@ -508,7 +508,7 @@ class _LoadFailed extends StatelessWidget {
               Text(
                 mapEventErrorMessage(l10n, error),
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 14.5, color: AppColors.ink2),
+                style: TextStyle(fontSize: 14.5, color: AppColors.ink2),
               ),
               const SizedBox(height: 14),
               TextButton(

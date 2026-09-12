@@ -46,7 +46,7 @@ class TaggedThreadCard extends StatelessWidget {
           ],
           Text(
             thread.title,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 16,
               fontWeight: FontWeight.w800,
@@ -77,7 +77,7 @@ class TaggedThreadCard extends StatelessWidget {
               ),
               Text(
                 '     ${forumActiveAgo(l10n, thread.lastActivityAt)}',
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.mute,
                   fontSize: 12,
                   fontWeight: FontWeight.w600,

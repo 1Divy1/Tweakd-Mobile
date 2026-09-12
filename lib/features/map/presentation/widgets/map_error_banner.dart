@@ -27,17 +27,17 @@ class MapErrorBanner extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(18),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color(0x1A000000),
+            color: AppColors.shadowAlpha(0x1A),
             blurRadius: 18,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Row(
         children: [
-          const Icon(
+          Icon(
             Icons.info_outline_rounded,
             size: 18,
             color: AppColors.mute,
@@ -46,13 +46,13 @@ class MapErrorBanner extends StatelessWidget {
           Expanded(
             child: Text(
               mapErrorMessage(l10n, code),
-              style: const TextStyle(fontSize: 13, color: AppColors.ink2),
+              style: TextStyle(fontSize: 13, color: AppColors.ink2),
             ),
           ),
           IconButton(
             onPressed: onDismiss,
             visualDensity: VisualDensity.compact,
-            icon: const Icon(
+            icon: Icon(
               Icons.close_rounded,
               size: 18,
               color: AppColors.muteSoft,

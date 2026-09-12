@@ -72,7 +72,7 @@ class _VoteSheetState extends State<_VoteSheet> {
                           current == null
                               ? l10n.contestsPickFavourite
                               : l10n.contestsChangeYourVote,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.w800,
                             color: AppColors.ink,
@@ -84,7 +84,7 @@ class _VoteSheetState extends State<_VoteSheet> {
                           '${ContestFormat.openLabel(l10n, contest, widget.now)}',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
                             color: AppColors.mute,
                           ),
@@ -211,7 +211,7 @@ class _Tile extends StatelessWidget {
                         child: Container(
                           width: 24,
                           height: 24,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             color: AppColors.accent,
                             shape: BoxShape.circle,
                           ),
@@ -259,7 +259,7 @@ class _Tile extends StatelessWidget {
                           '${car.brand} ${car.model}',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12.5,
                             fontWeight: FontWeight.w800,
                             color: AppColors.ink,
@@ -270,7 +270,7 @@ class _Tile extends StatelessWidget {
                           owner == null ? '' : '@$owner',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 10.5,
                             color: AppColors.mute,
                           ),

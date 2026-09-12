@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Tweakd — one place for car people</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#F6F4F1;--soft:#FAF8F5;--surface:#fff;--ink:#0A0A0A;--ink2:#3F3F46;--mute:#8A8680;--line:#ECE8E2;--accent:#FF4D00;--display:"Space Grotesk",system-ui,sans-serif;--body:Manrope,system-ui,sans-serif;--mono:"Space Mono",ui-monospace,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration:none}
+a:hover{color:var(--accent)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 40px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-.025em;margin:0;text-wrap:pretty}
+h1{font-size:clamp(40px,5.6vw,72px);line-height:1.02}
+h2{font-size:clamp(28px,3.4vw,42px);line-height:1.08}
+h3{font-size:18px;letter-spacing:-.01em}
+p{margin:0;color:var(--ink2);line-height:1.62;text-wrap:pretty}
+.lead{font-size:18px;max-width:52ch}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border-radius:999px;background:var(--accent);color:#fff;font-weight:700;font-size:14.5px;transition:background .15s,transform .15s}
+.btn:hover{background:#E64500;color:#fff;transform:translateY(-1px)}
+.btn.sm{height:38px;padding:0 18px;font-size:13px}
+.note{font-size:13px;color:var(--mute)}
+/* nav */
+.nav{position:sticky;top:0;z-index:50;background:rgba(246,244,241,.85);backdrop-filter:blur(14px)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px}
+.mark{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:-.03em}
+.mark i{font-style:normal;color:var(--accent)}
+/* hero */
+.hero{padding:clamp(72px,11vw,150px) 0 clamp(64px,9vw,120px)}
+.hero .wrap{display:flex;flex-direction:column;gap:32px;align-items:flex-start}
+.hero h1{max-width:16ch}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-cta{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-top:6px}
+section{padding:clamp(64px,8vw,104px) 0}
+.sec-head{display:flex;flex-direction:column;gap:18px;max-width:56ch}
+/* scattered */
+.scatter{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:14px;margin-top:48px}
+.tile{background:var(--soft);border-radius:18px;padding:22px 24px;display:flex;flex-direction:column;gap:8px;box-shadow:inset 0 0 0 1px var(--line)}
+.tile .where{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.tile .what{font-size:15px;color:var(--ink2);line-height:1.5}
+.verdict{margin-top:48px;font-family:var(--display);font-size:clamp(20px,2.3vw,27px);line-height:1.34;letter-spacing:-.02em;color:var(--ink);max-width:30ch}
+.verdict span{color:var(--mute)}
+/* answer */
+.answer{background:var(--soft)}
+.rows{margin-top:52px;border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:32px;padding:26px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.row .k{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.01em;color:var(--accent)}
+.row p{font-size:15.5px;max-width:60ch}
+.row h3{margin-bottom:6px}
+.more{margin-top:30px;font-size:15px;color:var(--mute)}
+/* beta */
+.beta{background:#0A0A0A;color:#fff;border-radius:36px;padding:clamp(48px,6vw,76px) clamp(36px,5vw,64px);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:48px;align-items:center}
+.beta h2{color:#fff}
+.beta p{color:rgba(255,255,255,.62);margin-top:18px;max-width:46ch}
+.beta img{display:block;width:180px;margin-bottom:28px}
+.beta .side{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.beta .note{color:rgba(255,255,255,.42);max-width:34ch}
+footer{padding:56px 0 76px}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+@media(max-width:820px){
+ .row{grid-template-columns:1fr;gap:6px}
+ .beta{grid-template-columns:1fr}
+}
+@media(max-width:600px){.wrap{padding:0 22px}.scatter{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="nav"><div class="wrap">
+  <a class="mark" href="#top">Twea<i>k</i>d<i>.</i></a>
+  <a class="btn sm" href="#beta">Join the beta</a>
+</div></div>
+
+<div class="hero" id="top"><div class="wrap">
+  <div class="eyebrow">Private beta · 2026</div>
+  <h1>Car culture is spread across nine apps. <em>None of them were built for it.</em></h1>
+  <p class="lead">Your build lives in a camera roll. The answer you need is in a forum last redesigned in 2007. The Sunday meet is in a Facebook event nobody outside the group can find. Tweakd is one app that holds all of it — made for enthusiasts, and nothing else.</p>
+  <div class="hero-cta">
+    <a class="btn" href="#beta">Join the beta</a>
+  </div>
+</div></div>
+
+<section id="scattered"><div class="wrap">
+  <div class="sec-head">
+    <div class="eyebrow">The problem</div>
+    <h2>Right now, your car life is in several different places.</h2>
+    <p class="lead">Every one of them was built for something else, and none of them talk to each other.</p>
+  </div>
+  <div class="scatter">
+    <div class="tile"><div class="where">Facebook group</div><div class="what">3,000 members, no search worth using, and the good thread is buried under a for-sale post.</div></div>
+    <div class="tile"><div class="where">A forum from 2007</div><div class="what">The best technical knowledge on the internet, on a site that breaks on a phone.</div></div>
+    <div class="tile"><div class="where">Four Discord servers</div><div class="what">Two are dead. Anything useful scrolled past three weeks ago.</div></div>
+    <div class="tile"><div class="where">Instagram</div><div class="what">Great photos of your car, mixed in with everything that isn't your car.</div></div>
+    <div class="tile"><div class="where">WhatsApp thread</div><div class="what">Where the meet is organised, if you happen to know someone already in it.</div></div>
+    <div class="tile"><div class="where">Camera roll</div><div class="what">Four thousand photos. No build order, no dates, no idea which turbo that was.</div></div>
+    <div class="tile"><div class="where">A folder of receipts</div><div class="what">The entire service history of the car, in a glovebox, in the wrong order.</div></div>
+  </div>
+  <div class="verdict">The knowledge disappears, the people scatter, <span>and every new owner starts from zero.</span></div>
+</div></section>
+
+<section class="answer" id="what"><div class="wrap">
+  <div class="sec-head">
+    <div class="eyebrow">The solution</div>
+    <h2>One app, built for one thing.</h2>
+    <p class="lead">Everything a car enthusiast does online, in a single place that was designed for cars from the ground up.</p>
+  </div>
+  <div class="rows">
+    <div class="row"><div class="k">Garage</div><div><h3>Your cars, properly specified</h3><p>Power, torque, weight, drivetrain, engine code, mileage and a full gallery.</p></div></div>
+    <div class="row"><div class="k">Build log</div><div><h3>Every mod, dated</h3><p>Parts, cost and before/after gains, in the order they happened.</p></div></div>
+    <div class="row"><div class="k">History</div><div><h3>Service records that stay with the car</h3><p>And transfer to the next owner when you sell, instead of ending up in a bin.</p></div></div>
+    <div class="row"><div class="k">Marketplace</div><div><h3>Sell the car with everything behind it</h3><p>Not a listings site with a million ads — a small marketplace for enthusiasts. List a car straight from your garage and the whole record goes with it: mods, service history, events attended, contests won, and vouching from people the community already trusts.</p></div></div>
+    <div class="row"><div class="k">Feed</div><div><h3>Car content only</h3><p>People with similar interests, cars you like, mods, events, and many more.</p></div></div>
+    <div class="row"><div class="k">Forums</div><div><h3>Answers that stay findable</h3><p>Organised by brand, model and topic — so a question asked today still helps someone in 2029.</p></div></div>
+    <div class="row"><div class="k">Meets</div><div><h3>Everything happening, on one map</h3><p>Meets, drives, track days and the shops worth the drive. Open an event to see how many people are going, who's bringing what car and which mods it's running, plus the contests on the day.</p></div></div>
+  </div>
+  <p class="more">And more as the beta grows — the roadmap is shaped by the people in it.</p>
+</div></section>
+
+<section id="beta" style="padding-top:0"><div class="wrap">
+  <div class="beta">
+    <div>
+      <img src="assets/tweakd-wordmark.jpg" alt="Tweakd"/>
+      <h2>Beta opens in batches.</h2>
+      <p>We're letting people in a group at a time, so the forums stay useful and the map stays real. Leave your email and we'll send an invite when your area opens.</p>
+    </div>
+    <div class="side">
+      <a class="btn" href="#" target="_blank" rel="noopener">Join the beta list</a>
+      <div class="note">Takes about 30 seconds · one email when it's your turn, nothing else.</div>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <a class="mark" href="#top">Twea<i>k</i>d<i>.</i></a>
+  <div class="note">© 2026 Tweakd</div>
+</div></footer>
+
+</body>
+</html>

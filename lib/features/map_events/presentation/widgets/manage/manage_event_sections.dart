@@ -159,7 +159,7 @@ class _WithdrawalCard extends StatelessWidget {
                   '@${request.ownerUsername}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
                     color: AppColors.ink,
@@ -168,7 +168,7 @@ class _WithdrawalCard extends StatelessWidget {
               ),
               Text(
                 l10n.mapEventsWithdrawalCarsCount(request.cars.length),
-                style: const TextStyle(fontSize: 12, color: AppColors.mute),
+                style: TextStyle(fontSize: 12, color: AppColors.mute),
               ),
             ],
           ),
@@ -191,7 +191,7 @@ class _WithdrawalCard extends StatelessWidget {
                       '${car.brand} ${car.model}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13.5,
                         fontWeight: FontWeight.w600,
                         color: AppColors.ink2,
@@ -218,7 +218,7 @@ class _WithdrawalCard extends StatelessWidget {
                 children: [
                   Text(
                     l10n.mapEventsWithdrawalNoteLabel,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.6,
@@ -228,7 +228,7 @@ class _WithdrawalCard extends StatelessWidget {
                   const SizedBox(height: 5),
                   Text(
                     note,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
                       height: 1.35,
                       color: AppColors.ink2,
@@ -253,7 +253,7 @@ class _WithdrawalCard extends StatelessWidget {
                           ),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.ink2,
-                    side: const BorderSide(color: AppColors.line),
+                    side: BorderSide(color: AppColors.line),
                     padding: const EdgeInsets.symmetric(vertical: 13),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -386,7 +386,7 @@ class ManageLifecycleSection extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 10),
             child: Text(
               l10n.mapEventsEditLockedHint,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12.5,
                 height: 1.35,
                 color: AppColors.muteSoft,
@@ -474,7 +474,7 @@ class ManageLifecycleSection extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
         title: Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,
             color: AppColors.ink,
@@ -482,7 +482,7 @@ class ManageLifecycleSection extends StatelessWidget {
         ),
         content: Text(
           body,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 14,
             height: 1.4,
             color: AppColors.ink2,
@@ -583,7 +583,7 @@ class _EmptyCard extends StatelessWidget {
       child: Text(
         text,
         textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 13.5, color: AppColors.mute),
+        style: TextStyle(fontSize: 13.5, color: AppColors.mute),
       ),
     );
   }

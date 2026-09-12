@@ -22,7 +22,7 @@ class InboxSearchField extends StatelessWidget {
         child: TextField(
           onChanged: onChanged,
           cursorColor: AppColors.accent,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.ink,
             fontSize: 15,
             fontWeight: FontWeight.w500,
@@ -31,12 +31,12 @@ class InboxSearchField extends StatelessWidget {
             border: InputBorder.none,
             filled: false,
             hintText: l10n.messagesSearchHint,
-            hintStyle: const TextStyle(
+            hintStyle: TextStyle(
               color: AppColors.muteSoft,
               fontSize: 15,
               fontWeight: FontWeight.w500,
             ),
-            prefixIcon: const Icon(
+            prefixIcon: Icon(
               Icons.search_rounded,
               color: AppColors.mute,
               size: 22,

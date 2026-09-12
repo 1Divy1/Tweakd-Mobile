@@ -16,7 +16,7 @@ class OnboardingSectionHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: const TextStyle(
+      style: TextStyle(
         color: AppColors.ink,
         fontSize: 30,
         height: 1.05,
@@ -43,7 +43,7 @@ class OnboardingFieldLabel extends StatelessWidget {
       children: [
         Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.ink2,
             fontSize: 11,
             fontWeight: FontWeight.w800,
@@ -54,7 +54,7 @@ class OnboardingFieldLabel extends StatelessWidget {
           const SizedBox(width: 6),
           Text(
             AppLocalizations.of(context)!.onboardingOptional,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.muteSoft,
               fontSize: 11,
               fontWeight: FontWeight.w700,
@@ -90,7 +90,7 @@ class OnboardingNoteCard extends StatelessWidget {
             margin: const EdgeInsets.only(top: 6),
             width: 7,
             height: 7,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: AppColors.accent,
               shape: BoxShape.circle,
             ),

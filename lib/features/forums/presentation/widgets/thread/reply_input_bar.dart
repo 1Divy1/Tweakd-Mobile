@@ -41,7 +41,7 @@ class ReplyInputBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(28),
@@ -64,7 +64,7 @@ class ReplyInputBar extends StatelessWidget {
                         child: Text(
                           l10n.forumsReplyingTo(replyingToUsername!),
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.mute,
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
@@ -73,7 +73,7 @@ class ReplyInputBar extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: onCancelTarget,
-                        child: const Icon(
+                        child: Icon(
                           Icons.close,
                           size: 16,
                           color: AppColors.mute,
@@ -103,7 +103,7 @@ class ReplyInputBar extends StatelessWidget {
                       minLines: 1,
                       maxLines: 4,
                       cursorColor: AppColors.accent,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.ink,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -111,7 +111,7 @@ class ReplyInputBar extends StatelessWidget {
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: l10n.forumsAddReply,
-                        hintStyle: const TextStyle(
+                        hintStyle: TextStyle(
                           color: AppColors.muteSoft,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -199,7 +199,7 @@ class LockedBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         border: Border(top: BorderSide(color: AppColors.line)),
       ),
@@ -209,12 +209,12 @@ class LockedBar extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
           child: Row(
             children: [
-              const Icon(Icons.lock_outline, size: 15, color: AppColors.mute),
+              Icon(Icons.lock_outline, size: 15, color: AppColors.mute),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   l10n.forumsLockedBar,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.mute,
                     fontSize: 13,
                     fontWeight: FontWeight.w600,

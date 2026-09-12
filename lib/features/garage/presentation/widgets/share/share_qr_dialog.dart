@@ -98,7 +98,7 @@ class _QrPanel extends StatelessWidget {
             // so a retry is the same event again.
             onRetry: () => context.read<CarShareBloc>().add(LoadShareQr(carId)),
           ),
-          _ => const Center(
+          _ => Center(
             child: CircularProgressIndicator(color: AppColors.accent),
           ),
         },
@@ -127,7 +127,7 @@ class _QrRetry extends StatelessWidget {
           Text(
             message,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -138,7 +138,7 @@ class _QrRetry extends StatelessWidget {
             onPressed: onRetry,
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.accent,
                 fontWeight: FontWeight.w700,
               ),

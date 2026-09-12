@@ -40,7 +40,7 @@ class TaggedCarCard extends StatelessWidget {
                     car.brand,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.ink,
                       fontSize: 14.5,
                       fontWeight: FontWeight.w800,
@@ -51,7 +51,7 @@ class TaggedCarCard extends StatelessWidget {
                     car.model,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.mute,
                       fontSize: 13,
                       fontWeight: FontWeight.w600,

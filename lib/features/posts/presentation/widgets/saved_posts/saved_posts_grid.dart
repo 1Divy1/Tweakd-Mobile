@@ -55,7 +55,7 @@ class SavedPostsGridView extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             if (index >= posts.length) {
-              return const Center(
+              return Center(
                 child: SizedBox(
                   width: 20,
                   height: 20,

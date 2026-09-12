@@ -68,7 +68,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
 
     // ── Step 1: create modification (text data only) ──────────────────────────
     final addResult = await addModification(
-      AddModificationParams(carId: event.carId, request: event.params),
+      AddModificationParams(carId: event.carId, request: event.input.request),
     );
 
     final modification = await addResult.fold(
@@ -84,17 +84,24 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
     if (modification == null) return;
 
     // ── Steps 2–4: upload media; roll back modification on any failure ─────────
-    final files = <ModUploadRequest>[
-      if (event.before != null)
-        const ModUploadRequest(phase: 'BEFORE', format: 'WEBP'),
-      if (event.after != null)
-        const ModUploadRequest(phase: 'AFTER', format: 'WEBP'),
-    ];
+    final before = event.input.before;
+    final after = event.input.after;
+    // A phase can carry several images, so the response's `phase` field can't
+    // say which image a slot is for. The backend returns slots in request
+    // order, so the request is `[...before, ...after]` and paired by index.
+    final images = <CompressedImage>[...before, ...after];
 
-    if (files.isEmpty) {
+    if (images.isEmpty) {
       emit(LogModSuccess(modification));
       return;
     }
+
+    final files = <ModUploadRequest>[
+      for (var i = 0; i < before.length; i++)
+        const ModUploadRequest(phase: 'BEFORE', format: 'WEBP'),
+      for (var i = 0; i < after.length; i++)
+        const ModUploadRequest(phase: 'AFTER', format: 'WEBP'),
+    ];
 
     try {
       // Step 2: request presigned upload URLs in one shot
@@ -110,14 +117,21 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
         (r) => r.uploads,
       );
 
+      // Defensive: a short response would silently mis-pair images with slots.
+      if (uploads.length != images.length) {
+        throw Exception(
+          'Expected ${images.length} upload slots, got ${uploads.length}',
+        );
+      }
+
       // Step 3: upload all files to R2 in parallel. Bytes are already being
       // compressed (since selection), so this only awaits them and PUTs.
-      await Future.wait(uploads.map((upload) async {
-        final image =
-            upload.phase == 'before' ? event.before : event.after;
-        if (image == null) return;
-        await imageService.uploadToR2(upload.uploadUrl, await image.bytes);
-      }));
+      await Future.wait([
+        for (var i = 0; i < uploads.length; i++)
+          images[i].bytes.then(
+                (bytes) => imageService.uploadToR2(uploads[i].uploadUrl, bytes),
+              ),
+      ]);
 
       // Step 4: save URLs to backend
       final addMedia = uploads

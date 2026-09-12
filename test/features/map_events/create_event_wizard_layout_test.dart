@@ -265,7 +265,7 @@ Widget _app(Widget home, double textScale, CreateMapEventBloc bloc) {
     // The real app's theme, because it sets `filled: true` on every input —
     // the wizard has to opt out of that to keep its rounded corners, and a
     // bare test theme would hide a regression there.
-    theme: AppTheme.light(),
+    theme: AppTheme.of(Brightness.light),
     localizationsDelegates: AppLocalizations.localizationsDelegates,
     supportedLocales: AppLocalizations.supportedLocales,
     builder: (context, child) => MediaQuery(

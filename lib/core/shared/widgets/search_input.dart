@@ -36,20 +36,20 @@ class SearchInput extends StatelessWidget {
         onChanged: onChanged,
         autofocus: autofocus,
         textInputAction: TextInputAction.search,
-        style: const TextStyle(color: AppColors.ink, fontSize: 15),
+        style: TextStyle(color: AppColors.ink, fontSize: 15),
         decoration: InputDecoration(
           border: InputBorder.none,
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
           filled: false,
           contentPadding: const EdgeInsets.symmetric(vertical: 14),
-          prefixIcon: const Icon(
+          prefixIcon: Icon(
             Icons.search,
             color: AppColors.ink,
             size: 20,
           ),
           hintText: resolvedHint,
-          hintStyle: const TextStyle(
+          hintStyle: TextStyle(
             color: AppColors.muteSoft,
             fontSize: 15,
           ),
@@ -59,7 +59,7 @@ class SearchInput extends StatelessWidget {
               if (value.text.isEmpty) return const SizedBox.shrink();
               return IconButton(
                 onPressed: onClear,
-                icon: const Icon(
+                icon: Icon(
                   Icons.cancel,
                   color: AppColors.muteSoft,
                   size: 18,

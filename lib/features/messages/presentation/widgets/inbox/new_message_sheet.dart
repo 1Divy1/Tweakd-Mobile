@@ -57,7 +57,7 @@ class _NewMessageSheet extends StatelessWidget {
             const SizedBox(height: 18),
             Text(
               l10n.messagesComposeTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 16,
                 fontWeight: FontWeight.w800,
@@ -78,7 +78,7 @@ class _NewMessageSheet extends StatelessWidget {
                   onChanged: (query) => context.read<ComposeBloc>().add(
                     ComposeQueryChanged(query),
                   ),
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
@@ -86,12 +86,12 @@ class _NewMessageSheet extends StatelessWidget {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: l10n.messagesComposeSearchHint,
-                    hintStyle: const TextStyle(
+                    hintStyle: TextStyle(
                       color: AppColors.muteSoft,
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                     ),
-                    prefixIcon: const Icon(
+                    prefixIcon: Icon(
                       Icons.search_rounded,
                       color: AppColors.mute,
                       size: 22,
@@ -106,7 +106,7 @@ class _NewMessageSheet extends StatelessWidget {
               child: BlocBuilder<ComposeBloc, ComposeState>(
                 builder: (context, state) {
                   if (state.isLoading && state.users.isEmpty) {
-                    return const Center(
+                    return Center(
                       child: SizedBox(
                         width: 22,
                         height: 22,
@@ -121,7 +121,7 @@ class _NewMessageSheet extends StatelessWidget {
                     return Center(
                       child: Text(
                         l10n.messagesComposeEmpty,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.mute,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -154,7 +154,7 @@ class _NewMessageSheet extends StatelessWidget {
                                   user.username,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: AppColors.ink,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w700,

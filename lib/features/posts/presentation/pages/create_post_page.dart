@@ -13,15 +13,20 @@ import '../bloc/create_post/state.dart';
 import '../utils/post_error_mapper.dart';
 import '../widgets/create_post/caption_step.dart';
 import '../widgets/create_post/create_post_chrome.dart';
+import '../widgets/create_post/create_post_fields.dart';
 import '../widgets/create_post/photos_step.dart';
+import '../widgets/create_post/post_discard_dialog.dart';
 import '../widgets/create_post/post_photo.dart';
 import '../widgets/create_post/review_step.dart';
 import '../widgets/create_post/tags_step.dart';
 import '../widgets/create_post/visibility_step.dart';
 
 /// The five-step create-post wizard (photos → caption → tags → visibility →
-/// review). UI-only for now: state is held locally and publishing is wired once
-/// the backend contract lands.
+/// review), in the same shape as onboarding, the add-car flow and the
+/// create-event wizard: X and a slim progress bar on top, one step per screen,
+/// BACK / NEXT flush at the bottom.
+///
+/// The form lives here rather than in the bloc — the bloc only publishes.
 class CreatePostPage extends StatefulWidget {
   const CreatePostPage({super.key});
 
@@ -31,6 +36,10 @@ class CreatePostPage extends StatefulWidget {
 
 class _CreatePostPageState extends State<CreatePostPage> {
   int _step = 0;
+
+  /// Every step shares one scroll view, so moving between them has to put the
+  /// user back at the top of the new content.
+  final _scroll = ScrollController();
 
   // Guards against a second image_picker request firing before the first
   // finishes — iOS throws PlatformException('multiple_request') otherwise.
@@ -52,6 +61,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
 
   @override
   void dispose() {
+    _scroll.dispose();
     _captionCtrl.dispose();
     _peopleSearchCtrl.dispose();
     super.dispose();
@@ -76,35 +86,46 @@ class _CreatePostPageState extends State<CreatePostPage> {
       },
       builder: (context, state) {
         final isSubmitting = state is CreatePostSubmitting;
-        final submitLabel = state is CreatePostSubmitting
-            ? _phaseLabel(l10n, state.phase)
-            : null;
+        final isLast = _step == postStepCount - 1;
 
         return Scaffold(
           backgroundColor: AppColors.bg,
+          resizeToAvoidBottomInset: true,
           body: SafeArea(
             child: Column(
               children: [
                 PostTopBar(
                   step: _step,
-                  onClose:
-                      isSubmitting ? () {} : () => _confirmClose(context),
+                  onClose: isSubmitting ? null : () => _close(context),
                 ),
-                PostStepProgress(step: _step),
                 Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
-                    child: _stepContent(),
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: kPostMaxWidth,
+                      ),
+                      child: ListView(
+                        controller: _scroll,
+                        padding: const EdgeInsets.fromLTRB(20, 8, 20, 28),
+                        children: [_stepContent(l10n)],
+                      ),
+                    ),
                   ),
                 ),
                 PostBottomBar(
-                  step: _step,
+                  canGoBack: _step > 0,
+                  isLastStep: isLast,
                   isSubmitting: isSubmitting,
-                  submitLabel: submitLabel,
-                  onBack: _step > 0 && !isSubmitting
-                      ? () => setState(() => _step--)
-                      : null,
-                  onNext: isSubmitting ? null : () => _onNext(context),
+                  backLabel: l10n.postBack,
+                  nextLabel: switch (state) {
+                    CreatePostSubmitting(:final phase) =>
+                      _phaseLabel(l10n, phase),
+                    _ when isLast => l10n.postPublish,
+                    _ => l10n.postNext,
+                  },
+                  blocker: _blocker(l10n),
+                  onBack: () => _goTo(_step - 1),
+                  onNext: () => _onNext(context),
                 ),
               ],
             ),
@@ -120,8 +141,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
         CreatePostPhase.uploadingImages => l10n.postPhaseUploading,
       };
 
-  Widget _stepContent() {
-    final l10n = AppLocalizations.of(context)!;
+  Widget _stepContent(AppLocalizations l10n) {
     return switch (_step) {
       0 => PhotosStep(
           photos: _photos,
@@ -152,6 +172,11 @@ class _CreatePostPageState extends State<CreatePostPage> {
       _ => const SizedBox.shrink(),
     };
   }
+
+  /// What the current step still needs before NEXT will move. Only the photos
+  /// step has a requirement — everything after it is optional.
+  String? _blocker(AppLocalizations l10n) =>
+      _step == 0 && _photos.isEmpty ? l10n.postValPhotosRequired : null;
 
   Future<void> _pickPhotos() async {
     if (_isPicking) return;
@@ -188,24 +213,23 @@ class _CreatePostPageState extends State<CreatePostPage> {
     });
   }
 
+  /// Advances, or publishes on the last step. A step that isn't in order
+  /// doesn't move — the bottom bar is already naming what's missing.
   void _onNext(BuildContext context) {
+    FocusScope.of(context).unfocus();
+    if (_blocker(AppLocalizations.of(context)!) != null) return;
+
     if (_step < postStepCount - 1) {
-      if (!_validateStep(context)) return;
-      setState(() => _step++);
+      _goTo(_step + 1);
       return;
     }
     _publish(context);
   }
 
-  bool _validateStep(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    if (_step == 0 && _photos.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.postValPhotosRequired)),
-      );
-      return false;
-    }
-    return true;
+  void _goTo(int step) {
+    if (step < 0 || step >= postStepCount) return;
+    setState(() => _step = step);
+    if (_scroll.hasClients) _scroll.jumpTo(0);
   }
 
   void _publish(BuildContext context) {
@@ -227,104 +251,21 @@ class _CreatePostPageState extends State<CreatePostPage> {
         );
   }
 
-  Future<void> _confirmClose(BuildContext context) async {
-    final l10n = AppLocalizations.of(context)!;
+  bool get _hasContent =>
+      _photos.isNotEmpty ||
+      _captionCtrl.text.trim().isNotEmpty ||
+      _people.isNotEmpty ||
+      _cars.isNotEmpty;
+
+  /// A blank composer closes straight away; one with something in it asks
+  /// first, since nothing is kept once it's gone.
+  Future<void> _close(BuildContext context) async {
     final navigator = Navigator.of(context);
-    final discard = await showDialog<bool>(
-      context: context,
-      barrierColor: Colors.black54,
-      builder: (dialogContext) => Dialog(
-        backgroundColor: AppColors.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 22, 20, 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                l10n.postDiscardTitle,
-                style: const TextStyle(
-                  color: AppColors.ink,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                l10n.postDiscardBody,
-                style: const TextStyle(
-                  color: AppColors.mute,
-                  fontSize: 14,
-                  height: 1.4,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(height: 22),
-              Row(
-                children: [
-                  Expanded(
-                    child: _CloseDialogButton(
-                      label: l10n.postKeepEditing,
-                      onTap: () => Navigator.of(dialogContext).pop(false),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _CloseDialogButton(
-                      label: l10n.postDiscard,
-                      isDestructive: true,
-                      onTap: () => Navigator.of(dialogContext).pop(true),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-
+    if (!_hasContent) {
+      navigator.pop();
+      return;
+    }
+    final discard = await showPostDiscardDialog(context);
     if (discard == true && navigator.canPop()) navigator.pop();
-  }
-}
-
-/// Pill button used in the "discard post" confirmation dialog.
-class _CloseDialogButton extends StatelessWidget {
-  final String label;
-  final VoidCallback onTap;
-  final bool isDestructive;
-
-  const _CloseDialogButton({
-    required this.label,
-    required this.onTap,
-    this.isDestructive = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 48,
-        decoration: BoxDecoration(
-          color: isDestructive ? Colors.red : AppColors.surface,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isDestructive ? Colors.red : AppColors.line,
-          ),
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(
-              color: isDestructive ? Colors.white : AppColors.ink,
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }

@@ -287,7 +287,7 @@ class _HubContent extends StatelessWidget {
         if (!state.isThreadsLoading &&
             state.threads.isNotEmpty &&
             state.isLoadingMore)
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 20),
               child: Center(
@@ -327,12 +327,12 @@ class _SaveShortcutButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.bookmark_border_rounded,
+            Icon(Icons.bookmark_border_rounded,
                 color: AppColors.accentHot, size: 18),
             const SizedBox(width: 8),
             Text(
               l10n.forumsSaveShortcut,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.accentHot,
                 fontSize: 14,
                 fontWeight: FontWeight.w800,
@@ -359,7 +359,7 @@ class _EmptyHub extends StatelessWidget {
           Text(
             l10n.forumsNoThreadsTitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 16,
               fontWeight: FontWeight.w800,
@@ -369,7 +369,7 @@ class _EmptyHub extends StatelessWidget {
           Text(
             l10n.forumsNoThreadsBody,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 13,
               fontWeight: FontWeight.w500,

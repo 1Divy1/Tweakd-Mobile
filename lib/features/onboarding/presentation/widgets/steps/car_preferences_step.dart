@@ -129,7 +129,7 @@ class _DreamCarCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(6),
+            color: AppColors.shadowAlpha(6),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -218,7 +218,7 @@ class _InlineSelectorText extends StatelessWidget {
               ),
             ),
           ),
-          const Icon(Icons.expand_more_rounded,
+          Icon(Icons.expand_more_rounded,
               color: AppColors.mute, size: 20),
         ],
       ),
@@ -241,7 +241,7 @@ class _RemoveButton extends StatelessWidget {
           color: AppColors.bg,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: const Icon(Icons.close_rounded, size: 18, color: AppColors.mute),
+        child: Icon(Icons.close_rounded, size: 18, color: AppColors.mute),
       ),
     );
   }
@@ -265,12 +265,12 @@ class _AddBrandButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.add_rounded, size: 20, color: Colors.white),
+            Icon(Icons.add_rounded, size: 20, color: AppColors.inkPanel),
             const SizedBox(width: 8),
             Text(
               AppLocalizations.of(context)!.onboardingAddBrand,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: AppColors.inkPanel,
                 fontSize: 13,
                 fontWeight: FontWeight.w800,
                 letterSpacing: 1,

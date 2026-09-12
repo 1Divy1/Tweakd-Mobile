@@ -29,7 +29,7 @@ Future<bool?> showRegisterDiscardDialog(
           children: [
             Text(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
@@ -38,7 +38,7 @@ Future<bool?> showRegisterDiscardDialog(
             const SizedBox(height: 10),
             Text(
               body,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 14,
                 height: 1.4,
@@ -89,14 +89,14 @@ class _DialogButton extends StatelessWidget {
       child: Container(
         height: 48,
         decoration: BoxDecoration(
-          color: isDestructive ? Colors.red : AppColors.bg,
+          color: isDestructive ? AppColors.danger : AppColors.bg,
           borderRadius: BorderRadius.circular(kRegisterRadius),
         ),
         child: Center(
           child: Text(
             label,
             style: TextStyle(
-              color: isDestructive ? Colors.white : AppColors.ink,
+              color: isDestructive ? AppColors.onDanger : AppColors.ink,
               fontSize: 15,
               fontWeight: FontWeight.w700,
             ),

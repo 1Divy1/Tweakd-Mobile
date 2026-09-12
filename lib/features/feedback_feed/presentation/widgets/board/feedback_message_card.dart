@@ -52,7 +52,7 @@ class FeedbackMessageCard extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             message.message,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 14.5,
               fontWeight: FontWeight.w600,

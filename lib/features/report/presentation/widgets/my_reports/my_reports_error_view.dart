@@ -22,12 +22,12 @@ class MyReportsErrorView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.error_outline, size: 48, color: AppColors.mute),
+            Icon(Icons.error_outline, size: 48, color: AppColors.mute),
             const SizedBox(height: 16),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
@@ -38,7 +38,7 @@ class MyReportsErrorView extends StatelessWidget {
               onPressed: onRetry,
               child: Text(
                 l10n.commonRetry,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.accent,
                   fontWeight: FontWeight.w800,
                 ),

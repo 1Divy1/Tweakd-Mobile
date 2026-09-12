@@ -64,7 +64,7 @@ class MyMapEventCard extends StatelessWidget {
                     event.title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w800,
                       color: AppColors.ink,
@@ -112,7 +112,7 @@ class MyMapEventCard extends StatelessWidget {
                       ),
                       child: Text(
                         l10n.mapEventsRejectionReason(reason),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12.5,
                           height: 1.35,
                           color: AppColors.accentHot,
@@ -148,7 +148,7 @@ class _MetaLine extends StatelessWidget {
             text,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 13, color: AppColors.ink2),
+            style: TextStyle(fontSize: 13, color: AppColors.ink2),
           ),
         ),
       ],
@@ -171,7 +171,7 @@ class _Counter extends StatelessWidget {
         const SizedBox(width: 5),
         Text(
           '$value',
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12.5,
             fontWeight: FontWeight.w700,
             color: AppColors.mute,

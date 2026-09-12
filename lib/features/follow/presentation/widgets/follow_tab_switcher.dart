@@ -81,7 +81,7 @@ class _FollowTab extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                color: isActive ? Colors.white : AppColors.mute,
+                color: isActive ? AppColors.inkPanel : AppColors.mute,
                 fontSize: 11,
                 fontWeight: FontWeight.w800,
                 letterSpacing: 1.4,

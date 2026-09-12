@@ -101,7 +101,7 @@ class GalleryStep extends StatelessWidget {
         const SizedBox(height: 16),
         Text(
           l10n.garageGalleryHint,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.mute,
             fontSize: 14,
             height: 1.35,
@@ -148,7 +148,7 @@ class _CoverCard extends StatelessWidget {
             boxShadow: hasImage
                 ? [
                     BoxShadow(
-                      color: Colors.black.withAlpha(28),
+                      color: AppColors.shadowAlpha(28),
                       blurRadius: 16,
                       offset: const Offset(0, 8),
                     ),
@@ -173,8 +173,8 @@ class _CoverCard extends StatelessWidget {
             color: Colors.white.withAlpha(235),
             borderRadius: BorderRadius.circular(kRegisterRadius),
           ),
-          child: const Icon(Icons.photo_camera_rounded,
-              color: AppColors.ink, size: 20),
+          child: Icon(Icons.photo_camera_rounded,
+              color: AppColors.onLight, size: 20),
         ),
       ),
     );
@@ -198,13 +198,13 @@ class _CoverCard extends StatelessWidget {
                   color: AppColors.accentSoft,
                   borderRadius: BorderRadius.circular(kRegisterRadius),
                 ),
-                child: const Icon(Icons.add_a_photo_rounded,
+                child: Icon(Icons.add_a_photo_rounded,
                     color: AppColors.accent, size: 26),
               ),
               const SizedBox(height: 14),
               Text(
                 l10n.garageAddCoverPhoto,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontWeight: FontWeight.w800,
                   fontSize: 16,
@@ -213,7 +213,7 @@ class _CoverCard extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 l10n.garagePickFromGallery,
-                style: const TextStyle(color: AppColors.mute, fontSize: 13),
+                style: TextStyle(color: AppColors.mute, fontSize: 13),
               ),
             ],
           ),
@@ -245,13 +245,13 @@ class _AddTile extends StatelessWidget {
                     color: AppColors.accentSoft,
                     borderRadius: BorderRadius.circular(kRegisterRadius),
                   ),
-                  child: const Icon(Icons.photo_camera_rounded,
+                  child: Icon(Icons.photo_camera_rounded,
                       color: AppColors.accent, size: 22),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   AppLocalizations.of(context)!.garageGalleryAdd,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.mute,
                     fontSize: 12,
                     fontWeight: FontWeight.w800,

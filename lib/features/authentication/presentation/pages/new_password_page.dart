@@ -100,7 +100,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                   Text(
                     l10n.authNewPasswordTitle,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.ink,
                       fontSize: 30,
                       fontWeight: FontWeight.w900,
@@ -110,7 +110,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                   Text(
                     l10n.authNewPasswordSubtitle,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.mute,
                       fontSize: 15,
                       height: 1.45,
@@ -144,7 +144,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                     const SizedBox(height: 8),
                     Text(
                       l10n.authPasswordsDoNotMatch,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.accentHot,
                         fontSize: 13,
                         fontWeight: FontWeight.w600,

@@ -84,7 +84,7 @@ class _CommentTagSheetState extends State<_CommentTagSheet> {
                 Expanded(
                   child: Text(
                     l10n.forumsTagsSheetTitle,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.ink,
                       fontSize: 20,
                       fontWeight: FontWeight.w800,
@@ -95,7 +95,7 @@ class _CommentTagSheetState extends State<_CommentTagSheet> {
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text(
                     l10n.forumsTagsDone,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.accent,
                       fontSize: 14,
                       fontWeight: FontWeight.w800,
@@ -107,7 +107,7 @@ class _CommentTagSheetState extends State<_CommentTagSheet> {
             const SizedBox(height: 6),
             Text(
               l10n.forumsTagHelper,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.muteSoft,
                 fontSize: 12,
                 fontWeight: FontWeight.w500,

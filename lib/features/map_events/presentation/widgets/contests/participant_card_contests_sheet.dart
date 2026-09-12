@@ -55,7 +55,7 @@ class _ContestsSheet extends StatelessWidget {
                   Expanded(
                     child: Text(
                       l10n.participantCardContestsSheetTitle,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
                         color: AppColors.ink,
@@ -122,7 +122,7 @@ class _ContestRow extends StatelessWidget {
                 width: 22,
                 height: 22,
                 margin: const EdgeInsets.only(right: 10),
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: AppColors.accent,
                   shape: BoxShape.circle,
                 ),
@@ -138,7 +138,7 @@ class _ContestRow extends StatelessWidget {
                 contest.title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                   color: AppColors.ink,

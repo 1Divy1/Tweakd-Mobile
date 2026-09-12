@@ -15,7 +15,7 @@ class SearchErrorView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               Icons.error_outline,
               color: AppColors.mute,
               size: 36,
@@ -24,7 +24,7 @@ class SearchErrorView extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,

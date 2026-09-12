@@ -66,7 +66,7 @@ class _TagChip extends StatelessWidget {
             const SizedBox(width: 6),
             Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 12.5,
                 fontWeight: FontWeight.w700,

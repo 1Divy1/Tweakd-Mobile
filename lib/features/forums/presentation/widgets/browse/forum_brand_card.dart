@@ -48,7 +48,7 @@ class ForumBrandCard extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(
                 monogram,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 12,
                   fontWeight: FontWeight.w800,
@@ -61,7 +61,7 @@ class ForumBrandCard extends StatelessWidget {
               brand.name,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 15,
                 fontWeight: FontWeight.w800,
@@ -72,7 +72,7 @@ class ForumBrandCard extends StatelessWidget {
               Text(
                 l10n.forumsThreadsCount(threadCount!)
                     .replaceFirst('$threadCount', forumCompactCount(threadCount!)),
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.mute,
                   fontSize: 12,
                   fontWeight: FontWeight.w600,

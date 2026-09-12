@@ -398,7 +398,7 @@ class _CategoryGrid extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                         letterSpacing: 0.2,
                         height: 1.2,
-                        color: on ? Colors.white : AppColors.ink,
+                        color: on ? AppColors.inkPanel : AppColors.ink,
                       ),
                     ),
                   ),
@@ -461,13 +461,13 @@ class _Choice extends StatelessWidget {
                       color: selected ? AppColors.ink : Colors.transparent,
                     ),
                     child: selected
-                        ? const Center(
+                        ? Center(
                             child: SizedBox(
                               width: 6,
                               height: 6,
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: AppColors.inkPanel,
                                   shape: BoxShape.circle,
                                 ),
                               ),
@@ -483,7 +483,7 @@ class _Choice extends StatelessWidget {
                       children: [
                         Text(
                           label,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12.5,
                             fontWeight: FontWeight.w800,
                             color: AppColors.ink,
@@ -495,7 +495,7 @@ class _Choice extends StatelessWidget {
                             sub!,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 11,
                               color: AppColors.mute,
                             ),

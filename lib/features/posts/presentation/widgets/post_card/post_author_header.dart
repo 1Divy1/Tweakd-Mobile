@@ -11,19 +11,16 @@ import '../post_detail/post_time.dart';
 /// Used by the feed card and the post detail view so a post looks the same
 /// everywhere. Tapping the avatar/username opens the author's profile.
 ///
-/// [showRing] draws the accent gradient ring from the feed design; [onMenu],
-/// when non-null, adds the trailing "⋯" button.
+/// [onMenu], when non-null, adds the trailing "⋯" button.
 class PostAuthorHeader extends StatelessWidget {
   final PostUserEntity author;
   final DateTime createdAt;
-  final bool showRing;
   final VoidCallback? onMenu;
 
   const PostAuthorHeader({
     super.key,
     required this.author,
     required this.createdAt,
-    this.showRing = false,
     this.onMenu,
   });
 
@@ -43,7 +40,6 @@ class PostAuthorHeader extends StatelessWidget {
                   _Avatar(
                     username: author.username,
                     avatarUrl: author.avatarUrl,
-                    showRing: showRing,
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -54,7 +50,7 @@ class PostAuthorHeader extends StatelessWidget {
                           '@${author.username}',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.ink,
                             fontSize: 15,
                             fontWeight: FontWeight.w800,
@@ -63,7 +59,7 @@ class PostAuthorHeader extends StatelessWidget {
                         const SizedBox(height: 2),
                         Text(
                           postTimeAgo(AppLocalizations.of(context)!, createdAt),
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.mute,
                             fontSize: 11,
                             fontWeight: FontWeight.w700,
@@ -80,7 +76,7 @@ class PostAuthorHeader extends StatelessWidget {
           if (onMenu != null)
             IconButton(
               onPressed: onMenu,
-              icon: const Icon(Icons.more_horiz, color: AppColors.mute),
+              icon: Icon(Icons.more_horiz, color: AppColors.mute),
               splashRadius: 20,
             ),
         ],
@@ -92,11 +88,9 @@ class PostAuthorHeader extends StatelessWidget {
 class _Avatar extends StatelessWidget {
   final String username;
   final String? avatarUrl;
-  final bool showRing;
 
   const _Avatar({
     required this.username,
-    required this.showRing,
     this.avatarUrl,
   });
 
@@ -108,7 +102,7 @@ class _Avatar extends StatelessWidget {
     // source images decoded for a 42px circle waste memory/CPU on every
     // scroll pass through a feed.
     final cachePx = (42 * MediaQuery.devicePixelRatioOf(context)).round();
-    final avatar = CircleAvatar(
+    return CircleAvatar(
       radius: 21,
       backgroundColor: AppColors.accentSoft,
       backgroundImage: avatarUrl != null
@@ -121,36 +115,13 @@ class _Avatar extends StatelessWidget {
       child: avatarUrl == null
           ? Text(
               initial,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.accentHot,
                 fontSize: 16,
                 fontWeight: FontWeight.w800,
               ),
             )
           : null,
-    );
-
-    if (!showRing) return avatar;
-
-    // Accent gradient ring with a thin surface gap, matching the feed design.
-    return Container(
-      padding: const EdgeInsets.all(2.5),
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.accent, AppColors.accentHot],
-        ),
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(2),
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          color: AppColors.surface,
-        ),
-        child: avatar,
-      ),
     );
   }
 }

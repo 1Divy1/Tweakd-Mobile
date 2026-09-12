@@ -118,7 +118,7 @@ class _PendingOrganizerRow extends StatelessWidget {
               candidate.name,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14.5,
                 fontWeight: FontWeight.w700,
                 color: AppColors.ink,

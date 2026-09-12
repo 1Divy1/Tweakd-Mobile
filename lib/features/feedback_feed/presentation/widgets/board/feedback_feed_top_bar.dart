@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../../core/shared/widgets/app_pill_button.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 
-/// The board header: an accent eyebrow over the "Feedback" title, with the
-/// accent "+ NEW" compose button on the right.
+/// The board header: a back pill, an accent eyebrow over the "Feedback" title,
+/// and the accent "+ NEW" compose button on the right.
 class FeedbackFeedTopBar extends StatelessWidget {
   final VoidCallback onCompose;
 
@@ -15,10 +17,18 @@ class FeedbackFeedTopBar extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 12, 16, 8),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          AppPillButton(
+            icon: Icons.chevron_left_rounded,
+            // Always pushed (the profile, a notification tap), but land on the
+            // profile rather than dead-end if it is ever the only page.
+            onTap: () =>
+                context.canPop() ? context.pop() : context.go('/profile'),
+          ),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,13 +42,17 @@ class FeedbackFeedTopBar extends StatelessWidget {
                       color: AppColors.accent,
                     ),
                     const SizedBox(width: 6),
-                    Text(
-                      l10n.feedbackFeedEyebrow,
-                      style: const TextStyle(
-                        color: AppColors.accent,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 1.4,
+                    Flexible(
+                      child: Text(
+                        l10n.feedbackFeedEyebrow,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: AppColors.accent,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 1.4,
+                        ),
                       ),
                     ),
                   ],
@@ -46,7 +60,9 @@ class FeedbackFeedTopBar extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   l10n.feedbackFeedTitle,
-                  style: const TextStyle(
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontSize: 28,
                     fontWeight: FontWeight.w900,

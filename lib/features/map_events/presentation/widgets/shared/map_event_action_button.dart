@@ -115,7 +115,7 @@ class MapEventActionButton extends StatelessWidget {
       return (AppColors.line2, AppColors.muteSoft, null);
     }
     return switch (tone) {
-      MapEventButtonTone.active => (AppColors.ink, Colors.white, null),
+      MapEventButtonTone.active => (AppColors.ink, AppColors.inkPanel, null),
       MapEventButtonTone.idle => (AppColors.surface, AppColors.ink, AppColors.line),
       MapEventButtonTone.accent => (AppColors.accent, Colors.white, null),
       MapEventButtonTone.accentSoft => (

@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Overview — Tweakd Admin</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="dashboard.css"/>
+<style>
+  .kpis{grid-template-columns:repeat(4,1fr);}
+  .r2{grid-template-columns:1.9fr 1fr;}
+  .r3{grid-template-columns:1fr 1fr;}
+  .pill-live{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:999px;
+    background:var(--surface);border:1px solid var(--line);font-family:var(--fdisplay);font-weight:700;
+    font-size:12px;color:var(--ink);}
+  .pill-live .ldot{width:8px;height:8px;border-radius:999px;background:var(--ok);position:relative;}
+  .pill-live .ldot::after{content:"";position:absolute;inset:-4px;border-radius:999px;border:2px solid var(--ok);opacity:.35;}
+  .pill-live b{color:var(--ink);}
+  .mini-stats{display:flex;gap:26px;}
+  .mini-stats .ms .v{font-family:var(--fdisplay);font-weight:700;font-size:19px;letter-spacing:-.6px;color:var(--ink);}
+  .mini-stats .ms .k{font-size:11px;color:var(--mute);font-family:var(--fdisplay);font-weight:600;letter-spacing:.4px;margin-top:1px;}
+  @media (max-width:1180px){.kpis{grid-template-columns:repeat(2,1fr);} .r2,.r3{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<script>window.TWEAK_DEFAULTS=/*EDITMODE-BEGIN*/{"accent":"ember","density":"airy","sidebar":"expanded"}/*EDITMODE-END*/;</script>
+
+<div class="app">
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <a class="side-brand" href="Overview.html">
+      <div class="side-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 13h6l-1 9 9-12h-6l1-8z" style="fill:var(--accent)"/></svg></div>
+      <div class="side-word">Tweakd<span class="dot">.</span></div>
+    </a>
+    <nav class="side-nav">
+      <div class="nav-group">
+        <div class="nav-group-label">Analytics</div>
+        <a class="nav-item active" href="Overview.html">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="13" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="3" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="13" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2"/></svg>
+          <span class="nav-label">Overview</span>
+        </a>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label">Moderation</div>
+        <a class="nav-item" href="Moderation.html">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          <span class="nav-label">Content Queue</span><span class="nav-badge">24</span>
+        </a>
+        <a class="nav-item" href="Feedback.html">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v11H9l-4 4V5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          <span class="nav-label">Feedback</span><span class="nav-badge mute">57</span>
+        </a>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label">Support</div>
+        <a class="nav-item" href="Support.html">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M3 8a2 2 0 012-2h14a2 2 0 012 2v2a2 2 0 000 4v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2a2 2 0 000-4V8z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M15 6v12" stroke="currentColor" stroke-width="2" stroke-dasharray="2 2"/></svg>
+          <span class="nav-label">Tickets</span><span class="nav-badge">12</span>
+        </a>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label">Team</div>
+        <a class="nav-item" href="Moderators.html">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3.4" stroke="currentColor" stroke-width="2"/><path d="M3.5 20c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 5.2A3.2 3.2 0 0119 8m-2.5 6.6c2.4.3 4.5 2.2 4.5 4.9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span class="nav-label">Moderators</span>
+        </a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <img class="avatar" src="../assets/avatar.jpg" width="38" height="38" alt=""/>
+      <div class="side-foot-meta">
+        <div class="side-foot-name">Jordan Vale</div>
+        <div class="side-foot-role">OWNER</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main">
+    <header class="topbar">
+      <div class="title">
+        <h1>Overview</h1>
+        <p>Community health at a glance · Last 30 days</p>
+      </div>
+      <div class="topbar-actions">
+        <div class="pill-live"><span class="ldot"></span>&nbsp;<b>3,204</b>&nbsp;active now</div>
+        <div class="searchbox">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#8A8680" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="#8A8680" stroke-width="2" stroke-linecap="round"/></svg>
+          <input placeholder="Search users, posts, tickets…"/>
+        </div>
+        <div class="icon-btn"><span class="dot"></span><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M6 9a6 6 0 0112 0c0 5 2 6 2 6H4s2-1 2-6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M10 19a2 2 0 004 0" stroke="currentColor" stroke-width="2"/></svg></div>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- KPI ROW -->
+      <div class="grid kpis" style="margin-bottom:var(--gap);">
+        <div class="card stat">
+          <div class="stat-top">
+            <span class="stat-label">Daily Active Users</span>
+            <span class="stat-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M3 12h4l2 6 4-14 2 8h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+          <div class="stat-num">42,318</div>
+          <div class="stat-foot"><span class="delta up"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 19V5M6 11l6-6 6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>6.2%</span><span class="stat-note">vs last week</span></div>
+          <div data-chart="spark" style="height:34px"><script type="application/json">{"data":[30,32,31,34,33,36,35,38,37,40,42],"height":34}</script></div>
+        </div>
+
+        <div class="card stat">
+          <div class="stat-top">
+            <span class="stat-label">Monthly Active Users</span>
+            <span class="stat-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2.5" stroke="currentColor" stroke-width="2"/><path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          </div>
+          <div class="stat-num">128,440</div>
+          <div class="stat-foot"><span class="delta up"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 19V5M6 11l6-6 6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>3.1%</span><span class="stat-note">vs last month</span></div>
+          <div data-chart="spark" style="height:34px"><script type="application/json">{"data":[110,112,115,114,118,120,122,121,124,126,128],"height":34}</script></div>
+        </div>
+
+        <div class="card stat">
+          <div class="stat-top">
+            <span class="stat-label">Avg. Session</span>
+            <span class="stat-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+          <div class="stat-num">8m 12s</div>
+          <div class="stat-foot"><span class="delta up"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 19V5M6 11l6-6 6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>0.4%</span><span class="stat-note">per active user</span></div>
+          <div data-chart="spark" style="height:34px"><script type="application/json">{"data":[7.2,7.4,7.3,7.6,7.8,7.7,7.9,8.0,7.9,8.1,8.2],"height":34}</script></div>
+        </div>
+
+        <div class="card stat">
+          <div class="stat-top">
+            <span class="stat-label">Churn Rate</span>
+            <span class="stat-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M3 5h4l2 6 4-2 2 4h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+          <div class="stat-num">3.8%</div>
+          <div class="stat-foot"><span class="delta up"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M6 13l6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>0.6pt</span><span class="stat-note">lower is better</span></div>
+          <div data-chart="spark" style="height:34px"><script type="application/json">{"data":[4.9,4.7,4.6,4.5,4.4,4.3,4.2,4.1,4.0,3.9,3.8],"height":34,"color":"#8A8680"}</script></div>
+        </div>
+      </div>
+
+      <!-- ROW 2: posts line + content mix donut -->
+      <div class="grid r2" style="margin-bottom:var(--gap);">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Posts created</h3>
+              <div class="sub">Daily new posts across feed, forums &amp; reels</div>
+            </div>
+            <div class="segmented"><span>Day</span><span class="on">Week</span><span>Month</span></div>
+          </div>
+          <div class="card-pad">
+            <div class="mini-stats" style="margin-bottom:18px;">
+              <div class="ms"><div class="v">1,204</div><div class="k">TODAY</div></div>
+              <div class="divider-y" style="height:32px"></div>
+              <div class="ms"><div class="v">8,940</div><div class="k">THIS WEEK</div></div>
+              <div class="divider-y" style="height:32px"></div>
+              <div class="ms"><div class="v">38.2k</div><div class="k">THIS MONTH</div></div>
+              <div class="divider-y" style="height:32px"></div>
+              <div class="ms"><div class="v" style="color:var(--accent)">1,278</div><div class="k">DAILY AVG</div></div>
+            </div>
+            <div data-chart="line" style="height:236px"><script type="application/json">{"height":236,"color":"#FF4D00","labels":["","W1","","","W2","","","W3","","","W4",""],"data":[980,1120,1040,1210,1180,1320,1260,1410,1350,1200,1290,1204],"compare":[900,960,1010,1050,1000,1120,1080,1180,1140,1090,1150,1120]}</script></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div><h3>Content mix</h3><div class="sub">Share of items created</div></div></div>
+          <div class="card-pad">
+            <div data-chart="donut" style="margin-bottom:22px;"><script type="application/json">{"size":190,"stroke":26,"centerLabel":"38.2k","centerSub":"THIS MONTH","segments":[{"label":"Posts","value":34,"color":"#FF4D00"},{"label":"Comments","value":29,"color":"#0A0A0A"},{"label":"Replies","value":18,"color":"#3F3F46"},{"label":"Photos","value":13,"color":"#8A8680"},{"label":"Threads","value":6,"color":"#B8B3AC"}]}</script></div>
+            <div class="legend">
+              <div class="legend-item"><span class="sw" style="background:#FF4D00"></span>Posts<span class="lv">34%</span></div>
+              <div class="legend-item"><span class="sw" style="background:#0A0A0A"></span>Comments<span class="lv">29%</span></div>
+              <div class="legend-item"><span class="sw" style="background:#3F3F46"></span>Replies<span class="lv">18%</span></div>
+              <div class="legend-item"><span class="sw" style="background:#8A8680"></span>Photos<span class="lv">13%</span></div>
+              <div class="legend-item"><span class="sw" style="background:#B8B3AC"></span>Threads<span class="lv">6%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 3: new profiles bar + active users trend -->
+      <div class="grid r3" style="margin-bottom:var(--gap);">
+        <div class="card">
+          <div class="card-head"><div><h3>New profiles</h3><div class="sub">Sign-ups per week · +12,480 this month</div></div><span class="badge accent"><span class="bdot"></span>+18% MoM</span></div>
+          <div class="card-pad"><div data-chart="bar" style="height:230px"><script type="application/json">{"height":230,"labels":["W1","W2","W3","W4","W5","W6","W7","W8"],"data":[2100,2340,2210,2680,2520,2900,3120,3340],"highlight":7}</script></div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div><h3>Active users trend</h3><div class="sub">DAU over the last 12 weeks</div></div><div class="segmented"><span class="on">DAU</span><span>WAU</span><span>MAU</span></div></div>
+          <div class="card-pad"><div data-chart="line" style="height:230px"><script type="application/json">{"height":230,"color":"#0A0A0A","labels":["","","","","","","","","","","",""],"data":[34000,35200,34800,36100,37000,36400,38200,39100,38700,40200,41500,42318]}</script></div></div>
+        </div>
+      </div>
+
+      <!-- ROW 4: moderation snapshot -->
+      <div class="card">
+        <div class="card-head">
+          <div><h3>Live moderation queue</h3><div class="sub">Newest flagged items awaiting review</div></div>
+          <a class="btn btn-ghost btn-sm" href="Moderation.html">Open queue<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+        <table class="table">
+          <thead><tr><th>Content</th><th>Type</th><th>Reported for</th><th>Reports</th><th>Age</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><div class="cell-main">"This mod is straight garbage, don't…"</div><div class="cell-sub">by @low_n_slow_leo</div></td><td><span class="tag">Comment</span></td><td>Harassment</td><td><b>7</b></td><td>4m</td><td><span class="badge danger"><span class="bdot"></span>HIGH</span></td></tr>
+            <tr><td><div class="cell-main">RX-7 build thread — dyno numbers</div><div class="cell-sub">by @torque_sasha</div></td><td><span class="tag">Thread</span></td><td>Spam / self-promo</td><td><b>3</b></td><td>12m</td><td><span class="badge warn"><span class="bdot"></span>MED</span></td></tr>
+            <tr><td><div class="cell-main">Photo · engine bay closeup</div><div class="cell-sub">by @kenji_apex</div></td><td><span class="tag">Photo</span></td><td>Graphic content</td><td><b>2</b></td><td>21m</td><td><span class="badge warn"><span class="bdot"></span>MED</span></td></tr>
+            <tr><td><div class="cell-main">"DM me for cheap ECU tunes 🔧…"</div><div class="cell-sub">by @vroom_valeria</div></td><td><span class="tag">Post</span></td><td>Scam / fraud</td><td><b>11</b></td><td>28m</td><td><span class="badge danger"><span class="bdot"></span>HIGH</span></td></tr>
+            <tr><td><div class="cell-main">Reply on "Best coilovers under $1k"</div><div class="cell-sub">by @rallyrider_rae</div></td><td><span class="tag">Reply</span></td><td>Misinformation</td><td><b>1</b></td><td>36m</td><td><span class="badge neutral"><span class="bdot"></span>LOW</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="charts.js"></script>
+<script src="tweaks.js"></script>
+</body>
+</html>

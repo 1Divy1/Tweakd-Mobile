@@ -35,14 +35,14 @@ class TaggedReplyCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.forum_outlined, size: 14, color: AppColors.mute),
+              Icon(Icons.forum_outlined, size: 14, color: AppColors.mute),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
                   thread.title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontSize: 14,
                     fontWeight: FontWeight.w800,
@@ -86,7 +86,7 @@ class TaggedReplyCard extends StatelessWidget {
                     ),
                     Text(
                       '  ·  ${postTimeAgo(l10n, reply.createdAt)}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.mute,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -97,7 +97,7 @@ class TaggedReplyCard extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   reply.content ?? '',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink2,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,

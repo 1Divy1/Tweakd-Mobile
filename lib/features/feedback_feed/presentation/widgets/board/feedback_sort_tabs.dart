@@ -82,7 +82,7 @@ class _Segment extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              color: isActive ? Colors.white : AppColors.ink2,
+              color: isActive ? AppColors.inkPanel : AppColors.ink2,
               fontSize: 12,
               fontWeight: FontWeight.w800,
               letterSpacing: 0.8,

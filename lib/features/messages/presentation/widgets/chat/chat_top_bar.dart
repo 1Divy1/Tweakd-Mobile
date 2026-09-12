@@ -32,7 +32,7 @@ class ChatTopBar extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.bg,
       ),
       child: Row(
@@ -50,7 +50,6 @@ class ChatTopBar extends StatelessWidget {
                       username: user.username,
                       avatarUrl: user.avatarUrl,
                       size: 42,
-                      showRing: true,
                       showOnlineDot: user.isOnline,
                     ),
                     const SizedBox(width: 12),
@@ -65,7 +64,7 @@ class ChatTopBar extends StatelessWidget {
                           user.username,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.ink,
                             fontSize: 17,
                             fontWeight: FontWeight.w800,
@@ -86,7 +85,7 @@ class ChatTopBar extends StatelessWidget {
                         const SizedBox(width: 6),
                         Text(
                           l10n.messagesActiveNowStatus,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.mute,
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
@@ -143,7 +142,7 @@ class _PulsingDotState extends State<_PulsingDot>
       child: Container(
         width: 8,
         height: 8,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: AppColors.accent,
           shape: BoxShape.circle,
         ),

@@ -114,7 +114,7 @@ class _OrganizerSearchSheetState extends State<_OrganizerSearchSheet> {
       constraints: BoxConstraints(
         maxHeight: MediaQuery.sizeOf(context).height * 0.8,
       ),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.bg,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
@@ -135,7 +135,7 @@ class _OrganizerSearchSheetState extends State<_OrganizerSearchSheet> {
             padding: const EdgeInsets.fromLTRB(20, 16, 20, 10),
             child: Text(
               l10n.mapEventsSearchOrganizersTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
                 color: AppColors.ink,
@@ -149,14 +149,14 @@ class _OrganizerSearchSheetState extends State<_OrganizerSearchSheet> {
               autofocus: true,
               onChanged: _onChanged,
               textInputAction: TextInputAction.search,
-              style: const TextStyle(fontSize: 15, color: AppColors.ink),
+              style: TextStyle(fontSize: 15, color: AppColors.ink),
               decoration: InputDecoration(
                 hintText: l10n.mapEventsSearchOrganizersHint,
-                hintStyle: const TextStyle(
+                hintStyle: TextStyle(
                   fontSize: 15,
                   color: AppColors.muteSoft,
                 ),
-                prefixIcon: const Icon(
+                prefixIcon: Icon(
                   Icons.search_rounded,
                   size: 20,
                   color: AppColors.muteSoft,
@@ -257,7 +257,7 @@ class _CandidateRow extends StatelessWidget {
                             candidate.name,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 14.5,
                               fontWeight: FontWeight.w700,
                               color: AppColors.ink,
@@ -282,7 +282,7 @@ class _CandidateRow extends StatelessWidget {
                         '@$username',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12,
                           color: AppColors.mute,
                         ),
@@ -317,7 +317,7 @@ class _Message extends StatelessWidget {
       child: Text(
         text,
         textAlign: TextAlign.center,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 13.5,
           height: 1.4,
           color: AppColors.mute,

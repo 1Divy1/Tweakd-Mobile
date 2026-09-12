@@ -157,7 +157,7 @@ class _HeroButton extends StatelessWidget {
         color: AppColors.surface,
         shape: const CircleBorder(),
         elevation: 2,
-        shadowColor: const Color(0x33000000),
+        shadowColor: AppColors.shadowAlpha(0x33),
         child: InkWell(
           onTap: onTap,
           customBorder: const CircleBorder(),

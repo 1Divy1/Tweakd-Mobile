@@ -67,7 +67,7 @@ class _DeclineEntryDialogState extends State<_DeclineEntryDialog> {
           children: [
             Text(
               l10n.mapEventsDeclineTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.w800,
                 color: AppColors.ink,
@@ -76,7 +76,7 @@ class _DeclineEntryDialogState extends State<_DeclineEntryDialog> {
             const SizedBox(height: 10),
             Text(
               l10n.mapEventsDeclineBody(widget.carName),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 height: 1.45,
                 color: AppColors.ink2,
@@ -85,7 +85,7 @@ class _DeclineEntryDialogState extends State<_DeclineEntryDialog> {
             const SizedBox(height: 18),
             Text(
               l10n.mapEventsDeclineReasonLabel,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 10.5,
                 fontWeight: FontWeight.w800,
                 letterSpacing: 0.7,
@@ -99,10 +99,10 @@ class _DeclineEntryDialogState extends State<_DeclineEntryDialog> {
               maxLines: 3,
               maxLength: 500,
               textCapitalization: TextCapitalization.sentences,
-              style: const TextStyle(fontSize: 14, color: AppColors.ink),
+              style: TextStyle(fontSize: 14, color: AppColors.ink),
               decoration: InputDecoration(
                 hintText: l10n.mapEventsDeclineReasonHint,
-                hintStyle: const TextStyle(
+                hintStyle: TextStyle(
                   fontSize: 14,
                   color: AppColors.muteSoft,
                 ),
@@ -112,11 +112,11 @@ class _DeclineEntryDialogState extends State<_DeclineEntryDialog> {
                 contentPadding: const EdgeInsets.all(12),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: const BorderSide(color: AppColors.line),
+                  borderSide: BorderSide(color: AppColors.line),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: const BorderSide(color: AppColors.accent),
+                  borderSide: BorderSide(color: AppColors.accent),
                 ),
               ),
             ),

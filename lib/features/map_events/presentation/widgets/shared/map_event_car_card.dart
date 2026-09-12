@@ -93,7 +93,7 @@ class MapEventCarCard extends StatelessWidget {
                     owner == null ? '' : '@$owner',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
                       color: AppColors.ink2,
@@ -135,7 +135,7 @@ class MapEventCarCard extends StatelessWidget {
                         onPressed: isBusy ? null : onDecline,
                         style: OutlinedButton.styleFrom(
                           foregroundColor: AppColors.ink2,
-                          side: const BorderSide(color: AppColors.line),
+                          side: BorderSide(color: AppColors.line),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -195,14 +195,14 @@ class _OwnerAvatar extends StatelessWidget {
     return Container(
       width: 26,
       height: 26,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.accentSoft,
         shape: BoxShape.circle,
       ),
       alignment: Alignment.center,
       child: Text(
         initial,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.w800,
           color: AppColors.accent,

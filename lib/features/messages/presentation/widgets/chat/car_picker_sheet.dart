@@ -89,7 +89,7 @@ class _CarPickerSheetState extends State<_CarPickerSheet> {
           const SizedBox(height: 18),
           Text(
             l10n.messagesShareCarsTitle,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 16,
               fontWeight: FontWeight.w800,
@@ -112,7 +112,7 @@ class _CarPickerSheetState extends State<_CarPickerSheet> {
               builder: (context, state) {
                 switch (state.status) {
                   case GarageCarsStatus.loading:
-                    return const Center(
+                    return Center(
                       child: SizedBox(
                         width: 22,
                         height: 22,
@@ -175,7 +175,7 @@ class _CenteredHint extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.mute,
             fontSize: 14,
             fontWeight: FontWeight.w500,
@@ -224,7 +224,7 @@ class _CarRow extends StatelessWidget {
                       car.brand,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.ink,
                         fontSize: 15,
                         fontWeight: FontWeight.w800,
@@ -235,7 +235,7 @@ class _CarRow extends StatelessWidget {
                       car.model,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.mute,
                         fontSize: 13,
                         fontWeight: FontWeight.w600,

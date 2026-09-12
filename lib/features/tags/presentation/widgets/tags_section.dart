@@ -156,7 +156,7 @@ class _LoadMoreButton extends StatelessWidget {
         ),
         child: Center(
           child: isLoading
-              ? const SizedBox(
+              ? SizedBox(
                   width: 18,
                   height: 18,
                   child: CircularProgressIndicator(
@@ -166,7 +166,7 @@ class _LoadMoreButton extends StatelessWidget {
                 )
               : Text(
                   label,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
@@ -226,7 +226,7 @@ class _TagsMessageView extends StatelessWidget {
           Text(
             message,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 14,
               fontWeight: FontWeight.w500,

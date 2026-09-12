@@ -111,7 +111,7 @@ class _CreateContestPageState extends State<CreateContestPage> {
                             enabled: !locked,
                             maxLength: 60,
                             onChanged: cubit.setTitle,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 14.5,
                               fontWeight: FontWeight.w800,
                               color: AppColors.ink,
@@ -131,7 +131,7 @@ class _CreateContestPageState extends State<CreateContestPage> {
                             minLines: 2,
                             maxLines: 4,
                             onChanged: cubit.setCriteria,
-                            style: const TextStyle(fontSize: 13.5, height: 1.5, color: AppColors.ink),
+                            style: TextStyle(fontSize: 13.5, height: 1.5, color: AppColors.ink),
                             decoration: _field(l10n.contestsCriteriaHint),
                           ),
                           const SizedBox(height: 14),
@@ -296,13 +296,13 @@ class _Header extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: AppColors.ink),
+                      style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: AppColors.ink),
                     ),
                     Text(
                       subtitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 11.5, color: AppColors.mute),
+                      style: TextStyle(fontSize: 11.5, color: AppColors.mute),
                     ),
                   ],
                 ),
@@ -367,7 +367,7 @@ class _CategoryGrid extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                         letterSpacing: 0.2,
                         height: 1.2,
-                        color: on ? Colors.white : AppColors.ink,
+                        color: on ? AppColors.inkPanel : AppColors.ink,
                       ),
                     ),
                   ),
@@ -425,12 +425,12 @@ class _Choice extends StatelessWidget {
                       color: selected ? AppColors.ink : Colors.transparent,
                     ),
                     child: selected
-                        ? const Center(
+                        ? Center(
                             child: SizedBox(
                               width: 6,
                               height: 6,
                               child: DecoratedBox(
-                                decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                                decoration: BoxDecoration(color: AppColors.inkPanel, shape: BoxShape.circle),
                               ),
                             ),
                           )
@@ -444,7 +444,7 @@ class _Choice extends StatelessWidget {
                       children: [
                         Text(
                           label,
-                          style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w800, color: AppColors.ink),
+                          style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w800, color: AppColors.ink),
                         ),
                         if (sub != null) ...[
                           const SizedBox(height: 2),
@@ -452,7 +452,7 @@ class _Choice extends StatelessWidget {
                             sub!,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 11, color: AppColors.mute),
+                            style: TextStyle(fontSize: 11, color: AppColors.mute),
                           ),
                         ],
                       ],
@@ -484,7 +484,7 @@ class _Note extends StatelessWidget {
           Icon(icon, size: 14, color: AppColors.mute),
           const SizedBox(width: 9),
           Expanded(
-            child: Text(text, style: const TextStyle(fontSize: 11.5, height: 1.45, color: AppColors.ink2)),
+            child: Text(text, style: TextStyle(fontSize: 11.5, height: 1.45, color: AppColors.ink2)),
           ),
         ],
       ),

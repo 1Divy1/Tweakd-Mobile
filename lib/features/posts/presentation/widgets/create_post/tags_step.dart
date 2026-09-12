@@ -41,8 +41,7 @@ class TagsStep extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PostSectionHeader(
-          label: '03 — ${l10n.postStepTags}',
+        PostStepHeader(
           title: l10n.postTagsTitle,
           subtitle: l10n.postTagsSubtitle,
         ),
@@ -50,7 +49,7 @@ class TagsStep extends StatelessWidget {
 
         // ── People ──────────────────────────────────────────────────────────
         PostFieldLabel(l10n.postTagsPeople, count: people.length),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
         PostSearchField(
           hint: l10n.postTagsPeopleHint,
           controller: peopleSearchCtrl,
@@ -87,7 +86,7 @@ class TagsStep extends StatelessWidget {
 
         // ── Cars ────────────────────────────────────────────────────────────
         PostFieldLabel(l10n.postTagsCars, count: cars.length),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
         _AddCarTile(
           onTap: () => _openCarPicker(context),
         ),
@@ -153,13 +152,14 @@ class _PeopleResults extends StatelessWidget {
 
         return Container(
           margin: const EdgeInsets.only(top: 8),
+          clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: AppColors.surface,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppColors.line),
+            borderRadius: BorderRadius.circular(kPostRadius),
+            boxShadow: kPostSurfaceShadow,
           ),
           child: switch (state.peopleStatus) {
-            TagLoadStatus.loading => const Padding(
+            TagLoadStatus.loading => Padding(
                 padding: EdgeInsets.symmetric(vertical: 18),
                 child: Center(
                   child: SizedBox(
@@ -179,7 +179,7 @@ class _PeopleResults extends StatelessWidget {
                 children: [
                   for (var i = 0; i < results.length; i++) ...[
                     if (i > 0)
-                      const Divider(
+                      Divider(
                           height: 1, color: AppColors.line2, indent: 14),
                     _PersonResultTile(
                       result: results[i],
@@ -205,7 +205,7 @@ class _ResultMessage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
       child: Text(
         text,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.muteSoft,
           fontSize: 14,
           fontWeight: FontWeight.w600,
@@ -234,14 +234,14 @@ class _PersonResultTile extends StatelessWidget {
             Expanded(
               child: Text(
                 '@${result.username}',
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ),
-            const Icon(Icons.add_rounded, color: AppColors.accent, size: 22),
+            Icon(Icons.add_rounded, color: AppColors.accent, size: 22),
           ],
         ),
       ),
@@ -302,7 +302,7 @@ class _CarPickerSheetState extends State<_CarPickerSheet> {
                 if (selected != null)
                   GestureDetector(
                     onTap: () => setState(() => _selected = null),
-                    child: const Padding(
+                    child: Padding(
                       padding: EdgeInsets.only(right: 10),
                       child: Icon(Icons.arrow_back_rounded,
                           size: 20, color: AppColors.ink),
@@ -313,7 +313,7 @@ class _CarPickerSheetState extends State<_CarPickerSheet> {
                     selected == null
                         ? l10n.postTagsChoosePerson
                         : l10n.postTagsChooseCar,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.ink,
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
@@ -324,7 +324,7 @@ class _CarPickerSheetState extends State<_CarPickerSheet> {
             ),
           ),
           const SizedBox(height: 12),
-          const Divider(height: 1, color: AppColors.line),
+          Divider(height: 1, color: AppColors.line),
           Expanded(
             child: selected == null
                 ? _PersonChooser(
@@ -369,7 +369,7 @@ class _PersonChooser extends StatelessWidget {
           child: Text(
             l10n.postTagsTagPersonFirst,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 15,
               height: 1.4,
@@ -383,7 +383,7 @@ class _PersonChooser extends StatelessWidget {
       controller: scrollController,
       padding: const EdgeInsets.symmetric(vertical: 4),
       itemCount: people.length,
-      separatorBuilder: (_, _) => const Divider(
+      separatorBuilder: (_, _) => Divider(
           height: 1, color: AppColors.line2, indent: 20, endIndent: 20),
       itemBuilder: (_, i) {
         final person = people[i];
@@ -393,13 +393,13 @@ class _PersonChooser extends StatelessWidget {
               username: person.username, avatarUrl: person.avatarUrl),
           title: Text(
             '@${person.username}',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontWeight: FontWeight.w700,
               fontSize: 16,
             ),
           ),
-          trailing: const Icon(Icons.chevron_right_rounded,
+          trailing: Icon(Icons.chevron_right_rounded,
               color: AppColors.mute),
           onTap: () => onSelect(person),
         );
@@ -428,7 +428,7 @@ class _CarChooser extends StatelessWidget {
       builder: (context, state) {
         if (state.carsStatus == TagLoadStatus.loading ||
             state.ownerUsername != owner.username) {
-          return const Center(
+          return Center(
             child: CircularProgressIndicator(color: AppColors.accent),
           );
         }
@@ -445,7 +445,7 @@ class _CarChooser extends StatelessWidget {
           controller: scrollController,
           padding: const EdgeInsets.symmetric(vertical: 4),
           itemCount: cars.length,
-          separatorBuilder: (_, _) => const Divider(
+          separatorBuilder: (_, _) => Divider(
               height: 1, color: AppColors.line2, indent: 20, endIndent: 20),
           itemBuilder: (_, i) {
             final car = cars[i];
@@ -461,14 +461,14 @@ class _CarChooser extends StatelessWidget {
                           imageUrl: car.coverImage!.url, fit: BoxFit.cover)
                       : Container(
                           color: AppColors.bg,
-                          child: const Icon(Icons.directions_car_rounded,
+                          child: Icon(Icons.directions_car_rounded,
                               color: AppColors.muteSoft, size: 20),
                         ),
                 ),
               ),
               title: Text(
                 '${car.brand} ${car.model}',
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontWeight: FontWeight.w700,
                   fontSize: 16,
@@ -501,7 +501,7 @@ class _CenteredMessage extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.mute,
             fontSize: 15,
             fontWeight: FontWeight.w600,
@@ -519,34 +519,34 @@ class _AddCarTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return GestureDetector(
+    return PostAddSurface(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.line),
-        ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Row(
           children: [
             Container(
               width: 34,
               height: 34,
               decoration: BoxDecoration(
-                color: AppColors.accentSoft,
+                color: AppColors.bg,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const Icon(Icons.add_rounded,
-                  color: AppColors.accent, size: 20),
+              child: Icon(
+                Icons.add_rounded,
+                color: AppColors.ink,
+                size: 20,
+              ),
             ),
             const SizedBox(width: 12),
-            Text(
-              l10n.postTagsAddCar,
-              style: const TextStyle(
-                color: AppColors.ink,
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
+            Expanded(
+              child: Text(
+                l10n.postTagsAddCar,
+                style: TextStyle(
+                  color: AppColors.ink,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ],
@@ -574,7 +574,7 @@ class _Avatar extends StatelessWidget {
       child: avatarUrl == null
           ? Text(
               initial,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.accentHot,
                 fontSize: 14,
                 fontWeight: FontWeight.w800,
@@ -597,8 +597,8 @@ class _CarChip extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(6, 6, 10, 6),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.line),
+        borderRadius: BorderRadius.circular(kPostRadius),
+        boxShadow: kPostSurfaceShadow,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -612,34 +612,42 @@ class _CarChip extends StatelessWidget {
                   ? CachedNetworkImage(imageUrl: car.imageUrl!, fit: BoxFit.cover)
                   : Container(
                       color: AppColors.bg,
-                      child: const Icon(Icons.directions_car_rounded,
+                      child: Icon(Icons.directions_car_rounded,
                           color: AppColors.muteSoft, size: 20),
                     ),
             ),
           ),
           const SizedBox(width: 10),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                car.name,
-                style: const TextStyle(
-                  color: AppColors.ink,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              if (car.ownerHandle.isNotEmpty)
+          // Flexible so a long car name or handle ellipsizes inside the chip
+          // instead of pushing it past the edge of a narrow screen.
+          Flexible(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Text(
-                  '@${car.ownerHandle}',
-                  style: const TextStyle(
-                    color: AppColors.mute,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
+                  car.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: AppColors.ink,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
-            ],
+                if (car.ownerHandle.isNotEmpty)
+                  Text(
+                    '@${car.ownerHandle}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: AppColors.mute,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+              ],
+            ),
           ),
           const SizedBox(width: 10),
           _RemoveButton(onTap: onRemove),
@@ -662,19 +670,23 @@ class _PersonChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.line),
+        boxShadow: kPostSurfaceShadow,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           _Avatar(username: person.username, avatarUrl: person.avatarUrl),
           const SizedBox(width: 10),
-          Text(
-            '@${person.username}',
-            style: const TextStyle(
-              color: AppColors.ink,
-              fontSize: 14,
-              fontWeight: FontWeight.w800,
+          Flexible(
+            child: Text(
+              '@${person.username}',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: AppColors.ink,
+                fontSize: 14,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
           const SizedBox(width: 10),
@@ -699,9 +711,8 @@ class _RemoveButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.bg,
           borderRadius: BorderRadius.circular(7),
-          border: Border.all(color: AppColors.line),
         ),
-        child: const Icon(Icons.close_rounded, size: 14, color: AppColors.mute),
+        child: Icon(Icons.close_rounded, size: 14, color: AppColors.mute),
       ),
     );
   }

@@ -186,7 +186,7 @@ class _EditPostPageState extends State<EditPostPage> {
             children: [
               Text(
                 l10n.postDeleteTitle,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
@@ -195,7 +195,7 @@ class _EditPostPageState extends State<EditPostPage> {
               const SizedBox(height: 10),
               Text(
                 l10n.postDeleteBody,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.mute,
                   fontSize: 14,
                   height: 1.4,
@@ -258,7 +258,7 @@ class _TopBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: AppColors.line),
               ),
-              child: const Icon(Icons.close_rounded,
+              child: Icon(Icons.close_rounded,
                   color: AppColors.ink, size: 20),
             ),
           ),
@@ -266,7 +266,7 @@ class _TopBar extends StatelessWidget {
             child: Center(
               child: Text(
                 l10n.postEditTitle,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 14,
                   fontWeight: FontWeight.w800,
@@ -330,18 +330,18 @@ class _DeleteButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.red.withAlpha(120)),
+          border: Border.all(color: AppColors.danger.withAlpha(120)),
         ),
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.delete_outline, color: Colors.red, size: 20),
+              Icon(Icons.delete_outline, color: AppColors.danger, size: 20),
               const SizedBox(width: 8),
               Text(
                 label,
-                style: const TextStyle(
-                  color: Colors.red,
+                style: TextStyle(
+                  color: AppColors.danger,
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
                 ),
@@ -372,15 +372,15 @@ class _DialogButton extends StatelessWidget {
       child: Container(
         height: 48,
         decoration: BoxDecoration(
-          color: isDestructive ? Colors.red : AppColors.surface,
+          color: isDestructive ? AppColors.danger : AppColors.surface,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: isDestructive ? Colors.red : AppColors.line),
+          border: Border.all(color: isDestructive ? AppColors.danger : AppColors.line),
         ),
         child: Center(
           child: Text(
             label,
             style: TextStyle(
-              color: isDestructive ? Colors.white : AppColors.ink,
+              color: isDestructive ? AppColors.onDanger : AppColors.ink,
               fontSize: 15,
               fontWeight: FontWeight.w700,
             ),

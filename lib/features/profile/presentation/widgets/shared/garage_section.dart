@@ -76,7 +76,7 @@ class _GarageEmptyView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Icon(
+          Icon(
             Icons.directions_car_outlined,
             size: 36,
             color: AppColors.mute,
@@ -87,7 +87,7 @@ class _GarageEmptyView extends StatelessWidget {
                 ? AppLocalizations.of(context)!.garageEmptyOwner
                 : AppLocalizations.of(context)!.garageEmptyVisitor,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 14,
               fontWeight: FontWeight.w500,
@@ -156,7 +156,7 @@ class _GarageErrorView extends StatelessWidget {
       child: Text(
         message,
         textAlign: TextAlign.center,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.mute,
           fontSize: 13,
           fontWeight: FontWeight.w500,

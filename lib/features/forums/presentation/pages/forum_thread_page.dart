@@ -193,10 +193,10 @@ class _ForumThreadPageState extends State<ForumThreadPage> {
           children: [
             const SizedBox(height: 8),
             ListTile(
-              leading: const Icon(Icons.edit_outlined, color: AppColors.ink),
+              leading: Icon(Icons.edit_outlined, color: AppColors.ink),
               title: Text(
                 edit,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w700,
                   color: AppColors.ink,
                 ),
@@ -204,11 +204,11 @@ class _ForumThreadPageState extends State<ForumThreadPage> {
               onTap: () => Navigator.of(context).pop(_MenuAction.edit),
             ),
             ListTile(
-              leading: const Icon(Icons.delete_outline,
+              leading: Icon(Icons.delete_outline,
                   color: AppColors.accentHot),
               title: Text(
                 delete,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w700,
                   color: AppColors.accentHot,
                 ),
@@ -232,7 +232,7 @@ class _ForumThreadPageState extends State<ForumThreadPage> {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.ink,
             fontSize: 18,
             fontWeight: FontWeight.w800,
@@ -240,7 +240,7 @@ class _ForumThreadPageState extends State<ForumThreadPage> {
         ),
         content: Text(
           body,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.mute,
             fontSize: 14,
             fontWeight: FontWeight.w500,
@@ -252,7 +252,7 @@ class _ForumThreadPageState extends State<ForumThreadPage> {
             onPressed: () => Navigator.of(context).pop(false),
             child: Text(
               l10n.commonCancel,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.mute,
                 fontWeight: FontWeight.w700,
               ),
@@ -262,7 +262,7 @@ class _ForumThreadPageState extends State<ForumThreadPage> {
             onPressed: () => Navigator.of(context).pop(true),
             child: Text(
               l10n.forumsDelete,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.accentHot,
                 fontWeight: FontWeight.w800,
               ),
@@ -480,7 +480,7 @@ class _ThreadContent extends StatelessWidget {
             ),
           ),
         if (!state.repliesLoading && state.isLoadingMoreReplies)
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
               child: Center(

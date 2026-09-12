@@ -11,13 +11,13 @@ const double kRegisterRadius = 16;
 
 /// The soft lift that replaces the borders on white surfaces, matching the
 /// onboarding flow.
-const List<BoxShadow> kRegisterSurfaceShadow = [
-  BoxShadow(
-    color: Color(0x06000000),
-    blurRadius: 10,
-    offset: Offset(0, 4),
-  ),
-];
+List<BoxShadow> get kRegisterSurfaceShadow => [
+      BoxShadow(
+        color: AppColors.shadowAlpha(0x06),
+        blurRadius: 10,
+        offset: const Offset(0, 4),
+      ),
+    ];
 
 /// Large title that opens every step of the register-car wizard. The accent
 /// "NN — STEP" eyebrow it used to carry is gone; the progress bar is the only
@@ -39,7 +39,7 @@ class RegisterSectionHeader extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.ink,
             fontSize: 30,
             height: 1.05,
@@ -51,7 +51,7 @@ class RegisterSectionHeader extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             subtitle!,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.mute,
               fontSize: 15,
               height: 1.3,
@@ -84,7 +84,7 @@ class RegisterFieldLabel extends StatelessWidget {
       children: [
         Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.ink2,
             fontSize: 11,
             fontWeight: FontWeight.w800,
@@ -94,7 +94,7 @@ class RegisterFieldLabel extends StatelessWidget {
         if (optional)
           Text(
             AppLocalizations.of(context)!.garageOptional,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.muteSoft,
               fontSize: 11,
               fontWeight: FontWeight.w700,
@@ -139,7 +139,7 @@ class RegisterUnitChip extends StatelessWidget {
       ),
       child: Text(
         text.toUpperCase(),
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.mute,
           fontSize: 11,
           fontWeight: FontWeight.w800,
@@ -194,7 +194,7 @@ class RegisterFormField extends StatelessWidget {
               inputFormatters: inputFormatters,
               maxLines: maxLines,
               cursorColor: AppColors.accent,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
@@ -207,7 +207,7 @@ class RegisterFormField extends StatelessWidget {
                 // the container do the painting.
                 filled: false,
                 hintText: hint,
-                hintStyle: const TextStyle(
+                hintStyle: TextStyle(
                   color: AppColors.muteSoft,
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -320,7 +320,7 @@ class RegisterSelectorTile extends StatelessWidget {
               ],
               Expanded(
                 child: loading
-                    ? const SizedBox(
+                    ? SizedBox(
                         height: 18,
                         width: 18,
                         child: CircularProgressIndicator(
@@ -340,7 +340,7 @@ class RegisterSelectorTile extends StatelessWidget {
                         ),
                       ),
               ),
-              const Icon(Icons.expand_more_rounded,
+              Icon(Icons.expand_more_rounded,
                   color: AppColors.mute, size: 22),
             ],
           ),
@@ -369,13 +369,13 @@ class RegisterRefDataError extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.cloud_off_rounded,
+            Icon(Icons.cloud_off_rounded,
                 color: AppColors.muteSoft, size: 40),
             const SizedBox(height: 16),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: AppColors.mute, fontSize: 15),
+              style: TextStyle(color: AppColors.mute, fontSize: 15),
             ),
             const SizedBox(height: 20),
             GestureDetector(
@@ -518,7 +518,7 @@ class _RegisterPickerSheetState<T> extends State<_RegisterPickerSheet<T>> {
             ),
           ],
           const SizedBox(height: 12),
-          const Divider(height: 1, color: AppColors.line),
+          Divider(height: 1, color: AppColors.line),
           Expanded(
             child: filtered.isEmpty
                 ? const _NoMatches()
@@ -526,7 +526,7 @@ class _RegisterPickerSheetState<T> extends State<_RegisterPickerSheet<T>> {
                     controller: scrollCtrl,
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     itemCount: filtered.length,
-                    separatorBuilder: (_, _) => const Divider(
+                    separatorBuilder: (_, _) => Divider(
                       height: 1,
                       color: AppColors.line2,
                       indent: 24,
@@ -538,7 +538,7 @@ class _RegisterPickerSheetState<T> extends State<_RegisterPickerSheet<T>> {
                       leading: widget.leadingOf?.call(filtered[i]),
                       title: Text(
                         widget.labelOf(filtered[i]),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.ink,
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
@@ -591,7 +591,7 @@ class _SheetTitle extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.ink,
             fontSize: 20,
             fontWeight: FontWeight.w800,
@@ -611,7 +611,7 @@ class _NoMatches extends StatelessWidget {
     return Center(
       child: Text(
         AppLocalizations.of(context)!.garageNoMatches,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.muteSoft,
           fontSize: 15,
           fontWeight: FontWeight.w600,
@@ -641,13 +641,13 @@ class _PickerSearchField extends StatelessWidget {
       child: Row(
         children: [
           const SizedBox(width: 14),
-          const Icon(Icons.search_rounded, color: AppColors.mute, size: 20),
+          Icon(Icons.search_rounded, color: AppColors.mute, size: 20),
           Expanded(
             child: TextField(
               controller: controller,
               onChanged: onChanged,
               cursorColor: AppColors.accent,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
@@ -656,7 +656,7 @@ class _PickerSearchField extends StatelessWidget {
                 isDense: true,
                 filled: false,
                 hintText: AppLocalizations.of(context)!.garageSearchHint,
-                hintStyle: const TextStyle(
+                hintStyle: TextStyle(
                   color: AppColors.muteSoft,
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
