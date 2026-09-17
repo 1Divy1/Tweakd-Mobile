@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
@@ -6,13 +8,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/error/base_failures.dart';
 import '../../../../core/realtime/dm_realtime_service.dart';
-import '../../../../core/realtime/presence_service.dart';
 import '../../domain/entities/chat.dart';
 import '../../domain/entities/chat_events.dart';
 import '../../domain/entities/conversation.dart';
 import '../../domain/entities/message.dart';
 import '../../domain/entities/message_user.dart';
-import '../../domain/entities/presence.dart';
 import '../../domain/repositories/messages_repository.dart';
 import '../datasources/messages_data_source.dart';
 import '../models/dm_models.dart';
@@ -24,13 +24,11 @@ import '../models/dm_models.dart';
 class MessagesRepositoryImpl implements MessagesRepository {
   final MessagesDataSource dataSource;
   final DmRealtimeService realtimeService;
-  final PresenceService presenceService;
   final SupabaseClient supabaseClient;
 
   MessagesRepositoryImpl(
     this.dataSource,
     this.realtimeService,
-    this.presenceService,
     this.supabaseClient,
   );
 
@@ -63,20 +61,10 @@ class MessagesRepositoryImpl implements MessagesRepository {
       _run('getInbox', () async {
         final page = await dataSource.getConversations(cursor: cursor);
         final myId = _myId;
-        // The REST payload's peer_online is a leftover of the Spring presence
-        // that this build replaced — online state comes from the presence
-        // channel now, and is applied on top here.
-        final online = presenceService.onlineUserIds;
-        final conversations = [
-          for (final row in page.items)
-            row.toEntity(myId, isPeerOnline: online.contains(row.peer.id)),
-        ];
         return InboxEntity(
-          activeNow: [
-            for (final conversation in conversations)
-              if (conversation.user.isOnline) conversation.user,
+          conversations: [
+            for (final row in page.items) row.toEntity(myId),
           ],
-          conversations: conversations,
           nextCursor: page.nextCursor,
         );
       });
@@ -87,9 +75,7 @@ class MessagesRepositoryImpl implements MessagesRepository {
   ) =>
       _run('getConversationPeer', () async {
         final conversation = await dataSource.getConversation(conversationId);
-        return conversation.peer.toEntity(
-          isOnline: presenceService.onlineUserIds.contains(conversation.peer.id),
-        );
+        return conversation.peer.toEntity();
       });
 
   @override
@@ -201,46 +187,73 @@ class MessagesRepositoryImpl implements MessagesRepository {
     }
   }
 
-  @override
-  Stream<ChatIncomingEvent> chatEvents(String conversationId) async* {
-    await for (final event in realtimeService.events) {
-      final myId = _myId;
-      switch (event) {
-        case DmMessageCreatedEvent(:final message)
-            when event.conversationId == conversationId:
-          final entity = _decodePushedMessage(message);
-          if (entity != null) yield ChatMessageArrived(entity);
-        case DmMessageDeletedEvent(:final messageId)
-            when event.conversationId == conversationId:
-          yield ChatMessageDeleted(messageId);
-        case DmConversationReadEvent(:final userId, :final lastReadMessageId)
-            when event.conversationId == conversationId &&
-                userId != myId &&
-                lastReadMessageId != null:
-          yield ChatMessagesSeen(upToMessageId: lastReadMessageId);
-        case DmTypingEvent(:final userId, :final isTyping)
-            when event.conversationId == conversationId && userId != myId:
-          yield ChatPartnerTyping(isTyping);
-        default:
-          break;
-      }
-    }
+  /// The viewer's live events mapped through [toEvent] (null = skip), with
+  /// the DM topic held for exactly as long as the stream has a listener.
+  ///
+  /// Deliberately not an `async*` generator: cancelling one that is suspended
+  /// in `await for` only takes effect at its next `yield`, so on a quiet topic
+  /// the release would never run and the socket would stay open. The retain
+  /// happens before `events` is listened to, but the join is asynchronous, so
+  /// its [DmConnectedEvent] is never missed.
+  Stream<T> _whileHeld<T>(T? Function(DmRealtimeEvent event) toEvent) {
+    StreamSubscription<DmRealtimeEvent>? source;
+    late final StreamController<T> controller;
+    controller = StreamController<T>(
+      onListen: () {
+        realtimeService.retain();
+        source = realtimeService.events.listen((event) {
+          final mapped = toEvent(event);
+          if (mapped != null) controller.add(mapped);
+        });
+      },
+      onCancel: () async {
+        await source?.cancel();
+        await realtimeService.release();
+      },
+    );
+    return controller.stream;
   }
 
   @override
-  Stream<InboxMessageEvent> inboxMessageEvents() async* {
-    await for (final event in realtimeService.events) {
-      if (event is DmMessageCreatedEvent) {
-        final entity = _decodePushedMessage(event.message);
-        if (entity != null) {
-          yield InboxMessageEvent(
-            conversationId: event.conversationId,
-            message: entity,
-          );
-        }
-      }
-    }
-  }
+  Stream<ChatIncomingEvent> chatEvents(String conversationId) =>
+      _whileHeld((event) {
+        final myId = _myId;
+        return switch (event) {
+          DmConnectedEvent() => const ChatLiveConnected(),
+          DmMessageCreatedEvent(:final message)
+              when event.conversationId == conversationId =>
+            switch (_decodePushedMessage(message)) {
+              final entity? => ChatMessageArrived(entity),
+              null => null,
+            },
+          DmMessageDeletedEvent(:final messageId)
+              when event.conversationId == conversationId =>
+            ChatMessageDeleted(messageId),
+          DmConversationReadEvent(:final userId, :final lastReadMessageId)
+              when event.conversationId == conversationId &&
+                  userId != myId &&
+                  lastReadMessageId != null =>
+            ChatMessagesSeen(upToMessageId: lastReadMessageId),
+          DmTypingEvent(:final userId, :final isTyping)
+              when event.conversationId == conversationId && userId != myId =>
+            ChatPartnerTyping(isTyping),
+          _ => null,
+        };
+      });
+
+  @override
+  Stream<InboxLiveEvent> inboxEvents() => _whileHeld((event) => switch (event) {
+        DmConnectedEvent() => const InboxLiveConnected(),
+        DmMessageCreatedEvent() =>
+          switch (_decodePushedMessage(event.message)) {
+            final entity? => InboxMessageEvent(
+                conversationId: event.conversationId,
+                message: entity,
+              ),
+            null => null,
+          },
+        _ => null,
+      });
 
   @override
   Future<Either<Failure, List<MessageUserEntity>>> getComposeSuggestions(
@@ -249,28 +262,9 @@ class MessagesRepositoryImpl implements MessagesRepository {
       _run('getComposeSuggestions', () async {
         final peers = await dataSource.searchUsers(query);
         final myId = _myId;
-        final online = presenceService.onlineUserIds;
         return [
           for (final peer in peers)
-            if (peer.id != myId)
-              peer.toEntity(isOnline: online.contains(peer.id)),
+            if (peer.id != myId) peer.toEntity(),
         ];
       });
-
-  @override
-  List<PresenceEntity> getPresence(List<String> userIds) {
-    final online = presenceService.onlineUserIds;
-    return [
-      for (final userId in userIds)
-        PresenceEntity(userId: userId, online: online.contains(userId)),
-    ];
-  }
-
-  @override
-  Stream<PresenceEntity> presenceUpdates() => presenceService.updates.map(
-        (update) => PresenceEntity(
-          userId: update.userId,
-          online: update.online,
-        ),
-      );
 }

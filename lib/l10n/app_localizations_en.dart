@@ -2342,9 +2342,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get messagesSearchHint => 'Search messages';
 
   @override
-  String get messagesActiveNow => 'Active now';
-
-  @override
   String get messagesRequestsTitle => 'Message requests';
 
   @override
@@ -2392,9 +2389,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String messagesTimeWeeks(int count) {
     return '${count}w';
   }
-
-  @override
-  String get messagesActiveNowStatus => 'Active now';
 
   @override
   String messagesMutualFollow(String followers) {

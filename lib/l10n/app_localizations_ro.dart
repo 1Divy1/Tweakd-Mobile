@@ -2357,9 +2357,6 @@ class AppLocalizationsRo extends AppLocalizations {
   String get messagesSearchHint => 'Caută în mesaje';
 
   @override
-  String get messagesActiveNow => 'Activi acum';
-
-  @override
   String get messagesRequestsTitle => 'Cereri de mesaje';
 
   @override
@@ -2407,9 +2404,6 @@ class AppLocalizationsRo extends AppLocalizations {
   String messagesTimeWeeks(int count) {
     return '${count}s';
   }
-
-  @override
-  String get messagesActiveNowStatus => 'Activ acum';
 
   @override
   String messagesMutualFollow(String followers) {

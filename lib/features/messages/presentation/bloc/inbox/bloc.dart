@@ -4,11 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../domain/entities/conversation.dart';
-import '../../../domain/entities/message_user.dart';
-import '../../../domain/entities/presence.dart';
 import '../../../domain/usecases/get_inbox.dart';
 import '../../../domain/usecases/message_actions.dart';
-import '../../../domain/usecases/presence.dart';
 import '../../../domain/usecases/watch_inbox.dart';
 import '../../utils/messages_error_mapper.dart';
 import 'event.dart';
@@ -16,22 +13,20 @@ import 'state.dart';
 
 /// Drives the messages inbox: cursor-paged load, pull-to-refresh,
 /// client-side search, hide ("delete chat"), plus live Supabase Realtime
-/// updates — presence flips (online dots + ACTIVE NOW strip) and new-message
-/// broadcasts (row preview / ordering / unread badge).
+/// new-message broadcasts (row preview / ordering / unread badge). The bloc's
+/// subscription is what holds the live connection open while the inbox is on
+/// screen.
 @injectable
 class InboxBloc extends Bloc<InboxEvent, InboxState> {
   final GetInboxUseCase getInbox;
   final HideConversationUseCase hideConversation;
-  final WatchPresenceUseCase watchPresence;
   final WatchInboxMessagesUseCase watchInboxMessages;
 
-  StreamSubscription<PresenceEntity>? _presenceSubscription;
-  StreamSubscription<InboxMessageEvent>? _messagesSubscription;
+  StreamSubscription<InboxLiveEvent>? _liveSubscription;
 
   InboxBloc({
     required this.getInbox,
     required this.hideConversation,
-    required this.watchPresence,
     required this.watchInboxMessages,
   }) : super(const InboxInitial()) {
     on<LoadInbox>(_onLoad);
@@ -39,19 +34,24 @@ class InboxBloc extends Bloc<InboxEvent, InboxState> {
     on<LoadMoreInbox>(_onLoadMore);
     on<InboxSearchChanged>(_onSearchChanged);
     on<HideInboxConversation>(_onHide);
-    on<InboxPresenceChanged>(_onPresenceChanged);
     on<InboxMessageReceived>(_onMessageReceived);
 
-    _presenceSubscription = watchPresence()
-        .listen((presence) => add(InboxPresenceChanged(presence)));
-    _messagesSubscription = watchInboxMessages()
-        .listen((event) => add(InboxMessageReceived(event)));
+    _liveSubscription = watchInboxMessages().listen((event) {
+      switch (event) {
+        case InboxMessageEvent():
+          add(InboxMessageReceived(event));
+        case InboxLiveConnected():
+          // Pings sent while the connection was down are gone. Before the
+          // first load lands there is nothing to catch up — LoadInbox is
+          // already fetching.
+          if (state is InboxLoaded) add(const RefreshInbox());
+      }
+    });
   }
 
   @override
   Future<void> close() async {
-    await _presenceSubscription?.cancel();
-    await _messagesSubscription?.cancel();
+    await _liveSubscription?.cancel();
     return super.close();
   }
 
@@ -108,7 +108,6 @@ class InboxBloc extends Bloc<InboxEvent, InboxState> {
         ];
         emit(latest.copyWith(
           inbox: InboxEntity(
-            activeNow: _activeNowFrom(appended),
             requestsCount: latest.inbox.requestsCount,
             requestsPreviewNames: latest.inbox.requestsPreviewNames,
             conversations: appended,
@@ -143,47 +142,10 @@ class InboxBloc extends Bloc<InboxEvent, InboxState> {
             if (conversation.id != event.conversationId) conversation,
         ];
         emit(latest.copyWith(
-          inbox: latest.inbox.copyWith(
-            conversations: remaining,
-            activeNow: _activeNowFrom(remaining),
-          ),
+          inbox: latest.inbox.copyWith(conversations: remaining),
         ));
       },
     );
-  }
-
-  void _onPresenceChanged(
-    InboxPresenceChanged event,
-    Emitter<InboxState> emit,
-  ) {
-    final current = state;
-    if (current is! InboxLoaded) return;
-    final presence = event.presence;
-
-    // The presence channel is global, so most flips are about people the
-    // viewer has no conversation with — and the first sync after connecting
-    // announces everyone at once. Bail before rebuilding the list.
-    final affectsInbox = current.inbox.conversations
-        .any((conversation) => conversation.user.id == presence.userId);
-    if (!affectsInbox) return;
-
-    final conversations = [
-      for (final conversation in current.inbox.conversations)
-        conversation.user.id == presence.userId
-            ? conversation.copyWith(
-                user: conversation.user.withPresence(
-                  isOnline: presence.online,
-                ),
-              )
-            : conversation,
-    ];
-
-    emit(current.copyWith(
-      inbox: current.inbox.copyWith(
-        conversations: conversations,
-        activeNow: _activeNowFrom(conversations),
-      ),
-    ));
   }
 
   void _onMessageReceived(
@@ -226,13 +188,4 @@ class InboxBloc extends Bloc<InboxEvent, InboxState> {
       inbox: current.inbox.copyWith(conversations: conversations),
     ));
   }
-
-  /// ACTIVE NOW strip is always derived from the rows' presence flags.
-  List<MessageUserEntity> _activeNowFrom(
-    List<ConversationEntity> conversations,
-  ) =>
-      [
-        for (final conversation in conversations)
-          if (conversation.user.isOnline) conversation.user,
-      ];
 }

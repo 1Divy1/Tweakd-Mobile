@@ -285,7 +285,6 @@ import '../../features/messages/domain/usecases/get_inbox.dart' as _i134;
 import '../../features/messages/domain/usecases/get_messages.dart' as _i15;
 import '../../features/messages/domain/usecases/get_unread_count.dart' as _i915;
 import '../../features/messages/domain/usecases/message_actions.dart' as _i680;
-import '../../features/messages/domain/usecases/presence.dart' as _i583;
 import '../../features/messages/domain/usecases/send_message.dart' as _i162;
 import '../../features/messages/domain/usecases/watch_chat.dart' as _i467;
 import '../../features/messages/domain/usecases/watch_inbox.dart' as _i839;
@@ -446,10 +445,8 @@ import '../push/push_notification_service.dart' as _i992;
 import '../push/push_registration.dart' as _i892;
 import '../realtime/contest_realtime_service.dart' as _i400;
 import '../realtime/dm_realtime_service.dart' as _i511;
-import '../realtime/presence_service.dart' as _i784;
 import '../realtime/supabase_contest_realtime_service.dart' as _i443;
 import '../realtime/supabase_dm_realtime_service.dart' as _i543;
-import '../realtime/supabase_presence_service.dart' as _i1029;
 import '../services/image_service.dart' as _i768;
 import '../services/navigation_launcher_service.dart' as _i907;
 import '../services/push_permission_service.dart' as _i792;
@@ -497,9 +494,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1064.CreateEventDraftLocalDataSource>(
       () => _i1064.CreateEventDraftLocalDataSource(),
-    );
-    gh.lazySingleton<_i784.PresenceService>(
-      () => _i1029.SupabasePresenceService(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i361.Dio>(
       () => dioModule.dio(
@@ -733,6 +727,13 @@ extension GetItInjectableX on _i174.GetIt {
         saveImageKeys: gh<_i913.SaveImageKeysUseCase>(),
         deletePost: gh<_i640.DeletePostUseCase>(),
         imageService: gh<_i768.ImageService>(),
+      ),
+    );
+    gh.lazySingleton<_i794.MessagesRepository>(
+      () => _i20.MessagesRepositoryImpl(
+        gh<_i637.MessagesDataSource>(),
+        gh<_i511.DmRealtimeService>(),
+        gh<_i454.SupabaseClient>(),
       ),
     );
     gh.lazySingleton<_i107.GetBusinessDetailUseCase>(
@@ -1124,14 +1125,6 @@ extension GetItInjectableX on _i174.GetIt {
         imageService: gh<_i768.ImageService>(),
       ),
     );
-    gh.lazySingleton<_i794.MessagesRepository>(
-      () => _i20.MessagesRepositoryImpl(
-        gh<_i637.MessagesDataSource>(),
-        gh<_i511.DmRealtimeService>(),
-        gh<_i784.PresenceService>(),
-        gh<_i454.SupabaseClient>(),
-      ),
-    );
     gh.factory<_i470.EditPostBloc>(
       () => _i470.EditPostBloc(
         updatePost: gh<_i310.UpdatePostUseCase>(),
@@ -1281,12 +1274,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i680.SendTypingUseCase>(
       () => _i680.SendTypingUseCase(gh<_i794.MessagesRepository>()),
     );
-    gh.lazySingleton<_i583.GetPresenceUseCase>(
-      () => _i583.GetPresenceUseCase(gh<_i794.MessagesRepository>()),
-    );
-    gh.lazySingleton<_i583.WatchPresenceUseCase>(
-      () => _i583.WatchPresenceUseCase(gh<_i794.MessagesRepository>()),
-    );
     gh.lazySingleton<_i162.SendMessageUseCase>(
       () => _i162.SendMessageUseCase(gh<_i794.MessagesRepository>()),
     );
@@ -1397,10 +1384,15 @@ extension GetItInjectableX on _i174.GetIt {
         withdraw: gh<_i295.WithdrawFromMapEventUseCase>(),
       ),
     );
-    gh.factory<_i409.DmUnreadCubit>(
-      () => _i409.DmUnreadCubit(
-        getUnreadCount: gh<_i915.GetUnreadCountUseCase>(),
-        watchInboxMessages: gh<_i839.WatchInboxMessagesUseCase>(),
+    gh.factory<_i269.ChatBloc>(
+      () => _i269.ChatBloc(
+        getMessages: gh<_i15.GetMessagesUseCase>(),
+        getConversationPeer: gh<_i551.GetConversationPeerUseCase>(),
+        sendMessage: gh<_i162.SendMessageUseCase>(),
+        deleteMessage: gh<_i680.DeleteMessageUseCase>(),
+        markConversationRead: gh<_i680.MarkConversationReadUseCase>(),
+        sendTyping: gh<_i680.SendTypingUseCase>(),
+        watchChat: gh<_i467.WatchChatUseCase>(),
       ),
     );
     gh.factory<_i862.FeedbackBloc>(
@@ -1657,19 +1649,6 @@ extension GetItInjectableX on _i174.GetIt {
         getNearbyEvents: gh<_i997.GetNearbyMapEventsUseCase>(),
       ),
     );
-    gh.factory<_i269.ChatBloc>(
-      () => _i269.ChatBloc(
-        getMessages: gh<_i15.GetMessagesUseCase>(),
-        getConversationPeer: gh<_i551.GetConversationPeerUseCase>(),
-        sendMessage: gh<_i162.SendMessageUseCase>(),
-        deleteMessage: gh<_i680.DeleteMessageUseCase>(),
-        markConversationRead: gh<_i680.MarkConversationReadUseCase>(),
-        sendTyping: gh<_i680.SendTypingUseCase>(),
-        watchChat: gh<_i467.WatchChatUseCase>(),
-        getPresence: gh<_i583.GetPresenceUseCase>(),
-        watchPresence: gh<_i583.WatchPresenceUseCase>(),
-      ),
-    );
     gh.factory<_i681.ComposeBloc>(
       () => _i681.ComposeBloc(
         getSuggestions: gh<_i231.GetComposeSuggestionsUseCase>(),
@@ -1691,6 +1670,13 @@ extension GetItInjectableX on _i174.GetIt {
         deleteReply: gh<_i492.DeleteForumReplyUseCase>(),
         saveThread: gh<_i302.SaveForumThreadUseCase>(),
         unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
+      ),
+    );
+    gh.factory<_i245.InboxBloc>(
+      () => _i245.InboxBloc(
+        getInbox: gh<_i134.GetInboxUseCase>(),
+        hideConversation: gh<_i680.HideConversationUseCase>(),
+        watchInboxMessages: gh<_i839.WatchInboxMessagesUseCase>(),
       ),
     );
     gh.factory<_i188.NewThreadBloc>(
@@ -1729,12 +1715,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i462.SearchBloc>(
       () => _i462.SearchBloc(searchUsers: gh<_i14.SearchUsersUseCase>()),
     );
-    gh.factory<_i245.InboxBloc>(
-      () => _i245.InboxBloc(
-        getInbox: gh<_i134.GetInboxUseCase>(),
-        hideConversation: gh<_i680.HideConversationUseCase>(),
-        watchPresence: gh<_i583.WatchPresenceUseCase>(),
-        watchInboxMessages: gh<_i839.WatchInboxMessagesUseCase>(),
+    gh.factory<_i409.DmUnreadCubit>(
+      () => _i409.DmUnreadCubit(
+        getUnreadCount: gh<_i915.GetUnreadCountUseCase>(),
       ),
     );
     gh.factory<_i853.TagsBloc>(

@@ -40,6 +40,12 @@ class ChatMessageArrived extends ChatIncomingEvent {
   List<Object?> get props => [message];
 }
 
+/// The live connection (re)opened. Events sent while it was down were
+/// missed, so the chat should refetch its latest page.
+class ChatLiveConnected extends ChatIncomingEvent {
+  const ChatLiveConnected();
+}
+
 /// A message in this conversation was soft-deleted by its sender.
 class ChatMessageDeleted extends ChatIncomingEvent {
   final String messageId;

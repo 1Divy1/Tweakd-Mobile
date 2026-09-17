@@ -39,7 +39,6 @@ class ConversationTile extends StatelessWidget {
               username: user.username,
               avatarUrl: user.avatarUrl,
               size: 56,
-              showOnlineDot: user.isOnline,
             ),
             const SizedBox(width: 14),
             Expanded(

@@ -25,11 +25,10 @@ class DmPeerModel {
         avatarUrl: json['avatar_url'] as String?,
       );
 
-  MessageUserEntity toEntity({bool isOnline = false}) => MessageUserEntity(
+  MessageUserEntity toEntity() => MessageUserEntity(
         id: id,
         username: username,
         avatarUrl: avatarUrl,
-        isOnline: isOnline,
       );
 }
 
@@ -54,8 +53,7 @@ class DmConversationModel {
   });
 
   /// The payload still carries `peer_online` / `peer_last_seen_at` from the
-  /// Spring presence this build replaced. Both are ignored: online state now
-  /// comes from the Supabase presence channel.
+  /// old Spring presence. Both are ignored: the app shows no online state.
   factory DmConversationModel.fromJson(Map<String, dynamic> json) =>
       DmConversationModel(
         id: json['id'] as String,
@@ -69,10 +67,9 @@ class DmConversationModel {
   /// [myId] decides the "You:" prefix. A null preview means the last message
   /// was deleted; the row renders a placeholder. `lastMessageSeen` has no
   /// source in this payload, so the mini-avatar receipt stays off.
-  ConversationEntity toEntity(String myId, {bool isPeerOnline = false}) =>
-      ConversationEntity(
+  ConversationEntity toEntity(String myId) => ConversationEntity(
         id: id,
-        user: peer.toEntity(isOnline: isPeerOnline),
+        user: peer.toEntity(),
         preview: lastMessagePreview ?? '',
         previewKind: lastMessagePreview == null
             ? ConversationPreviewKind.deleted

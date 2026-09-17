@@ -4,7 +4,6 @@ import '../../../domain/entities/chat.dart';
 import '../../../domain/entities/chat_events.dart';
 import '../../../domain/entities/message.dart';
 import '../../../domain/entities/message_user.dart';
-import '../../../domain/entities/presence.dart';
 
 sealed class ChatEvent extends Equatable {
   const ChatEvent();
@@ -78,28 +77,22 @@ class ChatStreamEventReceived extends ChatEvent {
   List<Object?> get props => [incoming];
 }
 
-/// Internal: history fetched after the first send adopted a conversation id
-/// (covers messaging someone whose conversation was hidden or not loaded).
-/// Added by the bloc's own plumbing, not by widgets.
+/// Internal: the latest history page, fetched either after the first send
+/// adopted a conversation id (covers messaging someone whose conversation was
+/// hidden or not loaded) or — [isCatchUp] — after the live connection
+/// (re)opened on an already loaded chat. Added by the bloc's own plumbing,
+/// not by widgets.
 class ChatHistoryBackfilled extends ChatEvent {
   final String conversationId;
   final MessagesPageEntity page;
+  final bool isCatchUp;
   const ChatHistoryBackfilled({
     required this.conversationId,
     required this.page,
+    this.isCatchUp = false,
   });
 
   @override
-  List<Object?> get props => [conversationId, page];
+  List<Object?> get props => [conversationId, page, isCatchUp];
 }
 
-/// Internal: the peer's presence changed — either the initial batch lookup
-/// resolved or a live flip arrived on the DM socket. Added by the bloc's own
-/// plumbing, not by widgets.
-class ChatPeerPresenceChanged extends ChatEvent {
-  final PresenceEntity presence;
-  const ChatPeerPresenceChanged(this.presence);
-
-  @override
-  List<Object?> get props => [presence];
-}

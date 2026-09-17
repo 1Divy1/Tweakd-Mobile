@@ -4220,12 +4220,6 @@ abstract class AppLocalizations {
   /// **'Search messages'**
   String get messagesSearchHint;
 
-  /// No description provided for @messagesActiveNow.
-  ///
-  /// In en, this message translates to:
-  /// **'Active now'**
-  String get messagesActiveNow;
-
   /// No description provided for @messagesRequestsTitle.
   ///
   /// In en, this message translates to:
@@ -4297,12 +4291,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count}w'**
   String messagesTimeWeeks(int count);
-
-  /// No description provided for @messagesActiveNowStatus.
-  ///
-  /// In en, this message translates to:
-  /// **'Active now'**
-  String get messagesActiveNowStatus;
 
   /// No description provided for @messagesMutualFollow.
   ///
