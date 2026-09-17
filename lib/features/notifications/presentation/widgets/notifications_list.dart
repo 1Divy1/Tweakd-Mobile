@@ -9,6 +9,7 @@ import '../bloc/notifications/bloc.dart';
 import '../bloc/notifications/event.dart';
 import '../bloc/notifications/state.dart';
 import 'notification_tile.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// The loaded notifications list: pull-to-refresh over the rows with cursor
 /// pagination near the bottom and dividers between rows.
@@ -16,7 +17,11 @@ class NotificationsList extends StatelessWidget {
   final NotificationsLoaded state;
   final void Function(BuildContext, NotificationEntity) onTap;
 
-  const NotificationsList({super.key, required this.state, required this.onTap});
+  const NotificationsList({
+    super.key,
+    required this.state,
+    required this.onTap,
+  });
 
   Future<void> _refresh(BuildContext context) async {
     final completer = Completer<void>();
@@ -42,7 +47,7 @@ class NotificationsList extends StatelessWidget {
         onNotification: (notification) => _onScroll(context, notification),
         child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.only(bottom: 24),
+          padding: const EdgeInsets.only(bottom: 24) + AppLayout.inset(context),
           itemCount: items.length + (state.isLoadingMore ? 1 : 0),
           itemBuilder: (context, index) {
             if (index >= items.length) {

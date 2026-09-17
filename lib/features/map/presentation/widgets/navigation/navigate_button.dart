@@ -28,7 +28,6 @@ class NavigateButton extends StatelessWidget {
 
     return SizedBox(
       width: double.infinity,
-      height: 50,
       child: ElevatedButton.icon(
         onPressed: () => showNavigationAppSheet(
           context,
@@ -39,9 +38,12 @@ class NavigateButton extends StatelessWidget {
         icon: const Icon(Icons.near_me_rounded, size: 18),
         label: Text(
           l10n.mapNavigate,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800),
         ),
         style: ElevatedButton.styleFrom(
+          minimumSize: const Size(0, 50),
           backgroundColor: AppColors.accent,
           foregroundColor: Colors.white,
           elevation: 0,

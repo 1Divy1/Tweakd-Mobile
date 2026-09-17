@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/shared/widgets/app_shimmer.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 /// Skeleton placeholder shown while the DM inbox loads. Mirrors the
 /// conversation list (avatar, name + preview lines, trailing timestamp) using
@@ -14,7 +15,7 @@ class InboxLoadingView extends StatelessWidget {
     return AppShimmer(
       child: ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.only(top: 16),
+        padding: const EdgeInsets.only(top: 16) + AppLayout.inset(context),
         itemCount: 8,
         itemBuilder: (_, _) => const _ConversationSkeleton(),
       ),
@@ -87,10 +88,7 @@ class _Circle extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(
-        color: AppColors.line2,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: AppColors.line2, shape: BoxShape.circle),
     );
   }
 }

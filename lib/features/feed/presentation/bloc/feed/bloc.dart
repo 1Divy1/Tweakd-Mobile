@@ -8,6 +8,7 @@ import '../../../../../core/error/base_failures.dart' show Failure;
 import '../../../../posts/domain/entities/post.dart';
 import '../../../../posts/domain/usecases/add_comment.dart';
 import '../../../../posts/domain/usecases/post_like.dart';
+import '../../../../posts/domain/usecases/post_repost.dart';
 import '../../../../posts/domain/usecases/post_save.dart';
 import '../../../domain/entities/feed_page.dart';
 import '../../../domain/usecases/get_global_feed.dart';
@@ -16,8 +17,8 @@ import 'event.dart';
 import 'state.dart';
 
 /// Drives the global feed page: first load, pull-to-refresh, cursor paging and
-/// optimistic like toggles. A feed item is a post, so likes reuse the posts
-/// feature's like/unlike use cases.
+/// optimistic like / save / repost toggles. A feed item is a post, so those
+/// reuse the posts feature's use cases.
 @injectable
 class FeedBloc extends Bloc<FeedEvent, FeedState> {
   final GetGlobalFeedUseCase getGlobalFeed;
@@ -25,6 +26,8 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
   final UnlikePostUseCase unlikePost;
   final SavePostUseCase savePost;
   final UnsavePostUseCase unsavePost;
+  final RepostPostUseCase repostPost;
+  final UnrepostPostUseCase unrepostPost;
   final AddCommentUseCase addComment;
 
   FeedBloc({
@@ -33,6 +36,8 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     required this.unlikePost,
     required this.savePost,
     required this.unsavePost,
+    required this.repostPost,
+    required this.unrepostPost,
     required this.addComment,
   }) : super(const FeedInitial()) {
     on<LoadFeed>(_onLoad);
@@ -40,6 +45,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     on<LoadMoreFeed>(_onLoadMore);
     on<ToggleLikeFeedPost>(_onToggleLike);
     on<ToggleSaveFeedPost>(_onToggleSave);
+    on<ToggleRepostFeedPost>(_onToggleRepost);
     on<UpdateFeedPostCommentCount>(_onUpdateCommentCount);
     on<SubmitFeedComment>(_onSubmitComment);
     on<HideFeedPost>(_onHidePost);
@@ -206,7 +212,23 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     );
   }
 
-  /// Shared optimistic toggle for like/save: flips the flag + adjusts the
+  Future<void> _onToggleRepost(
+    ToggleRepostFeedPost event,
+    Emitter<FeedState> emit,
+  ) {
+    return _toggle(
+      emit,
+      postId: event.postId,
+      isOn: (p) => p.viewerHasReposted,
+      flip: (p, on) => p.copyWith(
+        viewerHasReposted: on,
+        sharesCount: (p.sharesCount + (on ? 1 : -1)).clamp(0, 1 << 31),
+      ),
+      call: (id, on) => on ? repostPost(id) : unrepostPost(id),
+    );
+  }
+
+  /// Shared optimistic toggle for like/save/repost: flips the flag + adjusts the
   /// matching counter immediately, then reverts that one post on failure.
   Future<void> _toggle(
     Emitter<FeedState> emit, {

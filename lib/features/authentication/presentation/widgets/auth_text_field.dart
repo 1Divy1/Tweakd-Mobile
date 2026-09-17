@@ -61,12 +61,11 @@ class _AuthTextFieldState extends State<AuthTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.label.toUpperCase(),
+          widget.label,
           style: TextStyle(
             color: AppColors.ink,
-            fontSize: 13,
-            fontWeight: FontWeight.w800,
-            letterSpacing: 0.8,
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
           ),
         ),
         const SizedBox(height: 8),

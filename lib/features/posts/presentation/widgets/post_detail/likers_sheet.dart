@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/di/injection.dart';
+import '../../../../../core/shared/widgets/app_avatar.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../bloc/likers/bloc.dart';
@@ -107,28 +107,13 @@ class _LikersSheet extends StatelessWidget {
                             );
                           }
                           final user = state.likers[i];
-                          final initial = user.username.isNotEmpty
-                              ? user.username.characters.first.toUpperCase()
-                              : '?';
                           return ListTile(
                             contentPadding:
                                 const EdgeInsets.symmetric(horizontal: 20),
-                            leading: CircleAvatar(
-                              radius: 21,
-                              backgroundColor: AppColors.accentSoft,
-                              backgroundImage: user.avatarUrl != null
-                                  ? CachedNetworkImageProvider(user.avatarUrl!)
-                                  : null,
-                              child: user.avatarUrl == null
-                                  ? Text(
-                                      initial,
-                                      style: TextStyle(
-                                        color: AppColors.accentHot,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w800,
-                                      ),
-                                    )
-                                  : null,
+                            leading: AppAvatar(
+                              size: 42,
+                              url: user.avatarUrl,
+                              name: user.username,
                             ),
                             title: Text(
                               '@${user.username}',

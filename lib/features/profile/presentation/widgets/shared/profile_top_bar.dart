@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/shared/widgets/app_pill_button.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 class ProfileTopBar extends StatelessWidget {
   final String title;
@@ -40,12 +41,13 @@ class ProfileTopBar extends StatelessWidget {
         color: AppColors.ink,
         fontSize: isHandle ? 17 : 14,
         fontWeight: FontWeight.w800,
-        letterSpacing: isHandle ? -0.2 : 1.6,
+        letterSpacing: isHandle ? -0.2 : 0,
       ),
     );
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+      padding:
+          const EdgeInsets.fromLTRB(16, 8, 16, 8) + AppLayout.inset(context),
       child: Row(
         children: [
           SizedBox(

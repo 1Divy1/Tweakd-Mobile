@@ -7,11 +7,30 @@ import '../../../../follow/presentation/bloc/bloc.dart';
 import '../../../../follow/presentation/bloc/event.dart';
 import '../../../../follow/presentation/bloc/state.dart';
 import '../../../../follow/presentation/utils/follow_error_mapper.dart';
+import '../../../../follow/presentation/widgets/follow_confirm_sheet.dart';
 
+/// The follow CTA on a public profile. It names the current relationship
+/// ("Following", "Requested") rather than the action that would undo it, and
+/// unfollowing goes through a confirmation sheet.
 class FollowButton extends StatelessWidget {
   final String username;
+  final String? avatarUrl;
 
-  const FollowButton({super.key, required this.username});
+  const FollowButton({super.key, required this.username, this.avatarUrl});
+
+  Future<void> _confirmUnfollow(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
+    final bloc = context.read<FollowBloc>();
+    final confirmed = await showFollowConfirmSheet(
+      context,
+      username: username,
+      avatarUrl: avatarUrl,
+      title: l10n.followUnfollowConfirmTitle(username),
+      body: l10n.followUnfollowConfirmBody,
+      confirmLabel: l10n.followActionUnfollow,
+    );
+    if (confirmed) bloc.add(ToggleFollow(username));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,18 +80,19 @@ class FollowButton extends StatelessWidget {
 
     if (status.isFollowing) {
       return _FollowButtonShell(
-        label: l10n.followActionUnfollow,
-        icon: Icons.person_remove_outlined,
+        label: l10n.followActionFollowing,
+        icon: Icons.check_rounded,
         backgroundColor: AppColors.surface,
         textColor: AppColors.ink,
         iconColor: AppColors.ink,
         isLoading: state.isUpdating,
-        onPressed: () =>
-            context.read<FollowBloc>().add(ToggleFollow(username)),
+        onPressed: () => _confirmUnfollow(context),
       );
     }
 
     if (status.isPending) {
+      // Withdrawing a request that was never accepted costs nothing, so it
+      // stays a single tap.
       return _FollowButtonShell(
         label: l10n.followActionRequested,
         icon: Icons.schedule,
@@ -80,8 +100,7 @@ class FollowButton extends StatelessWidget {
         textColor: AppColors.mute,
         iconColor: AppColors.mute,
         isLoading: state.isUpdating,
-        onPressed: () =>
-            context.read<FollowBloc>().add(ToggleFollow(username)),
+        onPressed: () => context.read<FollowBloc>().add(ToggleFollow(username)),
       );
     }
 
@@ -90,12 +109,14 @@ class FollowButton extends StatelessWidget {
       icon: Icons.add,
       backgroundColor: AppColors.accent,
       isLoading: state.isUpdating,
-      onPressed: () =>
-          context.read<FollowBloc>().add(ToggleFollow(username)),
+      onPressed: () => context.read<FollowBloc>().add(ToggleFollow(username)),
     );
   }
 }
 
+/// Styled to pair with [ProfileActionButton] in the same row: same minimum
+/// height, radius, padding and label type. The label stays on one line and
+/// ellipsizes; the height grows with the text scale instead of clipping.
 class _FollowButtonShell extends StatelessWidget {
   final String label;
   final IconData icon;
@@ -121,7 +142,6 @@ class _FollowButtonShell extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 50,
       child: ElevatedButton.icon(
         onPressed: (enabled && !isLoading) ? onPressed : null,
         icon: isLoading
@@ -133,19 +153,23 @@ class _FollowButtonShell extends StatelessWidget {
                   color: iconColor,
                 ),
               )
-            : Icon(icon, color: iconColor, size: 20),
+            : Icon(icon, color: iconColor, size: 19),
+        // No Flexible here: ElevatedButton.icon already wraps the label in one.
         label: Text(
           label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             color: textColor,
             fontSize: 14,
             fontWeight: FontWeight.w800,
-            letterSpacing: 1.6,
           ),
         ),
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor,
           disabledBackgroundColor: backgroundColor.withValues(alpha: 0.6),
+          minimumSize: const Size.fromHeight(50),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18),
           ),

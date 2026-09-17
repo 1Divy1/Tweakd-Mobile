@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/shared/widgets/app_pill_button.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 /// Inbox header: back button, letterspaced "MESSAGES" title and the compose
 /// (new message) button.
@@ -20,7 +21,8 @@ class MessagesTopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+      padding:
+          const EdgeInsets.fromLTRB(16, 12, 16, 8) + AppLayout.inset(context),
       child: Row(
         children: [
           AppPillButton(icon: Icons.chevron_left_rounded, onTap: onBack),
@@ -32,7 +34,6 @@ class MessagesTopBar extends StatelessWidget {
                 color: AppColors.ink,
                 fontSize: 15,
                 fontWeight: FontWeight.w800,
-                letterSpacing: 3,
               ),
             ),
           ),

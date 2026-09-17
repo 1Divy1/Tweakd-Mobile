@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'post_image.dart';
+import 'post_reposted_by.dart';
 import 'package:tweakd/features/map_events/domain/entities/participant_card.dart';
 import 'post_tagged_car.dart';
 import 'post_user.dart';
@@ -28,6 +29,11 @@ class PostEntity extends Equatable {
 
   final bool viewerHasLiked;
   final bool viewerHasSaved;
+  final bool viewerHasReposted;
+
+  /// Which accounts the viewer follows reposted this post. Only set on feed
+  /// posts, and only when at least one of them did.
+  final RepostedByEntity? repostedBy;
 
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -53,6 +59,8 @@ class PostEntity extends Equatable {
     required this.savedCountEnabled,
     required this.viewerHasLiked,
     required this.viewerHasSaved,
+    this.viewerHasReposted = false,
+    this.repostedBy,
     required this.createdAt,
     required this.updatedAt,
     this.participantCard,
@@ -73,6 +81,7 @@ class PostEntity extends Equatable {
     bool? savedCountEnabled,
     bool? viewerHasLiked,
     bool? viewerHasSaved,
+    bool? viewerHasReposted,
     DateTime? updatedAt,
   }) {
     return PostEntity(
@@ -92,6 +101,8 @@ class PostEntity extends Equatable {
       savedCountEnabled: savedCountEnabled ?? this.savedCountEnabled,
       viewerHasLiked: viewerHasLiked ?? this.viewerHasLiked,
       viewerHasSaved: viewerHasSaved ?? this.viewerHasSaved,
+      viewerHasReposted: viewerHasReposted ?? this.viewerHasReposted,
+      repostedBy: repostedBy,
       createdAt: createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       participantCard: participantCard,
@@ -116,6 +127,8 @@ class PostEntity extends Equatable {
         savedCountEnabled,
         viewerHasLiked,
         viewerHasSaved,
+        viewerHasReposted,
+        repostedBy,
         createdAt,
         updatedAt,
         participantCard,

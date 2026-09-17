@@ -15,6 +15,7 @@ import '../widgets/car_events_section.dart';
 import '../widgets/car_image.dart';
 import '../widgets/share/share_build_sheet.dart';
 import 'fullscreen_image_page.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 class AboutCarPage extends StatelessWidget {
   final bool isOwner;
@@ -118,6 +119,7 @@ class _AboutCarView extends StatelessWidget {
         ),
         Expanded(
           child: SingleChildScrollView(
+            padding: AppLayout.inset(context),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -184,7 +186,7 @@ class _TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8) + AppLayout.inset(context),
       child: Row(
         children: [
           _PillButton(
@@ -203,7 +205,6 @@ class _TopBar extends StatelessWidget {
                   color: AppColors.ink,
                   fontSize: 14,
                   fontWeight: FontWeight.w800,
-                  letterSpacing: 1.6,
                 ),
               ),
             ),
@@ -466,13 +467,12 @@ class _CoverImage extends StatelessWidget {
                 color: AppColors.accent,
                 fontSize: 11,
                 fontWeight: FontWeight.w800,
-                letterSpacing: 1.2,
               ),
             ),
             const SizedBox(height: 6),
           ],
           Text(
-            '${car.brandName} ${car.modelName}'.toUpperCase(),
+            '${car.brandName} ${car.modelName}',
             style: TextStyle(
               color: AppColors.ink,
               fontSize: 28,
@@ -910,7 +910,6 @@ class _AddModButton extends StatelessWidget {
                 color: Colors.white,
                 fontSize: 13,
                 fontWeight: FontWeight.w800,
-                letterSpacing: 1.0,
               ),
             ),
           ),

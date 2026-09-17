@@ -1,0 +1,325 @@
+Date : 2026-09-12 20:37:37
+Directory : /Users/mbpro/Developer/Apps/Tweakd-Mobile
+Total : 184 files,  -21853 codes, -800 comments, -2039 blanks, all -24692 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| Dart           |         77 |      1,045 |        388 |        203 |      1,636 |
+| YAML           |          1 |          0 |         -1 |          0 |         -1 |
+| JavaScript     |          3 |       -242 |        -28 |        -19 |       -289 |
+| PostCSS        |          1 |       -245 |        -19 |        -28 |       -292 |
+| XML            |         13 |       -266 |          0 |          1 |       -265 |
+| HTML           |         32 |     -3,698 |        -23 |       -302 |     -4,023 |
+| Markdown       |         17 |     -4,116 |          0 |       -774 |     -4,890 |
+| JavaScript JSX |         40 |    -14,331 |     -1,117 |     -1,120 |    -16,568 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                       | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                          |        184 |    -21,853 |       -800 |     -2,039 |    -24,692 |
+| . (Files)                                                                                                                  |         17 |     -4,104 |         -1 |       -770 |     -4,875 |
+| assets                                                                                                                     |          1 |         15 |          0 |          1 |         16 |
+| assets/logos                                                                                                               |          1 |         15 |          0 |          1 |         16 |
+| design                                                                                                                     |         89 |    -18,809 |     -1,187 |     -1,473 |    -21,469 |
+| design/contests                                                                                                            |         89 |    -18,809 |     -1,187 |     -1,473 |    -21,469 |
+| design/contests (Files)                                                                                                    |         68 |    -16,931 |     -1,130 |     -1,353 |    -19,414 |
+| design/contests/assets                                                                                                     |          8 |       -138 |          0 |          0 |       -138 |
+| design/contests/assets (Files)                                                                                             |          7 |        -70 |          0 |          0 |        -70 |
+| design/contests/assets/badges                                                                                              |          1 |        -68 |          0 |          0 |        -68 |
+| design/contests/dashboard                                                                                                  |          9 |     -1,597 |        -57 |       -120 |     -1,774 |
+| design/contests/uploads                                                                                                    |          4 |       -143 |          0 |          0 |       -143 |
+| lib                                                                                                                        |         73 |        336 |        331 |         95 |        762 |
+| lib (Files)                                                                                                                |          1 |         15 |         15 |          2 |         32 |
+| lib/core                                                                                                                   |          9 |        363 |        169 |         63 |        595 |
+| lib/core/di                                                                                                                |          1 |          6 |          0 |          0 |          6 |
+| lib/core/routes                                                                                                            |          1 |          9 |         10 |          1 |         20 |
+| lib/core/shared                                                                                                            |          3 |        240 |         42 |         25 |        307 |
+| lib/core/shared/widgets                                                                                                    |          3 |        240 |         42 |         25 |        307 |
+| lib/core/storage                                                                                                           |          1 |         19 |          5 |          4 |         28 |
+| lib/core/theme                                                                                                             |          3 |         89 |        112 |         33 |        234 |
+| lib/features                                                                                                               |         60 |          1 |        183 |         57 |        241 |
+| lib/features/authentication                                                                                                |          2 |          9 |          3 |          2 |         14 |
+| lib/features/authentication/presentation                                                                                   |          2 |          9 |          3 |          2 |         14 |
+| lib/features/authentication/presentation/pages                                                                             |          1 |          1 |          3 |          0 |          4 |
+| lib/features/authentication/presentation/widgets                                                                           |          1 |          8 |          0 |          2 |         10 |
+| lib/features/badges                                                                                                        |          1 |          2 |          3 |          0 |          5 |
+| lib/features/badges/presentation                                                                                           |          1 |          2 |          3 |          0 |          5 |
+| lib/features/badges/presentation/widgets                                                                                   |          1 |          2 |          3 |          0 |          5 |
+| lib/features/feed                                                                                                          |          6 |        200 |         28 |         22 |        250 |
+| lib/features/feed/presentation                                                                                             |          6 |        200 |         28 |         22 |        250 |
+| lib/features/feed/presentation/pages                                                                                       |          1 |        -64 |          4 |        -10 |        -70 |
+| lib/features/feed/presentation/utils                                                                                       |          1 |          1 |          3 |          1 |          5 |
+| lib/features/feed/presentation/widgets                                                                                     |          4 |        263 |         21 |         31 |        315 |
+| lib/features/feedback_feed                                                                                                 |          3 |         17 |          8 |          0 |         25 |
+| lib/features/feedback_feed/presentation                                                                                    |          3 |         17 |          8 |          0 |         25 |
+| lib/features/feedback_feed/presentation/pages                                                                              |          1 |          1 |          3 |          0 |          4 |
+| lib/features/feedback_feed/presentation/widgets                                                                            |          2 |         16 |          5 |          0 |         21 |
+| lib/features/feedback_feed/presentation/widgets/board                                                                      |          2 |         16 |          5 |          0 |         21 |
+| lib/features/follow                                                                                                        |          1 |         -5 |          0 |          0 |         -5 |
+| lib/features/follow/presentation                                                                                           |          1 |         -5 |          0 |          0 |         -5 |
+| lib/features/follow/presentation/widgets                                                                                   |          1 |         -5 |          0 |          0 |         -5 |
+| lib/features/forums                                                                                                        |          4 |        -21 |          6 |          0 |        -15 |
+| lib/features/forums/presentation                                                                                           |          4 |        -21 |          6 |          0 |        -15 |
+| lib/features/forums/presentation/pages                                                                                     |          1 |       -253 |         -2 |        -17 |       -272 |
+| lib/features/forums/presentation/widgets                                                                                   |          3 |        232 |          8 |         17 |        257 |
+| lib/features/forums/presentation/widgets/home                                                                              |          3 |        232 |          8 |         17 |        257 |
+| lib/features/garage                                                                                                        |         12 |        -95 |         79 |         25 |          9 |
+| lib/features/garage/presentation                                                                                           |         12 |        -95 |         79 |         25 |          9 |
+| lib/features/garage/presentation/bloc                                                                                      |          2 |          0 |          6 |          2 |          8 |
+| lib/features/garage/presentation/bloc/log_mod                                                                              |          2 |          0 |          6 |          2 |          8 |
+| lib/features/garage/presentation/pages                                                                                     |          4 |       -878 |         -3 |        -60 |       -941 |
+| lib/features/garage/presentation/widgets                                                                                   |          6 |        783 |         76 |         83 |        942 |
+| lib/features/garage/presentation/widgets (Files)                                                                           |          1 |         35 |         11 |          4 |         50 |
+| lib/features/garage/presentation/widgets/add_mod                                                                           |          1 |        185 |          4 |         14 |        203 |
+| lib/features/garage/presentation/widgets/register_car                                                                      |          2 |        473 |         39 |         50 |        562 |
+| lib/features/garage/presentation/widgets/share                                                                             |          2 |         90 |         22 |         15 |        127 |
+| lib/features/map                                                                                                           |          1 |          6 |          0 |          0 |          6 |
+| lib/features/map/presentation                                                                                              |          1 |          6 |          0 |          0 |          6 |
+| lib/features/map/presentation/utils                                                                                        |          1 |          6 |          0 |          0 |          6 |
+| lib/features/map_events                                                                                                    |          2 |          5 |          0 |          0 |          5 |
+| lib/features/map_events/presentation                                                                                       |          2 |          5 |          0 |          0 |          5 |
+| lib/features/map_events/presentation/pages                                                                                 |          1 |          1 |          0 |          0 |          1 |
+| lib/features/map_events/presentation/widgets                                                                               |          1 |          4 |          0 |          0 |          4 |
+| lib/features/map_events/presentation/widgets/contests                                                                      |          1 |          4 |          0 |          0 |          4 |
+| lib/features/messages                                                                                                      |          4 |        -12 |          2 |         -1 |        -11 |
+| lib/features/messages/presentation                                                                                         |          4 |        -12 |          2 |         -1 |        -11 |
+| lib/features/messages/presentation/widgets                                                                                 |          4 |        -12 |          2 |         -1 |        -11 |
+| lib/features/messages/presentation/widgets/chat                                                                            |          2 |         -2 |          0 |          0 |         -2 |
+| lib/features/messages/presentation/widgets/inbox                                                                           |          1 |         -1 |          0 |          0 |         -1 |
+| lib/features/messages/presentation/widgets/shared                                                                          |          1 |         -9 |          2 |         -1 |         -8 |
+| lib/features/notifications                                                                                                 |          2 |        105 |          7 |          8 |        120 |
+| lib/features/notifications/domain                                                                                          |          1 |          3 |          2 |          1 |          6 |
+| lib/features/notifications/domain/entities                                                                                 |          1 |          3 |          2 |          1 |          6 |
+| lib/features/notifications/presentation                                                                                    |          1 |        102 |          5 |          7 |        114 |
+| lib/features/notifications/presentation/widgets                                                                            |          1 |        102 |          5 |          7 |        114 |
+| lib/features/onboarding                                                                                                    |          1 |          2 |          4 |          0 |          6 |
+| lib/features/onboarding/presentation                                                                                       |          1 |          2 |          4 |          0 |          6 |
+| lib/features/onboarding/presentation/widgets                                                                               |          1 |          2 |          4 |          0 |          6 |
+| lib/features/onboarding/presentation/widgets/steps                                                                         |          1 |          2 |          4 |          0 |          6 |
+| lib/features/posts                                                                                                         |         11 |       -276 |         28 |         -8 |       -256 |
+| lib/features/posts/presentation                                                                                            |         11 |       -276 |         28 |         -8 |       -256 |
+| lib/features/posts/presentation/pages                                                                                      |          1 |        -69 |         10 |          0 |        -59 |
+| lib/features/posts/presentation/widgets                                                                                    |         10 |       -207 |         18 |         -8 |       -197 |
+| lib/features/posts/presentation/widgets/create_post                                                                        |          8 |       -179 |         20 |         -5 |       -164 |
+| lib/features/posts/presentation/widgets/post_card                                                                          |          1 |        -25 |         -2 |         -2 |        -29 |
+| lib/features/posts/presentation/widgets/post_detail                                                                        |          1 |         -3 |          0 |         -1 |         -4 |
+| lib/features/profile                                                                                                       |          6 |        -90 |          1 |         -7 |        -96 |
+| lib/features/profile/presentation                                                                                          |          6 |        -90 |          1 |         -7 |        -96 |
+| lib/features/profile/presentation/widgets                                                                                  |          6 |        -90 |          1 |         -7 |        -96 |
+| lib/features/profile/presentation/widgets (Files)                                                                          |          1 |          1 |          0 |          0 |          1 |
+| lib/features/profile/presentation/widgets/edit_profile                                                                     |          1 |         -7 |          0 |          0 |         -7 |
+| lib/features/profile/presentation/widgets/my_profile                                                                       |          4 |        -84 |          1 |         -7 |        -90 |
+| lib/features/settings                                                                                                      |          3 |        155 |         14 |         16 |        185 |
+| lib/features/settings/presentation                                                                                         |          3 |        155 |         14 |         16 |        185 |
+| lib/features/settings/presentation/bloc                                                                                    |          1 |         18 |         10 |          6 |         34 |
+| lib/features/settings/presentation/bloc/theme                                                                              |          1 |         18 |         10 |          6 |         34 |
+| lib/features/settings/presentation/pages                                                                                   |          1 |         18 |          0 |          0 |         18 |
+| lib/features/settings/presentation/widgets                                                                                 |          1 |        119 |          4 |         10 |        133 |
+| lib/features/tags                                                                                                          |          1 |         -1 |          0 |          0 |         -1 |
+| lib/features/tags/presentation                                                                                             |          1 |         -1 |          0 |          0 |         -1 |
+| lib/features/tags/presentation/widgets                                                                                     |          1 |         -1 |          0 |          0 |         -1 |
+| lib/l10n                                                                                                                   |          3 |        -43 |        -36 |        -27 |       -106 |
+| test                                                                                                                       |          4 |        709 |         57 |        108 |        874 |
+| test/core                                                                                                                  |          1 |        127 |          7 |         26 |        160 |
+| test/core/shared                                                                                                           |          1 |        127 |          7 |         26 |        160 |
+| test/core/shared/widgets                                                                                                   |          1 |        127 |          7 |         26 |        160 |
+| test/features                                                                                                              |          3 |        582 |         50 |         82 |        714 |
+| test/features/feed                                                                                                         |          1 |         65 |          4 |          8 |         77 |
+| test/features/garage                                                                                                       |          1 |        196 |         12 |         31 |        239 |
+| test/features/posts                                                                                                        |          1 |        321 |         34 |         43 |        398 |
++----------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                                                                   | language       | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/ADD_CAR_UI_REFACTOR_PROGRESS.md                                                  | Markdown       |       -320 |          0 |        -70 |       -390 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/BACKEND_INTEGRATION_PROGRESS.md                                                  | Markdown       |       -137 |          0 |        -33 |       -170 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/CONTESTS_MANUAL_LIFECYCLE.md                                                     | Markdown       |       -117 |          0 |        -27 |       -144 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/CREATE_EVENT_WIZARD_PROGRESS.md                                                  | Markdown       |       -208 |          0 |        -40 |       -248 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/DARK_MODE_PLAN.md                                                                | Markdown       |         77 |          0 |         22 |         99 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/EMAIL_PASSWORD_AUTH_PROGRESS.md                                                  | Markdown       |       -163 |          0 |        -34 |       -197 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/EVENT_CONTESTS_PLAN.md                                                           | Markdown       |       -766 |          0 |       -110 |       -876 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/EVENT_CONTESTS_PROGRESS.md                                                       | Markdown       |       -248 |          0 |        -53 |       -301 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/FEEDBACK_FEED_PROGRESS.md                                                        | Markdown       |        -82 |          0 |        -19 |       -101 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/MAP_EVENTS_NOTES.md                                                              | Markdown       |       -305 |          0 |        -78 |       -383 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/MAP_EVENTS_PROGRESS.md                                                           | Markdown       |       -682 |          0 |        -94 |       -776 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/ONBOARDING_REFACTOR_PROGRESS.md                                                  | Markdown       |        -61 |          0 |        -13 |        -74 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/PROFILE_UI_REFACTOR_PROGRESS.md                                                  | Markdown       |       -229 |          0 |        -35 |       -264 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/PUSH_NOTIFICATIONS_PROGRESS.md                                                   | Markdown       |       -410 |          0 |        -96 |       -506 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/RENAME_TO_TWEAKD_PROGRESS.md                                                     | Markdown       |        -78 |          0 |        -17 |        -95 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/WINNER_CARD_REDESIGN_PROGRESS.md                                                 | Markdown       |       -375 |          0 |        -73 |       -448 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/assets/logos/google_logo_button_dark.svg                                         | XML            |         15 |          0 |          1 |         16 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/About car page.html                                              | HTML           |        -37 |          0 |         -6 |        -43 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Add to Garage.html                                               | HTML           |        -71 |          0 |        -10 |        -81 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Auth Page.html                                                   | HTML           |        -60 |          0 |         -7 |        -67 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Car Meet Page.html                                               | HTML           |        -80 |          0 |         -6 |        -86 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Chat Page.html                                                   | HTML           |        -60 |          0 |         -7 |        -67 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Event Contests.html                                              | HTML           |       -110 |          0 |         -9 |       -119 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Feed Page.html                                                   | HTML           |        -76 |          0 |         -8 |        -84 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Feedback Feed Page.html                                          | HTML           |        -89 |          0 |        -11 |       -100 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Feedback Page.html                                               | HTML           |        -71 |          0 |         -9 |        -80 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Followers Page.html                                              | HTML           |        -58 |          0 |         -7 |        -65 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Forums.html                                                      | HTML           |       -101 |          0 |        -15 |       -116 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Garage Card Explorations.html                                    | HTML           |        -49 |          0 |         -1 |        -50 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Garage Section.html                                              | HTML           |        -58 |          0 |         -7 |        -65 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Map Page.html                                                    | HTML           |        -95 |          0 |        -11 |       -106 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Messages Page.html                                               | HTML           |        -60 |          0 |         -7 |        -67 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Onboarding.html                                                  | HTML           |        -58 |          0 |         -8 |        -66 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Post Composer.html                                               | HTML           |        -71 |          0 |         -9 |        -80 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Profile Page v2.html                                             | HTML           |        -54 |          0 |         -1 |        -55 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Profile Page.html                                                | HTML           |        -53 |          0 |         -7 |        -60 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Reels Page.html                                                  | HTML           |        -93 |          0 |         -9 |       -102 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Search Page.html                                                 | HTML           |       -136 |          0 |        -10 |       -146 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Service Book v2 (Minimal).html                                   | HTML           |        -78 |          0 |         -5 |        -83 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Service Book.html                                                | HTML           |        -80 |          0 |         -9 |        -89 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Shared Car Page (web).html                                       | HTML           |       -483 |         -5 |        -26 |       -514 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Tweakd Landing v1 (app screens).html                             | HTML           |       -249 |          0 |         -9 |       -258 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/Tweakd Landing.html                                              | HTML           |       -138 |          0 |         -8 |       -146 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/about-car.jsx                                                    | JavaScript JSX |       -349 |        -28 |        -27 |       -404 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/add-flow-screens.jsx                                             | JavaScript JSX |       -326 |        -15 |        -13 |       -354 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/add-flow.jsx                                                     | JavaScript JSX |       -365 |        -22 |        -22 |       -409 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-1.svg                                                  | XML            |        -10 |          0 |          0 |        -10 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-2.svg                                                  | XML            |        -10 |          0 |          0 |        -10 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-3.svg                                                  | XML            |        -10 |          0 |          0 |        -10 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-4.svg                                                  | XML            |        -10 |          0 |          0 |        -10 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-5.svg                                                  | XML            |        -10 |          0 |          0 |        -10 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-6.svg                                                  | XML            |        -10 |          0 |          0 |        -10 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/av-7.svg                                                  | XML            |        -10 |          0 |          0 |        -10 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/assets/badges/pioneer-unlocked.svg                               | XML            |        -68 |          0 |          0 |        -68 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/auth.jsx                                                         | JavaScript JSX |       -351 |        -29 |        -34 |       -414 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/car-meet.jsx                                                     | JavaScript JSX |       -582 |        -16 |        -52 |       -650 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/chat.jsx                                                         | JavaScript JSX |       -238 |        -23 |        -23 |       -284 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/contest-attendee.jsx                                             | JavaScript JSX |       -479 |        -14 |        -26 |       -519 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/contest-data.jsx                                                 | JavaScript JSX |       -129 |        -11 |        -13 |       -153 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/contest-extras.jsx                                               | JavaScript JSX |       -121 |         -6 |         -9 |       -136 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/contest-organizer.jsx                                            | JavaScript JSX |       -358 |         -7 |        -30 |       -395 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/contest-ui.jsx                                                   | JavaScript JSX |       -275 |        -14 |        -16 |       -305 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Feedback.html                                          | HTML           |       -190 |         -3 |        -11 |       -204 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Login.html                                             | HTML           |       -144 |         -2 |        -13 |       -159 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Moderation.html                                        | HTML           |       -211 |         -2 |        -17 |       -230 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Moderators.html                                        | HTML           |       -193 |         -3 |        -13 |       -209 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Overview.html                                          | HTML           |       -199 |         -6 |        -12 |       -217 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/Support.html                                           | HTML           |       -193 |         -2 |        -14 |       -209 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/charts.js                                              | JavaScript     |       -132 |        -15 |         -7 |       -154 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/dashboard.css                                          | PostCSS        |       -245 |        -19 |        -28 |       -292 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/dashboard/tweaks.js                                              | JavaScript     |        -90 |         -5 |         -5 |       -100 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/design-canvas.jsx                                                | JavaScript JSX |       -484 |        -91 |        -48 |       -623 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/event-create.jsx                                                 | JavaScript JSX |       -544 |        -15 |        -45 |       -604 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/event-data.jsx                                                   | JavaScript JSX |       -193 |         -8 |        -22 |       -223 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/event-widget.jsx                                                 | JavaScript JSX |       -334 |        -12 |        -35 |       -381 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/feed.jsx                                                         | JavaScript JSX |       -408 |        -41 |        -32 |       -481 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/feedback-feed.jsx                                                | JavaScript JSX |       -432 |        -23 |        -39 |       -494 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/feedback.jsx                                                     | JavaScript JSX |       -371 |        -24 |        -28 |       -423 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/followers.jsx                                                    | JavaScript JSX |       -347 |        -36 |        -25 |       -408 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/forums-data.jsx                                                  | JavaScript JSX |       -190 |        -21 |         -8 |       -219 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/forums-screens-2.jsx                                             | JavaScript JSX |       -342 |        -41 |        -35 |       -418 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/forums-screens.jsx                                               | JavaScript JSX |       -317 |        -36 |        -28 |       -381 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/forums-ui.jsx                                                    | JavaScript JSX |       -426 |        -47 |        -34 |       -507 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/garage-card-variants.jsx                                         | JavaScript JSX |       -147 |         -7 |        -13 |       -167 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/garage.jsx                                                       | JavaScript JSX |       -979 |        -42 |        -54 |     -1,075 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/github.md                                                        | Markdown       |        -12 |          0 |         -4 |        -16 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/ios-frame.jsx                                                    | JavaScript JSX |       -287 |        -35 |        -17 |       -339 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/map.jsx                                                          | JavaScript JSX |       -661 |        -57 |        -72 |       -790 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/messages.jsx                                                     | JavaScript JSX |       -301 |        -28 |        -18 |       -347 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/onboarding-flow.jsx                                              | JavaScript JSX |       -151 |        -20 |        -11 |       -182 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/onboarding-screens.jsx                                           | JavaScript JSX |       -256 |        -14 |        -22 |       -292 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/palette.js                                                       | JavaScript     |        -20 |         -8 |         -7 |        -35 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/post-flow-screens.jsx                                            | JavaScript JSX |       -307 |        -33 |        -11 |       -351 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/post-flow.jsx                                                    | JavaScript JSX |       -174 |        -13 |        -16 |       -203 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/profile-v2.jsx                                                   | JavaScript JSX |       -316 |        -17 |        -23 |       -356 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/profile.jsx                                                      | JavaScript JSX |       -473 |        -36 |        -32 |       -541 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/reels.jsx                                                        | JavaScript JSX |       -526 |        -53 |        -39 |       -618 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/search.jsx                                                       | JavaScript JSX |       -294 |        -23 |        -22 |       -339 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/servicebook-minimal.jsx                                          | JavaScript JSX |       -327 |        -11 |        -25 |       -363 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/servicebook.jsx                                                  | JavaScript JSX |       -615 |        -40 |        -52 |       -707 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/sharing.jsx                                                      | JavaScript JSX |       -139 |        -13 |        -19 |       -171 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/tweaks-panel.jsx                                                 | JavaScript JSX |       -417 |        -95 |        -30 |       -542 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/uploads/Tweakd SVG logo - Dark theme.svg                         | XML            |         -1 |          0 |          0 |         -1 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/uploads/Tweakd SVG logo - Light theme.svg                        | XML            |         -1 |          0 |          0 |         -1 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/uploads/Tweakd-3.svg                                             | XML            |        -68 |          0 |          0 |        -68 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/design/contests/uploads/badge-unlocked.svg                                       | XML            |        -73 |          0 |          0 |        -73 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/di/injection.config.dart                                                | Dart           |          6 |          0 |          0 |          6 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/routes/app_router.dart                                                  | Dart           |          9 |         10 |          1 |         20 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/shared/widgets/app_bottom_nav.dart                                      | Dart           |         63 |         26 |         12 |        101 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/shared/widgets/create_sheet.dart                                        | Dart           |        182 |         16 |         13 |        211 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/shared/widgets/search_result_card.dart                                  | Dart           |         -5 |          0 |          0 |         -5 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/storage/theme_local_storage.dart                                        | Dart           |         19 |          5 |          4 |         28 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/theme/app_colors.dart                                                   | Dart           |         37 |         98 |         30 |        165 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/theme/app_theme.dart                                                    | Dart           |         52 |         14 |          1 |         67 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/core/theme/tweakd_wordmark.dart                                              | Dart           |          0 |          0 |          2 |          2 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/authentication/presentation/pages/splash_page.dart                  | Dart           |          1 |          3 |          0 |          4 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/authentication/presentation/widgets/social_login_buttons.dart       | Dart           |          8 |          0 |          2 |         10 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/badges/presentation/widgets/badge_celebration_overlay.dart          | Dart           |          2 |          3 |          0 |          5 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/feed/presentation/pages/feed_page.dart                              | Dart           |        -64 |          4 |        -10 |        -70 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/feed/presentation/utils/feed_segment.dart                           | Dart           |          1 |          3 |          1 |          5 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/feed/presentation/widgets/feed_empty_view.dart                      | Dart           |         28 |          3 |          1 |         32 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/feed/presentation/widgets/feed_list_view.dart                       | Dart           |        157 |          8 |         22 |        187 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/feed/presentation/widgets/feed_post_card.dart                       | Dart           |         -1 |          0 |          0 |         -1 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/feed/presentation/widgets/feed_segment_bar.dart                     | Dart           |         79 |         10 |          8 |         97 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/feedback_feed/presentation/pages/feedback_feed_page.dart            | Dart           |          1 |          3 |          0 |          4 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/feedback_feed/presentation/widgets/board/feedback_feed_top_bar.dart | Dart           |         14 |          2 |          0 |         16 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/feedback_feed/presentation/widgets/board/feedback_vote_bar.dart     | Dart           |          2 |          3 |          0 |          5 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/follow/presentation/widgets/follow_user_card.dart                   | Dart           |         -5 |          0 |          0 |         -5 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/forums/presentation/pages/forums_home_page.dart                     | Dart           |       -253 |         -2 |        -17 |       -272 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/forums/presentation/widgets/home/forums_home_actions.dart           | Dart           |         47 |          3 |          5 |         55 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/forums/presentation/widgets/home/forums_home_view.dart              | Dart           |        229 |          7 |         17 |        253 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/forums/presentation/widgets/home/forums_top_bar.dart                | Dart           |        -44 |         -2 |         -5 |        -51 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/bloc/log_mod/bloc.dart                          | Dart           |          8 |          4 |          2 |         14 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/bloc/log_mod/event.dart                         | Dart           |         -8 |          2 |          0 |         -6 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/pages/about_car_page.dart                       | Dart           |         36 |          9 |          6 |         51 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/pages/add_modification_page.dart                | Dart           |        266 |         22 |         24 |        312 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/pages/build_log_entry_page.dart                 | Dart           |       -423 |        -19 |        -32 |       -474 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/pages/log_mod_page.dart                         | Dart           |       -757 |        -15 |        -58 |       -830 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/add_mod/add_mod_car_step.dart           | Dart           |        185 |          4 |         14 |        203 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/car_events_section.dart                 | Dart           |         35 |         11 |          4 |         50 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/build_log_entry_form.dart  | Dart           |        437 |         33 |         44 |        514 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/register_car/register_car_chrome.dart   | Dart           |         36 |          6 |          6 |         48 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/share/share_build_sheet.dart            | Dart           |        -62 |          4 |         -3 |        -61 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/garage/presentation/widgets/share/share_channel_tile.dart           | Dart           |        152 |         18 |         18 |        188 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map/presentation/utils/map_marker_factory.dart                      | Dart           |          6 |          0 |          0 |          6 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/pages/contest_page.dart                     | Dart           |          1 |          0 |          0 |          1 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/map_events/presentation/widgets/contests/org_contest_card.dart      | Dart           |          4 |          0 |          0 |          4 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/messages/presentation/widgets/chat/chat_intro_header.dart           | Dart           |         -1 |          0 |          0 |         -1 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/messages/presentation/widgets/chat/chat_top_bar.dart                | Dart           |         -1 |          0 |          0 |         -1 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/messages/presentation/widgets/inbox/conversation_tile.dart          | Dart           |         -1 |          0 |          0 |         -1 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/messages/presentation/widgets/shared/message_avatar.dart            | Dart           |         -9 |          2 |         -1 |         -8 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/notifications/domain/entities/notification.dart                     | Dart           |          3 |          2 |          1 |          6 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/notifications/presentation/widgets/notification_tile.dart           | Dart           |        102 |          5 |          7 |        114 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/onboarding/presentation/widgets/steps/notifications_step.dart       | Dart           |          2 |          4 |          0 |          6 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/posts/presentation/pages/create_post_page.dart                      | Dart           |        -69 |         10 |          0 |        -59 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/posts/presentation/widgets/create_post/caption_step.dart            | Dart           |        -11 |          2 |          0 |         -9 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/posts/presentation/widgets/create_post/create_post_chrome.dart      | Dart           |       -223 |          1 |        -14 |       -236 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/posts/presentation/widgets/create_post/create_post_fields.dart      | Dart           |         11 |         11 |          9 |         31 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/posts/presentation/widgets/create_post/photos_step.dart             | Dart           |        -49 |          2 |         -6 |        -53 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/posts/presentation/widgets/create_post/post_discard_dialog.dart     | Dart           |         98 |          2 |          6 |        106 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/posts/presentation/widgets/create_post/review_step.dart             | Dart           |         -1 |          0 |          0 |         -1 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/posts/presentation/widgets/create_post/tags_step.dart               | Dart           |          9 |          2 |          0 |         11 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/posts/presentation/widgets/create_post/visibility_step.dart         | Dart           |        -13 |          0 |          0 |        -13 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/posts/presentation/widgets/post_card/post_author_header.dart        | Dart           |        -25 |         -2 |         -2 |        -29 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/posts/presentation/widgets/post_detail/post_detail_view.dart        | Dart           |         -3 |          0 |         -1 |         -4 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/profile/presentation/widgets/edit_profile/editable_avatar.dart      | Dart           |         -7 |          0 |          0 |         -7 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/profile/presentation/widgets/my_profile/create_button.dart          | Dart           |        -31 |         -2 |         -5 |        -38 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/profile/presentation/widgets/my_profile/create_picker_sheet.dart    | Dart           |        -94 |         -6 |         -7 |       -107 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/profile/presentation/widgets/my_profile/feedback_button.dart        | Dart           |         19 |          3 |          4 |         26 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/profile/presentation/widgets/my_profile/my_profile_data_view.dart   | Dart           |         22 |          6 |          1 |         29 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/profile/presentation/widgets/profile_error_view.dart                | Dart           |          1 |          0 |          0 |          1 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/settings/presentation/bloc/theme/cubit.dart                         | Dart           |         18 |         10 |          6 |         34 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/settings/presentation/pages/settings_page.dart                      | Dart           |         18 |          0 |          0 |         18 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/settings/presentation/widgets/theme_picker_sheet.dart               | Dart           |        119 |          4 |         10 |        133 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/features/tags/presentation/widgets/tagged_post_card.dart                     | Dart           |         -1 |          0 |          0 |         -1 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/l10n/app_localizations.dart                                                  | Dart           |         -9 |        -36 |         -9 |        -54 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/l10n/app_localizations_en.dart                                               | Dart           |        -18 |          0 |         -9 |        -27 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/l10n/app_localizations_ro.dart                                               | Dart           |        -16 |          0 |         -9 |        -25 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/lib/main.dart                                                                    | Dart           |         15 |         15 |          2 |         32 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/pubspec.yaml                                                                     | YAML           |          0 |         -1 |          0 |         -1 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/test/core/shared/widgets/app_bottom_nav_test.dart                                | Dart           |        127 |          7 |         26 |        160 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/test/features/feed/feed_segment_bar_test.dart                                    | Dart           |         65 |          4 |          8 |         77 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/test/features/garage/add_modification_page_test.dart                             | Dart           |        196 |         12 |         31 |        239 |
+| /Users/mbpro/Developer/Apps/Tweakd-Mobile/test/features/posts/create_post_wizard_layout_test.dart                          | Dart           |        321 |         34 |         43 |        398 |
+| Total                                                                                                                      |                |    -21,853 |       -800 |     -2,039 |    -24,692 |
++----------------------------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+

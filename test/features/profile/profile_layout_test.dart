@@ -29,6 +29,7 @@ import 'package:tweakd/features/profile/presentation/widgets/shared/profile_stat
 import 'package:tweakd/features/profile/presentation/widgets/shared/profile_tabs_sliver_header.dart';
 import 'package:tweakd/features/profile/presentation/widgets/shared/profile_top_bar.dart';
 import 'package:tweakd/l10n/app_localizations.dart';
+import 'package:tweakd/core/shared/layout/app_layout.dart';
 
 /// Five badges — exactly what the strip's five slots hold, so it draws all of
 /// them and no "ALL" slot. The widest the row ever gets.
@@ -84,8 +85,9 @@ const _car = CarSummaryEntity(
 void _noop() {}
 
 /// Mirrors what the data views build: the frame, a top bar, and a scroll view
-/// whose header scrolls away under a pinned tab bar.
-Widget _profileSurface() {
+/// whose header scrolls away under a pinned tab bar. [showEvents] picks the
+/// tab row: five tabs on your own profile, four on someone else's.
+Widget _profileSurface({bool showEvents = true}) {
   return ProfileContentFrame(
     child: Column(
       children: [
@@ -98,50 +100,61 @@ Widget _profileSurface() {
           child: Builder(
             builder: (context) => CustomScrollView(
               slivers: [
-                SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const SizedBox(height: 12),
-                      ProfileHeader(profile: _profile, isOwnProfile: false),
-                      const SizedBox(height: 18),
-                      // The own-profile action row: two of the widest
-                      // labels the shared pill ever carries.
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
+                SliverContentFrame(
+                  sliver: SliverMainAxisGroup(
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Expanded(child: EditProfileButton(onTap: _noop)),
-                            SizedBox(width: 10),
-                            Expanded(child: ShareProfileButton()),
+                            const SizedBox(height: 12),
+                            ProfileHeader(
+                              profile: _profile,
+                              isOwnProfile: false,
+                            ),
+                            const SizedBox(height: 18),
+                            // The own-profile action row: two of the widest
+                            // labels the shared pill ever carries.
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: EditProfileButton(onTap: _noop),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Expanded(child: ShareProfileButton()),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            BadgeStrip(badges: _badges),
+                            const SizedBox(height: 20),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      BadgeStrip(badges: _badges),
-                      const SizedBox(height: 20),
+                      SliverPersistentHeader(
+                        pinned: true,
+                        delegate: ProfileTabsSliverHeader(
+                          active: ProfileSection.garage,
+                          onChanged: (_) {},
+                          height: ProfileTabsSliverHeader.heightFor(context),
+                          showEvents: showEvents,
+                        ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 22, 20, 24),
+                          child: Column(
+                            children: [
+                              GarageCarCard(car: _car, onTap: () {}),
+                              const SizedBox(height: 12),
+                              GarageCarCard(car: _car, onTap: () {}),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
-                  ),
-                ),
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: ProfileTabsSliverHeader(
-                    active: ProfileSection.garage,
-                    onChanged: (_) {},
-                    height: ProfileTabsSliverHeader.heightFor(context),
-                    showEvents: true,
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 22, 20, 24),
-                    child: Column(
-                      children: [
-                        GarageCarCard(car: _car, onTap: () {}),
-                        const SizedBox(height: 12),
-                        GarageCarCard(car: _car, onTap: () {}),
-                      ],
-                    ),
                   ),
                 ),
               ],
@@ -270,7 +283,9 @@ void main() {
   // The tabs carry their labels wherever the row has room for all of them, and
   // fall back to bare icons where it doesn't, rather than ellipsising each
   // label into a stump. Widget tests use a fixed-width font, so the width these
-  // flip at is far narrower on a real device.
+  // flip at is far narrower on a real device. The labelled case uses the
+  // four-tab row of someone else's profile: in the test font, five labels need
+  // 604pt and the content frame caps the row at 600.
   for (final (width, expectLabels) in [(834.0, true), (320.0, false)]) {
     testWidgets('tabs ${expectLabels ? 'carry labels' : 'drop to icons'} '
         'at ${width.toInt()}pt', (tester) async {
@@ -282,7 +297,7 @@ void main() {
         MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          home: Scaffold(body: _profileSurface()),
+          home: Scaffold(body: _profileSurface(showEvents: !expectLabels)),
         ),
       );
       await tester.pump(const Duration(milliseconds: 400));

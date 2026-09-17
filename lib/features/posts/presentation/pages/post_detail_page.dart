@@ -18,9 +18,11 @@ import '../widgets/post_card/post_options_sheet.dart';
 import '../widgets/post_detail/comments_sheet.dart';
 import '../widgets/post_detail/likers_sheet.dart';
 import '../widgets/post_detail/post_detail_view.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// Full-screen view of a single post. Owners get an edit/delete menu; everyone
-/// can like, save, share and open the comments / likers sheets. Pops `true` when
+/// can like, save, repost (someone else's post) and open the comments / likers
+/// sheets. Pops `true` when
 /// the post was edited or deleted so the caller can refresh its list.
 class PostDetailPage extends StatefulWidget {
   const PostDetailPage({super.key});
@@ -62,42 +64,49 @@ class _PostDetailPageState extends State<PostDetailPage> {
               child: Column(
                 children: [
                   _TopBar(
-                    isDeleting:
-                        state is PostDetailLoaded && state.isDeleting,
+                    isDeleting: state is PostDetailLoaded && state.isDeleting,
                     onBack: () => context.pop(_changed),
                     // Owners get edit/delete; everyone else gets the report menu.
                     onMenu: state is PostDetailLoaded
                         ? () => _isOwner(state.post)
-                            ? _showOwnerMenu(context, state.post)
-                            : _reportPost(context, state.post)
+                              ? _showOwnerMenu(context, state.post)
+                              : _reportPost(context, state.post)
                         : null,
                   ),
                   Expanded(
                     child: switch (state) {
                       PostDetailLoading() => Center(
-                          child: CircularProgressIndicator(
-                              color: AppColors.accent),
+                        child: CircularProgressIndicator(
+                          color: AppColors.accent,
                         ),
+                      ),
                       PostDetailError(:final code) => _ErrorView(
-                          message: postErrorMessage(l10n, code),
-                        ),
+                        message: postErrorMessage(l10n, code),
+                      ),
                       PostDetailLoaded(:final post) => SingleChildScrollView(
-                          child: PostDetailView(
-                            post: post,
-                            onToggleLike: () => context
-                                .read<PostDetailBloc>()
-                                .add(const ToggleLikePost()),
-                            onToggleSave: () => context
-                                .read<PostDetailBloc>()
-                                .add(const ToggleSavePost()),
-                            onShare: () => _openShare(context, post),
-                            onOpenComments: () => _openComments(context, post),
-                            onOpenLikers: () => showLikersSheet(
-                              context,
-                              postId: post.id,
-                            ),
-                          ),
+                        padding: AppLayout.inset(context),
+                        child: PostDetailView(
+                          post: post,
+                          onToggleLike: () => context
+                              .read<PostDetailBloc>()
+                              .add(const ToggleLikePost()),
+                          onToggleSave: () => context
+                              .read<PostDetailBloc>()
+                              .add(const ToggleSavePost()),
+                          onToggleRepost: _isOwner(post)
+                              ? null
+                              : () {
+                                  // A profile's Reposts grid reloads on return.
+                                  _changed = true;
+                                  context.read<PostDetailBloc>().add(
+                                    const ToggleRepostPost(),
+                                  );
+                                },
+                          onOpenComments: () => _openComments(context, post),
+                          onOpenLikers: () =>
+                              showLikersSheet(context, postId: post.id),
                         ),
+                      ),
                       PostDetailDeleted() => const SizedBox.shrink(),
                     },
                   ),
@@ -108,20 +117,6 @@ class _PostDetailPageState extends State<PostDetailPage> {
         },
       ),
     );
-  }
-
-  Future<void> _openShare(BuildContext context, PostEntity post) async {
-    final l10n = AppLocalizations.of(context)!;
-    final messenger = ScaffoldMessenger.of(context);
-    final shared = await context.push<bool>(
-      '/posts/${post.id}/share',
-      extra: post,
-    );
-    if (shared == true) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.postShareSuccess)),
-      );
-    }
   }
 
   void _openComments(BuildContext context, PostEntity post) {
@@ -290,16 +285,13 @@ class _TopBar extends StatelessWidget {
   final VoidCallback onBack;
   final VoidCallback? onMenu;
 
-  const _TopBar({
-    required this.isDeleting,
-    required this.onBack,
-    this.onMenu,
-  });
+  const _TopBar({required this.isDeleting, required this.onBack, this.onMenu});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+      padding:
+          const EdgeInsets.fromLTRB(16, 8, 16, 8) + AppLayout.inset(context),
       child: Row(
         children: [
           _PillButton(
@@ -314,7 +306,6 @@ class _TopBar extends StatelessWidget {
                   color: AppColors.ink,
                   fontSize: 14,
                   fontWeight: FontWeight.w800,
-                  letterSpacing: 1.6,
                 ),
               ),
             ),
@@ -384,7 +375,9 @@ class _DialogButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: isDestructive ? AppColors.danger : AppColors.surface,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: isDestructive ? AppColors.danger : AppColors.line),
+          border: Border.all(
+            color: isDestructive ? AppColors.danger : AppColors.line,
+          ),
         ),
         child: Center(
           child: Text(

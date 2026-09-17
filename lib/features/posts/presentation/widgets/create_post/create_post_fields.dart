@@ -80,7 +80,6 @@ class PostFieldLabel extends StatelessWidget {
             color: AppColors.ink2,
             fontSize: 11,
             fontWeight: FontWeight.w800,
-            letterSpacing: 1.4,
           ),
         ),
         if (count != null)

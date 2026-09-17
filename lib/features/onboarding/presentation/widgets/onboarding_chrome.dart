@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/tweakd_wordmark.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 const onboardingStepCount = 4;
 
@@ -39,7 +40,8 @@ class OnboardingStepProgress extends StatelessWidget {
   Widget build(BuildContext context) {
     final fraction = (step + 1) / (onboardingStepCount + 1);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 4),
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 4) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(99),
         child: Container(
@@ -98,7 +100,8 @@ class OnboardingBottomBar extends StatelessWidget {
     final showBack = onBack != null && !isSubmitting;
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 14, 20, 26),
+      padding: const EdgeInsets.fromLTRB(20, 14, 20, 26) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
       color: AppColors.bg,
       child: Row(
         children: [
@@ -124,7 +127,6 @@ class OnboardingBottomBar extends StatelessWidget {
                           color: AppColors.ink,
                           fontWeight: FontWeight.w800,
                           fontSize: 14,
-                          letterSpacing: 1,
                         ),
                       ),
                     ],
@@ -180,7 +182,6 @@ class OnboardingBottomBar extends StatelessWidget {
                                 color: Colors.white,
                                 fontWeight: FontWeight.w800,
                                 fontSize: 14,
-                                letterSpacing: 1,
                               ),
                             ),
                             const SizedBox(width: 8),

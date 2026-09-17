@@ -13,6 +13,7 @@ import '../utils/map_event_formatting.dart';
 import '../widgets/contests/contest_category_icon.dart';
 import '../widgets/contests/organizer_sheets.dart';
 import '../widgets/shared/map_event_chips.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// New contest / edit contest: category tiles, name, judging note, when
 /// voting opens and closes. Pops with the saved [ContestEntity].
@@ -90,7 +91,8 @@ class _CreateContestPageState extends State<CreateContestPage> {
                 child: loading
                     ? const Center(child: CircularProgressIndicator())
                     : ListView(
-                        padding: const EdgeInsets.fromLTRB(16, 6, 16, 26),
+                        padding: const EdgeInsets.fromLTRB(16, 6, 16, 26) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
                         children: [
                           if (locked) ...[
                             _Note(text: l10n.contestsLockedOpenNote),
@@ -183,21 +185,21 @@ class _CreateContestPageState extends State<CreateContestPage> {
                 child: SafeArea(
                   top: false,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 12) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
                     child: SizedBox(
                       width: double.infinity,
-                      height: 52,
                       child: FilledButton(
                         onPressed: state.canSubmit && !submitting ? () => cubit.submit(event) : null,
                         style: FilledButton.styleFrom(
+                          minimumSize: const Size(0, 52),
                           backgroundColor: AppColors.accent,
                           disabledBackgroundColor: AppColors.line,
                           disabledForegroundColor: AppColors.muteSoft,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                           textStyle: const TextStyle(
-                            fontSize: 12.5,
+                            fontSize: 14,
                             fontWeight: FontWeight.w800,
-                            letterSpacing: 1,
                           ),
                         ),
                         child: submitting
@@ -206,7 +208,11 @@ class _CreateContestPageState extends State<CreateContestPage> {
                                 height: 18,
                                 child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                               )
-                            : Text(state.isEditing ? l10n.contestsSaveChanges : l10n.contestsPublish),
+                            : Text(
+                                state.isEditing ? l10n.contestsSaveChanges : l10n.contestsPublish,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                       ),
                     ),
                   ),

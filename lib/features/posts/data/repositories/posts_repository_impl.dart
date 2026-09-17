@@ -181,6 +181,31 @@ class PostsRepositoryImpl implements PostsRepository {
   }
 
   @override
+  Future<Either<Failure, PostPageEntity>> getRepostsByUsername(
+    String username, {
+    String? cursor,
+    int size = 20,
+  }) async {
+    try {
+      final model = await dataSource.getRepostsByUsername(
+        username,
+        cursor: cursor,
+        size: size,
+      );
+      return Right(model.toEntity());
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('getRepostsByUsername error: $e');
+      return const Left(UnknownFailure('Failed to load reposts.'));
+    }
+  }
+
+  @override
   Future<Either<Failure, PostPageEntity>> getPostsByUsername(
     String username, {
     String? cursor,
@@ -370,12 +395,12 @@ class PostsRepositoryImpl implements PostsRepository {
       _engage(() => dataSource.unsavePost(postId), 'unsavePost');
 
   @override
-  Future<Either<Failure, void>> sharePost(String postId, {String? content}) =>
-      _engage(() => dataSource.sharePost(postId, content: content), 'sharePost');
+  Future<Either<Failure, void>> repostPost(String postId) =>
+      _engage(() => dataSource.repostPost(postId), 'repostPost');
 
   @override
-  Future<Either<Failure, void>> unsharePost(String postId) =>
-      _engage(() => dataSource.unsharePost(postId), 'unsharePost');
+  Future<Either<Failure, void>> unrepostPost(String postId) =>
+      _engage(() => dataSource.unrepostPost(postId), 'unrepostPost');
 
   // ── Comments ─────────────────────────────────────────────────────────────────
 

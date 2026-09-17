@@ -17,6 +17,7 @@ import '../widgets/auth_divider.dart';
 import '../widgets/auth_primary_button.dart';
 import '../widgets/auth_text_field.dart';
 import '../widgets/social_login_buttons.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -104,7 +105,7 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
             if (state is AuthenticatedRequiresOnboarding) {
               context.go('/onboarding');
             } else if (state is Authenticated) {
-              context.go('/profile');
+              context.go('/feed');
               // A share link opened before sign-in was parked rather than
               // followed. Releasing it here lands the user on the build their
               // friend sent them, which is the whole point of the link.
@@ -135,7 +136,8 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
             return LayoutBuilder(
               builder: (context, constraints) {
                 return SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 32) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
                   child: ConstrainedBox(
                     // Force the column to fill at least the viewport so the
                     // Spacer below has room to push the sign-up link down.
@@ -202,7 +204,6 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                                   color: AppColors.mute,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
-                                  letterSpacing: 0.6,
                                 ),
                               ),
                             ),

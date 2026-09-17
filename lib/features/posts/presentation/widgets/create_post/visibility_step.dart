@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tweakd/core/theme/app_icons.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
@@ -80,7 +81,7 @@ class VisibilityStep extends StatelessWidget {
               ),
               Divider(height: 1, color: AppColors.line2),
               _ToggleRow(
-                icon: Icons.ios_share_rounded,
+                icon: AppIcons.repost,
                 title: l10n.postVisibilitySharesTitle,
                 description: l10n.postVisibilitySharesDesc,
                 value: visibility.showShares,

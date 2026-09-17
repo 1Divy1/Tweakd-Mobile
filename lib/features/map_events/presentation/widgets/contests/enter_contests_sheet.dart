@@ -182,21 +182,24 @@ class _EnterSheetState extends State<_EnterSheet> {
               padding: const EdgeInsets.all(18),
               child: SizedBox(
                 width: double.infinity,
-                height: 50,
                 child: FilledButton(
                   onPressed: () => Navigator.of(context).pop(_diff()),
                   style: FilledButton.styleFrom(
+                    minimumSize: const Size(0, 50),
                     backgroundColor: AppColors.ink,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),
                     textStyle: const TextStyle(
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w800,
-                      letterSpacing: 0.9,
                     ),
                   ),
-                  child: Text(l10n.contestsSaveEntries),
+                  child: Text(
+                    l10n.contestsSaveEntries,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
             ),
@@ -423,7 +426,6 @@ class _ContestRow extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 9,
                     fontWeight: FontWeight.w800,
-                    letterSpacing: 0.9,
                     color: AppColors.mute,
                   ),
                 ),

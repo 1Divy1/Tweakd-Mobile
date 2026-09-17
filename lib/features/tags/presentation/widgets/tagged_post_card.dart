@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tweakd/core/theme/app_icons.dart';
 
 import 'package:tweakd/features/posts/domain/entities/post.dart';
 import 'package:tweakd/features/posts/presentation/widgets/post_card/post_author_header.dart';
@@ -11,7 +12,7 @@ import '../../../../l10n/app_localizations.dart';
 import 'tag_static_counters.dart';
 
 /// A tagged post, rendered with the feed card's layout but **display only** —
-/// the like / comment / share / save row is a static preview and the media
+/// the like / comment / repost / save row is a static preview and the media
 /// doesn't zoom, so the whole card stays a single tap target that opens the
 /// real post.
 class TaggedPostCard extends StatelessWidget {
@@ -72,7 +73,8 @@ class TaggedPostCard extends StatelessWidget {
                     post.commentsCountEnabled ? '${post.commentsCount}' : null,
               ),
               TagCounter(
-                icon: Icons.ios_share_rounded,
+                icon: AppIcons.repost,
+                color: post.viewerHasReposted ? AppColors.accent : AppColors.ink,
                 label: post.sharesCountEnabled ? '${post.sharesCount}' : null,
               ),
             ],

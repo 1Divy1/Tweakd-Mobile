@@ -263,7 +263,7 @@ class _ParticipantCardShareSheetState
                           const SizedBox(width: 8),
                           Expanded(
                             child: SizedBox(
-                              height: 48,
+                              width: double.infinity,
                               child: FilledButton(
                                 onPressed: state.isBusy
                                     ? null
@@ -279,14 +279,14 @@ class _ParticipantCardShareSheetState
                                             );
                                       },
                                 style: FilledButton.styleFrom(
+                                  minimumSize: const Size(0, 48),
                                   backgroundColor: AppColors.accent,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(14),
                                   ),
                                   textStyle: const TextStyle(
-                                    fontSize: 12,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w800,
-                                    letterSpacing: 0.9,
                                   ),
                                 ),
                                 child: state.status == ShareWinStatus.posting

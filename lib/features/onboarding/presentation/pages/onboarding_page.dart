@@ -29,6 +29,7 @@ import '../widgets/steps/car_preferences_step.dart';
 import '../widgets/steps/identity_step.dart';
 import '../widgets/steps/location_step.dart';
 import '../widgets/steps/notifications_step.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// One-time onboarding wizard. Every step's answers are held locally and sent
 /// in one shot on the final step (mirrors the register-car flow) — nothing is
@@ -149,7 +150,7 @@ class _OnboardingPageState extends State<OnboardingPage>
           }
         }
         if (state is OnboardingSubmitted) {
-          context.go('/profile');
+          context.go('/feed');
           // Onboarding is the last gate a share link has to wait behind; the
           // build the user was sent to opens now.
           getIt<DeepLinkService>().flushPending();
@@ -213,7 +214,8 @@ class _OnboardingPageState extends State<OnboardingPage>
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(20, 28, 20, 32),
+          padding: const EdgeInsets.fromLTRB(20, 28, 20, 32) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
           child: ConstrainedBox(
             // Gives each step a real (non-infinite) height so its internal
             // Expanded can center the interactive content below the fixed
@@ -468,11 +470,10 @@ class _RefErrorView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  AppLocalizations.of(context)!.commonRetry.toUpperCase(),
+                  AppLocalizations.of(context)!.commonRetry,
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w800,
-                    letterSpacing: 1,
                   ),
                 ),
               ),

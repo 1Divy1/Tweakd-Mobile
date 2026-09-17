@@ -59,7 +59,6 @@ class MapEventStatTile extends StatelessWidget {
           style: TextStyle(
             fontSize: 9.5,
             fontWeight: FontWeight.w700,
-            letterSpacing: 0.7,
             color: AppColors.mute,
           ),
         ),

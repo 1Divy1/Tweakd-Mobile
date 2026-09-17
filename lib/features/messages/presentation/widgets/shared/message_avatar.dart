@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/shared/widgets/app_avatar.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 /// Circular avatar for messaging surfaces, with an initial-letter fallback
@@ -40,43 +40,14 @@ class MessageAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final url = avatarUrl;
-    // Cap decode resolution to the on-screen avatar size — otherwise every
-    // full-resolution source image gets decoded for a small circle on every
-    // inbox/chat row built while scrolling.
-    final cachePx = (size * MediaQuery.devicePixelRatioOf(context)).round();
-
-    final avatar = Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: _fallbackColor,
-        shape: BoxShape.circle,
-        image: url == null
-            ? null
-            : DecorationImage(
-                image: ResizeImage(
-                  CachedNetworkImageProvider(url),
-                  width: cachePx,
-                  height: cachePx,
-                ),
-                fit: BoxFit.cover,
-              ),
-      ),
-      alignment: Alignment.center,
-      child: url != null
-          ? null
-          : Text(
-              username.isEmpty ? '?' : username[0].toUpperCase(),
-              style: TextStyle(
-                // _fallbackColor is a fixed pastel, not a theme token, so the
-                // glyph on it must stay fixed-dark too rather than flipping
-                // to white in dark mode.
-                color: AppColors.onLight.withValues(alpha: 0.55),
-                fontSize: size * 0.4,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
+    final avatar = AppAvatar(
+      size: size,
+      url: avatarUrl,
+      name: username,
+      backgroundColor: _fallbackColor,
+      // _fallbackColor is a fixed pastel, not a theme token, so the glyph on
+      // it must stay fixed-dark too rather than flipping to white in dark mode.
+      initialColor: AppColors.onLight.withValues(alpha: 0.55),
     );
 
     if (!showOnlineDot) return avatar;

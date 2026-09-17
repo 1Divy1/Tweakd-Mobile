@@ -11,6 +11,7 @@ import '../bloc/attendees/bloc.dart';
 import '../bloc/attendees/event.dart';
 import '../bloc/attendees/state.dart';
 import '../utils/map_event_error_mapper.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// "See all attendees": the two RSVP lists, each cursor-paginated.
 class MapEventAttendeesPage extends StatefulWidget {
@@ -77,7 +78,7 @@ class _MapEventAttendeesPageState extends State<MapEventAttendeesPage> {
           return Column(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 12) + AppLayout.inset(context),
                 child: _FilterTabs(state: state),
               ),
               Expanded(child: _Body(state: state, controller: _scroll)),
@@ -188,7 +189,7 @@ class _Body extends StatelessWidget {
         0,
         16,
         MediaQuery.paddingOf(context).bottom + 20,
-      ),
+      ) + AppLayout.inset(context),
       itemCount: state.attendees.length + (state.isLoadingMore ? 1 : 0),
       separatorBuilder: (_, _) => const SizedBox(height: 8),
       itemBuilder: (context, index) {

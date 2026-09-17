@@ -16,7 +16,6 @@ class ForumSectionLabel extends StatelessWidget {
         color: AppColors.mute,
         fontSize: 11,
         fontWeight: FontWeight.w800,
-        letterSpacing: 1.4,
       ),
     );
   }

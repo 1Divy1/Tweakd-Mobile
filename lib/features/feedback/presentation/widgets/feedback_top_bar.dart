@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// Top bar for the feedback modal: a close (✕) button on the left and the brand
 /// wordmark centred. Mirrors the pill-button styling used elsewhere in the app.
@@ -13,7 +14,7 @@ class FeedbackTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8) + AppLayout.inset(context),
       child: Row(
         children: [
           SizedBox(
@@ -35,12 +36,11 @@ class FeedbackTopBar extends StatelessWidget {
           Expanded(
             child: Center(
               child: Text(
-                brand.toUpperCase(),
+                brand,
                 style: TextStyle(
                   color: AppColors.ink,
-                  fontSize: 14,
+                  fontSize: 16,
                   fontWeight: FontWeight.w800,
-                  letterSpacing: 1.6,
                 ),
               ),
             ),

@@ -13,6 +13,7 @@ import '../bloc/completed/state.dart';
 import '../utils/feedback_feed_error_mapper.dart';
 import '../widgets/completed/completed_feedback_card.dart';
 import '../widgets/shared/feedback_feed_views.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// The shipped requests, newest first. Read-only: the cards show what was asked
 /// and what the team answered, with the final net score as plain text.
@@ -103,7 +104,7 @@ class _CompletedFeedbackPageState extends State<CompletedFeedbackPage> {
                         : ListView.builder(
                             controller: _scrollController,
                             physics: const AlwaysScrollableScrollPhysics(),
-                            padding: const EdgeInsets.only(top: 4, bottom: 24),
+                            padding: const EdgeInsets.only(top: 4, bottom: 24) + AppLayout.inset(context),
                             itemCount: state.messages.length + 1,
                             itemBuilder: (context, index) {
                               if (index == state.messages.length) {
@@ -138,7 +139,7 @@ class _TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 10) + AppLayout.inset(context),
       child: Row(
         children: [
           AppPillButton(

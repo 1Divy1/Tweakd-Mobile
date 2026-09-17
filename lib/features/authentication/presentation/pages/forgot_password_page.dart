@@ -12,6 +12,7 @@ import '../utils/email_validator.dart';
 import '../widgets/auth_brand_header.dart';
 import '../widgets/auth_primary_button.dart';
 import '../widgets/auth_text_field.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// Step 1 of the password reset: ask for the address, email a code.
 ///
@@ -68,7 +69,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           },
           builder: (context, state) {
             return SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 32) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

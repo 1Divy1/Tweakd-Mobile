@@ -6,6 +6,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/network/auth_interceptor.dart';
+import '../../../../core/network/rate_limit_interceptor.dart';
+import '../../../../core/network/rate_limit_notifier.dart';
 import '../models/post_upload_models.dart';
 
 /// Talks to the storage module (`$API_BASE_URL/api/storage`) to mint presigned
@@ -14,7 +16,10 @@ import '../models/post_upload_models.dart';
 class PostsStorageApiDataSource {
   late final Dio _dio;
 
-  PostsStorageApiDataSource(SupabaseClient supabaseClient) {
+  PostsStorageApiDataSource(
+    SupabaseClient supabaseClient,
+    RateLimitNotifier rateLimitNotifier,
+  ) {
     final host = dotenv.env['API_BASE_URL'] ?? '';
     _dio = Dio(
       BaseOptions(
@@ -28,6 +33,7 @@ class PostsStorageApiDataSource {
       ),
     );
     _dio.interceptors.add(AuthInterceptor(supabaseClient));
+    _dio.interceptors.add(RateLimitInterceptor(rateLimitNotifier));
     _dio.interceptors.add(
       LogInterceptor(
         requestBody: true,
@@ -62,6 +68,9 @@ class PostsStorageApiDataSource {
       return NetworkException();
     }
     final statusCode = e.response?.statusCode ?? 0;
+    if (statusCode == 429) {
+      return tooManyRequestsFrom(e.response);
+    }
     if (statusCode == 401) {
       return UnauthenticatedException('Authentication required.');
     }

@@ -6,6 +6,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../bloc/share_resolve/cubit.dart';
 import '../bloc/share_resolve/state.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// Where a scanned QR or a tapped share link lands inside the app.
 ///
@@ -83,7 +84,8 @@ class _UnavailableView extends StatelessWidget {
     return SafeArea(
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 32) +
+          AppLayout.inset(context, maxWidth: AppLayout.narrowWidth),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

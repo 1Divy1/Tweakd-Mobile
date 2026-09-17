@@ -12,6 +12,7 @@ import '../widgets/auth_brand_header.dart';
 import '../widgets/auth_primary_button.dart';
 import '../widgets/otp_code_field.dart';
 import '../widgets/resend_email_button.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// Step 2 of the password reset: type the code from the email.
 ///
@@ -81,7 +82,8 @@ class _VerifyResetCodePageState extends State<VerifyResetCodePage> {
           },
           builder: (context, state) {
             return SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 32) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

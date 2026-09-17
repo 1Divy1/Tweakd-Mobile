@@ -1,5 +1,7 @@
 import 'package:tweakd/core/error/base_exceptions.dart';
 import 'package:tweakd/core/network/auth_interceptor.dart';
+import 'package:tweakd/core/network/rate_limit_interceptor.dart';
+import 'package:tweakd/core/network/rate_limit_notifier.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -21,7 +23,10 @@ import '../models/map_event_list_models.dart';
 class MapEventStorageDataSource {
   late final Dio _dio;
 
-  MapEventStorageDataSource(SupabaseClient supabaseClient) {
+  MapEventStorageDataSource(
+    SupabaseClient supabaseClient,
+    RateLimitNotifier rateLimitNotifier,
+  ) {
     final host = dotenv.env['API_BASE_URL'] ?? '';
     _dio = Dio(
       BaseOptions(
@@ -35,6 +40,7 @@ class MapEventStorageDataSource {
       ),
     );
     _dio.interceptors.add(AuthInterceptor(supabaseClient));
+    _dio.interceptors.add(RateLimitInterceptor(rateLimitNotifier));
     _dio.interceptors.add(
       LogInterceptor(
         requestBody: true,
@@ -63,6 +69,9 @@ class MapEventStorageDataSource {
       return NetworkException();
     }
     final statusCode = e.response?.statusCode ?? 0;
+    if (statusCode == 429) {
+      return tooManyRequestsFrom(e.response);
+    }
     if (statusCode == 401) {
       return UnauthenticatedException('Authentication required.');
     }

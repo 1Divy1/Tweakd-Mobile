@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +7,7 @@ import 'package:tweakd/core/shared/bloc/tag_picker/bloc.dart';
 import 'package:tweakd/core/shared/widgets/tagging/tag_strip.dart';
 
 import '../../../../../core/di/injection.dart';
+import '../../../../../core/shared/widgets/app_avatar.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../../report/domain/entities/report_target.dart';
@@ -390,9 +390,6 @@ class _CommentBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final author = comment.author;
-    final initial = author.username.isNotEmpty
-        ? author.username.characters.first.toUpperCase()
-        : '?';
     final radius = indented ? 14.0 : 17.0;
 
     return Padding(
@@ -403,22 +400,10 @@ class _CommentBody extends StatelessWidget {
           GestureDetector(
             onTap: () =>
                 context.push('/users/${author.username}', extra: author.id),
-            child: CircleAvatar(
-              radius: radius,
-              backgroundColor: AppColors.accentSoft,
-              backgroundImage: author.avatarUrl != null
-                  ? CachedNetworkImageProvider(author.avatarUrl!)
-                  : null,
-              child: author.avatarUrl == null
-                  ? Text(
-                      initial,
-                      style: TextStyle(
-                        color: AppColors.accentHot,
-                        fontSize: indented ? 11 : 13,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    )
-                  : null,
+            child: AppAvatar(
+              size: radius * 2,
+              url: author.avatarUrl,
+              name: author.username,
             ),
           ),
           const SizedBox(width: 12),

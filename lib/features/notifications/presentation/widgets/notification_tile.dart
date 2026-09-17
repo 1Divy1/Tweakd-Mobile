@@ -1,6 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:tweakd/core/theme/app_icons.dart';
 
+import '../../../../core/shared/widgets/app_avatar.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../posts/presentation/widgets/post_detail/post_time.dart';
@@ -26,7 +27,9 @@ class NotificationTile extends StatelessWidget {
     final body = notification.body?.trim();
 
     return Material(
-      color: unread ? AppColors.accentSoft.withValues(alpha: 0.35) : AppColors.bg,
+      color: unread
+          ? AppColors.accentSoft.withValues(alpha: 0.35)
+          : AppColors.bg,
       child: InkWell(
         onTap: onTap,
         child: Padding(
@@ -108,7 +111,7 @@ class NotificationTile extends StatelessWidget {
       case NotificationType.forumReplyReply:
         return _NotificationIconKind.comment;
       case NotificationType.postShare:
-        return _NotificationIconKind.share;
+        return _NotificationIconKind.repost;
       case NotificationType.postTag:
       case NotificationType.postCommentTag:
       case NotificationType.forumThreadTag:
@@ -145,7 +148,7 @@ class NotificationTile extends StatelessWidget {
 enum _NotificationIconKind {
   like,
   comment,
-  share,
+  repost,
   tag,
   message,
   event,
@@ -220,38 +223,7 @@ class _ActorAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final url = avatarUrl == null || avatarUrl!.isEmpty ? null : avatarUrl;
-    final name = username;
-    final cachePx = (size * MediaQuery.devicePixelRatioOf(context)).round();
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: AppColors.accentSoft,
-        shape: BoxShape.circle,
-        image: url == null
-            ? null
-            : DecorationImage(
-                image: ResizeImage(
-                  CachedNetworkImageProvider(url),
-                  width: cachePx,
-                  height: cachePx,
-                ),
-                fit: BoxFit.cover,
-              ),
-      ),
-      alignment: Alignment.center,
-      child: url != null
-          ? null
-          : Text(
-              name == null || name.isEmpty ? '?' : name[0].toUpperCase(),
-              style: TextStyle(
-                color: AppColors.accentHot,
-                fontSize: size * 0.42,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-    );
+    return AppAvatar(size: size, url: avatarUrl, name: username);
   }
 }
 
@@ -272,51 +244,55 @@ class _IconBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final (icon, fg, bg) = switch (kind) {
       _NotificationIconKind.like => (
-          Icons.favorite_rounded,
-          AppColors.ink2,
-          AppColors.line,
-        ),
+        Icons.favorite_rounded,
+        AppColors.ink2,
+        AppColors.line,
+      ),
       _NotificationIconKind.comment => (
-          Icons.mode_comment_rounded,
-          AppColors.ink2,
-          AppColors.line,
-        ),
-      _NotificationIconKind.share => (
-          Icons.ios_share_rounded,
-          AppColors.ink2,
-          AppColors.line,
-        ),
+        Icons.mode_comment_rounded,
+        AppColors.ink2,
+        AppColors.line,
+      ),
+      _NotificationIconKind.repost => (
+        AppIcons.repost,
+        AppColors.ink2,
+        AppColors.line,
+      ),
       _NotificationIconKind.tag => (
-          Icons.local_offer_rounded,
-          AppColors.ink2,
-          AppColors.line,
-        ),
+        Icons.local_offer_rounded,
+        AppColors.ink2,
+        AppColors.line,
+      ),
       _NotificationIconKind.message => (
-          Icons.mail_outline_rounded,
-          AppColors.ink2,
-          AppColors.line,
-        ),
+        Icons.mail_outline_rounded,
+        AppColors.ink2,
+        AppColors.line,
+      ),
       _NotificationIconKind.event => (
-          Icons.place_rounded,
-          AppColors.ink2,
-          AppColors.line,
-        ),
+        Icons.place_rounded,
+        AppColors.ink2,
+        AppColors.line,
+      ),
       _NotificationIconKind.moderation => (
-          Icons.gpp_maybe_rounded,
-          AppColors.accent,
-          AppColors.accentSoft,
-        ),
+        Icons.gpp_maybe_rounded,
+        AppColors.accent,
+        AppColors.accentSoft,
+      ),
       _NotificationIconKind.generic => (
-          Icons.notifications_rounded,
-          AppColors.ink2,
-          AppColors.line,
-        ),
+        Icons.notifications_rounded,
+        AppColors.ink2,
+        AppColors.line,
+      ),
     };
 
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(color: bg, shape: BoxShape.circle, border: border),
+      decoration: BoxDecoration(
+        color: bg,
+        shape: BoxShape.circle,
+        border: border,
+      ),
       child: Icon(icon, color: fg, size: iconSize),
     );
   }

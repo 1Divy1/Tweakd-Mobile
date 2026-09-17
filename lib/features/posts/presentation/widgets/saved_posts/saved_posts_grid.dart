@@ -9,6 +9,7 @@ import '../../bloc/saved_posts/bloc.dart';
 import '../../bloc/saved_posts/event.dart';
 import '../../bloc/saved_posts/state.dart';
 import '../post_card.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 /// The loaded saved-posts grid: pull-to-refresh, cursor pagination near the
 /// bottom, and the same edge-to-edge three-column [PostCard] look as the profile
@@ -44,7 +45,7 @@ class SavedPostsGridView extends StatelessWidget {
       child: NotificationListener<ScrollNotification>(
         onNotification: (notification) => _onScroll(context, notification),
         child: GridView.builder(
-          padding: const EdgeInsets.only(top: 2, bottom: 24),
+          padding: const EdgeInsets.only(top: 2, bottom: 24) + AppLayout.inset(context),
           physics: const AlwaysScrollableScrollPhysics(),
           itemCount: posts.length + (state.isLoadingMore ? 1 : 0),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

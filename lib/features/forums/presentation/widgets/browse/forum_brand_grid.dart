@@ -5,6 +5,7 @@ import 'package:tweakd/features/garage/domain/entities/reference_data.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../shared/forum_section_label.dart';
 import 'forum_brand_card.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 /// The browse page's brand catalog: every brand that has a forum hub.
 class ForumBrandGrid extends StatelessWidget {
@@ -17,7 +18,7 @@ class ForumBrandGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 24) + AppLayout.inset(context),
       children: [
         ForumSectionLabel(label: l10n.forumsBrandsCount(brands.length)),
         const SizedBox(height: 12),

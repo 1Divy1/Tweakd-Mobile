@@ -25,6 +25,7 @@ import '../widgets/thread/reply_sort_toggle.dart';
 import '../widgets/thread/reply_tag_sheet.dart';
 import '../widgets/thread/reply_tile.dart';
 import '../widgets/thread/thread_header.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 class ForumThreadPage extends StatefulWidget {
   final String threadId;
@@ -421,6 +422,7 @@ class _ThreadContent extends StatelessWidget {
     return CustomScrollView(
       controller: scrollController,
       slivers: [
+ SliverContentFrame(sliver: SliverMainAxisGroup(slivers: [
         SliverPadding(
           padding: const EdgeInsets.only(top: 4),
           sliver: SliverToBoxAdapter(
@@ -496,7 +498,8 @@ class _ThreadContent extends StatelessWidget {
             ),
           ),
         const SliverToBoxAdapter(child: SizedBox(height: 24)),
-      ],
+      ])),
+],
     );
   }
 }

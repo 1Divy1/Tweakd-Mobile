@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tweakd/core/theme/app_icons.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -6,10 +7,11 @@ import '../../../posts/domain/entities/post.dart';
 import '../../../posts/presentation/widgets/post_card/post_author_header.dart';
 import '../../../posts/presentation/widgets/post_card/post_media_carousel.dart';
 import '../../../posts/presentation/widgets/post_card/post_participant_card_view.dart';
+import '../../../posts/presentation/widgets/post_card/post_reposted_by.dart';
 import '../../../posts/presentation/widgets/post_card/post_tags.dart';
 
-/// A single post in the feed, styled after the Tweakd feed design: an author
-/// header, a pinch-zoomable image carousel, the action row, an "x likes" line
+/// A single post in the feed, styled after the Tweakd feed design: a "reposted
+/// by" line when someone the viewer follows reposted it, an author header, a pinch-zoomable image carousel, the action row, an "x likes" line
 /// (opens the likers list), the caption, tagged cars and people, and an inline
 /// comment composer. The media can be zoomed in place; the comment icon opens
 /// the comments sheet; the heart toggles the viewer's like inline. Tapping
@@ -18,7 +20,9 @@ class FeedPostCard extends StatelessWidget {
   final PostEntity post;
   final VoidCallback onToggleLike;
   final VoidCallback onToggleSave;
-  final VoidCallback onShare;
+  /// Null on the viewer's own post: the repost count still shows, but a post
+  /// can't be reposted by its author.
+  final VoidCallback? onToggleRepost;
   final VoidCallback onOpenComments;
   final VoidCallback onOpenLikers;
   final ValueChanged<String> onSubmitComment;
@@ -29,7 +33,7 @@ class FeedPostCard extends StatelessWidget {
     required this.post,
     required this.onToggleLike,
     required this.onToggleSave,
-    required this.onShare,
+    this.onToggleRepost,
     required this.onOpenComments,
     required this.onOpenLikers,
     required this.onSubmitComment,
@@ -52,6 +56,11 @@ class FeedPostCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (post.repostedBy != null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+              child: PostRepostedBy(repostedBy: post.repostedBy!),
+            ),
           PostAuthorHeader(
             author: post.author,
             createdAt: post.createdAt,
@@ -92,10 +101,14 @@ class FeedPostCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 20),
                 _Counter(
-                  icon: Icons.ios_share_rounded,
-                  color: AppColors.ink,
+                  icon: AppIcons.repost,
+                  color: post.viewerHasReposted
+                      ? AppColors.accent
+                      : onToggleRepost == null
+                      ? AppColors.muteSoft
+                      : AppColors.ink,
                   label: post.sharesCountEnabled ? '${post.sharesCount}' : null,
-                  onTap: onShare,
+                  onTap: onToggleRepost,
                 ),
                 const Spacer(),
                 _Counter(
@@ -156,7 +169,7 @@ class _Counter extends StatelessWidget {
   final IconData icon;
   final Color color;
   final String? label;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   const _Counter({
     required this.icon,

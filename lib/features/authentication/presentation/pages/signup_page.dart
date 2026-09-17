@@ -21,6 +21,7 @@ import '../widgets/auth_primary_button.dart';
 import '../widgets/auth_text_field.dart';
 import '../widgets/password_requirements.dart';
 import '../widgets/social_login_buttons.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -122,7 +123,7 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
     if (state is AuthenticatedRequiresOnboarding) {
       context.go('/onboarding');
     } else if (state is Authenticated) {
-      context.go('/profile');
+      context.go('/feed');
       // A share link parked before sign-up follows the new account to the
       // build that brought them here.
       getIt<DeepLinkService>().flushPending();
@@ -163,7 +164,7 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
                   // project — the user is already signed in.
                   case SignUpCompleted(:final user):
                     context.go(
-                      user.requiresOnboarding ? '/onboarding' : '/profile',
+                      user.requiresOnboarding ? '/onboarding' : '/feed',
                     );
                   case SignUpFailed(:final code):
                     _showError(code);
@@ -197,7 +198,8 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 32) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
           child: ConstrainedBox(
             // Force the column to fill at least the viewport so the
             // Spacer below has room to push the footer down. Content

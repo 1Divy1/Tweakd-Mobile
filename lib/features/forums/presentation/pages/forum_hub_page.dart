@@ -19,6 +19,7 @@ import '../widgets/shared/forum_sort_tabs.dart';
 import '../widgets/shared/forum_sub_top_bar.dart';
 import '../widgets/shared/forum_thread_card.dart';
 import '../widgets/shared/forum_thread_skeleton.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 class ForumHubPage extends StatefulWidget {
   const ForumHubPage({super.key});
@@ -104,7 +105,7 @@ class _ForumHubPageState extends State<ForumHubPage> {
             return Column(
               children: [
                 ForumSubTopBar(
-                  title: filter.title.toUpperCase(),
+                  title: filter.title,
                   subtitle: subtitle.isEmpty ? null : subtitle,
                   trailing: AppPillButton(
                     icon: Icons.notifications_none_rounded,
@@ -157,6 +158,7 @@ class _HubContent extends StatelessWidget {
     return CustomScrollView(
       controller: scrollController,
       slivers: [
+ SliverContentFrame(sliver: SliverMainAxisGroup(slivers: [
         SliverPadding(
           padding: const EdgeInsets.only(top: 8),
           sliver: SliverToBoxAdapter(
@@ -241,7 +243,7 @@ class _HubContent extends StatelessWidget {
                         child: ForumSectionLabel(
                           label: state.effectiveFilter.isRefined
                               ? l10n.forumsThreadsLabel
-                              : l10n.forumsHotIn(filter.title.toUpperCase()),
+                              : l10n.forumsHotIn(filter.title),
                         ),
                       ),
                       ForumSortTabs(
@@ -303,7 +305,8 @@ class _HubContent extends StatelessWidget {
             ),
           ),
         const SliverToBoxAdapter(child: SizedBox(height: 24)),
-      ],
+      ])),
+],
     );
   }
 }

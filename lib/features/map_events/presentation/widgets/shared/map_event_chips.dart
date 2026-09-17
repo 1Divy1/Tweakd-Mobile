@@ -177,7 +177,6 @@ class MapEventSectionLabel extends StatelessWidget {
           style: TextStyle(
             fontSize: 11,
             fontWeight: FontWeight.w800,
-            letterSpacing: 0.8,
             color: AppColors.mute,
           ),
         ),

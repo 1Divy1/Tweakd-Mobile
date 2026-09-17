@@ -88,7 +88,18 @@ class _CreatePostPageState extends State<CreatePostPage> {
         final isSubmitting = state is CreatePostSubmitting;
         final isLast = _step == postStepCount - 1;
 
-        return Scaffold(
+        return PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (didPop, _) {
+            if (didPop || isSubmitting) return;
+            // System back walks back through the steps before it leaves.
+            if (_step > 0) {
+              _goTo(_step - 1);
+            } else {
+              _close(context);
+            }
+          },
+          child: Scaffold(
           backgroundColor: AppColors.bg,
           resizeToAvoidBottomInset: true,
           body: SafeArea(
@@ -130,6 +141,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
               ],
             ),
           ),
+        ),
         );
       },
     );

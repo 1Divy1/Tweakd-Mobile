@@ -81,7 +81,6 @@ class _CardWithShare extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         SizedBox(
-          height: 48,
           child: FilledButton.icon(
             onPressed: () => showParticipantCardShareSheet(
               context,
@@ -91,16 +90,20 @@ class _CardWithShare extends StatelessWidget {
               onOpenContest: openContest,
             ),
             icon: const Icon(Icons.ios_share_rounded, size: 18),
-            label: Text(l10n.participantCardShare),
+            label: Text(
+              l10n.participantCardShare,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
             style: FilledButton.styleFrom(
+              minimumSize: const Size(0, 48),
               backgroundColor: AppColors.accent,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
               textStyle: const TextStyle(
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: FontWeight.w800,
-                letterSpacing: 0.9,
               ),
             ),
           ),

@@ -177,7 +177,6 @@ class _RadiusCard extends StatelessWidget {
                     color: AppColors.muteSoft,
                     fontSize: 11,
                     fontWeight: FontWeight.w800,
-                    letterSpacing: 1.4,
                   ),
                 ),
                 const SizedBox(height: 8),

@@ -16,6 +16,7 @@ import '../utils/map_event_error_mapper.dart';
 import '../widgets/contests/org_contest_card.dart';
 import '../widgets/contests/organizer_sheets.dart';
 import '../widgets/shared/map_event_chips.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// The organizer's contests console for one event.
 class OrganizerContestsPage extends StatefulWidget {
@@ -87,7 +88,7 @@ class _OrganizerContestsPageState extends State<OrganizerContestsPage> {
                           4,
                           16,
                           MediaQuery.paddingOf(context).bottom + 28,
-                        ),
+                        ) + AppLayout.inset(context),
                         children: [
                           if (state.justFinished != null) ...[
                             _FinishedBanner(
@@ -148,7 +149,6 @@ class _OrganizerContestsPageState extends State<OrganizerContestsPage> {
                                         style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w800,
-                                          letterSpacing: 0.9,
                                           color: AppColors.ink,
                                         ),
                                       ),

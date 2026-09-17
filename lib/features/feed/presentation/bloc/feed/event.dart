@@ -50,6 +50,15 @@ class ToggleSaveFeedPost extends FeedEvent {
   List<Object?> get props => [postId];
 }
 
+/// Optimistically toggles the viewer's repost of a single feed post.
+class ToggleRepostFeedPost extends FeedEvent {
+  final String postId;
+  const ToggleRepostFeedPost(this.postId);
+
+  @override
+  List<Object?> get props => [postId];
+}
+
 /// Sets a feed post's comment count to [count]. Forwarded by the comments sheet
 /// so the feed card's counter stays in sync with adds/deletes.
 class UpdateFeedPostCommentCount extends FeedEvent {

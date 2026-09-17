@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../theme/app_colors.dart';
 import 'create_sheet.dart';
+import '../layout/app_layout.dart';
 
 /// The tabs that can be the current one. The map is absent — it runs
 /// full-bleed without the bar — and create is an action, never a place.
@@ -44,8 +45,11 @@ class AppBottomNav extends StatelessWidget {
         color: AppColors.surface,
         border: Border(top: BorderSide(color: AppColors.line)),
       ),
+      // The bar paints edge to edge; its slots stay within the reading column
+      // so five icons don't spread across a tablet.
       child: SafeArea(
         top: false,
+        minimum: AppLayout.inset(context),
         child: SizedBox(
           height: 54,
           child: Row(

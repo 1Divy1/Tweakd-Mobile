@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 
-/// Actions offered by the public profile "⋯" menu. Only reporting the account
-/// exists today; more options (mute, notifications, …) will slot in here later.
-enum ProfileMenuAction { report }
+/// Actions offered by the public profile "⋯" menu: blocking and reporting the
+/// account. More options (mute, notifications, …) slot in here later.
+enum ProfileMenuAction { block, report }
 
 /// Opens the public profile options bottom sheet. Resolves to the tapped
 /// [ProfileMenuAction], or `null` if dismissed without a choice.
@@ -32,6 +32,13 @@ Future<ProfileMenuAction?> showProfileOptionsSheet(BuildContext context) {
             ),
           ),
           const SizedBox(height: 8),
+          _OptionRow(
+            icon: Icons.block_rounded,
+            label: l10n.profileBlockAccount,
+            destructive: true,
+            onTap: () =>
+                Navigator.of(sheetContext).pop(ProfileMenuAction.block),
+          ),
           _OptionRow(
             icon: Icons.flag_outlined,
             label: l10n.profileReportAccount,
@@ -70,12 +77,16 @@ class _OptionRow extends StatelessWidget {
           children: [
             Icon(icon, color: color, size: 22),
             const SizedBox(width: 16),
-            Text(
-              label,
-              style: TextStyle(
-                color: color,
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
+            Expanded(
+              child: Text(
+                label,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: color,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ],

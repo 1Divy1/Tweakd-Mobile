@@ -6,13 +6,18 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/network/auth_interceptor.dart';
+import '../../../../core/network/rate_limit_interceptor.dart';
+import '../../../../core/network/rate_limit_notifier.dart';
 import '../models/storage_models.dart';
 
 @lazySingleton
 class StorageApiDataSource {
   late final Dio _dio;
 
-  StorageApiDataSource(SupabaseClient supabaseClient) {
+  StorageApiDataSource(
+    SupabaseClient supabaseClient,
+    RateLimitNotifier rateLimitNotifier,
+  ) {
     final host = dotenv.env['API_BASE_URL'] ?? '';
     _dio = Dio(
       BaseOptions(
@@ -26,6 +31,7 @@ class StorageApiDataSource {
       ),
     );
     _dio.interceptors.add(AuthInterceptor(supabaseClient));
+    _dio.interceptors.add(RateLimitInterceptor(rateLimitNotifier));
     _dio.interceptors.add(
       LogInterceptor(
         requestBody: true,
@@ -80,6 +86,9 @@ class StorageApiDataSource {
       return NetworkException();
     }
     final statusCode = e.response?.statusCode ?? 0;
+    if (statusCode == 429) {
+      return tooManyRequestsFrom(e.response);
+    }
     if (statusCode == 401) {
       return UnauthenticatedException('Authentication required.');
     }

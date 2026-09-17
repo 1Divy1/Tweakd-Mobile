@@ -285,21 +285,21 @@ void main() {
     await tester.pumpAndSettle();
 
     // Basics is open: the make selector is on screen, the power fields aren't.
-    expect(find.text('MAKE'), findsOneWidget);
-    expect(find.text('TORQUE'), findsNothing);
+    expect(find.text('Make'), findsOneWidget);
+    expect(find.text('Torque'), findsNothing);
 
-    await tester.tap(find.text('POWER'));
+    await tester.tap(find.text('Power'));
     await tester.pumpAndSettle();
 
     expect(tab, SpecsTab.power);
-    expect(find.text('TORQUE'), findsOneWidget);
-    expect(find.text('MAKE'), findsNothing);
+    expect(find.text('Torque'), findsOneWidget);
+    expect(find.text('Make'), findsNothing);
 
-    await tester.tap(find.text('CONFIG'));
+    await tester.tap(find.text('Config'));
     await tester.pumpAndSettle();
 
     expect(tab, SpecsTab.config);
-    expect(find.text('DRIVETRAIN'), findsOneWidget);
+    expect(find.text('Drivetrain'), findsOneWidget);
   });
 
   testWidgets('build-log widgets share the left edge of the other steps', (

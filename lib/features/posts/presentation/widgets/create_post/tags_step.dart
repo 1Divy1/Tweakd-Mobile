@@ -7,6 +7,7 @@ import 'package:tweakd/core/shared/bloc/tag_picker/event.dart';
 import 'package:tweakd/core/shared/bloc/tag_picker/state.dart';
 import 'package:tweakd/core/shared/entities/search_result.dart';
 import 'package:tweakd/core/shared/entities/tag_selection.dart';
+import '../../../../../core/shared/widgets/app_avatar.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import 'create_post_fields.dart';
@@ -564,24 +565,7 @@ class _Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final initial =
-        username.isNotEmpty ? username.characters.first.toUpperCase() : '?';
-    return CircleAvatar(
-      radius: 18,
-      backgroundColor: AppColors.accentSoft,
-      backgroundImage:
-          avatarUrl != null ? CachedNetworkImageProvider(avatarUrl!) : null,
-      child: avatarUrl == null
-          ? Text(
-              initial,
-              style: TextStyle(
-                color: AppColors.accentHot,
-                fontSize: 14,
-                fontWeight: FontWeight.w800,
-              ),
-            )
-          : null,
-    );
+    return AppAvatar(size: 36, url: avatarUrl, name: username);
   }
 }
 

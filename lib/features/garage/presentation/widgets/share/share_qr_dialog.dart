@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../core/di/injection.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 import '../../../../../core/services/share_launcher_service.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
@@ -42,7 +43,11 @@ class _ShareQrDialog extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 28),
-        child: Material(
+        // Scannable well before this; wider only makes the card overwhelm a
+        // tablet screen.
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: AppLayout.narrowWidth),
+          child: Material(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(24),
           child: Padding(
@@ -58,6 +63,7 @@ class _ShareQrDialog extends StatelessWidget {
               ),
             ),
           ),
+        ),
         ),
       ),
     );

@@ -63,6 +63,19 @@ import '../../features/badges/domain/usecases/mark_badge_celebrated.dart'
     as _i564;
 import '../../features/badges/presentation/bloc/celebration/cubit.dart'
     as _i592;
+import '../../features/block/data/datasources/block_api_data_source.dart'
+    as _i74;
+import '../../features/block/data/repositories/block_repository_impl.dart'
+    as _i824;
+import '../../features/block/domain/repositories/block_repository.dart'
+    as _i167;
+import '../../features/block/domain/usecases/block_user.dart' as _i42;
+import '../../features/block/domain/usecases/get_blocked_accounts.dart'
+    as _i851;
+import '../../features/block/domain/usecases/unblock_user.dart' as _i1068;
+import '../../features/block/presentation/bloc/block_user/cubit.dart' as _i733;
+import '../../features/block/presentation/bloc/blocked_accounts/bloc.dart'
+    as _i24;
 import '../../features/feed/data/datasources/feed_api_data_source.dart'
     as _i194;
 import '../../features/feed/data/repositories/feed_repository_impl.dart'
@@ -346,13 +359,15 @@ import '../../features/posts/domain/usecases/get_post_comments.dart' as _i235;
 import '../../features/posts/domain/usecases/get_post_likers.dart' as _i528;
 import '../../features/posts/domain/usecases/get_posts_by_username.dart'
     as _i677;
+import '../../features/posts/domain/usecases/get_reposts_by_username.dart'
+    as _i846;
 import '../../features/posts/domain/usecases/get_saved_posts.dart' as _i742;
 import '../../features/posts/domain/usecases/post_like.dart' as _i111;
+import '../../features/posts/domain/usecases/post_repost.dart' as _i912;
 import '../../features/posts/domain/usecases/post_save.dart' as _i584;
 import '../../features/posts/domain/usecases/save_image_keys.dart' as _i913;
 import '../../features/posts/domain/usecases/share_participant_card.dart'
     as _i446;
-import '../../features/posts/domain/usecases/share_post.dart' as _i1023;
 import '../../features/posts/domain/usecases/update_post.dart' as _i310;
 import '../../features/posts/domain/usecases/upload_post_image.dart' as _i708;
 import '../../features/posts/presentation/bloc/comments/bloc.dart' as _i1002;
@@ -362,8 +377,9 @@ import '../../features/posts/presentation/bloc/likers/bloc.dart' as _i905;
 import '../../features/posts/presentation/bloc/post_detail/bloc.dart' as _i486;
 import '../../features/posts/presentation/bloc/profile_posts/bloc.dart'
     as _i274;
+import '../../features/posts/presentation/bloc/profile_reposts/bloc.dart'
+    as _i337;
 import '../../features/posts/presentation/bloc/saved_posts/bloc.dart' as _i937;
-import '../../features/posts/presentation/bloc/share_post/bloc.dart' as _i690;
 import '../../features/profile/data/datasource/avatar_storage_api_data_source.dart'
     as _i347;
 import '../../features/profile/data/datasource/profile_api_data_source.dart'
@@ -422,6 +438,7 @@ import '../../features/tags/presentation/bloc/tags/bloc.dart' as _i853;
 import '../deeplinks/deep_link_service.dart' as _i687;
 import '../network/abstract_http.dart' as _i311;
 import '../network/dio_http_client.dart' as _i554;
+import '../network/rate_limit_notifier.dart' as _i499;
 import '../push/firebase_push_notification_service.dart' as _i479;
 import '../push/local_notifications.dart' as _i494;
 import '../push/push_navigator.dart' as _i270;
@@ -456,6 +473,7 @@ extension GetItInjectableX on _i174.GetIt {
     final dioModule = _$DioModule();
     gh.lazySingleton<_i327.AppLinks>(() => appLinksModule.appLinks);
     gh.lazySingleton<_i454.SupabaseClient>(() => supabaseModule.supabaseClient);
+    gh.lazySingleton<_i499.RateLimitNotifier>(() => _i499.RateLimitNotifier());
     gh.lazySingleton<_i494.LocalNotifications>(
       () => _i494.LocalNotifications(),
     );
@@ -483,6 +501,36 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i784.PresenceService>(
       () => _i1029.SupabasePresenceService(gh<_i454.SupabaseClient>()),
     );
+    gh.lazySingleton<_i361.Dio>(
+      () => dioModule.dio(
+        gh<_i454.SupabaseClient>(),
+        gh<_i499.RateLimitNotifier>(),
+      ),
+    );
+    gh.lazySingleton<_i526.StorageApiDataSource>(
+      () => _i526.StorageApiDataSource(
+        gh<_i454.SupabaseClient>(),
+        gh<_i499.RateLimitNotifier>(),
+      ),
+    );
+    gh.lazySingleton<_i709.MapEventStorageDataSource>(
+      () => _i709.MapEventStorageDataSource(
+        gh<_i454.SupabaseClient>(),
+        gh<_i499.RateLimitNotifier>(),
+      ),
+    );
+    gh.lazySingleton<_i747.PostsStorageApiDataSource>(
+      () => _i747.PostsStorageApiDataSource(
+        gh<_i454.SupabaseClient>(),
+        gh<_i499.RateLimitNotifier>(),
+      ),
+    );
+    gh.lazySingleton<_i347.AvatarStorageApiDataSource>(
+      () => _i347.AvatarStorageApiDataSource(
+        gh<_i454.SupabaseClient>(),
+        gh<_i499.RateLimitNotifier>(),
+      ),
+    );
     gh.lazySingleton<_i687.DeepLinkService>(
       () => _i687.DeepLinkService(gh<_i327.AppLinks>()),
       dispose: (i) => i.dispose(),
@@ -496,23 +544,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i511.DmRealtimeService>(
       () => _i543.SupabaseDmRealtimeService(gh<_i454.SupabaseClient>()),
     );
-    gh.lazySingleton<_i361.Dio>(
-      () => dioModule.dio(gh<_i454.SupabaseClient>()),
-    );
-    gh.lazySingleton<_i526.StorageApiDataSource>(
-      () => _i526.StorageApiDataSource(gh<_i454.SupabaseClient>()),
-    );
-    gh.lazySingleton<_i709.MapEventStorageDataSource>(
-      () => _i709.MapEventStorageDataSource(gh<_i454.SupabaseClient>()),
-    );
     gh.lazySingleton<_i532.SupabaseIdentityDataSource>(
       () => _i532.SupabaseIdentityDataSource(gh<_i454.SupabaseClient>()),
-    );
-    gh.lazySingleton<_i747.PostsStorageApiDataSource>(
-      () => _i747.PostsStorageApiDataSource(gh<_i454.SupabaseClient>()),
-    );
-    gh.lazySingleton<_i347.AvatarStorageApiDataSource>(
-      () => _i347.AvatarStorageApiDataSource(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i311.AbstractHTTP>(
       () => _i554.DioHttpClient(gh<_i361.Dio>()),
@@ -525,6 +558,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i311.AbstractHTTP>(),
         gh<_i454.SupabaseClient>(),
       ),
+    );
+    gh.lazySingleton<_i74.BlockApiDataSource>(
+      () => _i74.BlockApiDataSource(gh<_i311.AbstractHTTP>()),
     );
     gh.lazySingleton<_i194.FeedApiDataSource>(
       () => _i194.FeedApiDataSource(gh<_i311.AbstractHTTP>()),
@@ -653,6 +689,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i677.GetPostsByUsernameUseCase>(
       () => _i677.GetPostsByUsernameUseCase(gh<_i245.PostsRepository>()),
     );
+    gh.lazySingleton<_i846.GetRepostsByUsernameUseCase>(
+      () => _i846.GetRepostsByUsernameUseCase(gh<_i245.PostsRepository>()),
+    );
     gh.lazySingleton<_i742.GetSavedPostsUseCase>(
       () => _i742.GetSavedPostsUseCase(gh<_i245.PostsRepository>()),
     );
@@ -661,6 +700,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i111.UnlikePostUseCase>(
       () => _i111.UnlikePostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i912.RepostPostUseCase>(
+      () => _i912.RepostPostUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i912.UnrepostPostUseCase>(
+      () => _i912.UnrepostPostUseCase(gh<_i245.PostsRepository>()),
     );
     gh.lazySingleton<_i584.SavePostUseCase>(
       () => _i584.SavePostUseCase(gh<_i245.PostsRepository>()),
@@ -673,9 +718,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i446.ShareParticipantCardUseCase>(
       () => _i446.ShareParticipantCardUseCase(gh<_i245.PostsRepository>()),
-    );
-    gh.lazySingleton<_i1023.SharePostUseCase>(
-      () => _i1023.SharePostUseCase(gh<_i245.PostsRepository>()),
     );
     gh.lazySingleton<_i310.UpdatePostUseCase>(
       () => _i310.UpdatePostUseCase(gh<_i245.PostsRepository>()),
@@ -748,16 +790,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i769.UnregisterDeviceUseCase>(
       () => _i769.UnregisterDeviceUseCase(gh<_i563.NotificationsRepository>()),
     );
-    gh.factory<_i486.PostDetailBloc>(
-      () => _i486.PostDetailBloc(
-        getPost: gh<_i601.GetPostUseCase>(),
-        likePost: gh<_i111.LikePostUseCase>(),
-        unlikePost: gh<_i111.UnlikePostUseCase>(),
-        savePost: gh<_i584.SavePostUseCase>(),
-        unsavePost: gh<_i584.UnsavePostUseCase>(),
-        deletePost: gh<_i640.DeletePostUseCase>(),
-      ),
-    );
     gh.lazySingleton<_i760.FollowRepository>(
       () => _i299.FollowRepositoryImpl(gh<_i587.FollowApiDataSource>()),
     );
@@ -785,14 +817,23 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i78.UpdateProfileUseCase>(
       () => _i78.UpdateProfileUseCase(gh<_i894.ProfileRepository>()),
     );
+    gh.factory<_i486.PostDetailBloc>(
+      () => _i486.PostDetailBloc(
+        getPost: gh<_i601.GetPostUseCase>(),
+        likePost: gh<_i111.LikePostUseCase>(),
+        unlikePost: gh<_i111.UnlikePostUseCase>(),
+        savePost: gh<_i584.SavePostUseCase>(),
+        unsavePost: gh<_i584.UnsavePostUseCase>(),
+        repostPost: gh<_i912.RepostPostUseCase>(),
+        unrepostPost: gh<_i912.UnrepostPostUseCase>(),
+        deletePost: gh<_i640.DeletePostUseCase>(),
+      ),
+    );
     gh.lazySingleton<_i365.MapEventsRepository>(
       () => _i545.MapEventsRepositoryImpl(
         gh<_i394.MapEventsApiDataSource>(),
         gh<_i709.MapEventStorageDataSource>(),
       ),
-    );
-    gh.factory<_i690.SharePostBloc>(
-      () => _i690.SharePostBloc(gh<_i1023.SharePostUseCase>()),
     );
     gh.lazySingleton<_i10.ForumsRepository>(
       () => _i737.ForumsRepositoryImpl(gh<_i789.ForumsApiDataSource>()),
@@ -1043,6 +1084,9 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i937.SavedPostsBloc(getSavedPosts: gh<_i742.GetSavedPostsUseCase>()),
     );
+    gh.lazySingleton<_i167.BlockRepository>(
+      () => _i824.BlockRepositoryImpl(gh<_i74.BlockApiDataSource>()),
+    );
     gh.lazySingleton<_i256.AcceptFollowRequestUseCase>(
       () => _i256.AcceptFollowRequestUseCase(gh<_i760.FollowRepository>()),
     );
@@ -1207,16 +1251,6 @@ extension GetItInjectableX on _i174.GetIt {
         unlikeComment: gh<_i326.UnlikeCommentUseCase>(),
       ),
     );
-    gh.factory<_i719.FeedBloc>(
-      () => _i719.FeedBloc(
-        getGlobalFeed: gh<_i199.GetGlobalFeedUseCase>(),
-        likePost: gh<_i111.LikePostUseCase>(),
-        unlikePost: gh<_i111.UnlikePostUseCase>(),
-        savePost: gh<_i584.SavePostUseCase>(),
-        unsavePost: gh<_i584.UnsavePostUseCase>(),
-        addComment: gh<_i541.AddCommentUseCase>(),
-      ),
-    );
     gh.lazySingleton<_i360.BadgeRepository>(
       () => _i700.BadgeRepositoryImpl(gh<_i308.BadgeDataSource>()),
     );
@@ -1266,6 +1300,18 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i274.ProfilePostsBloc(
         getMyPosts: gh<_i851.GetMyPostsUseCase>(),
         getPostsByUsername: gh<_i677.GetPostsByUsernameUseCase>(),
+      ),
+    );
+    gh.factory<_i719.FeedBloc>(
+      () => _i719.FeedBloc(
+        getGlobalFeed: gh<_i199.GetGlobalFeedUseCase>(),
+        likePost: gh<_i111.LikePostUseCase>(),
+        unlikePost: gh<_i111.UnlikePostUseCase>(),
+        savePost: gh<_i584.SavePostUseCase>(),
+        unsavePost: gh<_i584.UnsavePostUseCase>(),
+        repostPost: gh<_i912.RepostPostUseCase>(),
+        unrepostPost: gh<_i912.UnrepostPostUseCase>(),
+        addComment: gh<_i541.AddCommentUseCase>(),
       ),
     );
     gh.factory<_i792.MyMapEventsBloc>(
@@ -1334,6 +1380,9 @@ extension GetItInjectableX on _i174.GetIt {
         deleteGalleryImagesUseCase: gh<_i631.DeleteGalleryImagesUseCase>(),
         deleteModificationUseCase: gh<_i621.DeleteModificationUseCase>(),
       ),
+    );
+    gh.factory<_i337.ProfileRepostsBloc>(
+      () => _i337.ProfileRepostsBloc(gh<_i846.GetRepostsByUsernameUseCase>()),
     );
     gh.factory<_i506.MapEventDetailBloc>(
       () => _i506.MapEventDetailBloc(
@@ -1497,6 +1546,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i564.MarkBadgeCelebratedUseCase>(
       () => _i564.MarkBadgeCelebratedUseCase(gh<_i360.BadgeRepository>()),
     );
+    gh.lazySingleton<_i42.BlockUserUseCase>(
+      () => _i42.BlockUserUseCase(gh<_i167.BlockRepository>()),
+    );
+    gh.lazySingleton<_i851.GetBlockedAccountsUseCase>(
+      () => _i851.GetBlockedAccountsUseCase(gh<_i167.BlockRepository>()),
+    );
+    gh.lazySingleton<_i1068.UnblockUserUseCase>(
+      () => _i1068.UnblockUserUseCase(gh<_i167.BlockRepository>()),
+    );
     gh.factory<_i121.GarageBloc>(
       () => _i121.GarageBloc(
         getMyGarage: gh<_i391.GetMyGarageUseCase>(),
@@ -1561,6 +1619,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i370.MyReportsBloc>(
       () => _i370.MyReportsBloc(getMyReports: gh<_i75.GetMyReportsUseCase>()),
+    );
+    gh.factory<_i24.BlockedAccountsBloc>(
+      () => _i24.BlockedAccountsBloc(
+        getBlockedAccounts: gh<_i851.GetBlockedAccountsUseCase>(),
+        unblockUser: gh<_i1068.UnblockUserUseCase>(),
+      ),
     );
     gh.factory<_i797.OnboardingBloc>(
       () => _i797.OnboardingBloc(
@@ -1685,6 +1749,16 @@ extension GetItInjectableX on _i174.GetIt {
         getCompleted: gh<_i160.GetCompletedFeedbackUseCase>(),
       ),
     );
+    gh.factory<_i197.ForumsHomeBloc>(
+      () => _i197.ForumsHomeBloc(
+        getShortcuts: gh<_i846.GetForumShortcutsUseCase>(),
+        getThreads: gh<_i669.GetForumThreadsUseCase>(),
+        deleteShortcut: gh<_i846.DeleteForumShortcutUseCase>(),
+        reorderShortcuts: gh<_i846.ReorderForumShortcutsUseCase>(),
+        saveThread: gh<_i302.SaveForumThreadUseCase>(),
+        unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
+      ),
+    );
     gh.factory<_i651.ComposeFeedbackBloc>(
       () => _i651.ComposeFeedbackBloc(
         getTypes: gh<_i560.GetFeedbackTypesUseCase>(),
@@ -1704,16 +1778,8 @@ extension GetItInjectableX on _i174.GetIt {
         unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
       ),
     );
-    gh.factory<_i197.ForumsHomeBloc>(
-      () => _i197.ForumsHomeBloc(
-        getShortcuts: gh<_i846.GetForumShortcutsUseCase>(),
-        getThreads: gh<_i669.GetForumThreadsUseCase>(),
-        getSuggestions: gh<_i542.GetForumSuggestionsUseCase>(),
-        deleteShortcut: gh<_i846.DeleteForumShortcutUseCase>(),
-        reorderShortcuts: gh<_i846.ReorderForumShortcutsUseCase>(),
-        saveThread: gh<_i302.SaveForumThreadUseCase>(),
-        unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
-      ),
+    gh.factory<_i733.BlockUserCubit>(
+      () => _i733.BlockUserCubit(blockUser: gh<_i42.BlockUserUseCase>()),
     );
     gh.lazySingleton<_i742.AuthRepository>(
       () => _i317.AuthRepositoryImpl(gh<_i981.SupabaseAuthDataSource>()),

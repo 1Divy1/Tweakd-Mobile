@@ -9,6 +9,7 @@ import '../../bloc/my_events/event.dart';
 import '../../bloc/my_events/state.dart';
 import '../../utils/map_event_error_mapper.dart';
 import 'my_map_event_card.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 /// The body of "My events", shared by the standalone page and the profile's
 /// Events tab.
@@ -103,7 +104,7 @@ class _List extends StatelessWidget {
           8,
           16,
           MediaQuery.paddingOf(context).bottom + 24,
-        ),
+        ) + AppLayout.inset(context),
         children: items,
       ),
     );

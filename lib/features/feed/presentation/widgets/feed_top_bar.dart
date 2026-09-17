@@ -7,6 +7,7 @@ import '../../../../core/shared/widgets/app_pill_button.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../messages/presentation/bloc/unread/cubit.dart';
 import '../../../notifications/presentation/bloc/unread/cubit.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// The feed's top bar: the "Tweakd." wordmark on the left and the
 /// notifications / direct-messages pill buttons on the right. Both carry an
@@ -18,7 +19,8 @@ class FeedTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 12, 16, 8),
+      padding:
+          const EdgeInsets.fromLTRB(20, 12, 16, 8) + AppLayout.inset(context),
       child: Row(
         children: [
           // Brand wordmark — "Tweakd" with an accent full stop.
@@ -32,9 +34,15 @@ class FeedTopBar extends StatelessWidget {
               ),
               children: [
                 TextSpan(text: 'Twea'),
-                TextSpan(text: 'k', style: TextStyle(color: AppColors.accent)),
+                TextSpan(
+                  text: 'k',
+                  style: TextStyle(color: AppColors.accent),
+                ),
                 TextSpan(text: 'd'),
-                TextSpan(text: '.', style: TextStyle(color: AppColors.accent)),
+                TextSpan(
+                  text: '.',
+                  style: TextStyle(color: AppColors.accent),
+                ),
               ],
             ),
           ),
