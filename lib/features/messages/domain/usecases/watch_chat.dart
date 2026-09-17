@@ -5,6 +5,7 @@ import '../repositories/messages_repository.dart';
 
 /// Live chat events (read receipts, typing, incoming messages) for an open
 /// conversation. Stream-based, so it doesn't fit the Either [UseCase] shape.
+/// Listening holds the live connection open.
 @lazySingleton
 class WatchChatUseCase {
   final MessagesRepository repository;

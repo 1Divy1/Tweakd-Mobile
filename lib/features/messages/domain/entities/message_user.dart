@@ -6,7 +6,6 @@ class MessageUserEntity extends Equatable {
   final String username;
   final String? avatarUrl;
   final bool isVerified;
-  final bool isOnline;
 
   /// Whether the viewer and this user follow each other — drives the
   /// "You both follow each other" line on the chat intro header.
@@ -18,22 +17,9 @@ class MessageUserEntity extends Equatable {
     required this.username,
     this.avatarUrl,
     this.isVerified = false,
-    this.isOnline = false,
     this.isMutualFollow = false,
     this.followersCount = 0,
   });
-
-  /// Copy with fresh presence.
-  MessageUserEntity withPresence({required bool isOnline}) =>
-      MessageUserEntity(
-        id: id,
-        username: username,
-        avatarUrl: avatarUrl,
-        isVerified: isVerified,
-        isOnline: isOnline,
-        isMutualFollow: isMutualFollow,
-        followersCount: followersCount,
-      );
 
   @override
   List<Object?> get props => [
@@ -41,7 +27,6 @@ class MessageUserEntity extends Equatable {
         username,
         avatarUrl,
         isVerified,
-        isOnline,
         isMutualFollow,
         followersCount,
       ];

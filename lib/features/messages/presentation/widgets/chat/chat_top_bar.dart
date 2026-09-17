@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/shared/widgets/app_pill_button.dart';
 import '../../../../../core/theme/app_colors.dart';
-import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/message_user.dart';
 import '../shared/message_avatar.dart';
 import '../shared/verified_badge.dart';
 import '../../../../../core/shared/layout/app_layout.dart';
 
-/// Chat header: back button, the other user's avatar, name + verified badge
-/// and a status line — a pulsing "Active now" while the peer is online, or
-/// "Last seen …" once they drop offline (nothing for users never seen
-/// online). No call button — calls are intentionally out of the app's scope.
+/// Chat header: back button, the other user's avatar, name + verified badge.
+/// No online status (the app has no presence) and no call button — calls are
+/// intentionally out of the app's scope.
 class ChatTopBar extends StatelessWidget {
   final MessageUserEntity? user;
   final VoidCallback onBack;
@@ -28,7 +26,6 @@ class ChatTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final user = this.user;
 
     return Container(
@@ -50,53 +47,27 @@ class ChatTopBar extends StatelessWidget {
                       username: user.username,
                       avatarUrl: user.avatarUrl,
                       size: 42,
-                      showOnlineDot: user.isOnline,
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Row(
                         children: [
-                          Row(
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  user.username,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: AppColors.ink,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
+                          Flexible(
+                            child: Text(
+                              user.username,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: AppColors.ink,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w800,
                               ),
-                              if (user.isVerified) ...const [
-                                SizedBox(width: 6),
-                                VerifiedBadge(size: 15),
-                              ],
-                            ],
-                          ),
-                          if (user.isOnline) ...[
-                            const SizedBox(height: 2),
-                            Row(
-                              children: [
-                                const _PulsingDot(),
-                                const SizedBox(width: 6),
-                                Text(
-                                  l10n.messagesActiveNowStatus,
-                                  style: TextStyle(
-                                    color: AppColors.mute,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
                             ),
+                          ),
+                          if (user.isVerified) ...const [
+                            SizedBox(width: 6),
+                            VerifiedBadge(size: 15),
                           ],
-                          // Nothing is rendered when the peer is offline: Supabase
-                          // Presence reports who is connected now and keeps no
-                          // last-seen history.
                         ],
                       ),
                     ),
@@ -107,46 +78,6 @@ class ChatTopBar extends StatelessWidget {
           ] else
             const Spacer(),
         ],
-      ),
-    );
-  }
-}
-
-/// The soft-pulsing accent dot next to "Active now".
-class _PulsingDot extends StatefulWidget {
-  const _PulsingDot();
-
-  @override
-  State<_PulsingDot> createState() => _PulsingDotState();
-}
-
-class _PulsingDotState extends State<_PulsingDot>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 1100),
-  )..repeat(reverse: true);
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: Tween<double>(
-        begin: 0.35,
-        end: 1,
-      ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut)),
-      child: Container(
-        width: 8,
-        height: 8,
-        decoration: BoxDecoration(
-          color: AppColors.accent,
-          shape: BoxShape.circle,
-        ),
       ),
     );
   }

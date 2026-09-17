@@ -64,22 +64,39 @@ class DmTypingEvent extends DmRealtimeEvent {
   });
 }
 
-/// The app-wide DM realtime layer.
+/// The viewer's topic just (re)subscribed — on first open, and again after a
+/// reconnect (e.g. the app coming back from the background). Anything
+/// broadcast while the topic wasn't joined is gone, so listeners refetch.
+class DmConnectedEvent extends DmRealtimeEvent {
+  const DmConnectedEvent();
+}
+
+/// The DM realtime layer.
 ///
-/// The viewer subscribes to their own `user:<my_id>` topic at app start (see
-/// main.dart) and stays subscribed for the whole session. Publishing to a peer
-/// happens on `user:<peer_id>`, which the RLS policies allow **write-only** for
-/// anyone who already shares a conversation with that peer — a sender can
-/// reach the topic but never read it.
+/// The viewer's own `user:<my_id>` topic is joined only while something holds
+/// it — in practice the inbox or an open chat — and left when the last holder
+/// releases it. Every joined channel keeps the device's Realtime socket open,
+/// and Supabase bills peak concurrent sockets, so the rest of the app runs
+/// without one: the unread badge refreshes from REST instead.
+///
+/// Publishing to a peer happens on `user:<peer_id>`, which the RLS policies
+/// allow **write-only** for anyone who already shares a conversation with that
+/// peer — a sender can reach the topic but never read it. Publishing goes over
+/// HTTP and needs no socket.
 abstract class DmRealtimeService {
-  /// Broadcast stream of events addressed to the viewer.
+  /// Broadcast stream of events addressed to the viewer. Only carries events
+  /// while at least one [retain] is outstanding.
   Stream<DmRealtimeEvent> get events;
 
-  /// Subscribes to the viewer's own topic (no-op when already active).
-  /// Requires a signed-in session.
-  void connect();
+  /// Adds a holder, joining the viewer's topic if it isn't joined yet.
+  /// Requires a signed-in session. Pair every call with [release].
+  void retain();
 
-  /// Unsubscribes from every topic this service holds.
+  /// Drops a holder; the last one leaves every topic, which lets the socket
+  /// close.
+  Future<void> release();
+
+  /// Leaves every topic regardless of holders (sign-out).
   Future<void> disconnect();
 
   /// Publishes a just-sent message to [peerId] and to the viewer's own topic.

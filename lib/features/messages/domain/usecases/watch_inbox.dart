@@ -3,13 +3,14 @@ import 'package:injectable/injectable.dart';
 import '../entities/conversation.dart';
 import '../repositories/messages_repository.dart';
 
-/// Live "new message" pings for the inbox list. Stream-based, so it doesn't
-/// fit the Either [UseCase] shape (same as WatchChatUseCase).
+/// Live updates for the inbox list: "new message" pings, and a reconnect
+/// signal to refetch on. Stream-based, so it doesn't fit the Either [UseCase]
+/// shape (same as WatchChatUseCase). Listening holds the live connection open.
 @lazySingleton
 class WatchInboxMessagesUseCase {
   final MessagesRepository repository;
 
   WatchInboxMessagesUseCase(this.repository);
 
-  Stream<InboxMessageEvent> call() => repository.inboxMessageEvents();
+  Stream<InboxLiveEvent> call() => repository.inboxEvents();
 }

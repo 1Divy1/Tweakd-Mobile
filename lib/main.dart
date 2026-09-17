@@ -17,7 +17,6 @@ import 'package:tweakd/core/push/push_notification_service.dart';
 import 'package:tweakd/core/push/push_registration.dart';
 import 'package:tweakd/core/realtime/dm_realtime_service.dart';
 import 'package:tweakd/core/realtime/contest_realtime_service.dart';
-import 'package:tweakd/core/realtime/presence_service.dart';
 import 'package:tweakd/core/storage/secure_local_storage.dart';
 import 'package:tweakd/core/theme/app_colors.dart';
 import 'package:tweakd/core/theme/app_theme.dart';
@@ -81,20 +80,13 @@ void main() async {
   // Initialize dependency injection
   configureDependencies();
 
-  // Keep the app-wide Supabase Realtime channels in step with the auth
-  // session: the viewer's DM topic (`user:<id>`) and the global presence
-  // channel. Both are opened at app start rather than on the DM screen —
-  // "Active now" means "has the app open" — and torn down on sign-out so no
-  // stale subscription outlives the session.
+  // Nothing joins Supabase Realtime at app start: an open channel keeps the
+  // device's socket open, and Realtime bills peak concurrent sockets. The DM
+  // topic is held by the inbox and chat screens, contest boards by the event
+  // pages. Sign-out still drops whatever is open so no topic outlives the
+  // session.
   final dmRealtime = getIt<DmRealtimeService>();
-  final presence = getIt<PresenceService>();
-  // Contest boards join per event page, not at app start; sign-out still has
-  // to drop whatever is open so no topic outlives the session.
   final contestRealtime = getIt<ContestRealtimeService>();
-  void connectRealtime() {
-    dmRealtime.connect();
-    presence.connect();
-  }
 
   // App-level queue for the badge unlock celebration. The list itself arrives
   // on the first page of the feed (`pending_badge_celebrations`); this only
@@ -141,7 +133,6 @@ void main() async {
 
   final auth = Supabase.instance.client.auth;
   if (auth.currentSession != null) {
-    connectRealtime();
     unawaited(pushTokenSync.start());
   }
   auth.onAuthStateChange.listen((change) {
@@ -149,16 +140,12 @@ void main() async {
       case AuthChangeEvent.signedIn:
       case AuthChangeEvent.initialSession:
         if (auth.currentSession != null) {
-          connectRealtime();
           // Not on tokenRefreshed: that fires roughly hourly for the whole
           // session and the registration hasn't changed.
           unawaited(pushTokenSync.start());
         }
-      case AuthChangeEvent.tokenRefreshed:
-        if (auth.currentSession != null) connectRealtime();
       case AuthChangeEvent.signedOut:
         dmRealtime.disconnect();
-        presence.disconnect();
         contestRealtime.disconnect();
         badgeCelebrations.reset();
         // Unregistering the device happens in the auth data source, before the
@@ -185,8 +172,8 @@ class TweakdApp extends StatelessWidget {
         BlocProvider<AuthBloc>(
           create: (context) => getIt<AuthBloc>()..add(CheckAuthStatus()),
         ),
-        // App-level DMs unread counter — the feed top bar reads it, and its
-        // socket subscription must outlive individual pages.
+        // App-level DMs unread counter — the feed top bar reads it. No socket:
+        // it refreshes from REST (see DmUnreadCubit).
         // No eager refresh here: the feed top-bar pills fetch the counts when
         // they mount, which happens right after startup anyway — fetching at
         // root too would just duplicate both requests on every cold start.

@@ -1084,7 +1084,6 @@
 
   "messagesTitle": "Messages",
   "messagesSearchHint": "Search messages",
-  "messagesActiveNow": "Active now",
   "messagesRequestsTitle": "Message requests",
   "messagesRequestsOthers": "{names} & {count} others",
   "@messagesRequestsOthers": {
@@ -1128,7 +1127,6 @@
       "count": {"type": "int"}
     }
   },
-  "messagesActiveNowStatus": "Active now",
   "messagesMutualFollow": "You both follow each other · {followers} followers",
   "@messagesMutualFollow": {
     "placeholders": {
