@@ -3,7 +3,6 @@ import 'package:flutter/services.dart' show Clipboard, ClipboardData;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/di/injection.dart';
-import '../../../../../core/services/share_launcher_service.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/car_share.dart';
@@ -11,7 +10,6 @@ import '../../bloc/car_share/bloc.dart';
 import '../../bloc/car_share/event.dart';
 import '../../bloc/car_share/state.dart';
 import '../../utils/garage_error_mapper.dart';
-import 'share_channel_tile.dart';
 import 'share_qr_dialog.dart';
 
 /// What the sheet was closed for, so the caller knows whether to open the QR
@@ -243,8 +241,6 @@ class _Body extends StatelessWidget {
           onTap: () => Navigator.of(context).pop(_ShareSheetAction.qr),
         ),
         const SizedBox(height: 16),
-        _ChannelRow(link: link, carTitle: carTitle),
-        const SizedBox(height: 16),
         _CopyLinkRow(link: link),
         const SizedBox(height: 14),
         _SharingFooter(carId: carId, link: link, isToggling: isToggling),
@@ -318,59 +314,6 @@ class _QrCallToAction extends StatelessWidget {
               ),
               const Icon(Icons.chevron_right, color: Colors.white, size: 22),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// The per-app tiles. Each one tags its own channel on the URL — that tagging
-/// is the reason these exist instead of a single system-share button.
-///
-/// Laid out like the iOS share sheet: brand icons on one line that scrolls
-/// sideways rather than squeezing, so the row survives a narrow phone and a
-/// large text scale instead of clipping the labels.
-class _ChannelRow extends StatelessWidget {
-  final CarShareEntity link;
-  final String carTitle;
-
-  const _ChannelRow({required this.link, required this.carTitle});
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
-    final tiles = <({CarShareChannel channel, String label})>[
-      (channel: CarShareChannel.messages, label: l10n.garageShareChannelMessages),
-      (channel: CarShareChannel.whatsapp, label: l10n.garageShareChannelWhatsApp),
-      (
-        channel: CarShareChannel.instagram,
-        label: l10n.garageShareChannelInstagram,
-      ),
-      (channel: CarShareChannel.x, label: l10n.garageShareChannelX),
-      (channel: CarShareChannel.telegram, label: l10n.garageShareChannelTelegram),
-    ];
-
-    // Icon + gap + the label's own line height, so a large text scale grows
-    // the row instead of clipping the names.
-    final labelHeight = MediaQuery.textScalerOf(context).scale(11) * 1.4;
-
-    return SizedBox(
-      height: 60 + 7 + labelHeight,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 2),
-        itemCount: tiles.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 14),
-        itemBuilder: (context, i) => ShareChannelTile(
-          channel: tiles[i].channel,
-          label: tiles[i].label,
-          onTap: (origin) => getIt<ShareLauncherService>().shareTo(
-            tiles[i].channel,
-            link: link,
-            text: l10n.garageShareMessage(carTitle),
-            origin: origin,
           ),
         ),
       ),

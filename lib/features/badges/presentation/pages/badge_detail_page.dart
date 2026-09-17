@@ -63,7 +63,7 @@ class BadgeDetailPage extends StatelessWidget {
                           BadgeArt(badge: badge, size: art),
                           const SizedBox(height: 32),
                           Text(
-                            badge.title.toUpperCase(),
+                            badge.title,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: AppColors.ink,

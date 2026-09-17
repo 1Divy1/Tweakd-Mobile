@@ -85,7 +85,6 @@ class PhotosStep extends StatelessWidget {
                 color: AppColors.mute,
                 fontSize: 12,
                 fontWeight: FontWeight.w800,
-                letterSpacing: 0.6,
               ),
             ),
             Text(
@@ -94,7 +93,6 @@ class PhotosStep extends StatelessWidget {
                 color: AppColors.muteSoft,
                 fontSize: 12,
                 fontWeight: FontWeight.w800,
-                letterSpacing: 0.6,
               ),
             ),
           ],
@@ -289,7 +287,6 @@ class _AddTile extends StatelessWidget {
                     color: AppColors.mute,
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
-                    letterSpacing: 1,
                   ),
                 ),
               ],

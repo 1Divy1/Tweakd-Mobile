@@ -13,6 +13,10 @@ import '../../features/authentication/presentation/pages/new_password_page.dart'
 import '../../features/authentication/presentation/pages/signup_page.dart';
 import '../../features/authentication/presentation/pages/splash_page.dart';
 import '../../features/authentication/presentation/pages/verify_reset_code_page.dart';
+import '../../features/block/presentation/bloc/block_user/cubit.dart';
+import '../../features/block/presentation/bloc/blocked_accounts/bloc.dart';
+import '../../features/block/presentation/bloc/blocked_accounts/event.dart';
+import '../../features/block/presentation/pages/blocked_accounts_page.dart';
 import '../../features/feed/presentation/bloc/feed/bloc.dart';
 import '../../features/feed/presentation/pages/feed_page.dart';
 import '../../features/feed/presentation/utils/feed_segment.dart';
@@ -103,13 +107,12 @@ import '../../features/posts/presentation/bloc/profile_posts/bloc.dart';
 import '../../features/posts/presentation/bloc/profile_posts/event.dart';
 import '../../features/posts/presentation/bloc/saved_posts/bloc.dart';
 import '../../features/posts/presentation/bloc/saved_posts/event.dart';
-import '../../features/posts/presentation/bloc/share_post/bloc.dart';
+import '../../features/posts/presentation/bloc/profile_reposts/bloc.dart';
 import '../shared/bloc/tag_picker/bloc.dart';
 import '../../features/posts/presentation/pages/create_post_page.dart';
 import '../../features/posts/presentation/pages/edit_post_page.dart';
 import '../../features/posts/presentation/pages/post_detail_page.dart';
 import '../../features/posts/presentation/pages/saved_posts_page.dart';
-import '../../features/posts/presentation/pages/share_post_page.dart';
 import '../../features/onboarding/presentation/bloc/event.dart';
 import '../../features/feedback/presentation/bloc/feedback/bloc.dart';
 import '../../features/feedback/presentation/bloc/feedback/event.dart';
@@ -235,6 +238,10 @@ final appRouter = GoRouter(
               create: (_) =>
                   getIt<ProfilePostsBloc>()..add(const LoadMyPosts()),
             ),
+            // Loaded the first time the Reposts tab is opened.
+            BlocProvider<ProfileRepostsBloc>(
+              create: (_) => getIt<ProfileRepostsBloc>(),
+            ),
             // No event dispatched: the tags feed is fetched the first time the
             // Tags tab is opened, so a profile visit doesn't pay for it.
             BlocProvider<TagsBloc>(create: (_) => getIt<TagsBloc>()),
@@ -292,8 +299,14 @@ final appRouter = GoRouter(
               create: (_) =>
                   getIt<ProfilePostsBloc>()..add(LoadPostsByUsername(username)),
             ),
+            // Loaded lazily on the first Reposts tab open — see the /profile route.
+            BlocProvider<ProfileRepostsBloc>(
+              create: (_) => getIt<ProfileRepostsBloc>(),
+            ),
             // Loaded lazily on the first Tags tab open — see the /profile route.
             BlocProvider<TagsBloc>(create: (_) => getIt<TagsBloc>()),
+            // The "⋯" menu's Block action.
+            BlocProvider<BlockUserCubit>(create: (_) => getIt<BlockUserCubit>()),
           ],
           child: PublicProfilePage(username: username),
         );
@@ -334,6 +347,16 @@ final appRouter = GoRouter(
       builder: (context, state) => BlocProvider<MyReportsBloc>(
         create: (_) => getIt<MyReportsBloc>()..add(const LoadMyReports()),
         child: const MyReportsPage(),
+      ),
+    ),
+
+    // ---------- Blocked Accounts (from Settings) ----------
+    GoRoute(
+      path: '/settings/blocked-accounts',
+      builder: (context, state) => BlocProvider<BlockedAccountsBloc>(
+        create: (_) =>
+            getIt<BlockedAccountsBloc>()..add(const LoadBlockedAccounts()),
+        child: const BlockedAccountsPage(),
       ),
     ),
 
@@ -739,16 +762,6 @@ final appRouter = GoRouter(
                 ),
               ],
               child: EditPostPage(post: post),
-            );
-          },
-        ),
-        GoRoute(
-          path: 'share',
-          builder: (context, state) {
-            final post = state.extra as PostEntity;
-            return BlocProvider<SharePostBloc>(
-              create: (_) => getIt<SharePostBloc>(),
-              child: SharePostPage(post: post),
             );
           },
         ),

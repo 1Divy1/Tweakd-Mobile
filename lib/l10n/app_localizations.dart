@@ -257,7 +257,7 @@ abstract class AppLocalizations {
   /// No description provided for @authForgotPassword.
   ///
   /// In en, this message translates to:
-  /// **'FORGOT PASSWORD?'**
+  /// **'Forgot password?'**
   String get authForgotPassword;
 
   /// No description provided for @authSignIn.
@@ -395,7 +395,7 @@ abstract class AppLocalizations {
   /// No description provided for @authResendEmail.
   ///
   /// In en, this message translates to:
-  /// **'DIDN\'T GET IT? RESEND'**
+  /// **'Didn\'t get it? Resend'**
   String get authResendEmail;
 
   /// Resend button label during its cooldown
@@ -407,7 +407,7 @@ abstract class AppLocalizations {
   /// No description provided for @authBackToSignIn.
   ///
   /// In en, this message translates to:
-  /// **'BACK TO SIGN IN'**
+  /// **'Back to sign in'**
   String get authBackToSignIn;
 
   /// No description provided for @authForgotPasswordTitle.
@@ -503,19 +503,19 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingBack.
   ///
   /// In en, this message translates to:
-  /// **'BACK'**
+  /// **'Back'**
   String get onboardingBack;
 
   /// No description provided for @onboardingNext.
   ///
   /// In en, this message translates to:
-  /// **'NEXT'**
+  /// **'Next'**
   String get onboardingNext;
 
   /// No description provided for @onboardingFinishSetup.
   ///
   /// In en, this message translates to:
-  /// **'FINISH SETUP'**
+  /// **'Finish setup'**
   String get onboardingFinishSetup;
 
   /// No description provided for @onboardingFinishingSetup.
@@ -665,7 +665,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingIdentityLabel.
   ///
   /// In en, this message translates to:
-  /// **'01 — IDENTITY'**
+  /// **'01 — Identity'**
   String get onboardingIdentityLabel;
 
   /// No description provided for @onboardingIdentityTitle.
@@ -677,7 +677,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingFieldName.
   ///
   /// In en, this message translates to:
-  /// **'NAME'**
+  /// **'Name'**
   String get onboardingFieldName;
 
   /// No description provided for @onboardingNameHint.
@@ -689,13 +689,13 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingFieldUsername.
   ///
   /// In en, this message translates to:
-  /// **'USERNAME'**
+  /// **'Username'**
   String get onboardingFieldUsername;
 
   /// No description provided for @onboardingFieldBio.
   ///
   /// In en, this message translates to:
-  /// **'BIO'**
+  /// **'Bio'**
   String get onboardingFieldBio;
 
   /// No description provided for @onboardingBioHint.
@@ -707,7 +707,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingGarageLabel.
   ///
   /// In en, this message translates to:
-  /// **'02 — PREFERENCES'**
+  /// **'02 — Preferences'**
   String get onboardingGarageLabel;
 
   /// No description provided for @onboardingGarageTitle.
@@ -725,13 +725,13 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingFieldYourPicks.
   ///
   /// In en, this message translates to:
-  /// **'YOUR PICKS'**
+  /// **'Your picks'**
   String get onboardingFieldYourPicks;
 
   /// No description provided for @onboardingFieldModels.
   ///
   /// In en, this message translates to:
-  /// **'MODELS'**
+  /// **'Models'**
   String get onboardingFieldModels;
 
   /// No description provided for @onboardingSelectBrand.
@@ -755,13 +755,13 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingAddBrand.
   ///
   /// In en, this message translates to:
-  /// **'ADD ANOTHER BRAND'**
+  /// **'Add another brand'**
   String get onboardingAddBrand;
 
   /// No description provided for @onboardingLocationLabel.
   ///
   /// In en, this message translates to:
-  /// **'03 — LOCATION'**
+  /// **'03 — Location'**
   String get onboardingLocationLabel;
 
   /// No description provided for @onboardingLocationTitle.
@@ -779,19 +779,19 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingFieldCountry.
   ///
   /// In en, this message translates to:
-  /// **'COUNTRY'**
+  /// **'Country'**
   String get onboardingFieldCountry;
 
   /// No description provided for @onboardingFieldRegion.
   ///
   /// In en, this message translates to:
-  /// **'REGION'**
+  /// **'Region'**
   String get onboardingFieldRegion;
 
   /// No description provided for @onboardingFieldCity.
   ///
   /// In en, this message translates to:
-  /// **'CITY'**
+  /// **'City'**
   String get onboardingFieldCity;
 
   /// No description provided for @onboardingSelectCountryPlaceholder.
@@ -845,13 +845,13 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingDiscoveryRadius.
   ///
   /// In en, this message translates to:
-  /// **'DISCOVERY RADIUS'**
+  /// **'Discovery radius'**
   String get onboardingDiscoveryRadius;
 
   /// No description provided for @onboardingNotificationsLabel.
   ///
   /// In en, this message translates to:
-  /// **'04 — NOTIFICATIONS'**
+  /// **'04 — Notifications'**
   String get onboardingNotificationsLabel;
 
   /// No description provided for @onboardingNotificationsTitle.
@@ -887,7 +887,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingPushOpenSettings.
   ///
   /// In en, this message translates to:
-  /// **'OPEN SETTINGS'**
+  /// **'Open settings'**
   String get onboardingPushOpenSettings;
 
   /// No description provided for @onboardingPushEnableTitle.
@@ -905,31 +905,31 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingPushEnable.
   ///
   /// In en, this message translates to:
-  /// **'ENABLE'**
+  /// **'Enable'**
   String get onboardingPushEnable;
 
   /// No description provided for @onboardingNotifGroupContent.
   ///
   /// In en, this message translates to:
-  /// **'ON YOUR CONTENT'**
+  /// **'On your content'**
   String get onboardingNotifGroupContent;
 
   /// No description provided for @onboardingNotifGroupMessages.
   ///
   /// In en, this message translates to:
-  /// **'MESSAGES'**
+  /// **'Messages'**
   String get onboardingNotifGroupMessages;
 
   /// No description provided for @onboardingNotifGroupMeets.
   ///
   /// In en, this message translates to:
-  /// **'MEETS & EVENTS · WITHIN {radius} KM'**
+  /// **'Meets & events · within {radius} km'**
   String onboardingNotifGroupMeets(int radius);
 
   /// No description provided for @onboardingNotifGroupGarage.
   ///
   /// In en, this message translates to:
-  /// **'YOUR GARAGE'**
+  /// **'Your garage'**
   String get onboardingNotifGroupGarage;
 
   /// No description provided for @onboardingNotifLikesTitle.
@@ -959,13 +959,13 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingNotifSharesTitle.
   ///
   /// In en, this message translates to:
-  /// **'Shares'**
+  /// **'Reposts'**
   String get onboardingNotifSharesTitle;
 
   /// No description provided for @onboardingNotifSharesSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'When your content gets reposted'**
+  /// **'When someone reposts your post'**
   String get onboardingNotifSharesSubtitle;
 
   /// No description provided for @onboardingNotifDmsTitle.
@@ -1043,7 +1043,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileTitle.
   ///
   /// In en, this message translates to:
-  /// **'PROFILE'**
+  /// **'Profile'**
   String get profileTitle;
 
   /// No description provided for @profileMessage.
@@ -1157,7 +1157,7 @@ abstract class AppLocalizations {
   /// No description provided for @editProfileTitle.
   ///
   /// In en, this message translates to:
-  /// **'EDIT PROFILE'**
+  /// **'Edit profile'**
   String get editProfileTitle;
 
   /// No description provided for @editProfileChangePhoto.
@@ -1169,7 +1169,7 @@ abstract class AppLocalizations {
   /// No description provided for @editProfileNameLabel.
   ///
   /// In en, this message translates to:
-  /// **'NAME'**
+  /// **'Name'**
   String get editProfileNameLabel;
 
   /// No description provided for @editProfileNameHint.
@@ -1181,7 +1181,7 @@ abstract class AppLocalizations {
   /// No description provided for @editProfileBioLabel.
   ///
   /// In en, this message translates to:
-  /// **'BIO'**
+  /// **'Bio'**
   String get editProfileBioLabel;
 
   /// No description provided for @editProfileBioHint.
@@ -1223,19 +1223,19 @@ abstract class AppLocalizations {
   /// No description provided for @followActionFollow.
   ///
   /// In en, this message translates to:
-  /// **'FOLLOW'**
+  /// **'Follow'**
   String get followActionFollow;
 
   /// No description provided for @followActionUnfollow.
   ///
   /// In en, this message translates to:
-  /// **'UNFOLLOW'**
+  /// **'Unfollow'**
   String get followActionUnfollow;
 
   /// No description provided for @followActionRequested.
   ///
   /// In en, this message translates to:
-  /// **'REQUESTED'**
+  /// **'Requested'**
   String get followActionRequested;
 
   /// No description provided for @garageEmptyOwner.
@@ -1243,6 +1243,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your garage is empty. Add your first car.'**
   String get garageEmptyOwner;
+
+  /// No description provided for @garageAddNewCar.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new car'**
+  String get garageAddNewCar;
 
   /// No description provided for @garageEmptyVisitor.
   ///
@@ -1253,14 +1259,38 @@ abstract class AppLocalizations {
   /// No description provided for @followActionFollowing.
   ///
   /// In en, this message translates to:
-  /// **'FOLLOWING'**
+  /// **'Following'**
   String get followActionFollowing;
 
   /// No description provided for @followRemove.
   ///
   /// In en, this message translates to:
-  /// **'REMOVE'**
+  /// **'Remove'**
   String get followRemove;
+
+  /// No description provided for @followUnfollowConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfollow @{username}?'**
+  String followUnfollowConfirmTitle(String username);
+
+  /// No description provided for @followUnfollowConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Their posts will stop showing up in your feed.'**
+  String get followUnfollowConfirmBody;
+
+  /// No description provided for @followRemoveConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove @{username}?'**
+  String followRemoveConfirmTitle(String username);
+
+  /// No description provided for @followRemoveConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'They\'ll no longer follow you. They can follow you again later.'**
+  String get followRemoveConfirmBody;
 
   /// No description provided for @followSearchFollowersHint.
   ///
@@ -1277,7 +1307,7 @@ abstract class AppLocalizations {
   /// No description provided for @followResultsForQuery.
   ///
   /// In en, this message translates to:
-  /// **'FOR \"{query}\"'**
+  /// **'For \"{query}\"'**
   String followResultsForQuery(String query);
 
   /// No description provided for @followNoResultsQuery.
@@ -1337,7 +1367,7 @@ abstract class AppLocalizations {
   /// No description provided for @searchTitle.
   ///
   /// In en, this message translates to:
-  /// **'SEARCH'**
+  /// **'Search'**
   String get searchTitle;
 
   /// No description provided for @searchInputHint.
@@ -1367,7 +1397,7 @@ abstract class AppLocalizations {
   /// No description provided for @searchForQuery.
   ///
   /// In en, this message translates to:
-  /// **'FOR \"{query}\"'**
+  /// **'For \"{query}\"'**
   String searchForQuery(String query);
 
   /// No description provided for @searchNoResults.
@@ -1499,13 +1529,13 @@ abstract class AppLocalizations {
   /// No description provided for @garageRegisterBack.
   ///
   /// In en, this message translates to:
-  /// **'BACK'**
+  /// **'Back'**
   String get garageRegisterBack;
 
   /// No description provided for @garageRegisterNext.
   ///
   /// In en, this message translates to:
-  /// **'NEXT'**
+  /// **'Next'**
   String get garageRegisterNext;
 
   /// No description provided for @garageRegisterWorking.
@@ -1517,13 +1547,13 @@ abstract class AppLocalizations {
   /// No description provided for @garageRegisterAddCar.
   ///
   /// In en, this message translates to:
-  /// **'ADD CAR'**
+  /// **'Add car'**
   String get garageRegisterAddCar;
 
   /// No description provided for @garageRegisterSave.
   ///
   /// In en, this message translates to:
-  /// **'SAVE'**
+  /// **'Save'**
   String get garageRegisterSave;
 
   /// No description provided for @garageOptional.
@@ -1553,25 +1583,25 @@ abstract class AppLocalizations {
   /// No description provided for @garageSpecsTabBasics.
   ///
   /// In en, this message translates to:
-  /// **'BASICS'**
+  /// **'Basics'**
   String get garageSpecsTabBasics;
 
   /// No description provided for @garageSpecsTabPower.
   ///
   /// In en, this message translates to:
-  /// **'POWER'**
+  /// **'Power'**
   String get garageSpecsTabPower;
 
   /// No description provided for @garageSpecsTabConfig.
   ///
   /// In en, this message translates to:
-  /// **'CONFIG'**
+  /// **'Config'**
   String get garageSpecsTabConfig;
 
   /// No description provided for @garageFieldMake.
   ///
   /// In en, this message translates to:
-  /// **'MAKE'**
+  /// **'Make'**
   String get garageFieldMake;
 
   /// No description provided for @garageHintMake.
@@ -1589,7 +1619,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageFieldModel.
   ///
   /// In en, this message translates to:
-  /// **'MODEL'**
+  /// **'Model'**
   String get garageFieldModel;
 
   /// No description provided for @garageHintModelPickMakeFirst.
@@ -1613,7 +1643,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageFieldYear.
   ///
   /// In en, this message translates to:
-  /// **'YEAR'**
+  /// **'Year'**
   String get garageFieldYear;
 
   /// No description provided for @garageFieldChassisCode.
@@ -1625,7 +1655,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageFieldModelCode.
   ///
   /// In en, this message translates to:
-  /// **'MODEL CODE'**
+  /// **'Model code'**
   String get garageFieldModelCode;
 
   /// No description provided for @garageHintModelCode.
@@ -1643,31 +1673,31 @@ abstract class AppLocalizations {
   /// No description provided for @garageFieldPower.
   ///
   /// In en, this message translates to:
-  /// **'POWER'**
+  /// **'Power'**
   String get garageFieldPower;
 
   /// No description provided for @garageFieldTorque.
   ///
   /// In en, this message translates to:
-  /// **'TORQUE'**
+  /// **'Torque'**
   String get garageFieldTorque;
 
   /// No description provided for @garageFieldWeight.
   ///
   /// In en, this message translates to:
-  /// **'WEIGHT'**
+  /// **'Weight'**
   String get garageFieldWeight;
 
   /// No description provided for @garageFieldDisplacement.
   ///
   /// In en, this message translates to:
-  /// **'DISPLACEMENT'**
+  /// **'Displacement'**
   String get garageFieldDisplacement;
 
   /// No description provided for @garageFieldEngineCode.
   ///
   /// In en, this message translates to:
-  /// **'ENGINE CODE'**
+  /// **'Engine code'**
   String get garageFieldEngineCode;
 
   /// No description provided for @garageHintEngineCode.
@@ -1679,7 +1709,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageFieldFuelType.
   ///
   /// In en, this message translates to:
-  /// **'FUEL TYPE'**
+  /// **'Fuel type'**
   String get garageFieldFuelType;
 
   /// No description provided for @garageHintFuelType.
@@ -1697,7 +1727,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageFieldDrivetrain.
   ///
   /// In en, this message translates to:
-  /// **'DRIVETRAIN'**
+  /// **'Drivetrain'**
   String get garageFieldDrivetrain;
 
   /// No description provided for @garageHintDrivetrain.
@@ -1715,7 +1745,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageFieldColor.
   ///
   /// In en, this message translates to:
-  /// **'COLOR'**
+  /// **'Color'**
   String get garageFieldColor;
 
   /// No description provided for @garageHintColor.
@@ -1733,13 +1763,13 @@ abstract class AppLocalizations {
   /// No description provided for @garageFieldMileageUnit.
   ///
   /// In en, this message translates to:
-  /// **'MILEAGE UNIT'**
+  /// **'Mileage unit'**
   String get garageFieldMileageUnit;
 
   /// No description provided for @garageFieldMileage.
   ///
   /// In en, this message translates to:
-  /// **'MILEAGE'**
+  /// **'Mileage'**
   String get garageFieldMileage;
 
   /// No description provided for @garageHintMileage.
@@ -1757,13 +1787,13 @@ abstract class AppLocalizations {
   /// No description provided for @garageFieldStatus.
   ///
   /// In en, this message translates to:
-  /// **'STATUS'**
+  /// **'Status'**
   String get garageFieldStatus;
 
   /// No description provided for @garageFieldTheStory.
   ///
   /// In en, this message translates to:
-  /// **'THE STORY'**
+  /// **'The story'**
   String get garageFieldTheStory;
 
   /// No description provided for @garageHintStory.
@@ -1781,7 +1811,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageFieldGallery.
   ///
   /// In en, this message translates to:
-  /// **'GALLERY'**
+  /// **'Gallery'**
   String get garageFieldGallery;
 
   /// No description provided for @garageAddCoverPhoto.
@@ -1793,7 +1823,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageGalleryAdd.
   ///
   /// In en, this message translates to:
-  /// **'ADD'**
+  /// **'Add'**
   String get garageGalleryAdd;
 
   /// No description provided for @garageGalleryHint.
@@ -1817,13 +1847,13 @@ abstract class AppLocalizations {
   /// No description provided for @garageModFallbackCategory.
   ///
   /// In en, this message translates to:
-  /// **'MODIFICATION'**
+  /// **'Modification'**
   String get garageModFallbackCategory;
 
   /// No description provided for @garageAddModification.
   ///
   /// In en, this message translates to:
-  /// **'ADD MODIFICATION'**
+  /// **'Add modification'**
   String get garageAddModification;
 
   /// No description provided for @garageModSheetTitleEdit.
@@ -1841,7 +1871,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageFieldCategory.
   ///
   /// In en, this message translates to:
-  /// **'CATEGORY'**
+  /// **'Category'**
   String get garageFieldCategory;
 
   /// No description provided for @garageHintCategory.
@@ -1859,7 +1889,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageFieldTitle.
   ///
   /// In en, this message translates to:
-  /// **'TITLE'**
+  /// **'Title'**
   String get garageFieldTitle;
 
   /// No description provided for @garageHintModTitle.
@@ -1871,7 +1901,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageFieldDescription.
   ///
   /// In en, this message translates to:
-  /// **'DESCRIPTION'**
+  /// **'Description'**
   String get garageFieldDescription;
 
   /// No description provided for @garageHintModDescription.
@@ -1883,7 +1913,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageFieldInstallationDate.
   ///
   /// In en, this message translates to:
-  /// **'INSTALLATION DATE'**
+  /// **'Installation date'**
   String get garageFieldInstallationDate;
 
   /// No description provided for @garageSelectDate.
@@ -1895,37 +1925,37 @@ abstract class AppLocalizations {
   /// No description provided for @garageFieldPrice.
   ///
   /// In en, this message translates to:
-  /// **'PRICE'**
+  /// **'Price'**
   String get garageFieldPrice;
 
   /// No description provided for @garageFieldMileageShort.
   ///
   /// In en, this message translates to:
-  /// **'MILEAGE'**
+  /// **'Mileage'**
   String get garageFieldMileageShort;
 
   /// No description provided for @garageModBefore.
   ///
   /// In en, this message translates to:
-  /// **'BEFORE'**
+  /// **'Before'**
   String get garageModBefore;
 
   /// No description provided for @garageModAfter.
   ///
   /// In en, this message translates to:
-  /// **'AFTER'**
+  /// **'After'**
   String get garageModAfter;
 
   /// No description provided for @garageModSaveChanges.
   ///
   /// In en, this message translates to:
-  /// **'SAVE CHANGES'**
+  /// **'Save changes'**
   String get garageModSaveChanges;
 
   /// No description provided for @garageModAddToBuildLog.
   ///
   /// In en, this message translates to:
-  /// **'ADD TO BUILD LOG'**
+  /// **'Add to build log'**
   String get garageModAddToBuildLog;
 
   /// No description provided for @garageModValidation.
@@ -1937,97 +1967,97 @@ abstract class AppLocalizations {
   /// No description provided for @garageAboutTitle.
   ///
   /// In en, this message translates to:
-  /// **'ABOUT'**
+  /// **'About'**
   String get garageAboutTitle;
 
   /// No description provided for @garageBuildIdentifier.
   ///
   /// In en, this message translates to:
-  /// **'BUILD IDENTIFIER · {code}'**
+  /// **'Build identifier · {code}'**
   String garageBuildIdentifier(String code);
 
   /// No description provided for @garageSpecPower.
   ///
   /// In en, this message translates to:
-  /// **'POWER'**
+  /// **'Power'**
   String get garageSpecPower;
 
   /// No description provided for @garageSpecTorque.
   ///
   /// In en, this message translates to:
-  /// **'TORQUE'**
+  /// **'Torque'**
   String get garageSpecTorque;
 
   /// No description provided for @garageSpecWeight.
   ///
   /// In en, this message translates to:
-  /// **'WEIGHT'**
+  /// **'Weight'**
   String get garageSpecWeight;
 
   /// No description provided for @garageInfoDrivetrain.
   ///
   /// In en, this message translates to:
-  /// **'DRIVETRAIN'**
+  /// **'Drivetrain'**
   String get garageInfoDrivetrain;
 
   /// No description provided for @garageInfoMileage.
   ///
   /// In en, this message translates to:
-  /// **'MILEAGE'**
+  /// **'Mileage'**
   String get garageInfoMileage;
 
   /// No description provided for @garageInfoModelCode.
   ///
   /// In en, this message translates to:
-  /// **'MODEL CODE'**
+  /// **'Model code'**
   String get garageInfoModelCode;
 
   /// No description provided for @garageInfoEngineCode.
   ///
   /// In en, this message translates to:
-  /// **'ENGINE CODE'**
+  /// **'Engine code'**
   String get garageInfoEngineCode;
 
   /// No description provided for @garageInfoDisplacement.
   ///
   /// In en, this message translates to:
-  /// **'DISPLACEMENT'**
+  /// **'Displacement'**
   String get garageInfoDisplacement;
 
   /// No description provided for @garageInfoFuelType.
   ///
   /// In en, this message translates to:
-  /// **'FUEL TYPE'**
+  /// **'Fuel type'**
   String get garageInfoFuelType;
 
   /// No description provided for @garageInfoStatus.
   ///
   /// In en, this message translates to:
-  /// **'STATUS'**
+  /// **'Status'**
   String get garageInfoStatus;
 
   /// No description provided for @garageStoryHeading.
   ///
   /// In en, this message translates to:
-  /// **'THE STORY'**
+  /// **'The story'**
   String get garageStoryHeading;
 
   /// No description provided for @garageGalleryHeading.
   ///
   /// In en, this message translates to:
-  /// **'GALLERY'**
+  /// **'Gallery'**
   String get garageGalleryHeading;
 
   /// No description provided for @garageLogBuildIteration.
   ///
   /// In en, this message translates to:
-  /// **'+ LOG BUILD ITERATION'**
+  /// **'+ Log build iteration'**
   String get garageLogBuildIteration;
 
   /// No description provided for @garageModLogHeading.
   ///
   /// In en, this message translates to:
-  /// **'MODIFICATION LOG'**
+  /// **'Modification log'**
   String get garageModLogHeading;
 
   /// No description provided for @garageEditCar.
@@ -2117,7 +2147,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageShareSheetLabel.
   ///
   /// In en, this message translates to:
-  /// **'SHARE BUILD'**
+  /// **'Share build'**
   String get garageShareSheetLabel;
 
   /// No description provided for @garageShareQrTitle.
@@ -2360,6 +2390,30 @@ abstract class AppLocalizations {
   /// **'You haven\'t added this item to the build log yet. If you leave now, everything you entered here will be lost.'**
   String get garageBuildLogDiscardBody;
 
+  /// No description provided for @garageRegisterDiscardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard this car?'**
+  String get garageRegisterDiscardTitle;
+
+  /// No description provided for @garageRegisterDiscardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t added this car to your garage yet. If you leave now, everything you entered will be lost.'**
+  String get garageRegisterDiscardBody;
+
+  /// No description provided for @garageEditCarDiscardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard your changes?'**
+  String get garageEditCarDiscardTitle;
+
+  /// No description provided for @garageEditCarDiscardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your changes to this car won\'t be saved.'**
+  String get garageEditCarDiscardBody;
+
   /// No description provided for @garageLogModLogged.
   ///
   /// In en, this message translates to:
@@ -2393,7 +2447,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageAddModAddCar.
   ///
   /// In en, this message translates to:
-  /// **'ADD A CAR'**
+  /// **'Add a car'**
   String get garageAddModAddCar;
 
   /// No description provided for @garageAddModPickCar.
@@ -2471,7 +2525,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsTitle.
   ///
   /// In en, this message translates to:
-  /// **'SETTINGS'**
+  /// **'Settings'**
   String get settingsTitle;
 
   /// No description provided for @settingsLogout.
@@ -2495,19 +2549,19 @@ abstract class AppLocalizations {
   /// No description provided for @postBack.
   ///
   /// In en, this message translates to:
-  /// **'BACK'**
+  /// **'Back'**
   String get postBack;
 
   /// No description provided for @postNext.
   ///
   /// In en, this message translates to:
-  /// **'NEXT'**
+  /// **'Next'**
   String get postNext;
 
   /// No description provided for @postPublish.
   ///
   /// In en, this message translates to:
-  /// **'PUBLISH POST'**
+  /// **'Publish post'**
   String get postPublish;
 
   /// No description provided for @postPhotosTitle.
@@ -2525,7 +2579,7 @@ abstract class AppLocalizations {
   /// No description provided for @postPhotosAdd.
   ///
   /// In en, this message translates to:
-  /// **'ADD'**
+  /// **'Add'**
   String get postPhotosAdd;
 
   /// No description provided for @postPhotosCover.
@@ -2537,13 +2591,13 @@ abstract class AppLocalizations {
   /// No description provided for @postPhotosVideosSoon.
   ///
   /// In en, this message translates to:
-  /// **'VIDEOS — COMING SOON'**
+  /// **'Videos — coming soon'**
   String get postPhotosVideosSoon;
 
   /// No description provided for @postPhotosCount.
   ///
   /// In en, this message translates to:
-  /// **'{count} / {max} PHOTOS'**
+  /// **'{count} / {max} photos'**
   String postPhotosCount(int count, int max);
 
   /// No description provided for @postCaptionTitle.
@@ -2561,7 +2615,7 @@ abstract class AppLocalizations {
   /// No description provided for @postCaptionLabel.
   ///
   /// In en, this message translates to:
-  /// **'DESCRIPTION'**
+  /// **'Description'**
   String get postCaptionLabel;
 
   /// No description provided for @postCaptionHint.
@@ -2591,13 +2645,13 @@ abstract class AppLocalizations {
   /// No description provided for @postTagsCars.
   ///
   /// In en, this message translates to:
-  /// **'CARS'**
+  /// **'Cars'**
   String get postTagsCars;
 
   /// No description provided for @postTagsPeople.
   ///
   /// In en, this message translates to:
-  /// **'PEOPLE'**
+  /// **'People'**
   String get postTagsPeople;
 
   /// No description provided for @postTagsCarHint.
@@ -2663,13 +2717,13 @@ abstract class AppLocalizations {
   /// No description provided for @postVisibilitySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Hide a counter and others won\'t see that number — they can still like, comment and share.'**
+  /// **'Hide a counter and others won\'t see that number — they can still like, comment and repost.'**
   String get postVisibilitySubtitle;
 
   /// No description provided for @postVisibilityLabel.
   ///
   /// In en, this message translates to:
-  /// **'VISIBLE COUNTS'**
+  /// **'Visible counts'**
   String get postVisibilityLabel;
 
   /// No description provided for @postVisibilityLikesTitle.
@@ -2699,13 +2753,13 @@ abstract class AppLocalizations {
   /// No description provided for @postVisibilitySharesTitle.
   ///
   /// In en, this message translates to:
-  /// **'Show share count'**
+  /// **'Show repost count'**
   String get postVisibilitySharesTitle;
 
   /// No description provided for @postVisibilitySharesDesc.
   ///
   /// In en, this message translates to:
-  /// **'Others can see how many times it was shared'**
+  /// **'Others can see how many times it was reposted'**
   String get postVisibilitySharesDesc;
 
   /// No description provided for @postVisibilitySavedTitle.
@@ -2747,7 +2801,7 @@ abstract class AppLocalizations {
   /// No description provided for @postReviewJustNow.
   ///
   /// In en, this message translates to:
-  /// **'JUST NOW'**
+  /// **'Just now'**
   String get postReviewJustNow;
 
   /// No description provided for @postValPhotosRequired.
@@ -2779,6 +2833,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Discard'**
   String get postDiscard;
+
+  /// No description provided for @postEditDiscardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard your changes?'**
+  String get postEditDiscardTitle;
+
+  /// No description provided for @postEditDiscardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your changes to this post won\'t be saved.'**
+  String get postEditDiscardBody;
 
   /// No description provided for @postCreatedSuccess.
   ///
@@ -2846,10 +2912,16 @@ abstract class AppLocalizations {
   /// **'Tags'**
   String get profileTabTags;
 
+  /// No description provided for @profileTabReposts.
+  ///
+  /// In en, this message translates to:
+  /// **'Reposts'**
+  String get profileTabReposts;
+
   /// No description provided for @postsLoadMore.
   ///
   /// In en, this message translates to:
-  /// **'LOAD MORE'**
+  /// **'Load more'**
   String get postsLoadMore;
 
   /// No description provided for @postsEmptyOwner.
@@ -2867,13 +2939,25 @@ abstract class AppLocalizations {
   /// No description provided for @postsCreateFirst.
   ///
   /// In en, this message translates to:
-  /// **'CREATE YOUR FIRST POST'**
+  /// **'Create your first post'**
   String get postsCreateFirst;
+
+  /// No description provided for @repostsEmptyOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts you repost show up here.'**
+  String get repostsEmptyOwner;
+
+  /// No description provided for @repostsEmptyVisitor.
+  ///
+  /// In en, this message translates to:
+  /// **'No reposts yet.'**
+  String get repostsEmptyVisitor;
 
   /// No description provided for @savedPostsTitle.
   ///
   /// In en, this message translates to:
-  /// **'SAVED POSTS'**
+  /// **'Saved posts'**
   String get savedPostsTitle;
 
   /// No description provided for @savedPostsEmptyTitle.
@@ -2891,7 +2975,7 @@ abstract class AppLocalizations {
   /// No description provided for @postDetailTitle.
   ///
   /// In en, this message translates to:
-  /// **'POST'**
+  /// **'Post'**
   String get postDetailTitle;
 
   /// No description provided for @postEditAction.
@@ -2921,50 +3005,32 @@ abstract class AppLocalizations {
   /// No description provided for @postEditTitle.
   ///
   /// In en, this message translates to:
-  /// **'EDIT POST'**
+  /// **'Edit post'**
   String get postEditTitle;
 
   /// No description provided for @postEditSave.
   ///
   /// In en, this message translates to:
-  /// **'SAVE'**
+  /// **'Save'**
   String get postEditSave;
 
-  /// No description provided for @postShareTitle.
+  /// No description provided for @postRepostedByOne.
   ///
   /// In en, this message translates to:
-  /// **'SHARE POST'**
-  String get postShareTitle;
+  /// **'@{user} reposted'**
+  String postRepostedByOne(String user);
 
-  /// No description provided for @postShareSend.
+  /// No description provided for @postRepostedByTwo.
   ///
   /// In en, this message translates to:
-  /// **'SHARE'**
-  String get postShareSend;
+  /// **'@{first} and @{second} reposted'**
+  String postRepostedByTwo(String first, String second);
 
-  /// No description provided for @postShareNoteLabel.
+  /// No description provided for @postRepostedByMany.
   ///
   /// In en, this message translates to:
-  /// **'Add a note'**
-  String get postShareNoteLabel;
-
-  /// No description provided for @postShareNoteHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Say something about this post… (optional)'**
-  String get postShareNoteHint;
-
-  /// No description provided for @postSharePreviewNoCaption.
-  ///
-  /// In en, this message translates to:
-  /// **'No caption'**
-  String get postSharePreviewNoCaption;
-
-  /// No description provided for @postShareSuccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Post shared.'**
-  String get postShareSuccess;
+  /// **'{count, plural, =1{@{user} and 1 other reposted} other{@{user} and {count} others reposted}}'**
+  String postRepostedByMany(int count, String user);
 
   /// No description provided for @postTimeNow.
   ///
@@ -3221,7 +3287,7 @@ abstract class AppLocalizations {
   /// No description provided for @myReportsTitle.
   ///
   /// In en, this message translates to:
-  /// **'MY REPORTS'**
+  /// **'My reports'**
   String get myReportsTitle;
 
   /// No description provided for @myReportsEmpty.
@@ -3305,7 +3371,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedbackEyebrow.
   ///
   /// In en, this message translates to:
-  /// **'FEEDBACK'**
+  /// **'Feedback'**
   String get feedbackEyebrow;
 
   /// No description provided for @feedbackHeadline.
@@ -3323,7 +3389,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedbackTypeLabel.
   ///
   /// In en, this message translates to:
-  /// **'FEEDBACK TYPE'**
+  /// **'Feedback type'**
   String get feedbackTypeLabel;
 
   /// No description provided for @feedbackTypeHint.
@@ -3335,7 +3401,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedbackFeatureLabel.
   ///
   /// In en, this message translates to:
-  /// **'RELATED TO AN EXISTING FEATURE?'**
+  /// **'Related to an existing feature?'**
   String get feedbackFeatureLabel;
 
   /// No description provided for @feedbackFeatureHint.
@@ -3353,13 +3419,13 @@ abstract class AppLocalizations {
   /// No description provided for @feedbackContentLabel.
   ///
   /// In en, this message translates to:
-  /// **'YOUR FEEDBACK'**
+  /// **'Your feedback'**
   String get feedbackContentLabel;
 
   /// No description provided for @feedbackContentLabelBug.
   ///
   /// In en, this message translates to:
-  /// **'WHAT HAPPENED'**
+  /// **'What happened'**
   String get feedbackContentLabelBug;
 
   /// No description provided for @feedbackContentHint.
@@ -3371,7 +3437,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedbackReproductionLabel.
   ///
   /// In en, this message translates to:
-  /// **'REPRODUCTION STEPS'**
+  /// **'Reproduction steps'**
   String get feedbackReproductionLabel;
 
   /// No description provided for @feedbackReproductionHint.
@@ -3455,7 +3521,7 @@ abstract class AppLocalizations {
   /// No description provided for @myFeedbackTitle.
   ///
   /// In en, this message translates to:
-  /// **'MY FEEDBACK'**
+  /// **'My feedback'**
   String get myFeedbackTitle;
 
   /// No description provided for @myFeedbackEmpty.
@@ -3467,7 +3533,7 @@ abstract class AppLocalizations {
   /// No description provided for @myFeedbackResponseLabel.
   ///
   /// In en, this message translates to:
-  /// **'RESPONSE'**
+  /// **'Response'**
   String get myFeedbackResponseLabel;
 
   /// No description provided for @forumsTitle.
@@ -3485,25 +3551,25 @@ abstract class AppLocalizations {
   /// No description provided for @forumsYourShortcuts.
   ///
   /// In en, this message translates to:
-  /// **'YOUR SHORTCUTS'**
+  /// **'Your shortcuts'**
   String get forumsYourShortcuts;
 
   /// No description provided for @forumsEditShortcuts.
   ///
   /// In en, this message translates to:
-  /// **'EDIT'**
+  /// **'Edit'**
   String get forumsEditShortcuts;
 
   /// No description provided for @forumsDoneEditing.
   ///
   /// In en, this message translates to:
-  /// **'DONE'**
+  /// **'Done'**
   String get forumsDoneEditing;
 
   /// No description provided for @forumsHotInYourForums.
   ///
   /// In en, this message translates to:
-  /// **'HOT IN YOUR FORUMS'**
+  /// **'Hot in your forums'**
   String get forumsHotInYourForums;
 
   /// No description provided for @forumsSortHot.
@@ -3533,14 +3599,14 @@ abstract class AppLocalizations {
   /// No description provided for @forumsEmptyBody.
   ///
   /// In en, this message translates to:
-  /// **'Tap a hub to see its threads. Once you\'ve had a look around, save it as a shortcut and it lands right here.'**
+  /// **'Browse hubs by car, or dive into what\'s popular below. Save the hubs you like as shortcuts and they land right here.'**
   String get forumsEmptyBody;
 
-  /// No description provided for @forumsPopularHubs.
+  /// No description provided for @forumsPopularThreads.
   ///
   /// In en, this message translates to:
-  /// **'POPULAR HUBS TO START WITH'**
-  String get forumsPopularHubs;
+  /// **'Popular right now'**
+  String get forumsPopularThreads;
 
   /// No description provided for @forumsCtaTitle.
   ///
@@ -3575,7 +3641,7 @@ abstract class AppLocalizations {
   /// No description provided for @forumsBrowseTitle.
   ///
   /// In en, this message translates to:
-  /// **'BROWSE'**
+  /// **'Browse'**
   String get forumsBrowseTitle;
 
   /// No description provided for @forumsBrandsCount.
@@ -3593,25 +3659,25 @@ abstract class AppLocalizations {
   /// No description provided for @forumsModels.
   ///
   /// In en, this message translates to:
-  /// **'MODELS'**
+  /// **'Models'**
   String get forumsModels;
 
   /// No description provided for @forumsRefineByTopic.
   ///
   /// In en, this message translates to:
-  /// **'REFINE BY TOPIC'**
+  /// **'Refine by topic'**
   String get forumsRefineByTopic;
 
   /// No description provided for @forumsHotIn.
   ///
   /// In en, this message translates to:
-  /// **'HOT IN {name}'**
+  /// **'Hot in {name}'**
   String forumsHotIn(String name);
 
   /// No description provided for @forumsThreadsLabel.
   ///
   /// In en, this message translates to:
-  /// **'THREADS'**
+  /// **'Threads'**
   String get forumsThreadsLabel;
 
   /// No description provided for @forumsAllTopics.
@@ -3635,7 +3701,7 @@ abstract class AppLocalizations {
   /// No description provided for @forumsShortcutNameLabel.
   ///
   /// In en, this message translates to:
-  /// **'NAME'**
+  /// **'Name'**
   String get forumsShortcutNameLabel;
 
   /// No description provided for @forumsNotifyMe.
@@ -3671,7 +3737,7 @@ abstract class AppLocalizations {
   /// No description provided for @forumsThreadTitle.
   ///
   /// In en, this message translates to:
-  /// **'THREAD'**
+  /// **'Thread'**
   String get forumsThreadTitle;
 
   /// No description provided for @forumsPinned.
@@ -3827,7 +3893,7 @@ abstract class AppLocalizations {
   /// No description provided for @forumsNewThreadTitle.
   ///
   /// In en, this message translates to:
-  /// **'NEW THREAD'**
+  /// **'New thread'**
   String get forumsNewThreadTitle;
 
   /// No description provided for @forumsPost.
@@ -3851,13 +3917,13 @@ abstract class AppLocalizations {
   /// No description provided for @forumsBrandRequiredLabel.
   ///
   /// In en, this message translates to:
-  /// **'BRAND · REQUIRED'**
+  /// **'Brand · required'**
   String get forumsBrandRequiredLabel;
 
   /// No description provided for @forumsModelOptionalLabel.
   ///
   /// In en, this message translates to:
-  /// **'MODEL · OPTIONAL'**
+  /// **'Model · optional'**
   String get forumsModelOptionalLabel;
 
   /// No description provided for @forumsSearchBrandHint.
@@ -3911,7 +3977,7 @@ abstract class AppLocalizations {
   /// No description provided for @forumsTopics.
   ///
   /// In en, this message translates to:
-  /// **'TOPICS'**
+  /// **'Topics'**
   String get forumsTopics;
 
   /// No description provided for @forumsThreadPosted.
@@ -3971,13 +4037,13 @@ abstract class AppLocalizations {
   /// No description provided for @forumsSavedTitle.
   ///
   /// In en, this message translates to:
-  /// **'SAVED'**
+  /// **'Saved'**
   String get forumsSavedTitle;
 
   /// No description provided for @forumsSavedHeader.
   ///
   /// In en, this message translates to:
-  /// **'SAVED THREADS'**
+  /// **'Saved threads'**
   String get forumsSavedHeader;
 
   /// No description provided for @forumsSavedEmptyTitle.
@@ -4031,19 +4097,19 @@ abstract class AppLocalizations {
   /// No description provided for @forumsTagPeopleAndCars.
   ///
   /// In en, this message translates to:
-  /// **'TAG PEOPLE & CARS'**
+  /// **'Tag people & cars'**
   String get forumsTagPeopleAndCars;
 
   /// No description provided for @forumsTagPeople.
   ///
   /// In en, this message translates to:
-  /// **'PEOPLE'**
+  /// **'People'**
   String get forumsTagPeople;
 
   /// No description provided for @forumsTagCars.
   ///
   /// In en, this message translates to:
-  /// **'CARS'**
+  /// **'Cars'**
   String get forumsTagCars;
 
   /// No description provided for @forumsTagHelper.
@@ -4139,13 +4205,13 @@ abstract class AppLocalizations {
   /// No description provided for @forumsTagsSectionLabel.
   ///
   /// In en, this message translates to:
-  /// **'TAGS'**
+  /// **'Tags'**
   String get forumsTagsSectionLabel;
 
   /// No description provided for @messagesTitle.
   ///
   /// In en, this message translates to:
-  /// **'MESSAGES'**
+  /// **'Messages'**
   String get messagesTitle;
 
   /// No description provided for @messagesSearchHint.
@@ -4157,7 +4223,7 @@ abstract class AppLocalizations {
   /// No description provided for @messagesActiveNow.
   ///
   /// In en, this message translates to:
-  /// **'ACTIVE NOW'**
+  /// **'Active now'**
   String get messagesActiveNow;
 
   /// No description provided for @messagesRequestsTitle.
@@ -4187,7 +4253,7 @@ abstract class AppLocalizations {
   /// No description provided for @messagesNewMessage.
   ///
   /// In en, this message translates to:
-  /// **'NEW MESSAGE'**
+  /// **'New message'**
   String get messagesNewMessage;
 
   /// No description provided for @messagesYouPrefix.
@@ -4391,7 +4457,7 @@ abstract class AppLocalizations {
   /// No description provided for @notificationsTitle.
   ///
   /// In en, this message translates to:
-  /// **'NOTIFICATIONS'**
+  /// **'Notifications'**
   String get notificationsTitle;
 
   /// No description provided for @notificationsMarkAllRead.
@@ -4433,25 +4499,25 @@ abstract class AppLocalizations {
   /// No description provided for @tagsKindPost.
   ///
   /// In en, this message translates to:
-  /// **'TAGGED IN A POST'**
+  /// **'Tagged in a post'**
   String get tagsKindPost;
 
   /// No description provided for @tagsKindComment.
   ///
   /// In en, this message translates to:
-  /// **'TAGGED IN A COMMENT'**
+  /// **'Tagged in a comment'**
   String get tagsKindComment;
 
   /// No description provided for @tagsKindThread.
   ///
   /// In en, this message translates to:
-  /// **'TAGGED IN A THREAD'**
+  /// **'Tagged in a thread'**
   String get tagsKindThread;
 
   /// No description provided for @tagsKindReply.
   ///
   /// In en, this message translates to:
-  /// **'TAGGED IN A REPLY'**
+  /// **'Tagged in a reply'**
   String get tagsKindReply;
 
   /// No description provided for @tagsOnPostBy.
@@ -4463,7 +4529,7 @@ abstract class AppLocalizations {
   /// No description provided for @tagsLoadMore.
   ///
   /// In en, this message translates to:
-  /// **'LOAD MORE'**
+  /// **'Load more'**
   String get tagsLoadMore;
 
   /// No description provided for @tagsEmptyOwner.
@@ -4547,7 +4613,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapHoursTitle.
   ///
   /// In en, this message translates to:
-  /// **'OPENING HOURS'**
+  /// **'Opening hours'**
   String get mapHoursTitle;
 
   /// No description provided for @mapHoursClosed.
@@ -4619,7 +4685,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapRetry.
   ///
   /// In en, this message translates to:
-  /// **'TRY AGAIN'**
+  /// **'Try again'**
   String get mapRetry;
 
   /// No description provided for @mapErrorNetwork.
@@ -4661,7 +4727,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapNavigateInstall.
   ///
   /// In en, this message translates to:
-  /// **'INSTALL'**
+  /// **'Install'**
   String get mapNavigateInstall;
 
   /// No description provided for @mapNavigateFailed.
@@ -4781,25 +4847,25 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsStatAttendees.
   ///
   /// In en, this message translates to:
-  /// **'ATTENDEES'**
+  /// **'Attendees'**
   String get mapEventsStatAttendees;
 
   /// No description provided for @mapEventsStatCars.
   ///
   /// In en, this message translates to:
-  /// **'CARS'**
+  /// **'Cars'**
   String get mapEventsStatCars;
 
   /// No description provided for @mapEventsStatStarts.
   ///
   /// In en, this message translates to:
-  /// **'STARTS'**
+  /// **'Starts'**
   String get mapEventsStatStarts;
 
   /// No description provided for @mapEventsStatStarted.
   ///
   /// In en, this message translates to:
-  /// **'STARTED'**
+  /// **'Started'**
   String get mapEventsStatStarted;
 
   /// No description provided for @mapEventsGoingCount.
@@ -4835,37 +4901,37 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsAttending.
   ///
   /// In en, this message translates to:
-  /// **'ATTENDING'**
+  /// **'Attending'**
   String get mapEventsAttending;
 
   /// No description provided for @mapEventsInterested.
   ///
   /// In en, this message translates to:
-  /// **'INTERESTED'**
+  /// **'Interested'**
   String get mapEventsInterested;
 
   /// No description provided for @mapEventsWantToParticipate.
   ///
   /// In en, this message translates to:
-  /// **'WANT TO PARTICIPATE?'**
+  /// **'Want to participate?'**
   String get mapEventsWantToParticipate;
 
   /// No description provided for @mapEventsParticipateShort.
   ///
   /// In en, this message translates to:
-  /// **'PARTICIPATE?'**
+  /// **'Participate?'**
   String get mapEventsParticipateShort;
 
   /// No description provided for @mapEventsParticipating.
   ///
   /// In en, this message translates to:
-  /// **'PARTICIPATING'**
+  /// **'Participating'**
   String get mapEventsParticipating;
 
   /// No description provided for @mapEventsParticipatingCount.
   ///
   /// In en, this message translates to:
-  /// **'PARTICIPATING · {count} CARS'**
+  /// **'Participating · {count} cars'**
   String mapEventsParticipatingCount(int count);
 
   /// No description provided for @mapEventsParticipationPending.
@@ -4877,13 +4943,13 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsWithdrawAction.
   ///
   /// In en, this message translates to:
-  /// **'WITHDRAW'**
+  /// **'Withdraw'**
   String get mapEventsWithdrawAction;
 
   /// No description provided for @mapEventsViewEvent.
   ///
   /// In en, this message translates to:
-  /// **'VIEW EVENT'**
+  /// **'View event'**
   String get mapEventsViewEvent;
 
   /// No description provided for @mapEventsCapacityOf.
@@ -4895,13 +4961,13 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsTabOverview.
   ///
   /// In en, this message translates to:
-  /// **'OVERVIEW'**
+  /// **'Overview'**
   String get mapEventsTabOverview;
 
   /// No description provided for @mapEventsTabCars.
   ///
   /// In en, this message translates to:
-  /// **'CARS · {count}'**
+  /// **'Cars · {count}'**
   String mapEventsTabCars(int count);
 
   /// No description provided for @mapEventsEntryListTitle.
@@ -4913,37 +4979,37 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsApprovedCount.
   ///
   /// In en, this message translates to:
-  /// **'{count} APPROVED'**
+  /// **'{count} approved'**
   String mapEventsApprovedCount(int count);
 
   /// No description provided for @mapEventsSectionAbout.
   ///
   /// In en, this message translates to:
-  /// **'ABOUT THIS EVENT'**
+  /// **'About this event'**
   String get mapEventsSectionAbout;
 
   /// No description provided for @mapEventsSectionOrganizers.
   ///
   /// In en, this message translates to:
-  /// **'ORGANIZERS'**
+  /// **'Organizers'**
   String get mapEventsSectionOrganizers;
 
   /// No description provided for @mapEventsSectionRules.
   ///
   /// In en, this message translates to:
-  /// **'NOTES FROM THE ORGANIZER'**
+  /// **'Notes from the organizer'**
   String get mapEventsSectionRules;
 
   /// No description provided for @mapEventsSectionContests.
   ///
   /// In en, this message translates to:
-  /// **'CONTESTS'**
+  /// **'Contests'**
   String get mapEventsSectionContests;
 
   /// No description provided for @mapEventsSectionAttendees.
   ///
   /// In en, this message translates to:
-  /// **'ATTENDEES'**
+  /// **'Attendees'**
   String get mapEventsSectionAttendees;
 
   /// No description provided for @mapEventsSoon.
@@ -4967,19 +5033,19 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsSeeAll.
   ///
   /// In en, this message translates to:
-  /// **'SEE ALL'**
+  /// **'See all'**
   String get mapEventsSeeAll;
 
   /// No description provided for @mapEventsSeeAllAttendees.
   ///
   /// In en, this message translates to:
-  /// **'SEE ALL ATTENDEES'**
+  /// **'See all attendees'**
   String get mapEventsSeeAllAttendees;
 
   /// No description provided for @mapEventsSeeAllCars.
   ///
   /// In en, this message translates to:
-  /// **'SEE ALL {count} CARS'**
+  /// **'See all {count} cars'**
   String mapEventsSeeAllCars(int count);
 
   /// No description provided for @mapEventsRegisterBefore.
@@ -5003,7 +5069,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsGarageLink.
   ///
   /// In en, this message translates to:
-  /// **'GARAGE'**
+  /// **'Garage'**
   String get mapEventsGarageLink;
 
   /// No description provided for @mapEventsEntryListEmpty.
@@ -5021,7 +5087,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsRetry.
   ///
   /// In en, this message translates to:
-  /// **'TRY AGAIN'**
+  /// **'Try again'**
   String get mapEventsRetry;
 
   /// No description provided for @mapEventsStripPendingTitle.
@@ -5063,19 +5129,19 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsDeclineReasonHeading.
   ///
   /// In en, this message translates to:
-  /// **'WHY'**
+  /// **'Why'**
   String get mapEventsDeclineReasonHeading;
 
   /// No description provided for @mapEventsTryAnotherCar.
   ///
   /// In en, this message translates to:
-  /// **'TRY ANOTHER CAR'**
+  /// **'Try another car'**
   String get mapEventsTryAnotherCar;
 
   /// No description provided for @mapEventsCancelRequest.
   ///
   /// In en, this message translates to:
-  /// **'CANCEL REQUEST'**
+  /// **'Cancel request'**
   String get mapEventsCancelRequest;
 
   /// No description provided for @mapEventsPickCarTitle.
@@ -5111,19 +5177,19 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsPickCarSelectAll.
   ///
   /// In en, this message translates to:
-  /// **'SELECT ALL'**
+  /// **'Select all'**
   String get mapEventsPickCarSelectAll;
 
   /// No description provided for @mapEventsPickCarClearAll.
   ///
   /// In en, this message translates to:
-  /// **'CLEAR'**
+  /// **'Clear'**
   String get mapEventsPickCarClearAll;
 
   /// No description provided for @mapEventsPickCarRegisterCta.
   ///
   /// In en, this message translates to:
-  /// **'REGISTER ({count})'**
+  /// **'Register ({count})'**
   String mapEventsPickCarRegisterCta(int count);
 
   /// No description provided for @mapEventsPickCarEmptyTitle.
@@ -5141,7 +5207,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsPickCarAdd.
   ///
   /// In en, this message translates to:
-  /// **'ADD A CAR'**
+  /// **'Add a car'**
   String get mapEventsPickCarAdd;
 
   /// No description provided for @mapEventsCarYear.
@@ -5171,7 +5237,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsWithdrawNoteLabel.
   ///
   /// In en, this message translates to:
-  /// **'NOTE FOR ORGANIZERS (OPTIONAL)'**
+  /// **'Note for organizers (optional)'**
   String get mapEventsWithdrawNoteLabel;
 
   /// No description provided for @mapEventsWithdrawNoteHint.
@@ -5183,7 +5249,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsCancel.
   ///
   /// In en, this message translates to:
-  /// **'CANCEL'**
+  /// **'Cancel'**
   String get mapEventsCancel;
 
   /// No description provided for @mapEventsAttendeesPageTitle.
@@ -5195,31 +5261,31 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsFilterAttending.
   ///
   /// In en, this message translates to:
-  /// **'ATTENDING'**
+  /// **'Attending'**
   String get mapEventsFilterAttending;
 
   /// No description provided for @mapEventsFilterInterested.
   ///
   /// In en, this message translates to:
-  /// **'INTERESTED'**
+  /// **'Interested'**
   String get mapEventsFilterInterested;
 
   /// No description provided for @mapEventsCreateTitle.
   ///
   /// In en, this message translates to:
-  /// **'NEW EVENT'**
+  /// **'New event'**
   String get mapEventsCreateTitle;
 
   /// No description provided for @mapEventsEditTitle.
   ///
   /// In en, this message translates to:
-  /// **'EDIT EVENT'**
+  /// **'Edit event'**
   String get mapEventsEditTitle;
 
   /// No description provided for @mapEventsCoverAdd.
   ///
   /// In en, this message translates to:
-  /// **'ADD COVER PHOTO'**
+  /// **'Add cover photo'**
   String get mapEventsCoverAdd;
 
   /// No description provided for @mapEventsCoverHint.
@@ -5231,19 +5297,19 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsCoverChange.
   ///
   /// In en, this message translates to:
-  /// **'CHANGE COVER'**
+  /// **'Change cover'**
   String get mapEventsCoverChange;
 
   /// No description provided for @mapEventsFieldCover.
   ///
   /// In en, this message translates to:
-  /// **'COVER PHOTO'**
+  /// **'Cover photo'**
   String get mapEventsFieldCover;
 
   /// No description provided for @mapEventsFieldTitle.
   ///
   /// In en, this message translates to:
-  /// **'EVENT TITLE'**
+  /// **'Event title'**
   String get mapEventsFieldTitle;
 
   /// No description provided for @mapEventsFieldTitleHint.
@@ -5255,7 +5321,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsFieldCategory.
   ///
   /// In en, this message translates to:
-  /// **'EVENT CATEGORY'**
+  /// **'Event category'**
   String get mapEventsFieldCategory;
 
   /// No description provided for @mapEventsCategoriesSoonNote.
@@ -5285,7 +5351,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsFieldDescription.
   ///
   /// In en, this message translates to:
-  /// **'DESCRIPTION'**
+  /// **'Description'**
   String get mapEventsFieldDescription;
 
   /// No description provided for @mapEventsFieldDescriptionHint.
@@ -5297,7 +5363,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsFieldLocation.
   ///
   /// In en, this message translates to:
-  /// **'LOCATION'**
+  /// **'Location'**
   String get mapEventsFieldLocation;
 
   /// No description provided for @mapEventsFieldVenueHint.
@@ -5309,19 +5375,19 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsSetLocationOnMap.
   ///
   /// In en, this message translates to:
-  /// **'SET LOCATION ON MAP'**
+  /// **'Set location on map'**
   String get mapEventsSetLocationOnMap;
 
   /// No description provided for @mapEventsLocationSet.
   ///
   /// In en, this message translates to:
-  /// **'PIN PLACED · TAP TO MOVE'**
+  /// **'Pin placed · tap to move'**
   String get mapEventsLocationSet;
 
   /// No description provided for @mapEventsFieldDateTime.
   ///
   /// In en, this message translates to:
-  /// **'DATE & TIME'**
+  /// **'Date & time'**
   String get mapEventsFieldDateTime;
 
   /// No description provided for @mapEventsStartsLabel.
@@ -5345,13 +5411,13 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsClearEnd.
   ///
   /// In en, this message translates to:
-  /// **'CLEAR END'**
+  /// **'Clear end'**
   String get mapEventsClearEnd;
 
   /// No description provided for @mapEventsFieldCapacity.
   ///
   /// In en, this message translates to:
-  /// **'MAX CAPACITY'**
+  /// **'Max capacity'**
   String get mapEventsFieldCapacity;
 
   /// No description provided for @mapEventsOptional.
@@ -5393,19 +5459,19 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsFieldDeadline.
   ///
   /// In en, this message translates to:
-  /// **'REGISTRATION DEADLINE'**
+  /// **'Registration deadline'**
   String get mapEventsFieldDeadline;
 
   /// No description provided for @mapEventsFieldRules.
   ///
   /// In en, this message translates to:
-  /// **'RULES & GUIDELINES'**
+  /// **'Rules & guidelines'**
   String get mapEventsFieldRules;
 
   /// No description provided for @mapEventsAddRule.
   ///
   /// In en, this message translates to:
-  /// **'ADD A RULE'**
+  /// **'Add a rule'**
   String get mapEventsAddRule;
 
   /// No description provided for @mapEventsRuleHint.
@@ -5423,7 +5489,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsFieldOrganizers.
   ///
   /// In en, this message translates to:
-  /// **'ORGANIZERS'**
+  /// **'Organizers'**
   String get mapEventsFieldOrganizers;
 
   /// No description provided for @mapEventsOrganizersHint.
@@ -5441,7 +5507,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsAddOrganizer.
   ///
   /// In en, this message translates to:
-  /// **'ADD ORGANIZER'**
+  /// **'Add organizer'**
   String get mapEventsAddOrganizer;
 
   /// No description provided for @mapEventsRemoveOrganizer.
@@ -5453,31 +5519,31 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsCreateCta.
   ///
   /// In en, this message translates to:
-  /// **'CREATE EVENT'**
+  /// **'Create event'**
   String get mapEventsCreateCta;
 
   /// No description provided for @mapEventsCreateCtaIncomplete.
   ///
   /// In en, this message translates to:
-  /// **'ADD TITLE, LOCATION & START TIME'**
+  /// **'Add title, location & start time'**
   String get mapEventsCreateCtaIncomplete;
 
   /// No description provided for @mapEventsCreateCtaDeadline.
   ///
   /// In en, this message translates to:
-  /// **'ADD A REGISTRATION DEADLINE'**
+  /// **'Add a registration deadline'**
   String get mapEventsCreateCtaDeadline;
 
   /// No description provided for @mapEventsCreateCtaCover.
   ///
   /// In en, this message translates to:
-  /// **'ADD A COVER IMAGE'**
+  /// **'Add a cover image'**
   String get mapEventsCreateCtaCover;
 
   /// No description provided for @mapEventsSaveCta.
   ///
   /// In en, this message translates to:
-  /// **'SAVE CHANGES'**
+  /// **'Save changes'**
   String get mapEventsSaveCta;
 
   /// No description provided for @mapEventsSubmitting.
@@ -5519,7 +5585,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsDone.
   ///
   /// In en, this message translates to:
-  /// **'DONE'**
+  /// **'Done'**
   String get mapEventsDone;
 
   /// No description provided for @mapEventsCoverUploadFailed.
@@ -5531,13 +5597,13 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsWizardNext.
   ///
   /// In en, this message translates to:
-  /// **'NEXT'**
+  /// **'Next'**
   String get mapEventsWizardNext;
 
   /// No description provided for @mapEventsWizardBack.
   ///
   /// In en, this message translates to:
-  /// **'BACK'**
+  /// **'Back'**
   String get mapEventsWizardBack;
 
   /// No description provided for @mapEventsWizardClose.
@@ -5549,32 +5615,38 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsWizardDiscardTitle.
   ///
   /// In en, this message translates to:
-  /// **'Leave the event draft?'**
+  /// **'Discard this event?'**
   String get mapEventsWizardDiscardTitle;
 
   /// No description provided for @mapEventsWizardDiscardBody.
   ///
   /// In en, this message translates to:
-  /// **'Your progress is saved on this device, so you can pick it up where you left off. Or throw it away and start fresh next time.'**
+  /// **'You haven\'t submitted this event yet. If you leave now, everything you entered will be lost.'**
   String get mapEventsWizardDiscardBody;
-
-  /// No description provided for @mapEventsWizardKeepDraft.
-  ///
-  /// In en, this message translates to:
-  /// **'SAVE & LEAVE'**
-  String get mapEventsWizardKeepDraft;
 
   /// No description provided for @mapEventsWizardDiscardDraft.
   ///
   /// In en, this message translates to:
-  /// **'DISCARD'**
+  /// **'Discard'**
   String get mapEventsWizardDiscardDraft;
 
   /// No description provided for @mapEventsWizardStay.
   ///
   /// In en, this message translates to:
-  /// **'KEEP EDITING'**
+  /// **'Keep editing'**
   String get mapEventsWizardStay;
+
+  /// No description provided for @mapEventsEditDiscardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard your changes?'**
+  String get mapEventsEditDiscardTitle;
+
+  /// No description provided for @mapEventsEditDiscardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your changes to this event won\'t be saved.'**
+  String get mapEventsEditDiscardBody;
 
   /// No description provided for @mapEventsDraftRestored.
   ///
@@ -5585,7 +5657,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsDraftStartOver.
   ///
   /// In en, this message translates to:
-  /// **'START OVER'**
+  /// **'Start over'**
   String get mapEventsDraftStartOver;
 
   /// No description provided for @mapEventsStepBasicsTitle.
@@ -5633,13 +5705,13 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsLocationPickCta.
   ///
   /// In en, this message translates to:
-  /// **'PICK THE LOCATION ON THE MAP'**
+  /// **'Pick the location on the map'**
   String get mapEventsLocationPickCta;
 
   /// No description provided for @mapEventsLocationChangeCta.
   ///
   /// In en, this message translates to:
-  /// **'CHANGE LOCATION'**
+  /// **'Change location'**
   String get mapEventsLocationChangeCta;
 
   /// No description provided for @mapEventsLocationCardCity.
@@ -5729,7 +5801,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsAddContest.
   ///
   /// In en, this message translates to:
-  /// **'ADD A CONTEST'**
+  /// **'Add a contest'**
   String get mapEventsAddContest;
 
   /// No description provided for @mapEventsEditContest.
@@ -5801,7 +5873,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsContestTitleLabel.
   ///
   /// In en, this message translates to:
-  /// **'CONTEST TITLE'**
+  /// **'Contest title'**
   String get mapEventsContestTitleLabel;
 
   /// No description provided for @mapEventsContestTitleHint.
@@ -5813,7 +5885,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsContestCriteriaLabel.
   ///
   /// In en, this message translates to:
-  /// **'JUDGING NOTE'**
+  /// **'Judging note'**
   String get mapEventsContestCriteriaLabel;
 
   /// No description provided for @mapEventsContestCriteriaHint.
@@ -5825,13 +5897,13 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsContestCategoryLabel.
   ///
   /// In en, this message translates to:
-  /// **'CATEGORY'**
+  /// **'Category'**
   String get mapEventsContestCategoryLabel;
 
   /// No description provided for @mapEventsContestSave.
   ///
   /// In en, this message translates to:
-  /// **'SAVE CONTEST'**
+  /// **'Save contest'**
   String get mapEventsContestSave;
 
   /// No description provided for @mapEventsStepCoverTitle.
@@ -5861,7 +5933,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsReviewEdit.
   ///
   /// In en, this message translates to:
-  /// **'EDIT'**
+  /// **'Edit'**
   String get mapEventsReviewEdit;
 
   /// No description provided for @mapEventsReviewNoDescription.
@@ -5909,25 +5981,25 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsReviewSectionOrganizers.
   ///
   /// In en, this message translates to:
-  /// **'ORGANIZERS'**
+  /// **'Organizers'**
   String get mapEventsReviewSectionOrganizers;
 
   /// No description provided for @mapEventsReviewSectionSchedule.
   ///
   /// In en, this message translates to:
-  /// **'SCHEDULE'**
+  /// **'Schedule'**
   String get mapEventsReviewSectionSchedule;
 
   /// No description provided for @mapEventsReviewSectionEntry.
   ///
   /// In en, this message translates to:
-  /// **'ENTRY'**
+  /// **'Entry'**
   String get mapEventsReviewSectionEntry;
 
   /// No description provided for @mapEventsPublishCta.
   ///
   /// In en, this message translates to:
-  /// **'PUBLISH FOR REVIEW'**
+  /// **'Publish for review'**
   String get mapEventsPublishCta;
 
   /// No description provided for @mapEventsValidationTitle.
@@ -5969,7 +6041,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsUseThisLocation.
   ///
   /// In en, this message translates to:
-  /// **'USE THIS LOCATION'**
+  /// **'Use this location'**
   String get mapEventsUseThisLocation;
 
   /// No description provided for @mapEventsLocationFormTitle.
@@ -5987,7 +6059,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsLocationCity.
   ///
   /// In en, this message translates to:
-  /// **'CITY'**
+  /// **'City'**
   String get mapEventsLocationCity;
 
   /// No description provided for @mapEventsLocationCityHint.
@@ -5999,7 +6071,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsLocationStreet.
   ///
   /// In en, this message translates to:
-  /// **'STREET'**
+  /// **'Street'**
   String get mapEventsLocationStreet;
 
   /// No description provided for @mapEventsLocationStreetHint.
@@ -6011,7 +6083,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsLocationNumber.
   ///
   /// In en, this message translates to:
-  /// **'NUMBER'**
+  /// **'Number'**
   String get mapEventsLocationNumber;
 
   /// No description provided for @mapEventsLocationNumberHint.
@@ -6023,13 +6095,13 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsLocationSearchButton.
   ///
   /// In en, this message translates to:
-  /// **'SEARCH'**
+  /// **'Search'**
   String get mapEventsLocationSearchButton;
 
   /// No description provided for @mapEventsLocationSearchIncomplete.
   ///
   /// In en, this message translates to:
-  /// **'FILL IN ALL THREE FIELDS'**
+  /// **'Fill in all three fields'**
   String get mapEventsLocationSearchIncomplete;
 
   /// No description provided for @mapEventsLocationSearchNoResults.
@@ -6053,13 +6125,13 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsLocationEditSearch.
   ///
   /// In en, this message translates to:
-  /// **'EDIT SEARCH'**
+  /// **'Edit search'**
   String get mapEventsLocationEditSearch;
 
   /// No description provided for @mapEventsLocationBackToResults.
   ///
   /// In en, this message translates to:
-  /// **'RESULTS'**
+  /// **'Results'**
   String get mapEventsLocationBackToResults;
 
   /// No description provided for @mapEventsLocationDropPinTitle.
@@ -6179,7 +6251,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsMineCreate.
   ///
   /// In en, this message translates to:
-  /// **'CREATE AN EVENT'**
+  /// **'Create an event'**
   String get mapEventsMineCreate;
 
   /// No description provided for @mapEventsManageTitle.
@@ -6191,25 +6263,25 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsManageEntries.
   ///
   /// In en, this message translates to:
-  /// **'ENTRY REQUESTS'**
+  /// **'Entry requests'**
   String get mapEventsManageEntries;
 
   /// No description provided for @mapEventsManageWithdrawals.
   ///
   /// In en, this message translates to:
-  /// **'WITHDRAWAL REQUESTS'**
+  /// **'Withdrawal requests'**
   String get mapEventsManageWithdrawals;
 
   /// No description provided for @mapEventsManageOrganizers.
   ///
   /// In en, this message translates to:
-  /// **'ORGANIZERS'**
+  /// **'Organizers'**
   String get mapEventsManageOrganizers;
 
   /// No description provided for @mapEventsManageDanger.
   ///
   /// In en, this message translates to:
-  /// **'EVENT'**
+  /// **'Event'**
   String get mapEventsManageDanger;
 
   /// No description provided for @mapEventsNoPendingEntries.
@@ -6227,13 +6299,13 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsAccept.
   ///
   /// In en, this message translates to:
-  /// **'ACCEPT'**
+  /// **'Accept'**
   String get mapEventsAccept;
 
   /// No description provided for @mapEventsDecline.
   ///
   /// In en, this message translates to:
-  /// **'DECLINE'**
+  /// **'Decline'**
   String get mapEventsDecline;
 
   /// No description provided for @mapEventsDeclineTitle.
@@ -6251,7 +6323,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsDeclineReasonLabel.
   ///
   /// In en, this message translates to:
-  /// **'REASON (REQUIRED)'**
+  /// **'Reason (required)'**
   String get mapEventsDeclineReasonLabel;
 
   /// No description provided for @mapEventsDeclineReasonHint.
@@ -6263,13 +6335,13 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsLetThemOut.
   ///
   /// In en, this message translates to:
-  /// **'LET THEM OUT'**
+  /// **'Let them out'**
   String get mapEventsLetThemOut;
 
   /// No description provided for @mapEventsKeepThemIn.
   ///
   /// In en, this message translates to:
-  /// **'KEEP THEM IN'**
+  /// **'Keep them in'**
   String get mapEventsKeepThemIn;
 
   /// No description provided for @mapEventsWithdrawalNoteLabel.
@@ -6281,25 +6353,25 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsEditEvent.
   ///
   /// In en, this message translates to:
-  /// **'EDIT EVENT'**
+  /// **'Edit event'**
   String get mapEventsEditEvent;
 
   /// No description provided for @mapEventsCancelEvent.
   ///
   /// In en, this message translates to:
-  /// **'CANCEL EVENT'**
+  /// **'Cancel event'**
   String get mapEventsCancelEvent;
 
   /// No description provided for @mapEventsFinishEvent.
   ///
   /// In en, this message translates to:
-  /// **'FINISH EVENT'**
+  /// **'Finish event'**
   String get mapEventsFinishEvent;
 
   /// No description provided for @mapEventsDeleteEvent.
   ///
   /// In en, this message translates to:
-  /// **'DELETE EVENT'**
+  /// **'Delete event'**
   String get mapEventsDeleteEvent;
 
   /// No description provided for @mapEventsEditLockedHint.
@@ -6347,13 +6419,13 @@ abstract class AppLocalizations {
   /// No description provided for @mapEventsConfirm.
   ///
   /// In en, this message translates to:
-  /// **'CONFIRM'**
+  /// **'Confirm'**
   String get mapEventsConfirm;
 
   /// No description provided for @mapEventsDelete.
   ///
   /// In en, this message translates to:
-  /// **'DELETE'**
+  /// **'Delete'**
   String get mapEventsDelete;
 
   /// No description provided for @mapEventsWithdrawalCarsCount.
@@ -6389,7 +6461,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedbackFeedEyebrow.
   ///
   /// In en, this message translates to:
-  /// **'COMMUNITY'**
+  /// **'Community'**
   String get feedbackFeedEyebrow;
 
   /// No description provided for @feedbackFeedTitle.
@@ -6407,19 +6479,19 @@ abstract class AppLocalizations {
   /// No description provided for @feedbackFeedSortNewest.
   ///
   /// In en, this message translates to:
-  /// **'NEWEST'**
+  /// **'Newest'**
   String get feedbackFeedSortNewest;
 
   /// No description provided for @feedbackFeedSortPopular.
   ///
   /// In en, this message translates to:
-  /// **'POPULAR'**
+  /// **'Popular'**
   String get feedbackFeedSortPopular;
 
   /// No description provided for @feedbackFeedSortOldest.
   ///
   /// In en, this message translates to:
-  /// **'OLDEST'**
+  /// **'Oldest'**
   String get feedbackFeedSortOldest;
 
   /// No description provided for @feedbackFeedCompletedLink.
@@ -6437,7 +6509,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedbackFeedComposeEyebrow.
   ///
   /// In en, this message translates to:
-  /// **'FEEDBACK COMMUNITY'**
+  /// **'Feedback community'**
   String get feedbackFeedComposeEyebrow;
 
   /// No description provided for @feedbackFeedComposeTitle.
@@ -6455,13 +6527,13 @@ abstract class AppLocalizations {
   /// No description provided for @feedbackFeedCategoryLabel.
   ///
   /// In en, this message translates to:
-  /// **'CATEGORY'**
+  /// **'Category'**
   String get feedbackFeedCategoryLabel;
 
   /// No description provided for @feedbackFeedMessageLabel.
   ///
   /// In en, this message translates to:
-  /// **'YOUR MESSAGE'**
+  /// **'Your message'**
   String get feedbackFeedMessageLabel;
 
   /// No description provided for @feedbackFeedMessageHint.
@@ -6473,7 +6545,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedbackFeedPostAction.
   ///
   /// In en, this message translates to:
-  /// **'POST FEEDBACK'**
+  /// **'Post feedback'**
   String get feedbackFeedPostAction;
 
   /// No description provided for @feedbackFeedPostSuccess.
@@ -6599,7 +6671,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileBadgesAll.
   ///
   /// In en, this message translates to:
-  /// **'ALL'**
+  /// **'All'**
   String get profileBadgesAll;
 
   /// No description provided for @profileBadgesSheetTitle.
@@ -6617,7 +6689,7 @@ abstract class AppLocalizations {
   /// No description provided for @garageCarStatYear.
   ///
   /// In en, this message translates to:
-  /// **'YEAR'**
+  /// **'Year'**
   String get garageCarStatYear;
 
   /// No description provided for @profileBadgesSheetUnlocked.
@@ -6695,13 +6767,13 @@ abstract class AppLocalizations {
   /// No description provided for @garageCarStatPower.
   ///
   /// In en, this message translates to:
-  /// **'POWER'**
+  /// **'Power'**
   String get garageCarStatPower;
 
   /// No description provided for @garageCarStatTorque.
   ///
   /// In en, this message translates to:
-  /// **'TORQUE'**
+  /// **'Torque'**
   String get garageCarStatTorque;
 
   /// No description provided for @garageCarUnitPower.
@@ -6731,25 +6803,25 @@ abstract class AppLocalizations {
   /// No description provided for @contestsTab.
   ///
   /// In en, this message translates to:
-  /// **'CONTESTS'**
+  /// **'Contests'**
   String get contestsTab;
 
   /// No description provided for @contestsSectionVotingOpen.
   ///
   /// In en, this message translates to:
-  /// **'VOTING OPEN NOW'**
+  /// **'Voting open now'**
   String get contestsSectionVotingOpen;
 
   /// No description provided for @contestsSectionOpensLater.
   ///
   /// In en, this message translates to:
-  /// **'OPENS LATER'**
+  /// **'Opens later'**
   String get contestsSectionOpensLater;
 
   /// No description provided for @contestsSectionResults.
   ///
   /// In en, this message translates to:
-  /// **'RESULTS'**
+  /// **'Results'**
   String get contestsSectionResults;
 
   /// No description provided for @contestsStandingEntered.
@@ -6773,13 +6845,13 @@ abstract class AppLocalizations {
   /// No description provided for @contestsManage.
   ///
   /// In en, this message translates to:
-  /// **'MANAGE'**
+  /// **'Manage'**
   String get contestsManage;
 
   /// No description provided for @contestsEnterCar.
   ///
   /// In en, this message translates to:
-  /// **'ENTER'**
+  /// **'Enter'**
   String get contestsEnterCar;
 
   /// No description provided for @contestsFooterNote.
@@ -6803,7 +6875,7 @@ abstract class AppLocalizations {
   /// No description provided for @contestsAllCount.
   ///
   /// In en, this message translates to:
-  /// **'ALL {count} CONTESTS'**
+  /// **'All {count} contests'**
   String contestsAllCount(int count);
 
   /// No description provided for @contestsCarsAndVotes.
@@ -6827,37 +6899,37 @@ abstract class AppLocalizations {
   /// No description provided for @contestsCastYourVote.
   ///
   /// In en, this message translates to:
-  /// **'CAST YOUR VOTE'**
+  /// **'Cast your vote'**
   String get contestsCastYourVote;
 
   /// No description provided for @contestsVoteBeforeClose.
   ///
   /// In en, this message translates to:
-  /// **'VOTE BEFORE IT CLOSES'**
+  /// **'Vote before it closes'**
   String get contestsVoteBeforeClose;
 
   /// No description provided for @contestsVote.
   ///
   /// In en, this message translates to:
-  /// **'VOTE'**
+  /// **'Vote'**
   String get contestsVote;
 
   /// No description provided for @contestsVoted.
   ///
   /// In en, this message translates to:
-  /// **'VOTED'**
+  /// **'Voted'**
   String get contestsVoted;
 
   /// No description provided for @contestsYourVote.
   ///
   /// In en, this message translates to:
-  /// **'YOUR VOTE'**
+  /// **'Your vote'**
   String get contestsYourVote;
 
   /// No description provided for @contestsChange.
   ///
   /// In en, this message translates to:
-  /// **'CHANGE'**
+  /// **'Change'**
   String get contestsChange;
 
   /// No description provided for @contestsTimeLeftHours.
@@ -6905,7 +6977,7 @@ abstract class AppLocalizations {
   /// No description provided for @contestsResultsIn.
   ///
   /// In en, this message translates to:
-  /// **'RESULTS IN'**
+  /// **'Results in'**
   String get contestsResultsIn;
 
   /// No description provided for @contestsClosed.
@@ -6917,43 +6989,43 @@ abstract class AppLocalizations {
   /// No description provided for @contestsStatVotesCast.
   ///
   /// In en, this message translates to:
-  /// **'VOTES CAST'**
+  /// **'Votes cast'**
   String get contestsStatVotesCast;
 
   /// No description provided for @contestsStatCarsIn.
   ///
   /// In en, this message translates to:
-  /// **'CARS IN'**
+  /// **'Cars in'**
   String get contestsStatCarsIn;
 
   /// No description provided for @contestsStatRemaining.
   ///
   /// In en, this message translates to:
-  /// **'REMAINING'**
+  /// **'Remaining'**
   String get contestsStatRemaining;
 
   /// No description provided for @contestsStatStatus.
   ///
   /// In en, this message translates to:
-  /// **'STATUS'**
+  /// **'Status'**
   String get contestsStatStatus;
 
   /// No description provided for @contestsStatVoting.
   ///
   /// In en, this message translates to:
-  /// **'VOTING'**
+  /// **'Voting'**
   String get contestsStatVoting;
 
   /// No description provided for @contestsHowItWorks.
   ///
   /// In en, this message translates to:
-  /// **'HOW IT WORKS'**
+  /// **'How it works'**
   String get contestsHowItWorks;
 
   /// No description provided for @contestsHowItWasJudged.
   ///
   /// In en, this message translates to:
-  /// **'HOW IT WAS JUDGED'**
+  /// **'How it was judged'**
   String get contestsHowItWasJudged;
 
   /// No description provided for @contestsSetBy.
@@ -6965,19 +7037,19 @@ abstract class AppLocalizations {
   /// No description provided for @contestsLeaderboard.
   ///
   /// In en, this message translates to:
-  /// **'LEADERBOARD'**
+  /// **'Leaderboard'**
   String get contestsLeaderboard;
 
   /// No description provided for @contestsCarsEntered.
   ///
   /// In en, this message translates to:
-  /// **'CARS ENTERED'**
+  /// **'Cars entered'**
   String get contestsCarsEntered;
 
   /// No description provided for @contestsFinalStandings.
   ///
   /// In en, this message translates to:
-  /// **'FINAL STANDINGS'**
+  /// **'Final standings'**
   String get contestsFinalStandings;
 
   /// No description provided for @contestsUpdatingLive.
@@ -7043,19 +7115,19 @@ abstract class AppLocalizations {
   /// No description provided for @contestsShare.
   ///
   /// In en, this message translates to:
-  /// **'SHARE'**
+  /// **'Share'**
   String get contestsShare;
 
   /// No description provided for @contestsShareYourWin.
   ///
   /// In en, this message translates to:
-  /// **'SHARE YOUR WIN'**
+  /// **'Share your win'**
   String get contestsShareYourWin;
 
   /// No description provided for @contestsShareTheResult.
   ///
   /// In en, this message translates to:
-  /// **'SHARE THE RESULT'**
+  /// **'Share the result'**
   String get contestsShareTheResult;
 
   /// No description provided for @contestsShareSheetTitle.
@@ -7073,7 +7145,7 @@ abstract class AppLocalizations {
   /// No description provided for @contestsPostToFeed.
   ///
   /// In en, this message translates to:
-  /// **'POST TO FEED'**
+  /// **'Post to feed'**
   String get contestsPostToFeed;
 
   /// No description provided for @contestsPostedTitle.
@@ -7114,7 +7186,7 @@ abstract class AppLocalizations {
   /// No description provided for @contestsOfVotes.
   ///
   /// In en, this message translates to:
-  /// **'OF {total} VOTES'**
+  /// **'Of {total} votes'**
   String contestsOfVotes(int total);
 
   /// No description provided for @contestsPickFavourite.
@@ -7132,19 +7204,19 @@ abstract class AppLocalizations {
   /// No description provided for @contestsSaveNewVote.
   ///
   /// In en, this message translates to:
-  /// **'SAVE NEW VOTE'**
+  /// **'Save new vote'**
   String get contestsSaveNewVote;
 
   /// No description provided for @contestsCastVote.
   ///
   /// In en, this message translates to:
-  /// **'CAST VOTE'**
+  /// **'Cast vote'**
   String get contestsCastVote;
 
   /// No description provided for @contestsYourCar.
   ///
   /// In en, this message translates to:
-  /// **'YOUR CAR'**
+  /// **'Your car'**
   String get contestsYourCar;
 
   /// No description provided for @contestsEnterTitle.
@@ -7192,13 +7264,13 @@ abstract class AppLocalizations {
   /// No description provided for @contestsWhy.
   ///
   /// In en, this message translates to:
-  /// **'WHY'**
+  /// **'Why'**
   String get contestsWhy;
 
   /// No description provided for @contestsSaveEntries.
   ///
   /// In en, this message translates to:
-  /// **'SAVE ENTRIES'**
+  /// **'Save entries'**
   String get contestsSaveEntries;
 
   /// No description provided for @contestsEntriesSaved.
@@ -7252,37 +7324,37 @@ abstract class AppLocalizations {
   /// No description provided for @contestsStatRunning.
   ///
   /// In en, this message translates to:
-  /// **'RUNNING'**
+  /// **'Running'**
   String get contestsStatRunning;
 
   /// No description provided for @contestsStatScheduled.
   ///
   /// In en, this message translates to:
-  /// **'SCHEDULED'**
+  /// **'Scheduled'**
   String get contestsStatScheduled;
 
   /// No description provided for @contestsStatVotesTonight.
   ///
   /// In en, this message translates to:
-  /// **'VOTES SO FAR'**
+  /// **'Votes so far'**
   String get contestsStatVotesTonight;
 
   /// No description provided for @contestsRunningNow.
   ///
   /// In en, this message translates to:
-  /// **'RUNNING NOW'**
+  /// **'Running now'**
   String get contestsRunningNow;
 
   /// No description provided for @contestsScheduled.
   ///
   /// In en, this message translates to:
-  /// **'SCHEDULED'**
+  /// **'Scheduled'**
   String get contestsScheduled;
 
   /// No description provided for @contestsFinished.
   ///
   /// In en, this message translates to:
-  /// **'FINISHED'**
+  /// **'Finished'**
   String get contestsFinished;
 
   /// No description provided for @contestsChipOpen.
@@ -7306,37 +7378,37 @@ abstract class AppLocalizations {
   /// No description provided for @contestsFullBoard.
   ///
   /// In en, this message translates to:
-  /// **'FULL BOARD'**
+  /// **'Full board'**
   String get contestsFullBoard;
 
   /// No description provided for @contestsFinishNow.
   ///
   /// In en, this message translates to:
-  /// **'FINISH NOW'**
+  /// **'Finish now'**
   String get contestsFinishNow;
 
   /// No description provided for @contestsEdit.
   ///
   /// In en, this message translates to:
-  /// **'EDIT'**
+  /// **'Edit'**
   String get contestsEdit;
 
   /// No description provided for @contestsOpenVotingNow.
   ///
   /// In en, this message translates to:
-  /// **'OPEN VOTING NOW'**
+  /// **'Open voting now'**
   String get contestsOpenVotingNow;
 
   /// No description provided for @contestsExtend.
   ///
   /// In en, this message translates to:
-  /// **'EXTEND'**
+  /// **'Extend'**
   String get contestsExtend;
 
   /// No description provided for @contestsDelete.
   ///
   /// In en, this message translates to:
-  /// **'DELETE'**
+  /// **'Delete'**
   String get contestsDelete;
 
   /// No description provided for @contestsResultsPublished.
@@ -7354,13 +7426,13 @@ abstract class AppLocalizations {
   /// No description provided for @contestsAddAnother.
   ///
   /// In en, this message translates to:
-  /// **'ADD ANOTHER CONTEST'**
+  /// **'Add another contest'**
   String get contestsAddAnother;
 
   /// No description provided for @contestsAddFirst.
   ///
   /// In en, this message translates to:
-  /// **'CREATE A CONTEST'**
+  /// **'Create a contest'**
   String get contestsAddFirst;
 
   /// No description provided for @contestsOrganizerEmpty.
@@ -7414,7 +7486,7 @@ abstract class AppLocalizations {
   /// No description provided for @contestsWinsIfFinishNow.
   ///
   /// In en, this message translates to:
-  /// **'WINS IF YOU FINISH NOW'**
+  /// **'Wins if you finish now'**
   String get contestsWinsIfFinishNow;
 
   /// No description provided for @contestsCloseRace.
@@ -7432,13 +7504,13 @@ abstract class AppLocalizations {
   /// No description provided for @contestsKeepOpen.
   ///
   /// In en, this message translates to:
-  /// **'KEEP IT OPEN'**
+  /// **'Keep it open'**
   String get contestsKeepOpen;
 
   /// No description provided for @contestsFinishPublish.
   ///
   /// In en, this message translates to:
-  /// **'FINISH & PUBLISH'**
+  /// **'Finish & publish'**
   String get contestsFinishPublish;
 
   /// No description provided for @contestsFinishedBanner.
@@ -7462,13 +7534,13 @@ abstract class AppLocalizations {
   /// No description provided for @contestsAccept.
   ///
   /// In en, this message translates to:
-  /// **'ACCEPT'**
+  /// **'Accept'**
   String get contestsAccept;
 
   /// No description provided for @contestsDecline.
   ///
   /// In en, this message translates to:
-  /// **'DECLINE'**
+  /// **'Decline'**
   String get contestsDecline;
 
   /// No description provided for @contestsDeclineEntryTitle.
@@ -7504,7 +7576,7 @@ abstract class AppLocalizations {
   /// No description provided for @contestsExtendConfirm.
   ///
   /// In en, this message translates to:
-  /// **'EXTEND VOTING'**
+  /// **'Extend voting'**
   String get contestsExtendConfirm;
 
   /// No description provided for @contestsDeleteTitle.
@@ -7534,7 +7606,7 @@ abstract class AppLocalizations {
   /// No description provided for @contestsCategory.
   ///
   /// In en, this message translates to:
-  /// **'CATEGORY'**
+  /// **'Category'**
   String get contestsCategory;
 
   /// No description provided for @contestsCategoryCustom.
@@ -7546,7 +7618,7 @@ abstract class AppLocalizations {
   /// No description provided for @contestsName.
   ///
   /// In en, this message translates to:
-  /// **'CONTEST NAME'**
+  /// **'Contest name'**
   String get contestsName;
 
   /// No description provided for @contestsNameHint.
@@ -7564,7 +7636,7 @@ abstract class AppLocalizations {
   /// No description provided for @contestsCriteria.
   ///
   /// In en, this message translates to:
-  /// **'HOW SHOULD PEOPLE JUDGE IT?'**
+  /// **'How should people judge it?'**
   String get contestsCriteria;
 
   /// No description provided for @contestsCriteriaHint.
@@ -7576,7 +7648,7 @@ abstract class AppLocalizations {
   /// No description provided for @contestsVotingOpens.
   ///
   /// In en, this message translates to:
-  /// **'VOTING OPENS'**
+  /// **'Voting opens'**
   String get contestsVotingOpens;
 
   /// No description provided for @contestsOpensNow.
@@ -7600,7 +7672,7 @@ abstract class AppLocalizations {
   /// No description provided for @contestsVotingCloses.
   ///
   /// In en, this message translates to:
-  /// **'VOTING CLOSES'**
+  /// **'Voting closes'**
   String get contestsVotingCloses;
 
   /// No description provided for @contestsFinishEarlyNote.
@@ -7618,19 +7690,19 @@ abstract class AppLocalizations {
   /// No description provided for @contestsPublish.
   ///
   /// In en, this message translates to:
-  /// **'PUBLISH CONTEST'**
+  /// **'Publish contest'**
   String get contestsPublish;
 
   /// No description provided for @contestsSaveChanges.
   ///
   /// In en, this message translates to:
-  /// **'SAVE CHANGES'**
+  /// **'Save changes'**
   String get contestsSaveChanges;
 
   /// No description provided for @contestsManageSectionTitle.
   ///
   /// In en, this message translates to:
-  /// **'CONTESTS'**
+  /// **'Contests'**
   String get contestsManageSectionTitle;
 
   /// No description provided for @contestsManageOpen.
@@ -7684,13 +7756,13 @@ abstract class AppLocalizations {
   /// No description provided for @participantCardEvent.
   ///
   /// In en, this message translates to:
-  /// **'EVENT'**
+  /// **'Event'**
   String get participantCardEvent;
 
   /// No description provided for @participantCardContests.
   ///
   /// In en, this message translates to:
-  /// **'CONTESTS ENTERED'**
+  /// **'Contests entered'**
   String get participantCardContests;
 
   /// No description provided for @participantCardContestWithRank.
@@ -7749,7 +7821,7 @@ abstract class AppLocalizations {
   /// No description provided for @participantCardShare.
   ///
   /// In en, this message translates to:
-  /// **'SHARE THE CARD'**
+  /// **'Share the card'**
   String get participantCardShare;
 
   /// No description provided for @participantCardSectionTitle.
@@ -7761,7 +7833,7 @@ abstract class AppLocalizations {
   /// No description provided for @participantCardYourCard.
   ///
   /// In en, this message translates to:
-  /// **'YOUR CARD'**
+  /// **'Your card'**
   String get participantCardYourCard;
 
   /// No description provided for @participantCardNotReady.
@@ -7779,7 +7851,7 @@ abstract class AppLocalizations {
   /// No description provided for @carEventsContestBadges.
   ///
   /// In en, this message translates to:
-  /// **'CONTEST BADGES'**
+  /// **'Contest badges'**
   String get carEventsContestBadges;
 
   /// No description provided for @carEventsBadgesCount.
@@ -7791,13 +7863,13 @@ abstract class AppLocalizations {
   /// No description provided for @carEventsAttended.
   ///
   /// In en, this message translates to:
-  /// **'ATTENDED EVENTS'**
+  /// **'Attended events'**
   String get carEventsAttended;
 
   /// No description provided for @carEventsWhereFrom.
   ///
   /// In en, this message translates to:
-  /// **'WHERE THEY CAME FROM'**
+  /// **'Where they came from'**
   String get carEventsWhereFrom;
 
   /// No description provided for @carEventsPlacement.
@@ -7805,6 +7877,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{rank} · {category}'**
   String carEventsPlacement(String rank, String category);
+
+  /// No description provided for @settingsBlockedAccounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked accounts'**
+  String get settingsBlockedAccounts;
+
+  /// No description provided for @blockedAccountsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked accounts'**
+  String get blockedAccountsTitle;
+
+  /// No description provided for @blockedAccountsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t blocked anyone.'**
+  String get blockedAccountsEmpty;
+
+  /// No description provided for @blockedAccountsEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When you block someone, they\'ll show up here. You can unblock them anytime.'**
+  String get blockedAccountsEmptyHint;
+
+  /// No description provided for @blockedAccountsUnblock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock'**
+  String get blockedAccountsUnblock;
+
+  /// No description provided for @blockedAccountsUnblockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock @{username}?'**
+  String blockedAccountsUnblockTitle(String username);
+
+  /// No description provided for @blockedAccountsUnblockBody.
+  ///
+  /// In en, this message translates to:
+  /// **'They\'ll be able to find your profile, see your posts and message you again. Follows you had before won\'t come back. They won\'t be notified.'**
+  String get blockedAccountsUnblockBody;
+
+  /// No description provided for @blockedAccountsUnblocked.
+  ///
+  /// In en, this message translates to:
+  /// **'You unblocked @{username}'**
+  String blockedAccountsUnblocked(String username);
+
+  /// No description provided for @blockedAccountsUnblockError.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t unblock @{username}. Please try again.'**
+  String blockedAccountsUnblockError(String username);
+
+  /// No description provided for @blockedAccountsLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t load your blocked accounts. Please try again.'**
+  String get blockedAccountsLoadError;
+
+  /// No description provided for @profileBlockAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Block'**
+  String get profileBlockAccount;
+
+  /// No description provided for @profileBlockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Block @{username}?'**
+  String profileBlockTitle(String username);
+
+  /// No description provided for @profileBlockBody.
+  ///
+  /// In en, this message translates to:
+  /// **'They won\'t be able to find your profile, see your posts or message you, and you\'ll stop following each other. They won\'t be notified. You can unblock them anytime in Settings.'**
+  String get profileBlockBody;
+
+  /// No description provided for @profileBlockConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Block'**
+  String get profileBlockConfirm;
+
+  /// No description provided for @profileBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'You blocked @{username}'**
+  String profileBlocked(String username);
+
+  /// No description provided for @blockErrorSelf.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t block your own account.'**
+  String get blockErrorSelf;
+
+  /// No description provided for @blockErrorNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This account is no longer available.'**
+  String get blockErrorNotFound;
+
+  /// No description provided for @blockErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Please try again.'**
+  String get blockErrorNetwork;
+
+  /// No description provided for @blockErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get blockErrorGeneric;
+
+  /// App-wide banner title shown when the backend rate-limits the user (HTTP 429)
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re doing that too fast'**
+  String get rateLimitTitle;
+
+  /// No description provided for @rateLimitRetryInSeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again in {count, plural, =1{1 second} other{{count} seconds}}.'**
+  String rateLimitRetryInSeconds(int count);
+
+  /// No description provided for @rateLimitRetryInMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again in {count, plural, =1{1 minute} other{{count} minutes}}.'**
+  String rateLimitRetryInMinutes(int count);
+
+  /// No description provided for @rateLimitRetryInHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again in {count, plural, =1{1 hour} other{{count} hours}}.'**
+  String rateLimitRetryInHours(int count);
+
+  /// No description provided for @rateLimitRetrySoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Wait a moment and try again.'**
+  String get rateLimitRetrySoon;
 }
 
 class _AppLocalizationsDelegate

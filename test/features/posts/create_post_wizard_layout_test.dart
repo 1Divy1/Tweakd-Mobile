@@ -372,9 +372,9 @@ void main() {
       expect(find.text('Pick your shots'), findsOneWidget);
       expect(find.text('Add at least one photo to continue.'), findsOneWidget);
       // First step: nothing to go back to.
-      expect(find.text('BACK'), findsNothing);
+      expect(find.text('Back'), findsNothing);
 
-      await tester.tap(find.text('NEXT'));
+      await tester.tap(find.text('Next'));
       await tester.pumpAndSettle();
 
       expect(find.text('Pick your shots'), findsOneWidget);
@@ -387,6 +387,21 @@ void main() {
       await open(tester);
 
       await tester.tap(find.byIcon(Icons.close_rounded));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Discard post?'), findsNothing);
+      expect(find.byType(CreatePostPage), findsNothing);
+      expect(find.text('open composer'), findsOneWidget);
+    });
+
+    // The composer traps system back (PopScope) so a swipe can't skip the
+    // discard warning; with nothing entered it must still let the user out.
+    testWidgets('system back on a blank composer leaves without asking', (
+      tester,
+    ) async {
+      await open(tester);
+
+      await tester.binding.handlePopRoute();
       await tester.pumpAndSettle();
 
       expect(find.text('Discard post?'), findsNothing);

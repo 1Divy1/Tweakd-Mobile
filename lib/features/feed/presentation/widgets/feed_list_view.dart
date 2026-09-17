@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../../core/di/injection.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../posts/domain/entities/post.dart';
@@ -17,6 +18,7 @@ import '../bloc/feed/event.dart';
 import '../bloc/feed/state.dart';
 import 'feed_empty_view.dart';
 import 'feed_post_card.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// The loaded feed list: pull-to-refresh, cursor paging on scroll, and a
 /// trailing loader / empty state.
@@ -99,21 +101,10 @@ class _FeedListViewState extends State<FeedListView> {
     );
   }
 
-  Future<void> _share(PostEntity post) async {
-    final l10n = AppLocalizations.of(context)!;
-    final messenger = ScaffoldMessenger.of(context);
-    final shared = await context.push<bool>(
-      '/posts/${post.id}/share',
-      extra: post,
-    );
-    if (shared == true) {
-      messenger.showSnackBar(SnackBar(content: Text(l10n.postShareSuccess)));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final posts = widget.state.posts;
+    final currentUserId = getIt<SupabaseClient>().auth.currentUser?.id;
 
     if (posts.isEmpty) {
       return RefreshIndicator(
@@ -121,6 +112,7 @@ class _FeedListViewState extends State<FeedListView> {
         onRefresh: _refresh,
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(),
+          padding: AppLayout.inset(context),
           children: [
             const SizedBox(height: 96),
             FeedEmptyView(onCreatePost: widget.onCreatePost),
@@ -135,7 +127,9 @@ class _FeedListViewState extends State<FeedListView> {
       child: ListView.builder(
         controller: _scrollController,
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.only(top: 8, bottom: 16),
+        padding:
+            const EdgeInsets.only(top: 8, bottom: 16) +
+            AppLayout.inset(context),
         itemCount: posts.length + 1,
         itemBuilder: (context, index) {
           if (index == posts.length) {
@@ -149,7 +143,12 @@ class _FeedListViewState extends State<FeedListView> {
                 context.read<FeedBloc>().add(ToggleLikeFeedPost(post.id)),
             onToggleSave: () =>
                 context.read<FeedBloc>().add(ToggleSaveFeedPost(post.id)),
-            onShare: () => _share(post),
+            // Your own post can't be reposted; its count still shows.
+            onToggleRepost: post.author.id == currentUserId
+                ? null
+                : () => context.read<FeedBloc>().add(
+                    ToggleRepostFeedPost(post.id),
+                  ),
             onOpenComments: () => _openComments(post),
             onOpenLikers: () => showLikersSheet(context, postId: post.id),
             onSubmitComment: (text) =>

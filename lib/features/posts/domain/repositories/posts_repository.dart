@@ -81,6 +81,13 @@ abstract class PostsRepository {
 
   Future<Either<Failure, void>> deletePost(String postId);
 
+  /// The posts [username] reposted, newest repost first.
+  Future<Either<Failure, PostPageEntity>> getRepostsByUsername(
+    String username, {
+    String? cursor,
+    int size = 20,
+  });
+
   // ── Engagement ───────────────────────────────────────────────────────────────
 
   Future<Either<Failure, void>> likePost(String postId);
@@ -91,9 +98,9 @@ abstract class PostsRepository {
 
   Future<Either<Failure, void>> unsavePost(String postId);
 
-  Future<Either<Failure, void>> sharePost(String postId, {String? content});
+  Future<Either<Failure, void>> repostPost(String postId);
 
-  Future<Either<Failure, void>> unsharePost(String postId);
+  Future<Either<Failure, void>> unrepostPost(String postId);
 
   // ── Comments ─────────────────────────────────────────────────────────────────
 

@@ -12,6 +12,7 @@ import '../widgets/auth_brand_header.dart';
 import '../widgets/auth_primary_button.dart';
 import '../widgets/otp_code_field.dart';
 import '../widgets/resend_email_button.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// Confirms a new account with the code from the sign-up email.
 ///
@@ -71,7 +72,7 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
               // than assuming it.
               case SignUpCompleted(:final user):
                 context.go(
-                  user.requiresOnboarding ? '/onboarding' : '/profile',
+                  user.requiresOnboarding ? '/onboarding' : '/feed',
                 );
               case SignUpResendSucceeded():
                 messenger.showSnackBar(
@@ -90,7 +91,8 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
           },
           builder: (context, state) {
             return SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 32) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

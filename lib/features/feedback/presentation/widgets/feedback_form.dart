@@ -12,6 +12,7 @@ import 'feedback_dropdown_field.dart';
 import 'feedback_feature_picker.dart';
 import 'feedback_section_label.dart';
 import 'feedback_type_picker.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// Hard cap on the main feedback body, surfaced by the character counter.
 const int kFeedbackContentMaxLength = 600;
@@ -79,7 +80,8 @@ class _FeedbackFormState extends State<FeedbackForm> {
       children: [
         Expanded(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -89,7 +91,6 @@ class _FeedbackFormState extends State<FeedbackForm> {
                     color: AppColors.accent,
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
-                    letterSpacing: 1.2,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -175,7 +176,8 @@ class _FeedbackFormState extends State<FeedbackForm> {
 
         // ── Error + pinned submit button ────────────────────────────────
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 12) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -294,10 +296,10 @@ class _SubmitButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 56,
       child: ElevatedButton(
         onPressed: enabled ? onTap : null,
         style: ElevatedButton.styleFrom(
+          minimumSize: const Size(0, 56),
           backgroundColor: AppColors.accent,
           disabledBackgroundColor: AppColors.line,
           foregroundColor: Colors.white,
@@ -319,12 +321,15 @@ class _SubmitButton extends StatelessWidget {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    label.toUpperCase(),
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 0.8,
+                  Flexible(
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 8),

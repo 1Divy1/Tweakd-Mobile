@@ -154,20 +154,20 @@ void main() {
     expect(find.text('Add a build item'), findsNothing);
 
     // Nothing picked yet: NEXT says so instead of moving on.
-    await tester.tap(find.text('NEXT'));
+    await tester.tap(find.text('Next'));
     await tester.pump();
     expect(find.text('Pick a car to continue.'), findsOneWidget);
     expect(find.text('Which car?'), findsOneWidget);
 
     await tester.tap(find.text('BMW M3 Competition Touring xDrive'));
     await tester.pump();
-    await tester.tap(find.text('NEXT'));
+    await tester.tap(find.text('Next'));
     await tester.pumpAndSettle();
 
     expect(find.text('Add a build item'), findsOneWidget);
     expect(find.text('Which car?'), findsNothing);
 
-    await tester.tap(find.text('BACK'));
+    await tester.tap(find.text('Back'));
     await tester.pumpAndSettle();
     expect(find.text('Which car?'), findsOneWidget);
   });
@@ -177,15 +177,15 @@ void main() {
 
     expect(find.text('Add a build item'), findsOneWidget);
     expect(find.text('Which car?'), findsNothing);
-    expect(find.text('BACK'), findsNothing);
-    expect(find.text('ADD TO BUILD LOG'), findsOneWidget);
+    expect(find.text('Back'), findsNothing);
+    expect(find.text('Add to build log'), findsOneWidget);
   });
 
   testWidgets('with no cars it points at adding one first', (tester) async {
     await pump(tester, cars: const []);
 
     expect(find.text('No cars yet'), findsOneWidget);
-    expect(find.text('ADD A CAR'), findsOneWidget);
+    expect(find.text('Add a car'), findsOneWidget);
     expect(find.text('Add a build item'), findsNothing);
   });
 
@@ -200,7 +200,7 @@ void main() {
   testWidgets('an incomplete entry is not submitted', (tester) async {
     await pump(tester, cars: const [_gt3]);
 
-    await tester.tap(find.text('ADD TO BUILD LOG'));
+    await tester.tap(find.text('Add to build log'));
     await tester.pump();
 
     expect(find.text('Category, title and date are required.'), findsOneWidget);

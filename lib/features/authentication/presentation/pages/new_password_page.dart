@@ -13,6 +13,7 @@ import '../widgets/auth_brand_header.dart';
 import '../widgets/auth_primary_button.dart';
 import '../widgets/auth_text_field.dart';
 import '../widgets/password_requirements.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// Step 3 of the password reset: choose the new password.
 ///
@@ -75,7 +76,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                 SnackBar(content: Text(l10n.authPasswordUpdated)),
               );
               context.go(
-                state.user.requiresOnboarding ? '/onboarding' : '/profile',
+                state.user.requiresOnboarding ? '/onboarding' : '/feed',
               );
             } else if (state is PasswordResetFailed) {
               messenger.showSnackBar(
@@ -90,7 +91,8 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
           },
           builder: (context, state) {
             return SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 32) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'app_colors.dart';
+import '../shared/layout/app_layout.dart';
 
 class AppTheme {
   AppTheme._();
@@ -163,6 +164,12 @@ class AppTheme {
       dialogTheme: DialogThemeData(
         backgroundColor: AppColors.surface,
         surfaceTintColor: Colors.transparent,
+        // Flutter's default has no max width, so a confirmation spans the
+        // whole screen on a tablet or unfolded foldable.
+        constraints: const BoxConstraints(
+          minWidth: 280,
+          maxWidth: AppLayout.narrowWidth,
+        ),
       ),
     );
   }

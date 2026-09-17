@@ -16,6 +16,7 @@ import '../widgets/board/feedback_feed_top_bar.dart';
 import '../widgets/board/feedback_message_card.dart';
 import '../widgets/board/feedback_sort_tabs.dart';
 import '../widgets/shared/feedback_feed_views.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// The community feedback board, pushed from the megaphone on your own profile
 /// (and from status-change notifications). Sorting and the completed-requests
@@ -144,6 +145,7 @@ class _FeedbackFeedPageState extends State<FeedbackFeedPage> {
                     child: state.messages.isEmpty
                         ? ListView(
                             physics: const AlwaysScrollableScrollPhysics(),
+                            padding: AppLayout.inset(context),
                             children: [
                               const SizedBox(height: 80),
                               FeedbackFeedEmptyView(
@@ -161,7 +163,7 @@ class _FeedbackFeedPageState extends State<FeedbackFeedPage> {
                             padding: EdgeInsets.only(
                               top: 2,
                               bottom: 16 + MediaQuery.paddingOf(context).bottom,
-                            ),
+                            ) + AppLayout.inset(context),
                             itemCount: state.messages.length + 1,
                             itemBuilder: (context, index) {
                               if (index == state.messages.length) {

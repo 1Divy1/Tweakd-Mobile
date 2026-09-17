@@ -6,6 +6,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/network/auth_interceptor.dart';
+import '../../../../core/network/rate_limit_interceptor.dart';
+import '../../../../core/network/rate_limit_notifier.dart';
 import '../models/avatar_upload_model.dart';
 
 /// Talks to the storage module (`$API_BASE_URL/api/storage`) to mint a presigned
@@ -17,7 +19,10 @@ import '../models/avatar_upload_model.dart';
 class AvatarStorageApiDataSource {
   late final Dio _dio;
 
-  AvatarStorageApiDataSource(SupabaseClient supabaseClient) {
+  AvatarStorageApiDataSource(
+    SupabaseClient supabaseClient,
+    RateLimitNotifier rateLimitNotifier,
+  ) {
     final host = dotenv.env['API_BASE_URL'] ?? '';
     _dio = Dio(
       BaseOptions(
@@ -31,6 +36,7 @@ class AvatarStorageApiDataSource {
       ),
     );
     _dio.interceptors.add(AuthInterceptor(supabaseClient));
+    _dio.interceptors.add(RateLimitInterceptor(rateLimitNotifier));
     _dio.interceptors.add(
       LogInterceptor(
         requestBody: true,
@@ -59,6 +65,9 @@ class AvatarStorageApiDataSource {
       return NetworkException();
     }
     final statusCode = e.response?.statusCode ?? 0;
+    if (statusCode == 429) {
+      return tooManyRequestsFrom(e.response);
+    }
     if (statusCode == 401) {
       return UnauthenticatedException('Authentication required.');
     }

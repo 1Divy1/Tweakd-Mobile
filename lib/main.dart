@@ -7,7 +7,10 @@ import 'package:tweakd/firebase_options.dart';
 import 'package:tweakd/l10n/app_localizations.dart';
 import 'package:tweakd/core/deeplinks/deep_link_service.dart';
 import 'package:tweakd/core/di/injection.dart';
+import 'package:tweakd/core/network/rate_limit_notifier.dart';
 import 'package:tweakd/core/push/push_background_handler.dart';
+import 'package:tweakd/core/shared/layout/orientation_policy.dart';
+import 'package:tweakd/core/shared/widgets/rate_limit_banner.dart';
 import 'package:tweakd/core/push/push_message_listener.dart';
 import 'package:tweakd/core/push/push_navigator.dart';
 import 'package:tweakd/core/push/push_notification_service.dart';
@@ -44,7 +47,8 @@ void main() async {
   // visually-identical splash has actually painted (see its initState).
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  // Lock the app to portrait orientation
+  // Portrait until the first frame; OrientationPolicy (MaterialApp.builder)
+  // then unlocks rotation on tablets and unfolded foldables.
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -254,9 +258,18 @@ class TweakdApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       routerConfig: appRouter,
-      // Floats the badge unlock celebration above every route.
-      builder: (context, child) =>
-          BadgeCelebrationOverlay(child: child ?? const SizedBox.shrink()),
+      // Floats the badge unlock celebration above every route, and unlocks
+      // rotation on tablets and unfolded foldables (phones stay portrait).
+      // The rate-limit banner sits on top of both: a 429 can come from any
+      // screen, including while a celebration is up.
+      builder: (context, child) => OrientationPolicy(
+        child: RateLimitBanner(
+          notices: getIt<RateLimitNotifier>().notices,
+          child: BadgeCelebrationOverlay(
+            child: child ?? const SizedBox.shrink(),
+          ),
+        ),
+      ),
     );
   }
 }

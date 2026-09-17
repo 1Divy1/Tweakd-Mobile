@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:tweakd/core/theme/app_icons.dart';
 
+import '../../../../../core/shared/widgets/app_avatar.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import 'create_post_fields.dart';
@@ -117,30 +119,11 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final initial = authorName.isNotEmpty
-        ? authorName.characters.first.toUpperCase()
-        : '?';
     return Padding(
       padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 21,
-            backgroundColor: AppColors.accentSoft,
-            backgroundImage: authorAvatarUrl != null
-                ? CachedNetworkImageProvider(authorAvatarUrl!)
-                : null,
-            child: authorAvatarUrl == null
-                ? Text(
-                    initial,
-                    style: TextStyle(
-                      color: AppColors.accentHot,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  )
-                : null,
-          ),
+          AppAvatar(size: 42, url: authorAvatarUrl, name: authorName),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -319,7 +302,7 @@ class _Actions extends StatelessWidget {
           const _ActionItem(icon: Icons.mode_comment_outlined),
           const SizedBox(width: 20),
           _ActionItem(
-            icon: Icons.ios_share_rounded,
+            icon: AppIcons.repost,
             label: visibility.showShares ? '0' : null,
           ),
         ],

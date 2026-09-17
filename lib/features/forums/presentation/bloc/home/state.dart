@@ -1,19 +1,17 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/forum_shortcut.dart';
-import '../../../domain/entities/forum_suggestion.dart';
 import '../../../domain/entities/forum_thread.dart';
 import '../../utils/forum_error_mapper.dart';
 
-/// One composite state for the forums home: the shortcuts row, the hot-feed
-/// list and the empty-state topic suggestions load together but fail softly
-/// where possible. [actionError] is a one-shot snackbar signal — listeners
-/// key on [actionErrorTick], never on the value alone.
+/// One composite state for the forums home: the shortcuts row and the
+/// hot-feed list load together but fail softly where possible.
+/// [actionError] is a one-shot snackbar signal — listeners key on
+/// [actionErrorTick], never on the value alone.
 class ForumsHomeState extends Equatable {
   final bool isLoading;
   final ForumErrorCode? errorCode;
   final List<ForumShortcutEntity> shortcuts;
-  final List<ForumSuggestionEntity> suggestions;
   final List<ForumThreadEntity> threads;
   final String? nextCursor;
   final bool isThreadsLoading;
@@ -26,7 +24,6 @@ class ForumsHomeState extends Equatable {
     this.isLoading = true,
     this.errorCode,
     this.shortcuts = const [],
-    this.suggestions = const [],
     this.threads = const [],
     this.nextCursor,
     this.isThreadsLoading = false,
@@ -43,7 +40,6 @@ class ForumsHomeState extends Equatable {
     ForumErrorCode? errorCode,
     bool clearError = false,
     List<ForumShortcutEntity>? shortcuts,
-    List<ForumSuggestionEntity>? suggestions,
     List<ForumThreadEntity>? threads,
     String? nextCursor,
     bool clearNextCursor = false,
@@ -56,7 +52,6 @@ class ForumsHomeState extends Equatable {
       isLoading: isLoading ?? this.isLoading,
       errorCode: clearError ? null : (errorCode ?? this.errorCode),
       shortcuts: shortcuts ?? this.shortcuts,
-      suggestions: suggestions ?? this.suggestions,
       threads: threads ?? this.threads,
       nextCursor: clearNextCursor ? null : (nextCursor ?? this.nextCursor),
       isThreadsLoading: isThreadsLoading ?? this.isThreadsLoading,
@@ -73,7 +68,6 @@ class ForumsHomeState extends Equatable {
         isLoading,
         errorCode,
         shortcuts,
-        suggestions,
         threads,
         nextCursor,
         isThreadsLoading,

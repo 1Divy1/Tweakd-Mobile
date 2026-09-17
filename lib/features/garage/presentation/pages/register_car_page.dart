@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,9 +24,11 @@ import '../widgets/register_car/mods_step.dart';
 import '../widgets/register_car/register_car_chrome.dart';
 import '../widgets/register_car/register_car_fields.dart';
 import '../widgets/register_car/reorderable_photo_tile.dart';
+import '../widgets/register_car/register_discard_dialog.dart';
 import '../widgets/register_car/specs_step.dart';
 import '../widgets/register_car/story_step.dart';
 import 'build_log_entry_page.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// Wizard step indices. Every technical figure lives on one tabbed specs
 /// step; the build log follows it — it's the part owners care most about —
@@ -73,6 +76,40 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
   final ScrollController _scrollCtrl = ScrollController();
 
   bool get _isEdit => widget.editCar != null;
+
+  /// What the form held once it was ready (after an edit's seeding), so
+  /// leaving only asks when something would actually be lost. Null until then.
+  List<Object?>? _baseline;
+
+  List<Object?> get _snapshot => [
+        _selectedBrand?.id,
+        _selectedModel?.id,
+        _selectedFuelType?.id,
+        _selectedDrivetrain?.id,
+        _selectedColor?.id,
+        _selectedDistanceUnit?.id,
+        _selectedStatus?.id,
+        for (final c in [
+          _yearCtrl,
+          _chassisCodeCtrl,
+          _modelCodeCtrl,
+          _hpCtrl,
+          _torqueCtrl,
+          _zeroToHundredCtrl,
+          _weightCtrl,
+          _displacementCtrl,
+          _engineCodeCtrl,
+          _mileageCtrl,
+          _storyCtrl,
+        ])
+          c.text.trim(),
+        _cover,
+        _removedCover,
+        '|', ..._gallery,
+        '|', ..._removedGalleryKeys,
+        '|', ..._mods,
+        '|', ..._removedModIds,
+      ];
 
   // Guards against a second image_picker request firing before the first
   // finishes — iOS throws PlatformException('multiple_request') otherwise.
@@ -127,7 +164,10 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
   void initState() {
     super.initState();
     final car = widget.editCar;
-    if (car == null) return;
+    if (car == null) {
+      _baseline = _snapshot;
+      return;
+    }
 
     // Scalar fields don't depend on reference data — seed them immediately.
     _yearCtrl.text = car.year.toString();
@@ -212,12 +252,23 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
           _ => null,
         };
 
-        return Scaffold(
+        return PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (didPop, _) {
+            if (didPop || isSubmitting) return;
+            // System back walks back through the steps before it leaves.
+            if (_step > 0) {
+              _goToStep(_step - 1);
+            } else {
+              _close();
+            }
+          },
+          child: Scaffold(
           backgroundColor: AppColors.bg,
           body: SafeArea(
             child: Column(
               children: [
-                RegisterStepProgress(step: _step),
+                RegisterStepProgress(step: _step, onBack: _close),
                 if (state is AddCarRefDataLoading)
                   Expanded(
                     child: Center(
@@ -237,7 +288,8 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
                   Expanded(
                     child: SingleChildScrollView(
                       controller: _scrollCtrl,
-                      padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+                      padding: const EdgeInsets.fromLTRB(20, 8, 20, 32) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
                       child: _stepContent(context, refData),
                     ),
                   ),
@@ -255,6 +307,7 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
               ],
             ),
           ),
+        ),
         );
       },
     );
@@ -325,6 +378,28 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
         ),
       _ => const SizedBox.shrink(),
     };
+  }
+
+  /// Leaves the wizard, asking first when something entered would be lost.
+  Future<void> _close() async {
+    if (context.read<AddCarBloc>().state is AddCarSubmitting) return;
+    final navigator = Navigator.of(context);
+    final baseline = _baseline;
+    if (baseline == null || listEquals(baseline, _snapshot)) {
+      navigator.pop();
+      return;
+    }
+    final l10n = AppLocalizations.of(context)!;
+    final discard = await showRegisterDiscardDialog(
+      context,
+      title: _isEdit
+          ? l10n.garageEditCarDiscardTitle
+          : l10n.garageRegisterDiscardTitle,
+      body: _isEdit
+          ? l10n.garageEditCarDiscardBody
+          : l10n.garageRegisterDiscardBody,
+    );
+    if (discard == true) navigator.pop();
   }
 
   /// Moves to [step] and returns the shared scroll view to the top, so the
@@ -492,6 +567,7 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
             refData.statusOptions, (s) => s.id == car.status.id);
       });
       _seededSelections = true;
+      _baseline = _snapshot;
       // Trigger loading the models for the saved brand so we can match it.
       context.read<AddCarBloc>().add(AddCarBrandSelected(car.brandId));
     }
@@ -502,6 +578,7 @@ class _RegisterCarPageState extends State<RegisterCarPage> {
       if (model != null) {
         setState(() => _selectedModel = model);
         _seededModel = true;
+        _baseline = _snapshot;
       }
     }
   }

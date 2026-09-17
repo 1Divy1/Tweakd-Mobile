@@ -273,7 +273,6 @@ class _AddBrandButton extends StatelessWidget {
                 color: AppColors.inkPanel,
                 fontSize: 13,
                 fontWeight: FontWeight.w800,
-                letterSpacing: 1,
               ),
             ),
           ],

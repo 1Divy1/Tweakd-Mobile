@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../../core/shared/widgets/app_avatar.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/follow_list_user.dart';
@@ -66,31 +67,11 @@ class _Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final url = avatarUrl;
-    return SizedBox(
-      width: 44,
-      height: 44,
-      child: ClipOval(
-        child: (url != null && url.isNotEmpty)
-            ? Image.network(
-                url,
-                fit: BoxFit.cover,
-                errorBuilder: (_, _, _) => const _AvatarPlaceholder(),
-              )
-            : const _AvatarPlaceholder(),
-      ),
-    );
-  }
-}
-
-class _AvatarPlaceholder extends StatelessWidget {
-  const _AvatarPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.line2,
-      child: Icon(Icons.person, size: 22, color: AppColors.muteSoft),
+    return AppAvatar(
+      size: 44,
+      url: avatarUrl,
+      backgroundColor: AppColors.line2,
+      initialColor: AppColors.muteSoft,
     );
   }
 }
@@ -190,9 +171,8 @@ class _RemoveFollowerButton extends StatelessWidget {
             AppLocalizations.of(context)!.followRemove,
             style: TextStyle(
               color: AppColors.ink,
-              fontSize: 11,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 1.0,
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ],
@@ -231,9 +211,8 @@ class _FollowButton extends StatelessWidget {
               AppLocalizations.of(context)!.followActionFollowing,
               style: TextStyle(
                 color: AppColors.ink,
-                fontSize: 11,
-                fontWeight: FontWeight.w800,
-                letterSpacing: 1.0,
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ],
@@ -255,9 +234,8 @@ class _FollowButton extends StatelessWidget {
         AppLocalizations.of(context)!.followActionFollow,
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 11,
-          fontWeight: FontWeight.w800,
-          letterSpacing: 1.4,
+          fontSize: 13,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );

@@ -77,7 +77,6 @@ class _FinishSheet extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 9,
                         fontWeight: FontWeight.w800,
-                        letterSpacing: 1.2,
                         color: AppColors.mute,
                       ),
                     ),
@@ -393,18 +392,16 @@ class _SheetButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      child: FilledButton(
+    return FilledButton(
         onPressed: onTap,
         style: FilledButton.styleFrom(
+          minimumSize: const Size(0, 50),
           backgroundColor: accent ? AppColors.accent : AppColors.bg,
           foregroundColor: accent ? Colors.white : AppColors.ink,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-          textStyle: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.w800, letterSpacing: 0.7),
+          textStyle: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w800),
         ),
         child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
-      ),
     );
   }
 }

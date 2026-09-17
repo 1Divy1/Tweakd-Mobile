@@ -5,8 +5,10 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../../garage/presentation/bloc/bloc.dart';
+import '../../../../garage/presentation/bloc/event.dart';
 import '../../../../garage/presentation/bloc/state.dart';
 import '../../../../garage/presentation/utils/garage_error_mapper.dart';
+import '../../../../garage/presentation/widgets/add_car_button.dart';
 import '../../../../garage/presentation/widgets/garage_car_card.dart';
 
 class GarageSection extends StatelessWidget {
@@ -26,8 +28,7 @@ class GarageSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // No section heading: the Garage tab right above already
-                // names the section, and the car count was noise. Adding a car
-                // lives in the "+" chooser in the profile top bar.
+                // names the section, and the car count was noise.
                 if (garage.cars.isEmpty)
                   _GarageEmptyView(isOwner: isOwner)
                 else
@@ -47,6 +48,15 @@ class GarageSection extends StatelessWidget {
                       );
                     },
                   ),
+                // Adding a car is rare, so it trails the garage as a quiet link
+                // rather than leading it.
+                if (isOwner) ...[
+                  const SizedBox(height: 8),
+                  AddCarButton(
+                    label: AppLocalizations.of(context)!.garageAddNewCar,
+                    onTap: () => _addCar(context),
+                  ),
+                ],
               ],
             ),
             GarageError(:final code) => _GarageErrorView(
@@ -57,6 +67,14 @@ class GarageSection extends StatelessWidget {
         );
       },
     );
+  }
+
+  /// Opens the add-car wizard and reloads the garage on the way back, so a
+  /// new car shows up straight away.
+  Future<void> _addCar(BuildContext context) async {
+    final bloc = context.read<GarageBloc>();
+    await context.push('/garage/cars/add');
+    bloc.add(const LoadMyGarage());
   }
 }
 

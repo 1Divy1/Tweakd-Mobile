@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -9,8 +10,10 @@ import '../../domain/entities/post.dart';
 import '../bloc/edit_post/bloc.dart';
 import '../utils/post_error_mapper.dart';
 import '../widgets/create_post/caption_step.dart';
+import '../widgets/create_post/post_discard_dialog.dart';
 import '../widgets/create_post/tags_step.dart';
 import '../widgets/create_post/visibility_step.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// What an [EditPostPage] returns to the detail screen: the updated post, or a
 /// flag that it was deleted. Null is returned when the user just backs out.
@@ -38,6 +41,19 @@ class _EditPostPageState extends State<EditPostPage> {
   late final List<TaggedPerson> _people;
   late final List<TaggedCar> _cars;
   late PostVisibility _visibility;
+
+  /// The post as it opened, so closing only asks when an edit would be lost.
+  late final List<Object?> _baseline;
+
+  List<Object?> get _snapshot => [
+        _captionCtrl.text.trim(),
+        '|', ..._people.map((p) => p.id),
+        '|', ..._cars.map((c) => c.id),
+        _visibility.showLikes,
+        _visibility.showComments,
+        _visibility.showShares,
+        _visibility.showSaved,
+      ];
 
   @override
   void initState() {
@@ -67,6 +83,7 @@ class _EditPostPageState extends State<EditPostPage> {
       showShares: post.sharesCountEnabled,
       showSaved: post.savedCountEnabled,
     );
+    _baseline = _snapshot;
   }
 
   @override
@@ -118,19 +135,25 @@ class _EditPostPageState extends State<EditPostPage> {
       },
       builder: (context, state) {
         final isSubmitting = state is EditPostSubmitting;
-        return Scaffold(
+        return PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (didPop, _) {
+            if (!didPop && !isSubmitting) _close();
+          },
+          child: Scaffold(
           backgroundColor: AppColors.bg,
           body: SafeArea(
             child: Column(
               children: [
                 _TopBar(
                   isSubmitting: isSubmitting,
-                  onClose: isSubmitting ? null : () => context.pop(),
+                  onClose: isSubmitting ? null : _close,
                   onSave: isSubmitting ? null : _save,
                 ),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+                    padding: const EdgeInsets.fromLTRB(20, 8, 20, 32) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -164,9 +187,25 @@ class _EditPostPageState extends State<EditPostPage> {
               ],
             ),
           ),
+        ),
         );
       },
     );
+  }
+
+  Future<void> _close() async {
+    final navigator = Navigator.of(context);
+    if (listEquals(_baseline, _snapshot)) {
+      navigator.pop();
+      return;
+    }
+    final l10n = AppLocalizations.of(context)!;
+    final discard = await showPostDiscardDialog(
+      context,
+      title: l10n.postEditDiscardTitle,
+      body: l10n.postEditDiscardBody,
+    );
+    if (discard == true) navigator.pop();
   }
 
   Future<void> _confirmDelete(BuildContext context) async {
@@ -245,7 +284,7 @@ class _TopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8) + AppLayout.inset(context),
       child: Row(
         children: [
           GestureDetector(
@@ -270,7 +309,6 @@ class _TopBar extends StatelessWidget {
                   color: AppColors.ink,
                   fontSize: 14,
                   fontWeight: FontWeight.w800,
-                  letterSpacing: 1.6,
                 ),
               ),
             ),
@@ -298,7 +336,6 @@ class _TopBar extends StatelessWidget {
                         color: Colors.white,
                         fontSize: 12,
                         fontWeight: FontWeight.w800,
-                        letterSpacing: 0.8,
                       ),
                     ),
             ),

@@ -3,24 +3,21 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../../core/usecases/usecase.dart';
 import '../../../domain/entities/forum_shortcut.dart';
-import '../../../domain/entities/forum_suggestion.dart';
 import '../../../domain/entities/forum_thread.dart';
 import '../../../domain/usecases/forum_saves.dart';
 import '../../../domain/usecases/forum_shortcuts.dart';
-import '../../../domain/usecases/get_forum_suggestions.dart';
 import '../../../domain/usecases/get_forum_threads.dart';
 import '../../utils/forum_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
 
-/// Drives the forums home: the shortcuts row (pin / remove / reorder), the
-/// global "hot in your forums" list with sort + cursor paging, and the popular
-/// brand / model hub suggestions shown while the paddock is empty.
+/// Drives the forums home: the shortcuts row (pin / remove / reorder) and the
+/// global thread list with sort + cursor paging. With no shortcuts the same
+/// list is shown as "popular right now", always in the hot order.
 @injectable
 class ForumsHomeBloc extends Bloc<ForumsHomeEvent, ForumsHomeState> {
   final GetForumShortcutsUseCase getShortcuts;
   final GetForumThreadsUseCase getThreads;
-  final GetForumSuggestionsUseCase getSuggestions;
   final DeleteForumShortcutUseCase deleteShortcut;
   final ReorderForumShortcutsUseCase reorderShortcuts;
   final SaveForumThreadUseCase saveThread;
@@ -29,7 +26,6 @@ class ForumsHomeBloc extends Bloc<ForumsHomeEvent, ForumsHomeState> {
   ForumsHomeBloc({
     required this.getShortcuts,
     required this.getThreads,
-    required this.getSuggestions,
     required this.deleteShortcut,
     required this.reorderShortcuts,
     required this.saveThread,
@@ -53,13 +49,10 @@ class ForumsHomeBloc extends Bloc<ForumsHomeEvent, ForumsHomeState> {
     // Fire in parallel, await individually to keep the Either types.
     final shortcutsFuture = getShortcuts(NoParams());
     final threadsFuture = getThreads(GetForumThreadsParams(sort: state.sort));
-    final suggestionsFuture = getSuggestions(const GetForumSuggestionsParams());
     final shortcutsResult = await shortcutsFuture;
     final threadsResult = await threadsFuture;
-    final suggestionsResult = await suggestionsFuture;
 
-    // Shortcuts and threads are the page — either failing is fatal. The hub
-    // suggestions only feed the empty state, so their failure is silent.
+    // Shortcuts and threads are the page — either failing is fatal.
     ForumErrorCode? fatal;
     shortcutsResult.fold((f) => fatal = ForumErrorMapper.getCode(f), (_) {});
     threadsResult.fold((f) => fatal ??= ForumErrorMapper.getCode(f), (_) {});
@@ -75,10 +68,6 @@ class ForumsHomeBloc extends Bloc<ForumsHomeEvent, ForumsHomeState> {
           shortcutsResult.getOrElse(() => const <ForumShortcutEntity>[]),
       threads: threadsResult.fold((_) => const [], (page) => page.items),
       nextCursor: threadsResult.fold((_) => null, (page) => page.nextCursor),
-      suggestions: suggestionsResult.fold(
-        (_) => const <ForumSuggestionEntity>[],
-        (list) => list,
-      ),
     ));
   }
 
@@ -107,8 +96,18 @@ class ForumsHomeBloc extends Bloc<ForumsHomeEvent, ForumsHomeState> {
         ),
       );
       emit(next.copyWith(isLoading: false, clearError: true));
+      // Shortcuts may have been removed elsewhere (e.g. a hub page).
+      if (next.shortcuts.isEmpty) _resetToHot();
     } finally {
       event.completer?.complete();
+    }
+  }
+
+  /// The empty paddock lists "popular right now" without sort tabs, so a
+  /// New / Active sort picked while shortcuts existed must not linger there.
+  void _resetToHot() {
+    if (state.sort != ForumThreadSort.hot) {
+      add(const ChangeForumsHomeSort(ForumThreadSort.hot));
     }
   }
 
@@ -196,9 +195,9 @@ class ForumsHomeBloc extends Bloc<ForumsHomeEvent, ForumsHomeState> {
     Emitter<ForumsHomeState> emit,
   ) async {
     final before = state.shortcuts;
-    emit(state.copyWith(
-      shortcuts: before.where((s) => s.id != event.shortcutId).toList(),
-    ));
+    final remaining = before.where((s) => s.id != event.shortcutId).toList();
+    emit(state.copyWith(shortcuts: remaining));
+    if (remaining.isEmpty) _resetToHot();
 
     final result = await deleteShortcut(event.shortcutId);
     result.fold(

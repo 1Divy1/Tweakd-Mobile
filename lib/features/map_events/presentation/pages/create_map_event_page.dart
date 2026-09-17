@@ -2,6 +2,7 @@ import 'package:tweakd/core/di/injection.dart';
 import 'package:tweakd/core/services/image_service.dart';
 import 'package:tweakd/core/theme/app_colors.dart';
 import 'package:tweakd/l10n/app_localizations.dart';
+import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -65,6 +66,10 @@ class _CreateMapEventPageState extends State<CreateMapEventPage> {
   /// rebuild.
   bool _announcedDraft = false;
 
+  /// An edited event's fields as they opened. Editing keeps no draft, so this
+  /// is what tells a real change from a look around.
+  List<Object?>? _editBaseline;
+
   @override
   void dispose() {
     _title.dispose();
@@ -85,6 +90,7 @@ class _CreateMapEventPageState extends State<CreateMapEventPage> {
     if (!state.isEditing && !state.restoredFromDraft) return;
 
     _seeded = true;
+    if (state.isEditing) _editBaseline = _contentOf(state);
     _title.text = state.title;
     _description.text = state.description;
     _capacity.text = state.capacity?.toString() ?? '';
@@ -107,7 +113,20 @@ class _CreateMapEventPageState extends State<CreateMapEventPage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) return;
+        final state = context.read<CreateMapEventBloc>().state;
+        final index = _stepIndex.clamp(0, state.steps.length - 1);
+        // System back walks back through the steps before it leaves.
+        if (state.status == CreateEventStatus.ready && index > 0) {
+          _goTo(index - 1);
+        } else {
+          _close(context, state);
+        }
+      },
+      child: Scaffold(
       backgroundColor: AppColors.bg,
       resizeToAvoidBottomInset: true,
       body: BlocConsumer<CreateMapEventBloc, CreateMapEventState>(
@@ -191,6 +210,7 @@ class _CreateMapEventPageState extends State<CreateMapEventPage> {
           );
         },
       ),
+    ),
     );
   }
 
@@ -249,19 +269,61 @@ class _CreateMapEventPageState extends State<CreateMapEventPage> {
     if (_scroll.hasClients) _scroll.jumpTo(0);
   }
 
-  /// Leaving is offered, not taken: the draft survives, so the only real
-  /// question is whether to keep it.
+  /// Leaving with anything entered asks first, and leaving means discarding:
+  /// the autosaved draft is cleared, so nothing reappears next time. (It only
+  /// survives the app being killed mid-flow.)
   Future<void> _close(BuildContext context, CreateMapEventState state) async {
     final l10n = AppLocalizations.of(context)!;
 
-    // Editing writes no draft, and a blank form has nothing to lose.
-    if (state.isEditing || !_hasContent(state)) {
+    if (state.status == CreateEventStatus.submitting) return;
+
+    // Loading, failed or already sent: nothing on screen to lose.
+    if (state.status != CreateEventStatus.ready) {
+      context.pop();
+      return;
+    }
+
+    // Editing writes no draft, so changed fields are simply gone on leaving.
+    if (state.isEditing) {
+      final baseline = _editBaseline;
+      if (baseline == null || listEquals(baseline, _contentOf(state))) {
+        context.pop();
+        return;
+      }
+      final discard = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          backgroundColor: AppColors.bg,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(kCreateEventRadius),
+          ),
+          title: Text(l10n.mapEventsEditDiscardTitle),
+          content: Text(l10n.mapEventsEditDiscardBody),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: Text(l10n.mapEventsWizardStay),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+              style: TextButton.styleFrom(foregroundColor: AppColors.accentHot),
+              child: Text(l10n.mapEventsWizardDiscardDraft),
+            ),
+          ],
+        ),
+      );
+      if (discard == true && context.mounted) context.pop();
+      return;
+    }
+
+    // A blank form has nothing to lose.
+    if (!_hasContent(state)) {
       context.pop();
       return;
     }
 
     final bloc = context.read<CreateMapEventBloc>();
-    final choice = await showDialog<_LeaveChoice>(
+    final discard = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
         backgroundColor: AppColors.bg,
@@ -272,28 +334,41 @@ class _CreateMapEventPageState extends State<CreateMapEventPage> {
         content: Text(l10n.mapEventsWizardDiscardBody),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
+            onPressed: () => Navigator.of(dialogContext).pop(false),
             child: Text(l10n.mapEventsWizardStay),
           ),
           TextButton(
-            onPressed: () =>
-                Navigator.of(dialogContext).pop(_LeaveChoice.discard),
+            onPressed: () => Navigator.of(dialogContext).pop(true),
             style: TextButton.styleFrom(foregroundColor: AppColors.accentHot),
             child: Text(l10n.mapEventsWizardDiscardDraft),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(_LeaveChoice.keep),
-            style: TextButton.styleFrom(foregroundColor: AppColors.accent),
-            child: Text(l10n.mapEventsWizardKeepDraft),
           ),
         ],
       ),
     );
 
-    if (choice == null || !mounted) return;
-    if (choice == _LeaveChoice.discard) bloc.add(const DiscardEventDraft());
+    if (discard != true || !mounted) return;
+    bloc.add(const DiscardEventDraft());
     if (context.mounted) context.pop();
   }
+
+  static List<Object?> _contentOf(CreateMapEventState s) => [
+        s.title.trim(),
+        s.categoryId,
+        s.description.trim(),
+        s.locationName,
+        s.city,
+        s.street,
+        s.number,
+        s.position,
+        s.startsAt,
+        s.endsAt,
+        s.capacity,
+        s.requiresApproval,
+        s.registrationDeadline,
+        s.cover,
+        '|', ...s.rules,
+        '|', ...s.pendingOrganizers,
+      ];
 
   bool _hasContent(CreateMapEventState state) =>
       state.title.trim().isNotEmpty ||
@@ -346,8 +421,6 @@ class _CreateMapEventPageState extends State<CreateMapEventPage> {
         _ => l10n.mapEventsErrorInvalidInput,
       };
 }
-
-enum _LeaveChoice { keep, discard }
 
 /// The post-submit confirmation. Every new event goes to the admin team, so
 /// this is the honest end of the flow — not a jump to a page that isn't on the

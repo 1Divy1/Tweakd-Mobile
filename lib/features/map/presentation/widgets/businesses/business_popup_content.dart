@@ -62,7 +62,6 @@ class BusinessPopupContent extends StatelessWidget {
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w700,
-            letterSpacing: 0.6,
             color: AppColors.mute,
           ),
         ),

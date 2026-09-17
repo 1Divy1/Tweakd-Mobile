@@ -14,6 +14,7 @@ import '../../../../core/shared/widgets/search_input.dart';
 import '../../../../core/shared/widgets/search_loading_view.dart';
 import '../../../../core/shared/widgets/search_results_view.dart';
 import '../../../../core/shared/widgets/search_top_bar.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -41,7 +42,9 @@ class _SearchPageState extends State<SearchPage> {
           children: [
             const SearchTopBar(),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 16, 20, 12),
+              padding:
+                  const EdgeInsets.fromLTRB(20, 16, 20, 12) +
+                  AppLayout.inset(context),
               child: SearchInput(
                 controller: _controller,
                 onChanged: (value) =>
@@ -53,33 +56,30 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: BlocBuilder<SearchBloc, SearchState>(
-                  builder: (context, state) {
-                    if (state is SearchInitial) {
-                      return const SearchEmptyView();
-                    }
-                    if (state is SearchLoading) {
-                      return const SearchLoadingView();
-                    }
-                    if (state is SearchError) {
-                      return SearchErrorView(
-                        message: searchErrorMessage(
-                          AppLocalizations.of(context)!,
-                          state.code,
-                        ),
-                      );
-                    }
-                    if (state is SearchSuccess) {
-                      return SearchResultsView(
-                        query: state.query,
-                        results: state.results,
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
-                ),
+              child: BlocBuilder<SearchBloc, SearchState>(
+                builder: (context, state) {
+                  if (state is SearchInitial) {
+                    return const SearchEmptyView();
+                  }
+                  if (state is SearchLoading) {
+                    return const SearchLoadingView();
+                  }
+                  if (state is SearchError) {
+                    return SearchErrorView(
+                      message: searchErrorMessage(
+                        AppLocalizations.of(context)!,
+                        state.code,
+                      ),
+                    );
+                  }
+                  if (state is SearchSuccess) {
+                    return SearchResultsView(
+                      query: state.query,
+                      results: state.results,
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
               ),
             ),
             const AppBottomNav(activeTab: AppBottomNavTab.search),

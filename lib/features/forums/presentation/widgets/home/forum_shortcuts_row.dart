@@ -46,7 +46,6 @@ class ForumShortcutsRow extends StatelessWidget {
                     color: isEditing ? AppColors.accent : AppColors.mute,
                     fontSize: 11,
                     fontWeight: FontWeight.w800,
-                    letterSpacing: 1.4,
                   ),
                 ),
               ),

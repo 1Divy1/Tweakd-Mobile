@@ -10,6 +10,7 @@ import '../../bloc/compose/event.dart';
 import '../../bloc/compose/state.dart';
 import '../shared/message_avatar.dart';
 import '../shared/verified_badge.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 /// Opens the "New message" sheet. Resolves with the picked user, or null if
 /// dismissed — the caller decides which chat route to open (there is no
@@ -42,7 +43,7 @@ class _NewMessageSheet extends StatelessWidget {
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.62,
+        height: AppLayout.sheetHeight(context, 0.62),
         child: Column(
           children: [
             const SizedBox(height: 10),

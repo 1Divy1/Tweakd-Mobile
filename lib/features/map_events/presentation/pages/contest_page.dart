@@ -21,6 +21,7 @@ import '../widgets/contests/participant_card_share_sheet.dart';
 import '../widgets/contests/vote_sheet.dart';
 import '../widgets/contests/winner_reveal.dart';
 import '../widgets/shared/map_event_chips.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// One contest: header with the three stats, the judging note, the board,
 /// and a footer that is the vote CTA while open and the share button once
@@ -119,7 +120,7 @@ class _ContestPageState extends State<ContestPage> {
                             .read<ContestDetailBloc>()
                             .add(const RefreshContest()),
                         child: ListView(
-                          padding: const EdgeInsets.fromLTRB(16, 18, 16, 26),
+                          padding: const EdgeInsets.fromLTRB(16, 18, 16, 26) + AppLayout.inset(context),
                           children: [
                             if (finished) ...[
                               WinnerReveal(
@@ -253,7 +254,7 @@ class _Header extends StatelessWidget {
       child: SafeArea(
         bottom: false,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(12, 6, 16, 16),
+          padding: const EdgeInsets.fromLTRB(12, 6, 16, 16) + AppLayout.inset(context),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -535,7 +536,6 @@ class _Footer extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 8.5,
                       fontWeight: FontWeight.w800,
-                      letterSpacing: 1,
                       color: AppColors.accent,
                     ),
                   ),
@@ -588,7 +588,7 @@ class _Footer extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 12) + AppLayout.inset(context),
           child: child,
         ),
       ),
@@ -613,19 +613,18 @@ class _Primary extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 52,
       child: FilledButton.icon(
         onPressed: onTap,
         icon: Icon(icon, size: 16),
         label: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
         style: FilledButton.styleFrom(
+          minimumSize: const Size(0, 52),
           backgroundColor: filled ? AppColors.accent : AppColors.bg,
           foregroundColor: filled ? Colors.white : AppColors.ink,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           textStyle: const TextStyle(
-            fontSize: 12.5,
+            fontSize: 14,
             fontWeight: FontWeight.w800,
-            letterSpacing: 1,
           ),
         ),
       ),

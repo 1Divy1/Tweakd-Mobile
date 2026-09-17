@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/shared/widgets/app_pill_button.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 /// Top bar for pushed forum pages: back button, centered title (with an
 /// optional subtitle) and an optional trailing widget. The trailing side is
@@ -22,7 +23,7 @@ class ForumSubTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8) + AppLayout.inset(context),
       child: Row(
         children: [
           AppPillButton(
@@ -41,7 +42,6 @@ class ForumSubTopBar extends StatelessWidget {
                     color: AppColors.ink,
                     fontSize: 14,
                     fontWeight: FontWeight.w800,
-                    letterSpacing: 2,
                   ),
                 ),
                 if (subtitle != null) ...[

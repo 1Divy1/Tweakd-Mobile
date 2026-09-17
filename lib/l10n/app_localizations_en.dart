@@ -100,7 +100,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authPasswordHintSignup => 'Create a password';
 
   @override
-  String get authForgotPassword => 'FORGOT PASSWORD?';
+  String get authForgotPassword => 'Forgot password?';
 
   @override
   String get authSignIn => 'Sign in';
@@ -178,7 +178,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authConfirmEmailResent => 'Confirmation email sent again.';
 
   @override
-  String get authResendEmail => 'DIDN\'T GET IT? RESEND';
+  String get authResendEmail => 'Didn\'t get it? Resend';
 
   @override
   String authResendIn(int seconds) {
@@ -186,7 +186,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get authBackToSignIn => 'BACK TO SIGN IN';
+  String get authBackToSignIn => 'Back to sign in';
 
   @override
   String get authForgotPasswordTitle => 'Reset your password';
@@ -238,13 +238,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authPasswordUpdated => 'Your password has been updated.';
 
   @override
-  String get onboardingBack => 'BACK';
+  String get onboardingBack => 'Back';
 
   @override
-  String get onboardingNext => 'NEXT';
+  String get onboardingNext => 'Next';
 
   @override
-  String get onboardingFinishSetup => 'FINISH SETUP';
+  String get onboardingFinishSetup => 'Finish setup';
 
   @override
   String get onboardingFinishingSetup => 'Finishing setup…';
@@ -335,28 +335,28 @@ class AppLocalizationsEn extends AppLocalizations {
       'Something went wrong. Please try again.';
 
   @override
-  String get onboardingIdentityLabel => '01 — IDENTITY';
+  String get onboardingIdentityLabel => '01 — Identity';
 
   @override
   String get onboardingIdentityTitle => 'Claim your handle';
 
   @override
-  String get onboardingFieldName => 'NAME';
+  String get onboardingFieldName => 'Name';
 
   @override
   String get onboardingNameHint => 'Your name';
 
   @override
-  String get onboardingFieldUsername => 'USERNAME';
+  String get onboardingFieldUsername => 'Username';
 
   @override
-  String get onboardingFieldBio => 'BIO';
+  String get onboardingFieldBio => 'Bio';
 
   @override
   String get onboardingBioHint => 'Tell others a few things about yourself…';
 
   @override
-  String get onboardingGarageLabel => '02 — PREFERENCES';
+  String get onboardingGarageLabel => '02 — Preferences';
 
   @override
   String get onboardingGarageTitle => 'Your garage';
@@ -366,10 +366,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Brands you follow — we’ll tune your feed and the marketplace around them.';
 
   @override
-  String get onboardingFieldYourPicks => 'YOUR PICKS';
+  String get onboardingFieldYourPicks => 'Your picks';
 
   @override
-  String get onboardingFieldModels => 'MODELS';
+  String get onboardingFieldModels => 'Models';
 
   @override
   String get onboardingSelectBrand => 'Select a brand';
@@ -383,10 +383,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get onboardingAddBrand => 'ADD ANOTHER BRAND';
+  String get onboardingAddBrand => 'Add another brand';
 
   @override
-  String get onboardingLocationLabel => '03 — LOCATION';
+  String get onboardingLocationLabel => '03 — Location';
 
   @override
   String get onboardingLocationTitle =>
@@ -397,13 +397,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your location helps us tailor your experience with local carmeets, events and relevant marketplace finds.';
 
   @override
-  String get onboardingFieldCountry => 'COUNTRY';
+  String get onboardingFieldCountry => 'Country';
 
   @override
-  String get onboardingFieldRegion => 'REGION';
+  String get onboardingFieldRegion => 'Region';
 
   @override
-  String get onboardingFieldCity => 'CITY';
+  String get onboardingFieldCity => 'City';
 
   @override
   String get onboardingSelectCountryPlaceholder => 'Select your country';
@@ -430,10 +430,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingPickerCity => 'Select city';
 
   @override
-  String get onboardingDiscoveryRadius => 'DISCOVERY RADIUS';
+  String get onboardingDiscoveryRadius => 'Discovery radius';
 
   @override
-  String get onboardingNotificationsLabel => '04 — NOTIFICATIONS';
+  String get onboardingNotificationsLabel => '04 — Notifications';
 
   @override
   String get onboardingNotificationsTitle => 'What should we ping you about?';
@@ -454,7 +454,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'They\'re blocked in your system settings. Turn them on to get pinged about the topics below.';
 
   @override
-  String get onboardingPushOpenSettings => 'OPEN SETTINGS';
+  String get onboardingPushOpenSettings => 'Open settings';
 
   @override
   String get onboardingPushEnableTitle => 'Turn on push notifications';
@@ -464,21 +464,21 @@ class AppLocalizationsEn extends AppLocalizations {
       'Allow notifications so we can ping you about the topics you pick below.';
 
   @override
-  String get onboardingPushEnable => 'ENABLE';
+  String get onboardingPushEnable => 'Enable';
 
   @override
-  String get onboardingNotifGroupContent => 'ON YOUR CONTENT';
+  String get onboardingNotifGroupContent => 'On your content';
 
   @override
-  String get onboardingNotifGroupMessages => 'MESSAGES';
+  String get onboardingNotifGroupMessages => 'Messages';
 
   @override
   String onboardingNotifGroupMeets(int radius) {
-    return 'MEETS & EVENTS · WITHIN $radius KM';
+    return 'Meets & events · within $radius km';
   }
 
   @override
-  String get onboardingNotifGroupGarage => 'YOUR GARAGE';
+  String get onboardingNotifGroupGarage => 'Your garage';
 
   @override
   String get onboardingNotifLikesTitle => 'Likes';
@@ -495,10 +495,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Replies and threads on your content';
 
   @override
-  String get onboardingNotifSharesTitle => 'Shares';
+  String get onboardingNotifSharesTitle => 'Reposts';
 
   @override
-  String get onboardingNotifSharesSubtitle => 'When your content gets reposted';
+  String get onboardingNotifSharesSubtitle => 'When someone reposts your post';
 
   @override
   String get onboardingNotifDmsTitle => 'Direct messages';
@@ -541,7 +541,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingNotifTagsSubtitle => 'When someone tags you or your car';
 
   @override
-  String get profileTitle => 'PROFILE';
+  String get profileTitle => 'Profile';
 
   @override
   String get profileMessage => 'Message';
@@ -601,19 +601,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navProfile => 'Profile';
 
   @override
-  String get editProfileTitle => 'EDIT PROFILE';
+  String get editProfileTitle => 'Edit profile';
 
   @override
   String get editProfileChangePhoto => 'Change photo';
 
   @override
-  String get editProfileNameLabel => 'NAME';
+  String get editProfileNameLabel => 'Name';
 
   @override
   String get editProfileNameHint => 'Your display name';
 
   @override
-  String get editProfileBioLabel => 'BIO';
+  String get editProfileBioLabel => 'Bio';
 
   @override
   String get editProfileBioHint => 'Tell others a few things about yourself…';
@@ -636,25 +636,46 @@ class AppLocalizationsEn extends AppLocalizations {
       'We couldn\'t update your photo. Please try again.';
 
   @override
-  String get followActionFollow => 'FOLLOW';
+  String get followActionFollow => 'Follow';
 
   @override
-  String get followActionUnfollow => 'UNFOLLOW';
+  String get followActionUnfollow => 'Unfollow';
 
   @override
-  String get followActionRequested => 'REQUESTED';
+  String get followActionRequested => 'Requested';
 
   @override
   String get garageEmptyOwner => 'Your garage is empty. Add your first car.';
 
   @override
+  String get garageAddNewCar => 'Add new car';
+
+  @override
   String get garageEmptyVisitor => 'No cars yet.';
 
   @override
-  String get followActionFollowing => 'FOLLOWING';
+  String get followActionFollowing => 'Following';
 
   @override
-  String get followRemove => 'REMOVE';
+  String get followRemove => 'Remove';
+
+  @override
+  String followUnfollowConfirmTitle(String username) {
+    return 'Unfollow @$username?';
+  }
+
+  @override
+  String get followUnfollowConfirmBody =>
+      'Their posts will stop showing up in your feed.';
+
+  @override
+  String followRemoveConfirmTitle(String username) {
+    return 'Remove @$username?';
+  }
+
+  @override
+  String get followRemoveConfirmBody =>
+      'They\'ll no longer follow you. They can follow you again later.';
 
   @override
   String get followSearchFollowersHint => 'Search followers...';
@@ -664,7 +685,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String followResultsForQuery(String query) {
-    return 'FOR \"$query\"';
+    return 'For \"$query\"';
   }
 
   @override
@@ -699,7 +720,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get followErrorGeneric => 'Something went wrong. Please try again.';
 
   @override
-  String get searchTitle => 'SEARCH';
+  String get searchTitle => 'Search';
 
   @override
   String get searchInputHint => 'Search by username';
@@ -724,7 +745,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String searchForQuery(String query) {
-    return 'FOR \"$query\"';
+    return 'For \"$query\"';
   }
 
   @override
@@ -800,19 +821,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garagePhaseSavingPhotos => 'Saving photos…';
 
   @override
-  String get garageRegisterBack => 'BACK';
+  String get garageRegisterBack => 'Back';
 
   @override
-  String get garageRegisterNext => 'NEXT';
+  String get garageRegisterNext => 'Next';
 
   @override
   String get garageRegisterWorking => 'Working…';
 
   @override
-  String get garageRegisterAddCar => 'ADD CAR';
+  String get garageRegisterAddCar => 'Add car';
 
   @override
-  String get garageRegisterSave => 'SAVE';
+  String get garageRegisterSave => 'Save';
 
   @override
   String get garageOptional => 'OPTIONAL';
@@ -827,16 +848,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageRegisterSpecsTitle => 'Car details';
 
   @override
-  String get garageSpecsTabBasics => 'BASICS';
+  String get garageSpecsTabBasics => 'Basics';
 
   @override
-  String get garageSpecsTabPower => 'POWER';
+  String get garageSpecsTabPower => 'Power';
 
   @override
-  String get garageSpecsTabConfig => 'CONFIG';
+  String get garageSpecsTabConfig => 'Config';
 
   @override
-  String get garageFieldMake => 'MAKE';
+  String get garageFieldMake => 'Make';
 
   @override
   String get garageHintMake => 'e.g. Porsche';
@@ -845,7 +866,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garagePickerMake => 'Select Make';
 
   @override
-  String get garageFieldModel => 'MODEL';
+  String get garageFieldModel => 'Model';
 
   @override
   String get garageHintModelPickMakeFirst => 'Select a make first';
@@ -857,13 +878,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garagePickerModel => 'Select Model';
 
   @override
-  String get garageFieldYear => 'YEAR';
+  String get garageFieldYear => 'Year';
 
   @override
   String get garageFieldChassisCode => 'VIN';
 
   @override
-  String get garageFieldModelCode => 'MODEL CODE';
+  String get garageFieldModelCode => 'Model code';
 
   @override
   String get garageHintModelCode => 'e.g. G30';
@@ -872,25 +893,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garagePickFromGallery => 'Tap to pick from your gallery';
 
   @override
-  String get garageFieldPower => 'POWER';
+  String get garageFieldPower => 'Power';
 
   @override
-  String get garageFieldTorque => 'TORQUE';
+  String get garageFieldTorque => 'Torque';
 
   @override
-  String get garageFieldWeight => 'WEIGHT';
+  String get garageFieldWeight => 'Weight';
 
   @override
-  String get garageFieldDisplacement => 'DISPLACEMENT';
+  String get garageFieldDisplacement => 'Displacement';
 
   @override
-  String get garageFieldEngineCode => 'ENGINE CODE';
+  String get garageFieldEngineCode => 'Engine code';
 
   @override
   String get garageHintEngineCode => 'e.g. S58';
 
   @override
-  String get garageFieldFuelType => 'FUEL TYPE';
+  String get garageFieldFuelType => 'Fuel type';
 
   @override
   String get garageHintFuelType => 'e.g. Petrol';
@@ -899,7 +920,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garagePickerFuelType => 'Select Fuel Type';
 
   @override
-  String get garageFieldDrivetrain => 'DRIVETRAIN';
+  String get garageFieldDrivetrain => 'Drivetrain';
 
   @override
   String get garageHintDrivetrain => 'e.g. Rear-Wheel Drive';
@@ -908,7 +929,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garagePickerDrivetrain => 'Select Drivetrain';
 
   @override
-  String get garageFieldColor => 'COLOR';
+  String get garageFieldColor => 'Color';
 
   @override
   String get garageHintColor => 'e.g. Inka Orange';
@@ -917,10 +938,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garagePickerColor => 'Select Color';
 
   @override
-  String get garageFieldMileageUnit => 'MILEAGE UNIT';
+  String get garageFieldMileageUnit => 'Mileage unit';
 
   @override
-  String get garageFieldMileage => 'MILEAGE';
+  String get garageFieldMileage => 'Mileage';
 
   @override
   String get garageHintMileage => 'e.g. 42000';
@@ -929,10 +950,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageRegisterStoryTitle => 'What\'s this car\'s story? Share it…';
 
   @override
-  String get garageFieldStatus => 'STATUS';
+  String get garageFieldStatus => 'Status';
 
   @override
-  String get garageFieldTheStory => 'THE STORY';
+  String get garageFieldTheStory => 'The story';
 
   @override
   String get garageHintStory => 'What\'s this car\'s story? Share it…';
@@ -941,13 +962,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageRegisterGalleryTitle => 'Show it off';
 
   @override
-  String get garageFieldGallery => 'GALLERY';
+  String get garageFieldGallery => 'Gallery';
 
   @override
   String get garageAddCoverPhoto => 'Add the cover photo';
 
   @override
-  String get garageGalleryAdd => 'ADD';
+  String get garageGalleryAdd => 'Add';
 
   @override
   String get garageGalleryHint =>
@@ -960,10 +981,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageRegisterModsSubtitle => '';
 
   @override
-  String get garageModFallbackCategory => 'MODIFICATION';
+  String get garageModFallbackCategory => 'Modification';
 
   @override
-  String get garageAddModification => 'ADD MODIFICATION';
+  String get garageAddModification => 'Add modification';
 
   @override
   String get garageModSheetTitleEdit => 'Edit build item';
@@ -972,7 +993,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageModSheetTitleAdd => 'Add a build item';
 
   @override
-  String get garageFieldCategory => 'CATEGORY';
+  String get garageFieldCategory => 'Category';
 
   @override
   String get garageHintCategory => 'e.g. Engine';
@@ -981,93 +1002,93 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garagePickerCategory => 'Select Category';
 
   @override
-  String get garageFieldTitle => 'TITLE';
+  String get garageFieldTitle => 'Title';
 
   @override
   String get garageHintModTitle => 'e.g. Stage 2 turbo';
 
   @override
-  String get garageFieldDescription => 'DESCRIPTION';
+  String get garageFieldDescription => 'Description';
 
   @override
   String get garageHintModDescription => 'What changed, and what it gained…';
 
   @override
-  String get garageFieldInstallationDate => 'INSTALLATION DATE';
+  String get garageFieldInstallationDate => 'Installation date';
 
   @override
   String get garageSelectDate => 'Select date';
 
   @override
-  String get garageFieldPrice => 'PRICE';
+  String get garageFieldPrice => 'Price';
 
   @override
-  String get garageFieldMileageShort => 'MILEAGE';
+  String get garageFieldMileageShort => 'Mileage';
 
   @override
-  String get garageModBefore => 'BEFORE';
+  String get garageModBefore => 'Before';
 
   @override
-  String get garageModAfter => 'AFTER';
+  String get garageModAfter => 'After';
 
   @override
-  String get garageModSaveChanges => 'SAVE CHANGES';
+  String get garageModSaveChanges => 'Save changes';
 
   @override
-  String get garageModAddToBuildLog => 'ADD TO BUILD LOG';
+  String get garageModAddToBuildLog => 'Add to build log';
 
   @override
   String get garageModValidation => 'Category, title and date are required.';
 
   @override
-  String get garageAboutTitle => 'ABOUT';
+  String get garageAboutTitle => 'About';
 
   @override
   String garageBuildIdentifier(String code) {
-    return 'BUILD IDENTIFIER · $code';
+    return 'Build identifier · $code';
   }
 
   @override
-  String get garageSpecPower => 'POWER';
+  String get garageSpecPower => 'Power';
 
   @override
-  String get garageSpecTorque => 'TORQUE';
+  String get garageSpecTorque => 'Torque';
 
   @override
-  String get garageSpecWeight => 'WEIGHT';
+  String get garageSpecWeight => 'Weight';
 
   @override
-  String get garageInfoDrivetrain => 'DRIVETRAIN';
+  String get garageInfoDrivetrain => 'Drivetrain';
 
   @override
-  String get garageInfoMileage => 'MILEAGE';
+  String get garageInfoMileage => 'Mileage';
 
   @override
-  String get garageInfoModelCode => 'MODEL CODE';
+  String get garageInfoModelCode => 'Model code';
 
   @override
-  String get garageInfoEngineCode => 'ENGINE CODE';
+  String get garageInfoEngineCode => 'Engine code';
 
   @override
-  String get garageInfoDisplacement => 'DISPLACEMENT';
+  String get garageInfoDisplacement => 'Displacement';
 
   @override
-  String get garageInfoFuelType => 'FUEL TYPE';
+  String get garageInfoFuelType => 'Fuel type';
 
   @override
-  String get garageInfoStatus => 'STATUS';
+  String get garageInfoStatus => 'Status';
 
   @override
-  String get garageStoryHeading => 'THE STORY';
+  String get garageStoryHeading => 'The story';
 
   @override
-  String get garageGalleryHeading => 'GALLERY';
+  String get garageGalleryHeading => 'Gallery';
 
   @override
-  String get garageLogBuildIteration => '+ LOG BUILD ITERATION';
+  String get garageLogBuildIteration => '+ Log build iteration';
 
   @override
-  String get garageModLogHeading => 'MODIFICATION LOG';
+  String get garageModLogHeading => 'Modification log';
 
   @override
   String get garageEditCar => 'Edit car';
@@ -1115,7 +1136,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageShareBuild => 'Share build';
 
   @override
-  String get garageShareSheetLabel => 'SHARE BUILD';
+  String get garageShareSheetLabel => 'Share build';
 
   @override
   String get garageShareQrTitle => 'Get QR code';
@@ -1244,6 +1265,20 @@ class AppLocalizationsEn extends AppLocalizations {
       'You haven\'t added this item to the build log yet. If you leave now, everything you entered here will be lost.';
 
   @override
+  String get garageRegisterDiscardTitle => 'Discard this car?';
+
+  @override
+  String get garageRegisterDiscardBody =>
+      'You haven\'t added this car to your garage yet. If you leave now, everything you entered will be lost.';
+
+  @override
+  String get garageEditCarDiscardTitle => 'Discard your changes?';
+
+  @override
+  String get garageEditCarDiscardBody =>
+      'Your changes to this car won\'t be saved.';
+
+  @override
   String get garageLogModLogged => 'Modification logged!';
 
   @override
@@ -1260,7 +1295,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Add a car to your garage first, then log the work you\'ve done on it.';
 
   @override
-  String get garageAddModAddCar => 'ADD A CAR';
+  String get garageAddModAddCar => 'Add a car';
 
   @override
   String get garageAddModPickCar => 'Pick a car to continue.';
@@ -1309,7 +1344,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authErrorGeneric => 'Something went wrong. Please try again.';
 
   @override
-  String get settingsTitle => 'SETTINGS';
+  String get settingsTitle => 'Settings';
 
   @override
   String get settingsLogout => 'Log out';
@@ -1322,13 +1357,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'You will need to sign in again to access your account.';
 
   @override
-  String get postBack => 'BACK';
+  String get postBack => 'Back';
 
   @override
-  String get postNext => 'NEXT';
+  String get postNext => 'Next';
 
   @override
-  String get postPublish => 'PUBLISH POST';
+  String get postPublish => 'Publish post';
 
   @override
   String get postPhotosTitle => 'Pick your shots';
@@ -1338,17 +1373,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'Drag to reorder — the cover leads your post. Photos only for now.';
 
   @override
-  String get postPhotosAdd => 'ADD';
+  String get postPhotosAdd => 'Add';
 
   @override
   String get postPhotosCover => 'COVER';
 
   @override
-  String get postPhotosVideosSoon => 'VIDEOS — COMING SOON';
+  String get postPhotosVideosSoon => 'Videos — coming soon';
 
   @override
   String postPhotosCount(int count, int max) {
-    return '$count / $max PHOTOS';
+    return '$count / $max photos';
   }
 
   @override
@@ -1359,7 +1394,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Add a description for your post. Mention details, the story, the build.';
 
   @override
-  String get postCaptionLabel => 'DESCRIPTION';
+  String get postCaptionLabel => 'Description';
 
   @override
   String get postCaptionHint => 'Share the story behind this post…';
@@ -1377,10 +1412,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Link the cars in this post from any garage, and tag the people in it.';
 
   @override
-  String get postTagsCars => 'CARS';
+  String get postTagsCars => 'Cars';
 
   @override
-  String get postTagsPeople => 'PEOPLE';
+  String get postTagsPeople => 'People';
 
   @override
   String get postTagsCarHint => 'Search a car in any garage…';
@@ -1415,10 +1450,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get postVisibilitySubtitle =>
-      'Hide a counter and others won\'t see that number — they can still like, comment and share.';
+      'Hide a counter and others won\'t see that number — they can still like, comment and repost.';
 
   @override
-  String get postVisibilityLabel => 'VISIBLE COUNTS';
+  String get postVisibilityLabel => 'Visible counts';
 
   @override
   String get postVisibilityLikesTitle => 'Show like count';
@@ -1435,11 +1470,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Hide the number — comments stay open';
 
   @override
-  String get postVisibilitySharesTitle => 'Show share count';
+  String get postVisibilitySharesTitle => 'Show repost count';
 
   @override
   String get postVisibilitySharesDesc =>
-      'Others can see how many times it was shared';
+      'Others can see how many times it was reposted';
 
   @override
   String get postVisibilitySavedTitle => 'Show saved count';
@@ -1463,7 +1498,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get postReviewYou => 'You';
 
   @override
-  String get postReviewJustNow => 'JUST NOW';
+  String get postReviewJustNow => 'Just now';
 
   @override
   String get postValPhotosRequired => 'Add at least one photo to continue.';
@@ -1480,6 +1515,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get postDiscard => 'Discard';
+
+  @override
+  String get postEditDiscardTitle => 'Discard your changes?';
+
+  @override
+  String get postEditDiscardBody =>
+      'Your changes to this post won\'t be saved.';
 
   @override
   String get postCreatedSuccess => 'Post published.';
@@ -1518,7 +1560,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileTabTags => 'Tags';
 
   @override
-  String get postsLoadMore => 'LOAD MORE';
+  String get profileTabReposts => 'Reposts';
+
+  @override
+  String get postsLoadMore => 'Load more';
 
   @override
   String get postsEmptyOwner => 'You haven\'t posted yet.';
@@ -1527,10 +1572,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get postsEmptyVisitor => 'No posts yet.';
 
   @override
-  String get postsCreateFirst => 'CREATE YOUR FIRST POST';
+  String get postsCreateFirst => 'Create your first post';
 
   @override
-  String get savedPostsTitle => 'SAVED POSTS';
+  String get repostsEmptyOwner => 'Posts you repost show up here.';
+
+  @override
+  String get repostsEmptyVisitor => 'No reposts yet.';
+
+  @override
+  String get savedPostsTitle => 'Saved posts';
 
   @override
   String get savedPostsEmptyTitle => 'Nothing saved yet';
@@ -1540,7 +1591,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Save posts you like to find them here later.';
 
   @override
-  String get postDetailTitle => 'POST';
+  String get postDetailTitle => 'Post';
 
   @override
   String get postEditAction => 'Edit post';
@@ -1556,28 +1607,31 @@ class AppLocalizationsEn extends AppLocalizations {
       'This post and its photos, likes and comments will be permanently removed.';
 
   @override
-  String get postEditTitle => 'EDIT POST';
+  String get postEditTitle => 'Edit post';
 
   @override
-  String get postEditSave => 'SAVE';
+  String get postEditSave => 'Save';
 
   @override
-  String get postShareTitle => 'SHARE POST';
+  String postRepostedByOne(String user) {
+    return '@$user reposted';
+  }
 
   @override
-  String get postShareSend => 'SHARE';
+  String postRepostedByTwo(String first, String second) {
+    return '@$first and @$second reposted';
+  }
 
   @override
-  String get postShareNoteLabel => 'Add a note';
-
-  @override
-  String get postShareNoteHint => 'Say something about this post… (optional)';
-
-  @override
-  String get postSharePreviewNoCaption => 'No caption';
-
-  @override
-  String get postShareSuccess => 'Post shared.';
+  String postRepostedByMany(int count, String user) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '@$user and $count others reposted',
+      one: '@$user and 1 other reposted',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get postTimeNow => 'now';
@@ -1763,7 +1817,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsMyReports => 'My reports';
 
   @override
-  String get myReportsTitle => 'MY REPORTS';
+  String get myReportsTitle => 'My reports';
 
   @override
   String get myReportsEmpty => 'You haven\'t submitted any reports yet.';
@@ -1805,7 +1859,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsMyFeedback => 'My feedback';
 
   @override
-  String get feedbackEyebrow => 'FEEDBACK';
+  String get feedbackEyebrow => 'Feedback';
 
   @override
   String get feedbackHeadline => 'Got any suggestions ?';
@@ -1815,13 +1869,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Report a bug, request a feature, or just share a thought and it goes straight to us.';
 
   @override
-  String get feedbackTypeLabel => 'FEEDBACK TYPE';
+  String get feedbackTypeLabel => 'Feedback type';
 
   @override
   String get feedbackTypeHint => 'Select a type';
 
   @override
-  String get feedbackFeatureLabel => 'RELATED TO AN EXISTING FEATURE?';
+  String get feedbackFeatureLabel => 'Related to an existing feature?';
 
   @override
   String get feedbackFeatureHint => 'Select a feature';
@@ -1830,16 +1884,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedbackOptional => 'OPTIONAL';
 
   @override
-  String get feedbackContentLabel => 'YOUR FEEDBACK';
+  String get feedbackContentLabel => 'Your feedback';
 
   @override
-  String get feedbackContentLabelBug => 'WHAT HAPPENED';
+  String get feedbackContentLabelBug => 'What happened';
 
   @override
   String get feedbackContentHint => 'Share your thoughts…';
 
   @override
-  String get feedbackReproductionLabel => 'REPRODUCTION STEPS';
+  String get feedbackReproductionLabel => 'Reproduction steps';
 
   @override
   String get feedbackReproductionHint => '1. Open the …\n2. Tap …\n3. …';
@@ -1884,13 +1938,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Couldn\'t send your feedback. Please try again.';
 
   @override
-  String get myFeedbackTitle => 'MY FEEDBACK';
+  String get myFeedbackTitle => 'My feedback';
 
   @override
   String get myFeedbackEmpty => 'You haven\'t sent any feedback yet.';
 
   @override
-  String get myFeedbackResponseLabel => 'RESPONSE';
+  String get myFeedbackResponseLabel => 'Response';
 
   @override
   String get forumsTitle => 'Forums';
@@ -1899,16 +1953,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forumsSubtitle => 'Your paddock';
 
   @override
-  String get forumsYourShortcuts => 'YOUR SHORTCUTS';
+  String get forumsYourShortcuts => 'Your shortcuts';
 
   @override
-  String get forumsEditShortcuts => 'EDIT';
+  String get forumsEditShortcuts => 'Edit';
 
   @override
-  String get forumsDoneEditing => 'DONE';
+  String get forumsDoneEditing => 'Done';
 
   @override
-  String get forumsHotInYourForums => 'HOT IN YOUR FORUMS';
+  String get forumsHotInYourForums => 'Hot in your forums';
 
   @override
   String get forumsSortHot => 'Hot';
@@ -1924,10 +1978,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get forumsEmptyBody =>
-      'Tap a hub to see its threads. Once you\'ve had a look around, save it as a shortcut and it lands right here.';
+      'Browse hubs by car, or dive into what\'s popular below. Save the hubs you like as shortcuts and they land right here.';
 
   @override
-  String get forumsPopularHubs => 'POPULAR HUBS TO START WITH';
+  String get forumsPopularThreads => 'Popular right now';
 
   @override
   String get forumsCtaTitle => 'Got something to say?';
@@ -1946,7 +2000,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forumsShortcutRemoved => 'Shortcut removed.';
 
   @override
-  String get forumsBrowseTitle => 'BROWSE';
+  String get forumsBrowseTitle => 'Browse';
 
   @override
   String forumsBrandsCount(int count) {
@@ -1971,18 +2025,18 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get forumsModels => 'MODELS';
+  String get forumsModels => 'Models';
 
   @override
-  String get forumsRefineByTopic => 'REFINE BY TOPIC';
+  String get forumsRefineByTopic => 'Refine by topic';
 
   @override
   String forumsHotIn(String name) {
-    return 'HOT IN $name';
+    return 'Hot in $name';
   }
 
   @override
-  String get forumsThreadsLabel => 'THREADS';
+  String get forumsThreadsLabel => 'Threads';
 
   @override
   String get forumsAllTopics => 'All';
@@ -1995,7 +2049,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Pin this filter to your paddock for one-tap access.';
 
   @override
-  String get forumsShortcutNameLabel => 'NAME';
+  String get forumsShortcutNameLabel => 'Name';
 
   @override
   String get forumsNotifyMe => 'Notify me';
@@ -2013,7 +2067,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forumsRetry => 'Try again';
 
   @override
-  String get forumsThreadTitle => 'THREAD';
+  String get forumsThreadTitle => 'Thread';
 
   @override
   String get forumsPinned => 'PINNED';
@@ -2113,7 +2167,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forumsComingSoon => 'Coming soon';
 
   @override
-  String get forumsNewThreadTitle => 'NEW THREAD';
+  String get forumsNewThreadTitle => 'New thread';
 
   @override
   String get forumsPost => 'Post';
@@ -2126,10 +2180,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Share the details, questions, or your writeup…';
 
   @override
-  String get forumsBrandRequiredLabel => 'BRAND · REQUIRED';
+  String get forumsBrandRequiredLabel => 'Brand · required';
 
   @override
-  String get forumsModelOptionalLabel => 'MODEL · OPTIONAL';
+  String get forumsModelOptionalLabel => 'Model · optional';
 
   @override
   String get forumsSearchBrandHint => 'Search a brand…';
@@ -2157,7 +2211,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Pick a brand so your thread shows up in the right hub. Adding the exact model is recommended unless your question applies to the whole brand.';
 
   @override
-  String get forumsTopics => 'TOPICS';
+  String get forumsTopics => 'Topics';
 
   @override
   String get forumsThreadPosted => 'Thread posted.';
@@ -2187,10 +2241,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forumsReportReplyTitle => 'Report reply';
 
   @override
-  String get forumsSavedTitle => 'SAVED';
+  String get forumsSavedTitle => 'Saved';
 
   @override
-  String get forumsSavedHeader => 'SAVED THREADS';
+  String get forumsSavedHeader => 'Saved threads';
 
   @override
   String get forumsSavedEmptyTitle => 'Nothing saved yet';
@@ -2221,13 +2275,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'One of the tagged profiles or cars is no longer available.';
 
   @override
-  String get forumsTagPeopleAndCars => 'TAG PEOPLE & CARS';
+  String get forumsTagPeopleAndCars => 'Tag people & cars';
 
   @override
-  String get forumsTagPeople => 'PEOPLE';
+  String get forumsTagPeople => 'People';
 
   @override
-  String get forumsTagCars => 'CARS';
+  String get forumsTagCars => 'Cars';
 
   @override
   String get forumsTagHelper =>
@@ -2279,16 +2333,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forumsAddTagsTooltip => 'Tag people & cars';
 
   @override
-  String get forumsTagsSectionLabel => 'TAGS';
+  String get forumsTagsSectionLabel => 'Tags';
 
   @override
-  String get messagesTitle => 'MESSAGES';
+  String get messagesTitle => 'Messages';
 
   @override
   String get messagesSearchHint => 'Search messages';
 
   @override
-  String get messagesActiveNow => 'ACTIVE NOW';
+  String get messagesActiveNow => 'Active now';
 
   @override
   String get messagesRequestsTitle => 'Message requests';
@@ -2306,7 +2360,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Start a conversation with drivers you follow — plan meets, swap specs, share runs.';
 
   @override
-  String get messagesNewMessage => 'NEW MESSAGE';
+  String get messagesNewMessage => 'New message';
 
   @override
   String messagesYouPrefix(String text) {
@@ -2429,7 +2483,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get messagesShareCarsConfirmEmpty => 'Share cars';
 
   @override
-  String get notificationsTitle => 'NOTIFICATIONS';
+  String get notificationsTitle => 'Notifications';
 
   @override
   String get notificationsMarkAllRead => 'Mark all as read';
@@ -2453,16 +2507,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Something went wrong. Please try again.';
 
   @override
-  String get tagsKindPost => 'TAGGED IN A POST';
+  String get tagsKindPost => 'Tagged in a post';
 
   @override
-  String get tagsKindComment => 'TAGGED IN A COMMENT';
+  String get tagsKindComment => 'Tagged in a comment';
 
   @override
-  String get tagsKindThread => 'TAGGED IN A THREAD';
+  String get tagsKindThread => 'Tagged in a thread';
 
   @override
-  String get tagsKindReply => 'TAGGED IN A REPLY';
+  String get tagsKindReply => 'Tagged in a reply';
 
   @override
   String tagsOnPostBy(String author) {
@@ -2470,7 +2524,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get tagsLoadMore => 'LOAD MORE';
+  String get tagsLoadMore => 'Load more';
 
   @override
   String get tagsEmptyOwner => 'You haven\'t been tagged yet.';
@@ -2529,7 +2583,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get mapHoursTitle => 'OPENING HOURS';
+  String get mapHoursTitle => 'Opening hours';
 
   @override
   String get mapHoursClosed => 'Closed';
@@ -2565,7 +2619,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapRecentre => 'Centre on my location';
 
   @override
-  String get mapRetry => 'TRY AGAIN';
+  String get mapRetry => 'Try again';
 
   @override
   String get mapErrorNetwork => 'No internet connection. Please try again.';
@@ -2588,7 +2642,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapNavigateSheetTitle => 'Choose a navigation app';
 
   @override
-  String get mapNavigateInstall => 'INSTALL';
+  String get mapNavigateInstall => 'Install';
 
   @override
   String get mapNavigateFailed => 'We couldn\'t open that app.';
@@ -2655,16 +2709,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsShare => 'Share';
 
   @override
-  String get mapEventsStatAttendees => 'ATTENDEES';
+  String get mapEventsStatAttendees => 'Attendees';
 
   @override
-  String get mapEventsStatCars => 'CARS';
+  String get mapEventsStatCars => 'Cars';
 
   @override
-  String get mapEventsStatStarts => 'STARTS';
+  String get mapEventsStatStarts => 'Starts';
 
   @override
-  String get mapEventsStatStarted => 'STARTED';
+  String get mapEventsStatStarted => 'Started';
 
   @override
   String mapEventsGoingCount(int count) {
@@ -2690,33 +2744,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsChipBusiness => 'BUSINESS';
 
   @override
-  String get mapEventsAttending => 'ATTENDING';
+  String get mapEventsAttending => 'Attending';
 
   @override
-  String get mapEventsInterested => 'INTERESTED';
+  String get mapEventsInterested => 'Interested';
 
   @override
-  String get mapEventsWantToParticipate => 'WANT TO PARTICIPATE?';
+  String get mapEventsWantToParticipate => 'Want to participate?';
 
   @override
-  String get mapEventsParticipateShort => 'PARTICIPATE?';
+  String get mapEventsParticipateShort => 'Participate?';
 
   @override
-  String get mapEventsParticipating => 'PARTICIPATING';
+  String get mapEventsParticipating => 'Participating';
 
   @override
   String mapEventsParticipatingCount(int count) {
-    return 'PARTICIPATING · $count CARS';
+    return 'Participating · $count cars';
   }
 
   @override
   String get mapEventsParticipationPending => 'PENDING';
 
   @override
-  String get mapEventsWithdrawAction => 'WITHDRAW';
+  String get mapEventsWithdrawAction => 'Withdraw';
 
   @override
-  String get mapEventsViewEvent => 'VIEW EVENT';
+  String get mapEventsViewEvent => 'View event';
 
   @override
   String mapEventsCapacityOf(int capacity) {
@@ -2724,11 +2778,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get mapEventsTabOverview => 'OVERVIEW';
+  String get mapEventsTabOverview => 'Overview';
 
   @override
   String mapEventsTabCars(int count) {
-    return 'CARS · $count';
+    return 'Cars · $count';
   }
 
   @override
@@ -2736,23 +2790,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String mapEventsApprovedCount(int count) {
-    return '$count APPROVED';
+    return '$count approved';
   }
 
   @override
-  String get mapEventsSectionAbout => 'ABOUT THIS EVENT';
+  String get mapEventsSectionAbout => 'About this event';
 
   @override
-  String get mapEventsSectionOrganizers => 'ORGANIZERS';
+  String get mapEventsSectionOrganizers => 'Organizers';
 
   @override
-  String get mapEventsSectionRules => 'NOTES FROM THE ORGANIZER';
+  String get mapEventsSectionRules => 'Notes from the organizer';
 
   @override
-  String get mapEventsSectionContests => 'CONTESTS';
+  String get mapEventsSectionContests => 'Contests';
 
   @override
-  String get mapEventsSectionAttendees => 'ATTENDEES';
+  String get mapEventsSectionAttendees => 'Attendees';
 
   @override
   String get mapEventsSoon => 'SOON';
@@ -2765,14 +2819,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'Organizers will be able to run votes inside a meet — best build, cleanest bay, loudest exhaust.';
 
   @override
-  String get mapEventsSeeAll => 'SEE ALL';
+  String get mapEventsSeeAll => 'See all';
 
   @override
-  String get mapEventsSeeAllAttendees => 'SEE ALL ATTENDEES';
+  String get mapEventsSeeAllAttendees => 'See all attendees';
 
   @override
   String mapEventsSeeAllCars(int count) {
-    return 'SEE ALL $count CARS';
+    return 'See all $count cars';
   }
 
   @override
@@ -2788,7 +2842,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsCapacityFull => 'The entry list is full.';
 
   @override
-  String get mapEventsGarageLink => 'GARAGE';
+  String get mapEventsGarageLink => 'Garage';
 
   @override
   String get mapEventsEntryListEmpty => 'No cars on the entry list yet.';
@@ -2797,7 +2851,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsAttendeesEmpty => 'Nobody has RSVP\'d yet.';
 
   @override
-  String get mapEventsRetry => 'TRY AGAIN';
+  String get mapEventsRetry => 'Try again';
 
   @override
   String get mapEventsStripPendingTitle => 'Request pending';
@@ -2821,13 +2875,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'The organizers are reviewing your request to leave. You can\'t take it back.';
 
   @override
-  String get mapEventsDeclineReasonHeading => 'WHY';
+  String get mapEventsDeclineReasonHeading => 'Why';
 
   @override
-  String get mapEventsTryAnotherCar => 'TRY ANOTHER CAR';
+  String get mapEventsTryAnotherCar => 'Try another car';
 
   @override
-  String get mapEventsCancelRequest => 'CANCEL REQUEST';
+  String get mapEventsCancelRequest => 'Cancel request';
 
   @override
   String get mapEventsPickCarTitle => 'Which cars are you bringing?';
@@ -2848,14 +2902,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsPickCarAlreadyIn => 'Already registered';
 
   @override
-  String get mapEventsPickCarSelectAll => 'SELECT ALL';
+  String get mapEventsPickCarSelectAll => 'Select all';
 
   @override
-  String get mapEventsPickCarClearAll => 'CLEAR';
+  String get mapEventsPickCarClearAll => 'Clear';
 
   @override
   String mapEventsPickCarRegisterCta(int count) {
-    return 'REGISTER ($count)';
+    return 'Register ($count)';
   }
 
   @override
@@ -2866,7 +2920,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Add a car to your garage first, then register it for an event.';
 
   @override
-  String get mapEventsPickCarAdd => 'ADD A CAR';
+  String get mapEventsPickCarAdd => 'Add a car';
 
   @override
   String mapEventsCarYear(String year) {
@@ -2894,49 +2948,49 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get mapEventsWithdrawNoteLabel => 'NOTE FOR ORGANIZERS (OPTIONAL)';
+  String get mapEventsWithdrawNoteLabel => 'Note for organizers (optional)';
 
   @override
   String get mapEventsWithdrawNoteHint => 'Let them know why, if you\'d like…';
 
   @override
-  String get mapEventsCancel => 'CANCEL';
+  String get mapEventsCancel => 'Cancel';
 
   @override
   String get mapEventsAttendeesPageTitle => 'Attendees';
 
   @override
-  String get mapEventsFilterAttending => 'ATTENDING';
+  String get mapEventsFilterAttending => 'Attending';
 
   @override
-  String get mapEventsFilterInterested => 'INTERESTED';
+  String get mapEventsFilterInterested => 'Interested';
 
   @override
-  String get mapEventsCreateTitle => 'NEW EVENT';
+  String get mapEventsCreateTitle => 'New event';
 
   @override
-  String get mapEventsEditTitle => 'EDIT EVENT';
+  String get mapEventsEditTitle => 'Edit event';
 
   @override
-  String get mapEventsCoverAdd => 'ADD COVER PHOTO';
+  String get mapEventsCoverAdd => 'Add cover photo';
 
   @override
   String get mapEventsCoverHint => '1600 × 900 recommended';
 
   @override
-  String get mapEventsCoverChange => 'CHANGE COVER';
+  String get mapEventsCoverChange => 'Change cover';
 
   @override
-  String get mapEventsFieldCover => 'COVER PHOTO';
+  String get mapEventsFieldCover => 'Cover photo';
 
   @override
-  String get mapEventsFieldTitle => 'EVENT TITLE';
+  String get mapEventsFieldTitle => 'Event title';
 
   @override
   String get mapEventsFieldTitleHint => 'e.g. Casino Square Cars & Coffee';
 
   @override
-  String get mapEventsFieldCategory => 'EVENT CATEGORY';
+  String get mapEventsFieldCategory => 'Event category';
 
   @override
   String get mapEventsCategoriesSoonNote => 'More categories are coming soon.';
@@ -2951,25 +3005,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsCategoryCruise => 'Cruise';
 
   @override
-  String get mapEventsFieldDescription => 'DESCRIPTION';
+  String get mapEventsFieldDescription => 'Description';
 
   @override
   String get mapEventsFieldDescriptionHint => 'What\'s the event about ?';
 
   @override
-  String get mapEventsFieldLocation => 'LOCATION';
+  String get mapEventsFieldLocation => 'Location';
 
   @override
   String get mapEventsFieldVenueHint => 'Venue name — e.g. Place du Casino';
 
   @override
-  String get mapEventsSetLocationOnMap => 'SET LOCATION ON MAP';
+  String get mapEventsSetLocationOnMap => 'Set location on map';
 
   @override
-  String get mapEventsLocationSet => 'PIN PLACED · TAP TO MOVE';
+  String get mapEventsLocationSet => 'Pin placed · tap to move';
 
   @override
-  String get mapEventsFieldDateTime => 'DATE & TIME';
+  String get mapEventsFieldDateTime => 'Date & time';
 
   @override
   String get mapEventsStartsLabel => 'Starts';
@@ -2982,10 +3036,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Leave the end blank for an open-ended event.';
 
   @override
-  String get mapEventsClearEnd => 'CLEAR END';
+  String get mapEventsClearEnd => 'Clear end';
 
   @override
-  String get mapEventsFieldCapacity => 'MAX CAPACITY';
+  String get mapEventsFieldCapacity => 'Max capacity';
 
   @override
   String get mapEventsOptional => 'OPTIONAL';
@@ -3008,13 +3062,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'You and your co-organizers review each request before a participant is added to the entry list.';
 
   @override
-  String get mapEventsFieldDeadline => 'REGISTRATION DEADLINE';
+  String get mapEventsFieldDeadline => 'Registration deadline';
 
   @override
-  String get mapEventsFieldRules => 'RULES & GUIDELINES';
+  String get mapEventsFieldRules => 'Rules & guidelines';
 
   @override
-  String get mapEventsAddRule => 'ADD A RULE';
+  String get mapEventsAddRule => 'Add a rule';
 
   @override
   String get mapEventsRuleHint => 'e.g. No revving or burnouts.';
@@ -3023,7 +3077,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsRemoveRule => 'Remove rule';
 
   @override
-  String get mapEventsFieldOrganizers => 'ORGANIZERS';
+  String get mapEventsFieldOrganizers => 'Organizers';
 
   @override
   String get mapEventsOrganizersHint =>
@@ -3033,25 +3087,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsYouCreator => 'YOU · CREATOR';
 
   @override
-  String get mapEventsAddOrganizer => 'ADD ORGANIZER';
+  String get mapEventsAddOrganizer => 'Add organizer';
 
   @override
   String get mapEventsRemoveOrganizer => 'Remove organizer';
 
   @override
-  String get mapEventsCreateCta => 'CREATE EVENT';
+  String get mapEventsCreateCta => 'Create event';
 
   @override
-  String get mapEventsCreateCtaIncomplete => 'ADD TITLE, LOCATION & START TIME';
+  String get mapEventsCreateCtaIncomplete => 'Add title, location & start time';
 
   @override
-  String get mapEventsCreateCtaDeadline => 'ADD A REGISTRATION DEADLINE';
+  String get mapEventsCreateCtaDeadline => 'Add a registration deadline';
 
   @override
-  String get mapEventsCreateCtaCover => 'ADD A COVER IMAGE';
+  String get mapEventsCreateCtaCover => 'Add a cover image';
 
   @override
-  String get mapEventsSaveCta => 'SAVE CHANGES';
+  String get mapEventsSaveCta => 'Save changes';
 
   @override
   String get mapEventsSubmitting => 'Just a moment…';
@@ -3075,42 +3129,46 @@ class AppLocalizationsEn extends AppLocalizations {
       'Our team checks every new event before it shows up on the map. You\'ll find it under Events on your profile in the meantime.';
 
   @override
-  String get mapEventsDone => 'DONE';
+  String get mapEventsDone => 'Done';
 
   @override
   String get mapEventsCoverUploadFailed =>
       'The event was created, but the cover photo didn\'t upload. You can add it from My events.';
 
   @override
-  String get mapEventsWizardNext => 'NEXT';
+  String get mapEventsWizardNext => 'Next';
 
   @override
-  String get mapEventsWizardBack => 'BACK';
+  String get mapEventsWizardBack => 'Back';
 
   @override
   String get mapEventsWizardClose => 'Close';
 
   @override
-  String get mapEventsWizardDiscardTitle => 'Leave the event draft?';
+  String get mapEventsWizardDiscardTitle => 'Discard this event?';
 
   @override
   String get mapEventsWizardDiscardBody =>
-      'Your progress is saved on this device, so you can pick it up where you left off. Or throw it away and start fresh next time.';
+      'You haven\'t submitted this event yet. If you leave now, everything you entered will be lost.';
 
   @override
-  String get mapEventsWizardKeepDraft => 'SAVE & LEAVE';
+  String get mapEventsWizardDiscardDraft => 'Discard';
 
   @override
-  String get mapEventsWizardDiscardDraft => 'DISCARD';
+  String get mapEventsWizardStay => 'Keep editing';
 
   @override
-  String get mapEventsWizardStay => 'KEEP EDITING';
+  String get mapEventsEditDiscardTitle => 'Discard your changes?';
+
+  @override
+  String get mapEventsEditDiscardBody =>
+      'Your changes to this event won\'t be saved.';
 
   @override
   String get mapEventsDraftRestored => 'Picked up where you left off.';
 
   @override
-  String get mapEventsDraftStartOver => 'START OVER';
+  String get mapEventsDraftStartOver => 'Start over';
 
   @override
   String get mapEventsStepBasicsTitle => 'The basics';
@@ -3138,10 +3196,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Set the schedule, then drop the pin on the map.';
 
   @override
-  String get mapEventsLocationPickCta => 'PICK THE LOCATION ON THE MAP';
+  String get mapEventsLocationPickCta => 'Pick the location on the map';
 
   @override
-  String get mapEventsLocationChangeCta => 'CHANGE LOCATION';
+  String get mapEventsLocationChangeCta => 'Change location';
 
   @override
   String get mapEventsLocationCardCity => 'City';
@@ -3191,7 +3249,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsContestsEmpty => 'No contests yet.';
 
   @override
-  String get mapEventsAddContest => 'ADD A CONTEST';
+  String get mapEventsAddContest => 'Add a contest';
 
   @override
   String get mapEventsEditContest => 'Edit contest';
@@ -3233,22 +3291,22 @@ class AppLocalizationsEn extends AppLocalizations {
       'Attendees see this time. You still open and close voting yourself, from the contests list once the event is approved.';
 
   @override
-  String get mapEventsContestTitleLabel => 'CONTEST TITLE';
+  String get mapEventsContestTitleLabel => 'Contest title';
 
   @override
   String get mapEventsContestTitleHint => 'e.g. Best exhaust system';
 
   @override
-  String get mapEventsContestCriteriaLabel => 'JUDGING NOTE';
+  String get mapEventsContestCriteriaLabel => 'Judging note';
 
   @override
   String get mapEventsContestCriteriaHint => 'What are people voting on?';
 
   @override
-  String get mapEventsContestCategoryLabel => 'CATEGORY';
+  String get mapEventsContestCategoryLabel => 'Category';
 
   @override
-  String get mapEventsContestSave => 'SAVE CONTEST';
+  String get mapEventsContestSave => 'Save contest';
 
   @override
   String get mapEventsStepCoverTitle => 'Cover photo';
@@ -3265,7 +3323,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'This is how people will see it. Tap any section to go back and change it.';
 
   @override
-  String get mapEventsReviewEdit => 'EDIT';
+  String get mapEventsReviewEdit => 'Edit';
 
   @override
   String get mapEventsReviewNoDescription => 'No description yet';
@@ -3289,16 +3347,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsReviewApprovalOff => 'Anyone can enter a car';
 
   @override
-  String get mapEventsReviewSectionOrganizers => 'ORGANIZERS';
+  String get mapEventsReviewSectionOrganizers => 'Organizers';
 
   @override
-  String get mapEventsReviewSectionSchedule => 'SCHEDULE';
+  String get mapEventsReviewSectionSchedule => 'Schedule';
 
   @override
-  String get mapEventsReviewSectionEntry => 'ENTRY';
+  String get mapEventsReviewSectionEntry => 'Entry';
 
   @override
-  String get mapEventsPublishCta => 'PUBLISH FOR REVIEW';
+  String get mapEventsPublishCta => 'Publish for review';
 
   @override
   String get mapEventsValidationTitle => 'Give the event a title.';
@@ -3321,7 +3379,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsValidationCover => 'Add a cover photo.';
 
   @override
-  String get mapEventsUseThisLocation => 'USE THIS LOCATION';
+  String get mapEventsUseThisLocation => 'Use this location';
 
   @override
   String get mapEventsLocationFormTitle => 'Find the address';
@@ -3331,28 +3389,28 @@ class AppLocalizationsEn extends AppLocalizations {
       'We\'ll point the map at it. You place the exact pin yourself.';
 
   @override
-  String get mapEventsLocationCity => 'CITY';
+  String get mapEventsLocationCity => 'City';
 
   @override
   String get mapEventsLocationCityHint => 'eg: Cluj-Napoca';
 
   @override
-  String get mapEventsLocationStreet => 'STREET';
+  String get mapEventsLocationStreet => 'Street';
 
   @override
   String get mapEventsLocationStreetHint => 'eg: Strada Memorandumului';
 
   @override
-  String get mapEventsLocationNumber => 'NUMBER';
+  String get mapEventsLocationNumber => 'Number';
 
   @override
   String get mapEventsLocationNumberHint => 'eg: 28B';
 
   @override
-  String get mapEventsLocationSearchButton => 'SEARCH';
+  String get mapEventsLocationSearchButton => 'Search';
 
   @override
-  String get mapEventsLocationSearchIncomplete => 'FILL IN ALL THREE FIELDS';
+  String get mapEventsLocationSearchIncomplete => 'Fill in all three fields';
 
   @override
   String get mapEventsLocationSearchNoResults =>
@@ -3366,10 +3424,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'This only moves the map — you still drop the pin.';
 
   @override
-  String get mapEventsLocationEditSearch => 'EDIT SEARCH';
+  String get mapEventsLocationEditSearch => 'Edit search';
 
   @override
-  String get mapEventsLocationBackToResults => 'RESULTS';
+  String get mapEventsLocationBackToResults => 'Results';
 
   @override
   String get mapEventsLocationDropPinTitle => 'Tap the map to drop your pin';
@@ -3433,22 +3491,22 @@ class AppLocalizationsEn extends AppLocalizations {
       'Events you create show up here — including the ones still waiting for review.';
 
   @override
-  String get mapEventsMineCreate => 'CREATE AN EVENT';
+  String get mapEventsMineCreate => 'Create an event';
 
   @override
   String get mapEventsManageTitle => 'Manage event';
 
   @override
-  String get mapEventsManageEntries => 'ENTRY REQUESTS';
+  String get mapEventsManageEntries => 'Entry requests';
 
   @override
-  String get mapEventsManageWithdrawals => 'WITHDRAWAL REQUESTS';
+  String get mapEventsManageWithdrawals => 'Withdrawal requests';
 
   @override
-  String get mapEventsManageOrganizers => 'ORGANIZERS';
+  String get mapEventsManageOrganizers => 'Organizers';
 
   @override
-  String get mapEventsManageDanger => 'EVENT';
+  String get mapEventsManageDanger => 'Event';
 
   @override
   String get mapEventsNoPendingEntries => 'No entry requests waiting.';
@@ -3457,10 +3515,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsNoWithdrawals => 'No withdrawal requests waiting.';
 
   @override
-  String get mapEventsAccept => 'ACCEPT';
+  String get mapEventsAccept => 'Accept';
 
   @override
-  String get mapEventsDecline => 'DECLINE';
+  String get mapEventsDecline => 'Decline';
 
   @override
   String get mapEventsDeclineTitle => 'Decline this entry?';
@@ -3471,32 +3529,32 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get mapEventsDeclineReasonLabel => 'REASON (REQUIRED)';
+  String get mapEventsDeclineReasonLabel => 'Reason (required)';
 
   @override
   String get mapEventsDeclineReasonHint =>
       'Wrong category for a JDM-only meet…';
 
   @override
-  String get mapEventsLetThemOut => 'LET THEM OUT';
+  String get mapEventsLetThemOut => 'Let them out';
 
   @override
-  String get mapEventsKeepThemIn => 'KEEP THEM IN';
+  String get mapEventsKeepThemIn => 'Keep them in';
 
   @override
   String get mapEventsWithdrawalNoteLabel => 'Their note';
 
   @override
-  String get mapEventsEditEvent => 'EDIT EVENT';
+  String get mapEventsEditEvent => 'Edit event';
 
   @override
-  String get mapEventsCancelEvent => 'CANCEL EVENT';
+  String get mapEventsCancelEvent => 'Cancel event';
 
   @override
-  String get mapEventsFinishEvent => 'FINISH EVENT';
+  String get mapEventsFinishEvent => 'Finish event';
 
   @override
-  String get mapEventsDeleteEvent => 'DELETE EVENT';
+  String get mapEventsDeleteEvent => 'Delete event';
 
   @override
   String get mapEventsEditLockedHint =>
@@ -3524,10 +3582,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'This can\'t be undone. The entry list and every RSVP go with it.';
 
   @override
-  String get mapEventsConfirm => 'CONFIRM';
+  String get mapEventsConfirm => 'Confirm';
 
   @override
-  String get mapEventsDelete => 'DELETE';
+  String get mapEventsDelete => 'Delete';
 
   @override
   String mapEventsWithdrawalCarsCount(int count) {
@@ -3553,7 +3611,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapEventsDateCardTitle => 'When';
 
   @override
-  String get feedbackFeedEyebrow => 'COMMUNITY';
+  String get feedbackFeedEyebrow => 'Community';
 
   @override
   String get feedbackFeedTitle => 'Feedback';
@@ -3562,13 +3620,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedbackFeedNew => 'NEW';
 
   @override
-  String get feedbackFeedSortNewest => 'NEWEST';
+  String get feedbackFeedSortNewest => 'Newest';
 
   @override
-  String get feedbackFeedSortPopular => 'POPULAR';
+  String get feedbackFeedSortPopular => 'Popular';
 
   @override
-  String get feedbackFeedSortOldest => 'OLDEST';
+  String get feedbackFeedSortOldest => 'Oldest';
 
   @override
   String get feedbackFeedCompletedLink => 'Completed requests';
@@ -3577,7 +3635,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedbackFeedCompletedTitle => 'Completed requests';
 
   @override
-  String get feedbackFeedComposeEyebrow => 'FEEDBACK COMMUNITY';
+  String get feedbackFeedComposeEyebrow => 'Feedback community';
 
   @override
   String get feedbackFeedComposeTitle => 'Share feedback';
@@ -3587,17 +3645,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'Visible to everyone. Other drivers can upvote or downvote it.';
 
   @override
-  String get feedbackFeedCategoryLabel => 'CATEGORY';
+  String get feedbackFeedCategoryLabel => 'Category';
 
   @override
-  String get feedbackFeedMessageLabel => 'YOUR MESSAGE';
+  String get feedbackFeedMessageLabel => 'Your message';
 
   @override
   String get feedbackFeedMessageHint =>
       'What’s on your mind — a bug, an idea, a tweak?';
 
   @override
-  String get feedbackFeedPostAction => 'POST FEEDBACK';
+  String get feedbackFeedPostAction => 'Post feedback';
 
   @override
   String get feedbackFeedPostSuccess => 'Your feedback is live.';
@@ -3678,7 +3736,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Something went wrong. Please try again.';
 
   @override
-  String get profileBadgesAll => 'ALL';
+  String get profileBadgesAll => 'All';
 
   @override
   String get profileBadgesSheetTitle => 'Badges';
@@ -3687,7 +3745,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileBadgesEmptyVisitor => 'No badges yet.';
 
   @override
-  String get garageCarStatYear => 'YEAR';
+  String get garageCarStatYear => 'Year';
 
   @override
   String profileBadgesSheetUnlocked(num count) {
@@ -3741,10 +3799,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forumsSavedAction => 'Saved threads';
 
   @override
-  String get garageCarStatPower => 'POWER';
+  String get garageCarStatPower => 'Power';
 
   @override
-  String get garageCarStatTorque => 'TORQUE';
+  String get garageCarStatTorque => 'Torque';
 
   @override
   String get garageCarUnitPower => 'hp';
@@ -3759,16 +3817,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get badgeCelebrationHeadline => 'New badge unlocked!';
 
   @override
-  String get contestsTab => 'CONTESTS';
+  String get contestsTab => 'Contests';
 
   @override
-  String get contestsSectionVotingOpen => 'VOTING OPEN NOW';
+  String get contestsSectionVotingOpen => 'Voting open now';
 
   @override
-  String get contestsSectionOpensLater => 'OPENS LATER';
+  String get contestsSectionOpensLater => 'Opens later';
 
   @override
-  String get contestsSectionResults => 'RESULTS';
+  String get contestsSectionResults => 'Results';
 
   @override
   String contestsStandingEntered(int count) {
@@ -3797,10 +3855,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get contestsManage => 'MANAGE';
+  String get contestsManage => 'Manage';
 
   @override
-  String get contestsEnterCar => 'ENTER';
+  String get contestsEnterCar => 'Enter';
 
   @override
   String get contestsFooterNote =>
@@ -3815,7 +3873,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String contestsAllCount(int count) {
-    return 'ALL $count CONTESTS';
+    return 'All $count contests';
   }
 
   @override
@@ -3850,22 +3908,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contestsYoursIsIn => '· yours is in';
 
   @override
-  String get contestsCastYourVote => 'CAST YOUR VOTE';
+  String get contestsCastYourVote => 'Cast your vote';
 
   @override
-  String get contestsVoteBeforeClose => 'VOTE BEFORE IT CLOSES';
+  String get contestsVoteBeforeClose => 'Vote before it closes';
 
   @override
-  String get contestsVote => 'VOTE';
+  String get contestsVote => 'Vote';
 
   @override
-  String get contestsVoted => 'VOTED';
+  String get contestsVoted => 'Voted';
 
   @override
-  String get contestsYourVote => 'YOUR VOTE';
+  String get contestsYourVote => 'Your vote';
 
   @override
-  String get contestsChange => 'CHANGE';
+  String get contestsChange => 'Change';
 
   @override
   String contestsTimeLeftHours(int hours, int minutes) {
@@ -3897,31 +3955,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contestsClosing => 'closing';
 
   @override
-  String get contestsResultsIn => 'RESULTS IN';
+  String get contestsResultsIn => 'Results in';
 
   @override
   String get contestsClosed => 'CLOSED';
 
   @override
-  String get contestsStatVotesCast => 'VOTES CAST';
+  String get contestsStatVotesCast => 'Votes cast';
 
   @override
-  String get contestsStatCarsIn => 'CARS IN';
+  String get contestsStatCarsIn => 'Cars in';
 
   @override
-  String get contestsStatRemaining => 'REMAINING';
+  String get contestsStatRemaining => 'Remaining';
 
   @override
-  String get contestsStatStatus => 'STATUS';
+  String get contestsStatStatus => 'Status';
 
   @override
-  String get contestsStatVoting => 'VOTING';
+  String get contestsStatVoting => 'Voting';
 
   @override
-  String get contestsHowItWorks => 'HOW IT WORKS';
+  String get contestsHowItWorks => 'How it works';
 
   @override
-  String get contestsHowItWasJudged => 'HOW IT WAS JUDGED';
+  String get contestsHowItWasJudged => 'How it was judged';
 
   @override
   String contestsSetBy(String username) {
@@ -3929,13 +3987,13 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get contestsLeaderboard => 'LEADERBOARD';
+  String get contestsLeaderboard => 'Leaderboard';
 
   @override
-  String get contestsCarsEntered => 'CARS ENTERED';
+  String get contestsCarsEntered => 'Cars entered';
 
   @override
-  String get contestsFinalStandings => 'FINAL STANDINGS';
+  String get contestsFinalStandings => 'Final standings';
 
   @override
   String get contestsUpdatingLive => 'UPDATING LIVE';
@@ -3976,13 +4034,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contestsPostToFeedHint => 'Post the card to your feed';
 
   @override
-  String get contestsShare => 'SHARE';
+  String get contestsShare => 'Share';
 
   @override
-  String get contestsShareYourWin => 'SHARE YOUR WIN';
+  String get contestsShareYourWin => 'Share your win';
 
   @override
-  String get contestsShareTheResult => 'SHARE THE RESULT';
+  String get contestsShareTheResult => 'Share the result';
 
   @override
   String get contestsShareSheetTitle => 'Share your win';
@@ -3991,7 +4049,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contestsShareResultSheetTitle => 'Share the result';
 
   @override
-  String get contestsPostToFeed => 'POST TO FEED';
+  String get contestsPostToFeed => 'Post to feed';
 
   @override
   String get contestsPostedTitle => 'Posted to the feed';
@@ -4017,7 +4075,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String contestsOfVotes(int total) {
-    return 'OF $total VOTES';
+    return 'Of $total votes';
   }
 
   @override
@@ -4027,13 +4085,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contestsChangeYourVote => 'Change your vote';
 
   @override
-  String get contestsSaveNewVote => 'SAVE NEW VOTE';
+  String get contestsSaveNewVote => 'Save new vote';
 
   @override
-  String get contestsCastVote => 'CAST VOTE';
+  String get contestsCastVote => 'Cast vote';
 
   @override
-  String get contestsYourCar => 'YOUR CAR';
+  String get contestsYourCar => 'Your car';
 
   @override
   String get contestsEnterTitle => 'Enter your car';
@@ -4058,10 +4116,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contestsEntryRejected => 'Not accepted';
 
   @override
-  String get contestsWhy => 'WHY';
+  String get contestsWhy => 'Why';
 
   @override
-  String get contestsSaveEntries => 'SAVE ENTRIES';
+  String get contestsSaveEntries => 'Save entries';
 
   @override
   String get contestsEntriesSaved => 'Entries updated';
@@ -4093,22 +4151,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contestsNew => 'NEW';
 
   @override
-  String get contestsStatRunning => 'RUNNING';
+  String get contestsStatRunning => 'Running';
 
   @override
-  String get contestsStatScheduled => 'SCHEDULED';
+  String get contestsStatScheduled => 'Scheduled';
 
   @override
-  String get contestsStatVotesTonight => 'VOTES SO FAR';
+  String get contestsStatVotesTonight => 'Votes so far';
 
   @override
-  String get contestsRunningNow => 'RUNNING NOW';
+  String get contestsRunningNow => 'Running now';
 
   @override
-  String get contestsScheduled => 'SCHEDULED';
+  String get contestsScheduled => 'Scheduled';
 
   @override
-  String get contestsFinished => 'FINISHED';
+  String get contestsFinished => 'Finished';
 
   @override
   String get contestsChipOpen => 'OPEN';
@@ -4120,22 +4178,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contestsChipScheduled => 'SCHEDULED';
 
   @override
-  String get contestsFullBoard => 'FULL BOARD';
+  String get contestsFullBoard => 'Full board';
 
   @override
-  String get contestsFinishNow => 'FINISH NOW';
+  String get contestsFinishNow => 'Finish now';
 
   @override
-  String get contestsEdit => 'EDIT';
+  String get contestsEdit => 'Edit';
 
   @override
-  String get contestsOpenVotingNow => 'OPEN VOTING NOW';
+  String get contestsOpenVotingNow => 'Open voting now';
 
   @override
-  String get contestsExtend => 'EXTEND';
+  String get contestsExtend => 'Extend';
 
   @override
-  String get contestsDelete => 'DELETE';
+  String get contestsDelete => 'Delete';
 
   @override
   String get contestsResultsPublished => 'Results published · badge awarded';
@@ -4144,10 +4202,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contestsNoVotesResult => 'Closed with no votes';
 
   @override
-  String get contestsAddAnother => 'ADD ANOTHER CONTEST';
+  String get contestsAddAnother => 'Add another contest';
 
   @override
-  String get contestsAddFirst => 'CREATE A CONTEST';
+  String get contestsAddFirst => 'Create a contest';
 
   @override
   String get contestsOrganizerEmpty =>
@@ -4205,7 +4263,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Voting closes immediately. It has been running past the time you planned. The standings freeze as they are now and the winner gets the badge.';
 
   @override
-  String get contestsWinsIfFinishNow => 'WINS IF YOU FINISH NOW';
+  String get contestsWinsIfFinishNow => 'Wins if you finish now';
 
   @override
   String contestsCloseRace(int gap) {
@@ -4224,10 +4282,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get contestsKeepOpen => 'KEEP IT OPEN';
+  String get contestsKeepOpen => 'Keep it open';
 
   @override
-  String get contestsFinishPublish => 'FINISH & PUBLISH';
+  String get contestsFinishPublish => 'Finish & publish';
 
   @override
   String contestsFinishedBanner(String title) {
@@ -4250,10 +4308,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get contestsAccept => 'ACCEPT';
+  String get contestsAccept => 'Accept';
 
   @override
-  String get contestsDecline => 'DECLINE';
+  String get contestsDecline => 'Decline';
 
   @override
   String get contestsDeclineEntryTitle => 'Decline this car?';
@@ -4275,7 +4333,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get contestsExtendConfirm => 'EXTEND VOTING';
+  String get contestsExtendConfirm => 'Extend voting';
 
   @override
   String get contestsDeleteTitle => 'Delete this contest?';
@@ -4291,13 +4349,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contestsEditTitle => 'Edit contest';
 
   @override
-  String get contestsCategory => 'CATEGORY';
+  String get contestsCategory => 'Category';
 
   @override
   String get contestsCategoryCustom => 'Custom';
 
   @override
-  String get contestsName => 'CONTEST NAME';
+  String get contestsName => 'Contest name';
 
   @override
   String get contestsNameHint => 'Name shown to attendees';
@@ -4306,14 +4364,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contestsNameHintCustom => 'e.g. Best daily driver';
 
   @override
-  String get contestsCriteria => 'HOW SHOULD PEOPLE JUDGE IT?';
+  String get contestsCriteria => 'How should people judge it?';
 
   @override
   String get contestsCriteriaHint =>
       'One or two lines. Attendees see this above the leaderboard.';
 
   @override
-  String get contestsVotingOpens => 'VOTING OPENS';
+  String get contestsVotingOpens => 'Voting opens';
 
   @override
   String get contestsOpensNow => 'Right away';
@@ -4325,7 +4383,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contestsSetATime => 'Set a time';
 
   @override
-  String get contestsVotingCloses => 'VOTING CLOSES';
+  String get contestsVotingCloses => 'Voting closes';
 
   @override
   String get contestsFinishEarlyNote =>
@@ -4336,13 +4394,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Voting is open: only the judging note and the closing time can change now.';
 
   @override
-  String get contestsPublish => 'PUBLISH CONTEST';
+  String get contestsPublish => 'Publish contest';
 
   @override
-  String get contestsSaveChanges => 'SAVE CHANGES';
+  String get contestsSaveChanges => 'Save changes';
 
   @override
-  String get contestsManageSectionTitle => 'CONTESTS';
+  String get contestsManageSectionTitle => 'Contests';
 
   @override
   String get contestsManageOpen => 'Open contests';
@@ -4389,10 +4447,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get participantCardEvent => 'EVENT';
+  String get participantCardEvent => 'Event';
 
   @override
-  String get participantCardContests => 'CONTESTS ENTERED';
+  String get participantCardContests => 'Contests entered';
 
   @override
   String participantCardContestWithRank(String contest, String rank) {
@@ -4441,7 +4499,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get participantCardShare => 'SHARE THE CARD';
+  String get participantCardShare => 'Share the card';
 
   @override
   String participantCardSectionTitle(int count) {
@@ -4455,7 +4513,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get participantCardYourCard => 'YOUR CARD';
+  String get participantCardYourCard => 'Your card';
 
   @override
   String get participantCardNotReady =>
@@ -4467,7 +4525,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get carEventsContestBadges => 'CONTEST BADGES';
+  String get carEventsContestBadges => 'Contest badges';
 
   @override
   String carEventsBadgesCount(int count) {
@@ -4481,13 +4539,123 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get carEventsAttended => 'ATTENDED EVENTS';
+  String get carEventsAttended => 'Attended events';
 
   @override
-  String get carEventsWhereFrom => 'WHERE THEY CAME FROM';
+  String get carEventsWhereFrom => 'Where they came from';
 
   @override
   String carEventsPlacement(String rank, String category) {
     return '$rank · $category';
   }
+
+  @override
+  String get settingsBlockedAccounts => 'Blocked accounts';
+
+  @override
+  String get blockedAccountsTitle => 'Blocked accounts';
+
+  @override
+  String get blockedAccountsEmpty => 'You haven\'t blocked anyone.';
+
+  @override
+  String get blockedAccountsEmptyHint =>
+      'When you block someone, they\'ll show up here. You can unblock them anytime.';
+
+  @override
+  String get blockedAccountsUnblock => 'Unblock';
+
+  @override
+  String blockedAccountsUnblockTitle(String username) {
+    return 'Unblock @$username?';
+  }
+
+  @override
+  String get blockedAccountsUnblockBody =>
+      'They\'ll be able to find your profile, see your posts and message you again. Follows you had before won\'t come back. They won\'t be notified.';
+
+  @override
+  String blockedAccountsUnblocked(String username) {
+    return 'You unblocked @$username';
+  }
+
+  @override
+  String blockedAccountsUnblockError(String username) {
+    return 'We couldn\'t unblock @$username. Please try again.';
+  }
+
+  @override
+  String get blockedAccountsLoadError =>
+      'We couldn\'t load your blocked accounts. Please try again.';
+
+  @override
+  String get profileBlockAccount => 'Block';
+
+  @override
+  String profileBlockTitle(String username) {
+    return 'Block @$username?';
+  }
+
+  @override
+  String get profileBlockBody =>
+      'They won\'t be able to find your profile, see your posts or message you, and you\'ll stop following each other. They won\'t be notified. You can unblock them anytime in Settings.';
+
+  @override
+  String get profileBlockConfirm => 'Block';
+
+  @override
+  String profileBlocked(String username) {
+    return 'You blocked @$username';
+  }
+
+  @override
+  String get blockErrorSelf => 'You can\'t block your own account.';
+
+  @override
+  String get blockErrorNotFound => 'This account is no longer available.';
+
+  @override
+  String get blockErrorNetwork => 'No internet connection. Please try again.';
+
+  @override
+  String get blockErrorGeneric => 'Something went wrong. Please try again.';
+
+  @override
+  String get rateLimitTitle => 'You\'re doing that too fast';
+
+  @override
+  String rateLimitRetryInSeconds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count seconds',
+      one: '1 second',
+    );
+    return 'Try again in $_temp0.';
+  }
+
+  @override
+  String rateLimitRetryInMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes',
+      one: '1 minute',
+    );
+    return 'Try again in $_temp0.';
+  }
+
+  @override
+  String rateLimitRetryInHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hours',
+      one: '1 hour',
+    );
+    return 'Try again in $_temp0.';
+  }
+
+  @override
+  String get rateLimitRetrySoon => 'Wait a moment and try again.';
 }

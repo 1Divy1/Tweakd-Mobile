@@ -20,6 +20,7 @@ import '../widgets/chat/message_bubble.dart';
 import '../widgets/chat/shared_post_bubble.dart';
 import '../widgets/chat/typing_indicator.dart';
 import '../widgets/shared/messages_error_view.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// One open conversation: paged history, live bubbles and the composer.
 /// [conversationId] is null when composing to a user with no conversation
@@ -30,11 +31,7 @@ class ChatPage extends StatelessWidget {
   final String? conversationId;
   final MessageUserEntity? peer;
 
-  const ChatPage({
-    super.key,
-    required this.conversationId,
-    required this.peer,
-  });
+  const ChatPage({super.key, required this.conversationId, required this.peer});
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +46,13 @@ class ChatPage extends StatelessWidget {
             final error = (state as ChatLoaded).actionError!;
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
-              ..showSnackBar(SnackBar(
-                content: Text(messagesErrorMessage(
-                  AppLocalizations.of(context)!,
-                  error,
-                )),
-              ));
+              ..showSnackBar(
+                SnackBar(
+                  content: Text(
+                    messagesErrorMessage(AppLocalizations.of(context)!, error),
+                  ),
+                ),
+              );
           },
           builder: (context, state) {
             final loaded = state is ChatLoaded ? state : null;
@@ -67,36 +65,32 @@ class ChatPage extends StatelessWidget {
                   onOpenProfile: headerUser == null
                       ? null
                       : () => context.push(
-                            '/users/${headerUser.username}',
-                            extra: headerUser.id,
-                          ),
+                          '/users/${headerUser.username}',
+                          extra: headerUser.id,
+                        ),
                 ),
                 Expanded(
                   child: switch (state) {
-                    ChatInitial() || ChatLoading() =>
-                      const ChatLoadingView(),
+                    ChatInitial() || ChatLoading() => const ChatLoadingView(),
                     ChatError(:final code) => MessagesErrorView(
-                        message: messagesErrorMessage(
-                          AppLocalizations.of(context)!,
-                          code,
-                        ),
-                        onRetry: () => context.read<ChatBloc>().add(
-                              LoadChat(
-                                conversationId: conversationId,
-                                peer: peer,
-                              ),
-                            ),
+                      message: messagesErrorMessage(
+                        AppLocalizations.of(context)!,
+                        code,
                       ),
+                      onRetry: () => context.read<ChatBloc>().add(
+                        LoadChat(conversationId: conversationId, peer: peer),
+                      ),
+                    ),
                     ChatLoaded() => _ChatMessagesList(state: state),
                   },
                 ),
                 ChatInputBar(
                   onSend: (text, cars) => context.read<ChatBloc>().add(
-                        SendChatMessage(text, taggedCars: cars),
-                      ),
+                    SendChatMessage(text, taggedCars: cars),
+                  ),
                   onTextChanged: (text) => context.read<ChatBloc>().add(
-                        ChatComposerChanged(hasText: text.trim().isNotEmpty),
-                      ),
+                    ChatComposerChanged(hasText: text.trim().isNotEmpty),
+                  ),
                 ),
               ],
             );
@@ -203,11 +197,13 @@ class _ChatMessagesList extends StatelessWidget {
     for (var i = 0; i < messages.length; i++) {
       final message = messages[i];
       final isGroupEnd = _isGroupEnd(messages, i);
-      rows.add(_MessageRow(
-        message: message,
-        isGroupEnd: isGroupEnd,
-        animate: state.animatedMessageIds.contains(message.id),
-      ));
+      rows.add(
+        _MessageRow(
+          message: message,
+          isGroupEnd: isGroupEnd,
+          animate: state.animatedMessageIds.contains(message.id),
+        ),
+      );
       if (isGroupEnd) {
         rows.add(_TimeLabelRow(message));
       }
@@ -223,34 +219,35 @@ class _ChatMessagesList extends StatelessWidget {
   Widget _buildRow(BuildContext context, _ChatRow row, AppLocalizations l10n) {
     return switch (row) {
       _LoadingOlderRow() => Padding(
-          padding: EdgeInsets.symmetric(vertical: 14),
-          child: Center(
-            child: SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: AppColors.accent,
-              ),
+        padding: EdgeInsets.symmetric(vertical: 14),
+        child: Center(
+          child: SizedBox(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: AppColors.accent,
             ),
           ),
         ),
+      ),
       _IntroHeaderRow() => ChatIntroHeader(user: state.user),
       _EmptyRow() => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 40),
-          child: Center(
-            child: Text(
-              l10n.messagesEmptyChat,
-              style: TextStyle(
-                color: AppColors.mute,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
+        padding: const EdgeInsets.symmetric(vertical: 40),
+        child: Center(
+          child: Text(
+            l10n.messagesEmptyChat,
+            style: TextStyle(
+              color: AppColors.mute,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),
-      _DatePillRow(:final clockTime) =>
-        ChatDatePill(label: l10n.messagesDatePill(clockTime)),
+      ),
+      _DatePillRow(:final clockTime) => ChatDatePill(
+        label: l10n.messagesDatePill(clockTime),
+      ),
       _MessageRow(:final message, :final isGroupEnd, :final animate) =>
         message.kind == MessageKind.sharedPost
             ? SharedPostBubble(
@@ -269,8 +266,10 @@ class _ChatMessagesList extends StatelessWidget {
                 onCarTap: (car) =>
                     context.push('/garage/cars/${car.id}', extra: false),
               ),
-      _TimeLabelRow(:final message) =>
-        _GroupTimeLabel(message: message, l10n: l10n),
+      _TimeLabelRow(:final message) => _GroupTimeLabel(
+        message: message,
+        l10n: l10n,
+      ),
       _TypingRow() => const TypingIndicator(key: ValueKey('typing')),
     };
   }
@@ -284,7 +283,8 @@ class _ChatMessagesList extends StatelessWidget {
       onNotification: (notification) => _onScroll(context, notification),
       child: ListView.builder(
         reverse: true,
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding:
+            const EdgeInsets.symmetric(vertical: 10) + AppLayout.inset(context),
         itemCount: rows.length,
         itemBuilder: (context, index) =>
             _buildRow(context, rows[rows.length - 1 - index], l10n),
@@ -352,8 +352,9 @@ class _GroupTimeLabel extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 2, 24, 10),
       child: Align(
-        alignment:
-            message.isMine ? Alignment.centerRight : Alignment.centerLeft,
+        alignment: message.isMine
+            ? Alignment.centerRight
+            : Alignment.centerLeft,
         child: Text(
           label,
           style: TextStyle(

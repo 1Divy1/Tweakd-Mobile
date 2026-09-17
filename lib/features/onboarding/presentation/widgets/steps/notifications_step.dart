@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tweakd/core/theme/app_icons.dart';
 
 import '../../../../../core/services/push_permission_service.dart';
 import '../../../../../core/theme/app_colors.dart';
@@ -79,7 +80,7 @@ class NotificationsStep extends StatelessWidget {
                         onChanged(prefs.copyWith(commentsEnabled: v)),
                   ),
                   _ToggleRow(
-                    icon: Icons.ios_share_rounded,
+                    icon: AppIcons.repost,
                     title: l10n.onboardingNotifSharesTitle,
                     subtitle: l10n.onboardingNotifSharesSubtitle,
                     value: prefs.sharesEnabled,

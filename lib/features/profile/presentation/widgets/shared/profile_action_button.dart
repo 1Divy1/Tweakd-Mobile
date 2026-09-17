@@ -6,9 +6,10 @@ import '../../../../../core/theme/app_colors.dart';
 /// Share profile, Message. They always come in pairs sharing a row, so they
 /// carry no width of their own: the caller wraps each in an `Expanded`.
 ///
-/// The label ellipsizes rather than overflowing: two of these on a 320pt
-/// screen leave about 130pt each, which "Distribuie profilul" comfortably
-/// exceeds.
+/// The label stays on one line and ellipsizes rather than wrapping: two of
+/// these on a 320pt screen leave about 130pt each, which "Distribuie profilul"
+/// comfortably exceeds. The height is a minimum, not a fixed value, so a large
+/// system text size grows the button instead of clipping the label.
 class ProfileActionButton extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -25,13 +26,13 @@ class ProfileActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 50,
       child: OutlinedButton.icon(
         onPressed: onTap,
         style: OutlinedButton.styleFrom(
           backgroundColor: AppColors.surface,
           foregroundColor: AppColors.ink,
-          padding: const EdgeInsets.symmetric(horizontal: 12),
+          minimumSize: const Size.fromHeight(50),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           side: BorderSide.none,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18),
@@ -48,7 +49,6 @@ class ProfileActionButton extends StatelessWidget {
             color: AppColors.ink,
             fontSize: 14,
             fontWeight: FontWeight.w800,
-            letterSpacing: 0.3,
           ),
         ),
       ),

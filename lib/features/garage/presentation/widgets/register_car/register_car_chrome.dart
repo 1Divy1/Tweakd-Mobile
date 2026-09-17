@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/shared/widgets/app_pill_button.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import 'register_car_fields.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 const registerStepCount = 4;
 
@@ -11,13 +13,13 @@ const registerStepCount = 4;
 /// Slim fluid progress bar, mirroring the onboarding wizard. Fills by one
 /// [registerStepCount]th per forward navigation, animating between steps.
 ///
-/// This is the whole top of the wizard: there is deliberately no close button.
-/// Once you start adding a car the only thing on screen is how far you've got,
-/// so the flow reads as something to finish rather than something to abandon.
-/// Leaving is still possible — the edge-swipe back gesture pops the route —
-/// it just isn't advertised.
+/// Pass [onBack] to lead the bar with a back button (the add-car wizard); the
+/// add-modification flow has its own close button above it instead.
 class RegisterStepProgress extends StatelessWidget {
   final int step;
+
+  /// Leaves the flow. Stepping back within it is the bottom bar's job.
+  final VoidCallback? onBack;
 
   /// How many steps the bar is divided into. The add-car wizard's own count by
   /// default; the add-modification flow passes its shorter one.
@@ -27,14 +29,13 @@ class RegisterStepProgress extends StatelessWidget {
     super.key,
     required this.step,
     this.stepCount = registerStepCount,
+    this.onBack,
   });
 
   @override
   Widget build(BuildContext context) {
     final fraction = (step + 1) / stepCount;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 18, 20, 12),
-      child: ClipRRect(
+    final bar = ClipRRect(
         borderRadius: BorderRadius.circular(99),
         child: Container(
           height: 6,
@@ -54,7 +55,28 @@ class RegisterStepProgress extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      );
+
+    final back = onBack;
+    return Padding(
+      padding: EdgeInsets.fromLTRB(back == null ? 20 : 12, back == null ? 18 : 8, 20, 12) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
+      child: back == null
+          ? bar
+          : Row(
+              children: [
+                Semantics(
+                  button: true,
+                  label: MaterialLocalizations.of(context).backButtonTooltip,
+                  child: AppPillButton(
+                    icon: Icons.chevron_left_rounded,
+                    onTap: back,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(child: bar),
+              ],
+            ),
     );
   }
 }
@@ -62,7 +84,7 @@ class RegisterStepProgress extends StatelessWidget {
 // ── Close ───────────────────────────────────────────────────────────────────
 
 /// The square "×" the build-log editor and the add-modification flow open
-/// with. The add-car wizard itself deliberately has none.
+/// with. The add-car wizard leads with a back button instead.
 class RegisterCloseButton extends StatelessWidget {
   final VoidCallback? onTap;
 
@@ -133,7 +155,8 @@ class RegisterBottomBar extends StatelessWidget {
     final showBack = onBack != null && !isSubmitting;
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 14, 20, 26),
+      padding: const EdgeInsets.fromLTRB(20, 14, 20, 26) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
       color: AppColors.bg,
       child: Row(
         children: [
@@ -163,7 +186,6 @@ class RegisterBottomBar extends StatelessWidget {
                             color: AppColors.ink,
                             fontWeight: FontWeight.w800,
                             fontSize: 14,
-                            letterSpacing: 1,
                           ),
                         ),
                       ],
@@ -221,7 +243,6 @@ class RegisterBottomBar extends StatelessWidget {
                                   color: Colors.white,
                                   fontWeight: FontWeight.w800,
                                   fontSize: 14,
-                                  letterSpacing: 1,
                                 ),
                               ),
                               const SizedBox(width: 8),

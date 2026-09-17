@@ -28,7 +28,6 @@ class FeedbackSectionLabel extends StatelessWidget {
               color: AppColors.ink2,
               fontSize: 12,
               fontWeight: FontWeight.w800,
-              letterSpacing: 0.8,
             ),
           ),
         ),

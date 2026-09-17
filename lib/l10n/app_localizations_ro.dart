@@ -100,7 +100,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get authPasswordHintSignup => 'Creează o parolă';
 
   @override
-  String get authForgotPassword => 'AI UITAT PAROLA?';
+  String get authForgotPassword => 'Ai uitat parola?';
 
   @override
   String get authSignIn => 'Conectează-te';
@@ -179,7 +179,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Emailul de confirmare a fost trimis din nou.';
 
   @override
-  String get authResendEmail => 'NU L-AI PRIMIT? RETRIMITE';
+  String get authResendEmail => 'Nu l-ai primit? Retrimite';
 
   @override
   String authResendIn(int seconds) {
@@ -187,7 +187,7 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get authBackToSignIn => 'ÎNAPOI LA CONECTARE';
+  String get authBackToSignIn => 'Înapoi la conectare';
 
   @override
   String get authForgotPasswordTitle => 'Resetează-ți parola';
@@ -239,13 +239,13 @@ class AppLocalizationsRo extends AppLocalizations {
   String get authPasswordUpdated => 'Parola ta a fost actualizată.';
 
   @override
-  String get onboardingBack => 'ÎNAPOI';
+  String get onboardingBack => 'Înapoi';
 
   @override
-  String get onboardingNext => 'CONTINUĂ';
+  String get onboardingNext => 'Continuă';
 
   @override
-  String get onboardingFinishSetup => 'FINALIZEAZĂ';
+  String get onboardingFinishSetup => 'Finalizează';
 
   @override
   String get onboardingFinishingSetup => 'Se finalizează…';
@@ -336,29 +336,29 @@ class AppLocalizationsRo extends AppLocalizations {
   String get onboardingErrorGeneric => 'Ceva nu a mers bine. Încearcă din nou.';
 
   @override
-  String get onboardingIdentityLabel => '01 — IDENTITATE';
+  String get onboardingIdentityLabel => '01 — Identitate';
 
   @override
   String get onboardingIdentityTitle => 'Alege-ți numele';
 
   @override
-  String get onboardingFieldName => 'NUME';
+  String get onboardingFieldName => 'Nume';
 
   @override
   String get onboardingNameHint => 'Numele tău';
 
   @override
-  String get onboardingFieldUsername => 'NUME DE UTILIZATOR';
+  String get onboardingFieldUsername => 'Nume de utilizator';
 
   @override
-  String get onboardingFieldBio => 'DESCRIERE';
+  String get onboardingFieldBio => 'Descriere';
 
   @override
   String get onboardingBioHint =>
       'Spune-le celorlalți câteva lucruri despre tine...';
 
   @override
-  String get onboardingGarageLabel => '02 — PREFERINȚE';
+  String get onboardingGarageLabel => '02 — Preferințe';
 
   @override
   String get onboardingGarageTitle => 'Garajul tău';
@@ -368,10 +368,10 @@ class AppLocalizationsRo extends AppLocalizations {
       'Mărcile pe care le urmărești — îți vom personaliza feed-ul și marketplace-ul în funcție de ele.';
 
   @override
-  String get onboardingFieldYourPicks => 'ALEGERILE TALE';
+  String get onboardingFieldYourPicks => 'Alegerile tale';
 
   @override
-  String get onboardingFieldModels => 'MODELE';
+  String get onboardingFieldModels => 'Modele';
 
   @override
   String get onboardingSelectBrand => 'Alege o marcă';
@@ -385,10 +385,10 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get onboardingAddBrand => 'ADAUGĂ ALTĂ MARCĂ';
+  String get onboardingAddBrand => 'Adaugă altă marcă';
 
   @override
-  String get onboardingLocationLabel => '03 — LOCAȚIE';
+  String get onboardingLocationLabel => '03 — Locație';
 
   @override
   String get onboardingLocationTitle => 'Unde te găsește comunitatea locală?';
@@ -398,13 +398,13 @@ class AppLocalizationsRo extends AppLocalizations {
       'Locația ne ajută să-ți personalizăm experiența în aplicație cu carmeet-uri locale, evenimente și oferte din marketplace relevante';
 
   @override
-  String get onboardingFieldCountry => 'ȚARĂ';
+  String get onboardingFieldCountry => 'Țară';
 
   @override
-  String get onboardingFieldRegion => 'REGIUNE';
+  String get onboardingFieldRegion => 'Regiune';
 
   @override
-  String get onboardingFieldCity => 'ORAȘ';
+  String get onboardingFieldCity => 'Oraș';
 
   @override
   String get onboardingSelectCountryPlaceholder => 'Selectează țara';
@@ -431,10 +431,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get onboardingPickerCity => 'Selectează orașul';
 
   @override
-  String get onboardingDiscoveryRadius => 'RAZĂ DE DESCOPERIRE';
+  String get onboardingDiscoveryRadius => 'Rază de descoperire';
 
   @override
-  String get onboardingNotificationsLabel => '04 — NOTIFICĂRI';
+  String get onboardingNotificationsLabel => '04 — Notificări';
 
   @override
   String get onboardingNotificationsTitle => 'Despre ce să te anunțăm?';
@@ -455,7 +455,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Sunt blocate în setările sistemului. Activează-le ca să te anunțăm despre subiectele de mai jos.';
 
   @override
-  String get onboardingPushOpenSettings => 'DESCHIDE SETĂRILE';
+  String get onboardingPushOpenSettings => 'Deschide setările';
 
   @override
   String get onboardingPushEnableTitle => 'Activează notificările push';
@@ -465,21 +465,21 @@ class AppLocalizationsRo extends AppLocalizations {
       'Permite notificările ca să te putem anunța despre subiectele alese mai jos.';
 
   @override
-  String get onboardingPushEnable => 'ACTIVEAZĂ';
+  String get onboardingPushEnable => 'Activează';
 
   @override
-  String get onboardingNotifGroupContent => 'PE CONȚINUTUL TĂU';
+  String get onboardingNotifGroupContent => 'Pe conținutul tău';
 
   @override
-  String get onboardingNotifGroupMessages => 'MESAJE';
+  String get onboardingNotifGroupMessages => 'Mesaje';
 
   @override
   String onboardingNotifGroupMeets(int radius) {
-    return 'ÎNTÂLNIRI & EVENIMENTE · LA MAX $radius KM';
+    return 'Întâlniri & evenimente · la max $radius km';
   }
 
   @override
-  String get onboardingNotifGroupGarage => 'GARAJUL TĂU';
+  String get onboardingNotifGroupGarage => 'Garajul tău';
 
   @override
   String get onboardingNotifLikesTitle => 'Aprecieri';
@@ -496,11 +496,11 @@ class AppLocalizationsRo extends AppLocalizations {
       'Răspunsuri și discuții pe conținutul tău';
 
   @override
-  String get onboardingNotifSharesTitle => 'Distribuiri';
+  String get onboardingNotifSharesTitle => 'Repostări';
 
   @override
   String get onboardingNotifSharesSubtitle =>
-      'Când conținutul tău este redistribuit';
+      'Când cineva îți repostează postarea';
 
   @override
   String get onboardingNotifDmsTitle => 'Mesaje directe';
@@ -544,7 +544,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Când cineva te etichetează pe tine sau mașina ta';
 
   @override
-  String get profileTitle => 'PROFIL';
+  String get profileTitle => 'Profil';
 
   @override
   String get profileMessage => 'Mesaj';
@@ -605,19 +605,19 @@ class AppLocalizationsRo extends AppLocalizations {
   String get navProfile => 'Profil';
 
   @override
-  String get editProfileTitle => 'EDITEAZĂ PROFILUL';
+  String get editProfileTitle => 'Editează profilul';
 
   @override
   String get editProfileChangePhoto => 'Schimbă poza';
 
   @override
-  String get editProfileNameLabel => 'NUME';
+  String get editProfileNameLabel => 'Nume';
 
   @override
   String get editProfileNameHint => 'Numele tău afișat';
 
   @override
-  String get editProfileBioLabel => 'BIO';
+  String get editProfileBioLabel => 'Bio';
 
   @override
   String get editProfileBioHint =>
@@ -641,26 +641,47 @@ class AppLocalizationsRo extends AppLocalizations {
       'Nu am putut actualiza poza. Te rugăm să încerci din nou.';
 
   @override
-  String get followActionFollow => 'URMĂREȘTE';
+  String get followActionFollow => 'Urmărește';
 
   @override
-  String get followActionUnfollow => 'NU MAI URMĂRI';
+  String get followActionUnfollow => 'Nu mai urmări';
 
   @override
-  String get followActionRequested => 'SOLICITAT';
+  String get followActionRequested => 'Solicitat';
 
   @override
   String get garageEmptyOwner =>
       'Garajul tău este gol. Adaugă prima ta mașină.';
 
   @override
+  String get garageAddNewCar => 'Adaugă o mașină nouă';
+
+  @override
   String get garageEmptyVisitor => 'Nicio mașină încă.';
 
   @override
-  String get followActionFollowing => 'URMĂREȘTI';
+  String get followActionFollowing => 'Urmărești';
 
   @override
-  String get followRemove => 'ELIMINĂ';
+  String get followRemove => 'Elimină';
+
+  @override
+  String followUnfollowConfirmTitle(String username) {
+    return 'Nu mai urmărești pe @$username?';
+  }
+
+  @override
+  String get followUnfollowConfirmBody =>
+      'Postările acestui cont nu vor mai apărea în feed-ul tău.';
+
+  @override
+  String followRemoveConfirmTitle(String username) {
+    return 'Elimini pe @$username?';
+  }
+
+  @override
+  String get followRemoveConfirmBody =>
+      'Contul nu te va mai urmări. Te poate urmări din nou oricând.';
 
   @override
   String get followSearchFollowersHint => 'Caută urmăritori...';
@@ -670,7 +691,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String followResultsForQuery(String query) {
-    return 'PENTRU \"$query\"';
+    return 'Pentru \"$query\"';
   }
 
   @override
@@ -705,7 +726,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get followErrorGeneric => 'Ceva nu a mers bine. Încearcă din nou.';
 
   @override
-  String get searchTitle => 'CĂUTARE';
+  String get searchTitle => 'Căutare';
 
   @override
   String get searchInputHint => 'Caută după nume de utilizator';
@@ -730,7 +751,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String searchForQuery(String query) {
-    return 'PENTRU \"$query\"';
+    return 'Pentru \"$query\"';
   }
 
   @override
@@ -807,19 +828,19 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garagePhaseSavingPhotos => 'Se salvează fotografiile…';
 
   @override
-  String get garageRegisterBack => 'ÎNAPOI';
+  String get garageRegisterBack => 'Înapoi';
 
   @override
-  String get garageRegisterNext => 'CONTINUĂ';
+  String get garageRegisterNext => 'Continuă';
 
   @override
   String get garageRegisterWorking => 'Se procesează…';
 
   @override
-  String get garageRegisterAddCar => 'ADAUGĂ MAȘINA';
+  String get garageRegisterAddCar => 'Adaugă mașina';
 
   @override
-  String get garageRegisterSave => 'SALVEAZĂ';
+  String get garageRegisterSave => 'Salvează';
 
   @override
   String get garageOptional => 'OPȚIONAL';
@@ -834,16 +855,16 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageRegisterSpecsTitle => 'Detaliile mașinii';
 
   @override
-  String get garageSpecsTabBasics => 'GENERAL';
+  String get garageSpecsTabBasics => 'General';
 
   @override
-  String get garageSpecsTabPower => 'PUTERE';
+  String get garageSpecsTabPower => 'Putere';
 
   @override
-  String get garageSpecsTabConfig => 'CONFIG';
+  String get garageSpecsTabConfig => 'Config';
 
   @override
-  String get garageFieldMake => 'MARCĂ';
+  String get garageFieldMake => 'Marcă';
 
   @override
   String get garageHintMake => 'ex. Porsche';
@@ -852,7 +873,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garagePickerMake => 'Alege marca';
 
   @override
-  String get garageFieldModel => 'MODEL';
+  String get garageFieldModel => 'Model';
 
   @override
   String get garageHintModelPickMakeFirst => 'Alege mai întâi o marcă';
@@ -864,13 +885,13 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garagePickerModel => 'Alege modelul';
 
   @override
-  String get garageFieldYear => 'AN';
+  String get garageFieldYear => 'An';
 
   @override
-  String get garageFieldChassisCode => 'SERIA DE ȘASIU';
+  String get garageFieldChassisCode => 'Seria de șasiu';
 
   @override
-  String get garageFieldModelCode => 'COD MODEL';
+  String get garageFieldModelCode => 'Cod model';
 
   @override
   String get garageHintModelCode => 'ex. G30';
@@ -879,25 +900,25 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garagePickFromGallery => 'Atinge pentru a alege din galerie';
 
   @override
-  String get garageFieldPower => 'PUTERE';
+  String get garageFieldPower => 'Putere';
 
   @override
-  String get garageFieldTorque => 'CUPLU';
+  String get garageFieldTorque => 'Cuplu';
 
   @override
-  String get garageFieldWeight => 'GREUTATE';
+  String get garageFieldWeight => 'Greutate';
 
   @override
-  String get garageFieldDisplacement => 'CILINDREE';
+  String get garageFieldDisplacement => 'Cilindree';
 
   @override
-  String get garageFieldEngineCode => 'COD MOTOR';
+  String get garageFieldEngineCode => 'Cod motor';
 
   @override
   String get garageHintEngineCode => 'ex. S58';
 
   @override
-  String get garageFieldFuelType => 'TIP COMBUSTIBIL';
+  String get garageFieldFuelType => 'Tip combustibil';
 
   @override
   String get garageHintFuelType => 'ex. Benzină';
@@ -906,7 +927,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garagePickerFuelType => 'Alege tipul de combustibil';
 
   @override
-  String get garageFieldDrivetrain => 'TRACȚIUNE';
+  String get garageFieldDrivetrain => 'Tracțiune';
 
   @override
   String get garageHintDrivetrain => 'ex. Tracțiune spate';
@@ -915,7 +936,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garagePickerDrivetrain => 'Alege tracțiunea';
 
   @override
-  String get garageFieldColor => 'CULOARE';
+  String get garageFieldColor => 'Culoare';
 
   @override
   String get garageHintColor => 'ex. Portocaliu Inka';
@@ -924,10 +945,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garagePickerColor => 'Alege culoarea';
 
   @override
-  String get garageFieldMileageUnit => 'UNITATE KILOMETRAJ';
+  String get garageFieldMileageUnit => 'Unitate kilometraj';
 
   @override
-  String get garageFieldMileage => 'KILOMETRAJ';
+  String get garageFieldMileage => 'Kilometraj';
 
   @override
   String get garageHintMileage => 'ex. 42000';
@@ -937,10 +958,10 @@ class AppLocalizationsRo extends AppLocalizations {
       'Care e povestea acestei mașini? Spune-o…';
 
   @override
-  String get garageFieldStatus => 'STARE';
+  String get garageFieldStatus => 'Stare';
 
   @override
-  String get garageFieldTheStory => 'POVESTEA';
+  String get garageFieldTheStory => 'Povestea';
 
   @override
   String get garageHintStory => 'Care e povestea acestei mașini? Spune-o…';
@@ -949,13 +970,13 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageRegisterGalleryTitle => 'Arat-o';
 
   @override
-  String get garageFieldGallery => 'GALERIE';
+  String get garageFieldGallery => 'Galerie';
 
   @override
   String get garageAddCoverPhoto => 'Adaugă fotografia principală';
 
   @override
-  String get garageGalleryAdd => 'ADAUGĂ';
+  String get garageGalleryAdd => 'Adaugă';
 
   @override
   String get garageGalleryHint =>
@@ -968,10 +989,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageRegisterModsSubtitle => '';
 
   @override
-  String get garageModFallbackCategory => 'MODIFICARE';
+  String get garageModFallbackCategory => 'Modificare';
 
   @override
-  String get garageAddModification => 'ADAUGĂ MODIFICARE';
+  String get garageAddModification => 'Adaugă modificare';
 
   @override
   String get garageModSheetTitleEdit => 'Editează elementul';
@@ -980,7 +1001,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageModSheetTitleAdd => 'Adaugă un element';
 
   @override
-  String get garageFieldCategory => 'CATEGORIE';
+  String get garageFieldCategory => 'Categorie';
 
   @override
   String get garageHintCategory => 'ex. Motor';
@@ -989,94 +1010,94 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garagePickerCategory => 'Alege categoria';
 
   @override
-  String get garageFieldTitle => 'TITLU';
+  String get garageFieldTitle => 'Titlu';
 
   @override
   String get garageHintModTitle => 'ex. Turbo stage 2';
 
   @override
-  String get garageFieldDescription => 'DESCRIERE';
+  String get garageFieldDescription => 'Descriere';
 
   @override
   String get garageHintModDescription => 'Ce s-a schimbat și ce a câștigat…';
 
   @override
-  String get garageFieldInstallationDate => 'DATA INSTALĂRII';
+  String get garageFieldInstallationDate => 'Data instalării';
 
   @override
   String get garageSelectDate => 'Alege data';
 
   @override
-  String get garageFieldPrice => 'PREȚ';
+  String get garageFieldPrice => 'Preț';
 
   @override
-  String get garageFieldMileageShort => 'KILOMETRAJ';
+  String get garageFieldMileageShort => 'Kilometraj';
 
   @override
-  String get garageModBefore => 'ÎNAINTE';
+  String get garageModBefore => 'Înainte';
 
   @override
-  String get garageModAfter => 'DUPĂ';
+  String get garageModAfter => 'După';
 
   @override
-  String get garageModSaveChanges => 'SALVEAZĂ MODIFICĂRILE';
+  String get garageModSaveChanges => 'Salvează modificările';
 
   @override
-  String get garageModAddToBuildLog => 'ADAUGĂ ÎN JURNAL';
+  String get garageModAddToBuildLog => 'Adaugă în jurnal';
 
   @override
   String get garageModValidation =>
       'Categoria, titlul și data sunt obligatorii.';
 
   @override
-  String get garageAboutTitle => 'DESPRE';
+  String get garageAboutTitle => 'Despre';
 
   @override
   String garageBuildIdentifier(String code) {
-    return 'IDENTIFICATOR · $code';
+    return 'Identificator · $code';
   }
 
   @override
-  String get garageSpecPower => 'PUTERE';
+  String get garageSpecPower => 'Putere';
 
   @override
-  String get garageSpecTorque => 'CUPLU';
+  String get garageSpecTorque => 'Cuplu';
 
   @override
-  String get garageSpecWeight => 'GREUTATE';
+  String get garageSpecWeight => 'Greutate';
 
   @override
-  String get garageInfoDrivetrain => 'TRACȚIUNE';
+  String get garageInfoDrivetrain => 'Tracțiune';
 
   @override
-  String get garageInfoMileage => 'KILOMETRAJ';
+  String get garageInfoMileage => 'Kilometraj';
 
   @override
-  String get garageInfoModelCode => 'COD MODEL';
+  String get garageInfoModelCode => 'Cod model';
 
   @override
-  String get garageInfoEngineCode => 'COD MOTOR';
+  String get garageInfoEngineCode => 'Cod motor';
 
   @override
-  String get garageInfoDisplacement => 'CILINDREE';
+  String get garageInfoDisplacement => 'Cilindree';
 
   @override
-  String get garageInfoFuelType => 'TIP COMBUSTIBIL';
+  String get garageInfoFuelType => 'Tip combustibil';
 
   @override
-  String get garageInfoStatus => 'STARE';
+  String get garageInfoStatus => 'Stare';
 
   @override
-  String get garageStoryHeading => 'POVESTEA';
+  String get garageStoryHeading => 'Povestea';
 
   @override
-  String get garageGalleryHeading => 'GALERIE';
+  String get garageGalleryHeading => 'Galerie';
 
   @override
-  String get garageLogBuildIteration => '+ ADAUGĂ MODIFICARE';
+  String get garageLogBuildIteration => '+ Adaugă modificare';
 
   @override
-  String get garageModLogHeading => 'JURNAL MODIFICĂRI';
+  String get garageModLogHeading => 'Jurnal modificări';
 
   @override
   String get garageEditCar => 'Editează mașina';
@@ -1124,7 +1145,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get garageShareBuild => 'Distribuie mașina';
 
   @override
-  String get garageShareSheetLabel => 'DISTRIBUIE';
+  String get garageShareSheetLabel => 'Distribuie';
 
   @override
   String get garageShareQrTitle => 'Obține codul QR';
@@ -1255,6 +1276,20 @@ class AppLocalizationsRo extends AppLocalizations {
       'Încă nu ai adăugat această intrare în jurnalul de modificări. Dacă pleci acum, tot ce ai completat aici se va pierde.';
 
   @override
+  String get garageRegisterDiscardTitle => 'Renunți la mașină?';
+
+  @override
+  String get garageRegisterDiscardBody =>
+      'Încă nu ai adăugat mașina în garaj. Dacă pleci acum, tot ce ai completat se va pierde.';
+
+  @override
+  String get garageEditCarDiscardTitle => 'Renunți la schimbări?';
+
+  @override
+  String get garageEditCarDiscardBody =>
+      'Schimbările făcute mașinii nu vor fi salvate.';
+
+  @override
   String get garageLogModLogged => 'Modificare adăugată!';
 
   @override
@@ -1271,7 +1306,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Adaugă mai întâi o mașină în garaj, apoi notează ce i-ai făcut.';
 
   @override
-  String get garageAddModAddCar => 'ADAUGĂ O MAȘINĂ';
+  String get garageAddModAddCar => 'Adaugă o mașină';
 
   @override
   String get garageAddModPickCar => 'Alege o mașină ca să continui.';
@@ -1319,7 +1354,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get authErrorGeneric => 'Ceva nu a mers bine. Încearcă din nou.';
 
   @override
-  String get settingsTitle => 'SETĂRI';
+  String get settingsTitle => 'Setări';
 
   @override
   String get settingsLogout => 'Deconectare';
@@ -1332,13 +1367,13 @@ class AppLocalizationsRo extends AppLocalizations {
       'Va trebui să te conectezi din nou pentru a-ți accesa contul.';
 
   @override
-  String get postBack => 'ÎNAPOI';
+  String get postBack => 'Înapoi';
 
   @override
-  String get postNext => 'ÎNAINTE';
+  String get postNext => 'Înainte';
 
   @override
-  String get postPublish => 'PUBLICĂ POSTAREA';
+  String get postPublish => 'Publică postarea';
 
   @override
   String get postPhotosTitle => 'Alege-ți cadrele';
@@ -1348,17 +1383,17 @@ class AppLocalizationsRo extends AppLocalizations {
       'Trage pentru a reordona — coperta deschide postarea. Deocamdată doar poze.';
 
   @override
-  String get postPhotosAdd => 'ADAUGĂ';
+  String get postPhotosAdd => 'Adaugă';
 
   @override
   String get postPhotosCover => 'COPERTĂ';
 
   @override
-  String get postPhotosVideosSoon => 'VIDEO — ÎN CURÂND';
+  String get postPhotosVideosSoon => 'Video — în curând';
 
   @override
   String postPhotosCount(int count, int max) {
-    return '$count / $max POZE';
+    return '$count / $max poze';
   }
 
   @override
@@ -1369,7 +1404,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Adaugă o descriere pentru postare. Menționează detalii, povestea, build-ul.';
 
   @override
-  String get postCaptionLabel => 'DESCRIERE';
+  String get postCaptionLabel => 'Descriere';
 
   @override
   String get postCaptionHint => 'Spune povestea din spatele acestei postări…';
@@ -1387,10 +1422,10 @@ class AppLocalizationsRo extends AppLocalizations {
       'Leagă mașinile din această postare din orice garaj și etichetează persoanele din ea.';
 
   @override
-  String get postTagsCars => 'MAȘINI';
+  String get postTagsCars => 'Mașini';
 
   @override
-  String get postTagsPeople => 'PERSOANE';
+  String get postTagsPeople => 'Persoane';
 
   @override
   String get postTagsCarHint => 'Caută o mașină în orice garaj…';
@@ -1425,10 +1460,10 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get postVisibilitySubtitle =>
-      'Ascunde un contor și ceilalți nu vor vedea acel număr — pot în continuare să dea like, să comenteze și să distribuie.';
+      'Ascunde un contor și ceilalți nu vor vedea acel număr — pot în continuare să dea like, să comenteze și să reposteze.';
 
   @override
-  String get postVisibilityLabel => 'CONTOARE VIZIBILE';
+  String get postVisibilityLabel => 'Contoare vizibile';
 
   @override
   String get postVisibilityLikesTitle => 'Arată numărul de aprecieri';
@@ -1445,11 +1480,11 @@ class AppLocalizationsRo extends AppLocalizations {
       'Ascunde numărul — comentariile rămân deschise';
 
   @override
-  String get postVisibilitySharesTitle => 'Arată numărul de distribuiri';
+  String get postVisibilitySharesTitle => 'Arată numărul de repostări';
 
   @override
   String get postVisibilitySharesDesc =>
-      'Ceilalți pot vedea de câte ori a fost distribuită';
+      'Ceilalți pot vedea de câte ori a fost repostată';
 
   @override
   String get postVisibilitySavedTitle => 'Arată numărul de salvări';
@@ -1472,7 +1507,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get postReviewYou => 'Tu';
 
   @override
-  String get postReviewJustNow => 'ACUM';
+  String get postReviewJustNow => 'Acum';
 
   @override
   String get postValPhotosRequired =>
@@ -1490,6 +1525,13 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get postDiscard => 'Renunță';
+
+  @override
+  String get postEditDiscardTitle => 'Renunți la schimbări?';
+
+  @override
+  String get postEditDiscardBody =>
+      'Schimbările făcute postării nu vor fi salvate.';
 
   @override
   String get postCreatedSuccess => 'Postare publicată.';
@@ -1528,7 +1570,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get profileTabTags => 'Etichetări';
 
   @override
-  String get postsLoadMore => 'ÎNCARCĂ MAI MULT';
+  String get profileTabReposts => 'Repostări';
+
+  @override
+  String get postsLoadMore => 'Încarcă mai mult';
 
   @override
   String get postsEmptyOwner => 'Încă nu ai postat nimic.';
@@ -1537,10 +1582,16 @@ class AppLocalizationsRo extends AppLocalizations {
   String get postsEmptyVisitor => 'Nicio postare încă.';
 
   @override
-  String get postsCreateFirst => 'CREEAZĂ PRIMA POSTARE';
+  String get postsCreateFirst => 'Creează prima postare';
 
   @override
-  String get savedPostsTitle => 'POSTĂRI SALVATE';
+  String get repostsEmptyOwner => 'Postările pe care le repostezi apar aici.';
+
+  @override
+  String get repostsEmptyVisitor => 'Nicio repostare încă.';
+
+  @override
+  String get savedPostsTitle => 'Postări salvate';
 
   @override
   String get savedPostsEmptyTitle => 'Nimic salvat încă';
@@ -1550,7 +1601,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Salvează postările care îți plac ca să le găsești aici mai târziu.';
 
   @override
-  String get postDetailTitle => 'POSTARE';
+  String get postDetailTitle => 'Postare';
 
   @override
   String get postEditAction => 'Editează postarea';
@@ -1566,29 +1617,32 @@ class AppLocalizationsRo extends AppLocalizations {
       'Această postare și pozele, aprecierile și comentariile sale vor fi șterse definitiv.';
 
   @override
-  String get postEditTitle => 'EDITEAZĂ POSTAREA';
+  String get postEditTitle => 'Editează postarea';
 
   @override
-  String get postEditSave => 'SALVEAZĂ';
+  String get postEditSave => 'Salvează';
 
   @override
-  String get postShareTitle => 'DISTRIBUIE POSTAREA';
+  String postRepostedByOne(String user) {
+    return '@$user a repostat';
+  }
 
   @override
-  String get postShareSend => 'DISTRIBUIE';
+  String postRepostedByTwo(String first, String second) {
+    return '@$first și @$second au repostat';
+  }
 
   @override
-  String get postShareNoteLabel => 'Adaugă o notă';
-
-  @override
-  String get postShareNoteHint =>
-      'Spune ceva despre această postare… (opțional)';
-
-  @override
-  String get postSharePreviewNoCaption => 'Fără descriere';
-
-  @override
-  String get postShareSuccess => 'Postare distribuită.';
+  String postRepostedByMany(int count, String user) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '@$user și încă $count de persoane au repostat',
+      few: '@$user și încă $count persoane au repostat',
+      one: '@$user și încă o persoană au repostat',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get postTimeNow => 'acum';
@@ -1775,7 +1829,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get settingsMyReports => 'Rapoartele mele';
 
   @override
-  String get myReportsTitle => 'RAPOARTELE MELE';
+  String get myReportsTitle => 'Rapoartele mele';
 
   @override
   String get myReportsEmpty => 'Nu ai trimis încă niciun raport.';
@@ -1817,7 +1871,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get settingsMyFeedback => 'Feedbackul meu';
 
   @override
-  String get feedbackEyebrow => 'FEEDBACK';
+  String get feedbackEyebrow => 'Feedback';
 
   @override
   String get feedbackHeadline => 'Ai o sugestie ?';
@@ -1827,13 +1881,13 @@ class AppLocalizationsRo extends AppLocalizations {
       'Raportează o eroare, cere o funcție sau împărtășește un gând și ajunge direct la noi.';
 
   @override
-  String get feedbackTypeLabel => 'TIP DE FEEDBACK';
+  String get feedbackTypeLabel => 'Tip de feedback';
 
   @override
   String get feedbackTypeHint => 'Alege un tip';
 
   @override
-  String get feedbackFeatureLabel => 'LEGAT DE O FUNCȚIE EXISTENTĂ?';
+  String get feedbackFeatureLabel => 'Legat de o funcție existentă?';
 
   @override
   String get feedbackFeatureHint => 'Alege o funcție';
@@ -1842,16 +1896,16 @@ class AppLocalizationsRo extends AppLocalizations {
   String get feedbackOptional => 'OPȚIONAL';
 
   @override
-  String get feedbackContentLabel => 'FEEDBACKUL TĂU';
+  String get feedbackContentLabel => 'Feedbackul tău';
 
   @override
-  String get feedbackContentLabelBug => 'CE S-A ÎNTÂMPLAT';
+  String get feedbackContentLabelBug => 'Ce s-a întâmplat';
 
   @override
   String get feedbackContentHint => 'Spune-ne ce gândești…';
 
   @override
-  String get feedbackReproductionLabel => 'PAȘI DE REPRODUCERE';
+  String get feedbackReproductionLabel => 'Pași de reproducere';
 
   @override
   String get feedbackReproductionHint => '1. Deschide …\n2. Apasă …\n3. …';
@@ -1896,13 +1950,13 @@ class AppLocalizationsRo extends AppLocalizations {
       'Feedbackul nu a putut fi trimis. Încearcă din nou.';
 
   @override
-  String get myFeedbackTitle => 'FEEDBACKUL MEU';
+  String get myFeedbackTitle => 'Feedbackul meu';
 
   @override
   String get myFeedbackEmpty => 'Nu ai trimis încă niciun feedback.';
 
   @override
-  String get myFeedbackResponseLabel => 'RĂSPUNS';
+  String get myFeedbackResponseLabel => 'Răspuns';
 
   @override
   String get forumsTitle => 'Forumuri';
@@ -1911,16 +1965,16 @@ class AppLocalizationsRo extends AppLocalizations {
   String get forumsSubtitle => 'Paddock-ul tău';
 
   @override
-  String get forumsYourShortcuts => 'SCURTĂTURILE TALE';
+  String get forumsYourShortcuts => 'Scurtăturile tale';
 
   @override
-  String get forumsEditShortcuts => 'EDITEAZĂ';
+  String get forumsEditShortcuts => 'Editează';
 
   @override
-  String get forumsDoneEditing => 'GATA';
+  String get forumsDoneEditing => 'Gata';
 
   @override
-  String get forumsHotInYourForums => 'HOT ÎN FORUMURILE TALE';
+  String get forumsHotInYourForums => 'Hot în forumurile tale';
 
   @override
   String get forumsSortHot => 'Hot';
@@ -1936,10 +1990,10 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get forumsEmptyBody =>
-      'Atinge un hub ca să-i vezi thread-urile. După ce te-ai uitat prin el, salvează-l ca scurtătură și apare chiar aici.';
+      'Explorează hub-urile după mașină sau intră în ce e popular mai jos. Salvează hub-urile preferate ca scurtături și apar chiar aici.';
 
   @override
-  String get forumsPopularHubs => 'HUB-URI POPULARE PENTRU ÎNCEPUT';
+  String get forumsPopularThreads => 'Populare acum';
 
   @override
   String get forumsCtaTitle => 'Ai ceva de spus?';
@@ -1958,7 +2012,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get forumsShortcutRemoved => 'Scurtătură ștearsă.';
 
   @override
-  String get forumsBrowseTitle => 'EXPLOREAZĂ';
+  String get forumsBrowseTitle => 'Explorează';
 
   @override
   String forumsBrandsCount(int count) {
@@ -1983,18 +2037,18 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get forumsModels => 'MODELE';
+  String get forumsModels => 'Modele';
 
   @override
-  String get forumsRefineByTopic => 'FILTREAZĂ DUPĂ SUBIECT';
+  String get forumsRefineByTopic => 'Filtrează după subiect';
 
   @override
   String forumsHotIn(String name) {
-    return 'HOT ÎN $name';
+    return 'Hot în $name';
   }
 
   @override
-  String get forumsThreadsLabel => 'THREAD-URI';
+  String get forumsThreadsLabel => 'Thread-uri';
 
   @override
   String get forumsAllTopics => 'Toate';
@@ -2007,7 +2061,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Fixează acest filtru în paddock pentru acces dintr-o atingere.';
 
   @override
-  String get forumsShortcutNameLabel => 'NUME';
+  String get forumsShortcutNameLabel => 'Nume';
 
   @override
   String get forumsNotifyMe => 'Notifică-mă';
@@ -2025,7 +2079,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get forumsRetry => 'Încearcă din nou';
 
   @override
-  String get forumsThreadTitle => 'THREAD';
+  String get forumsThreadTitle => 'Thread';
 
   @override
   String get forumsPinned => 'FIXAT';
@@ -2126,7 +2180,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get forumsComingSoon => 'În curând';
 
   @override
-  String get forumsNewThreadTitle => 'THREAD NOU';
+  String get forumsNewThreadTitle => 'Thread nou';
 
   @override
   String get forumsPost => 'Postează';
@@ -2139,10 +2193,10 @@ class AppLocalizationsRo extends AppLocalizations {
       'Împărtășește detalii, întrebări sau writeup-ul tău…';
 
   @override
-  String get forumsBrandRequiredLabel => 'MARCĂ · OBLIGATORIU';
+  String get forumsBrandRequiredLabel => 'Marcă · obligatoriu';
 
   @override
-  String get forumsModelOptionalLabel => 'MODEL · OPȚIONAL';
+  String get forumsModelOptionalLabel => 'Model · opțional';
 
   @override
   String get forumsSearchBrandHint => 'Caută o marcă…';
@@ -2171,7 +2225,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Alege o marcă pentru ca thread-ul tău să apară în hub-ul potrivit. Este recomandat să adaugi și modelul exact, dacă întrebarea nu se referă la întreaga marcă.';
 
   @override
-  String get forumsTopics => 'SUBIECTE';
+  String get forumsTopics => 'Subiecte';
 
   @override
   String get forumsThreadPosted => 'Thread postat.';
@@ -2201,10 +2255,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get forumsReportReplyTitle => 'Raportează răspunsul';
 
   @override
-  String get forumsSavedTitle => 'SALVATE';
+  String get forumsSavedTitle => 'Salvate';
 
   @override
-  String get forumsSavedHeader => 'THREAD-URI SALVATE';
+  String get forumsSavedHeader => 'Thread-uri salvate';
 
   @override
   String get forumsSavedEmptyTitle => 'Nimic salvat încă';
@@ -2236,13 +2290,13 @@ class AppLocalizationsRo extends AppLocalizations {
       'Unul dintre profilurile sau mașinile etichetate nu mai este disponibil.';
 
   @override
-  String get forumsTagPeopleAndCars => 'ETICHETEAZĂ PERSOANE ȘI MAȘINI';
+  String get forumsTagPeopleAndCars => 'Etichetează persoane și mașini';
 
   @override
-  String get forumsTagPeople => 'PERSOANE';
+  String get forumsTagPeople => 'Persoane';
 
   @override
-  String get forumsTagCars => 'MAȘINI';
+  String get forumsTagCars => 'Mașini';
 
   @override
   String get forumsTagHelper =>
@@ -2294,16 +2348,16 @@ class AppLocalizationsRo extends AppLocalizations {
   String get forumsAddTagsTooltip => 'Etichetează persoane și mașini';
 
   @override
-  String get forumsTagsSectionLabel => 'ETICHETE';
+  String get forumsTagsSectionLabel => 'Etichete';
 
   @override
-  String get messagesTitle => 'MESAJE';
+  String get messagesTitle => 'Mesaje';
 
   @override
   String get messagesSearchHint => 'Caută în mesaje';
 
   @override
-  String get messagesActiveNow => 'ACTIVI ACUM';
+  String get messagesActiveNow => 'Activi acum';
 
   @override
   String get messagesRequestsTitle => 'Cereri de mesaje';
@@ -2321,7 +2375,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Începe o conversație cu șoferii pe care îi urmărești — planificați întâlniri, comparați specificații, împărtășiți ture.';
 
   @override
-  String get messagesNewMessage => 'MESAJ NOU';
+  String get messagesNewMessage => 'Mesaj nou';
 
   @override
   String messagesYouPrefix(String text) {
@@ -2444,7 +2498,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get messagesShareCarsConfirmEmpty => 'Partajează mașini';
 
   @override
-  String get notificationsTitle => 'NOTIFICĂRI';
+  String get notificationsTitle => 'Notificări';
 
   @override
   String get notificationsMarkAllRead => 'Marchează toate ca citite';
@@ -2468,16 +2522,16 @@ class AppLocalizationsRo extends AppLocalizations {
       'Ceva nu a funcționat. Te rugăm să încerci din nou.';
 
   @override
-  String get tagsKindPost => 'ETICHETAT ÎNTR-O POSTARE';
+  String get tagsKindPost => 'Etichetat într-o postare';
 
   @override
-  String get tagsKindComment => 'ETICHETAT ÎNTR-UN COMENTARIU';
+  String get tagsKindComment => 'Etichetat într-un comentariu';
 
   @override
-  String get tagsKindThread => 'ETICHETAT ÎNTR-O DISCUȚIE';
+  String get tagsKindThread => 'Etichetat într-o discuție';
 
   @override
-  String get tagsKindReply => 'ETICHETAT ÎNTR-UN RĂSPUNS';
+  String get tagsKindReply => 'Etichetat într-un răspuns';
 
   @override
   String tagsOnPostBy(String author) {
@@ -2485,7 +2539,7 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get tagsLoadMore => 'ÎNCARCĂ MAI MULT';
+  String get tagsLoadMore => 'Încarcă mai mult';
 
   @override
   String get tagsEmptyOwner => 'Nu ai fost etichetat încă.';
@@ -2545,7 +2599,7 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get mapHoursTitle => 'PROGRAM';
+  String get mapHoursTitle => 'Program';
 
   @override
   String get mapHoursClosed => 'Închis';
@@ -2581,7 +2635,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapRecentre => 'Centrează pe locația mea';
 
   @override
-  String get mapRetry => 'ÎNCEARCĂ DIN NOU';
+  String get mapRetry => 'Încearcă din nou';
 
   @override
   String get mapErrorNetwork =>
@@ -2606,7 +2660,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapNavigateSheetTitle => 'Alege o aplicație de navigare';
 
   @override
-  String get mapNavigateInstall => 'INSTALEAZĂ';
+  String get mapNavigateInstall => 'Instalează';
 
   @override
   String get mapNavigateFailed => 'Nu am putut deschide acea aplicație.';
@@ -2675,16 +2729,16 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsShare => 'Distribuie';
 
   @override
-  String get mapEventsStatAttendees => 'PARTICIPANȚI';
+  String get mapEventsStatAttendees => 'Participanți';
 
   @override
-  String get mapEventsStatCars => 'MAȘINI';
+  String get mapEventsStatCars => 'Mașini';
 
   @override
-  String get mapEventsStatStarts => 'ÎNCEPE';
+  String get mapEventsStatStarts => 'Începe';
 
   @override
-  String get mapEventsStatStarted => 'A ÎNCEPUT';
+  String get mapEventsStatStarted => 'A început';
 
   @override
   String mapEventsGoingCount(int count) {
@@ -2710,33 +2764,33 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsChipBusiness => 'BUSINESS';
 
   @override
-  String get mapEventsAttending => 'PARTICIP';
+  String get mapEventsAttending => 'Particip';
 
   @override
-  String get mapEventsInterested => 'MĂ INTERESEAZĂ';
+  String get mapEventsInterested => 'Mă interesează';
 
   @override
-  String get mapEventsWantToParticipate => 'VREI SĂ PARTICIPI?';
+  String get mapEventsWantToParticipate => 'Vrei să participi?';
 
   @override
-  String get mapEventsParticipateShort => 'PARTICIPI?';
+  String get mapEventsParticipateShort => 'Participi?';
 
   @override
-  String get mapEventsParticipating => 'PARTICIPI';
+  String get mapEventsParticipating => 'Participi';
 
   @override
   String mapEventsParticipatingCount(int count) {
-    return 'PARTICIPI · $count MAȘINI';
+    return 'Participi · $count mașini';
   }
 
   @override
   String get mapEventsParticipationPending => 'ÎN AȘTEPTARE';
 
   @override
-  String get mapEventsWithdrawAction => 'RETRAGE-TE';
+  String get mapEventsWithdrawAction => 'Retrage-te';
 
   @override
-  String get mapEventsViewEvent => 'VEZI EVENIMENTUL';
+  String get mapEventsViewEvent => 'Vezi evenimentul';
 
   @override
   String mapEventsCapacityOf(int capacity) {
@@ -2744,11 +2798,11 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get mapEventsTabOverview => 'PREZENTARE';
+  String get mapEventsTabOverview => 'Prezentare';
 
   @override
   String mapEventsTabCars(int count) {
-    return 'MAȘINI · $count';
+    return 'Mașini · $count';
   }
 
   @override
@@ -2756,23 +2810,23 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String mapEventsApprovedCount(int count) {
-    return '$count APROBATE';
+    return '$count aprobate';
   }
 
   @override
-  String get mapEventsSectionAbout => 'DESPRE EVENIMENT';
+  String get mapEventsSectionAbout => 'Despre eveniment';
 
   @override
-  String get mapEventsSectionOrganizers => 'ORGANIZATORI';
+  String get mapEventsSectionOrganizers => 'Organizatori';
 
   @override
-  String get mapEventsSectionRules => 'NOTE DE LA ORGANIZATOR';
+  String get mapEventsSectionRules => 'Note de la organizator';
 
   @override
-  String get mapEventsSectionContests => 'CONCURSURI';
+  String get mapEventsSectionContests => 'Concursuri';
 
   @override
-  String get mapEventsSectionAttendees => 'PARTICIPANȚI';
+  String get mapEventsSectionAttendees => 'Participanți';
 
   @override
   String get mapEventsSoon => 'ÎN CURÂND';
@@ -2785,14 +2839,14 @@ class AppLocalizationsRo extends AppLocalizations {
       'Organizatorii vor putea porni voturi în cadrul unei întâlniri — cel mai reușit build, cel mai curat compartiment motor, cea mai zgomotoasă evacuare.';
 
   @override
-  String get mapEventsSeeAll => 'VEZI TOT';
+  String get mapEventsSeeAll => 'Vezi tot';
 
   @override
-  String get mapEventsSeeAllAttendees => 'VEZI TOȚI PARTICIPANȚII';
+  String get mapEventsSeeAllAttendees => 'Vezi toți participanții';
 
   @override
   String mapEventsSeeAllCars(int count) {
-    return 'VEZI TOATE CELE $count MAȘINI';
+    return 'Vezi toate cele $count mașini';
   }
 
   @override
@@ -2808,7 +2862,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsCapacityFull => 'Lista de înscrieri este plină.';
 
   @override
-  String get mapEventsGarageLink => 'GARAJ';
+  String get mapEventsGarageLink => 'Garaj';
 
   @override
   String get mapEventsEntryListEmpty =>
@@ -2818,7 +2872,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsAttendeesEmpty => 'Încă nu a confirmat nimeni.';
 
   @override
-  String get mapEventsRetry => 'ÎNCEARCĂ DIN NOU';
+  String get mapEventsRetry => 'Încearcă din nou';
 
   @override
   String get mapEventsStripPendingTitle => 'Cerere în așteptare';
@@ -2842,13 +2896,13 @@ class AppLocalizationsRo extends AppLocalizations {
       'Organizatorii îți analizează cererea de retragere. Nu o mai poți anula.';
 
   @override
-  String get mapEventsDeclineReasonHeading => 'MOTIVUL';
+  String get mapEventsDeclineReasonHeading => 'Motivul';
 
   @override
-  String get mapEventsTryAnotherCar => 'ÎNCEARCĂ ALTĂ MAȘINĂ';
+  String get mapEventsTryAnotherCar => 'Încearcă altă mașină';
 
   @override
-  String get mapEventsCancelRequest => 'ANULEAZĂ CEREREA';
+  String get mapEventsCancelRequest => 'Anulează cererea';
 
   @override
   String get mapEventsPickCarTitle => 'Cu ce mașini vii?';
@@ -2870,14 +2924,14 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsPickCarAlreadyIn => 'Deja înscrisă';
 
   @override
-  String get mapEventsPickCarSelectAll => 'SELECTEAZĂ TOATE';
+  String get mapEventsPickCarSelectAll => 'Selectează toate';
 
   @override
-  String get mapEventsPickCarClearAll => 'ȘTERGE';
+  String get mapEventsPickCarClearAll => 'Șterge';
 
   @override
   String mapEventsPickCarRegisterCta(int count) {
-    return 'ÎNSCRIE ($count)';
+    return 'Înscrie ($count)';
   }
 
   @override
@@ -2888,7 +2942,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Adaugă întâi o mașină în garaj, apoi înscrie-o la un eveniment.';
 
   @override
-  String get mapEventsPickCarAdd => 'ADAUGĂ O MAȘINĂ';
+  String get mapEventsPickCarAdd => 'Adaugă o mașină';
 
   @override
   String mapEventsCarYear(String year) {
@@ -2919,49 +2973,49 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get mapEventsWithdrawNoteLabel =>
-      'NOTĂ PENTRU ORGANIZATORI (OPȚIONAL)';
+      'Notă pentru organizatori (opțional)';
 
   @override
   String get mapEventsWithdrawNoteHint => 'Spune-le de ce, dacă vrei…';
 
   @override
-  String get mapEventsCancel => 'ANULEAZĂ';
+  String get mapEventsCancel => 'Anulează';
 
   @override
   String get mapEventsAttendeesPageTitle => 'Participanți';
 
   @override
-  String get mapEventsFilterAttending => 'PARTICIPĂ';
+  String get mapEventsFilterAttending => 'Participă';
 
   @override
-  String get mapEventsFilterInterested => 'INTERESAȚI';
+  String get mapEventsFilterInterested => 'Interesați';
 
   @override
-  String get mapEventsCreateTitle => 'EVENIMENT NOU';
+  String get mapEventsCreateTitle => 'Eveniment nou';
 
   @override
-  String get mapEventsEditTitle => 'EDITEAZĂ EVENIMENTUL';
+  String get mapEventsEditTitle => 'Editează evenimentul';
 
   @override
-  String get mapEventsCoverAdd => 'ADAUGĂ O FOTOGRAFIE DE COPERTĂ';
+  String get mapEventsCoverAdd => 'Adaugă o fotografie de copertă';
 
   @override
   String get mapEventsCoverHint => 'recomandat 1600 × 900';
 
   @override
-  String get mapEventsCoverChange => 'SCHIMBĂ COPERTA';
+  String get mapEventsCoverChange => 'Schimbă coperta';
 
   @override
-  String get mapEventsFieldCover => 'FOTOGRAFIE DE COPERTĂ';
+  String get mapEventsFieldCover => 'Fotografie de copertă';
 
   @override
-  String get mapEventsFieldTitle => 'TITLUL EVENIMENTULUI';
+  String get mapEventsFieldTitle => 'Titlul evenimentului';
 
   @override
   String get mapEventsFieldTitleHint => 'ex. Casino Square Cars & Coffee';
 
   @override
-  String get mapEventsFieldCategory => 'CATEGORIA EVENIMENTULUI';
+  String get mapEventsFieldCategory => 'Categoria evenimentului';
 
   @override
   String get mapEventsCategoriesSoonNote => 'Urmează și alte categorii.';
@@ -2976,25 +3030,25 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsCategoryCruise => 'Cruise';
 
   @override
-  String get mapEventsFieldDescription => 'DESCRIERE';
+  String get mapEventsFieldDescription => 'Descriere';
 
   @override
   String get mapEventsFieldDescriptionHint => 'Despre ce e evenimentul ?';
 
   @override
-  String get mapEventsFieldLocation => 'LOCAȚIE';
+  String get mapEventsFieldLocation => 'Locație';
 
   @override
   String get mapEventsFieldVenueHint => 'Numele locației — ex. Place du Casino';
 
   @override
-  String get mapEventsSetLocationOnMap => 'ALEGE LOCAȚIA PE HARTĂ';
+  String get mapEventsSetLocationOnMap => 'Alege locația pe hartă';
 
   @override
-  String get mapEventsLocationSet => 'PIN PLASAT · ATINGE PENTRU A-L MUTA';
+  String get mapEventsLocationSet => 'Pin plasat · atinge pentru a-l muta';
 
   @override
-  String get mapEventsFieldDateTime => 'DATĂ ȘI ORĂ';
+  String get mapEventsFieldDateTime => 'Dată și oră';
 
   @override
   String get mapEventsStartsLabel => 'Începe';
@@ -3007,10 +3061,10 @@ class AppLocalizationsRo extends AppLocalizations {
       'Lasă finalul gol pentru un eveniment fără oră de încheiere.';
 
   @override
-  String get mapEventsClearEnd => 'ȘTERGE FINALUL';
+  String get mapEventsClearEnd => 'Șterge finalul';
 
   @override
-  String get mapEventsFieldCapacity => 'CAPACITATE MAXIMĂ';
+  String get mapEventsFieldCapacity => 'Capacitate maximă';
 
   @override
   String get mapEventsOptional => 'OPȚIONAL';
@@ -3034,13 +3088,13 @@ class AppLocalizationsRo extends AppLocalizations {
       'Tu și co-organizatorii tăi analizați fiecare cerere înainte ca un participant să fie adăugat pe lista de înscrieri.';
 
   @override
-  String get mapEventsFieldDeadline => 'TERMEN LIMITĂ DE ÎNSCRIERE';
+  String get mapEventsFieldDeadline => 'Termen limită de înscriere';
 
   @override
-  String get mapEventsFieldRules => 'REGULI ȘI RECOMANDĂRI';
+  String get mapEventsFieldRules => 'Reguli și recomandări';
 
   @override
-  String get mapEventsAddRule => 'ADAUGĂ O REGULĂ';
+  String get mapEventsAddRule => 'Adaugă o regulă';
 
   @override
   String get mapEventsRuleHint => 'ex. Fără turat sau derapaje.';
@@ -3049,7 +3103,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsRemoveRule => 'Șterge regula';
 
   @override
-  String get mapEventsFieldOrganizers => 'ORGANIZATORI';
+  String get mapEventsFieldOrganizers => 'Organizatori';
 
   @override
   String get mapEventsOrganizersHint =>
@@ -3059,26 +3113,26 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsYouCreator => 'TU · CREATOR';
 
   @override
-  String get mapEventsAddOrganizer => 'ADAUGĂ ORGANIZATOR';
+  String get mapEventsAddOrganizer => 'Adaugă organizator';
 
   @override
   String get mapEventsRemoveOrganizer => 'Șterge organizatorul';
 
   @override
-  String get mapEventsCreateCta => 'CREEAZĂ EVENIMENTUL';
+  String get mapEventsCreateCta => 'Creează evenimentul';
 
   @override
   String get mapEventsCreateCtaIncomplete =>
-      'ADAUGĂ TITLU, LOCAȚIE ȘI ORA DE ÎNCEPERE';
+      'Adaugă titlu, locație și ora de începere';
 
   @override
-  String get mapEventsCreateCtaDeadline => 'ADAUGĂ UN TERMEN DE ÎNSCRIERE';
+  String get mapEventsCreateCtaDeadline => 'Adaugă un termen de înscriere';
 
   @override
-  String get mapEventsCreateCtaCover => 'ADAUGĂ O FOTOGRAFIE DE COPERTĂ';
+  String get mapEventsCreateCtaCover => 'Adaugă o fotografie de copertă';
 
   @override
-  String get mapEventsSaveCta => 'SALVEAZĂ MODIFICĂRILE';
+  String get mapEventsSaveCta => 'Salvează modificările';
 
   @override
   String get mapEventsSubmitting => 'Doar o clipă…';
@@ -3103,42 +3157,46 @@ class AppLocalizationsRo extends AppLocalizations {
       'Echipa noastră verifică fiecare eveniment nou înainte să apară pe hartă. Până atunci îl găsești la Evenimente, pe profilul tău.';
 
   @override
-  String get mapEventsDone => 'GATA';
+  String get mapEventsDone => 'Gata';
 
   @override
   String get mapEventsCoverUploadFailed =>
       'Evenimentul a fost creat, dar fotografia de copertă nu s-a încărcat. O poți adăuga din Evenimentele mele.';
 
   @override
-  String get mapEventsWizardNext => 'MAI DEPARTE';
+  String get mapEventsWizardNext => 'Mai departe';
 
   @override
-  String get mapEventsWizardBack => 'ÎNAPOI';
+  String get mapEventsWizardBack => 'Înapoi';
 
   @override
   String get mapEventsWizardClose => 'Închide';
 
   @override
-  String get mapEventsWizardDiscardTitle => 'Ieși din ciorna evenimentului?';
+  String get mapEventsWizardDiscardTitle => 'Renunți la eveniment?';
 
   @override
   String get mapEventsWizardDiscardBody =>
-      'Progresul e salvat pe telefon, așa că poți relua de unde ai rămas. Sau îl arunci și o iei de la capăt data viitoare.';
+      'Încă nu ai trimis evenimentul. Dacă pleci acum, tot ce ai completat se va pierde.';
 
   @override
-  String get mapEventsWizardKeepDraft => 'SALVEAZĂ & IEȘI';
+  String get mapEventsWizardDiscardDraft => 'Renunță';
 
   @override
-  String get mapEventsWizardDiscardDraft => 'ARUNCĂ';
+  String get mapEventsWizardStay => 'Continuă editarea';
 
   @override
-  String get mapEventsWizardStay => 'CONTINUĂ';
+  String get mapEventsEditDiscardTitle => 'Renunți la schimbări?';
+
+  @override
+  String get mapEventsEditDiscardBody =>
+      'Schimbările făcute evenimentului nu vor fi salvate.';
 
   @override
   String get mapEventsDraftRestored => 'Am reluat de unde ai rămas.';
 
   @override
-  String get mapEventsDraftStartOver => 'IA DE LA CAPĂT';
+  String get mapEventsDraftStartOver => 'Ia de la capăt';
 
   @override
   String get mapEventsStepBasicsTitle => 'Datele de bază';
@@ -3166,10 +3224,10 @@ class AppLocalizationsRo extends AppLocalizations {
       'Stabilește programul, apoi pune pinul pe hartă.';
 
   @override
-  String get mapEventsLocationPickCta => 'ALEGE LOCAȚIA PE HARTĂ';
+  String get mapEventsLocationPickCta => 'Alege locația pe hartă';
 
   @override
-  String get mapEventsLocationChangeCta => 'SCHIMBĂ LOCAȚIA';
+  String get mapEventsLocationChangeCta => 'Schimbă locația';
 
   @override
   String get mapEventsLocationCardCity => 'Oraș';
@@ -3219,7 +3277,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsContestsEmpty => 'Niciun concurs încă.';
 
   @override
-  String get mapEventsAddContest => 'ADAUGĂ UN CONCURS';
+  String get mapEventsAddContest => 'Adaugă un concurs';
 
   @override
   String get mapEventsEditContest => 'Editează concursul';
@@ -3261,22 +3319,22 @@ class AppLocalizationsRo extends AppLocalizations {
       'Participanții văd această oră. Tot tu deschizi și închizi votarea, din lista de concursuri după ce evenimentul e aprobat.';
 
   @override
-  String get mapEventsContestTitleLabel => 'TITLUL CONCURSULUI';
+  String get mapEventsContestTitleLabel => 'Titlul concursului';
 
   @override
   String get mapEventsContestTitleHint => 'ex. Cel mai bun sistem de evacuare';
 
   @override
-  String get mapEventsContestCriteriaLabel => 'NOTĂ DE JURIZARE';
+  String get mapEventsContestCriteriaLabel => 'Notă de jurizare';
 
   @override
   String get mapEventsContestCriteriaHint => 'La ce se votează, mai exact?';
 
   @override
-  String get mapEventsContestCategoryLabel => 'CATEGORIE';
+  String get mapEventsContestCategoryLabel => 'Categorie';
 
   @override
-  String get mapEventsContestSave => 'SALVEAZĂ CONCURSUL';
+  String get mapEventsContestSave => 'Salvează concursul';
 
   @override
   String get mapEventsStepCoverTitle => 'Poza de copertă';
@@ -3293,7 +3351,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Așa îl va vedea lumea. Atinge orice secțiune ca să te întorci și să o modifici.';
 
   @override
-  String get mapEventsReviewEdit => 'MODIFICĂ';
+  String get mapEventsReviewEdit => 'Modifică';
 
   @override
   String get mapEventsReviewNoDescription => 'Încă fără descriere';
@@ -3317,16 +3375,16 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsReviewApprovalOff => 'Oricine poate înscrie o mașină';
 
   @override
-  String get mapEventsReviewSectionOrganizers => 'ORGANIZATORI';
+  String get mapEventsReviewSectionOrganizers => 'Organizatori';
 
   @override
-  String get mapEventsReviewSectionSchedule => 'PROGRAM';
+  String get mapEventsReviewSectionSchedule => 'Program';
 
   @override
-  String get mapEventsReviewSectionEntry => 'ÎNSCRIERE';
+  String get mapEventsReviewSectionEntry => 'Înscriere';
 
   @override
-  String get mapEventsPublishCta => 'TRIMITE SPRE APROBARE';
+  String get mapEventsPublishCta => 'Trimite spre aprobare';
 
   @override
   String get mapEventsValidationTitle => 'Dă-i evenimentului un titlu.';
@@ -3349,7 +3407,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsValidationCover => 'Adaugă o poză de copertă.';
 
   @override
-  String get mapEventsUseThisLocation => 'FOLOSEȘTE ACEASTĂ LOCAȚIE';
+  String get mapEventsUseThisLocation => 'Folosește această locație';
 
   @override
   String get mapEventsLocationFormTitle => 'Găsește adresa';
@@ -3359,29 +3417,29 @@ class AppLocalizationsRo extends AppLocalizations {
       'Vom muta harta acolo. Tu plasezi pinul exact.';
 
   @override
-  String get mapEventsLocationCity => 'ORAȘ';
+  String get mapEventsLocationCity => 'Oraș';
 
   @override
   String get mapEventsLocationCityHint => 'Cluj-Napoca';
 
   @override
-  String get mapEventsLocationStreet => 'STRADA';
+  String get mapEventsLocationStreet => 'Strada';
 
   @override
   String get mapEventsLocationStreetHint => 'Strada Memorandumului';
 
   @override
-  String get mapEventsLocationNumber => 'NUMĂR';
+  String get mapEventsLocationNumber => 'Număr';
 
   @override
   String get mapEventsLocationNumberHint => '28B';
 
   @override
-  String get mapEventsLocationSearchButton => 'CAUTĂ';
+  String get mapEventsLocationSearchButton => 'Caută';
 
   @override
   String get mapEventsLocationSearchIncomplete =>
-      'COMPLETEAZĂ TOATE CELE TREI CÂMPURI';
+      'Completează toate cele trei câmpuri';
 
   @override
   String get mapEventsLocationSearchNoResults =>
@@ -3396,10 +3454,10 @@ class AppLocalizationsRo extends AppLocalizations {
       'Asta doar mută harta — pinul tot tu îl plasezi.';
 
   @override
-  String get mapEventsLocationEditSearch => 'MODIFICĂ';
+  String get mapEventsLocationEditSearch => 'Modifică';
 
   @override
-  String get mapEventsLocationBackToResults => 'REZULTATE';
+  String get mapEventsLocationBackToResults => 'Rezultate';
 
   @override
   String get mapEventsLocationDropPinTitle =>
@@ -3464,22 +3522,22 @@ class AppLocalizationsRo extends AppLocalizations {
       'Evenimentele pe care le creezi apar aici — inclusiv cele care așteaptă verificarea.';
 
   @override
-  String get mapEventsMineCreate => 'CREEAZĂ UN EVENIMENT';
+  String get mapEventsMineCreate => 'Creează un eveniment';
 
   @override
   String get mapEventsManageTitle => 'Gestionează evenimentul';
 
   @override
-  String get mapEventsManageEntries => 'CERERI DE ÎNSCRIERE';
+  String get mapEventsManageEntries => 'Cereri de înscriere';
 
   @override
-  String get mapEventsManageWithdrawals => 'CERERI DE RETRAGERE';
+  String get mapEventsManageWithdrawals => 'Cereri de retragere';
 
   @override
-  String get mapEventsManageOrganizers => 'ORGANIZATORI';
+  String get mapEventsManageOrganizers => 'Organizatori';
 
   @override
-  String get mapEventsManageDanger => 'EVENIMENT';
+  String get mapEventsManageDanger => 'Eveniment';
 
   @override
   String get mapEventsNoPendingEntries =>
@@ -3490,10 +3548,10 @@ class AppLocalizationsRo extends AppLocalizations {
       'Nicio cerere de retragere în așteptare.';
 
   @override
-  String get mapEventsAccept => 'ACCEPTĂ';
+  String get mapEventsAccept => 'Acceptă';
 
   @override
-  String get mapEventsDecline => 'REFUZĂ';
+  String get mapEventsDecline => 'Refuză';
 
   @override
   String get mapEventsDeclineTitle => 'Refuzi această înscriere?';
@@ -3504,32 +3562,32 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get mapEventsDeclineReasonLabel => 'MOTIV (OBLIGATORIU)';
+  String get mapEventsDeclineReasonLabel => 'Motiv (obligatoriu)';
 
   @override
   String get mapEventsDeclineReasonHint =>
       'Categorie greșită pentru o întâlnire doar JDM…';
 
   @override
-  String get mapEventsLetThemOut => 'LASĂ-I SĂ PLECE';
+  String get mapEventsLetThemOut => 'Lasă-i să plece';
 
   @override
-  String get mapEventsKeepThemIn => 'PĂSTREAZĂ-I';
+  String get mapEventsKeepThemIn => 'Păstrează-i';
 
   @override
   String get mapEventsWithdrawalNoteLabel => 'Nota lor';
 
   @override
-  String get mapEventsEditEvent => 'EDITEAZĂ EVENIMENTUL';
+  String get mapEventsEditEvent => 'Editează evenimentul';
 
   @override
-  String get mapEventsCancelEvent => 'ANULEAZĂ EVENIMENTUL';
+  String get mapEventsCancelEvent => 'Anulează evenimentul';
 
   @override
-  String get mapEventsFinishEvent => 'ÎNCHEIE EVENIMENTUL';
+  String get mapEventsFinishEvent => 'Încheie evenimentul';
 
   @override
-  String get mapEventsDeleteEvent => 'ȘTERGE EVENIMENTUL';
+  String get mapEventsDeleteEvent => 'Șterge evenimentul';
 
   @override
   String get mapEventsEditLockedHint =>
@@ -3557,10 +3615,10 @@ class AppLocalizationsRo extends AppLocalizations {
       'Această acțiune nu poate fi anulată. Lista de înscrieri și toate confirmările dispar odată cu el.';
 
   @override
-  String get mapEventsConfirm => 'CONFIRMĂ';
+  String get mapEventsConfirm => 'Confirmă';
 
   @override
-  String get mapEventsDelete => 'ȘTERGE';
+  String get mapEventsDelete => 'Șterge';
 
   @override
   String mapEventsWithdrawalCarsCount(int count) {
@@ -3586,7 +3644,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapEventsDateCardTitle => 'Când';
 
   @override
-  String get feedbackFeedEyebrow => 'COMUNITATE';
+  String get feedbackFeedEyebrow => 'Comunitate';
 
   @override
   String get feedbackFeedTitle => 'Feedback';
@@ -3595,13 +3653,13 @@ class AppLocalizationsRo extends AppLocalizations {
   String get feedbackFeedNew => 'NOU';
 
   @override
-  String get feedbackFeedSortNewest => 'CELE NOI';
+  String get feedbackFeedSortNewest => 'Cele noi';
 
   @override
-  String get feedbackFeedSortPopular => 'POPULARE';
+  String get feedbackFeedSortPopular => 'Populare';
 
   @override
-  String get feedbackFeedSortOldest => 'CELE VECHI';
+  String get feedbackFeedSortOldest => 'Cele vechi';
 
   @override
   String get feedbackFeedCompletedLink => 'Cereri finalizate';
@@ -3610,7 +3668,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get feedbackFeedCompletedTitle => 'Cereri finalizate';
 
   @override
-  String get feedbackFeedComposeEyebrow => 'COMUNITATEA DE FEEDBACK';
+  String get feedbackFeedComposeEyebrow => 'Comunitatea de feedback';
 
   @override
   String get feedbackFeedComposeTitle => 'Trimite feedback';
@@ -3620,17 +3678,17 @@ class AppLocalizationsRo extends AppLocalizations {
       'Vizibil pentru toată lumea. Ceilalți șoferi pot vota pentru sau împotrivă.';
 
   @override
-  String get feedbackFeedCategoryLabel => 'CATEGORIE';
+  String get feedbackFeedCategoryLabel => 'Categorie';
 
   @override
-  String get feedbackFeedMessageLabel => 'MESAJUL TĂU';
+  String get feedbackFeedMessageLabel => 'Mesajul tău';
 
   @override
   String get feedbackFeedMessageHint =>
       'La ce te gândești — un bug, o idee, o îmbunătățire?';
 
   @override
-  String get feedbackFeedPostAction => 'TRIMITE FEEDBACK';
+  String get feedbackFeedPostAction => 'Trimite feedback';
 
   @override
   String get feedbackFeedPostSuccess => 'Feedbackul tău este public.';
@@ -3711,7 +3769,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Ceva nu a mers bine. Încearcă din nou.';
 
   @override
-  String get profileBadgesAll => 'TOATE';
+  String get profileBadgesAll => 'Toate';
 
   @override
   String get profileBadgesSheetTitle => 'Insigne';
@@ -3720,7 +3778,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get profileBadgesEmptyVisitor => 'Încă nu are insigne.';
 
   @override
-  String get garageCarStatYear => 'AN';
+  String get garageCarStatYear => 'An';
 
   @override
   String profileBadgesSheetUnlocked(num count) {
@@ -3776,10 +3834,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get forumsSavedAction => 'Thread-uri salvate';
 
   @override
-  String get garageCarStatPower => 'PUTERE';
+  String get garageCarStatPower => 'Putere';
 
   @override
-  String get garageCarStatTorque => 'CUPLU';
+  String get garageCarStatTorque => 'Cuplu';
 
   @override
   String get garageCarUnitPower => 'cp';
@@ -3794,16 +3852,16 @@ class AppLocalizationsRo extends AppLocalizations {
   String get badgeCelebrationHeadline => 'Insignă nouă deblocată!';
 
   @override
-  String get contestsTab => 'CONCURSURI';
+  String get contestsTab => 'Concursuri';
 
   @override
-  String get contestsSectionVotingOpen => 'VOTAREA E DESCHISĂ';
+  String get contestsSectionVotingOpen => 'Votarea e deschisă';
 
   @override
-  String get contestsSectionOpensLater => 'SE DESCHID MAI TÂRZIU';
+  String get contestsSectionOpensLater => 'Se deschid mai târziu';
 
   @override
-  String get contestsSectionResults => 'REZULTATE';
+  String get contestsSectionResults => 'Rezultate';
 
   @override
   String contestsStandingEntered(int count) {
@@ -3832,10 +3890,10 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get contestsManage => 'GESTIONEAZĂ';
+  String get contestsManage => 'Gestionează';
 
   @override
-  String get contestsEnterCar => 'ÎNSCRIE';
+  String get contestsEnterCar => 'Înscrie';
 
   @override
   String get contestsFooterNote =>
@@ -3850,7 +3908,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String contestsAllCount(int count) {
-    return 'TOATE CELE $count CONCURSURI';
+    return 'Toate cele $count concursuri';
   }
 
   @override
@@ -3885,22 +3943,22 @@ class AppLocalizationsRo extends AppLocalizations {
   String get contestsYoursIsIn => '· a ta e înscrisă';
 
   @override
-  String get contestsCastYourVote => 'VOTEAZĂ';
+  String get contestsCastYourVote => 'Votează';
 
   @override
-  String get contestsVoteBeforeClose => 'VOTEAZĂ ÎNAINTE SĂ SE ÎNCHIDĂ';
+  String get contestsVoteBeforeClose => 'Votează înainte să se închidă';
 
   @override
-  String get contestsVote => 'VOTEAZĂ';
+  String get contestsVote => 'Votează';
 
   @override
-  String get contestsVoted => 'VOTAT';
+  String get contestsVoted => 'Votat';
 
   @override
-  String get contestsYourVote => 'VOTUL TĂU';
+  String get contestsYourVote => 'Votul tău';
 
   @override
-  String get contestsChange => 'SCHIMBĂ';
+  String get contestsChange => 'Schimbă';
 
   @override
   String contestsTimeLeftHours(int hours, int minutes) {
@@ -3932,31 +3990,31 @@ class AppLocalizationsRo extends AppLocalizations {
   String get contestsClosing => 'se închide';
 
   @override
-  String get contestsResultsIn => 'REZULTATE';
+  String get contestsResultsIn => 'Rezultate';
 
   @override
   String get contestsClosed => 'ÎNCHIS';
 
   @override
-  String get contestsStatVotesCast => 'VOTURI';
+  String get contestsStatVotesCast => 'Voturi';
 
   @override
-  String get contestsStatCarsIn => 'MAȘINI';
+  String get contestsStatCarsIn => 'Mașini';
 
   @override
-  String get contestsStatRemaining => 'RĂMAS';
+  String get contestsStatRemaining => 'Rămas';
 
   @override
-  String get contestsStatStatus => 'STARE';
+  String get contestsStatStatus => 'Stare';
 
   @override
-  String get contestsStatVoting => 'VOTARE';
+  String get contestsStatVoting => 'Votare';
 
   @override
-  String get contestsHowItWorks => 'CUM FUNCȚIONEAZĂ';
+  String get contestsHowItWorks => 'Cum funcționează';
 
   @override
-  String get contestsHowItWasJudged => 'CUM S-A JURIZAT';
+  String get contestsHowItWasJudged => 'Cum s-a jurizat';
 
   @override
   String contestsSetBy(String username) {
@@ -3964,13 +4022,13 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get contestsLeaderboard => 'CLASAMENT';
+  String get contestsLeaderboard => 'Clasament';
 
   @override
-  String get contestsCarsEntered => 'MAȘINI ÎNSCRISE';
+  String get contestsCarsEntered => 'Mașini înscrise';
 
   @override
-  String get contestsFinalStandings => 'CLASAMENT FINAL';
+  String get contestsFinalStandings => 'Clasament final';
 
   @override
   String get contestsUpdatingLive => 'LIVE';
@@ -4011,13 +4069,13 @@ class AppLocalizationsRo extends AppLocalizations {
   String get contestsPostToFeedHint => 'Postează cardul în feed';
 
   @override
-  String get contestsShare => 'DISTRIBUIE';
+  String get contestsShare => 'Distribuie';
 
   @override
-  String get contestsShareYourWin => 'DISTRIBUIE VICTORIA';
+  String get contestsShareYourWin => 'Distribuie victoria';
 
   @override
-  String get contestsShareTheResult => 'DISTRIBUIE REZULTATUL';
+  String get contestsShareTheResult => 'Distribuie rezultatul';
 
   @override
   String get contestsShareSheetTitle => 'Distribuie victoria';
@@ -4026,7 +4084,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get contestsShareResultSheetTitle => 'Distribuie rezultatul';
 
   @override
-  String get contestsPostToFeed => 'POSTEAZĂ ÎN FEED';
+  String get contestsPostToFeed => 'Postează în feed';
 
   @override
   String get contestsPostedTitle => 'Postat în feed';
@@ -4053,7 +4111,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String contestsOfVotes(int total) {
-    return 'DIN $total VOTURI';
+    return 'Din $total voturi';
   }
 
   @override
@@ -4063,13 +4121,13 @@ class AppLocalizationsRo extends AppLocalizations {
   String get contestsChangeYourVote => 'Schimbă votul';
 
   @override
-  String get contestsSaveNewVote => 'SALVEAZĂ NOUL VOT';
+  String get contestsSaveNewVote => 'Salvează noul vot';
 
   @override
-  String get contestsCastVote => 'VOTEAZĂ';
+  String get contestsCastVote => 'Votează';
 
   @override
-  String get contestsYourCar => 'MAȘINA TA';
+  String get contestsYourCar => 'Mașina ta';
 
   @override
   String get contestsEnterTitle => 'Înscrie-ți mașina';
@@ -4094,10 +4152,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get contestsEntryRejected => 'Neacceptată';
 
   @override
-  String get contestsWhy => 'DE CE';
+  String get contestsWhy => 'De ce';
 
   @override
-  String get contestsSaveEntries => 'SALVEAZĂ ÎNSCRIERILE';
+  String get contestsSaveEntries => 'Salvează înscrierile';
 
   @override
   String get contestsEntriesSaved => 'Înscrierile au fost actualizate';
@@ -4129,22 +4187,22 @@ class AppLocalizationsRo extends AppLocalizations {
   String get contestsNew => 'NOU';
 
   @override
-  String get contestsStatRunning => 'ÎN DESFĂȘURARE';
+  String get contestsStatRunning => 'În desfășurare';
 
   @override
-  String get contestsStatScheduled => 'PROGRAMATE';
+  String get contestsStatScheduled => 'Programate';
 
   @override
-  String get contestsStatVotesTonight => 'VOTURI PÂNĂ ACUM';
+  String get contestsStatVotesTonight => 'Voturi până acum';
 
   @override
-  String get contestsRunningNow => 'ÎN DESFĂȘURARE';
+  String get contestsRunningNow => 'În desfășurare';
 
   @override
-  String get contestsScheduled => 'PROGRAMATE';
+  String get contestsScheduled => 'Programate';
 
   @override
-  String get contestsFinished => 'ÎNCHEIATE';
+  String get contestsFinished => 'Încheiate';
 
   @override
   String get contestsChipOpen => 'DESCHIS';
@@ -4156,22 +4214,22 @@ class AppLocalizationsRo extends AppLocalizations {
   String get contestsChipScheduled => 'PROGRAMAT';
 
   @override
-  String get contestsFullBoard => 'CLASAMENT COMPLET';
+  String get contestsFullBoard => 'Clasament complet';
 
   @override
-  String get contestsFinishNow => 'ÎNCHEIE ACUM';
+  String get contestsFinishNow => 'Încheie acum';
 
   @override
-  String get contestsEdit => 'EDITEAZĂ';
+  String get contestsEdit => 'Editează';
 
   @override
-  String get contestsOpenVotingNow => 'DESCHIDE VOTAREA';
+  String get contestsOpenVotingNow => 'Deschide votarea';
 
   @override
-  String get contestsExtend => 'PRELUNGEȘTE';
+  String get contestsExtend => 'Prelungește';
 
   @override
-  String get contestsDelete => 'ȘTERGE';
+  String get contestsDelete => 'Șterge';
 
   @override
   String get contestsResultsPublished =>
@@ -4181,10 +4239,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get contestsNoVotesResult => 'Închis fără voturi';
 
   @override
-  String get contestsAddAnother => 'ADAUGĂ ALT CONCURS';
+  String get contestsAddAnother => 'Adaugă alt concurs';
 
   @override
-  String get contestsAddFirst => 'CREEAZĂ UN CONCURS';
+  String get contestsAddFirst => 'Creează un concurs';
 
   @override
   String get contestsOrganizerEmpty =>
@@ -4242,7 +4300,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Votarea se închide imediat. A rulat peste ora pe care ai planificat-o. Clasamentul îngheață așa cum e acum, iar câștigătorul primește insigna.';
 
   @override
-  String get contestsWinsIfFinishNow => 'CÂȘTIGĂ DACĂ ÎNCHEI ACUM';
+  String get contestsWinsIfFinishNow => 'Câștigă dacă închei acum';
 
   @override
   String contestsCloseRace(int gap) {
@@ -4261,10 +4319,10 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get contestsKeepOpen => 'LASĂ DESCHIS';
+  String get contestsKeepOpen => 'Lasă deschis';
 
   @override
-  String get contestsFinishPublish => 'ÎNCHEIE & PUBLICĂ';
+  String get contestsFinishPublish => 'Încheie & publică';
 
   @override
   String contestsFinishedBanner(String title) {
@@ -4287,10 +4345,10 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get contestsAccept => 'ACCEPTĂ';
+  String get contestsAccept => 'Acceptă';
 
   @override
-  String get contestsDecline => 'REFUZĂ';
+  String get contestsDecline => 'Refuză';
 
   @override
   String get contestsDeclineEntryTitle => 'Refuzi această mașină?';
@@ -4312,7 +4370,7 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get contestsExtendConfirm => 'PRELUNGEȘTE VOTAREA';
+  String get contestsExtendConfirm => 'Prelungește votarea';
 
   @override
   String get contestsDeleteTitle => 'Ștergi acest concurs?';
@@ -4328,13 +4386,13 @@ class AppLocalizationsRo extends AppLocalizations {
   String get contestsEditTitle => 'Editează concursul';
 
   @override
-  String get contestsCategory => 'CATEGORIE';
+  String get contestsCategory => 'Categorie';
 
   @override
   String get contestsCategoryCustom => 'Personalizat';
 
   @override
-  String get contestsName => 'NUMELE CONCURSULUI';
+  String get contestsName => 'Numele concursului';
 
   @override
   String get contestsNameHint => 'Numele afișat participanților';
@@ -4343,14 +4401,14 @@ class AppLocalizationsRo extends AppLocalizations {
   String get contestsNameHintCustom => 'ex. Cea mai bună mașină de zi cu zi';
 
   @override
-  String get contestsCriteria => 'CUM AR TREBUI JURIZAT?';
+  String get contestsCriteria => 'Cum ar trebui jurizat?';
 
   @override
   String get contestsCriteriaHint =>
       'Una sau două rânduri. Participanții văd asta deasupra clasamentului.';
 
   @override
-  String get contestsVotingOpens => 'VOTAREA SE DESCHIDE';
+  String get contestsVotingOpens => 'Votarea se deschide';
 
   @override
   String get contestsOpensNow => 'Imediat';
@@ -4362,7 +4420,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get contestsSetATime => 'Setează o oră';
 
   @override
-  String get contestsVotingCloses => 'VOTAREA SE ÎNCHIDE';
+  String get contestsVotingCloses => 'Votarea se închide';
 
   @override
   String get contestsFinishEarlyNote =>
@@ -4373,13 +4431,13 @@ class AppLocalizationsRo extends AppLocalizations {
       'Votarea e deschisă: acum se pot schimba doar nota de jurizare și ora de închidere.';
 
   @override
-  String get contestsPublish => 'PUBLICĂ CONCURSUL';
+  String get contestsPublish => 'Publică concursul';
 
   @override
-  String get contestsSaveChanges => 'SALVEAZĂ MODIFICĂRILE';
+  String get contestsSaveChanges => 'Salvează modificările';
 
   @override
-  String get contestsManageSectionTitle => 'CONCURSURI';
+  String get contestsManageSectionTitle => 'Concursuri';
 
   @override
   String get contestsManageOpen => 'Deschide concursurile';
@@ -4426,10 +4484,10 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get participantCardEvent => 'EVENIMENT';
+  String get participantCardEvent => 'Eveniment';
 
   @override
-  String get participantCardContests => 'CONCURSURI';
+  String get participantCardContests => 'Concursuri';
 
   @override
   String participantCardContestWithRank(String contest, String rank) {
@@ -4479,7 +4537,7 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get participantCardShare => 'DISTRIBUIE CARDUL';
+  String get participantCardShare => 'Distribuie cardul';
 
   @override
   String participantCardSectionTitle(int count) {
@@ -4493,7 +4551,7 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get participantCardYourCard => 'CARDUL TĂU';
+  String get participantCardYourCard => 'Cardul tău';
 
   @override
   String get participantCardNotReady =>
@@ -4505,7 +4563,7 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get carEventsContestBadges => 'INSIGNE DIN CONCURSURI';
+  String get carEventsContestBadges => 'Insigne din concursuri';
 
   @override
   String carEventsBadgesCount(int count) {
@@ -4519,13 +4577,128 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get carEventsAttended => 'EVENIMENTE LA CARE A PARTICIPAT';
+  String get carEventsAttended => 'Evenimente la care a participat';
 
   @override
-  String get carEventsWhereFrom => 'DE UNDE PROVIN';
+  String get carEventsWhereFrom => 'De unde provin';
 
   @override
   String carEventsPlacement(String rank, String category) {
     return '$rank · $category';
   }
+
+  @override
+  String get settingsBlockedAccounts => 'Conturi blocate';
+
+  @override
+  String get blockedAccountsTitle => 'Conturi blocate';
+
+  @override
+  String get blockedAccountsEmpty => 'Nu ai blocat pe nimeni.';
+
+  @override
+  String get blockedAccountsEmptyHint =>
+      'Când blochezi pe cineva, apare aici. Îl poți debloca oricând.';
+
+  @override
+  String get blockedAccountsUnblock => 'Deblochează';
+
+  @override
+  String blockedAccountsUnblockTitle(String username) {
+    return 'Deblochezi contul @$username?';
+  }
+
+  @override
+  String get blockedAccountsUnblockBody =>
+      'Îți va putea găsi din nou profilul, îți va vedea postările și îți va putea trimite mesaje. Urmăririle de dinainte nu vor fi restabilite. Nu va fi notificat.';
+
+  @override
+  String blockedAccountsUnblocked(String username) {
+    return 'Ai deblocat contul @$username';
+  }
+
+  @override
+  String blockedAccountsUnblockError(String username) {
+    return 'Nu am putut debloca contul @$username. Te rugăm să încerci din nou.';
+  }
+
+  @override
+  String get blockedAccountsLoadError =>
+      'Nu am putut încărca conturile blocate. Te rugăm să încerci din nou.';
+
+  @override
+  String get profileBlockAccount => 'Blochează';
+
+  @override
+  String profileBlockTitle(String username) {
+    return 'Blochezi contul @$username?';
+  }
+
+  @override
+  String get profileBlockBody =>
+      'Nu îți va mai putea găsi profilul, nu îți va vedea postările și nu îți va putea trimite mesaje, iar urmăririle dintre voi vor fi eliminate. Nu va fi notificat. Îl poți debloca oricând din Setări.';
+
+  @override
+  String get profileBlockConfirm => 'Blochează';
+
+  @override
+  String profileBlocked(String username) {
+    return 'Ai blocat contul @$username';
+  }
+
+  @override
+  String get blockErrorSelf => 'Nu îți poți bloca propriul cont.';
+
+  @override
+  String get blockErrorNotFound => 'Acest cont nu mai este disponibil.';
+
+  @override
+  String get blockErrorNetwork =>
+      'Nu există conexiune la internet. Te rugăm să încerci din nou.';
+
+  @override
+  String get blockErrorGeneric =>
+      'Ceva nu a mers bine. Te rugăm să încerci din nou.';
+
+  @override
+  String get rateLimitTitle => 'Faci asta prea repede';
+
+  @override
+  String rateLimitRetryInSeconds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de secunde',
+      few: '$count secunde',
+      one: 'o secundă',
+    );
+    return 'Încearcă din nou peste $_temp0.';
+  }
+
+  @override
+  String rateLimitRetryInMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de minute',
+      few: '$count minute',
+      one: 'un minut',
+    );
+    return 'Încearcă din nou peste $_temp0.';
+  }
+
+  @override
+  String rateLimitRetryInHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de ore',
+      few: '$count ore',
+      one: 'o oră',
+    );
+    return 'Încearcă din nou peste $_temp0.';
+  }
+
+  @override
+  String get rateLimitRetrySoon => 'Așteaptă puțin și încearcă din nou.';
 }

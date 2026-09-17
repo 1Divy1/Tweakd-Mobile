@@ -88,7 +88,6 @@ class RegisterFieldLabel extends StatelessWidget {
             color: AppColors.ink2,
             fontSize: 11,
             fontWeight: FontWeight.w800,
-            letterSpacing: 1.4,
           ),
         ),
         if (optional)
@@ -388,11 +387,10 @@ class RegisterRefDataError extends StatelessWidget {
                   borderRadius: BorderRadius.circular(kRegisterRadius),
                 ),
                 child: Text(
-                  AppLocalizations.of(context)!.commonRetry.toUpperCase(),
+                  AppLocalizations.of(context)!.commonRetry,
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w800,
-                    letterSpacing: 1,
                   ),
                 ),
               ),

@@ -63,6 +63,23 @@ class PostsApiDataSource {
     return PostPageModel.fromJson(data as Map<String, dynamic>);
   }
 
+  /// GET /posts/by-username/{username}/reposts — the posts they reposted,
+  /// newest repost first.
+  Future<PostPageModel> getRepostsByUsername(
+    String username, {
+    String? cursor,
+    int size = 20,
+  }) async {
+    final data = await http.get(
+      '/posts/by-username/$username/reposts',
+      queryParameters: {
+        'cursor': ?cursor,
+        'size': size,
+      },
+    );
+    return PostPageModel.fromJson(data as Map<String, dynamic>);
+  }
+
   Future<PostPageModel> getSavedPosts({String? cursor, int size = 20}) async {
     final data = await http.get(
       '/posts/saved',
@@ -116,7 +133,7 @@ class PostsApiDataSource {
     return LikerPageModel.fromJson(data as Map<String, dynamic>);
   }
 
-  // ── Engagement — likes / saves / shares (idempotent, no body) ────────────────
+  // ── Engagement — likes / saves / reposts (idempotent, no body) ───────────────
 
   Future<void> likePost(String postId) async {
     await http.post('/posts/$postId/likes');
@@ -134,13 +151,13 @@ class PostsApiDataSource {
     await http.delete('/posts/$postId/saves');
   }
 
-  /// Plain share when [content] is null; a non-null [content] quote-shares.
-  /// Callers pass null for a plain share, so the body is empty in that case.
-  Future<void> sharePost(String postId, {String? content}) async {
-    await http.post('/posts/$postId/shares', body: {'content': ?content});
+  /// A repost carries nothing of the reposter's own, so there is no body. The
+  /// backend still names the resource `shares`.
+  Future<void> repostPost(String postId) async {
+    await http.post('/posts/$postId/shares');
   }
 
-  Future<void> unsharePost(String postId) async {
+  Future<void> unrepostPost(String postId) async {
     await http.delete('/posts/$postId/shares');
   }
 

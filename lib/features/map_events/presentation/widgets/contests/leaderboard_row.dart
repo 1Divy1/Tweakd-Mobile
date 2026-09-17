@@ -206,7 +206,6 @@ class _VoteButton extends StatelessWidget {
             style: TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.w800,
-              letterSpacing: 0.7,
               color: isMine ? Colors.white : AppColors.ink,
             ),
           ),

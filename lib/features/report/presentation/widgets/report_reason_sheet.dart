@@ -305,10 +305,10 @@ class _SubmitButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 52,
       child: ElevatedButton(
         onPressed: enabled ? onTap : null,
         style: ElevatedButton.styleFrom(
+          minimumSize: const Size(0, 52),
           backgroundColor: AppColors.accent,
           disabledBackgroundColor: AppColors.line,
           foregroundColor: Colors.white,
@@ -386,10 +386,10 @@ class _SuccessView extends StatelessWidget {
           const SizedBox(height: 22),
           SizedBox(
             width: double.infinity,
-            height: 52,
             child: ElevatedButton(
               onPressed: () => Navigator.of(context).pop(),
               style: ElevatedButton.styleFrom(
+                minimumSize: const Size(0, 52),
                 backgroundColor: AppColors.accent,
                 foregroundColor: Colors.white,
                 elevation: 0,
@@ -399,6 +399,8 @@ class _SuccessView extends StatelessWidget {
               ),
               child: Text(
                 l10n.reportClose,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w800,

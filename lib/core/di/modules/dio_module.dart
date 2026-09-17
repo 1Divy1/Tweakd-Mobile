@@ -5,11 +5,13 @@ import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../network/auth_interceptor.dart';
+import '../../network/rate_limit_interceptor.dart';
+import '../../network/rate_limit_notifier.dart';
 
 @module
 abstract class DioModule {
   @lazySingleton
-  Dio dio(SupabaseClient supabaseClient) {
+  Dio dio(SupabaseClient supabaseClient, RateLimitNotifier rateLimitNotifier) {
     final host = dotenv.env['API_BASE_URL'] ?? '';
     final dio = Dio(
       BaseOptions(
@@ -26,6 +28,7 @@ abstract class DioModule {
     );
 
     dio.interceptors.add(AuthInterceptor(supabaseClient));
+    dio.interceptors.add(RateLimitInterceptor(rateLimitNotifier));
     dio.interceptors.add(
       LogInterceptor(
         requestHeader: false,

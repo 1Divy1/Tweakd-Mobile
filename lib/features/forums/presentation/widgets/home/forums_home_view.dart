@@ -18,6 +18,7 @@ import '../shared/forum_thread_card.dart';
 import '../shared/forum_thread_skeleton.dart';
 import 'forum_shortcuts_row.dart';
 import 'forums_empty_view.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 /// The forums home — pinned shortcuts over the hot threads in them — as the
 /// Forums segment of the home tab. The chrome around it (top bar, segment
@@ -80,12 +81,16 @@ class _ForumsHomeViewState extends State<ForumsHomeView> {
       listener: (context, state) {
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
-          ..showSnackBar(SnackBar(
-            content: Text(forumErrorMessage(
-              AppLocalizations.of(context)!,
-              state.actionError!,
-            )),
-          ));
+          ..showSnackBar(
+            SnackBar(
+              content: Text(
+                forumErrorMessage(
+                  AppLocalizations.of(context)!,
+                  state.actionError!,
+                ),
+              ),
+            ),
+          );
       },
       builder: (context, state) {
         if (state.isLoading) {
@@ -143,23 +148,8 @@ class _HomeContent extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final bloc = context.read<ForumsHomeBloc>();
 
-    if (state.shortcuts.isEmpty) {
-      return RefreshIndicator(
-        color: AppColors.accent,
-        onRefresh: onRefresh,
-        child: ListView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          children: [
-            ForumsEmptyView(
-              suggestions: state.suggestions,
-              onOpen: (suggestion) => onOpenHub(suggestion.toFilter()),
-              onStartThread: onStartThread,
-            ),
-          ],
-        ),
-      );
-    }
-
+    // An empty paddock keeps the same scroll view: the explainer heads the
+    // global hot list, so a new user lands on live threads, not a blank page.
     return RefreshIndicator(
       color: AppColors.accent,
       onRefresh: onRefresh,
@@ -167,84 +157,99 @@ class _HomeContent extends StatelessWidget {
         controller: scrollController,
         physics: const AlwaysScrollableScrollPhysics(),
         slivers: [
-          SliverPadding(
-            padding: const EdgeInsets.only(top: 8),
-            sliver: SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  ForumShortcutsRow(
-                    shortcuts: state.shortcuts,
-                    isEditing: isEditingShortcuts,
-                    onToggleEditing: onToggleEditing,
-                    onOpen: (shortcut) => onOpenHub(shortcut.filter),
-                    onRemove: (shortcut) =>
-                        bloc.add(RemoveForumShortcut(shortcut.id)),
-                    onMove: (oldIndex, newIndex) =>
-                        bloc.add(MoveForumShortcut(oldIndex, newIndex)),
-                  ),
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
+          SliverContentFrame(
+            sliver: SliverMainAxisGroup(
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.only(top: 8),
+                  sliver: SliverToBoxAdapter(
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: ForumSectionLabel(
-                              label: l10n.forumsHotInYourForums),
-                        ),
-                        ForumSortTabs(
-                          active: state.sort,
-                          onChanged: (sort) =>
-                              bloc.add(ChangeForumsHomeSort(sort)),
-                        ),
+                        if (state.shortcuts.isEmpty)
+                          ForumsEmptyView(
+                            hasThreads: state.threads.isNotEmpty ||
+                                state.isThreadsLoading,
+                            onStartThread: onStartThread,
+                          )
+                        else ...[
+                          ForumShortcutsRow(
+                            shortcuts: state.shortcuts,
+                            isEditing: isEditingShortcuts,
+                            onToggleEditing: onToggleEditing,
+                            onOpen: (shortcut) => onOpenHub(shortcut.filter),
+                            onRemove: (shortcut) =>
+                                bloc.add(RemoveForumShortcut(shortcut.id)),
+                            onMove: (oldIndex, newIndex) =>
+                                bloc.add(MoveForumShortcut(oldIndex, newIndex)),
+                          ),
+                          const SizedBox(height: 20),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: ForumSectionLabel(
+                                    label: l10n.forumsHotInYourForums,
+                                  ),
+                                ),
+                                ForumSortTabs(
+                                  active: state.sort,
+                                  onChanged: (sort) =>
+                                      bloc.add(ChangeForumsHomeSort(sort)),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                        const SizedBox(height: 8),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 8),
-                ],
-              ),
-            ),
-          ),
-          if (state.isThreadsLoading)
-            const SliverToBoxAdapter(
-              child: Column(children: [
-                ForumThreadCardSkeleton(),
-                ForumThreadCardSkeleton(),
-                ForumThreadCardSkeleton(),
-              ]),
-            )
-          else
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final thread = state.threads[index];
-                  return ForumThreadCard(
-                    key: ValueKey(thread.id),
-                    thread: thread,
-                    onTap: () => onOpenThread(thread.id),
-                    onToggleSave: () =>
-                        bloc.add(ToggleForumSaveInFeed(thread.id)),
-                  );
-                },
-                childCount: state.threads.length,
-              ),
-            ),
-          if (!state.isThreadsLoading && state.isLoadingMore)
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: Center(
-                  child: SizedBox(
-                    width: 22,
-                    height: 22,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: AppColors.accent,
+                ),
+                if (state.isThreadsLoading)
+                  const SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        ForumThreadCardSkeleton(),
+                        ForumThreadCardSkeleton(),
+                        ForumThreadCardSkeleton(),
+                      ],
+                    ),
+                  )
+                else
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      final thread = state.threads[index];
+                      return ForumThreadCard(
+                        key: ValueKey(thread.id),
+                        thread: thread,
+                        onTap: () => onOpenThread(thread.id),
+                        onToggleSave: () =>
+                            bloc.add(ToggleForumSaveInFeed(thread.id)),
+                      );
+                    }, childCount: state.threads.length),
+                  ),
+                if (!state.isThreadsLoading && state.isLoadingMore)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: Center(
+                        child: SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: AppColors.accent,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
+                const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              ],
             ),
-          const SliverToBoxAdapter(child: SizedBox(height: 16)),
+          ),
         ],
       ),
     );

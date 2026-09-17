@@ -8,6 +8,7 @@ import '../../bloc/compose/event.dart';
 import '../../bloc/compose/state.dart';
 import '../../utils/feedback_feed_error_mapper.dart';
 import '../../utils/feedback_feed_visuals.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 /// The compose body: the intro copy, the category chips, the message field and
 /// the post button.
@@ -58,7 +59,8 @@ class _FeedbackComposeFormState extends State<FeedbackComposeForm> {
       children: [
         Expanded(
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 16) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
             children: [
               _Eyebrow(label: l10n.feedbackFeedComposeEyebrow),
               const SizedBox(height: 10),
@@ -328,11 +330,12 @@ class _PostButton extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
-        20,
-        8,
-        20,
-        20 + MediaQuery.viewInsetsOf(context).bottom,
-      ),
+            20,
+            8,
+            20,
+            20 + MediaQuery.viewInsetsOf(context).bottom,
+          ) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
       child: GestureDetector(
         onTap: isActive ? onTap : null,
         child: AnimatedContainer(

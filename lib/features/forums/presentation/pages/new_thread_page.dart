@@ -13,6 +13,7 @@ import '../widgets/composer/topic_selector.dart';
 import '../widgets/shared/forum_error_view.dart';
 import '../widgets/shared/forum_sub_top_bar.dart';
 import 'package:tweakd/core/shared/widgets/tagging/tag_editor.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 class NewThreadPage extends StatefulWidget {
   const NewThreadPage({super.key});
@@ -147,7 +148,8 @@ class _ComposerForm extends StatelessWidget {
     final bloc = context.read<NewThreadBloc>();
 
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 32) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
       children: [
         _ComposerField(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
