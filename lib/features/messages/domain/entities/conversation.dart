@@ -34,18 +34,6 @@ class ConversationEntity extends Equatable {
     this.lastMessageSeen = false,
   });
 
-  /// Copy with an updated [user] — used when a live presence flip lands.
-  ConversationEntity copyWith({MessageUserEntity? user}) => ConversationEntity(
-        id: id,
-        user: user ?? this.user,
-        preview: preview,
-        previewKind: previewKind,
-        isLastMessageMine: isLastMessageMine,
-        lastMessageAt: lastMessageAt,
-        unreadCount: unreadCount,
-        lastMessageSeen: lastMessageSeen,
-      );
-
   @override
   List<Object?> get props => [
         id,
@@ -61,7 +49,6 @@ class ConversationEntity extends Equatable {
 
 /// Everything the inbox screen needs in one load.
 class InboxEntity extends Equatable {
-  final List<MessageUserEntity> activeNow;
   final int requestsCount;
 
   /// Usernames previewed on the requests tile ("vroom_valeria, noctis_nico
@@ -74,7 +61,6 @@ class InboxEntity extends Equatable {
   final String? nextCursor;
 
   const InboxEntity({
-    this.activeNow = const [],
     this.requestsCount = 0,
     this.requestsPreviewNames = const [],
     this.conversations = const [],
@@ -83,11 +69,9 @@ class InboxEntity extends Equatable {
 
   /// Keeps [nextCursor] — pagination appends construct a new entity instead.
   InboxEntity copyWith({
-    List<MessageUserEntity>? activeNow,
     List<ConversationEntity>? conversations,
   }) =>
       InboxEntity(
-        activeNow: activeNow ?? this.activeNow,
         requestsCount: requestsCount,
         requestsPreviewNames: requestsPreviewNames,
         conversations: conversations ?? this.conversations,
@@ -96,12 +80,26 @@ class InboxEntity extends Equatable {
 
   @override
   List<Object?> get props =>
-      [activeNow, requestsCount, requestsPreviewNames, conversations, nextCursor];
+      [requestsCount, requestsPreviewNames, conversations, nextCursor];
+}
+
+/// Live updates for the inbox list.
+sealed class InboxLiveEvent extends Equatable {
+  const InboxLiveEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+/// The live connection (re)opened. Messages sent while it was down were
+/// missed, so the list should refetch.
+class InboxLiveConnected extends InboxLiveEvent {
+  const InboxLiveConnected();
 }
 
 /// A live "new message" ping for the inbox: enough to update one row's
 /// preview/ordering/unread without refetching the list.
-class InboxMessageEvent extends Equatable {
+class InboxMessageEvent extends InboxLiveEvent {
   final String conversationId;
   final MessageEntity message;
 

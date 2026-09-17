@@ -6,7 +6,6 @@ import '../entities/chat_events.dart';
 import '../entities/conversation.dart';
 import '../entities/message.dart';
 import '../entities/message_user.dart';
-import '../entities/presence.dart';
 
 abstract class MessagesRepository {
   /// One keyset page of the inbox (most recently active first).
@@ -67,21 +66,16 @@ abstract class MessagesRepository {
   });
 
   /// Live events for an open chat: read receipts, typing, incoming and
-  /// deleted messages (from the viewer's realtime topic).
+  /// deleted messages (from the viewer's realtime topic). The live connection
+  /// is held open only while this stream has a listener.
   Stream<ChatIncomingEvent> chatEvents(String conversationId);
 
-  /// Live "new message" pings for the inbox list.
-  Stream<InboxMessageEvent> inboxMessageEvents();
+  /// Live "new message" pings for the inbox list. The live connection is held
+  /// open only while this stream has a listener.
+  Stream<InboxLiveEvent> inboxEvents();
 
   /// Users the viewer can start a new conversation with (compose sheet).
   Future<Either<Failure, List<MessageUserEntity>>> getComposeSuggestions(
     String query,
   );
-
-  /// Who of [userIds] is online right now, read straight off the global
-  /// presence channel — no request leaves the device.
-  List<PresenceEntity> getPresence(List<String> userIds);
-
-  /// Live online/offline flips from the global presence channel.
-  Stream<PresenceEntity> presenceUpdates();
 }

@@ -833,7 +833,6 @@
 
   "messagesTitle": "Mesaje",
   "messagesSearchHint": "Caută în mesaje",
-  "messagesActiveNow": "Activi acum",
   "messagesRequestsTitle": "Cereri de mesaje",
   "messagesRequestsOthers": "{names} & încă {count}",
   "@messagesRequestsOthers": {
@@ -877,7 +876,6 @@
       "count": {"type": "int"}
     }
   },
-  "messagesActiveNowStatus": "Activ acum",
   "messagesMutualFollow": "Vă urmăriți reciproc · {followers} urmăritori",
   "@messagesMutualFollow": {
     "placeholders": {

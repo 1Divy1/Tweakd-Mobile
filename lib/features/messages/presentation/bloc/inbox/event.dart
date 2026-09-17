@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/conversation.dart';
-import '../../../domain/entities/presence.dart';
 
 sealed class InboxEvent extends Equatable {
   const InboxEvent();
@@ -43,16 +42,6 @@ class HideInboxConversation extends InboxEvent {
 
   @override
   List<Object?> get props => [conversationId];
-}
-
-/// Internal: a live presence flip arrived on the DM socket. Added by the
-/// bloc's own subscription, not by widgets.
-class InboxPresenceChanged extends InboxEvent {
-  final PresenceEntity presence;
-  const InboxPresenceChanged(this.presence);
-
-  @override
-  List<Object?> get props => [presence];
 }
 
 /// Internal: a new message landed somewhere — update that row's preview,

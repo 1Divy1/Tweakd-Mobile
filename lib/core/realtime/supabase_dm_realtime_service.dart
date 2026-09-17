@@ -12,12 +12,13 @@ import 'dm_realtime_service.dart';
 /// policies on `realtime.messages`
 /// (see `supabase/migrations/20260801000000_realtime_authorization.sql`):
 ///
-/// * `user:<my_id>` — subscribed for the whole session, **read**. Nobody else
-///   can listen on it, and it is the only channel this client joins.
+/// * `user:<my_id>` — subscribed while held (see [retain]), **read**. Nobody
+///   else can listen on it, and it is the only channel this client joins.
 /// * `user:<peer_id>` — never joined. Realtime refuses a join outright when
 ///   the read policy denies it, and by design a peer's topic is unreadable, so
-///   a "write-only join" is not a thing. Outbound events are published over
-///   Realtime's HTTP broadcast endpoint instead, which needs no membership.
+///   a "write-only join" is not a thing. Outbound events are published with
+///   `httpSend` to Realtime's HTTP broadcast endpoint, which needs no
+///   membership.
 ///   Only the receive path needs a socket, and that one is the viewer's own
 ///   topic.
 ///
@@ -37,13 +38,16 @@ class SupabaseDmRealtimeService implements DmRealtimeService {
   RealtimeChannel? _selfChannel;
 
   /// Outbound topics, keyed by peer id. These are never subscribed — they only
-  /// exist so `sendBroadcastMessage` has a channel to build the HTTP request
+  /// exist so `httpSend` has a channel to build the HTTP request
   /// from. Cached so a chat's typing signals don't rebuild one per keystroke.
   final Map<String, RealtimeChannel> _peerChannels = {};
 
   /// Rejoin backoff for a refused/timed-out subscription.
   Timer? _retryTimer;
   int _retryAttempt = 0;
+
+  /// Outstanding [retain]s. The topic is joined only while this is positive.
+  int _holders = 0;
 
   SupabaseDmRealtimeService(this.supabaseClient);
 
@@ -55,13 +59,22 @@ class SupabaseDmRealtimeService implements DmRealtimeService {
   // ------------------------------------------------------------- lifecycle
 
   @override
-  void connect() {
-    if (_selfChannel != null) return;
+  void retain() {
+    _holders++;
+    // Always attempt the open, not only on 0 -> 1: a sign-out [disconnect]
+    // may have closed the topic while holders were still outstanding.
     unawaited(_open());
   }
 
+  @override
+  Future<void> release() async {
+    if (_holders == 0) return;
+    _holders--;
+    if (_holders == 0) await _close();
+  }
+
   Future<void> _open() async {
-    if (_selfChannel != null) return;
+    if (_selfChannel != null || _holders == 0) return;
     final myId = _myId;
     if (myId == null) return;
 
@@ -69,7 +82,8 @@ class SupabaseDmRealtimeService implements DmRealtimeService {
     // `socket.accessToken` and the server caches the policies it derives from
     // it for the life of the connection.
     if (!await _applyAuth()) return;
-    if (_selfChannel != null) return;
+    // Opened by a concurrent call, or released, while awaiting the token.
+    if (_selfChannel != null || _holders == 0) return;
 
     final channel = supabaseClient.channel(
       'user:$myId',
@@ -88,6 +102,9 @@ class SupabaseDmRealtimeService implements DmRealtimeService {
       switch (status) {
         case RealtimeSubscribeStatus.subscribed:
           _retryAttempt = 0;
+          // Fires again on every rejoin, e.g. after supabase_flutter reconnects
+          // the socket when the app returns from the background.
+          _events.add(const DmConnectedEvent());
         case RealtimeSubscribeStatus.channelError:
         case RealtimeSubscribeStatus.timedOut:
           debugPrint('📡 DM realtime (user:$myId) $status: $error');
@@ -100,7 +117,7 @@ class SupabaseDmRealtimeService implements DmRealtimeService {
 
   /// Puts the signed-in user's JWT on the realtime socket. Returns false when
   /// there is no session to authenticate with, in which case joining would be
-  /// pointless — the sign-in listener in `main.dart` calls [connect] again.
+  /// pointless — whoever holds the topic retries on its next [retain].
   Future<bool> _applyAuth() async {
     final token = supabaseClient.auth.currentSession?.accessToken;
     if (token == null) return false;
@@ -130,7 +147,12 @@ class SupabaseDmRealtimeService implements DmRealtimeService {
   }
 
   @override
-  Future<void> disconnect() async {
+  Future<void> disconnect() => _close();
+
+  /// Leaves every topic. With no channel left on the client, `removeChannel`
+  /// closes the socket too — unless another feature (a contest board) still
+  /// has one open.
+  Future<void> _close() async {
     _retryTimer?.cancel();
     _retryTimer = null;
     _retryAttempt = 0;
@@ -247,6 +269,14 @@ class SupabaseDmRealtimeService implements DmRealtimeService {
     await _send(_peerChannel(peerId), event, payload, peerId);
     final self = _selfChannel;
     if (toSelfToo && self != null) await _send(self, event, payload, null);
+
+    // Sent after the last holder let go (a chat closing mid-publish). The peer
+    // channel was never joined, but merely sitting in the client's channel
+    // list makes supabase_flutter reopen the socket on every app resume.
+    if (_holders == 0) {
+      final stale = _peerChannels.remove(peerId);
+      if (stale != null) await supabaseClient.removeChannel(stale);
+    }
   }
 
   Future<void> _send(
@@ -258,12 +288,19 @@ class SupabaseDmRealtimeService implements DmRealtimeService {
     try {
       // The payload map is mutated by the client (it stamps `type` and
       // `event`), so hand over a copy — callers reuse theirs for the mirror.
+      final copy = Map<String, dynamic>.from(payload);
+      if (!channel.canPush) {
+        // Unjoined — always the peer topic, and the own topic before its join
+        // lands. Explicit REST: `sendBroadcastMessage` only falls back to it
+        // implicitly, and that fallback is deprecated. Throws on rejection.
+        await channel.httpSend(event: event, payload: copy);
+        return;
+      }
       final response = await channel.sendBroadcastMessage(
         event: event,
-        payload: Map<String, dynamic>.from(payload),
+        payload: copy,
       );
-      // A rejected push (RLS, or an HTTP error on the unjoined peer topic)
-      // comes back as a status, not an exception.
+      // A rejected push comes back as a status, not an exception.
       if (response == ChannelResponse.ok) return;
       debugPrint('📡 DM realtime publish "$event" -> $response');
     } catch (e) {
@@ -286,9 +323,9 @@ class SupabaseDmRealtimeService implements DmRealtimeService {
 
   /// Outbound channel for [peerId]. Deliberately **not** subscribed: the read
   /// policy denies this topic to anyone but its owner, and Realtime rejects a
-  /// join it cannot grant read on. Leaving it unjoined makes
-  /// `sendBroadcastMessage` deliver over Realtime's HTTP endpoint, which
-  /// authorizes the publish against the INSERT policy on its own.
+  /// join it cannot grant read on. Unjoined, it is published with `httpSend`
+  /// to Realtime's HTTP endpoint, which authorizes the publish against the
+  /// INSERT policy on its own.
   RealtimeChannel _peerChannel(String peerId) {
     final existing = _peerChannels.remove(peerId);
     if (existing != null) {

@@ -3,13 +3,12 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../domain/entities/chat.dart';
 import '../../../domain/entities/chat_events.dart';
 import '../../../domain/entities/message.dart';
-import '../../../domain/entities/presence.dart';
 import '../../../domain/usecases/get_conversation_peer.dart';
 import '../../../domain/usecases/get_messages.dart';
 import '../../../domain/usecases/message_actions.dart';
-import '../../../domain/usecases/presence.dart';
 import '../../../domain/usecases/send_message.dart';
 import '../../../domain/usecases/watch_chat.dart';
 import '../../utils/messages_error_mapper.dart';
@@ -19,8 +18,8 @@ import 'state.dart';
 /// Drives one open conversation: paged history from Spring, sending through
 /// the Supabase RPC (which may create the conversation), read receipts via the
 /// peer's watermark, deletions, and the live broadcast stream (typing,
-/// incoming and deleted messages). The peer's online state is read off the
-/// presence channel on open and then kept live from it.
+/// incoming and deleted messages). The bloc's live subscription is what holds
+/// the realtime connection open while the chat is on screen.
 @injectable
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final GetMessagesUseCase getMessages;
@@ -30,11 +29,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final MarkConversationReadUseCase markConversationRead;
   final SendTypingUseCase sendTyping;
   final WatchChatUseCase watchChat;
-  final GetPresenceUseCase getPresence;
-  final WatchPresenceUseCase watchPresence;
 
   StreamSubscription<ChatIncomingEvent>? _eventsSubscription;
-  StreamSubscription<PresenceEntity>? _presenceSubscription;
 
   /// Typing throttle: resend `typing: true` at most every [_typingResend].
   static const _typingResend = Duration(milliseconds: 1000);
@@ -52,8 +48,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     required this.markConversationRead,
     required this.sendTyping,
     required this.watchChat,
-    required this.getPresence,
-    required this.watchPresence,
   }) : super(const ChatInitial()) {
     on<LoadChat>(_onLoad);
     on<LoadOlderMessages>(_onLoadOlder);
@@ -62,7 +56,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<ChatComposerChanged>(_onComposerChanged);
     on<ChatStreamEventReceived>(_onStreamEvent);
     on<ChatHistoryBackfilled>(_onHistoryBackfilled);
-    on<ChatPeerPresenceChanged>(_onPeerPresenceChanged);
   }
 
   @override
@@ -70,7 +63,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     _partnerTypingTimeout?.cancel();
     _stopTypingIfActive();
     await _eventsSubscription?.cancel();
-    await _presenceSubscription?.cancel();
     return super.close();
   }
 
@@ -104,13 +96,11 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         emit(const ChatError(MessagesErrorCode.generic));
         return;
       }
-      _watchPeerPresence(knownPeer.id);
       emit(ChatLoaded(
         conversationId: null,
         user: knownPeer,
         messages: const [],
       ));
-      _refreshPeerPresence(knownPeer.id);
       return;
     }
 
@@ -131,7 +121,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     final peer = knownPeer ??
         peerResult?.fold((_) => null, (resolved) => resolved);
     if (peer == null) {
-      // No peer means no header, no presence and nowhere to send — the screen
+      // No peer means no header and nowhere to send — the screen
       // cannot function, so this is fatal rather than degraded.
       final failure = peerResult?.fold(
         MessagesErrorMapper.getCode,
@@ -140,8 +130,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       emit(ChatError(failure ?? MessagesErrorCode.generic));
       return;
     }
-
-    _watchPeerPresence(peer.id);
 
     history.fold(
       (failure) => emit(ChatError(MessagesErrorMapper.getCode(failure))),
@@ -155,7 +143,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         ));
         _watchConversation(conversationId);
         unawaited(_markRead(conversationId, peer.id));
-        _refreshPeerPresence(peer.id);
       },
     );
   }
@@ -250,17 +237,26 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     );
   }
 
-  /// After adopting a conversation id from the first send, fetch any history
-  /// the server already had and hand it to [_onHistoryBackfilled].
-  Future<void> _backfillHistory(String conversationId) async {
+  /// Fetch the latest page and hand it to [_onHistoryBackfilled]: after
+  /// adopting a conversation id from the first send (history the server
+  /// already had), and after the live connection (re)opens (whatever was
+  /// sent while it was down).
+  Future<void> _backfillHistory(
+    String conversationId, {
+    bool isCatchUp = false,
+  }) async {
     final result = await getMessages(
       GetMessagesParams(conversationId: conversationId),
     );
     result.fold(
-      (_) {}, // cosmetic backfill — the sent message is already visible
+      (_) {}, // cosmetic backfill — what is on screen stays usable
       (page) {
         if (isClosed) return;
-        add(ChatHistoryBackfilled(conversationId: conversationId, page: page));
+        add(ChatHistoryBackfilled(
+          conversationId: conversationId,
+          page: page,
+          isCatchUp: isCatchUp,
+        ));
       },
     );
   }
@@ -280,6 +276,12 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       for (final message in page.messages)
         if (!knownIds.contains(message.id)) message,
     ];
+
+    if (event.isCatchUp) {
+      _onCatchUp(current, page, missing, emit);
+      return;
+    }
+
     if (missing.isEmpty && page.nextCursor == null) return;
     final merged = [...current.messages, ...missing]
       ..sort((a, b) => a.sentAt.compareTo(b.sentAt));
@@ -288,6 +290,43 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       olderCursor: page.nextCursor,
       peerLastReadMessageId: page.peerLastReadMessageId,
     ));
+  }
+
+  /// Merges what was sent while the live connection was down. The loaded
+  /// window and its older-page cursor stay as they are — unless more than a
+  /// whole page was missed, in which case there is a hole in the middle and
+  /// the chat restarts from the latest page.
+  void _onCatchUp(
+    ChatLoaded current,
+    MessagesPageEntity page,
+    List<MessageEntity> missing,
+    Emitter<ChatState> emit,
+  ) {
+    final watermark =
+        page.peerLastReadMessageId ?? current.peerLastReadMessageId;
+    if (missing.isEmpty && watermark == current.peerLastReadMessageId) return;
+
+    final overlaps = missing.length < page.messages.length;
+    if (overlaps || page.nextCursor == null) {
+      final merged = [...current.messages, ...missing]
+        ..sort((a, b) => a.sentAt.compareTo(b.sentAt));
+      emit(current.copyWith(
+        messages: _applySeen(merged, watermark),
+        peerLastReadMessageId: watermark,
+      ));
+    } else {
+      emit(current.copyWith(
+        messages: _applySeen(page.messages, watermark),
+        olderCursor: page.nextCursor,
+        peerLastReadMessageId: watermark,
+      ));
+    }
+
+    // The chat is on screen, so anything the peer sent meanwhile is read —
+    // the stream path does the same per message.
+    if (missing.any((message) => !message.isMine)) {
+      unawaited(_markRead(current.conversationId!, current.user.id));
+    }
   }
 
   // --------------------------------------------------------------- actions
@@ -358,6 +397,11 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     if (current is! ChatLoaded) return;
 
     switch (event.incoming) {
+      case ChatLiveConnected():
+        final conversationId = current.conversationId;
+        if (conversationId != null) {
+          unawaited(_backfillHistory(conversationId, isCatchUp: true));
+        }
       case ChatMessagesSeen(:final upToMessageId):
         emit(current.copyWith(
           messages: _applySeen(
@@ -397,42 +441,12 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
   }
 
-  void _onPeerPresenceChanged(
-    ChatPeerPresenceChanged event,
-    Emitter<ChatState> emit,
-  ) {
-    final current = state;
-    if (current is! ChatLoaded) return;
-    if (event.presence.userId != current.user.id) return;
-
-    emit(current.copyWith(
-      user: current.user.withPresence(isOnline: event.presence.online),
-    ));
-  }
-
   // -------------------------------------------------------------- plumbing
 
   void _watchConversation(String conversationId) {
     _eventsSubscription?.cancel();
     _eventsSubscription = watchChat(conversationId)
         .listen((incoming) => add(ChatStreamEventReceived(incoming)));
-  }
-
-  void _watchPeerPresence(String peerId) {
-    _presenceSubscription?.cancel();
-    _presenceSubscription = watchPresence()
-        .where((presence) => presence.userId == peerId)
-        .listen((presence) => add(ChatPeerPresenceChanged(presence)));
-  }
-
-  /// Seeds the header from the presence channel's current state — no request,
-  /// so nothing here can fail or delay the chat.
-  void _refreshPeerPresence(String userId) {
-    for (final presence in getPresence([userId])) {
-      if (presence.userId == userId && !isClosed) {
-        add(ChatPeerPresenceChanged(presence));
-      }
-    }
   }
 
   /// Marks the viewer's messages read up to the watermark id ([markAll]

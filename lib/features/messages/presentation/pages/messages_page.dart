@@ -7,12 +7,10 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/conversation.dart';
-import '../../domain/entities/message_user.dart';
 import '../bloc/inbox/bloc.dart';
 import '../bloc/inbox/event.dart';
 import '../bloc/inbox/state.dart';
 import '../utils/messages_error_mapper.dart';
-import '../widgets/inbox/active_now_row.dart';
 import '../widgets/inbox/conversation_tile.dart';
 import '../widgets/inbox/inbox_loading_view.dart';
 import '../widgets/inbox/inbox_search_field.dart';
@@ -24,7 +22,7 @@ import '../widgets/shared/messages_error_view.dart';
 import '../widgets/shared/staggered_entrance.dart';
 import '../../../../core/shared/layout/app_layout.dart';
 
-/// The DM inbox: search, active-now strip and the conversation list.
+/// The DM inbox: search, requests tile and the conversation list.
 /// Chat routes always carry the peer via `extra` — the messages endpoint has
 /// no peer payload, so the header user travels with the navigation.
 class MessagesPage extends StatelessWidget {
@@ -97,7 +95,7 @@ class MessagesPage extends StatelessWidget {
   }
 }
 
-/// The loaded inbox: pull-to-refresh over search + active-now + requests +
+/// The loaded inbox: pull-to-refresh over search + requests +
 /// conversations, with cursor pagination near the bottom. Searching
 /// collapses the strips and filters the loaded list.
 class _InboxList extends StatelessWidget {
@@ -122,13 +120,6 @@ class _InboxList extends StatelessWidget {
     );
     // Re-pull so cleared unread counts and new previews show up.
     bloc.add(const RefreshInbox());
-  }
-
-  void _openActiveUser(BuildContext context, MessageUserEntity user) {
-    final match = state.inbox.conversations
-        .where((c) => c.user.id == user.id)
-        .toList();
-    if (match.isNotEmpty) _openConversation(context, match.first);
   }
 
   Future<void> _confirmHide(
@@ -203,10 +194,7 @@ class _InboxList extends StatelessWidget {
     var staggerIndex = 0;
 
     final stripsIndex = staggerIndex;
-    if (showStrips) {
-      if (state.inbox.activeNow.isNotEmpty) staggerIndex++;
-      if (state.inbox.requestsCount > 0) staggerIndex++;
-    }
+    if (showStrips && state.inbox.requestsCount > 0) staggerIndex++;
     final conversationsBaseIndex = staggerIndex;
 
     return RefreshIndicator(
@@ -228,22 +216,10 @@ class _InboxList extends StatelessWidget {
                     ),
                   ),
                   if (showStrips) ...[
-                    if (state.inbox.activeNow.isNotEmpty)
-                      SliverToBoxAdapter(
-                        child: StaggeredEntrance(
-                          index: stripsIndex,
-                          child: ActiveNowRow(
-                            users: state.inbox.activeNow,
-                            onUserTap: (user) => _openActiveUser(context, user),
-                          ),
-                        ),
-                      ),
                     if (state.inbox.requestsCount > 0)
                       SliverToBoxAdapter(
                         child: StaggeredEntrance(
-                          index: state.inbox.activeNow.isNotEmpty
-                              ? stripsIndex + 1
-                              : stripsIndex,
+                          index: stripsIndex,
                           child: Column(
                             children: [
                               MessageRequestsTile(

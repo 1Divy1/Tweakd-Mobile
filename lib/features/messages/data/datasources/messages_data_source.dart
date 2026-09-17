@@ -8,8 +8,7 @@ import '../models/dm_models.dart';
 
 /// DM data contract. Reads and admin actions are Spring REST (base /api/v1,
 /// snake_case, JWT via interceptor); **sending** goes straight to Supabase via
-/// the `dm_send_message` RPC. Live events live in DmRealtimeService, online
-/// presence in PresenceService.
+/// the `dm_send_message` RPC. Live events live in DmRealtimeService.
 abstract class MessagesDataSource {
   Future<DmConversationsPageModel> getConversations({String? cursor});
 

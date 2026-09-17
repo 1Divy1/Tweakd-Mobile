@@ -178,7 +178,7 @@ class _ChatMessagesList extends StatelessWidget {
   /// Cheap row descriptors (no widget construction) so building the full
   /// list shape stays O(n) even though actual bubble widgets — with their
   /// keys and callbacks — are only ever constructed for rows `itemBuilder`
-  /// is asked for (the visible window). This is what keeps a typing/presence
+  /// is asked for (the visible window). This is what keeps a typing
   /// tick from reconstructing every bubble in a long conversation.
   List<_ChatRow> _buildRows(AppLocalizations l10n) {
     final messages = state.messages;
