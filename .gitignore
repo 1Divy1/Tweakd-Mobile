@@ -62,3 +62,6 @@ supabase/
 
 # Local scratch/progress notes — not for the remote
 *_PROGRESS.md
+
+# Editor extension output
+.VSCodeCounter/
