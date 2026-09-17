@@ -59,3 +59,6 @@ GoogleService-Info.plist
 google-services.json
 # Local-only DB policy scripts — deliberately not tracked
 supabase/
+
+# Local scratch/progress notes — not for the remote
+*_PROGRESS.md
