@@ -13,6 +13,7 @@ import 'businesses/business_popup.dart';
 import 'map_error_banner.dart';
 import 'map_recentre_button.dart';
 import 'map_top_bar.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// Everything drawn *over* the map: the top bar, error banner, recentre button
 /// and whichever popup is open. Split out so the map surface itself stays out
@@ -33,6 +34,11 @@ class MapFlutterOverlays extends StatelessWidget {
         final bloc = context.read<MapBloc>();
         final errorCode = state.errorCode;
         final topInset = MediaQuery.paddingOf(context).top;
+        // The map stays full-bleed; the chrome and cards over it don't.
+        final sideInset = AppLayout.insetFor(
+          MediaQuery.sizeOf(context).width,
+          maxWidth: AppLayout.formWidth,
+        );
 
         return Stack(
           children: [
@@ -44,30 +50,30 @@ class MapFlutterOverlays extends StatelessWidget {
               child: _MapPopupBackdrop(visible: state.isPopupOpen),
             ),
 
-            // Back button
-            Positioned(
-              top: topInset,
-              left: 12,
-              child: AppPillButton(
-                icon: Icons.chevron_left_rounded,
-                onTap: () => context.pop(),
-              ),
-            ),
-
-            // Search field + create-event button. The bar is inert by design
-            // (see MapTopBar) and sits clear of the back button.
+            // Back button, search field and create-event button. The search
+            // is inert by design (see MapTopBar). On a tablet the row keeps a
+            // form-width measure so the buttons stay within thumb reach.
             Positioned(
               top: topInset + 4,
-              left: 66,
-              right: 12,
-              child: const MapTopBar(),
+              left: 12 + sideInset,
+              right: 12 + sideInset,
+              child: Row(
+                children: [
+                  AppPillButton(
+                    icon: Icons.chevron_left_rounded,
+                    onTap: () => context.pop(),
+                  ),
+                  const SizedBox(width: 10),
+                  const Expanded(child: MapTopBar()),
+                ],
+              ),
             ),
 
             // Error banner
             if (errorCode != null)
               Positioned(
-                left: 12,
-                right: 12,
+                left: 12 + sideInset,
+                right: 12 + sideInset,
                 top: topInset + 64,
                 child: MapErrorBanner(
                   code: errorCode,
@@ -91,9 +97,11 @@ class MapFlutterOverlays extends StatelessWidget {
             // single AnimatedSwitcher cross-fades between them, keyed by the
             // selected id so switching pins animates rather than mutating in
             // place.
+            // The map stays full-bleed; the popup is a card, so on a tablet it
+            // keeps a form-width measure instead of spanning the screen.
             Positioned(
-              left: 12,
-              right: 12,
+              left: 12 + sideInset,
+              right: 12 + sideInset,
               bottom: chromeBottom,
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 180),

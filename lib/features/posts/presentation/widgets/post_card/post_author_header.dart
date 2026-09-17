@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/shared/widgets/app_avatar.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/post_user.dart';
@@ -96,32 +96,6 @@ class _Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final initial =
-        username.isNotEmpty ? username.characters.first.toUpperCase() : '?';
-    // Cap decode resolution to the on-screen avatar size — full-resolution
-    // source images decoded for a 42px circle waste memory/CPU on every
-    // scroll pass through a feed.
-    final cachePx = (42 * MediaQuery.devicePixelRatioOf(context)).round();
-    return CircleAvatar(
-      radius: 21,
-      backgroundColor: AppColors.accentSoft,
-      backgroundImage: avatarUrl != null
-          ? ResizeImage(
-              CachedNetworkImageProvider(avatarUrl!),
-              width: cachePx,
-              height: cachePx,
-            )
-          : null,
-      child: avatarUrl == null
-          ? Text(
-              initial,
-              style: TextStyle(
-                color: AppColors.accentHot,
-                fontSize: 16,
-                fontWeight: FontWeight.w800,
-              ),
-            )
-          : null,
-    );
+    return AppAvatar(size: 42, url: avatarUrl, name: username);
   }
 }

@@ -1,3 +1,4 @@
+import '../../domain/entities/post_reposted_by.dart';
 import '../../domain/entities/post.dart';
 import '../../domain/entities/post_image.dart';
 import '../../domain/entities/post_pages.dart';
@@ -112,6 +113,8 @@ class PostModel {
   final bool savedCountEnabled;
   final bool viewerHasLiked;
   final bool viewerHasSaved;
+  final bool viewerHasReposted;
+  final RepostedByModel? repostedBy;
   final DateTime createdAt;
   final DateTime updatedAt;
   final ParticipantCardModel? participantCard;
@@ -133,6 +136,8 @@ class PostModel {
     required this.savedCountEnabled,
     required this.viewerHasLiked,
     required this.viewerHasSaved,
+    this.viewerHasReposted = false,
+    this.repostedBy,
     required this.createdAt,
     required this.updatedAt,
     this.participantCard,
@@ -165,6 +170,8 @@ class PostModel {
       savedCountEnabled: boolOf('saved_count_enabled'),
       viewerHasLiked: json['viewer_has_liked'] as bool? ?? false,
       viewerHasSaved: json['viewer_has_saved'] as bool? ?? false,
+      viewerHasReposted: json['viewer_has_reposted'] as bool? ?? false,
+      repostedBy: RepostedByModel.tryParse(json['reposted_by']),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(
           (json['updated_at'] ?? json['created_at']) as String),
@@ -189,13 +196,44 @@ class PostModel {
         savedCountEnabled: savedCountEnabled,
         viewerHasLiked: viewerHasLiked,
         viewerHasSaved: viewerHasSaved,
+        viewerHasReposted: viewerHasReposted,
+        repostedBy: repostedBy?.toEntity(),
         createdAt: createdAt,
         updatedAt: updatedAt,
         participantCard: participantCard?.toEntity(),
       );
 }
 
-/// Cursor-paginated page of posts (GET /posts/me, /posts/by-username/{u}).
+/// `reposted_by` on a feed post: up to two followed reposters, most recent
+/// first, plus how many followed accounts reposted it in all.
+class RepostedByModel {
+  final List<PostUserModel> users;
+  final int totalCount;
+
+  const RepostedByModel({required this.users, required this.totalCount});
+
+  /// Null when the key is absent or names nobody — the post then shows no
+  /// "reposted" line.
+  static RepostedByModel? tryParse(Object? json) {
+    if (json is! Map<String, dynamic>) return null;
+    final users = (json['users'] as List<dynamic>? ?? [])
+        .map((e) => PostUserModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+    if (users.isEmpty) return null;
+    final total = (json['total_count'] as num?)?.toInt() ?? 0;
+    return RepostedByModel(
+      users: users,
+      totalCount: total < users.length ? users.length : total,
+    );
+  }
+
+  RepostedByEntity toEntity() => RepostedByEntity(
+        users: users.map((u) => u.toEntity()).toList(),
+        totalCount: totalCount,
+      );
+}
+
+/// Cursor-paginated page of posts (GET /posts/me, /posts/by-username/{u}, /posts/by-username/{u}/reposts).
 class PostPageModel {
   final List<PostModel> items;
   final String? nextCursor;

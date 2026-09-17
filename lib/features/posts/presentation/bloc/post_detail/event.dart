@@ -27,6 +27,11 @@ class ToggleSavePost extends PostDetailEvent {
   const ToggleSavePost();
 }
 
+/// Optimistically toggles the viewer's repost.
+class ToggleRepostPost extends PostDetailEvent {
+  const ToggleRepostPost();
+}
+
 class DeletePostPressed extends PostDetailEvent {
   const DeletePostPressed();
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tweakd/core/theme/app_icons.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
@@ -16,7 +17,8 @@ class PostDetailView extends StatelessWidget {
   final PostEntity post;
   final VoidCallback onToggleLike;
   final VoidCallback onToggleSave;
-  final VoidCallback onShare;
+  /// Null on the viewer's own post, which can't be reposted.
+  final VoidCallback? onToggleRepost;
   final VoidCallback onOpenComments;
   final VoidCallback onOpenLikers;
 
@@ -25,7 +27,7 @@ class PostDetailView extends StatelessWidget {
     required this.post,
     required this.onToggleLike,
     required this.onToggleSave,
-    required this.onShare,
+    this.onToggleRepost,
     required this.onOpenComments,
     required this.onOpenLikers,
   });
@@ -52,7 +54,7 @@ class PostDetailView extends StatelessWidget {
           post: post,
           onToggleLike: onToggleLike,
           onToggleSave: onToggleSave,
-          onShare: onShare,
+          onToggleRepost: onToggleRepost,
           onOpenComments: onOpenComments,
         ),
         if (post.likesCountEnabled && post.likesCount > 0)
@@ -96,12 +98,11 @@ class PostDetailView extends StatelessWidget {
             postTimeAgo(
               AppLocalizations.of(context)!,
               post.createdAt,
-            ).toUpperCase(),
+            ),
             style: TextStyle(
               color: AppColors.muteSoft,
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 0.8,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -114,14 +115,15 @@ class _Actions extends StatelessWidget {
   final PostEntity post;
   final VoidCallback onToggleLike;
   final VoidCallback onToggleSave;
-  final VoidCallback onShare;
+  /// Null on the viewer's own post, which can't be reposted.
+  final VoidCallback? onToggleRepost;
   final VoidCallback onOpenComments;
 
   const _Actions({
     required this.post,
     required this.onToggleLike,
     required this.onToggleSave,
-    required this.onShare,
+    this.onToggleRepost,
     required this.onOpenComments,
   });
 
@@ -147,9 +149,14 @@ class _Actions extends StatelessWidget {
           ),
           const SizedBox(width: 20),
           _ActionItem(
-            icon: Icons.ios_share_rounded,
+            icon: AppIcons.repost,
+            color: post.viewerHasReposted
+                ? AppColors.accent
+                : onToggleRepost == null
+                ? AppColors.muteSoft
+                : AppColors.ink,
             label: post.sharesCountEnabled ? '${post.sharesCount}' : null,
-            onTap: onShare,
+            onTap: onToggleRepost,
           ),
           const Spacer(),
           _ActionItem(
@@ -169,7 +176,7 @@ class _ActionItem extends StatelessWidget {
   final IconData icon;
   final String? label;
   final Color? color;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   const _ActionItem({
     required this.icon,

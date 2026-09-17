@@ -3,13 +3,15 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/theme/app_icons.dart';
 import '../../../../../l10n/app_localizations.dart';
 
 /// The sections a profile body can show. Garage is the default (left) tab —
-/// the cars are what a profile is for — then Posts, then Tags (everything this
+/// the cars are what a profile is for — then Posts, Reposts (other people's
+/// posts this user put in front of their followers), Tags (everything this
 /// user, or one of their cars, was tagged in elsewhere) and, on your own
 /// profile only, Events.
-enum ProfileSection { garage, posts, tags, events }
+enum ProfileSection { garage, posts, reposts, tags, events }
 
 /// The section switcher shown between the profile header and the active
 /// section. Only one section is visible at a time.
@@ -91,6 +93,11 @@ class ProfileSectionTabs extends StatelessWidget {
         Icons.grid_on_rounded,
         l10n.profileTabPosts,
         ProfileSection.posts,
+      ),
+      _TabSpec(
+        AppIcons.repost,
+        l10n.profileTabReposts,
+        ProfileSection.reposts,
       ),
       _TabSpec(Icons.sell_rounded, l10n.profileTabTags, ProfileSection.tags),
       if (showEvents)

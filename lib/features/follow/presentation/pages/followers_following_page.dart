@@ -14,6 +14,7 @@ import '../bloc/state.dart';
 import '../utils/follow_error_mapper.dart';
 import '../widgets/follow_results_view.dart';
 import '../widgets/follow_tab_switcher.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 class FollowersFollowingPage extends StatefulWidget {
   final String username;
@@ -83,7 +84,9 @@ class _FollowersFollowingPageState extends State<FollowersFollowingPage> {
           children: [
             ProfileTopBar(title: '@${widget.username}'),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
+              padding:
+                  const EdgeInsets.fromLTRB(20, 4, 20, 12) +
+                  AppLayout.inset(context),
               child: Column(
                 children: [
                   FollowTabSwitcher(
@@ -106,39 +109,36 @@ class _FollowersFollowingPageState extends State<FollowersFollowingPage> {
               ),
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: BlocBuilder<FollowBloc, FollowState>(
-                  builder: (context, state) {
-                    if (_showFollowers) {
-                      if (state is FollowersLoading) return const SearchLoadingView();
-                      if (state is FollowersLoaded) {
-                        return FollowResultsView(
-                          users: _filtered(state.followers),
-                          showFollowers: true,
-                          isOwnProfile: widget.isOwnProfile,
-                          query: _searchQuery,
-                        );
-                      }
-                    } else {
-                      if (state is FollowingLoading) return const SearchLoadingView();
-                      if (state is FollowingLoaded) {
-                        return FollowResultsView(
-                          users: _filtered(state.following),
-                          showFollowers: false,
-                          isOwnProfile: widget.isOwnProfile,
-                          query: _searchQuery,
-                        );
-                      }
-                    }
-                    if (state is FollowError) {
-                      return SearchErrorView(
-                        message: followErrorMessage(l10n, state.code),
+              child: BlocBuilder<FollowBloc, FollowState>(
+                builder: (context, state) {
+                  if (_showFollowers) {
+                    if (state is FollowersLoading) return const SearchLoadingView();
+                    if (state is FollowersLoaded) {
+                      return FollowResultsView(
+                        users: _filtered(state.followers),
+                        showFollowers: true,
+                        isOwnProfile: widget.isOwnProfile,
+                        query: _searchQuery,
                       );
                     }
-                    return const SearchLoadingView();
-                  },
-                ),
+                  } else {
+                    if (state is FollowingLoading) return const SearchLoadingView();
+                    if (state is FollowingLoaded) {
+                      return FollowResultsView(
+                        users: _filtered(state.following),
+                        showFollowers: false,
+                        isOwnProfile: widget.isOwnProfile,
+                        query: _searchQuery,
+                      );
+                    }
+                  }
+                  if (state is FollowError) {
+                    return SearchErrorView(
+                      message: followErrorMessage(l10n, state.code),
+                    );
+                  }
+                  return const SearchLoadingView();
+                },
               ),
             ),
           ],

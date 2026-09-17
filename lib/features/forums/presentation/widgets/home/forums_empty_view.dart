@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
-import '../../../domain/entities/forum_suggestion.dart';
 import '../shared/forum_section_label.dart';
 
-/// Empty-paddock home: the explainer, popular-hub suggestions (brands and
-/// models) that open their hub on tap, and the start-first-thread CTA.
+/// Empty-paddock header: the shortcuts explainer over the "popular right now"
+/// label that heads the global hot list. Only when the app has no threads at
+/// all does the start-first-thread CTA take the list's place.
 class ForumsEmptyView extends StatelessWidget {
-  final List<ForumSuggestionEntity> suggestions;
-  final ValueChanged<ForumSuggestionEntity> onOpen;
+  final bool hasThreads;
   final VoidCallback onStartThread;
 
   const ForumsEmptyView({
     super.key,
-    required this.suggestions,
-    required this.onOpen,
+    required this.hasThreads,
     required this.onStartThread,
   });
 
@@ -25,29 +23,14 @@ class ForumsEmptyView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SizedBox(height: 8),
           _ExplainerCard(l10n: l10n),
-          if (suggestions.isNotEmpty) ...[
-            const SizedBox(height: 24),
-            ForumSectionLabel(label: l10n.forumsPopularHubs),
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                for (final suggestion in suggestions)
-                  _HubChip(
-                    suggestion: suggestion,
-                    onTap: () => onOpen(suggestion),
-                  ),
-              ],
-            ),
-          ],
           const SizedBox(height: 24),
-          _StartThreadCard(l10n: l10n, onStartThread: onStartThread),
-          const SizedBox(height: 24),
+          if (hasThreads)
+            ForumSectionLabel(label: l10n.forumsPopularThreads)
+          else
+            _StartThreadCard(l10n: l10n, onStartThread: onStartThread),
         ],
       ),
     );
@@ -109,51 +92,6 @@ class _ExplainerCard extends StatelessWidget {
   }
 }
 
-class _HubChip extends StatelessWidget {
-  final ForumSuggestionEntity suggestion;
-  final VoidCallback onTap;
-
-  const _HubChip({required this.suggestion, required this.onTap});
-
-  IconData get _icon => switch (suggestion.type) {
-        ForumSuggestionType.brand => Icons.directions_car_filled_outlined,
-        ForumSuggestionType.model => Icons.garage_outlined,
-      };
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(12, 9, 14, 9),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(999),
-          border: Border.all(color: AppColors.line),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(_icon, size: 14, color: AppColors.mute),
-            const SizedBox(width: 6),
-            Text(
-              suggestion.displayName,
-              style: TextStyle(
-                color: AppColors.ink,
-                fontSize: 13,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            const SizedBox(width: 6),
-            Icon(Icons.chevron_right_rounded,
-                size: 16, color: AppColors.mute),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _StartThreadCard extends StatelessWidget {
   final AppLocalizations l10n;
   final VoidCallback onStartThread;
@@ -194,10 +132,10 @@ class _StartThreadCard extends StatelessWidget {
           const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
-            height: 52,
             child: ElevatedButton.icon(
               onPressed: onStartThread,
               style: ElevatedButton.styleFrom(
+                minimumSize: const Size(0, 52),
                 backgroundColor: AppColors.accent,
                 foregroundColor: Colors.white,
                 elevation: 0,
@@ -208,6 +146,8 @@ class _StartThreadCard extends StatelessWidget {
               icon: const Icon(Icons.add, size: 18),
               label: Text(
                 l10n.forumsStartFirstThread,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w800,

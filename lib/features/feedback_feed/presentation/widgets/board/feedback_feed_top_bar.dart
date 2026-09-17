@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/shared/widgets/app_pill_button.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 /// The board header: a back pill, an accent eyebrow over the "Feedback" title,
 /// and the accent "+ NEW" compose button on the right.
@@ -17,7 +18,7 @@ class FeedbackFeedTopBar extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8) + AppLayout.inset(context),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -51,7 +52,6 @@ class FeedbackFeedTopBar extends StatelessWidget {
                           color: AppColors.accent,
                           fontSize: 11,
                           fontWeight: FontWeight.w800,
-                          letterSpacing: 1.4,
                         ),
                       ),
                     ),

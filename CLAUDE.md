@@ -130,6 +130,14 @@ Implemented features with their key files. Read these first before exploring sub
 - Data source: `SearchApiDataSource` — `GET /search/users?query=...`
 - Bloc: `SearchBloc`
 
+### block
+- Page: `blocked_accounts_page` (Settings → Blocked accounts, route `/settings/blocked-accounts`)
+- Entity: `BlockedAccountEntity { id, username, name?, avatarUrl?, blockedAt? }`
+- Use cases: `BlockUser`, `UnblockUser`, `GetBlockedAccounts`
+- Data source: `BlockApiDataSource` — `GET /blocks`, `POST /blocks/{username}`, `DELETE /blocks/{username}`
+- Blocs: `BlockedAccountsBloc` (list + unblock, row leaves on success), `BlockUserCubit` (public profile ⋯ → Block, provided on `/users/:username`)
+- A block is two-way and enforced server-side: a blocked profile/post/thread reads as a 404 "not found".
+
 ### Routes (app_router.dart)
 | Path | Bloc provisioned | Notes |
 |------|-----------------|-------|

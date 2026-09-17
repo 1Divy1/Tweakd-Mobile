@@ -6,6 +6,7 @@ import 'package:tweakd/l10n/app_localizations.dart';
 import '../../theme/app_colors.dart';
 import '../entities/search_result.dart';
 import 'search_result_card.dart';
+import '../layout/app_layout.dart';
 
 class SearchResultsView extends StatelessWidget {
   final String query;
@@ -30,7 +31,9 @@ class SearchResultsView extends StatelessWidget {
         const SizedBox(height: 12),
         Expanded(
           child: ListView.separated(
-            padding: const EdgeInsets.only(bottom: 16),
+            padding:
+                const EdgeInsets.fromLTRB(20, 0, 20, 16) +
+                AppLayout.inset(context),
             itemCount: results.length,
             separatorBuilder: (context, index) => const SizedBox(height: 10),
             itemBuilder: (context, index) {
@@ -59,7 +62,8 @@ class _ResultsHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
+      padding:
+          const EdgeInsets.fromLTRB(24, 4, 24, 0) + AppLayout.inset(context),
       child: Row(
         children: [
           Text(
@@ -78,7 +82,6 @@ class _ResultsHeader extends StatelessWidget {
               color: AppColors.muteSoft,
               fontSize: 11,
               fontWeight: FontWeight.w700,
-              letterSpacing: 1.4,
             ),
           ),
         ],

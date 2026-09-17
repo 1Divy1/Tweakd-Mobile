@@ -3,29 +3,44 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/theme/app_icons.dart';
 import '../../../../../l10n/app_localizations.dart';
-import '../../../../posts/presentation/bloc/profile_posts/bloc.dart';
 import '../../../../posts/presentation/bloc/profile_posts/event.dart';
 import '../../../../posts/presentation/bloc/profile_posts/state.dart';
 import '../../../../posts/presentation/utils/post_error_mapper.dart';
 import '../../../../posts/presentation/widgets/post_card.dart';
 
-/// The Posts tab content on a profile: an edge-to-edge three-column grid of
-/// [PostCard]s backed by [ProfilePostsBloc]. Tapping a card opens the full post.
+/// Which grid a [PostsSection] is: the user's own posts, or the posts they
+/// reposted. Only the empty state differs.
+enum PostsSectionKind { posts, reposts }
+
+/// The Posts or Reposts tab content on a profile: an edge-to-edge three-column
+/// grid of [PostCard]s backed by [B] — `ProfilePostsBloc` or
+/// `ProfileRepostsBloc`, which speak the same events and states. Tapping a card
+/// opens the full post.
 ///
 /// The grid itself is full-bleed (no side padding, hairline gaps); the empty,
 /// error and load-more states keep the page's 20px horizontal margin so they
 /// read as centred cards rather than stretched banners.
-class PostsSection extends StatelessWidget {
+class PostsSection<B extends Bloc<ProfilePostsEvent, ProfilePostsState>>
+    extends StatelessWidget {
   final bool isOwner;
+  final PostsSectionKind kind;
 
-  const PostsSection({super.key, required this.isOwner});
+  const PostsSection({
+    super.key,
+    required this.isOwner,
+    this.kind = PostsSectionKind.posts,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfilePostsBloc, ProfilePostsState>(
+    return BlocBuilder<B, ProfilePostsState>(
       builder: (context, state) {
         return switch (state) {
+          // A lazily loaded tab is still Initial for the frame before its
+          // first load lands.
+          ProfilePostsInitial() ||
           ProfilePostsLoading() => const _PostsLoadingView(),
           ProfilePostsError(:final code) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -36,17 +51,17 @@ class PostsSection extends StatelessWidget {
           ProfilePostsLoaded(:final posts) => posts.isEmpty
               ? Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: _PostsEmptyView(isOwner: isOwner),
+                  child: _PostsEmptyView(isOwner: isOwner, kind: kind),
                 )
-              : _PostsGrid(state: state),
-          _ => const SizedBox.shrink(),
+              : _PostsGrid<B>(state: state),
         };
       },
     );
   }
 }
 
-class _PostsGrid extends StatelessWidget {
+class _PostsGrid<B extends Bloc<ProfilePostsEvent, ProfilePostsState>>
+    extends StatelessWidget {
   final ProfilePostsLoaded state;
 
   const _PostsGrid({required this.state});
@@ -75,7 +90,7 @@ class _PostsGrid extends StatelessWidget {
               onTap: () async {
                 // The detail screen pops `true` when the post was edited or
                 // deleted; refresh the grid so it reflects the change.
-                final bloc = context.read<ProfilePostsBloc>();
+                final bloc = context.read<B>();
                 final changed = await context.push<bool>('/posts/${post.id}');
                 if (changed == true) bloc.add(const ReloadPosts());
               },
@@ -89,7 +104,7 @@ class _PostsGrid extends StatelessWidget {
             child: _LoadMoreButton(
               isLoading: state.isLoadingMore,
               onTap: () =>
-                  context.read<ProfilePostsBloc>().add(const LoadMorePosts()),
+                  context.read<B>().add(const LoadMorePosts()),
               label: l10n.postsLoadMore,
             ),
           ),
@@ -147,12 +162,14 @@ class _LoadMoreButton extends StatelessWidget {
 
 class _PostsEmptyView extends StatelessWidget {
   final bool isOwner;
+  final PostsSectionKind kind;
 
-  const _PostsEmptyView({required this.isOwner});
+  const _PostsEmptyView({required this.isOwner, required this.kind});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final reposts = kind == PostsSectionKind.reposts;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 36, horizontal: 20),
@@ -162,10 +179,19 @@ class _PostsEmptyView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(Icons.grid_on_outlined, size: 36, color: AppColors.mute),
+          Icon(
+            reposts ? AppIcons.repost : Icons.grid_on_outlined,
+            size: 36,
+            color: AppColors.mute,
+          ),
           const SizedBox(height: 10),
           Text(
-            isOwner ? l10n.postsEmptyOwner : l10n.postsEmptyVisitor,
+            switch ((reposts, isOwner)) {
+              (false, true) => l10n.postsEmptyOwner,
+              (false, false) => l10n.postsEmptyVisitor,
+              (true, true) => l10n.repostsEmptyOwner,
+              (true, false) => l10n.repostsEmptyVisitor,
+            },
             textAlign: TextAlign.center,
             style: TextStyle(
               color: AppColors.mute,
@@ -173,7 +199,9 @@ class _PostsEmptyView extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          if (isOwner) ...[
+          // Reposts are made from other people's posts, so there is nothing
+          // to create from here.
+          if (isOwner && !reposts) ...[
             const SizedBox(height: 16),
             GestureDetector(
               onTap: () => context.push('/posts/create'),
@@ -190,7 +218,6 @@ class _PostsEmptyView extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
-                    letterSpacing: 0.6,
                   ),
                 ),
               ),

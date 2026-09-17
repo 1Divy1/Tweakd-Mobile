@@ -118,12 +118,16 @@ class ForumThreadCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                Text(
-                  '     ${forumActiveAgo(l10n, thread.lastActivityAt)}',
-                  style: TextStyle(
-                    color: AppColors.mute,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
+                Flexible(
+                  child: Text(
+                    '     ${forumActiveAgo(l10n, thread.lastActivityAt)}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: AppColors.mute,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],

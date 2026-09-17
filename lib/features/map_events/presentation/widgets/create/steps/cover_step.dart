@@ -49,7 +49,6 @@ class CoverStep extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 11.5,
                     fontWeight: FontWeight.w800,
-                    letterSpacing: 0.6,
                     color: AppColors.mute,
                   ),
                 ),
@@ -91,7 +90,6 @@ class CoverStep extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 10.5,
                             fontWeight: FontWeight.w800,
-                            letterSpacing: 0.6,
                             color: Colors.white,
                           ),
                         ),

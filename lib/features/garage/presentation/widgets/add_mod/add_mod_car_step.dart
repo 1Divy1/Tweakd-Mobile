@@ -188,7 +188,6 @@ class AddModNoCarsView extends StatelessWidget {
                       color: Colors.white,
                       fontWeight: FontWeight.w800,
                       fontSize: 14,
-                      letterSpacing: 1,
                     ),
                   ),
                 ),

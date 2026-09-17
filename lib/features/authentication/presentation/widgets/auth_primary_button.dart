@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
-/// The full-width orange call-to-action used on the auth pages (e.g. "SIGN IN",
-/// "CREATE ACCOUNT"). Shows a spinner instead of the label while [isLoading].
+/// The full-width orange call-to-action used on the auth pages (e.g. "Sign in",
+/// "Create account"). Shows a spinner instead of the label while [isLoading].
 class AuthPrimaryButton extends StatelessWidget {
   final String label;
   final bool isLoading;
@@ -20,12 +20,12 @@ class AuthPrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 56,
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.accent,
           disabledBackgroundColor: AppColors.accent.withValues(alpha: 0.6),
+          minimumSize: const Size(0, 56),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -41,12 +41,13 @@ class AuthPrimaryButton extends StatelessWidget {
                 ),
               )
             : Text(
-                label.toUpperCase(),
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.w800,
-                  letterSpacing: 1.4,
                 ),
               ),
       ),

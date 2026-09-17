@@ -11,6 +11,7 @@ import '../bloc/manage_event/state.dart';
 import '../utils/map_event_error_mapper.dart';
 import '../widgets/manage/manage_event_sections.dart';
 import '../widgets/shared/map_event_chips.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// The organizer's console: entry requests, withdrawal requests, the organizer
 /// list, and the event's lifecycle actions.
@@ -122,7 +123,7 @@ class ManageMapEventPage extends StatelessWidget {
                 8,
                 16,
                 MediaQuery.paddingOf(context).bottom + 28,
-              ),
+              ) + AppLayout.inset(context),
               children: [
                 if (managed != null) ...[
                   _EventSummary(event: managed),

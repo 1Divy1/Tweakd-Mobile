@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/shared/layout/app_layout.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/feedback_sort.dart';
@@ -21,7 +22,7 @@ class FeedbackSortTabs extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+      margin: const EdgeInsets.fromLTRB(16, 4, 16, 12) + AppLayout.inset(context),
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: AppColors.surface,

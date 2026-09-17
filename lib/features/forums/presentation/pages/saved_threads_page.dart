@@ -15,6 +15,7 @@ import '../widgets/shared/forum_section_label.dart';
 import '../widgets/shared/forum_sub_top_bar.dart';
 import '../widgets/shared/forum_thread_card.dart';
 import '../widgets/shared/forum_thread_skeleton.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 class SavedThreadsPage extends StatefulWidget {
   const SavedThreadsPage({super.key});
@@ -123,7 +124,7 @@ class _SavedList extends StatelessWidget {
     return ListView(
       controller: scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(top: 8, bottom: 24),
+      padding: const EdgeInsets.only(top: 8, bottom: 24) + AppLayout.inset(context),
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
@@ -163,6 +164,7 @@ class _EmptySaved extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(),
+      padding: AppLayout.inset(context, maxWidth: AppLayout.narrowWidth),
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(32, 80, 32, 24),

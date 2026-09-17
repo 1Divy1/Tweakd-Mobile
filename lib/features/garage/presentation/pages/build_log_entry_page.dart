@@ -10,6 +10,7 @@ import '../widgets/register_car/mod_slot.dart';
 import '../widgets/register_car/register_car_chrome.dart';
 import '../widgets/register_car/register_car_fields.dart';
 import '../widgets/register_car/register_discard_dialog.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// Opens the full-screen build-log editor and resolves to the composed
 /// [ModSlot], or null if the user backed out.
@@ -105,7 +106,8 @@ class _BuildLogEntryPageState extends State<BuildLogEntryPage> {
             children: [
               // No title bar — this is a screen, not a sheet. Just the way out.
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 10, 20, 6),
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 6) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: RegisterCloseButton(onTap: _close),
@@ -113,7 +115,8 @@ class _BuildLogEntryPageState extends State<BuildLogEntryPage> {
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 24),
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 24) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -152,7 +155,8 @@ class _SubmitBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 14, 20, 26),
+      padding: const EdgeInsets.fromLTRB(20, 14, 20, 26) +
+          AppLayout.inset(context, maxWidth: AppLayout.formWidth),
       color: AppColors.bg,
       child: GestureDetector(
         onTap: onTap,
@@ -181,7 +185,6 @@ class _SubmitBar extends StatelessWidget {
                     color: Colors.white,
                     fontWeight: FontWeight.w800,
                     fontSize: 14,
-                    letterSpacing: 1,
                   ),
                 ),
               ],

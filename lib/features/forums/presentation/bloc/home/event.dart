@@ -11,8 +11,7 @@ sealed class ForumsHomeEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// First load: shortcuts + hot feed + topics (for the empty-state hub
-/// suggestions), with a full-screen loading state.
+/// First load: shortcuts + hot feed, with a full-screen loading state.
 class LoadForumsHome extends ForumsHomeEvent {
   const LoadForumsHome();
 }

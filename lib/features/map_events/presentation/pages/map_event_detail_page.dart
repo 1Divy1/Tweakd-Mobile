@@ -26,6 +26,7 @@ import '../widgets/shared/withdraw_event_dialog.dart';
 import '../bloc/participant_cards/cubit.dart';
 import '../widgets/contests/participant_cards_section.dart';
 import '../../domain/entities/map_event_enums.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// The full event page: hero, stat tiles, the action row, and the
 /// Overview / Cars segmented content.
@@ -152,7 +153,7 @@ class _DetailContent extends StatelessWidget {
         context.read<ParticipantCardsCubit>().load(event.id);
       },
       child: ListView(
-        padding: EdgeInsets.zero,
+        padding: AppLayout.inset(context),
         children: [
           MapEventHero(event: event),
           Padding(
@@ -348,11 +349,10 @@ class _ManageButton extends StatelessWidget {
               Icon(Icons.tune_rounded, size: 16, color: AppColors.ink),
               const SizedBox(width: 8),
               Text(
-                l10n.mapEventsManageTitle.toUpperCase(),
+                l10n.mapEventsManageTitle,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 14,
                   fontWeight: FontWeight.w800,
-                  letterSpacing: 0.5,
                   color: AppColors.ink,
                 ),
               ),

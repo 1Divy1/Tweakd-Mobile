@@ -67,7 +67,6 @@ class MessagesEmptyView extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w800,
-                  letterSpacing: 1.5,
                 ),
               ),
             ),

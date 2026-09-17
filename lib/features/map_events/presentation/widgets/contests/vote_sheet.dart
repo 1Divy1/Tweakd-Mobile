@@ -128,12 +128,12 @@ class _VoteSheetState extends State<_VoteSheet> {
               padding: const EdgeInsets.all(18),
               child: SizedBox(
                 width: double.infinity,
-                height: 50,
                 child: FilledButton(
                   onPressed: _selected == null || _selected == current
                       ? null
                       : () => Navigator.of(context).pop(_selected),
                   style: FilledButton.styleFrom(
+                    minimumSize: const Size(0, 50),
                     backgroundColor: AppColors.accent,
                     disabledBackgroundColor: AppColors.bg,
                     disabledForegroundColor: AppColors.muteSoft,
@@ -141,13 +141,14 @@ class _VoteSheetState extends State<_VoteSheet> {
                       borderRadius: BorderRadius.circular(14),
                     ),
                     textStyle: const TextStyle(
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w800,
-                      letterSpacing: 0.9,
                     ),
                   ),
                   child: Text(
                     current == null ? l10n.contestsCastVote : l10n.contestsSaveNewVote,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),
@@ -240,7 +241,6 @@ class _Tile extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 8,
                               fontWeight: FontWeight.w800,
-                              letterSpacing: 0.9,
                               color: Colors.white,
                             ),
                           ),

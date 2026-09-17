@@ -16,6 +16,7 @@ import '../../../../map_events/presentation/bloc/my_events/state.dart';
 import '../../../../posts/presentation/bloc/profile_posts/bloc.dart';
 import '../../../../posts/presentation/bloc/profile_posts/event.dart';
 import '../../../../posts/presentation/bloc/profile_posts/state.dart';
+import '../../../../posts/presentation/bloc/profile_reposts/bloc.dart';
 import '../../../../tags/presentation/bloc/tags/bloc.dart';
 import '../../../../tags/presentation/bloc/tags/event.dart';
 import '../../../../tags/presentation/bloc/tags/state.dart';
@@ -35,6 +36,7 @@ import 'edit_profile_button.dart';
 import 'feedback_button.dart';
 import 'share_profile_button.dart';
 import 'settings_button.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 class MyProfileDataView extends StatefulWidget {
   final ProfileEntity profile;
@@ -78,6 +80,17 @@ class _MyProfileDataViewState extends State<MyProfileDataView> {
     }
   }
 
+  void _selectSection(ProfileSection section) {
+    // Reposts load the first time their tab is opened, like Tags and Events.
+    if (section == ProfileSection.reposts) {
+      final bloc = context.read<ProfileRepostsBloc>();
+      if (bloc.state is ProfilePostsInitial) {
+        bloc.add(LoadPostsByUsername(widget.profile.username));
+      }
+    }
+    setState(() => _section = section);
+  }
+
   Future<void> _refresh() async {
     // Force a remote fetch — the default (fetchFromRemote: false) returns the
     // repository's cached profile, so the request never leaves the device and
@@ -97,6 +110,11 @@ class _MyProfileDataViewState extends State<MyProfileDataView> {
     final tagsBloc = context.read<TagsBloc>();
     if (tagsBloc.state is! TagsInitial) {
       tagsBloc.add(const RefreshTags());
+    }
+    // Same lazy contract for Reposts.
+    final repostsBloc = context.read<ProfileRepostsBloc>();
+    if (repostsBloc.state is! ProfilePostsInitial) {
+      repostsBloc.add(const ReloadPosts());
     }
     // Keep the refresh spinner up until the fetches settle.
     await Future.wait([
@@ -137,60 +155,77 @@ class _MyProfileDataViewState extends State<MyProfileDataView> {
               child: CustomScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
-                  SliverToBoxAdapter(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const SizedBox(height: 12),
-                        ProfileHeader(profile: profile, isOwnProfile: true),
-                        const SizedBox(height: 18),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
+                  SliverContentFrame(
+                    sliver: SliverMainAxisGroup(
+                      slivers: [
+                        SliverToBoxAdapter(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Expanded(
-                                child: EditProfileButton(
-                                  onTap: () => _openEditProfile(context),
+                              const SizedBox(height: 12),
+                              ProfileHeader(
+                                profile: profile,
+                                isOwnProfile: true,
+                              ),
+                              const SizedBox(height: 18),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: EditProfileButton(
+                                        onTap: () => _openEditProfile(context),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    const Expanded(child: ShareProfileButton()),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(width: 10),
-                              const Expanded(child: ShareProfileButton()),
+                              const SizedBox(height: 20),
+                              BadgeStrip(badges: profile.badges),
+                              const SizedBox(height: 20),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 20),
-                        BadgeStrip(badges: profile.badges),
-                        const SizedBox(height: 20),
+                        SliverPersistentHeader(
+                          pinned: true,
+                          delegate: ProfileTabsSliverHeader(
+                            active: _section,
+                            onChanged: _selectSection,
+                            height: ProfileTabsSliverHeader.heightFor(context),
+                            // Your own profile is the only place events can live:
+                            // `/map-events/mine` is scoped to the caller.
+                            showEvents: true,
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 22, bottom: 24),
+                            child: switch (_section) {
+                              ProfileSection.garage => const GarageSection(
+                                isOwner: true,
+                              ),
+                              ProfileSection.posts =>
+                                const PostsSection<ProfilePostsBloc>(
+                                  isOwner: true,
+                                ),
+                              ProfileSection.reposts =>
+                                const PostsSection<ProfileRepostsBloc>(
+                                  isOwner: true,
+                                  kind: PostsSectionKind.reposts,
+                                ),
+                              ProfileSection.tags => TagsSection(
+                                isOwner: true,
+                                username: profile.username,
+                              ),
+                              ProfileSection.events => const MyEventsSection(),
+                            },
+                          ),
+                        ),
                       ],
-                    ),
-                  ),
-                  SliverPersistentHeader(
-                    pinned: true,
-                    delegate: ProfileTabsSliverHeader(
-                      active: _section,
-                      onChanged: (s) => setState(() => _section = s),
-                      height: ProfileTabsSliverHeader.heightFor(context),
-                      // Your own profile is the only place events can live:
-                      // `/map-events/mine` is scoped to the caller.
-                      showEvents: true,
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 22, bottom: 24),
-                      child: switch (_section) {
-                        ProfileSection.garage => const GarageSection(
-                          isOwner: true,
-                        ),
-                        ProfileSection.posts => const PostsSection(
-                          isOwner: true,
-                        ),
-                        ProfileSection.tags => TagsSection(
-                          isOwner: true,
-                          username: profile.username,
-                        ),
-                        ProfileSection.events => const MyEventsSection(),
-                      },
                     ),
                   ),
                 ],

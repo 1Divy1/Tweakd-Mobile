@@ -15,6 +15,7 @@ import '../bloc/theme/cubit.dart';
 import '../widgets/logout_button.dart';
 import '../widgets/settings_tile.dart';
 import '../widgets/theme_picker_sheet.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -66,8 +67,9 @@ class SettingsPage extends StatelessWidget {
             } else if (state is AuthError) {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
-                ..showSnackBar(SnackBar(
-                    content: Text(authErrorMessage(l10n, state.code))));
+                ..showSnackBar(
+                  SnackBar(content: Text(authErrorMessage(l10n, state.code))),
+                );
             }
           },
           builder: (context, state) {
@@ -77,7 +79,9 @@ class SettingsPage extends StatelessWidget {
                 ProfileTopBar(title: l10n.settingsTitle),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+                    padding:
+                        const EdgeInsets.fromLTRB(16, 12, 16, 24) +
+                        AppLayout.inset(context, maxWidth: AppLayout.formWidth),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -91,6 +95,13 @@ class SettingsPage extends StatelessWidget {
                           icon: Icons.flag_outlined,
                           label: l10n.settingsMyReports,
                           onTap: () => context.push('/reports'),
+                        ),
+                        const SizedBox(height: 12),
+                        SettingsTile(
+                          icon: Icons.block_rounded,
+                          label: l10n.settingsBlockedAccounts,
+                          onTap: () =>
+                              context.push('/settings/blocked-accounts'),
                         ),
                         const SizedBox(height: 12),
                         SettingsTile(

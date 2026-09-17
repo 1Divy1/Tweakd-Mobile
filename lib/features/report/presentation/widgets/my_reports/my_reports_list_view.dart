@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../domain/entities/my_report.dart';
 import 'my_report_tile.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 /// The loaded list of the user's submitted reports.
 class MyReportsListView extends StatelessWidget {
@@ -12,7 +13,7 @@ class MyReportsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 24) + AppLayout.inset(context),
       itemCount: reports.length,
       separatorBuilder: (_, _) => const SizedBox(height: 10),
       itemBuilder: (context, i) => MyReportTile(report: reports[i]),

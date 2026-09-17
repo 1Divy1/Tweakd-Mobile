@@ -6,6 +6,7 @@ import '../../../../core/shared/widgets/app_shimmer.dart';
 import '../../../../core/theme/app_colors.dart';
 import 'shared/profile_content_frame.dart';
 import 'shared/profile_header.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// Skeleton placeholder shown while a profile loads (used by both the own and
 /// public profile pages). Mirrors the profile layout — avatar with the name
@@ -23,6 +24,7 @@ class ProfileLoadingView extends StatelessWidget {
       child: AppShimmer(
         child: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
+          padding: AppLayout.inset(context),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
@@ -213,10 +215,7 @@ class _Circle extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(
-        color: AppColors.line2,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: AppColors.line2, shape: BoxShape.circle),
     );
   }
 }

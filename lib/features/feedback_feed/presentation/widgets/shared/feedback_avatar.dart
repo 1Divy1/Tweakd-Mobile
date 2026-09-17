@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/shared/widgets/app_avatar.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 /// Circular author avatar with an initial-letter fallback, as on the board
@@ -19,39 +19,12 @@ class FeedbackAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final url = avatarUrl;
-    // Cap decode resolution to the on-screen size — otherwise a full-resolution
-    // source image is decoded for every small circle while scrolling.
-    final cachePx = (size * MediaQuery.devicePixelRatioOf(context)).round();
-
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: AppColors.line2,
-        shape: BoxShape.circle,
-        image: url == null || url.isEmpty
-            ? null
-            : DecorationImage(
-                image: ResizeImage(
-                  CachedNetworkImageProvider(url),
-                  width: cachePx,
-                  height: cachePx,
-                ),
-                fit: BoxFit.cover,
-              ),
-      ),
-      alignment: Alignment.center,
-      child: url != null && url.isNotEmpty
-          ? null
-          : Text(
-              username.isEmpty ? '?' : username[0].toUpperCase(),
-              style: TextStyle(
-                color: AppColors.ink2,
-                fontSize: size * 0.4,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
+    return AppAvatar(
+      size: size,
+      url: avatarUrl,
+      name: username,
+      backgroundColor: AppColors.line2,
+      initialColor: AppColors.ink2,
     );
   }
 }

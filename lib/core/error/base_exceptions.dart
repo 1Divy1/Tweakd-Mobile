@@ -34,3 +34,25 @@ class ApiException implements Exception {
 }
 
 class RequestCancelledException implements Exception {}
+
+/// A `429 Too Many Requests` from the backend's rate limiter.
+///
+/// Extends [ApiException] so every existing `on ApiException` handler keeps
+/// catching it exactly as before; the user-facing explanation is shown
+/// app-wide by `RateLimitBanner`, not by each feature.
+class TooManyRequestsException extends ApiException {
+  /// How long the backend asked the caller to wait, or null when the response
+  /// carried no usable value.
+  final Duration? retryAfter;
+
+  /// The backend limit that refused the request (`details.limit`, e.g.
+  /// `comments`), or null.
+  final String? limit;
+
+  TooManyRequestsException({
+    this.retryAfter,
+    this.limit,
+    super.errorCode,
+    super.message = 'Too many requests.',
+  }) : super(statusCode: 429);
+}

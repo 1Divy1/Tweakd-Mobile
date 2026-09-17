@@ -5,6 +5,7 @@ import 'package:tweakd/core/shared/entities/tag_selection.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import 'package:tweakd/core/shared/widgets/tagging/tag_strip.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 /// Bottom composer of the thread page. Shows a "replying to @user" strip when
 /// targeting a reply, the tags picked for the reply, and a button that opens
@@ -51,7 +52,7 @@ class ReplyInputBar extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 12, 8),
+          padding: const EdgeInsets.fromLTRB(16, 8, 12, 8) + AppLayout.inset(context),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

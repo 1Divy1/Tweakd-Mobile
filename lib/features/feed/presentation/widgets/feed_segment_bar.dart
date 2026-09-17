@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../utils/feed_segment.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// The Feed | Forums switch under the home tab's top bar: an iOS sliding
 /// segmented control, left-aligned, with an optional [trailing] slot for
@@ -23,7 +24,8 @@ class FeedSegmentBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+      padding:
+          const EdgeInsets.fromLTRB(16, 4, 16, 8) + AppLayout.inset(context),
       child: ConstrainedBox(
         // Tall enough for the trailing pills, so the list below doesn't jump
         // when they fade in or out.

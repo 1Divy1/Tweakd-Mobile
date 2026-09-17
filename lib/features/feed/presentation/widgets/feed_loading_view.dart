@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/shared/widgets/app_shimmer.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// Skeleton placeholder shown while the feed loads. Mirrors the feed post
 /// card layout (author header, media, action row, caption) so the transition
@@ -14,7 +15,8 @@ class FeedLoadingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(top: 8, bottom: 16),
+      padding:
+          const EdgeInsets.only(top: 8, bottom: 16) + AppLayout.inset(context),
       itemCount: 3,
       itemBuilder: (_, _) => const _FeedPostSkeleton(),
     );
@@ -140,10 +142,7 @@ class _Circle extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(
-        color: AppColors.line2,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: AppColors.line2, shape: BoxShape.circle),
     );
   }
 }

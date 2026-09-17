@@ -6,7 +6,14 @@ import 'create_post_fields.dart';
 
 /// "Discard post?" — asked when the X is tapped with photos, a caption or tags
 /// already entered. Resolves to true when the user chooses to discard.
-Future<bool?> showPostDiscardDialog(BuildContext context) {
+///
+/// [title] and [body] default to the new-post copy; the edit screen passes its
+/// own.
+Future<bool?> showPostDiscardDialog(
+  BuildContext context, {
+  String? title,
+  String? body,
+}) {
   final l10n = AppLocalizations.of(context)!;
   return showDialog<bool>(
     context: context,
@@ -23,7 +30,7 @@ Future<bool?> showPostDiscardDialog(BuildContext context) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              l10n.postDiscardTitle,
+              title ?? l10n.postDiscardTitle,
               style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 18,
@@ -32,7 +39,7 @@ Future<bool?> showPostDiscardDialog(BuildContext context) {
             ),
             const SizedBox(height: 10),
             Text(
-              l10n.postDiscardBody,
+              body ?? l10n.postDiscardBody,
               style: TextStyle(
                 color: AppColors.mute,
                 fontSize: 14,

@@ -218,7 +218,6 @@ class _AddModButton extends StatelessWidget {
                     color: AppColors.ink,
                     fontWeight: FontWeight.w800,
                     fontSize: 14,
-                    letterSpacing: 0.8,
                   ),
                 ),
               ],

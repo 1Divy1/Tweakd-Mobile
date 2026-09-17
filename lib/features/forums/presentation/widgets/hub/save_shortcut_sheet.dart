@@ -179,10 +179,11 @@ class _SaveShortcutSheetState extends State<_SaveShortcutSheet> {
             children: [
               Expanded(
                 child: SizedBox(
-                  height: 52,
+                  width: double.infinity,
                   child: OutlinedButton(
                     onPressed: () => Navigator.of(context).pop(),
                     style: OutlinedButton.styleFrom(
+                      minimumSize: const Size(0, 52),
                       foregroundColor: AppColors.ink,
                       side: BorderSide(color: AppColors.line),
                       shape: RoundedRectangleBorder(
@@ -191,6 +192,8 @@ class _SaveShortcutSheetState extends State<_SaveShortcutSheet> {
                     ),
                     child: Text(
                       l10n.commonCancel,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
@@ -202,13 +205,14 @@ class _SaveShortcutSheetState extends State<_SaveShortcutSheet> {
               const SizedBox(width: 12),
               Expanded(
                 child: SizedBox(
-                  height: 52,
+                  width: double.infinity,
                   child: ElevatedButton(
                     onPressed: canSave
                         ? () => Navigator.of(context)
                             .pop((_nameController.text.trim(), _notify))
                         : null,
                     style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(0, 52),
                       backgroundColor: AppColors.accent,
                       disabledBackgroundColor: AppColors.line,
                       foregroundColor: Colors.white,
@@ -220,6 +224,8 @@ class _SaveShortcutSheetState extends State<_SaveShortcutSheet> {
                     ),
                     child: Text(
                       l10n.forumsSaveShortcut,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w800,

@@ -16,12 +16,11 @@ class AuthDivider extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Text(
-            label.toUpperCase(),
+            label,
             style: TextStyle(
               color: AppColors.mute,
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 1.2,
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),

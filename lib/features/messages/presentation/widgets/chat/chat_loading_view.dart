@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/shared/widgets/app_shimmer.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 /// Skeleton placeholder shown while a conversation's history loads. Mirrors
 /// the transcript with alternating incoming / outgoing bubble stubs, using the
@@ -27,7 +28,8 @@ class ChatLoadingView extends StatelessWidget {
         // Reversed like the real transcript so bubbles sit at the bottom.
         reverse: true,
         physics: const NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding:
+            const EdgeInsets.symmetric(vertical: 10) + AppLayout.inset(context),
         children: [
           for (final (isMine, widthFactor) in _bubbles.reversed)
             _BubbleSkeleton(isMine: isMine, widthFactor: widthFactor),

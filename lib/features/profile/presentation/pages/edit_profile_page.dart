@@ -15,6 +15,7 @@ import '../widgets/edit_profile/edit_profile_field.dart';
 import '../widgets/edit_profile/edit_profile_save_button.dart';
 import '../widgets/edit_profile/editable_avatar.dart';
 import '../widgets/shared/profile_top_bar.dart';
+import '../../../../core/shared/layout/app_layout.dart';
 
 /// Backend limits (trimmed for name).
 const int kProfileNameMaxLength = 80;
@@ -112,7 +113,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 Expanded(
                   child: SingleChildScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+                    padding: const EdgeInsets.fromLTRB(20, 16, 20, 24) +
+                        AppLayout.inset(context, maxWidth: AppLayout.formWidth),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [

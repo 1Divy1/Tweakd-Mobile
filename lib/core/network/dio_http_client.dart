@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../error/base_exceptions.dart';
 import 'abstract_http.dart';
+import 'rate_limit_interceptor.dart';
 
 @LazySingleton(as: AbstractHTTP)
 class DioHttpClient implements AbstractHTTP {
@@ -137,6 +138,9 @@ class DioHttpClient implements AbstractHTTP {
 
     if (status == 401) {
       throw UnauthenticatedException(message);
+    }
+    if (status == 429) {
+      throw tooManyRequestsFrom(e.response);
     }
     if (status == 409) {
       throw ConflictException(

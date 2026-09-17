@@ -6,6 +6,7 @@ import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/message.dart';
 import 'car_picker_sheet.dart';
 import 'tagged_car_chips.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 /// The message composer: a car-share button, rounded text field with an emoji
 /// toggle, and the orange send button (spring-scales on tap). Tapping the
@@ -21,11 +22,7 @@ class ChatInputBar extends StatefulWidget {
   final void Function(String text, List<DmTaggedCarEntity> cars) onSend;
   final ValueChanged<String>? onTextChanged;
 
-  const ChatInputBar({
-    super.key,
-    required this.onSend,
-    this.onTextChanged,
-  });
+  const ChatInputBar({super.key, required this.onSend, this.onTextChanged});
 
   @override
   State<ChatInputBar> createState() => _ChatInputBarState();
@@ -150,7 +147,9 @@ class _ChatInputBarState extends State<ChatInputBar>
           child: SafeArea(
             top: false,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+              padding:
+                  const EdgeInsets.fromLTRB(12, 10, 12, 10) +
+                  AppLayout.inset(context),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -163,8 +162,11 @@ class _ChatInputBarState extends State<ChatInputBar>
                         color: AppColors.bgSoft,
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(Icons.directions_car_outlined,
-                          color: AppColors.ink, size: 24),
+                      child: Icon(
+                        Icons.directions_car_outlined,
+                        color: AppColors.ink,
+                        size: 24,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -200,8 +202,12 @@ class _ChatInputBarState extends State<ChatInputBar>
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
                               ),
-                              contentPadding:
-                                  const EdgeInsets.fromLTRB(4, 12, 4, 12),
+                              contentPadding: const EdgeInsets.fromLTRB(
+                                4,
+                                12,
+                                4,
+                                12,
+                              ),
                             ),
                           ),
                         ),
@@ -209,8 +215,10 @@ class _ChatInputBarState extends State<ChatInputBar>
                           onTap: _toggleEmoji,
                           behavior: HitTestBehavior.opaque,
                           child: Padding(
-                            padding:
-                                const EdgeInsets.only(right: 4, bottom: 12),
+                            padding: const EdgeInsets.only(
+                              right: 4,
+                              bottom: 12,
+                            ),
                             child: Icon(
                               _showEmoji
                                   ? Icons.keyboard_outlined
@@ -229,18 +237,25 @@ class _ChatInputBarState extends State<ChatInputBar>
                   GestureDetector(
                     onTap: _canSend ? _send : null,
                     child: ScaleTransition(
-                      scale: TweenSequence<double>([
-                        TweenSequenceItem(
-                            tween: Tween(begin: 1, end: 0.82), weight: 35),
-                        TweenSequenceItem(
-                            tween: Tween(begin: 0.82, end: 1), weight: 65),
-                      ]).animate(CurvedAnimation(
-                        parent: _sendPop,
-                        // TweenSequence asserts t stays in [0,1]; overshooting
-                        // curves like easeOutBack would break it. The pop
-                        // lives in the tween.
-                        curve: Curves.easeOut,
-                      )),
+                      scale:
+                          TweenSequence<double>([
+                            TweenSequenceItem(
+                              tween: Tween(begin: 1, end: 0.82),
+                              weight: 35,
+                            ),
+                            TweenSequenceItem(
+                              tween: Tween(begin: 0.82, end: 1),
+                              weight: 65,
+                            ),
+                          ]).animate(
+                            CurvedAnimation(
+                              parent: _sendPop,
+                              // TweenSequence asserts t stays in [0,1]; overshooting
+                              // curves like easeOutBack would break it. The pop
+                              // lives in the tween.
+                              curve: Curves.easeOut,
+                            ),
+                          ),
                       child: Container(
                         width: 50,
                         height: 50,
@@ -263,7 +278,8 @@ class _ChatInputBarState extends State<ChatInputBar>
             ),
           ),
         ),
-        if (_showEmoji) _EmojiPanel(controller: _controller, onChanged: _onEmojiChanged),
+        if (_showEmoji)
+          _EmojiPanel(controller: _controller, onChanged: _onEmojiChanged),
       ],
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../shared/widgets/app_avatar.dart';
 import '../../theme/app_colors.dart';
 import '../entities/search_result.dart';
 
@@ -39,11 +40,7 @@ class SearchResultCard extends StatelessWidget {
             ),
             IconButton(
               onPressed: onTap,
-              icon: Icon(
-                Icons.chevron_right,
-                color: AppColors.mute,
-                size: 22,
-              ),
+              icon: Icon(Icons.chevron_right, color: AppColors.mute, size: 22),
               splashRadius: 22,
             ),
           ],
@@ -60,36 +57,11 @@ class _Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final url = avatarUrl;
-    return SizedBox(
-      width: 44,
-      height: 44,
-      child: ClipOval(
-        child: (url != null && url.isNotEmpty)
-            ? Image.network(
-                url,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) =>
-                    const _AvatarPlaceholder(),
-              )
-            : const _AvatarPlaceholder(),
-      ),
-    );
-  }
-}
-
-class _AvatarPlaceholder extends StatelessWidget {
-  const _AvatarPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.line2,
-      child: Icon(
-        Icons.person,
-        size: 22,
-        color: AppColors.muteSoft,
-      ),
+    return AppAvatar(
+      size: 44,
+      url: avatarUrl,
+      backgroundColor: AppColors.line2,
+      initialColor: AppColors.muteSoft,
     );
   }
 }

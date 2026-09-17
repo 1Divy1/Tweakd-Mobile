@@ -9,6 +9,7 @@ import '../../../../garage/presentation/widgets/car_image.dart';
 import '../../../domain/entities/message.dart';
 import '../../bloc/car_picker/cubit.dart';
 import '../../bloc/car_picker/state.dart';
+import '../../../../../core/shared/layout/app_layout.dart';
 
 /// Maximum cars shareable in one message (backend rejects >10).
 const int kMaxTaggedCars = 10;
@@ -74,7 +75,7 @@ class _CarPickerSheetState extends State<_CarPickerSheet> {
     final l10n = AppLocalizations.of(context)!;
 
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.62,
+      height: AppLayout.sheetHeight(context, 0.62),
       child: Column(
         children: [
           const SizedBox(height: 10),
@@ -299,10 +300,10 @@ class _ConfirmBar extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
         child: SizedBox(
           width: double.infinity,
-          height: 52,
           child: ElevatedButton(
             onPressed: enabled ? onConfirm : null,
             style: ElevatedButton.styleFrom(
+              minimumSize: const Size(0, 52),
               backgroundColor: AppColors.accent,
               disabledBackgroundColor: AppColors.muteSoft,
               foregroundColor: Colors.white,
@@ -316,6 +317,8 @@ class _ConfirmBar extends StatelessWidget {
               enabled
                   ? l10n.messagesShareCarsConfirm(count)
                   : l10n.messagesShareCarsConfirmEmpty,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w800,

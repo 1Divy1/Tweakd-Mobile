@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/shared/layout/app_layout.dart';
 import '../../../../../l10n/app_localizations.dart';
 
 /// The green strip above the board that opens the completed-requests screen.
@@ -13,7 +14,7 @@ class CompletedRequestsBanner extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 12) + AppLayout.inset(context),
       child: GestureDetector(
         onTap: onTap,
         behavior: HitTestBehavior.opaque,

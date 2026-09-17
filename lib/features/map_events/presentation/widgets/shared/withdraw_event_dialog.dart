@@ -112,7 +112,6 @@ class _WithdrawEventDialogState extends State<_WithdrawEventDialog> {
               style: TextStyle(
                 fontSize: 10.5,
                 fontWeight: FontWeight.w800,
-                letterSpacing: 0.7,
                 color: AppColors.mute,
               ),
             ),

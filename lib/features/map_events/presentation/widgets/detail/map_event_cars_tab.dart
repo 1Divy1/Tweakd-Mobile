@@ -53,7 +53,6 @@ class MapEventCarsTab extends StatelessWidget {
               style: TextStyle(
                 fontSize: 10.5,
                 fontWeight: FontWeight.w800,
-                letterSpacing: 0.6,
                 color: AppColors.mute,
               ),
             ),
