@@ -11,6 +11,8 @@ import '../../utils/forum_error_mapper.dart';
 import '../../utils/forum_tags.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 /// Drives the new-thread composer: reference data (topics, brand catalog), the
 /// brand → model picker, topic chips, the tag selection and the create call.
@@ -26,12 +28,14 @@ class NewThreadBloc extends Bloc<NewThreadEvent, NewThreadState> {
   final CreateForumThreadUseCase createThread;
 
   final Map<String, List<CarModelEntity>> _modelsByBrand = {};
+  final AnalyticsService analytics;
 
   NewThreadBloc({
     required this.getTopics,
     required this.getBrands,
     required this.getModelsByBrand,
     required this.createThread,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const NewThreadState()) {
     on<LoadNewThreadRefs>(_onLoadRefs);
     on<SelectNewThreadBrand>(_onSelectBrand);
@@ -232,8 +236,13 @@ class NewThreadBloc extends Bloc<NewThreadEvent, NewThreadState> {
           ),
         ),
       ),
-      (thread) =>
-          emit(state.copyWith(isSubmitting: false, createdThreadId: thread.id)),
+      (thread) {
+        analytics.track(AnalyticsEvents.forumThreadCreated, {
+          'topic_count': state.selectedTopicIds.length,
+          'has_model': state.selectedModel != null,
+        });
+        emit(state.copyWith(isSubmitting: false, createdThreadId: thread.id));
+      },
     );
   }
 }

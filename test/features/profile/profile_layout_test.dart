@@ -54,7 +54,6 @@ final _badges = [
 
 final _profile = ProfileEntity(
   id: 'p1',
-  role: 'user',
   name: 'Marcus Vlox',
   username: 'marcus_vlox',
   avatarUrl: '',
@@ -204,7 +203,6 @@ void main() {
         // Slivers build lazily, so each assertion has to happen while its
         // part of the page is on screen: the header first...
         expect(find.text('Marcus Vlox'), findsOneWidget);
-        expect(find.text('3,240'), findsOneWidget);
         expect(find.text('1,500'), findsOneWidget);
 
         // ...then scroll it away, which is both where the tabs pin (the
@@ -262,7 +260,7 @@ void main() {
 
     // The first counter's label starts exactly where the name above it does.
     expect(
-      tester.getTopLeft(find.text('reputation')).dx,
+      tester.getTopLeft(find.text('followers')).dx,
       closeTo(tester.getTopLeft(find.text('Marcus Vlox')).dx, 0.5),
     );
 
@@ -312,13 +310,18 @@ void main() {
     });
   }
 
-  // The three counters only fit beside the avatar when there is room for them.
+  // The counters only fit beside the avatar when there is room for them.
   // Where there isn't, they take their own line rather than ellipsizing every
-  // label down to nothing.
-  for (final (width, expectBeside) in [(375.0, true), (320.0, false)]) {
+  // label down to nothing. With two counters they fit beside it on a 320pt
+  // phone at the default text size; a large accessibility text size is what
+  // pushes them down.
+  for (final (width, textScale, expectBeside) in [
+    (320.0, 1.0, true),
+    (320.0, 1.5, false),
+  ]) {
     testWidgets(
       'stats ${expectBeside ? 'sit beside' : 'drop below'} the avatar '
-      'at ${width.toInt()}pt',
+      'at ${width.toInt()}pt, text scale $textScale',
       (tester) async {
         tester.view.physicalSize = Size(width * 3, 900 * 3);
         tester.view.devicePixelRatio = 3;
@@ -328,6 +331,12 @@ void main() {
           MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
+            builder: (context, child) => MediaQuery(
+              data: MediaQuery.of(
+                context,
+              ).copyWith(textScaler: TextScaler.linear(textScale)),
+              child: child!,
+            ),
             home: Scaffold(body: _profileSurface()),
           ),
         );
@@ -342,4 +351,25 @@ void main() {
       },
     );
   }
+
+  // Reputation is paused: the profile must not show it anywhere, even though
+  // the entity still carries a score.
+  testWidgets('reputation is not shown on the profile', (tester) async {
+    tester.view.physicalSize = const Size(430 * 3, 900 * 3);
+    tester.view.devicePixelRatio = 3;
+    addTearDown(tester.view.reset);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Scaffold(body: _profileSurface()),
+      ),
+    );
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pump();
+
+    expect(find.textContaining('reputation'), findsNothing);
+    expect(find.text('3,240'), findsNothing);
+  });
 }

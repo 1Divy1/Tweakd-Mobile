@@ -15,6 +15,8 @@ import '../../utils/create_event_draft.dart';
 import '../../utils/map_event_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 /// Backs the "NEW EVENT" form, and the same form in edit mode.
 ///
@@ -53,6 +55,7 @@ class CreateMapEventBloc extends Bloc<CreateMapEventEvent, CreateMapEventState> 
   /// CONTESTS step caps the draft list rather than failing at flush time, once
   /// the event already exists and the wizard is gone.
   static const maxContests = 20;
+  final AnalyticsService analytics;
 
   CreateMapEventBloc({
     required this.getCategories,
@@ -67,6 +70,7 @@ class CreateMapEventBloc extends Bloc<CreateMapEventEvent, CreateMapEventState> 
     required this.createContest,
     required this.imageService,
     required this.draftStore,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const CreateMapEventState()) {
     on<LoadCreateEventRefs>(_onLoadRefs);
     on<ChangeEventTitle>((e, emit) => emit(state.copyWith(title: e.value)));
@@ -477,7 +481,10 @@ class CreateMapEventBloc extends Bloc<CreateMapEventEvent, CreateMapEventState> 
           failed++;
           debugPrint('Failed to create contest after event create: ${f.message}');
         },
-        (_) {},
+        (_) => analytics.track(AnalyticsEvents.contestCreated, {
+          'category': pending.categoryId,
+          'source': 'create_event',
+        }),
       );
     }
     return failed;
@@ -509,7 +516,14 @@ class CreateMapEventBloc extends Bloc<CreateMapEventEvent, CreateMapEventState> 
         ));
         return null;
       },
-      (created) => created,
+      (created) {
+        analytics.track(AnalyticsEvents.mapEventCreated, {
+          'category': state.categoryId,
+          'requires_approval': state.requiresApproval,
+          'contest_count': state.pendingContests.length,
+        });
+        return created;
+      },
     );
   }
 

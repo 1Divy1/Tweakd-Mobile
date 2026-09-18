@@ -59,6 +59,10 @@ A single uniform pipeline carries errors from network/SDK to UI:
 
 After changing annotations, regenerate `injection.config.dart` with `build_runner`.
 
+### Analytics (PostHog, opt-in)
+
+All tracking goes through `AnalyticsService` ([lib/core/analytics/](lib/core/analytics/)) — never `Posthog()` directly. Event names are constants in `AnalyticsEvents`; add new ones there first. Blocs take `this.analytics = const NoopAnalyticsService()` as an optional named constructor param (injectable supplies the real one; tests need nothing) and call `analytics.track(...)` only in the success branch of the `Either`. Properties: enums, counts, booleans, catalog ids — never free text or another user's id/username. Consent lives on the account (`profiles.analytics_consent`); `track`/`screen` are no-ops until it's granted. Full design + event table: `ANALYTICS_PROGRESS.md`.
+
 ### Routing & Bloc provisioning
 
 `go_router` config lives in [lib/config/routes/app_router.dart](lib/config/routes/app_router.dart). **`BlocProvider` for a page is wired in the route's `builder`, not inside the page file.** Pattern:
@@ -97,13 +101,13 @@ Implemented features with their key files. Read these first before exploring sub
 ### authentication
 - Pages: `splash_page`, `login_page`, `signup_page`, `onboarding_page`
 - Entity: `UserEntity { id, requiresOnboarding }`
-- Use cases: `CheckAuthStatus`, `EmailPasswordSignIn`, `GoogleSignIn`
+- Use cases: `CheckAuthStatus`, `EmailPasswordSignIn`, `GoogleSignIn`, `AppleSignIn`, `CompleteSocialSignIn` (social ones take a `SocialAuthIntent`: login never creates accounts, only signup does — see the feature README)
 - Data sources: `SupabaseAuthDataSource` (identity + `requires_onboarding` flag from Supabase `profiles` table), `AuthApiDataSource` (Spring backend)
 - Failures: `lib/features/authentication/domain/failures/auth_failures.dart`
 
 ### profile
 - Pages: `profile_page` (own profile, editable), `public_profile_page` (read-only)
-- Entity: `ProfileEntity { id, role, name, username, avatarUrl, bio, externalLink, followersCount, followingCount, isVerified, isBusiness, requiresOnboarding }`
+- Entity: `ProfileEntity { id, name, username, avatarUrl, bio, externalLink, followersCount, followingCount, isVerified, isBusiness, requiresOnboarding }`
 - Use cases: `GetCurrentUserProfile`, `GetProfileByUsername`, `SubmitOnboarding`
 - Data source: `ProfileApiDataSource` — `GET /profile/me`, `GET /profile/{username}`
 - Widgets: `presentation/widgets/my_profile/` (own profile widgets), `presentation/widgets/public_profile/` (public widgets), `presentation/widgets/shared/` (reused by both)

@@ -6,6 +6,7 @@ import 'package:tweakd/features/authentication/data/exceptions/auth_exceptions.d
 import 'package:tweakd/features/authentication/data/models/apple_sign_in_result_model.dart';
 import 'package:tweakd/features/authentication/data/models/sign_up_result_model.dart';
 import 'package:tweakd/features/authentication/data/models/user_model.dart';
+import 'package:tweakd/features/authentication/domain/entities/social_auth_intent.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -149,20 +150,7 @@ class SupabaseAuthDataSource {
   Future<void> logOut() async {
     try {
       await pushRegistration.unregister();
-
-      await supabaseClient.auth.signOut();
-
-      // Google sign-out is best-effort: it can throw if Google Sign-In was
-      // never initialized (e.g. an email/password user), which must not block
-      // the logout flow.
-      try {
-        await GoogleSignIn.instance.signOut();
-      } catch (e) {
-        debugPrint('Google sign-out skipped: $e');
-      }
-
-      // Guarantee no token survives, regardless of which auth path was used.
-      await const FlutterSecureStorage().deleteAll();
+      await _clearLocalSession();
     } on AuthException catch (e) {
       debugPrint('Supabase signOut error: $e');
       throw ServerException(e.message);
@@ -170,6 +158,24 @@ class SupabaseAuthDataSource {
       debugPrint('Unexpected error during logOut: $e');
       throw ServerException('Failed to log out. Please try again.');
     }
+  }
+
+  /// Layers 1–3 of [logOut], for callers that have already dealt with push
+  /// registration themselves.
+  Future<void> _clearLocalSession() async {
+    await supabaseClient.auth.signOut();
+
+    // Google sign-out is best-effort: it can throw if Google Sign-In was
+    // never initialized (e.g. an email/password user), which must not block
+    // the logout flow.
+    try {
+      await GoogleSignIn.instance.signOut();
+    } catch (e) {
+      debugPrint('Google sign-out skipped: $e');
+    }
+
+    // Guarantee no token survives, regardless of which auth path was used.
+    await const FlutterSecureStorage().deleteAll();
   }
 
   Future<UserModel> checkAuthStatus() async {
@@ -224,12 +230,27 @@ class SupabaseAuthDataSource {
   /// returns that same shape with an empty `identities` list rather than an
   /// error; this method deliberately reports the identical result either way so
   /// the UI cannot be used to discover which addresses are registered.
-  Future<SignUpResultModel> signUp(String email, String password) async {
+  ///
+  /// The sign-up page only submits once its terms box is ticked, so the
+  /// acceptance rides along as user metadata; the `handle_new_user` trigger
+  /// copies it into `profiles.terms_accepted_at` when it creates the row. This
+  /// is what later lets sign-in tell a real account from one Supabase created
+  /// behind the login page's back (see [completeSocialSignIn]). The optional
+  /// analytics box travels the same way.
+  Future<SignUpResultModel> signUp(
+    String email,
+    String password, {
+    required bool analyticsConsent,
+  }) async {
     final response = await _guard(
       () => supabaseClient.auth.signUp(
         email: email,
         password: password,
         emailRedirectTo: kSignUpEmailRedirect,
+        data: {
+          'terms_accepted': true,
+          'analytics_consent': analyticsConsent,
+        },
       ),
     );
 
@@ -327,8 +348,81 @@ class SupabaseAuthDataSource {
     return checkAuthStatus();
   }
 
+  /// Settles a social session against the screen it was started from.
+  ///
+  /// Supabase creates an account the first time it sees a Google / Apple
+  /// identity, whichever button was tapped. Sign-up is the only door in, so:
+  ///
+  /// * [SignUpIntent] records the terms the sign-up page made the user accept,
+  ///   and the analytics choice made next to them. A no-op for an account that
+  ///   already has them, so tapping Google on the sign-up page with an existing
+  ///   account just signs in (and keeps whatever consent it has).
+  /// * [SignInIntent] lets in only an account that went through
+  ///   sign-up. Anything else was created by this very attempt; it is deleted
+  ///   again rather than left behind holding someone's email and name, the
+  ///   session is dropped, and the attempt fails with [AccountNotFoundException].
+  Future<UserModel> completeSocialSignIn(SocialAuthIntent intent) async {
+    switch (intent) {
+      case SignUpIntent(:final analyticsConsent):
+        await _acceptSignUpTerms(analyticsConsent);
+        return checkAuthStatus();
+      case SignInIntent():
+        final user = await checkAuthStatus();
+        if (user.isRegistered) return user;
+        await _discardUnregisteredAccount();
+        throw AccountNotFoundException();
+    }
+  }
+
+  /// Marks the signed-in account as registered. If that cannot be recorded
+  /// the session is dropped: an unregistered account must not slip into the
+  /// app, and tapping the sign-up button again simply retries.
+  Future<void> _acceptSignUpTerms(bool analyticsConsent) async {
+    try {
+      await supabaseClient.rpc(
+        'accept_signup_terms',
+        params: {'p_analytics_consent': analyticsConsent},
+      );
+    } catch (e) {
+      debugPrint('accept_signup_terms failed: ${e.runtimeType}');
+      await _discardSessionQuietly();
+      if (e is PostgrestException) {
+        throw ServerException(
+          'An unexpected error occurred. Please try again.',
+        );
+      }
+      throw NetworkException();
+    }
+  }
+
+  /// Deletes the account a login-page social sign-in just created, then
+  /// signs out. Push is unregistered first — `main` registers the device on
+  /// every `signedIn`, and the DELETE needs the session that is about to go.
+  /// The RPC only ever deletes the caller's own account, and only while it is
+  /// unregistered and not onboarded. Best-effort throughout: failing to clean
+  /// up must not turn "no account" into a different error, and the sign-in
+  /// check rejects the leftover again next time.
+  Future<void> _discardUnregisteredAccount() async {
+    await pushRegistration.unregister();
+    try {
+      await supabaseClient.rpc('discard_unregistered_account');
+    } catch (e) {
+      debugPrint('discard_unregistered_account failed: ${e.runtimeType}');
+    }
+    await _discardSessionQuietly(unregisterPush: false);
+  }
+
+  Future<void> _discardSessionQuietly({bool unregisterPush = true}) async {
+    try {
+      if (unregisterPush) await pushRegistration.unregister();
+      await _clearLocalSession();
+    } catch (e) {
+      debugPrint('Could not clear the session: ${e.runtimeType}');
+    }
+  }
+
   // OAuth Sign-In Methods
-  Future<UserModel> googleSignIn() async {
+  Future<UserModel> googleSignIn(SocialAuthIntent intent) async {
     final webClientId = dotenv.env['GOOGLE_WEB_CLIENT_ID']!;
     final iosClientId = dotenv.env['GOOGLE_IOS_CLIENT_ID']!;
     final scopes = ['email', 'profile'];
@@ -371,7 +465,7 @@ class SupabaseAuthDataSource {
       ),
     );
 
-    return checkAuthStatus();
+    return completeSocialSignIn(intent);
   }
 
   /// Signs in with Apple.
@@ -390,8 +484,9 @@ class SupabaseAuthDataSource {
   ///   returns; the session appears later, when Apple redirects back through
   ///   [kAppleOAuthRedirect] and the SDK handles the deep link. The root
   ///   [AuthBloc] picks that up via [onSignedIn], so there is nothing to return
-  ///   here but "pending".
-  Future<AppleSignInResultModel> appleSignIn() async {
+  ///   here but "pending". The [intent] rules are applied once it lands, via
+  ///   [completeSocialSignIn].
+  Future<AppleSignInResultModel> appleSignIn(SocialAuthIntent intent) async {
     if (defaultTargetPlatform != TargetPlatform.iOS) {
       final launched = await _guard(
         () => supabaseClient.auth.signInWithOAuth(
@@ -445,7 +540,7 @@ class SupabaseAuthDataSource {
 
     return AppleSignInResultModel(
       awaitingRedirect: false,
-      user: await checkAuthStatus(),
+      user: await completeSocialSignIn(intent),
     );
   }
 

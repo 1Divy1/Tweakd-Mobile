@@ -9,6 +9,8 @@ import '../../../domain/usecases/map_event_contests.dart';
 import '../../utils/map_event_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 /// The contests of one event — the CONTESTS tab and the Overview block.
 ///
@@ -31,6 +33,7 @@ class EventContestsBloc extends Bloc<EventContestsEvent, EventContestsState> {
   StreamSubscription? _statuses;
   Timer? _poll;
   String? _subscribedEventId;
+  final AnalyticsService analytics;
 
   EventContestsBloc({
     required this.getContests,
@@ -38,6 +41,7 @@ class EventContestsBloc extends Bloc<EventContestsEvent, EventContestsState> {
     required this.requestEntry,
     required this.withdrawEntry,
     required this.live,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const EventContestsState()) {
     on<LoadEventContests>(_onLoad);
     on<RefreshEventContests>(_onRefresh);
@@ -217,11 +221,18 @@ class EventContestsBloc extends Bloc<EventContestsEvent, EventContestsState> {
 
     Failure? firstFailure;
     var contests = state.contests;
-    for (final r in results) {
+    // `requests` lists the entries first, then the withdrawals.
+    final entryCount = event.enterContestIds.length;
+    for (final (index, r) in results.indexed) {
       r.fold(
         (f) => firstFailure ??= f as Failure,
         (c) {
           final contest = c as ContestEntity;
+          if (index < entryCount) {
+            analytics.track(AnalyticsEvents.contestEntryRequested, {
+              'category': contest.category.id,
+            });
+          }
           contests = [
             for (final existing in contests)
               existing.id == contest.id ? contest : existing,

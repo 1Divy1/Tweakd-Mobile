@@ -40,7 +40,6 @@ profile/
 ```dart
 ProfileEntity {
   id: String
-  role: String
   name: String
   username: String
   avatarUrl: String

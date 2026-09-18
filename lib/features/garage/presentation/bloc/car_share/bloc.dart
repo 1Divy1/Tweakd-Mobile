@@ -9,6 +9,8 @@ import '../../../domain/usecases/set_car_share_enabled.dart';
 import '../../utils/garage_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 /// Owns the share sheet: the link, the QR, and the pause switch.
 ///
@@ -20,11 +22,13 @@ class CarShareBloc extends Bloc<CarShareEvent, CarShareState> {
   final EnsureCarShareLinkUseCase ensureShareLinkUseCase;
   final GetCarShareQrUseCase getShareQrUseCase;
   final SetCarShareEnabledUseCase setShareEnabledUseCase;
+  final AnalyticsService analytics;
 
   CarShareBloc({
     required this.ensureShareLinkUseCase,
     required this.getShareQrUseCase,
     required this.setShareEnabledUseCase,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const CarShareLoading()) {
     on<LoadShareLink>(_onLoadShareLink);
     on<LoadShareQr>(_onLoadShareQr);
@@ -41,7 +45,10 @@ class CarShareBloc extends Bloc<CarShareEvent, CarShareState> {
     );
     result.fold(
       (failure) => emit(CarShareError(code: GarageErrorMapper.getCode(failure))),
-      (link) => emit(CarShareLoaded(link: link)),
+      (link) {
+        analytics.track(AnalyticsEvents.carShareOpened);
+        emit(CarShareLoaded(link: link));
+      },
     );
   }
 

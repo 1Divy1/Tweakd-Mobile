@@ -11,6 +11,8 @@ import '../../../domain/usecases/post_save.dart';
 import '../../utils/post_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 /// Drives a single post's detail view: load, like/save/repost toggles
 /// (optimistic), and delete. Edits arrive via [PostUpdated] from the edit screen.
@@ -24,6 +26,7 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
   final RepostPostUseCase repostPost;
   final UnrepostPostUseCase unrepostPost;
   final DeletePostUseCase deletePost;
+  final AnalyticsService analytics;
 
   PostDetailBloc({
     required this.getPost,
@@ -34,6 +37,7 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
     required this.repostPost,
     required this.unrepostPost,
     required this.deletePost,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const PostDetailLoading()) {
     on<LoadPost>(_onLoad);
     on<ToggleLikePost>(_onToggleLike);
@@ -83,7 +87,13 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
 
     final params = PostIdParams(postId: post.id);
     final result = liked ? await unlikePost(params) : await likePost(params);
-    result.fold((_) => emit(current), (_) {});
+    result.fold(
+      (_) => emit(current),
+      (_) => analytics.track(
+        liked ? AnalyticsEvents.postUnliked : AnalyticsEvents.postLiked,
+        {'source': 'post'},
+      ),
+    );
   }
 
   Future<void> _onToggleSave(
@@ -104,7 +114,11 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
 
     final params = PostIdParams(postId: post.id);
     final result = saved ? await unsavePost(params) : await savePost(params);
-    result.fold((_) => emit(current), (_) {});
+    result.fold((_) => emit(current), (_) {
+      if (!saved) {
+        analytics.track(AnalyticsEvents.postSaved, {'source': 'post'});
+      }
+    });
   }
 
   Future<void> _onToggleRepost(
@@ -126,7 +140,13 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
     final params = PostIdParams(postId: post.id);
     final result =
         reposted ? await unrepostPost(params) : await repostPost(params);
-    result.fold((_) => emit(current), (_) {});
+    result.fold(
+      (_) => emit(current),
+      (_) => analytics.track(
+        reposted ? AnalyticsEvents.postUnreposted : AnalyticsEvents.postReposted,
+        {'source': 'post'},
+      ),
+    );
   }
 
   Future<void> _onDelete(

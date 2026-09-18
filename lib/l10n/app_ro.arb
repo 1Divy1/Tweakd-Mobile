@@ -8,6 +8,9 @@
   "settingsLanguagePickerTitle": "Alege limba",
   "settingsLanguageLoadError": "Nu am putut încărca opțiunile de limbă. Te rugăm să încerci din nou.",
   "settingsLanguageUpdateError": "Nu am putut actualiza limba. Te rugăm să încerci din nou.",
+  "settingsAnalytics": "Trimite date de utilizare",
+  "settingsAnalyticsHint": "Ne ajută să îmbunătățim Tweakd. Poți dezactiva oricând.",
+  "settingsAnalyticsUpdateError": "Nu am putut actualiza această setare. Încearcă din nou.",
   "settingsTheme": "Temă",
   "themeLight": "Deschisă",
   "themeDark": "Întunecată",
@@ -44,6 +47,7 @@
   "authTermsAnd": " și ",
   "authTermsPrivacy": "Politica de confidențialitate",
 
+  "authAnalyticsConsent": "Trimite date de utilizare ca să ne ajuți să îmbunătățim Tweakd (opțional). Poți schimba oricând din Setări.",
   "authAgreeToTermsFirst": "Te rugăm să fii de acord cu Termenii și Politica de confidențialitate mai întâi.",
 
   "authComingSoon": "{feature} va fi disponibil în curând.",
@@ -180,7 +184,6 @@
 
   "profileTitle": "Profil",
   "profileMessage": "Mesaj",
-  "profileStatReputation": "reputație",
   "profileStatFollowers": "urmăritori",
   "profileStatFollowing": "urmărește",
 
@@ -460,6 +463,7 @@
   "authErrorRateLimited": "Prea multe încercări. Așteaptă puțin și încearcă din nou.",
   "authErrorSamePassword": "Parola nouă trebuie să fie diferită de cea veche.",
   "authErrorSignUpDisabled": "Înregistrările noi nu sunt disponibile momentan. Încearcă mai târziu.",
+  "authErrorAccountNotFound": "Nu există încă un cont Tweakd pentru această autentificare. Creează unul mai întâi.",
   "authErrorNetwork": "Fără conexiune. Verifică rețeaua și încearcă din nou.",
   "authErrorGeneric": "Ceva nu a mers bine. Încearcă din nou.",
 

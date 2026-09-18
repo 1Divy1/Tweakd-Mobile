@@ -94,11 +94,7 @@ class _GarageEmptyView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(
-            Icons.directions_car_outlined,
-            size: 36,
-            color: AppColors.mute,
-          ),
+          Icon(Icons.directions_car_outlined, size: 36, color: AppColors.mute),
           const SizedBox(height: 10),
           Text(
             isOwner

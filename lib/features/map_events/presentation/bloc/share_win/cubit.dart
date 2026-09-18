@@ -9,6 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 /// Shares a participant card: to the feed, or out through the OS share sheet.
 ///
@@ -22,10 +24,12 @@ import 'state.dart';
 class ShareWinCubit extends Cubit<ShareWinState> {
   final ShareParticipantCardUseCase shareCard;
   final ShareLauncherService shareLauncher;
+  final AnalyticsService analytics;
 
   ShareWinCubit({
     required this.shareCard,
     required this.shareLauncher,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const ShareWinState());
 
   Future<void> shareCardToFeed({
@@ -52,7 +56,12 @@ class ShareWinCubit extends Cubit<ShareWinState> {
               )
             : const ShareWinState(status: ShareWinStatus.failure));
       },
-      (post) => emit(ShareWinState(status: ShareWinStatus.posted, postId: post.id)),
+      (post) {
+        analytics.track(AnalyticsEvents.participantCardShared, {
+          'destination': 'feed',
+        });
+        emit(ShareWinState(status: ShareWinStatus.posted, postId: post.id));
+      },
     );
   }
 
@@ -64,6 +73,11 @@ class ShareWinCubit extends Cubit<ShareWinState> {
     if (state.isBusy) return;
     final before = state;
     emit(const ShareWinState(status: ShareWinStatus.sharing));
+    // The system sheet can't report whether anything was actually sent, so
+    // this counts opening it.
+    analytics.track(AnalyticsEvents.participantCardShared, {
+      'destination': 'external',
+    });
     await shareLauncher.shareImage(
       cardPng,
       fileName: 'tweakd-card.png',

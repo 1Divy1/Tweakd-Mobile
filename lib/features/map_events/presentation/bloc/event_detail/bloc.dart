@@ -11,6 +11,8 @@ import '../../../domain/usecases/map_event_withdrawals.dart';
 import '../../utils/map_event_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 /// One bloc behind the map's event popup **and** the full event page.
 ///
@@ -46,6 +48,7 @@ class MapEventDetailBloc
   static const _attendeePreviewSize = 8;
 
   static const _carsPageSize = 20;
+  final AnalyticsService analytics;
 
   MapEventDetailBloc({
     required this.getEvent,
@@ -57,6 +60,7 @@ class MapEventDetailBloc
     required this.registerCar,
     required this.cancelCarRegistration,
     required this.withdraw,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const MapEventDetailState()) {
     on<LoadMapEvent>(_onLoad);
     on<RefreshMapEvent>(_onRefresh);
@@ -152,6 +156,14 @@ class MapEventDetailBloc
     }
 
     final carsPage = carsResult.toOption().toNullable();
+
+    // A view is the first load of an event, not every refresh of it.
+    if (!keepPreviousOnFailure) {
+      analytics.track(AnalyticsEvents.mapEventViewed, {
+        'category': loaded.categoryId,
+        'is_organizer': loaded.viewer.isOrganizer,
+      });
+    }
 
     emit(state.copyWith(
       status: MapEventDetailStatus.loaded,
@@ -283,11 +295,16 @@ class MapEventDetailBloc
         action: MapEventAction.none,
         actionError: MapEventErrorMapper.from(failure),
       )),
-      (updated) => emit(state.copyWith(
-        event: updated,
-        action: MapEventAction.none,
-        clearActionError: true,
-      )),
+      (updated) {
+        analytics.track(AnalyticsEvents.mapEventAttendanceSet, {
+          'status': wasActive ? 'none' : event.status.name,
+        });
+        emit(state.copyWith(
+          event: updated,
+          action: MapEventAction.none,
+          clearActionError: true,
+        ));
+      },
     );
   }
 
@@ -362,6 +379,9 @@ class MapEventDetailBloc
     }
 
     if (failure == null) {
+      analytics.track(AnalyticsEvents.mapEventCarRegistered, {
+        'car_count': succeeded.length,
+      });
       emit(state.copyWith(event: latest));
       await _reloadEntryLists(latest.id, emit);
       return;
@@ -455,6 +475,7 @@ class MapEventDetailBloc
         actionError: MapEventErrorMapper.from(failure),
       )),
       (updated) async {
+        analytics.track(AnalyticsEvents.mapEventWithdrawn);
         emit(state.copyWith(event: updated));
         await _reloadEntryLists(updated.id, emit);
       },

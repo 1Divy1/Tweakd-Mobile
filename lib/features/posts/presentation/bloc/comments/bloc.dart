@@ -13,6 +13,8 @@ import '../../../domain/usecases/get_post_comments.dart';
 import '../../utils/post_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 /// Backs the comments bottom sheet for a single post: paged listing of root
 /// comments plus one level of replies, with add, delete and like (all
@@ -27,6 +29,7 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
   final UnlikeCommentUseCase unlikeComment;
 
   late String _postId;
+  final AnalyticsService analytics;
 
   CommentsBloc({
     required this.getComments,
@@ -35,6 +38,7 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
     required this.deleteComment,
     required this.likeComment,
     required this.unlikeComment,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const CommentsState()) {
     on<LoadComments>(_onLoad);
     on<LoadMoreComments>(_onLoadMore);
@@ -141,14 +145,20 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
         isSubmitting: false,
         actionError: PostErrorMapper.getCode(failure),
       )),
-      (comment) => emit(state.copyWith(
-        isSubmitting: false,
-        comments: [comment, ...state.comments],
-        totalCount: state.totalCount + 1,
-        // The tags travelled with the comment — start the next one clean.
-        pendingTaggedPeople: const [],
-        pendingTaggedCars: const [],
-      )),
+      (comment) {
+        analytics.track(AnalyticsEvents.postCommented, {
+          'is_reply': false,
+          'source': 'post',
+        });
+        emit(state.copyWith(
+          isSubmitting: false,
+          comments: [comment, ...state.comments],
+          totalCount: state.totalCount + 1,
+          // The tags travelled with the comment — start the next one clean.
+          pendingTaggedPeople: const [],
+          pendingTaggedCars: const [],
+        ));
+      },
     );
   }
 
@@ -175,6 +185,10 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
         actionError: PostErrorMapper.getCode(failure),
       )),
       (reply) {
+        analytics.track(AnalyticsEvents.postCommented, {
+          'is_reply': true,
+          'source': 'post',
+        });
         final parentId = event.parentCommentId;
         final thread = state.replies[parentId] ?? const ReplyThread();
         // Surface the new reply at the top of an auto-expanded thread.

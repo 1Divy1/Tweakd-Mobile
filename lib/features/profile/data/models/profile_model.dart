@@ -3,7 +3,6 @@ import '../../domain/entities/profile.dart';
 
 class ProfileModel {
   final String id;
-  final String role;
   final String name;
   final String username;
   final String avatarUrl;
@@ -20,7 +19,6 @@ class ProfileModel {
 
   const ProfileModel({
     required this.id,
-    required this.role,
     required this.name,
     required this.username,
     required this.avatarUrl,
@@ -39,7 +37,6 @@ class ProfileModel {
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
       id: json['id'] as String,
-      role: json['role'] as String? ?? '',
       name: json['name'] as String? ?? '',
       username: json['username'] as String? ?? '',
       avatarUrl: json['avatar_url'] as String? ?? '',
@@ -63,7 +60,6 @@ class ProfileModel {
   ProfileEntity toEntity() {
     return ProfileEntity(
       id: id,
-      role: role,
       name: name,
       username: username,
       avatarUrl: avatarUrl,

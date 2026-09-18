@@ -62,3 +62,11 @@ class SignUpDisabledFailure extends Failure {
     String message = 'Sign-ups are currently disabled.',
   ]) : super(message: message);
 }
+
+/// A social sign-in from the login page found no registered account. Sign-in
+/// never creates accounts — the user has to go through sign-up.
+class AccountNotFoundFailure extends Failure {
+  const AccountNotFoundFailure([
+    String message = 'There is no account for this sign-in yet.',
+  ]) : super(message: message);
+}
