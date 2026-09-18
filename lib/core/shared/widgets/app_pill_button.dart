@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../theme/app_colors.dart';
@@ -10,12 +12,22 @@ class AppPillButton extends StatelessWidget {
   final double size;
   final double iconSize;
 
+  /// Optional clockwise rotation for the icon, in degrees (e.g. -45 to point
+  /// an arrow/send-style icon toward the top-right corner).
+  final double iconRotation;
+
+  /// Optional visual nudge for the icon, to correct for glyphs whose ink
+  /// isn't centered within their bounding box (e.g. a rotated send icon).
+  final Offset iconOffset;
+
   const AppPillButton({
     super.key,
     required this.icon,
     required this.onTap,
     this.size = 44,
     this.iconSize = 22,
+    this.iconRotation = 0,
+    this.iconOffset = Offset.zero,
   });
 
   @override
@@ -29,7 +41,13 @@ class AppPillButton extends StatelessWidget {
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(18),
         ),
-        child: Icon(icon, color: AppColors.ink, size: iconSize),
+        child: Transform.translate(
+          offset: iconOffset,
+          child: Transform.rotate(
+            angle: iconRotation * math.pi / 180,
+            child: Icon(icon, color: AppColors.ink, size: iconSize),
+          ),
+        ),
       ),
     );
   }
