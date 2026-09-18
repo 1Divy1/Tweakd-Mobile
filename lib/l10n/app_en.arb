@@ -436,6 +436,7 @@
   "feedEmptyCta": "Share a post",
   "feedErrorNetwork": "No internet connection. Check your network and try again.",
   "feedErrorGeneric": "Couldn't load the feed. Please try again.",
+  "feedNewPosts": "New posts",
 
   "garageErrorCarNotFound": "This car could not be found.",
   "garageErrorGarageNotFound": "This garage could not be found.",

@@ -17,10 +17,21 @@ class FeedApiDataSource {
   /// `cursor` the response embeds any pending badge celebrations; paged
   /// requests carry an empty list.
   Future<FeedPageModel> getGlobalFeed({String? cursor, int size = 20}) async {
+    return FeedPageModel.fromJson(
+      await getGlobalFeedJson(cursor: cursor, size: size),
+    );
+  }
+
+  /// The same request as [getGlobalFeed], returning the body unparsed — for the
+  /// first page, which is also saved to disk as-is.
+  Future<Map<String, dynamic>> getGlobalFeedJson({
+    String? cursor,
+    int size = 20,
+  }) async {
     final data = await http.get(
       '/feed/global',
       queryParameters: {'cursor': ?cursor, 'size': size},
     );
-    return FeedPageModel.fromJson(data as Map<String, dynamic>);
+    return data as Map<String, dynamic>;
   }
 }

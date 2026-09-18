@@ -16,4 +16,14 @@ abstract class FeedRepository {
     String? cursor,
     int size = 20,
   });
+
+  /// The first page as it was last fetched for the signed-in user, read from
+  /// the device — or null when there isn't one. Never touches the network and
+  /// never fails: a missing or unreadable cache just means no head start.
+  ///
+  /// Carries no badge celebrations; those only ever come from the network.
+  Future<FeedPageEntity?> getCachedFirstPage();
+
+  /// Forgets the cached first page. Called on sign-out.
+  Future<void> clearCache();
 }

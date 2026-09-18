@@ -16,8 +16,9 @@ abstract class DioModule {
     final dio = Dio(
       BaseOptions(
         baseUrl: '$host/api/v1',
-        // Render free-tier instances cold-start (~30-60s) after idling,
-        // so allow generous timeouts to ride out the first wake-up request.
+        // The backend runs on Cloud Run with no minimum instances, so the
+        // first request after it has idled pays a JVM cold start. Generous
+        // timeouts ride that out.
         connectTimeout: const Duration(seconds: 60),
         receiveTimeout: const Duration(seconds: 60),
         headers: {
@@ -29,15 +30,20 @@ abstract class DioModule {
 
     dio.interceptors.add(AuthInterceptor(supabaseClient));
     dio.interceptors.add(RateLimitInterceptor(rateLimitNotifier));
-    dio.interceptors.add(
-      LogInterceptor(
-        requestHeader: false,
-        responseHeader: false,
-        requestBody: true,
-        responseBody: true,
-        logPrint: (object) => debugPrint('🌐 DIO: $object'),
-      ),
-    );
+    // Debug only: it prints every request and response body, and in a profile
+    // or release build that is real work on every call — the launch's feed
+    // page alone is a sizeable JSON dump.
+    if (kDebugMode) {
+      dio.interceptors.add(
+        LogInterceptor(
+          requestHeader: false,
+          responseHeader: false,
+          requestBody: true,
+          responseBody: true,
+          logPrint: (object) => debugPrint('🌐 DIO: $object'),
+        ),
+      );
+    }
 
     return dio;
   }
