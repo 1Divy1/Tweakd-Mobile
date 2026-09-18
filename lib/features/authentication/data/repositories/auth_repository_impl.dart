@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/error/base_failures.dart';
+import '../datasources/auth_local_data_source.dart';
 import '../exceptions/auth_exceptions.dart';
 import '../../domain/failures/auth_failures.dart';
 import '../../domain/entities/apple_sign_in_result.dart';
@@ -19,8 +20,16 @@ import '../../domain/usecases/signup/verify_signup_code.dart';
 @LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
   final SupabaseAuthDataSource supabaseDataSource;
+  final AuthLocalDataSource localDataSource;
 
-  AuthRepositoryImpl(this.supabaseDataSource);
+  AuthRepositoryImpl(this.supabaseDataSource, this.localDataSource);
+
+  /// Records [user] as onboarded when they are, so the next cold start can go
+  /// straight to the feed. Awaited, but it never throws.
+  Future<UserEntity> _remember(UserEntity user) async {
+    if (!user.requiresOnboarding) await localDataSource.markOnboarded(user.id);
+    return user;
+  }
 
   /// Single exception → failure table for every auth path. Kept in one place so
   /// a new call site cannot accidentally collapse a specific error (a wrong
@@ -70,8 +79,19 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> checkAuthStatus() =>
-      _attempt(() async => (await supabaseDataSource.checkAuthStatus()).toEntity());
+  Future<Either<Failure, UserEntity>> checkAuthStatus() => _attempt(
+    () async =>
+        _remember((await supabaseDataSource.checkAuthStatus()).toEntity()),
+  );
+
+  @override
+  Future<UserEntity?> getCachedAuthStatus() async {
+    final userId = supabaseDataSource.currentSession?.user.id;
+    if (userId == null || !await localDataSource.isOnboarded(userId)) {
+      return null;
+    }
+    return UserEntity(id: userId, requiresOnboarding: false);
+  }
 
   @override
   Future<Either<Failure, UserEntity>> emailPasswordSignIn(
@@ -82,16 +102,24 @@ class AuthRepositoryImpl implements AuthRepository {
           params.email,
           params.password,
         );
-        return user.toEntity();
+        return _remember(user.toEntity());
       });
 
   @override
   Future<Either<Failure, UserEntity>> googleSignIn() =>
-      _attempt(() async => (await supabaseDataSource.googleSignIn()).toEntity());
+      _attempt(
+        () async =>
+            _remember((await supabaseDataSource.googleSignIn()).toEntity()),
+      );
 
   @override
   Future<Either<Failure, AppleSignInResultEntity>> appleSignIn() =>
-      _attempt(() async => (await supabaseDataSource.appleSignIn()).toEntity());
+      _attempt(() async {
+        final result = (await supabaseDataSource.appleSignIn()).toEntity();
+        final user = result.user;
+        if (user != null) await _remember(user);
+        return result;
+      });
 
   @override
   Future<Either<Failure, Unit>> logOut() => _attempt(() async {
@@ -118,7 +146,7 @@ class AuthRepositoryImpl implements AuthRepository {
           params.email,
           params.code,
         );
-        return user.toEntity();
+        return _remember(user.toEntity());
       });
 
   @override

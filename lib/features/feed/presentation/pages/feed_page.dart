@@ -86,16 +86,40 @@ class _FeedPageState extends State<FeedPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<FeedBloc, FeedState>(
-      // The initial load is the only state that carries these; hand them to the
-      // app-level queue, which the overlay above the router animates.
-      listenWhen: (_, state) =>
-          state is FeedLoaded && state.pendingBadgeCelebrations.isNotEmpty,
-      listener: (context, state) {
-        context.read<BadgeCelebrationCubit>().enqueue(
-          (state as FeedLoaded).pendingBadgeCelebrations,
-        );
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<FeedBloc, FeedState>(
+          // The initial load is the only state that carries these; hand them
+          // to the app-level queue, which the overlay above the router animates.
+          listenWhen: (_, state) =>
+              state is FeedLoaded && state.pendingBadgeCelebrations.isNotEmpty,
+          listener: (context, state) {
+            context.read<BadgeCelebrationCubit>().enqueue(
+              (state as FeedLoaded).pendingBadgeCelebrations,
+            );
+          },
+        ),
+        BlocListener<FeedBloc, FeedState>(
+          // The launch refresh failed but the cached posts are still up — say
+          // so once, without replacing them with the full-screen error.
+          listenWhen: (_, state) =>
+              state is FeedLoaded && state.refreshError != null,
+          listener: (context, state) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  content: Text(
+                    feedErrorMessage(
+                      AppLocalizations.of(context)!,
+                      (state as FeedLoaded).refreshError!,
+                    ),
+                  ),
+                ),
+              );
+          },
+        ),
+      ],
       child: Scaffold(
         backgroundColor: AppColors.bg,
         body: SafeArea(

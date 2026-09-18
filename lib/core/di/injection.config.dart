@@ -15,6 +15,8 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:supabase_flutter/supabase_flutter.dart' as _i454;
 
+import '../../features/authentication/data/datasources/auth_local_data_source.dart'
+    as _i838;
 import '../../features/authentication/data/datasources/supabase_auth_data_source.dart'
     as _i981;
 import '../../features/authentication/data/repositories/auth_repository_impl.dart'
@@ -23,6 +25,8 @@ import '../../features/authentication/domain/repositories/auth_repository.dart'
     as _i742;
 import '../../features/authentication/domain/usecases/auth/check_auth_status.dart'
     as _i192;
+import '../../features/authentication/domain/usecases/auth/get_cached_auth_status.dart'
+    as _i164;
 import '../../features/authentication/domain/usecases/auth/log_out.dart'
     as _i221;
 import '../../features/authentication/domain/usecases/auth/watch_external_sign_in.dart'
@@ -48,6 +52,8 @@ import '../../features/authentication/domain/usecases/signup/verify_signup_code.
 import '../../features/authentication/presentation/bloc/bloc.dart' as _i636;
 import '../../features/authentication/presentation/bloc/password_reset/bloc.dart'
     as _i57;
+import '../../features/authentication/presentation/bloc/session_check/cubit.dart'
+    as _i674;
 import '../../features/authentication/presentation/bloc/signup/bloc.dart'
     as _i246;
 import '../../features/badges/data/datasources/badge_api_data_source.dart'
@@ -78,11 +84,17 @@ import '../../features/block/presentation/bloc/blocked_accounts/bloc.dart'
     as _i24;
 import '../../features/feed/data/datasources/feed_api_data_source.dart'
     as _i194;
+import '../../features/feed/data/datasources/feed_local_data_source.dart'
+    as _i465;
 import '../../features/feed/data/repositories/feed_repository_impl.dart'
     as _i452;
 import '../../features/feed/domain/repositories/feed_repository.dart' as _i430;
+import '../../features/feed/domain/usecases/clear_feed_cache.dart' as _i845;
+import '../../features/feed/domain/usecases/get_cached_feed.dart' as _i286;
 import '../../features/feed/domain/usecases/get_global_feed.dart' as _i199;
 import '../../features/feed/presentation/bloc/feed/bloc.dart' as _i719;
+import '../../features/feed/presentation/utils/feed_launch_preloader.dart'
+    as _i114;
 import '../../features/feedback/data/datasources/feedback_api_data_source.dart'
     as _i239;
 import '../../features/feedback/data/repositories/feedback_repository_impl.dart'
@@ -489,6 +501,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i1069.LocaleLocalStorage(),
     );
     gh.lazySingleton<_i156.ThemeLocalStorage>(() => _i156.ThemeLocalStorage());
+    gh.lazySingleton<_i838.AuthLocalDataSource>(
+      () => _i838.AuthLocalDataSource(),
+    );
     gh.lazySingleton<_i178.DeviceLocationDataSource>(
       () => _i178.DeviceLocationDataSource(),
     );
@@ -537,6 +552,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i511.DmRealtimeService>(
       () => _i543.SupabaseDmRealtimeService(gh<_i454.SupabaseClient>()),
+    );
+    gh.lazySingleton<_i465.FeedLocalDataSource>(
+      () => _i465.FeedLocalDataSource(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i532.SupabaseIdentityDataSource>(
       () => _i532.SupabaseIdentityDataSource(gh<_i454.SupabaseClient>()),
@@ -745,11 +763,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i642.GetNearbyBusinessesUseCase>(
       () => _i642.GetNearbyBusinessesUseCase(gh<_i973.MapRepository>()),
     );
-    gh.lazySingleton<_i430.FeedRepository>(
-      () => _i452.FeedRepositoryImpl(gh<_i194.FeedApiDataSource>()),
-    );
     gh.lazySingleton<_i619.FeedbackRepository>(
       () => _i961.FeedbackRepositoryImpl(gh<_i239.FeedbackApiDataSource>()),
+    );
+    gh.lazySingleton<_i430.FeedRepository>(
+      () => _i452.FeedRepositoryImpl(
+        gh<_i194.FeedApiDataSource>(),
+        gh<_i465.FeedLocalDataSource>(),
+      ),
     );
     gh.lazySingleton<_i511.GarageRepository>(
       () => _i107.GarageRepositoryImpl(
@@ -794,6 +815,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i760.FollowRepository>(
       () => _i299.FollowRepositoryImpl(gh<_i587.FollowApiDataSource>()),
     );
+    gh.lazySingleton<_i845.ClearFeedCacheUseCase>(
+      () => _i845.ClearFeedCacheUseCase(gh<_i430.FeedRepository>()),
+    );
+    gh.lazySingleton<_i286.GetCachedFeedUseCase>(
+      () => _i286.GetCachedFeedUseCase(gh<_i430.FeedRepository>()),
+    );
     gh.lazySingleton<_i199.GetGlobalFeedUseCase>(
       () => _i199.GetGlobalFeedUseCase(gh<_i430.FeedRepository>()),
     );
@@ -817,6 +844,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i78.UpdateProfileUseCase>(
       () => _i78.UpdateProfileUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i114.FeedLaunchPreloader>(
+      () => _i114.FeedLaunchPreloader(
+        getGlobalFeed: gh<_i199.GetGlobalFeedUseCase>(),
+        getCachedFeed: gh<_i286.GetCachedFeedUseCase>(),
+      ),
     );
     gh.factory<_i486.PostDetailBloc>(
       () => _i486.PostDetailBloc(
@@ -1244,6 +1277,19 @@ extension GetItInjectableX on _i174.GetIt {
         unlikeComment: gh<_i326.UnlikeCommentUseCase>(),
       ),
     );
+    gh.factory<_i719.FeedBloc>(
+      () => _i719.FeedBloc(
+        getGlobalFeed: gh<_i199.GetGlobalFeedUseCase>(),
+        likePost: gh<_i111.LikePostUseCase>(),
+        unlikePost: gh<_i111.UnlikePostUseCase>(),
+        savePost: gh<_i584.SavePostUseCase>(),
+        unsavePost: gh<_i584.UnsavePostUseCase>(),
+        repostPost: gh<_i912.RepostPostUseCase>(),
+        unrepostPost: gh<_i912.UnrepostPostUseCase>(),
+        addComment: gh<_i541.AddCommentUseCase>(),
+        launchPreloader: gh<_i114.FeedLaunchPreloader>(),
+      ),
+    );
     gh.lazySingleton<_i360.BadgeRepository>(
       () => _i700.BadgeRepositoryImpl(gh<_i308.BadgeDataSource>()),
     );
@@ -1287,18 +1333,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i274.ProfilePostsBloc(
         getMyPosts: gh<_i851.GetMyPostsUseCase>(),
         getPostsByUsername: gh<_i677.GetPostsByUsernameUseCase>(),
-      ),
-    );
-    gh.factory<_i719.FeedBloc>(
-      () => _i719.FeedBloc(
-        getGlobalFeed: gh<_i199.GetGlobalFeedUseCase>(),
-        likePost: gh<_i111.LikePostUseCase>(),
-        unlikePost: gh<_i111.UnlikePostUseCase>(),
-        savePost: gh<_i584.SavePostUseCase>(),
-        unsavePost: gh<_i584.UnsavePostUseCase>(),
-        repostPost: gh<_i912.RepostPostUseCase>(),
-        unrepostPost: gh<_i912.UnrepostPostUseCase>(),
-        addComment: gh<_i541.AddCommentUseCase>(),
       ),
     );
     gh.factory<_i792.MyMapEventsBloc>(
@@ -1679,6 +1713,12 @@ extension GetItInjectableX on _i174.GetIt {
         watchInboxMessages: gh<_i839.WatchInboxMessagesUseCase>(),
       ),
     );
+    gh.lazySingleton<_i742.AuthRepository>(
+      () => _i317.AuthRepositoryImpl(
+        gh<_i981.SupabaseAuthDataSource>(),
+        gh<_i838.AuthLocalDataSource>(),
+      ),
+    );
     gh.factory<_i188.NewThreadBloc>(
       () => _i188.NewThreadBloc(
         getTopics: gh<_i354.GetForumTopicsUseCase>(),
@@ -1764,11 +1804,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i733.BlockUserCubit>(
       () => _i733.BlockUserCubit(blockUser: gh<_i42.BlockUserUseCase>()),
     );
-    gh.lazySingleton<_i742.AuthRepository>(
-      () => _i317.AuthRepositoryImpl(gh<_i981.SupabaseAuthDataSource>()),
-    );
     gh.lazySingleton<_i192.CheckAuthStatusUseCase>(
       () => _i192.CheckAuthStatusUseCase(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i164.GetCachedAuthStatusUseCase>(
+      () => _i164.GetCachedAuthStatusUseCase(gh<_i742.AuthRepository>()),
     );
     gh.lazySingleton<_i221.LogOut>(
       () => _i221.LogOut(gh<_i742.AuthRepository>()),
@@ -1825,6 +1865,11 @@ extension GetItInjectableX on _i174.GetIt {
         appleSignIn: gh<_i502.AppleSignIn>(),
         logOut: gh<_i221.LogOut>(),
         watchExternalSignIn: gh<_i910.WatchExternalSignIn>(),
+      ),
+    );
+    gh.factory<_i674.SessionCheckCubit>(
+      () => _i674.SessionCheckCubit(
+        checkAuthStatus: gh<_i192.CheckAuthStatusUseCase>(),
       ),
     );
     return this;

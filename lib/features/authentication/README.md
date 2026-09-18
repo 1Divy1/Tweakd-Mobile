@@ -231,6 +231,12 @@ AuthError(String message)
 
 ---
 
+## Fast launch
+
+`main()` asks `GetCachedAuthStatusUseCase` whether the saved session belongs to a user the device has seen finish onboarding (`AuthLocalDataSource`, a single `onboarded_user_id` marker in secure storage, written by `checkAuthStatus` and every sign-in that returns an onboarded user). If so, the router opens on `/feed` with no network wait, and `SessionCheckCubit` runs the `profiles` lookup in the background: `SessionCheckListener` moves the user to `/onboarding` or `/signup` only if the answer contradicts the launch. Network errors never do. Otherwise the app opens on `/` and `SplashPage` resolves the session as before.
+
+The native launch screen stays up until the first real screen has painted (the feed, or wherever `SplashPage` routes), so there is only ever one splash.
+
 ## Pages & Routing
 
 | Route | Page | Bloc in route |

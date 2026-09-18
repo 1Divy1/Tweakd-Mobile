@@ -774,6 +774,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedErrorGeneric => 'Couldn\'t load the feed. Please try again.';
 
   @override
+  String get feedNewPosts => 'New posts';
+
+  @override
   String get garageErrorCarNotFound => 'This car could not be found.';
 
   @override

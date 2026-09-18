@@ -11,11 +11,18 @@ import '../../../../core/theme/app_colors.dart';
 import '../bloc/bloc.dart';
 import '../bloc/state.dart';
 
-/// Flutter-drawn continuation of the native (OS-level) launch screen. Same
-/// background color and same logo per brightness, so the handoff from native
-/// splash -> this page is seamless. Stays up until [AuthBloc] resolves
-/// (CheckAuthStatus, dispatched at app start), then routes to the right
-/// destination.
+/// Resolves the session over the network when the device alone can't — no
+/// saved session, or a user not yet known to have finished onboarding — then
+/// routes to the right destination. A signed-in, onboarded user never sees it:
+/// `main()` opens those launches straight on the feed.
+///
+/// The native (OS-level) launch screen stays up over this page the whole time
+/// and is only removed once the destination has painted. This page used to
+/// remove it on its own first frame, which is what made the launch look like
+/// two splashes in a row: the native one is a bitmap (on Android 12+, also
+/// shrunk into the icon mask), this one a crisp vector at a different size.
+/// Its artwork below is now only a fallback for a platform that drops the
+/// native screen early.
 ///
 /// Reads [AppColors.isDark] rather than `MediaQuery.platformBrightnessOf`
 /// directly: by the time this page builds, `main.dart` has already resolved
@@ -38,11 +45,9 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  @override
-  void initState() {
-    super.initState();
-    // Only remove the native splash once this identical-looking page has
-    // actually painted, so there's never a blank frame in between.
+  /// Lifts the native launch screen once the destination just navigated to
+  /// has painted underneath it.
+  void _removeNativeSplashAfterNextFrame() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FlutterNativeSplash.remove();
     });
@@ -56,8 +61,10 @@ class _SplashPageState extends State<SplashPage> {
       listener: (context, state) {
         if (state is AuthInitial) {
           context.go('/signup');
+          _removeNativeSplashAfterNextFrame();
         } else if (state is AuthenticatedRequiresOnboarding) {
           context.go('/onboarding');
+          _removeNativeSplashAfterNextFrame();
         } else if (state is Authenticated) {
           context.go('/feed');
           // A notification tapped from a terminated app parked its destination
@@ -69,6 +76,7 @@ class _SplashPageState extends State<SplashPage> {
           // was parked while the session resolved, and the feed is now the
           // stack's root, so the car opens on top of somewhere sensible.
           getIt<DeepLinkService>().flushPending();
+          _removeNativeSplashAfterNextFrame();
         }
       },
       child: Scaffold(

@@ -781,6 +781,9 @@ class AppLocalizationsRo extends AppLocalizations {
       'Nu am putut încărca feedul. Te rugăm să încerci din nou.';
 
   @override
+  String get feedNewPosts => 'Postări noi';
+
+  @override
   String get garageErrorCarNotFound => 'Această mașină nu a putut fi găsită.';
 
   @override

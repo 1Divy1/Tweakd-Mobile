@@ -254,6 +254,7 @@
   "feedEmptyCta": "Publică o postare",
   "feedErrorNetwork": "Nicio conexiune la internet. Verifică rețeaua și încearcă din nou.",
   "feedErrorGeneric": "Nu am putut încărca feedul. Te rugăm să încerci din nou.",
+  "feedNewPosts": "Postări noi",
 
   "garageErrorCarNotFound": "Această mașină nu a putut fi găsită.",
   "garageErrorGarageNotFound": "Acest garaj nu a putut fi găsit.",

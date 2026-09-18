@@ -17,11 +17,17 @@ import '../bloc/feed/bloc.dart';
 import '../bloc/feed/event.dart';
 import '../bloc/feed/state.dart';
 import 'feed_empty_view.dart';
+import 'feed_new_posts_pill.dart';
 import 'feed_post_card.dart';
 import '../../../../core/shared/layout/app_layout.dart';
 
 /// The loaded feed list: pull-to-refresh, cursor paging on scroll, and a
 /// trailing loader / empty state.
+///
+/// On a launch that opened on the cached page it also shows the refresh in
+/// progress (a thin line along the top), reports the user's first scroll so
+/// the fresh page knows not to swap in under them, and floats the "New posts"
+/// pill when that page is waiting.
 class FeedListView extends StatefulWidget {
   final FeedLoaded state;
 
@@ -40,6 +46,9 @@ class FeedListView extends StatefulWidget {
 
 class _FeedListViewState extends State<FeedListView> {
   final _scrollController = ScrollController();
+
+  /// Set once the cached-page scroll has been reported; it only matters once.
+  bool _reportedCacheScroll = false;
 
   @override
   void initState() {
@@ -61,6 +70,23 @@ class _FeedListViewState extends State<FeedListView> {
     if (position.pixels >= position.maxScrollExtent - 600) {
       context.read<FeedBloc>().add(const LoadMoreFeed());
     }
+  }
+
+  /// Only a drag counts: the list settling or a programmatic jump isn't the
+  /// user reading.
+  bool _onScrollStart(ScrollStartNotification notification) {
+    if (widget.state.isCached &&
+        !_reportedCacheScroll &&
+        notification.dragDetails != null) {
+      _reportedCacheScroll = true;
+      context.read<FeedBloc>().add(const FeedCacheScrolled());
+    }
+    return false;
+  }
+
+  void _showNewPosts() {
+    context.read<FeedBloc>().add(const ShowNewFeedPosts());
+    if (_scrollController.hasClients) _scrollController.jumpTo(0);
   }
 
   Future<void> _refresh() async {
@@ -121,42 +147,69 @@ class _FeedListViewState extends State<FeedListView> {
       );
     }
 
-    return RefreshIndicator(
-      color: AppColors.accent,
-      onRefresh: _refresh,
-      child: ListView.builder(
-        controller: _scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
-        padding:
-            const EdgeInsets.only(top: 8, bottom: 16) +
-            AppLayout.inset(context),
-        itemCount: posts.length + 1,
-        itemBuilder: (context, index) {
-          if (index == posts.length) {
-            return _Footer(isLoadingMore: widget.state.isLoadingMore);
-          }
-          final post = posts[index];
-          return FeedPostCard(
-            key: ValueKey(post.id),
-            post: post,
-            onToggleLike: () =>
-                context.read<FeedBloc>().add(ToggleLikeFeedPost(post.id)),
-            onToggleSave: () =>
-                context.read<FeedBloc>().add(ToggleSaveFeedPost(post.id)),
-            // Your own post can't be reposted; its count still shows.
-            onToggleRepost: post.author.id == currentUserId
-                ? null
-                : () => context.read<FeedBloc>().add(
-                    ToggleRepostFeedPost(post.id),
+    final state = widget.state;
+    return Stack(
+      children: [
+        NotificationListener<ScrollStartNotification>(
+          onNotification: _onScrollStart,
+          child: RefreshIndicator(
+            color: AppColors.accent,
+            onRefresh: _refresh,
+            child: ListView.builder(
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding:
+                  const EdgeInsets.only(top: 8, bottom: 16) +
+                  AppLayout.inset(context),
+              itemCount: posts.length + 1,
+              itemBuilder: (context, index) {
+                if (index == posts.length) {
+                  return _Footer(isLoadingMore: widget.state.isLoadingMore);
+                }
+                final post = posts[index];
+                return FeedPostCard(
+                  key: ValueKey(post.id),
+                  post: post,
+                  onToggleLike: () =>
+                      context.read<FeedBloc>().add(ToggleLikeFeedPost(post.id)),
+                  onToggleSave: () =>
+                      context.read<FeedBloc>().add(ToggleSaveFeedPost(post.id)),
+                  // Your own post can't be reposted; its count still shows.
+                  onToggleRepost: post.author.id == currentUserId
+                      ? null
+                      : () => context.read<FeedBloc>().add(
+                          ToggleRepostFeedPost(post.id),
+                        ),
+                  onOpenComments: () => _openComments(post),
+                  onOpenLikers: () => showLikersSheet(context, postId: post.id),
+                  onSubmitComment: (text) => context.read<FeedBloc>().add(
+                    SubmitFeedComment(post.id, text),
                   ),
-            onOpenComments: () => _openComments(post),
-            onOpenLikers: () => showLikersSheet(context, postId: post.id),
-            onSubmitComment: (text) =>
-                context.read<FeedBloc>().add(SubmitFeedComment(post.id, text)),
-            onMenu: () => _openPostMenu(post),
-          );
-        },
-      ),
+                  onMenu: () => _openPostMenu(post),
+                );
+              },
+            ),
+          ),
+        ),
+        if (state.isRefreshing)
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: LinearProgressIndicator(
+              minHeight: 2,
+              color: AppColors.accent,
+              backgroundColor: Colors.transparent,
+            ),
+          ),
+        if (state.newPage != null)
+          Positioned(
+            top: 12,
+            left: 16,
+            right: 16,
+            child: Center(child: FeedNewPostsPill(onTap: _showNewPosts)),
+          ),
+      ],
     );
   }
 }

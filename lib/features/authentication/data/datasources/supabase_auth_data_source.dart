@@ -191,9 +191,14 @@ class SupabaseAuthDataSource {
       // If a local session exists, but the user could not be found in the database, we force delete the local session
       if (e is PostgrestException && e.code == 'PGRST116') {
         await supabaseClient.auth.signOut();
-        throw ServerException(
-          'The session expired or is invalid. Please log in again.',
-        );
+        throw NoActiveSessionException();
+      }
+      // A refresh token the server rejected makes Supabase drop the session
+      // on its own while this query waits for a fresh access token. That is a
+      // signed-out user, not a failed request — and the background session
+      // check on a fast launch has to be able to tell the two apart.
+      if (supabaseClient.auth.currentSession == null) {
+        throw NoActiveSessionException();
       }
       throw ServerException('An unexpected error occurred: $e');
     }

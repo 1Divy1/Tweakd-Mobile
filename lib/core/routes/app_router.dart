@@ -148,8 +148,13 @@ import '../../features/search/presentation/pages/search_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/map_events/presentation/bloc/participant_cards/cubit.dart';
 
-final appRouter = GoRouter(
-  initialLocation: '/',
+/// Builds the app's router, opening on [initialLocation].
+///
+/// `main()` picks that location before the first frame: `/feed` when the
+/// device already knows the user is signed in and onboarded, `/` (the splash,
+/// which resolves the session over the network) otherwise.
+GoRouter createAppRouter({required String initialLocation}) => GoRouter(
+  initialLocation: initialLocation,
   routes: [
     // ---------- Authentication & Onboarding ----------
     GoRoute(path: '/', builder: (context, state) => const SplashPage()),

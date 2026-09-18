@@ -53,6 +53,15 @@ shared `AuthInterceptor`).
     `features/posts/presentation/widgets/post_card/` and are also used by
     `PostDetailView`.
 
+## Launch: cached first page
+
+The first feed of a session opens on the page saved last time and refreshes it in place.
+
+- **Cache** — `FeedLocalDataSource` keeps the last first-page response body as-is (minus `pending_badge_celebrations`) in the app support directory, scoped to the user id. No expiry: an old feed for a second beats a skeleton. Written on every successful first page (launch, pull-to-refresh), cleared on sign-out.
+- **Preload** — `FeedLaunchPreloader.start()` is called from `main()` on a fast launch, so the request is on the wire before the UI exists; the first `FeedBloc` picks it up with `take()`. A launch through the splash starts it on that first `take()` instead.
+- **Swap or pill** — `FeedLoaded.isCached` / `isRefreshing` while the fresh page loads. If the user hasn't dragged the list (`FeedCacheScrolled`), the fresh page replaces it in place; otherwise it waits in `newPage` behind `FeedNewPostsPill` (`ShowNewFeedPosts`). Likes/saves/reposts/comments made on cached posts survive the swap; reported posts stay hidden. Paging is blocked until the fresh page is in.
+- **Failure** — the cached posts stay and `refreshError` shows a one-time snackbar.
+
 ## Route
 
 `/feed` (in `app_router.dart`) provides `FeedBloc..add(LoadFeed())`. Reached via the

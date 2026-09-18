@@ -1442,6 +1442,12 @@ abstract class AppLocalizations {
   /// **'Couldn\'t load the feed. Please try again.'**
   String get feedErrorGeneric;
 
+  /// No description provided for @feedNewPosts.
+  ///
+  /// In en, this message translates to:
+  /// **'New posts'**
+  String get feedNewPosts;
+
   /// No description provided for @garageErrorCarNotFound.
   ///
   /// In en, this message translates to:

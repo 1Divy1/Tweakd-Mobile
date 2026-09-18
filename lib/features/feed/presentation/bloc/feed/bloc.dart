@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../../core/error/base_failures.dart' show Failure;
+import '../../../../../core/utils/startup_trace.dart';
+import '../../../../badges/domain/entities/user_badge.dart';
 import '../../../../posts/domain/entities/post.dart';
 import '../../../../posts/domain/usecases/add_comment.dart';
 import '../../../../posts/domain/usecases/post_like.dart';
@@ -13,6 +15,7 @@ import '../../../../posts/domain/usecases/post_save.dart';
 import '../../../domain/entities/feed_page.dart';
 import '../../../domain/usecases/get_global_feed.dart';
 import '../../utils/feed_error_mapper.dart';
+import '../../utils/feed_launch_preloader.dart';
 import 'event.dart';
 import 'state.dart';
 
@@ -29,6 +32,19 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
   final RepostPostUseCase repostPost;
   final UnrepostPostUseCase unrepostPost;
   final AddCommentUseCase addComment;
+  final FeedLaunchPreloader launchPreloader;
+
+  /// Whether the user has scrolled the cached launch page. Decides whether the
+  /// fresh page swaps in by itself or waits behind the "New posts" pill.
+  bool _scrolledCache = false;
+
+  /// Posts liked, saved, reposted or commented on while still cached. The
+  /// fresh page was requested before those actions, so for these posts the
+  /// on-screen version is newer than the server's and survives the swap.
+  final _touchedWhileCached = <String>{};
+
+  /// Posts hidden (reported) while still cached, kept out of the fresh page.
+  final _hiddenWhileCached = <String>{};
 
   FeedBloc({
     required this.getGlobalFeed,
@@ -39,8 +55,11 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     required this.repostPost,
     required this.unrepostPost,
     required this.addComment,
+    required this.launchPreloader,
   }) : super(const FeedInitial()) {
     on<LoadFeed>(_onLoad);
+    on<FeedCacheScrolled>(_onCacheScrolled);
+    on<ShowNewFeedPosts>(_onShowNewPosts);
     on<RefreshFeed>(_onRefresh);
     on<LoadMoreFeed>(_onLoadMore);
     on<ToggleLikeFeedPost>(_onToggleLike);
@@ -54,6 +73,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
   void _onHidePost(HideFeedPost event, Emitter<FeedState> emit) {
     final current = state;
     if (current is! FeedLoaded) return;
+    if (current.isCached) _hiddenWhileCached.add(event.postId);
     emit(
       current.copyWith(
         posts: current.posts.where((p) => p.id != event.postId).toList(),
@@ -92,6 +112,8 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     final index = current.posts.indexWhere((p) => p.id == event.postId);
     if (index == -1) return;
 
+    if (current.isCached) _touchedWhileCached.add(event.postId);
+
     // Optimistically bump the counter; the new comment shows when the sheet
     // (re)loads from the backend.
     final post = current.posts[index];
@@ -128,10 +150,136 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
   }
 
   Future<void> _onLoad(LoadFeed event, Emitter<FeedState> emit) async {
-    emit(const FeedLoading());
-    final result = await getGlobalFeed(const GetGlobalFeedParams());
-    _emitFirstPage(emit, result);
+    final launch = launchPreloader.take();
+    if (launch == null) {
+      emit(const FeedLoading());
+      final result = await getGlobalFeed(const GetGlobalFeedParams());
+      _emitFirstPage(emit, result);
+      return;
+    }
+
+    final FeedLaunch(:cached, :fresh) = await launch;
+    if (cached != null && cached.items.isNotEmpty) {
+      emit(
+        FeedLoaded(
+          posts: cached.items,
+          nextCursor: cached.nextCursor,
+          isCached: true,
+          isRefreshing: true,
+        ),
+      );
+    } else {
+      emit(const FeedLoading());
+    }
+
+    final result = await fresh;
+    final current = state;
+
+    // Nothing cached on screen: the skeleton was up, so this is a plain first
+    // load. Also the path when a pull-to-refresh already replaced the cache —
+    // that data is newer, so only the one-shot celebrations are taken from here.
+    if (current is! FeedLoaded || !current.isCached) {
+      if (current is FeedLoaded) {
+        result.fold((_) {}, (page) {
+          if (page.pendingBadgeCelebrations.isEmpty) return;
+          emit(_withCelebrations(current, page.pendingBadgeCelebrations));
+        });
+      } else {
+        _emitFirstPage(emit, result);
+      }
+      return;
+    }
+
+    result.fold(
+      // The cached posts stay; the page says the refresh failed.
+      (failure) => emit(
+        FeedLoaded(
+          posts: current.posts,
+          nextCursor: current.nextCursor,
+          isLoadingMore: current.isLoadingMore,
+          isCached: true,
+          refreshError: FeedErrorMapper.getCode(failure),
+        ),
+      ),
+      (page) {
+        if (!_scrolledCache) {
+          StartupTrace.markOnce('fresh feed swapped in');
+          emit(
+            FeedLoaded(
+              posts: _mergeFresh(current.posts, page.items),
+              nextCursor: page.nextCursor,
+              pendingBadgeCelebrations: page.pendingBadgeCelebrations,
+            ),
+          );
+          _clearCacheTracking();
+          return;
+        }
+        // The user is reading the cached posts — don't move them. Celebrations
+        // don't wait for the pill; they play over whatever is on screen.
+        emit(
+          FeedLoaded(
+            posts: current.posts,
+            nextCursor: current.nextCursor,
+            isLoadingMore: current.isLoadingMore,
+            isCached: true,
+            newPage: page,
+            pendingBadgeCelebrations: page.pendingBadgeCelebrations,
+          ),
+        );
+      },
+    );
   }
+
+  void _onCacheScrolled(FeedCacheScrolled event, Emitter<FeedState> emit) {
+    final current = state;
+    if (current is FeedLoaded && current.isCached) _scrolledCache = true;
+  }
+
+  void _onShowNewPosts(ShowNewFeedPosts event, Emitter<FeedState> emit) {
+    final current = state;
+    if (current is! FeedLoaded) return;
+    final page = current.newPage;
+    if (page == null) return;
+    emit(
+      FeedLoaded(
+        posts: _mergeFresh(current.posts, page.items),
+        nextCursor: page.nextCursor,
+      ),
+    );
+    _clearCacheTracking();
+  }
+
+  /// [fresh], minus posts hidden while cached, with the on-screen version kept
+  /// for posts the user acted on while cached.
+  List<PostEntity> _mergeFresh(
+    List<PostEntity> onScreen,
+    List<PostEntity> fresh,
+  ) {
+    final byId = {for (final p in onScreen) p.id: p};
+    return [
+      for (final p in fresh)
+        if (!_hiddenWhileCached.contains(p.id))
+          _touchedWhileCached.contains(p.id) ? (byId[p.id] ?? p) : p,
+    ];
+  }
+
+  void _clearCacheTracking() {
+    _touchedWhileCached.clear();
+    _hiddenWhileCached.clear();
+  }
+
+  FeedLoaded _withCelebrations(
+    FeedLoaded current,
+    List<UserBadgeEntity> celebrations,
+  ) => FeedLoaded(
+    posts: current.posts,
+    nextCursor: current.nextCursor,
+    isLoadingMore: current.isLoadingMore,
+    isCached: current.isCached,
+    isRefreshing: current.isRefreshing,
+    newPage: current.newPage,
+    pendingBadgeCelebrations: celebrations,
+  );
 
   Future<void> _onRefresh(RefreshFeed event, Emitter<FeedState> emit) async {
     try {
@@ -144,8 +292,10 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
             emit(FeedError(FeedErrorMapper.getCode(failure)));
           }
         },
-        (page) =>
-            emit(FeedLoaded(posts: page.items, nextCursor: page.nextCursor)),
+        (page) {
+          emit(FeedLoaded(posts: page.items, nextCursor: page.nextCursor));
+          _clearCacheTracking();
+        },
       );
     } finally {
       // Always release the indicator, even when the data is identical and the
@@ -156,7 +306,14 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
 
   Future<void> _onLoadMore(LoadMoreFeed event, Emitter<FeedState> emit) async {
     final current = state;
-    if (current is! FeedLoaded || current.isLoadingMore || !current.hasMore) {
+    // While the launch refresh is out, or a fresh page is waiting behind the
+    // pill, the cached cursor is about to be replaced — paging from it would
+    // stitch two different rankings together.
+    if (current is! FeedLoaded ||
+        current.isLoadingMore ||
+        !current.hasMore ||
+        current.isRefreshing ||
+        current.newPage != null) {
       return;
     }
 
@@ -175,6 +332,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
           // we already hold — drop duplicates so the list keys stay unique.
           posts: _dedup([...current.posts, ...page.items]),
           nextCursor: page.nextCursor,
+          isCached: current.isCached,
         ),
       ),
     );
@@ -249,6 +407,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
 
     final post = current.posts[index];
     final on = !isOn(post);
+    if (current.isCached) _touchedWhileCached.add(postId);
 
     emit(
       current.copyWith(posts: _replaceAt(current.posts, index, flip(post, on))),
