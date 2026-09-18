@@ -14,6 +14,18 @@ class LoadFeed extends FeedEvent {
   const LoadFeed();
 }
 
+/// The user started scrolling while the cached launch page is on screen. From
+/// here on the fresh page no longer swaps in by itself — it waits behind the
+/// "New posts" pill.
+class FeedCacheScrolled extends FeedEvent {
+  const FeedCacheScrolled();
+}
+
+/// The "New posts" pill was tapped: swap in the fresh page it was holding.
+class ShowNewFeedPosts extends FeedEvent {
+  const ShowNewFeedPosts();
+}
+
 /// Pull-to-refresh: re-fetches the first page without tearing down the list.
 /// [completer], when provided, is completed once the refresh settles so the
 /// pull-to-refresh indicator can stop — even when the data is unchanged and no

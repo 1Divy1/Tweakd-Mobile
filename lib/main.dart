@@ -18,16 +18,24 @@ import 'package:tweakd/core/push/push_registration.dart';
 import 'package:tweakd/core/realtime/dm_realtime_service.dart';
 import 'package:tweakd/core/realtime/contest_realtime_service.dart';
 import 'package:tweakd/core/storage/secure_local_storage.dart';
+import 'package:tweakd/core/usecases/usecase.dart';
+import 'package:tweakd/core/utils/startup_trace.dart';
 import 'package:tweakd/core/theme/app_colors.dart';
 import 'package:tweakd/core/theme/app_theme.dart';
 import 'package:tweakd/features/authentication/presentation/bloc/bloc.dart';
+import 'package:tweakd/features/authentication/domain/usecases/auth/get_cached_auth_status.dart';
 import 'package:tweakd/features/authentication/presentation/bloc/event.dart';
+import 'package:tweakd/features/authentication/presentation/bloc/session_check/cubit.dart';
+import 'package:tweakd/features/authentication/presentation/widgets/session_check_listener.dart';
 import 'package:tweakd/features/badges/presentation/bloc/celebration/cubit.dart';
 import 'package:tweakd/features/badges/presentation/widgets/badge_celebration_overlay.dart';
+import 'package:tweakd/features/feed/domain/usecases/clear_feed_cache.dart';
+import 'package:tweakd/features/feed/presentation/utils/feed_launch_preloader.dart';
 import 'package:tweakd/features/messages/presentation/bloc/unread/cubit.dart';
 import 'package:tweakd/features/notifications/presentation/bloc/unread/cubit.dart';
 import 'package:tweakd/features/profile/presentation/bloc/locale/cubit.dart';
 import 'package:tweakd/features/settings/presentation/bloc/theme/cubit.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,21 +45,29 @@ import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
+  StartupTrace.begin();
+
   // Make sure the binding is initialized
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
   // Keep the native (OS-level) launch screen on screen through all of the
-  // setup below, instead of letting it disappear into a blank frame the
-  // moment the Flutter engine attaches. SplashPage removes it once its own,
-  // visually-identical splash has actually painted (see its initState).
+  // setup below, and until the first real screen has painted: the feed on a
+  // fast launch (below, after runApp), or wherever SplashPage routes otherwise.
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
+  // Everything up to the first frame is time spent on the launch screen, so
+  // what can run side by side does. Neither of these depends on the other or
+  // on Supabase.
+  //
   // Portrait until the first frame; OrientationPolicy (MaterialApp.builder)
   // then unlocks rotation on tablets and unfolded foldables.
-  await SystemChrome.setPreferredOrientations([
+  final orientation = SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  final firebase = Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   // Load environment variables
   await dotenv.load(fileName: ".env");
@@ -62,23 +78,48 @@ void main() async {
   );
   MapboxOptions.setAccessToken(mapboxAccessToken);
 
-  // Initialize Supabase
+  // Initialize Supabase. Restores the saved session from secure storage; an
+  // expired one is refreshed in the background, and the API client waits for
+  // that refresh before sending (see AuthInterceptor).
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,
     publishableKey: dotenv.env['SUPABASE_PUBLISHABLE_KEY']!,
     authOptions: FlutterAuthClientOptions(localStorage: SecureLocalStorage()),
   );
+  StartupTrace.mark('supabase ready');
 
-  // Initialize Firebase using the generated options
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Initialize dependency injection
+  configureDependencies();
+
+  // Where the app opens. A saved session whose user the device has seen finish
+  // onboarding goes straight to the feed — no network round trip first. The
+  // profile check the splash used to wait on runs afterwards, in the
+  // background (SessionCheckCubit), and only moves the user if it disagrees.
+  // Anything the device can't vouch for goes through the splash as before.
+  final cachedUser = (await getIt<GetCachedAuthStatusUseCase>()(
+    NoParams(),
+  )).fold((_) => null, (user) => user);
+  final fastLaunch = cachedUser != null;
+  StartupTrace.mark(fastLaunch ? 'fast launch → /feed' : 'launch → splash');
+
+  // The feed's first page goes on the wire now, before the UI exists, and the
+  // page saved last time is read from disk so the first frame can show it.
+  // Only the disk read is awaited — the request keeps going.
+  final feedPreload = fastLaunch
+      ? getIt<FeedLaunchPreloader>().start()
+      : Future<void>.value();
+
+  await Future.wait([orientation, firebase, feedPreload]);
+  StartupTrace.mark('firebase ready, feed cache read');
 
   // Must be registered before runApp and outside any closure — FCM looks the
   // handler up by entry point to spin up a background isolate. See
   // push_background_handler.dart for why it deliberately does nothing.
   FirebaseMessaging.onBackgroundMessage(pushBackgroundHandler);
 
-  // Initialize dependency injection
-  configureDependencies();
+  final appRouter = createAppRouter(
+    initialLocation: fastLaunch ? '/feed' : '/',
+  );
 
   // Nothing joins Supabase Realtime at app start: an open channel keeps the
   // device's socket open, and Realtime bills peak concurrent sockets. The DM
@@ -93,6 +134,11 @@ void main() async {
   // needs clearing on sign-out so a badge the previous user earned can't
   // animate for whoever signs in next.
   final badgeCelebrations = getIt<BadgeCelebrationCubit>();
+
+  // Sign-out must not leave the previous user's feed on the device, nor hand
+  // the next account a launch load that was started for this one.
+  final feedPreloader = getIt<FeedLaunchPreloader>();
+  final clearFeedCache = getIt<ClearFeedCacheUseCase>();
 
   // Push notifications. The service only wires FCM up — it never prompts for
   // permission (the onboarding notifications step owns the one prompt) and it
@@ -148,6 +194,8 @@ void main() async {
         dmRealtime.disconnect();
         contestRealtime.disconnect();
         badgeCelebrations.reset();
+        feedPreloader.reset();
+        unawaited(clearFeedCache(NoParams()));
         // Unregistering the device happens in the auth data source, before the
         // session is torn down — by here the JWT is already gone. All that is
         // left is to make sure a notification the previous user tapped, or a
@@ -159,18 +207,56 @@ void main() async {
     }
   });
 
-  runApp(const TweakdApp());
+  runApp(TweakdApp(router: appRouter, fastLaunch: fastLaunch));
+  StartupTrace.mark('runApp');
+
+  if (fastLaunch) {
+    widgetsBinding.addPostFrameCallback((_) {
+      StartupTrace.mark('first frame (feed)');
+      FlutterNativeSplash.remove();
+      // What SplashPage does once it lands on the feed: a notification or
+      // share link that launched the app was parked, and the feed is now the
+      // stack's root to open it on top of.
+      pushNavigator.flushPending();
+      deepLinks.flushPending();
+    });
+  }
 }
 
 class TweakdApp extends StatelessWidget {
-  const TweakdApp({super.key});
+  final GoRouter router;
+
+  /// The launch went straight to the feed on the device's word (see `main`),
+  /// so the session is confirmed in the background rather than by the splash.
+  final bool fastLaunch;
+
+  const TweakdApp({super.key, required this.router, required this.fastLaunch});
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        // On a fast launch the session is checked by SessionCheckCubit below
+        // instead. Dispatching CheckAuthStatus here too would do the same
+        // lookup twice — and, offline, its first emit would be AuthInitial,
+        // which pages listening for sign-out (settings) read as "go to sign-up".
         BlocProvider<AuthBloc>(
-          create: (context) => getIt<AuthBloc>()..add(CheckAuthStatus()),
+          create: (context) {
+            final bloc = getIt<AuthBloc>();
+            if (!fastLaunch) bloc.add(CheckAuthStatus());
+            return bloc;
+          },
+        ),
+        // Eager, so the check starts with the app rather than whenever
+        // something first reads it. Idle on a launch that went through the
+        // splash, which has already done the same lookup.
+        BlocProvider<SessionCheckCubit>(
+          lazy: false,
+          create: (context) {
+            final cubit = getIt<SessionCheckCubit>();
+            if (fastLaunch) cubit.check();
+            return cubit;
+          },
         ),
         // App-level DMs unread counter — the feed top bar reads it. No socket:
         // it refreshes from REST (see DmUnreadCubit).
@@ -206,11 +292,14 @@ class TweakdApp extends StatelessWidget {
       ],
       // Inside the providers on purpose: the unread cubits are factories, so
       // this is the only place that can reach the instances the feed reads.
-      child: PushMessageListener(
-        child: BlocBuilder<ThemeModeCubit, ThemeMode>(
-          builder: (context, themeMode) => BlocBuilder<LocaleCubit, Locale?>(
-            builder: (context, locale) =>
-                _themedApp(context, themeMode, locale),
+      child: SessionCheckListener(
+        navigate: router.go,
+        child: PushMessageListener(
+          child: BlocBuilder<ThemeModeCubit, ThemeMode>(
+            builder: (context, themeMode) => BlocBuilder<LocaleCubit, Locale?>(
+              builder: (context, locale) =>
+                  _themedApp(context, themeMode, locale),
+            ),
           ),
         ),
       ),
@@ -244,7 +333,7 @@ class TweakdApp extends StatelessWidget {
       locale: locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      routerConfig: appRouter,
+      routerConfig: router,
       // Floats the badge unlock celebration above every route, and unlocks
       // rotation on tablets and unfolded foldables (phones stay portrait).
       // The rate-limit banner sits on top of both: a 429 can come from any

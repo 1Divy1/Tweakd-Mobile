@@ -28,6 +28,10 @@ class PushNavigator {
   /// A cold-start destination waiting for the app to be ready for it.
   String? _pending;
 
+  /// Whether the app has landed on its first authenticated screen — set by
+  /// [flushPending], cleared by [clearPending] on sign-out.
+  bool _ready = false;
+
   /// Supplies the navigation callback. Called once from `main.dart`.
   void attach(void Function(String route) navigate) {
     _navigate = navigate;
@@ -53,18 +57,26 @@ class PushNavigator {
   }
 
   /// Parks [message] for [flushPending] without navigating. Used for the
-  /// message that launched the app from a terminated state, which arrives
-  /// while the splash is still resolving the session.
+  /// message that launched the app from a terminated state, which usually
+  /// arrives while the session is still resolving.
+  ///
+  /// Not always, though: a launch that goes straight to the feed can be ready
+  /// before FCM hands the message over. Parking it then would strand it, since
+  /// the one [flushPending] call has already happened — so it is followed now.
   void deferTap(PushMessage message) {
     final route = _routeFor(message);
-    if (route != null) _pending = route;
+    if (route == null) return;
+    _pending = route;
+    if (_ready) flushPending();
   }
 
   /// Navigates to a parked destination, if there is one. Called once the app
-  /// has landed on its first authenticated screen (see `SplashPage`), so the
-  /// destination is pushed *onto* the feed and back returns somewhere sane
-  /// rather than to an empty stack.
+  /// has landed on its first authenticated screen (`SplashPage`, or `main.dart`
+  /// on a launch straight to the feed), so the destination is pushed *onto*
+  /// the feed and back returns somewhere sane rather than to an empty stack.
   void flushPending() {
+    _ready = true;
+
     final route = _pending;
     final navigate = _navigate;
     if (route == null || navigate == null || !_signedIn) return;
@@ -74,7 +86,10 @@ class PushNavigator {
 
   /// Drops any parked destination. Called on sign-out so a notification tapped
   /// by the previous user can't navigate the next one into their content.
-  void clearPending() => _pending = null;
+  void clearPending() {
+    _pending = null;
+    _ready = false;
+  }
 
   String? _routeFor(PushMessage message) => notificationRouteFor(
         NotificationType.fromWire(message.type),

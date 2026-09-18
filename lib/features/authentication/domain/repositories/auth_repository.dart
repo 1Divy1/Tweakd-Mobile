@@ -11,6 +11,12 @@ import '../usecases/signup/verify_signup_code.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, UserEntity>> checkAuthStatus();
+
+  /// The signed-in user as far as the device alone can tell: set when a
+  /// session is saved *and* that user was last seen with onboarding complete,
+  /// null otherwise. Never touches the network, so a cold start can use it to
+  /// pick its first screen without waiting on [checkAuthStatus].
+  Future<UserEntity?> getCachedAuthStatus();
   Future<Either<Failure, UserEntity>> emailPasswordSignIn(LoginParams params);
   Future<Either<Failure, UserEntity>> googleSignIn();
 
