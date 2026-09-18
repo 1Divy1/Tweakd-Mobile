@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../analytics/analytics_events.dart';
+import '../analytics/analytics_service.dart';
 import 'share_link_route.dart';
 
 /// Turns an incoming Universal Link / App Link into navigation.
@@ -35,8 +37,9 @@ import 'share_link_route.dart';
 @lazySingleton
 class DeepLinkService {
   final AppLinks _appLinks;
+  final AnalyticsService _analytics;
 
-  DeepLinkService(this._appLinks);
+  DeepLinkService(this._appLinks, this._analytics);
 
   void Function(String route)? _navigate;
 
@@ -121,6 +124,13 @@ class DeepLinkService {
     // Not a share link: an auth callback, or something we don't own. Left
     // alone on purpose — Supabase is listening to the same stream.
     if (route == null) return;
+
+    // Only the kind of link and where it was shared from — never the code.
+    final source = uri.queryParameters['s'];
+    _analytics.track(AnalyticsEvents.deepLinkOpened, {
+      'kind': 'car_share',
+      if (source != null && source.isNotEmpty) 'source': source,
+    });
 
     final navigate = _navigate;
     if (navigate == null || !_ready || !_signedIn) {

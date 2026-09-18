@@ -12,6 +12,7 @@ import '../../../profile/presentation/bloc/locale/cubit.dart';
 import '../../../profile/presentation/widgets/settings/language_picker_sheet.dart';
 import '../../../profile/presentation/widgets/shared/profile_top_bar.dart';
 import '../bloc/theme/cubit.dart';
+import '../widgets/analytics_consent_tile.dart';
 import '../widgets/logout_button.dart';
 import '../widgets/settings_tile.dart';
 import '../widgets/theme_picker_sheet.dart';
@@ -149,6 +150,8 @@ class SettingsPage extends StatelessWidget {
                             );
                           },
                         ),
+                        const SizedBox(height: 12),
+                        const AnalyticsConsentTile(),
                         const SizedBox(height: 12),
                         LogoutButton(
                           isLoading: isLoggingOut,

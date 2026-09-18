@@ -71,3 +71,13 @@ class SignUpDisabledException implements Exception {
     this.message = 'Sign-ups are currently disabled.',
   ]);
 }
+
+/// A social sign-in from the login page found no registered account for that
+/// Google / Apple identity. Accounts are only ever created from the sign-up
+/// page; the one Supabase made on the way in has already been discarded.
+class AccountNotFoundException implements Exception {
+  final String message;
+  AccountNotFoundException([
+    this.message = 'There is no account for this sign-in yet.',
+  ]);
+}

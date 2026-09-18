@@ -12,6 +12,8 @@ import '../../domain/usecases/submit_onboarding.dart';
 import '../utils/onboarding_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 @injectable
 class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
@@ -21,6 +23,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
   final GetModelsByBrandUseCase getModelsByBrand;
   final SubmitOnboardingUseCase submitOnboarding;
   final GetProviderFullName getProviderFullName;
+  final AnalyticsService analytics;
 
   OnboardingBloc({
     required this.getCountries,
@@ -29,6 +32,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     required this.getModelsByBrand,
     required this.submitOnboarding,
     required this.getProviderFullName,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const OnboardingInitial()) {
     on<LoadOnboardingReferenceData>(_onLoadRefData);
     on<LoadCitiesForCountry>(_onLoadCities);
@@ -141,7 +145,10 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
         refData: refData,
         code: OnboardingErrorMapper.getCode(failure),
       )),
-      (profile) => emit(OnboardingSubmitted(profile)),
+      (profile) {
+        analytics.track(AnalyticsEvents.onboardingCompleted);
+        emit(OnboardingSubmitted(profile));
+      },
     );
   }
 }

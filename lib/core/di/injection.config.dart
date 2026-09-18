@@ -33,6 +33,8 @@ import '../../features/authentication/domain/usecases/auth/watch_external_sign_i
     as _i910;
 import '../../features/authentication/domain/usecases/login/apple_signin.dart'
     as _i502;
+import '../../features/authentication/domain/usecases/login/complete_social_sign_in.dart'
+    as _i824;
 import '../../features/authentication/domain/usecases/login/email_password_signin.dart'
     as _i263;
 import '../../features/authentication/domain/usecases/login/google_signin.dart'
@@ -436,6 +438,18 @@ import '../../features/search/domain/repositories/search_repository.dart'
     as _i357;
 import '../../features/search/domain/usecases/search_users.dart' as _i14;
 import '../../features/search/presentation/bloc/bloc.dart' as _i462;
+import '../../features/settings/data/datasources/analytics_consent_data_source.dart'
+    as _i660;
+import '../../features/settings/data/repositories/analytics_consent_repository_impl.dart'
+    as _i853;
+import '../../features/settings/domain/repositories/analytics_consent_repository.dart'
+    as _i144;
+import '../../features/settings/domain/usecases/get_analytics_consent.dart'
+    as _i536;
+import '../../features/settings/domain/usecases/set_analytics_consent.dart'
+    as _i1059;
+import '../../features/settings/presentation/bloc/analytics_consent/cubit.dart'
+    as _i313;
 import '../../features/settings/presentation/bloc/theme/cubit.dart' as _i158;
 import '../../features/tags/data/datasources/tags_api_data_source.dart'
     as _i446;
@@ -446,6 +460,8 @@ import '../../features/tags/domain/usecases/get_my_tags.dart' as _i227;
 import '../../features/tags/domain/usecases/get_tags_by_username.dart' as _i198;
 import '../../features/tags/domain/usecases/remove_tag.dart' as _i369;
 import '../../features/tags/presentation/bloc/tags/bloc.dart' as _i853;
+import '../analytics/analytics_service.dart' as _i726;
+import '../analytics/posthog_analytics_service.dart' as _i576;
 import '../deeplinks/deep_link_service.dart' as _i687;
 import '../network/abstract_http.dart' as _i311;
 import '../network/dio_http_client.dart' as _i554;
@@ -510,6 +526,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1064.CreateEventDraftLocalDataSource>(
       () => _i1064.CreateEventDraftLocalDataSource(),
     );
+    gh.lazySingleton<_i726.AnalyticsService>(
+      () => _i576.PostHogAnalyticsService(),
+    );
     gh.lazySingleton<_i361.Dio>(
       () => dioModule.dio(
         gh<_i454.SupabaseClient>(),
@@ -541,7 +560,10 @@ extension GetItInjectableX on _i174.GetIt {
       ),
     );
     gh.lazySingleton<_i687.DeepLinkService>(
-      () => _i687.DeepLinkService(gh<_i327.AppLinks>()),
+      () => _i687.DeepLinkService(
+        gh<_i327.AppLinks>(),
+        gh<_i726.AnalyticsService>(),
+      ),
       dispose: (i) => i.dispose(),
     );
     gh.lazySingleton<_i400.ContestRealtimeService>(
@@ -558,6 +580,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i532.SupabaseIdentityDataSource>(
       () => _i532.SupabaseIdentityDataSource(gh<_i454.SupabaseClient>()),
+    );
+    gh.lazySingleton<_i660.AnalyticsConsentDataSource>(
+      () => _i660.AnalyticsConsentDataSource(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i311.AbstractHTTP>(
       () => _i554.DioHttpClient(gh<_i361.Dio>()),
@@ -619,6 +644,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i446.TagsApiDataSource>(
       () => _i446.TagsApiDataSource(gh<_i311.AbstractHTTP>()),
     );
+    gh.lazySingleton<_i144.AnalyticsConsentRepository>(
+      () => _i853.AnalyticsConsentRepositoryImpl(
+        gh<_i660.AnalyticsConsentDataSource>(),
+        gh<_i726.AnalyticsService>(),
+      ),
+    );
     gh.lazySingleton<_i830.NotificationsDataSource>(
       () => _i830.NotificationsApiDataSource(gh<_i311.AbstractHTTP>()),
     );
@@ -661,6 +692,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1049.OnboardingApiDataSource>(),
         gh<_i532.SupabaseIdentityDataSource>(),
       ),
+    );
+    gh.lazySingleton<_i536.GetAnalyticsConsent>(
+      () => _i536.GetAnalyticsConsent(gh<_i144.AnalyticsConsentRepository>()),
+    );
+    gh.lazySingleton<_i1059.SetAnalyticsConsent>(
+      () => _i1059.SetAnalyticsConsent(gh<_i144.AnalyticsConsentRepository>()),
     );
     gh.lazySingleton<_i541.AddCommentUseCase>(
       () => _i541.AddCommentUseCase(gh<_i245.PostsRepository>()),
@@ -737,14 +774,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i708.UploadPostImageUseCase>(
       () => _i708.UploadPostImageUseCase(gh<_i245.PostsRepository>()),
     );
-    gh.factory<_i969.CreatePostBloc>(
-      () => _i969.CreatePostBloc(
-        createPost: gh<_i573.CreatePostUseCase>(),
-        getImageUploadUrls: gh<_i760.GetImageUploadUrlsUseCase>(),
-        uploadImage: gh<_i708.UploadPostImageUseCase>(),
-        saveImageKeys: gh<_i913.SaveImageKeysUseCase>(),
-        deletePost: gh<_i640.DeletePostUseCase>(),
-        imageService: gh<_i768.ImageService>(),
+    gh.factory<_i313.AnalyticsConsentCubit>(
+      () => _i313.AnalyticsConsentCubit(
+        gh<_i536.GetAnalyticsConsent>(),
+        gh<_i1059.SetAnalyticsConsent>(),
+        analytics: gh<_i726.AnalyticsService>(),
       ),
     );
     gh.lazySingleton<_i794.MessagesRepository>(
@@ -762,6 +796,19 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i642.GetNearbyBusinessesUseCase>(
       () => _i642.GetNearbyBusinessesUseCase(gh<_i973.MapRepository>()),
+    );
+    gh.factory<_i486.PostDetailBloc>(
+      () => _i486.PostDetailBloc(
+        getPost: gh<_i601.GetPostUseCase>(),
+        likePost: gh<_i111.LikePostUseCase>(),
+        unlikePost: gh<_i111.UnlikePostUseCase>(),
+        savePost: gh<_i584.SavePostUseCase>(),
+        unsavePost: gh<_i584.UnsavePostUseCase>(),
+        repostPost: gh<_i912.RepostPostUseCase>(),
+        unrepostPost: gh<_i912.UnrepostPostUseCase>(),
+        deletePost: gh<_i640.DeletePostUseCase>(),
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
     );
     gh.lazySingleton<_i619.FeedbackRepository>(
       () => _i961.FeedbackRepositoryImpl(gh<_i239.FeedbackApiDataSource>()),
@@ -845,22 +892,21 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i78.UpdateProfileUseCase>(
       () => _i78.UpdateProfileUseCase(gh<_i894.ProfileRepository>()),
     );
+    gh.factory<_i1002.CommentsBloc>(
+      () => _i1002.CommentsBloc(
+        getComments: gh<_i235.GetPostCommentsUseCase>(),
+        getReplies: gh<_i567.GetCommentRepliesUseCase>(),
+        addComment: gh<_i541.AddCommentUseCase>(),
+        deleteComment: gh<_i326.DeleteCommentUseCase>(),
+        likeComment: gh<_i326.LikeCommentUseCase>(),
+        unlikeComment: gh<_i326.UnlikeCommentUseCase>(),
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
+    );
     gh.lazySingleton<_i114.FeedLaunchPreloader>(
       () => _i114.FeedLaunchPreloader(
         getGlobalFeed: gh<_i199.GetGlobalFeedUseCase>(),
         getCachedFeed: gh<_i286.GetCachedFeedUseCase>(),
-      ),
-    );
-    gh.factory<_i486.PostDetailBloc>(
-      () => _i486.PostDetailBloc(
-        getPost: gh<_i601.GetPostUseCase>(),
-        likePost: gh<_i111.LikePostUseCase>(),
-        unlikePost: gh<_i111.UnlikePostUseCase>(),
-        savePost: gh<_i584.SavePostUseCase>(),
-        unsavePost: gh<_i584.UnsavePostUseCase>(),
-        repostPost: gh<_i912.RepostPostUseCase>(),
-        unrepostPost: gh<_i912.UnrepostPostUseCase>(),
-        deletePost: gh<_i640.DeletePostUseCase>(),
       ),
     );
     gh.lazySingleton<_i365.MapEventsRepository>(
@@ -976,12 +1022,6 @@ extension GetItInjectableX on _i174.GetIt {
         localeStorage: gh<_i1069.LocaleLocalStorage>(),
       ),
     );
-    gh.factory<_i185.ShareWinCubit>(
-      () => _i185.ShareWinCubit(
-        shareCard: gh<_i446.ShareParticipantCardUseCase>(),
-        shareLauncher: gh<_i1031.ShareLauncherService>(),
-      ),
-    );
     gh.lazySingleton<_i842.CheckUsernameAvailabilityUseCase>(
       () => _i842.CheckUsernameAvailabilityUseCase(
         gh<_i430.OnboardingRepository>(),
@@ -998,6 +1038,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1016.SubmitOnboardingUseCase>(
       () => _i1016.SubmitOnboardingUseCase(gh<_i430.OnboardingRepository>()),
+    );
+    gh.factory<_i185.ShareWinCubit>(
+      () => _i185.ShareWinCubit(
+        shareCard: gh<_i446.ShareParticipantCardUseCase>(),
+        shareLauncher: gh<_i1031.ShareLauncherService>(),
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
     );
     gh.lazySingleton<_i292.AddCarUseCase>(
       () => _i292.AddCarUseCase(gh<_i511.GarageRepository>()),
@@ -1095,6 +1142,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i813.ForumBrowseBloc>(
       () => _i813.ForumBrowseBloc(getBrands: gh<_i408.GetBrandsUseCase>()),
     );
+    gh.factory<_i969.CreatePostBloc>(
+      () => _i969.CreatePostBloc(
+        createPost: gh<_i573.CreatePostUseCase>(),
+        getImageUploadUrls: gh<_i760.GetImageUploadUrlsUseCase>(),
+        uploadImage: gh<_i708.UploadPostImageUseCase>(),
+        saveImageKeys: gh<_i913.SaveImageKeysUseCase>(),
+        deletePost: gh<_i640.DeletePostUseCase>(),
+        imageService: gh<_i768.ImageService>(),
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
+    );
     gh.factory<_i340.ManageMapEventBloc>(
       () => _i340.ManageMapEventBloc(
         getEvent: gh<_i997.GetMapEventUseCase>(),
@@ -1117,6 +1175,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i937.SavedPostsBloc>(
       () =>
           _i937.SavedPostsBloc(getSavedPosts: gh<_i742.GetSavedPostsUseCase>()),
+    );
+    gh.factory<_i668.ReportBloc>(
+      () => _i668.ReportBloc(
+        getReasons: gh<_i935.GetReportReasonsUseCase>(),
+        submitReport: gh<_i535.SubmitReportUseCase>(),
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
     );
     gh.lazySingleton<_i167.BlockRepository>(
       () => _i824.BlockRepositoryImpl(gh<_i74.BlockApiDataSource>()),
@@ -1148,14 +1213,18 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i31.UnfollowUserUseCase>(
       () => _i31.UnfollowUserUseCase(gh<_i760.FollowRepository>()),
     );
-    gh.factory<_i375.LogModBloc>(
-      () => _i375.LogModBloc(
-        getModCategories: gh<_i408.GetModCategoriesUseCase>(),
-        addModification: gh<_i352.AddModificationUseCase>(),
-        deleteModification: gh<_i621.DeleteModificationUseCase>(),
-        getModificationUploadUrls: gh<_i2.GetModificationUploadUrlsUseCase>(),
-        patchModification: gh<_i49.PatchModificationUseCase>(),
-        imageService: gh<_i768.ImageService>(),
+    gh.factory<_i719.FeedBloc>(
+      () => _i719.FeedBloc(
+        getGlobalFeed: gh<_i199.GetGlobalFeedUseCase>(),
+        likePost: gh<_i111.LikePostUseCase>(),
+        unlikePost: gh<_i111.UnlikePostUseCase>(),
+        savePost: gh<_i584.SavePostUseCase>(),
+        unsavePost: gh<_i584.UnsavePostUseCase>(),
+        repostPost: gh<_i912.RepostPostUseCase>(),
+        unrepostPost: gh<_i912.UnrepostPostUseCase>(),
+        addComment: gh<_i541.AddCommentUseCase>(),
+        launchPreloader: gh<_i114.FeedLaunchPreloader>(),
+        analytics: gh<_i726.AnalyticsService>(),
       ),
     );
     gh.factory<_i470.EditPostBloc>(
@@ -1253,6 +1322,7 @@ extension GetItInjectableX on _i174.GetIt {
         getFollowers: gh<_i1027.GetFollowersUseCase>(),
         getFollowing: gh<_i495.GetFollowingUseCase>(),
         removeFollower: gh<_i164.RemoveFollowerUseCase>(),
+        analytics: gh<_i726.AnalyticsService>(),
       ),
     );
     gh.factory<_i647.MapEventAttendeesBloc>(
@@ -1264,30 +1334,45 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i129.MyFeedbackBloc(getMyFeedback: gh<_i311.GetMyFeedbackUseCase>()),
     );
+    gh.factory<_i160.AddCarBloc>(
+      () => _i160.AddCarBloc(
+        getBrands: gh<_i408.GetBrandsUseCase>(),
+        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
+        getDrivetrains: gh<_i408.GetDrivetrainsUseCase>(),
+        getColors: gh<_i408.GetColorsUseCase>(),
+        getDistanceUnits: gh<_i408.GetDistanceUnitsUseCase>(),
+        getStatusOptions: gh<_i408.GetStatusOptionsUseCase>(),
+        getModCategories: gh<_i408.GetModCategoriesUseCase>(),
+        getFuelTypeOptions: gh<_i408.GetFuelTypeOptionsUseCase>(),
+        addCar: gh<_i292.AddCarUseCase>(),
+        updateCar: gh<_i219.UpdateCarUseCase>(),
+        deleteCar: gh<_i287.DeleteCarUseCase>(),
+        getCoverUploadUrl: gh<_i932.GetCoverUploadUrlUseCase>(),
+        saveCoverKey: gh<_i401.SaveCoverKeyUseCase>(),
+        deleteCoverImage: gh<_i282.DeleteCoverImageUseCase>(),
+        getGalleryUploadUrl: gh<_i205.GetGalleryUploadUrlUseCase>(),
+        saveGalleryKeys: gh<_i472.SaveGalleryKeysUseCase>(),
+        deleteGalleryImages: gh<_i631.DeleteGalleryImagesUseCase>(),
+        addModification: gh<_i352.AddModificationUseCase>(),
+        getModificationUploadUrls: gh<_i2.GetModificationUploadUrlsUseCase>(),
+        patchModification: gh<_i49.PatchModificationUseCase>(),
+        deleteModification: gh<_i621.DeleteModificationUseCase>(),
+        imageService: gh<_i768.ImageService>(),
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
+    );
     gh.factory<_i439.GarageCarsCubit>(
       () => _i439.GarageCarsCubit(getMyGarage: gh<_i391.GetMyGarageUseCase>()),
     );
-    gh.factory<_i1002.CommentsBloc>(
-      () => _i1002.CommentsBloc(
-        getComments: gh<_i235.GetPostCommentsUseCase>(),
-        getReplies: gh<_i567.GetCommentRepliesUseCase>(),
-        addComment: gh<_i541.AddCommentUseCase>(),
-        deleteComment: gh<_i326.DeleteCommentUseCase>(),
-        likeComment: gh<_i326.LikeCommentUseCase>(),
-        unlikeComment: gh<_i326.UnlikeCommentUseCase>(),
-      ),
-    );
-    gh.factory<_i719.FeedBloc>(
-      () => _i719.FeedBloc(
-        getGlobalFeed: gh<_i199.GetGlobalFeedUseCase>(),
-        likePost: gh<_i111.LikePostUseCase>(),
-        unlikePost: gh<_i111.UnlikePostUseCase>(),
-        savePost: gh<_i584.SavePostUseCase>(),
-        unsavePost: gh<_i584.UnsavePostUseCase>(),
-        repostPost: gh<_i912.RepostPostUseCase>(),
-        unrepostPost: gh<_i912.UnrepostPostUseCase>(),
-        addComment: gh<_i541.AddCommentUseCase>(),
-        launchPreloader: gh<_i114.FeedLaunchPreloader>(),
+    gh.factory<_i375.LogModBloc>(
+      () => _i375.LogModBloc(
+        getModCategories: gh<_i408.GetModCategoriesUseCase>(),
+        addModification: gh<_i352.AddModificationUseCase>(),
+        deleteModification: gh<_i621.DeleteModificationUseCase>(),
+        getModificationUploadUrls: gh<_i2.GetModificationUploadUrlsUseCase>(),
+        patchModification: gh<_i49.PatchModificationUseCase>(),
+        imageService: gh<_i768.ImageService>(),
+        analytics: gh<_i726.AnalyticsService>(),
       ),
     );
     gh.lazySingleton<_i360.BadgeRepository>(
@@ -1339,22 +1424,6 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i792.MyMapEventsBloc(getMyEvents: gh<_i997.GetMyMapEventsUseCase>()),
     );
-    gh.factory<_i634.CreateMapEventBloc>(
-      () => _i634.CreateMapEventBloc(
-        getCategories: gh<_i997.GetMapEventCategoriesUseCase>(),
-        createEvent: gh<_i1055.CreateMapEventUseCase>(),
-        updateEvent: gh<_i1055.UpdateMapEventUseCase>(),
-        replaceRules: gh<_i1055.ReplaceMapEventRulesUseCase>(),
-        getCoverUploadUrl: gh<_i1055.GetMapEventCoverUploadUrlUseCase>(),
-        setCover: gh<_i1055.SetMapEventCoverUseCase>(),
-        addOrganizer: gh<_i211.AddMapEventOrganizerUseCase>(),
-        removeOrganizer: gh<_i211.RemoveMapEventOrganizerUseCase>(),
-        getContestCategories: gh<_i355.GetContestCategoriesUseCase>(),
-        createContest: gh<_i355.CreateContestUseCase>(),
-        imageService: gh<_i768.ImageService>(),
-        draftStore: gh<_i1064.CreateEventDraftLocalDataSource>(),
-      ),
-    );
     gh.factory<_i94.UsernameAvailabilityBloc>(
       () => _i94.UsernameAvailabilityBloc(
         checkUsername: gh<_i842.CheckUsernameAvailabilityUseCase>(),
@@ -1405,35 +1474,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i337.ProfileRepostsBloc>(
       () => _i337.ProfileRepostsBloc(gh<_i846.GetRepostsByUsernameUseCase>()),
     );
-    gh.factory<_i506.MapEventDetailBloc>(
-      () => _i506.MapEventDetailBloc(
-        getEvent: gh<_i997.GetMapEventUseCase>(),
-        getAttendees: gh<_i997.GetMapEventAttendeesUseCase>(),
-        getCars: gh<_i997.GetMapEventCarsUseCase>(),
-        getMyCars: gh<_i997.GetMyMapEventCarsUseCase>(),
-        setAttendance: gh<_i192.SetMapEventAttendanceUseCase>(),
-        clearAttendance: gh<_i192.ClearMapEventAttendanceUseCase>(),
-        registerCar: gh<_i414.RegisterCarForMapEventUseCase>(),
-        cancelCarRegistration: gh<_i414.CancelCarRegistrationUseCase>(),
-        withdraw: gh<_i295.WithdrawFromMapEventUseCase>(),
+    gh.factory<_i594.CarShareBloc>(
+      () => _i594.CarShareBloc(
+        ensureShareLinkUseCase: gh<_i131.EnsureCarShareLinkUseCase>(),
+        getShareQrUseCase: gh<_i50.GetCarShareQrUseCase>(),
+        setShareEnabledUseCase: gh<_i129.SetCarShareEnabledUseCase>(),
+        analytics: gh<_i726.AnalyticsService>(),
       ),
     );
-    gh.factory<_i269.ChatBloc>(
-      () => _i269.ChatBloc(
-        getMessages: gh<_i15.GetMessagesUseCase>(),
-        getConversationPeer: gh<_i551.GetConversationPeerUseCase>(),
-        sendMessage: gh<_i162.SendMessageUseCase>(),
-        deleteMessage: gh<_i680.DeleteMessageUseCase>(),
-        markConversationRead: gh<_i680.MarkConversationReadUseCase>(),
-        sendTyping: gh<_i680.SendTypingUseCase>(),
-        watchChat: gh<_i467.WatchChatUseCase>(),
-      ),
-    );
-    gh.factory<_i862.FeedbackBloc>(
-      () => _i862.FeedbackBloc(
-        getTypes: gh<_i258.GetFeedbackTypesUseCase>(),
-        getFeatures: gh<_i383.GetFeedbackFeaturesUseCase>(),
-        submitFeedback: gh<_i345.SubmitFeedbackUseCase>(),
+    gh.factory<_i501.CreateContestCubit>(
+      () => _i501.CreateContestCubit(
+        getCategories: gh<_i355.GetContestCategoriesUseCase>(),
+        createContest: gh<_i355.CreateContestUseCase>(),
+        updateContest: gh<_i355.UpdateContestUseCase>(),
+        analytics: gh<_i726.AnalyticsService>(),
       ),
     );
     gh.lazySingleton<_i14.SearchUsersUseCase>(
@@ -1534,32 +1588,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i390.UnlikeForumReplyUseCase>(
       () => _i390.UnlikeForumReplyUseCase(gh<_i10.ForumsRepository>()),
     );
-    gh.factory<_i160.AddCarBloc>(
-      () => _i160.AddCarBloc(
-        getBrands: gh<_i408.GetBrandsUseCase>(),
-        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
-        getDrivetrains: gh<_i408.GetDrivetrainsUseCase>(),
-        getColors: gh<_i408.GetColorsUseCase>(),
-        getDistanceUnits: gh<_i408.GetDistanceUnitsUseCase>(),
-        getStatusOptions: gh<_i408.GetStatusOptionsUseCase>(),
-        getModCategories: gh<_i408.GetModCategoriesUseCase>(),
-        getFuelTypeOptions: gh<_i408.GetFuelTypeOptionsUseCase>(),
-        addCar: gh<_i292.AddCarUseCase>(),
-        updateCar: gh<_i219.UpdateCarUseCase>(),
-        deleteCar: gh<_i287.DeleteCarUseCase>(),
-        getCoverUploadUrl: gh<_i932.GetCoverUploadUrlUseCase>(),
-        saveCoverKey: gh<_i401.SaveCoverKeyUseCase>(),
-        deleteCoverImage: gh<_i282.DeleteCoverImageUseCase>(),
-        getGalleryUploadUrl: gh<_i205.GetGalleryUploadUrlUseCase>(),
-        saveGalleryKeys: gh<_i472.SaveGalleryKeysUseCase>(),
-        deleteGalleryImages: gh<_i631.DeleteGalleryImagesUseCase>(),
-        addModification: gh<_i352.AddModificationUseCase>(),
-        getModificationUploadUrls: gh<_i2.GetModificationUploadUrlsUseCase>(),
-        patchModification: gh<_i49.PatchModificationUseCase>(),
-        deleteModification: gh<_i621.DeleteModificationUseCase>(),
-        imageService: gh<_i768.ImageService>(),
-      ),
-    );
     gh.factory<_i816.NotificationsUnreadCubit>(
       () => _i816.NotificationsUnreadCubit(
         getUnreadCount: gh<_i43.GetUnreadNotificationsCountUseCase>(),
@@ -1588,13 +1616,12 @@ extension GetItInjectableX on _i174.GetIt {
         deleteCarUseCase: gh<_i287.DeleteCarUseCase>(),
       ),
     );
-    gh.factory<_i895.EventContestsBloc>(
-      () => _i895.EventContestsBloc(
-        getContests: gh<_i355.GetEventContestsUseCase>(),
-        getContest: gh<_i355.GetContestUseCase>(),
-        requestEntry: gh<_i355.RequestContestEntryUseCase>(),
-        withdrawEntry: gh<_i355.WithdrawContestEntryUseCase>(),
-        live: gh<_i355.ContestLiveUpdates>(),
+    gh.factory<_i862.FeedbackBloc>(
+      () => _i862.FeedbackBloc(
+        getTypes: gh<_i258.GetFeedbackTypesUseCase>(),
+        getFeatures: gh<_i383.GetFeedbackFeaturesUseCase>(),
+        submitFeedback: gh<_i345.SubmitFeedbackUseCase>(),
+        analytics: gh<_i726.AnalyticsService>(),
       ),
     );
     gh.factoryParam<_i0.EditProfileBloc, _i57.ProfileEntity, dynamic>(
@@ -1604,13 +1631,6 @@ extension GetItInjectableX on _i174.GetIt {
         profile: profile,
       ),
     );
-    gh.factory<_i594.CarShareBloc>(
-      () => _i594.CarShareBloc(
-        ensureShareLinkUseCase: gh<_i131.EnsureCarShareLinkUseCase>(),
-        getShareQrUseCase: gh<_i50.GetCarShareQrUseCase>(),
-        setShareEnabledUseCase: gh<_i129.SetCarShareEnabledUseCase>(),
-      ),
-    );
     gh.factory<_i887.NotificationsBloc>(
       () => _i887.NotificationsBloc(
         getNotifications: gh<_i163.GetNotificationsUseCase>(),
@@ -1618,29 +1638,9 @@ extension GetItInjectableX on _i174.GetIt {
         markAllNotificationsRead: gh<_i852.MarkAllNotificationsReadUseCase>(),
       ),
     );
-    gh.factory<_i501.CreateContestCubit>(
-      () => _i501.CreateContestCubit(
-        getCategories: gh<_i355.GetContestCategoriesUseCase>(),
-        createContest: gh<_i355.CreateContestUseCase>(),
-        updateContest: gh<_i355.UpdateContestUseCase>(),
-      ),
-    );
     gh.factory<_i916.CarEventHistoryBloc>(
       () => _i916.CarEventHistoryBloc(
         getHistory: gh<_i355.GetCarEventHistoryUseCase>(),
-      ),
-    );
-    gh.factory<_i81.ContestDetailBloc>(
-      () => _i81.ContestDetailBloc(
-        getContest: gh<_i355.GetContestUseCase>(),
-        castVote: gh<_i355.CastContestVoteUseCase>(),
-        live: gh<_i355.ContestLiveUpdates>(),
-      ),
-    );
-    gh.factory<_i668.ReportBloc>(
-      () => _i668.ReportBloc(
-        getReasons: gh<_i935.GetReportReasonsUseCase>(),
-        submitReport: gh<_i535.SubmitReportUseCase>(),
       ),
     );
     gh.factory<_i370.MyReportsBloc>(
@@ -1652,14 +1652,18 @@ extension GetItInjectableX on _i174.GetIt {
         unblockUser: gh<_i1068.UnblockUserUseCase>(),
       ),
     );
-    gh.factory<_i797.OnboardingBloc>(
-      () => _i797.OnboardingBloc(
-        getCountries: gh<_i290.GetCountriesUseCase>(),
-        getCities: gh<_i343.GetCitiesUseCase>(),
-        getBrands: gh<_i408.GetBrandsUseCase>(),
-        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
-        submitOnboarding: gh<_i1016.SubmitOnboardingUseCase>(),
-        getProviderFullName: gh<_i847.GetProviderFullName>(),
+    gh.factory<_i506.MapEventDetailBloc>(
+      () => _i506.MapEventDetailBloc(
+        getEvent: gh<_i997.GetMapEventUseCase>(),
+        getAttendees: gh<_i997.GetMapEventAttendeesUseCase>(),
+        getCars: gh<_i997.GetMapEventCarsUseCase>(),
+        getMyCars: gh<_i997.GetMyMapEventCarsUseCase>(),
+        setAttendance: gh<_i192.SetMapEventAttendanceUseCase>(),
+        clearAttendance: gh<_i192.ClearMapEventAttendanceUseCase>(),
+        registerCar: gh<_i414.RegisterCarForMapEventUseCase>(),
+        cancelCarRegistration: gh<_i414.CancelCarRegistrationUseCase>(),
+        withdraw: gh<_i295.WithdrawFromMapEventUseCase>(),
+        analytics: gh<_i726.AnalyticsService>(),
       ),
     );
     gh.factory<_i610.ShareResolveCubit>(
@@ -1683,9 +1687,124 @@ extension GetItInjectableX on _i174.GetIt {
         getNearbyEvents: gh<_i997.GetNearbyMapEventsUseCase>(),
       ),
     );
+    gh.factory<_i797.OnboardingBloc>(
+      () => _i797.OnboardingBloc(
+        getCountries: gh<_i290.GetCountriesUseCase>(),
+        getCities: gh<_i343.GetCitiesUseCase>(),
+        getBrands: gh<_i408.GetBrandsUseCase>(),
+        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
+        submitOnboarding: gh<_i1016.SubmitOnboardingUseCase>(),
+        getProviderFullName: gh<_i847.GetProviderFullName>(),
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
+    );
     gh.factory<_i681.ComposeBloc>(
       () => _i681.ComposeBloc(
         getSuggestions: gh<_i231.GetComposeSuggestionsUseCase>(),
+      ),
+    );
+    gh.factory<_i245.InboxBloc>(
+      () => _i245.InboxBloc(
+        getInbox: gh<_i134.GetInboxUseCase>(),
+        hideConversation: gh<_i680.HideConversationUseCase>(),
+        watchInboxMessages: gh<_i839.WatchInboxMessagesUseCase>(),
+      ),
+    );
+    gh.factory<_i634.CreateMapEventBloc>(
+      () => _i634.CreateMapEventBloc(
+        getCategories: gh<_i997.GetMapEventCategoriesUseCase>(),
+        createEvent: gh<_i1055.CreateMapEventUseCase>(),
+        updateEvent: gh<_i1055.UpdateMapEventUseCase>(),
+        replaceRules: gh<_i1055.ReplaceMapEventRulesUseCase>(),
+        getCoverUploadUrl: gh<_i1055.GetMapEventCoverUploadUrlUseCase>(),
+        setCover: gh<_i1055.SetMapEventCoverUseCase>(),
+        addOrganizer: gh<_i211.AddMapEventOrganizerUseCase>(),
+        removeOrganizer: gh<_i211.RemoveMapEventOrganizerUseCase>(),
+        getContestCategories: gh<_i355.GetContestCategoriesUseCase>(),
+        createContest: gh<_i355.CreateContestUseCase>(),
+        imageService: gh<_i768.ImageService>(),
+        draftStore: gh<_i1064.CreateEventDraftLocalDataSource>(),
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
+    );
+    gh.factory<_i619.SavedThreadsBloc>(
+      () => _i619.SavedThreadsBloc(
+        getSavedThreads: gh<_i302.GetSavedForumThreadsUseCase>(),
+        unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
+      ),
+    );
+    gh.factory<_i155.TagPickerBloc>(
+      () => _i155.TagPickerBloc(
+        searchUsers: gh<_i14.SearchUsersUseCase>(),
+        getGarageByUsername: gh<_i543.GetGarageByUsernameUseCase>(),
+        getMyGarage: gh<_i391.GetMyGarageUseCase>(),
+      ),
+    );
+    gh.factory<_i81.ContestDetailBloc>(
+      () => _i81.ContestDetailBloc(
+        getContest: gh<_i355.GetContestUseCase>(),
+        castVote: gh<_i355.CastContestVoteUseCase>(),
+        live: gh<_i355.ContestLiveUpdates>(),
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
+    );
+    gh.factory<_i95.ManageContestsBloc>(
+      () => _i95.ManageContestsBloc(
+        getContests: gh<_i355.GetEventContestsUseCase>(),
+        getContest: gh<_i355.GetContestUseCase>(),
+        openContest: gh<_i355.OpenContestUseCase>(),
+        finishContest: gh<_i355.FinishContestUseCase>(),
+        updateContest: gh<_i355.UpdateContestUseCase>(),
+        decideEntry: gh<_i355.DecideContestEntryUseCase>(),
+        deleteContest: gh<_i355.DeleteContestUseCase>(),
+        live: gh<_i355.ContestLiveUpdates>(),
+      ),
+    );
+    gh.factory<_i462.SearchBloc>(
+      () => _i462.SearchBloc(
+        searchUsers: gh<_i14.SearchUsersUseCase>(),
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
+    );
+    gh.factory<_i269.ChatBloc>(
+      () => _i269.ChatBloc(
+        getMessages: gh<_i15.GetMessagesUseCase>(),
+        getConversationPeer: gh<_i551.GetConversationPeerUseCase>(),
+        sendMessage: gh<_i162.SendMessageUseCase>(),
+        deleteMessage: gh<_i680.DeleteMessageUseCase>(),
+        markConversationRead: gh<_i680.MarkConversationReadUseCase>(),
+        sendTyping: gh<_i680.SendTypingUseCase>(),
+        watchChat: gh<_i467.WatchChatUseCase>(),
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
+    );
+    gh.factory<_i895.EventContestsBloc>(
+      () => _i895.EventContestsBloc(
+        getContests: gh<_i355.GetEventContestsUseCase>(),
+        getContest: gh<_i355.GetContestUseCase>(),
+        requestEntry: gh<_i355.RequestContestEntryUseCase>(),
+        withdrawEntry: gh<_i355.WithdrawContestEntryUseCase>(),
+        live: gh<_i355.ContestLiveUpdates>(),
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
+    );
+    gh.factory<_i409.DmUnreadCubit>(
+      () => _i409.DmUnreadCubit(
+        getUnreadCount: gh<_i915.GetUnreadCountUseCase>(),
+      ),
+    );
+    gh.factory<_i853.TagsBloc>(
+      () => _i853.TagsBloc(
+        getMyTags: gh<_i227.GetMyTagsUseCase>(),
+        getTagsByUsername: gh<_i198.GetTagsByUsernameUseCase>(),
+        removeTag: gh<_i369.RemoveTagUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i742.AuthRepository>(
+      () => _i317.AuthRepositoryImpl(
+        gh<_i981.SupabaseAuthDataSource>(),
+        gh<_i838.AuthLocalDataSource>(),
+        gh<_i726.AnalyticsService>(),
       ),
     );
     gh.factory<_i382.ForumThreadBloc>(
@@ -1704,67 +1823,7 @@ extension GetItInjectableX on _i174.GetIt {
         deleteReply: gh<_i492.DeleteForumReplyUseCase>(),
         saveThread: gh<_i302.SaveForumThreadUseCase>(),
         unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
-      ),
-    );
-    gh.factory<_i245.InboxBloc>(
-      () => _i245.InboxBloc(
-        getInbox: gh<_i134.GetInboxUseCase>(),
-        hideConversation: gh<_i680.HideConversationUseCase>(),
-        watchInboxMessages: gh<_i839.WatchInboxMessagesUseCase>(),
-      ),
-    );
-    gh.lazySingleton<_i742.AuthRepository>(
-      () => _i317.AuthRepositoryImpl(
-        gh<_i981.SupabaseAuthDataSource>(),
-        gh<_i838.AuthLocalDataSource>(),
-      ),
-    );
-    gh.factory<_i188.NewThreadBloc>(
-      () => _i188.NewThreadBloc(
-        getTopics: gh<_i354.GetForumTopicsUseCase>(),
-        getBrands: gh<_i408.GetBrandsUseCase>(),
-        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
-        createThread: gh<_i605.CreateForumThreadUseCase>(),
-      ),
-    );
-    gh.factory<_i619.SavedThreadsBloc>(
-      () => _i619.SavedThreadsBloc(
-        getSavedThreads: gh<_i302.GetSavedForumThreadsUseCase>(),
-        unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
-      ),
-    );
-    gh.factory<_i155.TagPickerBloc>(
-      () => _i155.TagPickerBloc(
-        searchUsers: gh<_i14.SearchUsersUseCase>(),
-        getGarageByUsername: gh<_i543.GetGarageByUsernameUseCase>(),
-        getMyGarage: gh<_i391.GetMyGarageUseCase>(),
-      ),
-    );
-    gh.factory<_i95.ManageContestsBloc>(
-      () => _i95.ManageContestsBloc(
-        getContests: gh<_i355.GetEventContestsUseCase>(),
-        getContest: gh<_i355.GetContestUseCase>(),
-        openContest: gh<_i355.OpenContestUseCase>(),
-        finishContest: gh<_i355.FinishContestUseCase>(),
-        updateContest: gh<_i355.UpdateContestUseCase>(),
-        decideEntry: gh<_i355.DecideContestEntryUseCase>(),
-        deleteContest: gh<_i355.DeleteContestUseCase>(),
-        live: gh<_i355.ContestLiveUpdates>(),
-      ),
-    );
-    gh.factory<_i462.SearchBloc>(
-      () => _i462.SearchBloc(searchUsers: gh<_i14.SearchUsersUseCase>()),
-    );
-    gh.factory<_i409.DmUnreadCubit>(
-      () => _i409.DmUnreadCubit(
-        getUnreadCount: gh<_i915.GetUnreadCountUseCase>(),
-      ),
-    );
-    gh.factory<_i853.TagsBloc>(
-      () => _i853.TagsBloc(
-        getMyTags: gh<_i227.GetMyTagsUseCase>(),
-        getTagsByUsername: gh<_i198.GetTagsByUsernameUseCase>(),
-        removeTag: gh<_i369.RemoveTagUseCase>(),
+        analytics: gh<_i726.AnalyticsService>(),
       ),
     );
     gh.factory<_i396.CompletedFeedbackBloc>(
@@ -1788,6 +1847,12 @@ extension GetItInjectableX on _i174.GetIt {
         createMessage: gh<_i468.CreateFeedbackMessageUseCase>(),
       ),
     );
+    gh.factory<_i733.BlockUserCubit>(
+      () => _i733.BlockUserCubit(
+        blockUser: gh<_i42.BlockUserUseCase>(),
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
+    );
     gh.lazySingleton<_i592.BadgeCelebrationCubit>(
       () => _i592.BadgeCelebrationCubit(gh<_i564.MarkBadgeCelebratedUseCase>()),
     );
@@ -1801,8 +1866,14 @@ extension GetItInjectableX on _i174.GetIt {
         unsaveThread: gh<_i302.UnsaveForumThreadUseCase>(),
       ),
     );
-    gh.factory<_i733.BlockUserCubit>(
-      () => _i733.BlockUserCubit(blockUser: gh<_i42.BlockUserUseCase>()),
+    gh.factory<_i188.NewThreadBloc>(
+      () => _i188.NewThreadBloc(
+        getTopics: gh<_i354.GetForumTopicsUseCase>(),
+        getBrands: gh<_i408.GetBrandsUseCase>(),
+        getModelsByBrand: gh<_i408.GetModelsByBrandUseCase>(),
+        createThread: gh<_i605.CreateForumThreadUseCase>(),
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
     );
     gh.lazySingleton<_i192.CheckAuthStatusUseCase>(
       () => _i192.CheckAuthStatusUseCase(gh<_i742.AuthRepository>()),
@@ -1818,6 +1889,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i502.AppleSignIn>(
       () => _i502.AppleSignIn(gh<_i742.AuthRepository>()),
+    );
+    gh.lazySingleton<_i824.CompleteSocialSignIn>(
+      () => _i824.CompleteSocialSignIn(gh<_i742.AuthRepository>()),
     );
     gh.lazySingleton<_i263.EmailPasswordSignIn>(
       () => _i263.EmailPasswordSignIn(gh<_i742.AuthRepository>()),
@@ -1855,6 +1929,7 @@ extension GetItInjectableX on _i174.GetIt {
         signUp: gh<_i644.EmailPasswordSignUp>(),
         verifySignUpCode: gh<_i447.VerifySignUpCode>(),
         resendSignUpEmail: gh<_i198.ResendSignUpEmail>(),
+        analytics: gh<_i726.AnalyticsService>(),
       ),
     );
     gh.factory<_i636.AuthBloc>(
@@ -1863,8 +1938,10 @@ extension GetItInjectableX on _i174.GetIt {
         loginUser: gh<_i263.EmailPasswordSignIn>(),
         googleSignIn: gh<_i920.GoogleSignIn>(),
         appleSignIn: gh<_i502.AppleSignIn>(),
+        completeSocialSignIn: gh<_i824.CompleteSocialSignIn>(),
         logOut: gh<_i221.LogOut>(),
         watchExternalSignIn: gh<_i910.WatchExternalSignIn>(),
+        analytics: gh<_i726.AnalyticsService>(),
       ),
     );
     gh.factory<_i674.SessionCheckCubit>(

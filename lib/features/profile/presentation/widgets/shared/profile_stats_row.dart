@@ -6,17 +6,15 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 
-/// Reputation / followers / following, sitting under the display name. The two
-/// follow counts open the followers-following page on the matching tab;
-/// reputation is a read-out, not a destination — the breakdown and history
-/// behind it (`/api/v1/reputation`) have no screen in the app yet.
+/// Followers / following, sitting under the display name. Each count opens the
+/// followers-following page on the matching tab.
+///
+/// Reputation used to sit first in this row. It is paused (see
+/// `REPUTATION_PROGRESS.md`): hidden from the UI while `ProfileEntity` still
+/// carries `reputationScore`, so bringing it back is a UI-only change.
 class ProfileStatsRow extends StatelessWidget {
   final int followers;
   final int following;
-
-  /// Community points. Always a number — `0` is what a new account genuinely
-  /// scores, not a missing value.
-  final int reputation;
 
   final String username;
   final bool isOwnProfile;
@@ -27,13 +25,16 @@ class ProfileStatsRow extends StatelessWidget {
     required this.followers,
     required this.following,
     required this.isOwnProfile,
-    required this.reputation,
   });
 
-  /// Past this the labels stop growing. Three of them share one line beside an
-  /// 84pt avatar, and a word like "reputation" scaled without limit leaves
-  /// nothing but an ellipsis in each column.
+  /// Past this the labels stop growing. They share one line beside the
+  /// avatar, and a word like "followers" scaled without limit leaves nothing
+  /// but an ellipsis in each column.
   static const maxTextScale = 1.5;
+
+  /// Space between two counters. The row is left-aligned under the name, so
+  /// this — not the row's width — is what separates them.
+  static const _gap = 28.0;
 
   /// Roughly the width the row wants before its labels start truncating.
   /// [ProfileHeader] compares this against the space left beside the avatar and
@@ -44,11 +45,10 @@ class ProfileStatsRow extends StatelessWidget {
       maxTextScale,
     );
     // ~58pt per column at the default scale — about what the longest label
-    // ("reputation") measures at 13pt — plus a small gap between them. This is
-    // a floor, not a target: the row spreads into whatever it is actually
-    // given. Raise it and the counters move under the avatar on more phones;
-    // lower it and they stay on the name's line but sit closer together.
-    return statCount * 58 * scale + (statCount - 1) * 8;
+    // ("followers") measures at 13pt — plus the gap between them. Raise it
+    // and the counters move under the avatar on more phones; lower it and
+    // they stay on the name's line but risk ellipsizing their labels.
+    return statCount * 58 * scale + (statCount - 1) * _gap;
   }
 
   @override
@@ -57,19 +57,13 @@ class ProfileStatsRow extends StatelessWidget {
     return MediaQuery.withClampedTextScaling(
       maxScaleFactor: maxTextScale,
       child: Row(
-        // Each counter is only as wide as its own label, and the row spreads
-        // them edge to edge: the first one starts exactly where the display
-        // name above it does, the last one ends at the margin. Equal-width
-        // columns would centre the first label in its third and push it right
-        // of the name.
+        // Left-aligned with a fixed gap, so the first counter starts exactly
+        // where the display name above it does. Spreading two counters edge to
+        // edge would strand the second one at the far margin.
         //
         // Flexible, not Expanded, so a counter keeps its intrinsic width but
         // still ellipsizes rather than overflowing when the row is squeezed.
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(
-            child: _Stat(value: reputation, label: l10n.profileStatReputation),
-          ),
           Flexible(
             child: _Stat(
               value: followers,
@@ -77,6 +71,7 @@ class ProfileStatsRow extends StatelessWidget {
               onTap: () => _openFollowList(context, followers: true),
             ),
           ),
+          const SizedBox(width: _gap),
           Flexible(
             child: _Stat(
               value: following,

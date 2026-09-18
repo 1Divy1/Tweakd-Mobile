@@ -32,6 +32,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'We couldn\'t update your language. Please try again.';
 
   @override
+  String get settingsAnalytics => 'Share usage analytics';
+
+  @override
+  String get settingsAnalyticsHint =>
+      'Helps us improve Tweakd. You can turn it off anytime.';
+
+  @override
+  String get settingsAnalyticsUpdateError =>
+      'We couldn\'t update this setting. Please try again.';
+
+  @override
   String get settingsTheme => 'Theme';
 
   @override
@@ -131,6 +142,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authTermsPrivacy => 'Privacy Policy';
+
+  @override
+  String get authAnalyticsConsent =>
+      'Share usage analytics to help improve Tweakd (optional). You can change this anytime in Settings.';
 
   @override
   String get authAgreeToTermsFirst =>
@@ -545,9 +560,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileMessage => 'Message';
-
-  @override
-  String get profileStatReputation => 'reputation';
 
   @override
   String get profileStatFollowers => 'followers';
@@ -1338,6 +1350,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get authErrorSignUpDisabled =>
       'New sign-ups are currently unavailable. Please try again later.';
+
+  @override
+  String get authErrorAccountNotFound =>
+      'There\'s no Tweakd account for this sign-in yet. Create one first.';
 
   @override
   String get authErrorNetwork =>

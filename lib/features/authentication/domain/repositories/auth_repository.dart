@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/base_failures.dart';
 import '../entities/apple_sign_in_result.dart';
 import '../entities/sign_up_result.dart';
+import '../entities/social_auth_intent.dart';
 import '../entities/user.dart';
 import '../usecases/login/email_password_signin.dart';
 import '../usecases/password_reset/verify_password_reset_code.dart';
@@ -18,12 +19,27 @@ abstract class AuthRepository {
   /// pick its first screen without waiting on [checkAuthStatus].
   Future<UserEntity?> getCachedAuthStatus();
   Future<Either<Failure, UserEntity>> emailPasswordSignIn(LoginParams params);
-  Future<Either<Failure, UserEntity>> googleSignIn();
 
-  /// Signs in with Apple. See [AppleSignInResultEntity] for the two shapes the
-  /// success case can take — iOS resolves a user, Android only launches the
-  /// browser and reports back that a redirect is pending.
-  Future<Either<Failure, AppleSignInResultEntity>> appleSignIn();
+  /// Signs in with Google. With [SignInIntent] an identity that has
+  /// no registered account fails with `AccountNotFoundFailure` (and the account
+  /// Supabase created on the way is discarded); with [SignUpIntent]
+  /// the account is marked as registered.
+  Future<Either<Failure, UserEntity>> googleSignIn(SocialAuthIntent intent);
+
+  /// Signs in with Apple, under the same [intent] rules as [googleSignIn]. See
+  /// [AppleSignInResultEntity] for the two shapes the success case can take —
+  /// iOS resolves a user, Android only launches the browser and reports back
+  /// that a redirect is pending; that redirect is finished by
+  /// [completeSocialSignIn].
+  Future<Either<Failure, AppleSignInResultEntity>> appleSignIn(
+    SocialAuthIntent intent,
+  );
+
+  /// Applies the [intent] rules to a social session that arrived on its own
+  /// (the Android Apple redirect).
+  Future<Either<Failure, UserEntity>> completeSocialSignIn(
+    SocialAuthIntent intent,
+  );
   Future<Either<Failure, Unit>> logOut();
 
   /// Registers a new account. See [SignUpResultEntity] for the two shapes the

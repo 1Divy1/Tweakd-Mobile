@@ -7,6 +7,8 @@ import '../../../domain/usecases/map_event_contests.dart';
 import '../../utils/map_event_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 /// One contest's page: the board, the viewer's vote, the live updates.
 ///
@@ -25,11 +27,13 @@ class ContestDetailBloc extends Bloc<ContestDetailEvent, ContestDetailState> {
   StreamSubscription? _boards;
   StreamSubscription? _statuses;
   String? _subscribedEventId;
+  final AnalyticsService analytics;
 
   ContestDetailBloc({
     required this.getContest,
     required this.castVote,
     required this.live,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const ContestDetailState()) {
     on<LoadContest>(_onLoad);
     on<RefreshContest>(_onRefresh);
@@ -79,11 +83,20 @@ class ContestDetailBloc extends Bloc<ContestDetailEvent, ContestDetailState> {
           error: MapEventErrorMapper.from(failure),
         ));
       },
-      (contest) => emit(state.copyWith(
-        status: ContestDetailStatus.loaded,
-        contest: contest,
-        clearError: true,
-      )),
+      (contest) {
+        // A view is the first load, not a refresh or a live-status reload.
+        if (!keepOnFailure) {
+          analytics.track(AnalyticsEvents.contestViewed, {
+            'status': contest.status.name,
+            'category': contest.category.id,
+          });
+        }
+        emit(state.copyWith(
+          status: ContestDetailStatus.loaded,
+          contest: contest,
+          clearError: true,
+        ));
+      },
     );
   }
 
@@ -112,11 +125,16 @@ class ContestDetailBloc extends Bloc<ContestDetailEvent, ContestDetailState> {
         isVoting: false,
         actionError: MapEventErrorMapper.from(failure),
       )),
-      (contest) => emit(state.copyWith(
-        contest: contest,
-        isVoting: false,
-        justVotedCarId: event.carId,
-      )),
+      (contest) {
+        analytics.track(AnalyticsEvents.contestVoteCast, {
+          'changed_vote': before.viewer.voteCarId != null,
+        });
+        emit(state.copyWith(
+          contest: contest,
+          isVoting: false,
+          justVotedCarId: event.carId,
+        ));
+      },
     );
   }
 

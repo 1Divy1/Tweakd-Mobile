@@ -123,6 +123,20 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/notification_accent" />
 
+        <!-- PostHog must never start on its own: analytics is opt-in, and only
+             Dart knows whether the signed-in user consented. AnalyticsService
+             sets it up from Dart (token and host come from the dart-defines). Push
+             capture stays off too — PostHog is not a push provider here. -->
+        <meta-data
+            android:name="com.posthog.posthog.AUTO_INIT"
+            android:value="false" />
+        <meta-data
+            android:name="com.posthog.posthog.CAPTURE_PUSH_NOTIFICATION_OPENED"
+            android:value="false" />
+        <meta-data
+            android:name="com.posthog.posthog.CAPTURE_PUSH_NOTIFICATION_SUBSCRIPTIONS"
+            android:value="false" />
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

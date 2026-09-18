@@ -194,15 +194,38 @@ messages directly — `AuthErrorMapper` turns each into an `AuthErrorCode`, and
 **Events**:
 ```dart
 CheckAuthStatus()
-GoogleLoginRequested()
-AppleLoginRequested()
+GoogleLoginRequested(SocialAuthIntent intent)
+AppleLoginRequested(SocialAuthIntent intent)
+AppleRedirectSignedIn(SocialAuthIntent intent)   // Android Apple deep link landed
 EmailPasswordLoginSubmitted(String email, String password)
 LogoutRequested()
 ```
 
 It also subscribes to `WatchExternalSignIn` in its constructor and re-runs
 `CheckAuthStatus` when a session appears on its own (the confirmation deep
-link), skipping it while one of its own flows is mid-flight.
+link), skipping it while one of its own flows is mid-flight. If an Android
+Apple sign-in is out in the browser, that session is finished with
+`AppleRedirectSignedIn` instead, so the intent rules below still apply.
+
+### Sign-in never creates accounts
+
+Supabase creates an auth user the first time it sees a Google / Apple identity,
+whichever screen the button was on. So every social event carries a
+`SocialAuthIntent`, and `SupabaseAuthDataSource.completeSocialSignIn` settles
+the session against it:
+
+- `SignUpIntent(analyticsConsent)` (sign-up page, Terms box ticked): calls the
+  `accept_signup_terms` RPC, which sets `profiles.terms_accepted_at` and the
+  analytics opt-in (no-op if already registered). Email sign-up records the
+  same thing via `terms_accepted` / `analytics_consent` user metadata, copied by
+  the `handle_new_user` trigger.
+- `SignInIntent()` (login page): an account with `terms_accepted_at = null` was created
+  by this very attempt. The `discard_unregistered_account` RPC deletes it, the
+  session is dropped, and the login page shows `authErrorAccountNotFound` with a
+  "Create account" snackbar action.
+
+Known gap: the Android Apple intent is held in memory only; if Android kills the
+app while the browser is open, the returning session skips the check.
 
 **`SignUpBloc`** (`@injectable`) — `SignUpSubmitted`, `SignUpCodeSubmitted`,
 `ConfirmationEmailResendRequested` → `SignUpAwaitingConfirmation` /
@@ -228,6 +251,8 @@ AuthError(String message)
 - `_onCheckAuthStatus` → `CheckAuthStatusUseCase`
 - `_onLoginSubmitted` → `EmailPasswordSignIn`
 - `_onGoogleLoginRequested` → `GoogleSignIn`
+- `_onAppleLoginRequested` → `AppleSignIn`
+- `_onAppleRedirectSignedIn` → `CompleteSocialSignIn`
 
 ---
 

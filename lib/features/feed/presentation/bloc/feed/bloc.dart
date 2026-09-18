@@ -18,6 +18,8 @@ import '../../utils/feed_error_mapper.dart';
 import '../../utils/feed_launch_preloader.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 /// Drives the global feed page: first load, pull-to-refresh, cursor paging and
 /// optimistic like / save / repost toggles. A feed item is a post, so those
@@ -45,6 +47,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
 
   /// Posts hidden (reported) while still cached, kept out of the fresh page.
   final _hiddenWhileCached = <String>{};
+  final AnalyticsService analytics;
 
   FeedBloc({
     required this.getGlobalFeed,
@@ -56,6 +59,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     required this.unrepostPost,
     required this.addComment,
     required this.launchPreloader,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const FeedInitial()) {
     on<LoadFeed>(_onLoad);
     on<FeedCacheScrolled>(_onCacheScrolled);
@@ -146,7 +150,12 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
           ),
         ),
       );
-    }, (_) {});
+    }, (_) {
+      analytics.track(AnalyticsEvents.postCommented, {
+        'is_reply': false,
+        'source': 'feed',
+      });
+    });
   }
 
   Future<void> _onLoad(LoadFeed event, Emitter<FeedState> emit) async {
@@ -351,6 +360,10 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
         likesCount: (p.likesCount + (on ? 1 : -1)).clamp(0, 1 << 31),
       ),
       call: (id, on) => on ? likePost(id) : unlikePost(id),
+      track: (on) => analytics.track(
+        on ? AnalyticsEvents.postLiked : AnalyticsEvents.postUnliked,
+        {'source': 'feed'},
+      ),
     );
   }
 
@@ -367,6 +380,9 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
         savedCount: (p.savedCount + (on ? 1 : -1)).clamp(0, 1 << 31),
       ),
       call: (id, on) => on ? savePost(id) : unsavePost(id),
+      track: (on) {
+        if (on) analytics.track(AnalyticsEvents.postSaved, {'source': 'feed'});
+      },
     );
   }
 
@@ -383,11 +399,16 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
         sharesCount: (p.sharesCount + (on ? 1 : -1)).clamp(0, 1 << 31),
       ),
       call: (id, on) => on ? repostPost(id) : unrepostPost(id),
+      track: (on) => analytics.track(
+        on ? AnalyticsEvents.postReposted : AnalyticsEvents.postUnreposted,
+        {'source': 'feed'},
+      ),
     );
   }
 
   /// Shared optimistic toggle for like/save/repost: flips the flag + adjusts the
   /// matching counter immediately, then reverts that one post on failure.
+  /// [track] records the change once the backend has accepted it.
   Future<void> _toggle(
     Emitter<FeedState> emit, {
     required String postId,
@@ -398,6 +419,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
       bool on,
     )
     call,
+    required void Function(bool on) track,
   }) async {
     final current = state;
     if (current is! FeedLoaded) return;
@@ -420,7 +442,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
       final i = latest.posts.indexWhere((p) => p.id == postId);
       if (i == -1) return;
       emit(latest.copyWith(posts: _replaceAt(latest.posts, i, post)));
-    }, (_) {});
+    }, (_) => track(on));
   }
 
   void _emitFirstPage(

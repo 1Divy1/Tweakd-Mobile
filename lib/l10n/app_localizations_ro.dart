@@ -32,6 +32,17 @@ class AppLocalizationsRo extends AppLocalizations {
       'Nu am putut actualiza limba. Te rugăm să încerci din nou.';
 
   @override
+  String get settingsAnalytics => 'Trimite date de utilizare';
+
+  @override
+  String get settingsAnalyticsHint =>
+      'Ne ajută să îmbunătățim Tweakd. Poți dezactiva oricând.';
+
+  @override
+  String get settingsAnalyticsUpdateError =>
+      'Nu am putut actualiza această setare. Încearcă din nou.';
+
+  @override
   String get settingsTheme => 'Temă';
 
   @override
@@ -131,6 +142,10 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get authTermsPrivacy => 'Politica de confidențialitate';
+
+  @override
+  String get authAnalyticsConsent =>
+      'Trimite date de utilizare ca să ne ajuți să îmbunătățim Tweakd (opțional). Poți schimba oricând din Setări.';
 
   @override
   String get authAgreeToTermsFirst =>
@@ -548,9 +563,6 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get profileMessage => 'Mesaj';
-
-  @override
-  String get profileStatReputation => 'reputație';
 
   @override
   String get profileStatFollowers => 'urmăritori';
@@ -1348,6 +1360,10 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get authErrorSignUpDisabled =>
       'Înregistrările noi nu sunt disponibile momentan. Încearcă mai târziu.';
+
+  @override
+  String get authErrorAccountNotFound =>
+      'Nu există încă un cont Tweakd pentru această autentificare. Creează unul mai întâi.';
 
   @override
   String get authErrorNetwork =>

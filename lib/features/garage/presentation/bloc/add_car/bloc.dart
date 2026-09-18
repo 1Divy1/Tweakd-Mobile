@@ -25,6 +25,8 @@ import '../../widgets/register_car/mod_slot.dart';
 import '../../utils/garage_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 @injectable
 class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
@@ -50,6 +52,7 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
   final PatchModificationUseCase patchModification;
   final DeleteModificationUseCase deleteModification;
   final ImageService imageService;
+  final AnalyticsService analytics;
 
   AddCarBloc({
     required this.getBrands,
@@ -74,6 +77,7 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
     required this.patchModification,
     required this.deleteModification,
     required this.imageService,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const AddCarInitial()) {
     on<LoadAddCarReferenceData>(_onLoadRefData);
     on<AddCarBrandSelected>(_onBrandSelected);
@@ -187,6 +191,10 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
           _uploadModMedia(car.id, car.modifications[i].id, event.mods[i]),
       ]);
 
+      analytics.track(AnalyticsEvents.carAdded, {
+        'modification_count': event.mods.length,
+        'gallery_count': event.gallery.length,
+      });
       emit(AddCarSuccess(car));
     } catch (_) {
       await deleteCar(DeleteCarParams(carId: car.id));
@@ -392,6 +400,12 @@ class AddCarBloc extends Bloc<AddCarEvent, AddCarState> {
         }
       }
 
+      final addedMods = event.mods.whereType<NewModSlot>().length;
+      for (var i = 0; i < addedMods; i++) {
+        analytics.track(AnalyticsEvents.modificationAdded, {
+          'source': 'edit_car',
+        });
+      }
       emit(AddCarSuccess(updatedCar));
     } catch (_) {
       emit(AddCarError(

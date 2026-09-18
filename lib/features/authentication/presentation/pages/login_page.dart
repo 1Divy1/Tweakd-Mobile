@@ -16,6 +16,7 @@ import '../widgets/auth_brand_header.dart';
 import '../widgets/auth_divider.dart';
 import '../widgets/auth_primary_button.dart';
 import '../widgets/auth_text_field.dart';
+import '../../domain/entities/social_auth_intent.dart';
 import '../widgets/social_login_buttons.dart';
 import '../../../../core/shared/layout/app_layout.dart';
 
@@ -75,11 +76,15 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   void _onSocialTap(SocialProvider provider) {
     switch (provider) {
       case SocialProvider.google:
-        context.read<AuthBloc>().add(GoogleLoginRequested());
+        context.read<AuthBloc>().add(
+          const GoogleLoginRequested(SignInIntent()),
+        );
       case SocialProvider.apple:
         if (_appleLaunching) return;
         setState(() => _appleLaunching = true);
-        context.read<AuthBloc>().add(AppleLoginRequested());
+        context.read<AuthBloc>().add(
+          const AppleLoginRequested(SignInIntent()),
+        );
     }
   }
 
@@ -117,7 +122,17 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                 setState(() => _appleLaunching = false);
               }
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(authErrorMessage(l10n, state.code))),
+                SnackBar(
+                  content: Text(authErrorMessage(l10n, state.code)),
+                  // Sign-in never creates accounts, so the way forward for an
+                  // unknown Google / Apple identity is the sign-up page.
+                  action: state.code == AuthErrorCode.accountNotFound
+                      ? SnackBarAction(
+                          label: l10n.authCreateAccount,
+                          onPressed: () => context.go('/signup'),
+                        )
+                      : null,
+                ),
               );
               // The account exists but was never confirmed: the only way
               // forward is the confirmation email, so go straight there with a

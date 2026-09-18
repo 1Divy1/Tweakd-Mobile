@@ -7,7 +7,7 @@ import 'profile_identity.dart';
 import 'profile_stats_row.dart';
 
 /// The block above the profile actions: avatar on the left, display name and
-/// the reputation/follower/following counters beside it, bio underneath at
+/// the follower/following counters beside it, bio underneath at
 /// full width.
 ///
 /// Shared by both profiles — only [isOwnProfile] differs, and it only decides
@@ -41,7 +41,6 @@ class ProfileHeader extends StatelessWidget {
       username: profile.username,
       followers: profile.followersCount,
       following: profile.followingCount,
-      reputation: profile.reputationScore,
       isOwnProfile: isOwnProfile,
     );
 
@@ -49,12 +48,12 @@ class ProfileHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          // Three counters beside the avatar need room. On a small phone — or
+          // The counters beside the avatar need room. On a small phone — or
           // at a large text size — they don't get it, so the row drops to its
           // own full-width line under the avatar instead of ellipsizing every
           // label.
           final besideAvatar = constraints.maxWidth - avatarSize - _avatarGap;
-          final wanted = ProfileStatsRow.minWidthFor(context, statCount: 3);
+          final wanted = ProfileStatsRow.minWidthFor(context, statCount: 2);
           final statsFitBesideAvatar = besideAvatar >= wanted;
 
           return Column(

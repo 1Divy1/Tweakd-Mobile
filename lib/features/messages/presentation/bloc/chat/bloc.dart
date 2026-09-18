@@ -14,6 +14,8 @@ import '../../../domain/usecases/watch_chat.dart';
 import '../../utils/messages_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 /// Drives one open conversation: paged history from Spring, sending through
 /// the Supabase RPC (which may create the conversation), read receipts via the
@@ -39,6 +41,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   /// Safety net: clear the partner-typing bubble if no further signal lands.
   Timer? _partnerTypingTimeout;
+  final AnalyticsService analytics;
 
   ChatBloc({
     required this.getMessages,
@@ -48,6 +51,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     required this.markConversationRead,
     required this.sendTyping,
     required this.watchChat,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const ChatInitial()) {
     on<LoadChat>(_onLoad);
     on<LoadOlderMessages>(_onLoadOlder);
@@ -218,6 +222,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         actionError: MessagesErrorMapper.getCode(failure),
       )),
       (sent) {
+        if (!hadConversation) {
+          analytics.track(AnalyticsEvents.conversationStarted);
+        }
+        analytics.track(AnalyticsEvents.messageSent, {
+          'has_text': text.isNotEmpty,
+          'has_tagged_cars': event.taggedCars.isNotEmpty,
+        });
         if (latest.messages.any((m) => m.id == sent.message.id)) return;
         emit(latest.copyWith(
           conversationId: sent.conversationId,
