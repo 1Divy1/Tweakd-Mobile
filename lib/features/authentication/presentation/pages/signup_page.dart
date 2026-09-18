@@ -19,7 +19,9 @@ import '../widgets/auth_brand_header.dart';
 import '../widgets/auth_divider.dart';
 import '../widgets/auth_primary_button.dart';
 import '../widgets/auth_text_field.dart';
+import '../widgets/analytics_consent_checkbox.dart';
 import '../widgets/password_requirements.dart';
+import '../../domain/entities/social_auth_intent.dart';
 import '../widgets/social_login_buttons.dart';
 import '../../../../core/shared/layout/app_layout.dart';
 
@@ -36,6 +38,10 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
   bool _agreedToTerms = false;
   bool _showPasswordRequirements = false;
   bool _showTermsError = false;
+
+  /// The optional "share usage analytics" box. Unticked by default: analytics
+  /// is opt-in, and this choice is saved on the account at sign-up.
+  bool _analyticsConsent = false;
 
   /// Latches while the Apple flow is being launched. On Android that flow hands
   /// off to an external browser, and there is a short window before the browser
@@ -78,6 +84,7 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
       SignUpSubmitted(
         email: _emailController.text.trim(),
         password: _passwordController.text,
+        analyticsConsent: _analyticsConsent,
       ),
     );
   }
@@ -93,11 +100,19 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
     }
     switch (provider) {
       case SocialProvider.google:
-        context.read<AuthBloc>().add(GoogleLoginRequested());
+        context.read<AuthBloc>().add(
+          GoogleLoginRequested(
+            SignUpIntent(analyticsConsent: _analyticsConsent),
+          ),
+        );
       case SocialProvider.apple:
         if (_appleLaunching) return;
         setState(() => _appleLaunching = true);
-        context.read<AuthBloc>().add(AppleLoginRequested());
+        context.read<AuthBloc>().add(
+          AppleLoginRequested(
+            SignUpIntent(analyticsConsent: _analyticsConsent),
+          ),
+        );
     }
   }
 
@@ -262,6 +277,12 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
                   ],
                   const SizedBox(height: 24),
                   _buildTermsCheckbox(l10n),
+                  const SizedBox(height: 14),
+                  AnalyticsConsentCheckbox(
+                    value: _analyticsConsent,
+                    onChanged: (value) =>
+                        setState(() => _analyticsConsent = value),
+                  ),
                   const SizedBox(height: 20),
                   AuthPrimaryButton(
                     label: l10n.authCreateAccount,

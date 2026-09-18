@@ -140,6 +140,24 @@ abstract class AppLocalizations {
   /// **'We couldn\'t update your language. Please try again.'**
   String get settingsLanguageUpdateError;
 
+  /// No description provided for @settingsAnalytics.
+  ///
+  /// In en, this message translates to:
+  /// **'Share usage analytics'**
+  String get settingsAnalytics;
+
+  /// No description provided for @settingsAnalyticsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Helps us improve Tweakd. You can turn it off anytime.'**
+  String get settingsAnalyticsHint;
+
+  /// No description provided for @settingsAnalyticsUpdateError.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t update this setting. Please try again.'**
+  String get settingsAnalyticsUpdateError;
+
   /// Label for the theme selector in settings
   ///
   /// In en, this message translates to:
@@ -319,6 +337,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Privacy Policy'**
   String get authTermsPrivacy;
+
+  /// No description provided for @authAnalyticsConsent.
+  ///
+  /// In en, this message translates to:
+  /// **'Share usage analytics to help improve Tweakd (optional). You can change this anytime in Settings.'**
+  String get authAnalyticsConsent;
 
   /// Snackbar shown when tapping a social sign-up button before the terms checkbox is ticked
   ///
@@ -1051,12 +1075,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Message'**
   String get profileMessage;
-
-  /// No description provided for @profileStatReputation.
-  ///
-  /// In en, this message translates to:
-  /// **'reputation'**
-  String get profileStatReputation;
 
   /// No description provided for @profileStatFollowers.
   ///
@@ -2515,6 +2533,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New sign-ups are currently unavailable. Please try again later.'**
   String get authErrorSignUpDisabled;
+
+  /// No description provided for @authErrorAccountNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'There\'s no Tweakd account for this sign-in yet. Create one first.'**
+  String get authErrorAccountNotFound;
 
   /// No description provided for @authErrorNetwork.
   ///

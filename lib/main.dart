@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_screen_tracker.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 import 'package:tweakd/core/routes/app_router.dart';
 import 'package:tweakd/firebase_options.dart';
 import 'package:tweakd/l10n/app_localizations.dart';
@@ -91,6 +94,16 @@ void main() async {
   // Initialize dependency injection
   configureDependencies();
 
+  // Analytics is opt-in and starts opted out; it resumes here only for a
+  // restored session whose user the device remembers consenting. Not awaited:
+  // it must never hold up the launch screen.
+  final analytics = getIt<AnalyticsService>();
+  unawaited(
+    analytics.start(
+      currentUserId: Supabase.instance.client.auth.currentSession?.user.id,
+    ),
+  );
+
   // Where the app opens. A saved session whose user the device has seen finish
   // onboarding goes straight to the feed — no network round trip first. The
   // profile check the splash used to wait on runs afterwards, in the
@@ -120,6 +133,7 @@ void main() async {
   final appRouter = createAppRouter(
     initialLocation: fastLaunch ? '/feed' : '/',
   );
+  AnalyticsScreenTracker.attach(appRouter, analytics);
 
   // Nothing joins Supabase Realtime at app start: an open channel keeps the
   // device's socket open, and Realtime bills peak concurrent sockets. The DM
@@ -162,7 +176,12 @@ void main() async {
   // The navigator can't import the router (the router imports the pages, which
   // reach the navigator through DI), so the connection is made from here.
   pushNavigator.attach(appRouter.push);
-  push.opened.listen(pushNavigator.handleTap);
+  push.opened.listen((message) {
+    analytics.track(AnalyticsEvents.notificationOpened, {
+      'type': message.type,
+    });
+    pushNavigator.handleTap(message);
+  });
   unawaited(push.start());
 
   deepLinks.attach(appRouter.push);
@@ -195,6 +214,7 @@ void main() async {
         contestRealtime.disconnect();
         badgeCelebrations.reset();
         feedPreloader.reset();
+        unawaited(analytics.clearUser());
         unawaited(clearFeedCache(NoParams()));
         // Unregistering the device happens in the auth data source, before the
         // session is torn down — by here the JWT is already gone. All that is

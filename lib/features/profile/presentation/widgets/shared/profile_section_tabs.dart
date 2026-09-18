@@ -94,11 +94,7 @@ class ProfileSectionTabs extends StatelessWidget {
         l10n.profileTabPosts,
         ProfileSection.posts,
       ),
-      _TabSpec(
-        AppIcons.repost,
-        l10n.profileTabReposts,
-        ProfileSection.reposts,
-      ),
+      _TabSpec(AppIcons.repost, l10n.profileTabReposts, ProfileSection.reposts),
       _TabSpec(Icons.sell_rounded, l10n.profileTabTags, ProfileSection.tags),
       if (showEvents)
         _TabSpec(

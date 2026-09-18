@@ -13,6 +13,8 @@ import '../../utils/forum_error_mapper.dart';
 import '../../utils/forum_tags.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 /// Drives the thread page: detail + lazily expanded reply tree (level by
 /// level, oldest first), optimistic likes, the reply composer, and the
@@ -35,6 +37,7 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
   final UnsaveForumThreadUseCase unsaveThread;
 
   String _threadId = '';
+  final AnalyticsService analytics;
 
   ForumThreadBloc({
     required this.getThread,
@@ -51,6 +54,7 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
     required this.deleteReply,
     required this.saveThread,
     required this.unsaveThread,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const ForumThreadState()) {
     on<LoadForumThread>(_onLoad);
     on<LoadMoreThreadReplies>(_onLoadMoreReplies);
@@ -282,7 +286,9 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
         thread: thread,
         actionError: ForumErrorMapper.getCode(f),
       )),
-      (_) {},
+      (_) {
+        if (!liked) analytics.track(AnalyticsEvents.forumThreadLiked);
+      },
     );
   }
 
@@ -423,6 +429,9 @@ class ForumThreadBloc extends Bloc<ForumThreadEvent, ForumThreadState> {
         ),
       )),
       (reply) {
+        analytics.track(AnalyticsEvents.forumReplyCreated, {
+          'is_nested': parentId != null,
+        });
         final node = ReplyNode(reply: reply);
         final replies = parentId == null
             ? [...state.replies, node]

@@ -7,6 +7,8 @@ import '../../../domain/entities/map_event.dart';
 import '../../../domain/usecases/map_event_contests.dart';
 import '../../utils/map_event_error_mapper.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 /// The new / edit contest form.
 ///
@@ -19,11 +21,13 @@ class CreateContestCubit extends Cubit<CreateContestState> {
   final GetContestCategoriesUseCase getCategories;
   final CreateContestUseCase createContest;
   final UpdateContestUseCase updateContest;
+  final AnalyticsService analytics;
 
   CreateContestCubit({
     required this.getCategories,
     required this.createContest,
     required this.updateContest,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const CreateContestState());
 
   Future<void> load({MapEventEntity? event, ContestEntity? editing}) async {
@@ -131,10 +135,18 @@ class CreateContestCubit extends Cubit<CreateContestState> {
         status: CreateContestStatus.ready,
         error: MapEventErrorMapper.from(failure),
       )),
-      (contest) => emit(state.copyWith(
-        status: CreateContestStatus.success,
-        result: contest,
-      )),
+      (contest) {
+        if (editing == null) {
+          analytics.track(AnalyticsEvents.contestCreated, {
+            'category': state.categoryId!,
+            'source': 'manage_event',
+          });
+        }
+        emit(state.copyWith(
+          status: CreateContestStatus.success,
+          result: contest,
+        ));
+      },
     );
   }
 

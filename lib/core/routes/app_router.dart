@@ -145,6 +145,7 @@ import '../../features/report/presentation/pages/my_reports_page.dart';
 import '../../features/search/presentation/bloc/bloc.dart';
 import '../../features/tags/presentation/bloc/tags/bloc.dart';
 import '../../features/search/presentation/pages/search_page.dart';
+import '../../features/settings/presentation/bloc/analytics_consent/cubit.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/map_events/presentation/bloc/participant_cards/cubit.dart';
 
@@ -334,7 +335,10 @@ GoRouter createAppRouter({required String initialLocation}) => GoRouter(
     // needed here.
     GoRoute(
       path: '/settings',
-      builder: (context, state) => const SettingsPage(),
+      builder: (context, state) => BlocProvider<AnalyticsConsentCubit>(
+        create: (_) => getIt<AnalyticsConsentCubit>()..load(),
+        child: const SettingsPage(),
+      ),
     ),
 
     // ---------- Saved Posts ----------

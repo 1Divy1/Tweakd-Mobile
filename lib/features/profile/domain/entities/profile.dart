@@ -2,7 +2,6 @@ import 'package:tweakd/features/badges/domain/entities/user_badge.dart';
 
 class ProfileEntity {
   final String id;
-  final String role;
   final String name;
   final String username;
   final String avatarUrl;
@@ -33,7 +32,6 @@ class ProfileEntity {
 
   const ProfileEntity({
     required this.id,
-    required this.role,
     required this.name,
     required this.username,
     required this.avatarUrl,
@@ -52,7 +50,6 @@ class ProfileEntity {
   ProfileEntity copyWith({int? followersCount}) {
     return ProfileEntity(
       id: id,
-      role: role,
       name: name,
       username: username,
       avatarUrl: avatarUrl,

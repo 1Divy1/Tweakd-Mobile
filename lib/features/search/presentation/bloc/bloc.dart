@@ -9,6 +9,8 @@ import '../../domain/usecases/search_users.dart';
 import '../utils/search_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 const _debounceDuration = Duration(milliseconds: 300);
 const _minQueryLength = 2;
@@ -19,8 +21,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   Timer? _debounceTimer;
   CancelToken? _activeToken;
+  final AnalyticsService analytics;
 
-  SearchBloc({required this.searchUsers}) : super(const SearchInitial()) {
+  SearchBloc({required this.searchUsers,
+    this.analytics = const NoopAnalyticsService(),
+  }) : super(const SearchInitial()) {
     on<SearchQueryChanged>(_onQueryChanged);
     on<SearchCleared>(_onCleared);
     on<PerformSearch>(_onPerformSearch);
@@ -81,8 +86,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           ),
         );
       },
-      (results) =>
-          emit(SearchSuccess(query: event.query, results: results)),
+      (results) {
+        // Runs once per settled query (the bloc debounces typing), and never
+        // carries the query itself — only how many accounts came back.
+        analytics.track(AnalyticsEvents.searchPerformed, {
+          'result_count': results.length,
+        });
+        emit(SearchSuccess(query: event.query, results: results));
+      },
     );
   }
 

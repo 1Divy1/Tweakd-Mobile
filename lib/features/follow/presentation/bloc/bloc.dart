@@ -15,6 +15,8 @@ import '../../domain/usecases/unfollow_user.dart';
 import '../utils/follow_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 @injectable
 class FollowBloc extends Bloc<FollowEvent, FollowState> {
@@ -26,6 +28,7 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
   final GetFollowersUseCase getFollowers;
   final GetFollowingUseCase getFollowing;
   final RemoveFollowerUseCase removeFollower;
+  final AnalyticsService analytics;
 
   FollowBloc({
     required this.getFollowStatus,
@@ -34,6 +37,7 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
     required this.getFollowers,
     required this.getFollowing,
     required this.removeFollower,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(FollowStatusInitial()) {
     on<LoadFollowStatus>(_onLoadFollowStatus);
     on<ToggleFollow>(_onToggleFollow);
@@ -89,7 +93,10 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
         emit(FollowError(code: FollowErrorMapper.getCode(failure)));
         emit(FollowStatusLoaded(followStatus: previousStatus));
       },
-      (newStatus) => emit(FollowStatusLoaded(followStatus: newStatus)),
+      (newStatus) {
+        _trackFollowed(newStatus, source: 'profile');
+        emit(FollowStatusLoaded(followStatus: newStatus));
+      },
     );
   }
 
@@ -105,12 +112,23 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
         emit(FollowError(code: FollowErrorMapper.getCode(failure)));
         emit(FollowStatusLoaded(followStatus: previousStatus));
       },
-      (_) => emit(
-        FollowStatusLoaded(
-          followStatus: const FollowStatusEntity(status: FollowStatus.notFollowing),
-        ),
-      ),
+      (_) {
+        analytics.track(AnalyticsEvents.userUnfollowed, {'source': 'profile'});
+        emit(
+          FollowStatusLoaded(
+            followStatus: const FollowStatusEntity(status: FollowStatus.notFollowing),
+          ),
+        );
+      },
     );
+  }
+
+  /// A follow of a private account is a request until they accept it.
+  void _trackFollowed(FollowStatusEntity status, {required String source}) {
+    analytics.track(AnalyticsEvents.userFollowed, {
+      'is_private_account': status.status == FollowStatus.pending,
+      'source': source,
+    });
   }
 
   FutureOr<void> _onToggleFollowInList(
@@ -154,7 +172,13 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
           emit(FollowingLoaded(following: originalUsers));
         }
       },
-      (_) {},
+      (newStatus) {
+        if (newStatus is FollowStatusEntity) {
+          _trackFollowed(newStatus, source: 'list');
+        } else {
+          analytics.track(AnalyticsEvents.userUnfollowed, {'source': 'list'});
+        }
+      },
     );
   }
 

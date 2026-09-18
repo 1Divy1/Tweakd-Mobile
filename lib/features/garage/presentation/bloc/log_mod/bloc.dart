@@ -14,6 +14,8 @@ import '../../../domain/usecases/patch_modification.dart';
 import '../../utils/garage_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 @injectable
 class LogModBloc extends Bloc<LogModEvent, LogModState> {
@@ -23,6 +25,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
   final GetModificationUploadUrlsUseCase getModificationUploadUrls;
   final PatchModificationUseCase patchModification;
   final ImageService imageService;
+  final AnalyticsService analytics;
 
   LogModBloc({
     required this.getModCategories,
@@ -31,6 +34,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
     required this.getModificationUploadUrls,
     required this.patchModification,
     required this.imageService,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const LogModInitial()) {
     on<LoadModCategories>(_onLoadCategories);
     on<SubmitModification>(_onSubmit);
@@ -50,6 +54,13 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
       )),
       (categories) => emit(LogModCategoriesLoaded(categories: categories)),
     );
+  }
+
+  void _trackAdded(int imageCount) {
+    analytics.track(AnalyticsEvents.modificationAdded, {
+      'source': 'log',
+      'image_count': imageCount,
+    });
   }
 
   FutureOr<void> _onSubmit(
@@ -92,6 +103,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
     final images = <CompressedImage>[...before, ...after];
 
     if (images.isEmpty) {
+      _trackAdded(images.length);
       emit(LogModSuccess(modification));
       return;
     }
@@ -145,7 +157,10 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
 
       patchResult.fold(
         (f) => throw Exception('$f'),
-        (updated) => emit(LogModSuccess(updated)),
+        (updated) {
+          _trackAdded(images.length);
+          emit(LogModSuccess(updated));
+        },
       );
     } catch (_) {
       await deleteModification(DeleteModificationParams(

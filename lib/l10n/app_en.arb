@@ -29,6 +29,9 @@
     "description": "Snackbar shown when picking a language fails to save"
   },
 
+  "settingsAnalytics": "Share usage analytics",
+  "settingsAnalyticsHint": "Helps us improve Tweakd. You can turn it off anytime.",
+  "settingsAnalyticsUpdateError": "We couldn't update this setting. Please try again.",
   "settingsTheme": "Theme",
   "@settingsTheme": {
     "description": "Label for the theme selector in settings"
@@ -110,6 +113,7 @@
   "authTermsAnd": " & ",
   "authTermsPrivacy": "Privacy Policy",
 
+  "authAnalyticsConsent": "Share usage analytics to help improve Tweakd (optional). You can change this anytime in Settings.",
   "authAgreeToTermsFirst": "Please agree to the Terms & Privacy Policy first.",
   "@authAgreeToTermsFirst": {
     "description": "Snackbar shown when tapping a social sign-up button before the terms checkbox is ticked"
@@ -327,7 +331,6 @@
 
   "profileTitle": "Profile",
   "profileMessage": "Message",
-  "profileStatReputation": "reputation",
   "profileStatFollowers": "followers",
   "profileStatFollowing": "following",
 
@@ -647,6 +650,7 @@
   "authErrorRateLimited": "Too many attempts. Please wait a moment and try again.",
   "authErrorSamePassword": "Your new password must be different from the old one.",
   "authErrorSignUpDisabled": "New sign-ups are currently unavailable. Please try again later.",
+  "authErrorAccountNotFound": "There's no Tweakd account for this sign-in yet. Create one first.",
   "authErrorNetwork": "No connection. Check your network and try again.",
   "authErrorGeneric": "Something went wrong. Please try again.",
 

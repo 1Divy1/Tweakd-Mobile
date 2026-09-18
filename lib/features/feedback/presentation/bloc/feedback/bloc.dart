@@ -10,6 +10,8 @@ import '../../../domain/usecases/submit_feedback.dart';
 import '../../utils/feedback_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 /// Backs the feedback submit screen: loads the type + feature pickers, tracks
 /// the current selections, and submits. Free-text fields live in the form's
@@ -19,11 +21,13 @@ class FeedbackBloc extends Bloc<FeedbackEvent, FeedbackState> {
   final GetFeedbackTypesUseCase getTypes;
   final GetFeedbackFeaturesUseCase getFeatures;
   final SubmitFeedbackUseCase submitFeedback;
+  final AnalyticsService analytics;
 
   FeedbackBloc({
     required this.getTypes,
     required this.getFeatures,
     required this.submitFeedback,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const FeedbackState()) {
     on<LoadFeedbackOptions>(_onLoad);
     on<SelectFeedbackType>(_onSelectType);
@@ -112,7 +116,13 @@ class FeedbackBloc extends Bloc<FeedbackEvent, FeedbackState> {
         status: FeedbackStatus.ready,
         errorCode: FeedbackErrorMapper.getCode(failure),
       )),
-      (_) => emit(state.copyWith(status: FeedbackStatus.success)),
+      (_) {
+        analytics.track(AnalyticsEvents.feedbackSubmitted, {
+          'type': type.id,
+          'has_feature': state.selectedFeature != null,
+        });
+        emit(state.copyWith(status: FeedbackStatus.success));
+      },
     );
   }
 

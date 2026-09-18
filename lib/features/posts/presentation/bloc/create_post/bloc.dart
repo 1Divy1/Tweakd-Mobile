@@ -15,6 +15,8 @@ import '../../../domain/usecases/upload_post_image.dart';
 import '../../utils/post_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 @injectable
 class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
@@ -24,6 +26,7 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
   final SaveImageKeysUseCase saveImageKeys;
   final DeletePostUseCase deletePost;
   final ImageService imageService;
+  final AnalyticsService analytics;
 
   CreatePostBloc({
     required this.createPost,
@@ -32,8 +35,18 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
     required this.saveImageKeys,
     required this.deletePost,
     required this.imageService,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const CreatePostInitial()) {
     on<SubmitPost>(_onSubmit);
+  }
+
+  void _trackCreated(SubmitPost event) {
+    analytics.track(AnalyticsEvents.postCreated, {
+      'image_count': event.photoPaths.length,
+      'has_text': event.description?.trim().isNotEmpty ?? false,
+      'has_tags':
+          event.taggedPeopleIds.isNotEmpty || event.taggedCarIds.isNotEmpty,
+    });
   }
 
   FutureOr<void> _onSubmit(
@@ -66,6 +79,7 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
 
     // No images — the post is already complete.
     if (event.photoPaths.isEmpty) {
+      _trackCreated(event);
       emit(CreatePostSuccess(post));
       return;
     }
@@ -85,6 +99,7 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
         (p) => p,
       );
 
+      _trackCreated(event);
       emit(CreatePostSuccess(finalPost));
     } catch (e) {
       debugPrint('Create post image phase failed: $e');

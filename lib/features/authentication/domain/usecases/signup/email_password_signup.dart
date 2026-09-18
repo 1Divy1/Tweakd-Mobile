@@ -10,7 +10,14 @@ class SignUpParams {
   final String email;
   final String password;
 
-  SignUpParams({required this.email, required this.password});
+  /// The optional "share usage analytics" box on the sign-up page.
+  final bool analyticsConsent;
+
+  SignUpParams({
+    required this.email,
+    required this.password,
+    required this.analyticsConsent,
+  });
 }
 
 @lazySingleton

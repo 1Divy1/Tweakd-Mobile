@@ -7,6 +7,8 @@ import '../../../domain/usecases/submit_report.dart';
 import '../../utils/report_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 
 /// Backs the report bottom sheet for a single target (post, comment or profile):
 /// loads the preset reasons, tracks the single selected reason, and submits.
@@ -16,10 +18,12 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
   final SubmitReportUseCase submitReport;
 
   late ReportTarget _target;
+  final AnalyticsService analytics;
 
   ReportBloc({
     required this.getReasons,
     required this.submitReport,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const ReportState()) {
     on<LoadReportReasons>(_onLoad);
     on<SelectReportReason>(_onSelect);
@@ -68,7 +72,19 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
         status: ReportStatus.ready,
         errorCode: ReportErrorMapper.getCode(failure),
       )),
-      (_) => emit(state.copyWith(status: ReportStatus.success)),
+      (_) {
+        analytics.track(AnalyticsEvents.contentReported, {
+          'target_type': switch (_target) {
+            PostReportTarget() => 'post',
+            CommentReportTarget() => 'comment',
+            ProfileReportTarget() => 'profile',
+            ForumThreadReportTarget() => 'forum_thread',
+            ForumReplyReportTarget() => 'forum_reply',
+          },
+          'reason': reasonId,
+        });
+        emit(state.copyWith(status: ReportStatus.success));
+      },
     );
   }
 }

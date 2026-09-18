@@ -16,6 +16,7 @@ enum AuthErrorCode {
   rateLimited,
   samePassword,
   signUpDisabled,
+  accountNotFound,
   network,
   generic,
 }
@@ -32,6 +33,7 @@ class AuthErrorMapper {
       RateLimitedFailure _ => AuthErrorCode.rateLimited,
       SamePasswordFailure _ => AuthErrorCode.samePassword,
       SignUpDisabledFailure _ => AuthErrorCode.signUpDisabled,
+      AccountNotFoundFailure _ => AuthErrorCode.accountNotFound,
       NetworkFailure _ => AuthErrorCode.network,
       _ => AuthErrorCode.generic,
     };
@@ -51,6 +53,7 @@ String authErrorMessage(AppLocalizations l10n, AuthErrorCode code) =>
       AuthErrorCode.rateLimited => l10n.authErrorRateLimited,
       AuthErrorCode.samePassword => l10n.authErrorSamePassword,
       AuthErrorCode.signUpDisabled => l10n.authErrorSignUpDisabled,
+      AuthErrorCode.accountNotFound => l10n.authErrorAccountNotFound,
       AuthErrorCode.network => l10n.authErrorNetwork,
       AuthErrorCode.generic => l10n.authErrorGeneric,
     };

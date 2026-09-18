@@ -43,17 +43,18 @@ class PostsSection<B extends Bloc<ProfilePostsEvent, ProfilePostsState>>
           ProfilePostsInitial() ||
           ProfilePostsLoading() => const _PostsLoadingView(),
           ProfilePostsError(:final code) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: _PostsErrorView(
-                message: postErrorMessage(AppLocalizations.of(context)!, code),
-              ),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: _PostsErrorView(
+              message: postErrorMessage(AppLocalizations.of(context)!, code),
             ),
-          ProfilePostsLoaded(:final posts) => posts.isEmpty
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: _PostsEmptyView(isOwner: isOwner, kind: kind),
-                )
-              : _PostsGrid<B>(state: state),
+          ),
+          ProfilePostsLoaded(:final posts) =>
+            posts.isEmpty
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: _PostsEmptyView(isOwner: isOwner, kind: kind),
+                  )
+                : _PostsGrid<B>(state: state),
         };
       },
     );
@@ -103,8 +104,7 @@ class _PostsGrid<B extends Bloc<ProfilePostsEvent, ProfilePostsState>>
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: _LoadMoreButton(
               isLoading: state.isLoadingMore,
-              onTap: () =>
-                  context.read<B>().add(const LoadMorePosts()),
+              onTap: () => context.read<B>().add(const LoadMorePosts()),
               label: l10n.postsLoadMore,
             ),
           ),
@@ -206,8 +206,10 @@ class _PostsEmptyView extends StatelessWidget {
             GestureDetector(
               onTap: () => context.push('/posts/create'),
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 18,
+                  vertical: 10,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.accent,
                   borderRadius: BorderRadius.circular(18),

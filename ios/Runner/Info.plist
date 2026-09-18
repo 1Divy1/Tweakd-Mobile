@@ -16,6 +16,14 @@
 	     Keep this in step with `flutter_deeplinking_enabled` in AndroidManifest.xml. -->
 	<key>FlutterDeepLinkingEnabled</key>
 	<false/>
+	<!-- PostHog must never start on its own: analytics is opt-in, and only Dart
+	     knows whether the signed-in user consented (AnalyticsService sets it up).
+	     The push-open key also stops the SDK's cold-start prewarm, which runs
+	     before Dart does. -->
+	<key>com.posthog.posthog.AUTO_INIT</key>
+	<false/>
+	<key>com.posthog.posthog.CAPTURE_PUSH_NOTIFICATION_OPENED</key>
+	<false/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
