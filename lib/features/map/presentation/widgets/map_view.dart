@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 
 import '../../domain/map_defaults.dart';
+import '../utils/map_light_preset.dart';
 
 /// The Mapbox rendering surface.
 ///
@@ -32,6 +33,10 @@ class MapView extends StatefulWidget {
 class _MapViewState extends State<MapView> {
   MapboxMap? _map;
 
+  /// The `lightPreset` last pushed to the style; null until the style loads.
+  /// Lets a live theme switch relight the map without reloading the style.
+  String? _appliedLightPreset;
+
   /// Where `MapTopBar`'s "+" create-event button sits, in the overlay Stack's
   /// own coordinates (see `MapFlutterOverlays`): `topInset + 4` down to
   /// `+ 44` for the button itself, flush against a 12px right margin. The
@@ -57,6 +62,17 @@ class _MapViewState extends State<MapView> {
   );
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final preset = mapLightPresetFor(context);
+    final map = _map;
+    if (map == null || _appliedLightPreset == null) return;
+    if (preset == _appliedLightPreset) return;
+    _appliedLightPreset = preset;
+    map.style.setStyleImportConfigProperty('basemap', 'lightPreset', preset);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MapWidget(
       key: const ValueKey('mapWidget'),
@@ -76,12 +92,15 @@ class _MapViewState extends State<MapView> {
     // Read before the first `await` — using `context` after one risks it
     // having been unmounted in between.
     final topInset = MediaQuery.paddingOf(context).top;
+    final lightPreset = mapLightPresetFor(context);
 
     // The Standard style ships 3D buildings, landmarks and real shadows; we
-    // only configure it. Mapbox's own POI/transit labels are hidden so that our
-    // pins (businesses, meets, roads) read clearly.
+    // only configure it. Lighting follows the app theme, and Mapbox's own
+    // POI/transit labels are hidden so that our pins (businesses, meets, roads)
+    // read clearly.
+    _appliedLightPreset = lightPreset;
     await map.style.setStyleImportConfigProperties('basemap', {
-      'lightPreset': _lightPresetForTimeOfDay(),
+      'lightPreset': lightPreset,
       'show3dObjects': true,
       'showPointOfInterestLabels': false,
       'showTransitLabels': false,
@@ -103,14 +122,5 @@ class _MapViewState extends State<MapView> {
     ));
 
     if (mounted) widget.onMapReady?.call(map);
-  }
-
-  /// Lights the map to match the user's actual time of day.
-  String _lightPresetForTimeOfDay() {
-    final hour = DateTime.now().hour;
-    if (hour < 6 || hour >= 21) return 'night';
-    if (hour < 8) return 'dawn';
-    if (hour < 18) return 'day';
-    return 'dusk';
   }
 }

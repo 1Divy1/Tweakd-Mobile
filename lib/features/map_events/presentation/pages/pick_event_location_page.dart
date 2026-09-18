@@ -3,6 +3,7 @@ import 'package:tweakd/core/error/base_failures.dart';
 import 'package:tweakd/core/theme/app_colors.dart';
 import 'package:tweakd/features/map/domain/entities/geo_position.dart';
 import 'package:tweakd/features/map/domain/map_defaults.dart';
+import 'package:tweakd/features/map/presentation/utils/map_light_preset.dart';
 import 'package:tweakd/l10n/app_localizations.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -96,6 +97,9 @@ class _PickEventLocationPageState extends State<PickEventLocationPage> {
   PointAnnotationManager? _pins;
   PointAnnotation? _pin;
 
+  /// The `lightPreset` last pushed to the style; null until the style loads.
+  String? _appliedLightPreset;
+
   final _cityController = TextEditingController();
   final _streetController = TextEditingController();
   final _numberController = TextEditingController();
@@ -154,6 +158,26 @@ class _PickEventLocationPageState extends State<PickEventLocationPage> {
       _dropped = widget.initial;
       _stage = _PickerStage.placing;
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Relight on a live theme switch; the initial preset is set on style load.
+    final preset = mapLightPresetFor(context);
+    if (_appliedLightPreset == null || preset == _appliedLightPreset) return;
+    _applyLightPreset(preset);
+  }
+
+  /// Matches the map's lighting to the app theme rather than the clock.
+  void _onStyleLoaded(StyleLoadedEventData _) =>
+      _applyLightPreset(mapLightPresetFor(context));
+
+  void _applyLightPreset(String preset) {
+    final map = _map;
+    if (map == null) return;
+    _appliedLightPreset = preset;
+    map.style.setStyleImportConfigProperty('basemap', 'lightPreset', preset);
   }
 
   @override
@@ -323,6 +347,7 @@ class _PickEventLocationPageState extends State<PickEventLocationPage> {
             textureView: true,
             viewport: _viewport,
             onMapCreated: _onMapCreated,
+            onStyleLoadedListener: _onStyleLoaded,
           ),
 
           // Only while the user still has to place a pin. Once one exists the

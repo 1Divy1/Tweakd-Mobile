@@ -160,8 +160,9 @@ mapboxMap.style.setStyleImportConfigProperties('basemap', {
 });
 ```
 
-A nice touch for a car app: drive `lightPreset` off the device clock (or the
-user's theme) so the map is `night` in the evening.
+Tweakd drives `lightPreset` off the app theme, not the clock: light → `day`,
+dark → `night` (`presentation/utils/map_light_preset.dart`), and relights live
+when the theme changes.
 
 For full manual control of shadows there's `style.setLights(...)` with
 `AmbientLight` + `DirectionalLight(castShadows: true)`, but the presets are
@@ -687,7 +688,7 @@ mapper.
    every later layer is a copy.
 4. ~~Car meets~~ **done** — see §6.1 and `lib/features/map_events/README.md`.
 5. Driving roads (`LineLayer`, casing + line, detail sheet).
-6. 3D: swap the puck for the car model, `lightPreset` by time of day.
+6. 3D: swap the puck for the car model, `lightPreset` from the app theme.
 7. Live users / convoys (Supabase Realtime + `ModelLayer` + interpolation).
 8. Creating content on the map: long-press → "add meet here", road recording.
 
