@@ -53,8 +53,10 @@ class FeedTopBar extends StatelessWidget {
           ),
           const SizedBox(width: 10),
           const _UnreadPillButton<DmUnreadCubit>(
-            icon: Icons.mode_comment_outlined,
+            icon: Icons.send_rounded,
             route: '/messages',
+            iconRotation: -45,
+            iconOffset: Offset(1, -1),
           ),
         ],
       ),
@@ -69,8 +71,15 @@ class FeedTopBar extends StatelessWidget {
 class _UnreadPillButton<C extends UnreadCountCubit> extends StatefulWidget {
   final IconData icon;
   final String route;
+  final double iconRotation;
+  final Offset iconOffset;
 
-  const _UnreadPillButton({required this.icon, required this.route});
+  const _UnreadPillButton({
+    required this.icon,
+    required this.route,
+    this.iconRotation = 0,
+    this.iconOffset = Offset.zero,
+  });
 
   @override
   State<_UnreadPillButton<C>> createState() => _UnreadPillButtonState<C>();
@@ -93,6 +102,8 @@ class _UnreadPillButtonState<C extends UnreadCountCubit>
   Widget build(BuildContext context) {
     return _PillButton(
       icon: widget.icon,
+      iconRotation: widget.iconRotation,
+      iconOffset: widget.iconOffset,
       onTap: _open,
       badge: BlocBuilder<C, int>(
         builder: (context, count) =>
@@ -106,15 +117,28 @@ class _PillButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
   final Widget? badge;
+  final double iconRotation;
+  final Offset iconOffset;
 
-  const _PillButton({required this.icon, required this.onTap, this.badge});
+  const _PillButton({
+    required this.icon,
+    required this.onTap,
+    this.badge,
+    this.iconRotation = 0,
+    this.iconOffset = Offset.zero,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        AppPillButton(icon: icon, onTap: onTap),
+        AppPillButton(
+          icon: icon,
+          onTap: onTap,
+          iconRotation: iconRotation,
+          iconOffset: iconOffset,
+        ),
         if (badge != null) Positioned(top: -5, right: -5, child: badge!),
       ],
     );
