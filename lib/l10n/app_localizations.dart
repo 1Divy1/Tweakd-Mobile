@@ -6530,12 +6530,6 @@ abstract class AppLocalizations {
   /// **'Create an event'**
   String get mapCreateEvent;
 
-  /// Line above the public event link in the OS share sheet.
-  ///
-  /// In en, this message translates to:
-  /// **'{title} on Tweakd'**
-  String mapEventsShareText(String title);
-
   /// No description provided for @mapEventsDateCardTitle.
   ///
   /// In en, this message translates to:

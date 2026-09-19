@@ -1355,7 +1355,6 @@
   "mapSearchNoBusinesses": "Nicio afacere pentru „{query}”.",
   "mapSearchLoadMoreFailed": "Nu am putut încărca mai multe rezultate.",
   "mapCreateEvent": "Creează un eveniment",
-  "mapEventsShareText": "{title} pe Tweakd",
   "mapEventsDateCardTitle": "Când",
   "feedbackFeedEyebrow": "Comunitate",
   "feedbackFeedTitle": "Feedback",

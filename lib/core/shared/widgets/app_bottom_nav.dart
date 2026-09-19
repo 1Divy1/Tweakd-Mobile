@@ -27,7 +27,32 @@ class AppBottomNav extends StatelessWidget {
   /// anything was published, so this fires on a cancel too.
   final ValueChanged<CreateAction>? onCreateClosed;
 
-  const AppBottomNav({super.key, required this.activeTab, this.onCreateClosed});
+  /// Called when the already-active tab is tapped again — the host page's cue
+  /// to scroll back to the top and refresh. Without it the tap does nothing.
+  final VoidCallback? onReselect;
+
+  const AppBottomNav({
+    super.key,
+    required this.activeTab,
+    this.onCreateClosed,
+    this.onReselect,
+  });
+
+  /// Switches to [location], or hands a tap on the current tab to
+  /// [onReselect].
+  VoidCallback _tabTap(
+    BuildContext context,
+    AppBottomNavTab tab,
+    String location,
+  ) {
+    if (tab != activeTab) return () => context.go(location);
+    final reselect = onReselect;
+    if (reselect == null) return () {};
+    return () {
+      HapticFeedback.selectionClick();
+      reselect();
+    };
+  }
 
   Future<void> _create(BuildContext context) async {
     HapticFeedback.lightImpact();
@@ -59,7 +84,7 @@ class AppBottomNav extends StatelessWidget {
                   glyph: _Glyph.feed,
                   label: l10n.navFeed,
                   isActive: activeTab == AppBottomNavTab.feed,
-                  onTap: () => context.go('/feed'),
+                  onTap: _tabTap(context, AppBottomNavTab.feed, '/feed'),
                 ),
               ),
               Expanded(
@@ -83,7 +108,7 @@ class AppBottomNav extends StatelessWidget {
                   glyph: _Glyph.search,
                   label: l10n.navSearch,
                   isActive: activeTab == AppBottomNavTab.search,
-                  onTap: () => context.go('/search'),
+                  onTap: _tabTap(context, AppBottomNavTab.search, '/search'),
                 ),
               ),
               Expanded(
@@ -91,7 +116,7 @@ class AppBottomNav extends StatelessWidget {
                   glyph: _Glyph.profile,
                   label: l10n.navProfile,
                   isActive: activeTab == AppBottomNavTab.profile,
-                  onTap: () => context.go('/profile'),
+                  onTap: _tabTap(context, AppBottomNavTab.profile, '/profile'),
                 ),
               ),
             ],
@@ -170,8 +195,7 @@ class _TabSlot extends StatelessWidget {
       label: label,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
-        // Re-tapping the current tab would only rebuild the page.
-        onTap: isActive ? null : onTap,
+        onTap: onTap,
         child: Center(
           child: SvgPicture.string(
             _glyphSvg(glyph, active: isActive),

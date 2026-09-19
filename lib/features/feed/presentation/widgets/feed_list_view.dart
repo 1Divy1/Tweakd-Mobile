@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/di/injection.dart';
+import '../../../../core/shared/utils/scroll_to_top.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../posts/domain/entities/post.dart';
@@ -34,10 +35,15 @@ class FeedListView extends StatefulWidget {
   /// Opens the post composer from the empty state.
   final VoidCallback onCreatePost;
 
+  /// Fires when the home tab is tapped while already on it: scroll back to
+  /// the top and refresh.
+  final Listenable? reselected;
+
   const FeedListView({
     super.key,
     required this.state,
     required this.onCreatePost,
+    this.reselected,
   });
 
   @override
@@ -46,6 +52,7 @@ class FeedListView extends StatefulWidget {
 
 class _FeedListViewState extends State<FeedListView> {
   final _scrollController = ScrollController();
+  final _refreshKey = GlobalKey<RefreshIndicatorState>();
 
   /// Set once the cached-page scroll has been reported; it only matters once.
   bool _reportedCacheScroll = false;
@@ -54,10 +61,21 @@ class _FeedListViewState extends State<FeedListView> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    widget.reselected?.addListener(_scrollToTopAndRefresh);
+  }
+
+  @override
+  void didUpdateWidget(FeedListView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.reselected != widget.reselected) {
+      oldWidget.reselected?.removeListener(_scrollToTopAndRefresh);
+      widget.reselected?.addListener(_scrollToTopAndRefresh);
+    }
   }
 
   @override
   void dispose() {
+    widget.reselected?.removeListener(_scrollToTopAndRefresh);
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -87,6 +105,13 @@ class _FeedListViewState extends State<FeedListView> {
   void _showNewPosts() {
     context.read<FeedBloc>().add(const ShowNewFeedPosts());
     if (_scrollController.hasClients) _scrollController.jumpTo(0);
+  }
+
+  /// Shows the pull-to-refresh spinner rather than refreshing silently, so the
+  /// tap visibly did something.
+  Future<void> _scrollToTopAndRefresh() async {
+    await scrollToTop(_scrollController);
+    if (mounted) _refreshKey.currentState?.show();
   }
 
   Future<void> _refresh() async {
@@ -134,6 +159,7 @@ class _FeedListViewState extends State<FeedListView> {
 
     if (posts.isEmpty) {
       return RefreshIndicator(
+        key: _refreshKey,
         color: AppColors.accent,
         onRefresh: _refresh,
         child: ListView(
@@ -153,6 +179,7 @@ class _FeedListViewState extends State<FeedListView> {
         NotificationListener<ScrollStartNotification>(
           onNotification: _onScrollStart,
           child: RefreshIndicator(
+            key: _refreshKey,
             color: AppColors.accent,
             onRefresh: _refresh,
             child: ListView.builder(

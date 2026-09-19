@@ -127,15 +127,15 @@ class MapEventHero extends StatelessWidget {
       event.status != MapEventStatus.hidden;
 
   /// Opens the OS share sheet (which includes Copy) with the event's public
-  /// link, `web.tweakdapp.com/e/{id}`. Someone without the app gets the event
+  /// link, `web.tweakdapp.com/e/{id}`, and nothing else — so Copy yields a URL
+  /// that pastes into a browser. Someone without the app gets the event
   /// page in the browser; someone with it lands straight on this screen.
   Future<void> _share(BuildContext buttonContext) async {
-    final l10n = AppLocalizations.of(buttonContext)!;
     final origin = shareOriginOf(buttonContext);
     getIt<AnalyticsService>().track(AnalyticsEvents.eventShareOpened);
     await getIt<ShareLauncherService>().shareLink(
       url: eventShareUrl(event.id),
-      text: l10n.mapEventsShareText(event.title),
+      title: event.title,
       origin: origin,
     );
   }

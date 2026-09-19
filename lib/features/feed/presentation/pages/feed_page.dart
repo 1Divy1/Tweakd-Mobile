@@ -42,10 +42,31 @@ class _FeedPageState extends State<FeedPage> {
   late FeedSegment _segment = widget.initialSegment;
   final _loaded = <FeedSegment>{};
 
+  /// Bumped when the home tab is re-tapped; the visible segment's view
+  /// listens and scrolls to the top and refreshes.
+  final _feedReselected = ValueNotifier(0);
+  final _forumsReselected = ValueNotifier(0);
+
   @override
   void initState() {
     super.initState();
     _ensureLoaded(_segment);
+  }
+
+  @override
+  void dispose() {
+    _feedReselected.dispose();
+    _forumsReselected.dispose();
+    super.dispose();
+  }
+
+  void _onReselect() {
+    switch (_segment) {
+      case FeedSegment.feed:
+        _feedReselected.value++;
+      case FeedSegment.forums:
+        _forumsReselected.value++;
+    }
   }
 
   void _ensureLoaded(FeedSegment segment) {
@@ -159,6 +180,7 @@ class _FeedPageState extends State<FeedPage> {
                             FeedLoaded() => FeedListView(
                               state: state,
                               onCreatePost: _createPost,
+                              reselected: _feedReselected,
                             ),
                           };
                         },
@@ -166,7 +188,7 @@ class _FeedPageState extends State<FeedPage> {
                     ),
                     TickerMode(
                       enabled: _segment == FeedSegment.forums,
-                      child: const ForumsHomeView(),
+                      child: ForumsHomeView(reselected: _forumsReselected),
                     ),
                   ],
                 ),
@@ -174,6 +196,7 @@ class _FeedPageState extends State<FeedPage> {
               AppBottomNav(
                 activeTab: AppBottomNavTab.feed,
                 onCreateClosed: _onCreateClosed,
+                onReselect: _onReselect,
               ),
             ],
           ),

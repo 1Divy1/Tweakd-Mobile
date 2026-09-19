@@ -3656,11 +3656,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapCreateEvent => 'Create an event';
 
   @override
-  String mapEventsShareText(String title) {
-    return '$title on Tweakd';
-  }
-
-  @override
   String get mapEventsDateCardTitle => 'When';
 
   @override

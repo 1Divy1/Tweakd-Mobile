@@ -1626,13 +1626,6 @@
   },
   "mapSearchLoadMoreFailed": "Couldn't load more results.",
   "mapCreateEvent": "Create an event",
-  "mapEventsShareText": "{title} on Tweakd",
-  "@mapEventsShareText": {
-    "description": "Line above the public event link in the OS share sheet.",
-    "placeholders": {
-      "title": { "type": "String" }
-    }
-  },
   "mapEventsDateCardTitle": "When",
   "feedbackFeedEyebrow": "Community",
   "feedbackFeedTitle": "Feedback",

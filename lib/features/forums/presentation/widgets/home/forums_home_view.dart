@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/shared/utils/scroll_to_top.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/forum_filter.dart';
@@ -26,7 +27,11 @@ import '../../../../../core/shared/layout/app_layout.dart';
 /// segment bar as `ForumsHomeActions`, and new threads start from the bottom
 /// nav's create button or the empty state's call to action.
 class ForumsHomeView extends StatefulWidget {
-  const ForumsHomeView({super.key});
+  /// Fires when the home tab is tapped while already on it: scroll back to
+  /// the top and refresh.
+  final Listenable? reselected;
+
+  const ForumsHomeView({super.key, this.reselected});
 
   @override
   State<ForumsHomeView> createState() => _ForumsHomeViewState();
@@ -34,16 +39,28 @@ class ForumsHomeView extends StatefulWidget {
 
 class _ForumsHomeViewState extends State<ForumsHomeView> {
   final _scrollController = ScrollController();
+  final _refreshKey = GlobalKey<RefreshIndicatorState>();
   bool _isEditingShortcuts = false;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    widget.reselected?.addListener(_scrollToTopAndRefresh);
+  }
+
+  @override
+  void didUpdateWidget(ForumsHomeView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.reselected != widget.reselected) {
+      oldWidget.reselected?.removeListener(_scrollToTopAndRefresh);
+      widget.reselected?.addListener(_scrollToTopAndRefresh);
+    }
   }
 
   @override
   void dispose() {
+    widget.reselected?.removeListener(_scrollToTopAndRefresh);
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -56,6 +73,11 @@ class _ForumsHomeViewState extends State<ForumsHomeView> {
     if (position.pixels >= position.maxScrollExtent - 600) {
       context.read<ForumsHomeBloc>().add(const LoadMoreForumsHome());
     }
+  }
+
+  Future<void> _scrollToTopAndRefresh() async {
+    await scrollToTop(_scrollController);
+    if (mounted) _refreshKey.currentState?.show();
   }
 
   Future<void> _refresh() async {
@@ -109,6 +131,7 @@ class _ForumsHomeViewState extends State<ForumsHomeView> {
         return _HomeContent(
           state: state,
           scrollController: _scrollController,
+          refreshKey: _refreshKey,
           isEditingShortcuts: _isEditingShortcuts,
           onToggleEditing: () =>
               setState(() => _isEditingShortcuts = !_isEditingShortcuts),
@@ -125,6 +148,7 @@ class _ForumsHomeViewState extends State<ForumsHomeView> {
 class _HomeContent extends StatelessWidget {
   final ForumsHomeState state;
   final ScrollController scrollController;
+  final Key refreshKey;
   final bool isEditingShortcuts;
   final VoidCallback onToggleEditing;
   final Future<void> Function() onRefresh;
@@ -135,6 +159,7 @@ class _HomeContent extends StatelessWidget {
   const _HomeContent({
     required this.state,
     required this.scrollController,
+    required this.refreshKey,
     required this.isEditingShortcuts,
     required this.onToggleEditing,
     required this.onRefresh,
@@ -151,6 +176,7 @@ class _HomeContent extends StatelessWidget {
     // An empty paddock keeps the same scroll view: the explainer heads the
     // global hot list, so a new user lands on live threads, not a blank page.
     return RefreshIndicator(
+      key: refreshKey,
       color: AppColors.accent,
       onRefresh: onRefresh,
       child: CustomScrollView(
@@ -167,7 +193,8 @@ class _HomeContent extends StatelessWidget {
                       children: [
                         if (state.shortcuts.isEmpty)
                           ForumsEmptyView(
-                            hasThreads: state.threads.isNotEmpty ||
+                            hasThreads:
+                                state.threads.isNotEmpty ||
                                 state.isThreadsLoading,
                             onStartThread: onStartThread,
                           )
@@ -184,8 +211,7 @@ class _HomeContent extends StatelessWidget {
                           ),
                           const SizedBox(height: 20),
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16),
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Row(
                               children: [
                                 Expanded(
