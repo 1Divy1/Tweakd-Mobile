@@ -1,3 +1,5 @@
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
 import 'package:tweakd/features/map_events/domain/usecases/map_event_reads.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -38,6 +40,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   final GetBusinessDetailUseCase getBusinessDetail;
   final GetCurrentPositionUseCase getCurrentPosition;
   final GetNearbyMapEventsUseCase getNearbyEvents;
+  final AnalyticsService analytics;
 
   /// Cancels the in-flight nearby requests when a newer one supersedes them, so
   /// a slow response for an old centre can't overwrite fresher pins.
@@ -53,11 +56,14 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     required this.getBusinessDetail,
     required this.getCurrentPosition,
     required this.getNearbyEvents,
+    this.analytics = const NoopAnalyticsService(),
   }) : super(const MapState()) {
     on<MapStarted>(_onStarted);
     on<MapCameraSettled>(_onCameraSettled);
     on<MapBusinessSelected>(_onBusinessSelected);
     on<MapEventPinSelected>(_onEventSelected);
+    on<MapSearchBusinessChosen>(_onSearchBusinessChosen);
+    on<MapSearchEventChosen>(_onSearchEventChosen);
     on<MapBusinessDismissed>(_onBusinessDismissed);
     on<MapBusinessDetailRetried>(_onDetailRetried);
     on<MapEventPinRefreshed>(_onEventPinRefreshed);
@@ -158,6 +164,50 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         .copyWith(selectedEventId: event.eventId));
   }
 
+  /// Like tapping the business's pin, except the pin may not be on the map
+  /// yet: it's kept as [MapState.searchBusiness] and the camera flies to it.
+  /// Landing there triggers the usual nearby refetch around the new centre.
+  Future<void> _onSearchBusinessChosen(
+    MapSearchBusinessChosen event,
+    Emitter<MapState> emit,
+  ) async {
+    _detailCancelToken?.cancel();
+    final cancelToken = CancelToken();
+    _detailCancelToken = cancelToken;
+
+    analytics.track(AnalyticsEvents.mapSearchResultOpened, {'kind': 'business'});
+    emit(state.copyWith(clearSelection: true).copyWith(
+      selectedBusinessId: event.pin.id,
+      searchBusiness: event.pin,
+      detailStatus: BusinessDetailStatus.loading,
+      clearDetail: true,
+      cameraCommand: _command(event.pin.position, zoom: kMapSearchResultZoom),
+    ));
+
+    await _fetchDetail(event.pin.id, cancelToken, emit);
+  }
+
+  /// Like tapping the event's pin, with the pin carried in: a past event is
+  /// never returned by the nearby query, so without this it would have no pin
+  /// at all. The caller loads the event into `MapEventDetailBloc`, as for a tap.
+  void _onSearchEventChosen(
+    MapSearchEventChosen event,
+    Emitter<MapState> emit,
+  ) {
+    _detailCancelToken?.cancel();
+    _detailCancelToken = null;
+
+    analytics.track(AnalyticsEvents.mapSearchResultOpened, {
+      'kind': 'event',
+      'event_status': event.pin.status.apiValue,
+    });
+    emit(state.copyWith(clearSelection: true).copyWith(
+      selectedEventId: event.pin.id,
+      searchEvent: event.pin,
+      cameraCommand: _command(event.pin.position, zoom: kMapSearchResultZoom),
+    ));
+  }
+
   /// Keeps a pin's counters in step with what the popup did, without spending a
   /// `/nearby` round trip on a change we already know the answer to.
   void _onEventPinRefreshed(
@@ -178,7 +228,16 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         else
           e,
     ];
-    if (changed) emit(state.copyWith(events: events));
+    final searchEvent = state.searchEvent;
+    final patchedSearchEvent = searchEvent?.id == event.eventId
+        ? searchEvent!.copyWith(
+            attendeesCount: event.attendeesCount,
+            attendingCarsCount: event.attendingCarsCount,
+          )
+        : null;
+    if (changed || patchedSearchEvent != null) {
+      emit(state.copyWith(events: events, searchEvent: patchedSearchEvent));
+    }
   }
 
   Future<void> _onDetailRetried(
@@ -310,8 +369,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     );
   }
 
-  MapCameraCommand _command(GeoPosition target) =>
-      MapCameraCommand(target: target, seq: ++_cameraSeq);
+  MapCameraCommand _command(GeoPosition target, {double? zoom}) =>
+      MapCameraCommand(target: target, seq: ++_cameraSeq, zoom: zoom);
 
   @override
   Future<void> close() {

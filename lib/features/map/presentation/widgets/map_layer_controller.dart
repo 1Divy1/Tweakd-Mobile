@@ -196,12 +196,12 @@ class MapLayerController {
   }
 
   /// Animates the camera to [target].
-  Future<void> flyTo(GeoPosition target, {double zoom = 12.5}) async {
+  Future<void> flyTo(GeoPosition target, {double? zoom}) async {
     if (_disposed) return;
     await _map.flyTo(
       CameraOptions(
         center: Point(coordinates: Position(target.lng, target.lat)),
-        zoom: zoom,
+        zoom: zoom ?? 12.5,
       ),
       MapAnimationOptions(duration: 1200),
     );

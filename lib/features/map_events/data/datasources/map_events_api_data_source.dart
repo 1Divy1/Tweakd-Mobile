@@ -50,6 +50,38 @@ class MapEventsApiDataSource {
     ];
   }
 
+  /// `GET /map-events/search` — the map's search box. A keyset page, nearest
+  /// to [lat]/[lng] first; each pin's `status` is the clock-derived phase.
+  /// [statuses] is any of `upcoming`, `live`, `previous` (empty = the backend
+  /// default, upcoming + live). Send the same centre and statuses with every
+  /// page of one search.
+  Future<MapEventPageModel<MapEventPinModel>> search({
+    required String query,
+    required double lat,
+    required double lng,
+    List<String> statuses = const [],
+    String? cursor,
+    int? size,
+    CancelToken? cancelToken,
+  }) async {
+    final data = await http.get(
+      '/map-events/search',
+      queryParameters: {
+        'q': query,
+        'lat': lat,
+        'lng': lng,
+        if (statuses.isNotEmpty) 'status': statuses.join(','),
+        'cursor': ?cursor,
+        'size': ?size,
+      },
+      cancelToken: cancelToken,
+    );
+    return MapEventPageModel.fromJson(
+      data as Map<String, dynamic>,
+      MapEventPinModel.fromJson,
+    );
+  }
+
   Future<List<MapEventCategoryModel>> getCategories() async {
     final data = await http.get('/map-events/categories');
     return [

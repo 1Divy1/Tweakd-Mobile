@@ -57,7 +57,11 @@ import '../../features/garage/presentation/pages/register_car_page.dart';
 import '../../features/garage/presentation/pages/share_landing_page.dart';
 import '../../features/map/presentation/bloc/map/bloc.dart';
 import '../../features/map/presentation/bloc/map/event.dart';
+import '../../features/map/domain/entities/geo_position.dart';
+import '../../features/map/domain/map_defaults.dart';
+import '../../features/map/presentation/bloc/map_search/bloc.dart';
 import '../../features/map/presentation/pages/map_page.dart';
+import '../../features/map/presentation/pages/map_search_page.dart';
 import '../../features/map_events/domain/entities/contest.dart';
 import '../../features/map_events/domain/entities/map_event.dart';
 import '../../features/map_events/presentation/bloc/car_event_history/bloc.dart';
@@ -417,6 +421,23 @@ GoRouter createAppRouter({required String initialLocation}) => GoRouter(
         ],
         child: const MapPage(),
       ),
+      routes: [
+        // Search over the whole map. Pushed on top of /map so the map below
+        // stays mounted, and pops back with the chosen result. `extra` is the
+        // centre to rank results around; a deep link falls back to the
+        // default centre.
+        GoRoute(
+          path: 'search',
+          builder: (context, state) {
+            final extra = state.extra;
+            final centre = extra is GeoPosition ? extra : kMapFallbackCentre;
+            return BlocProvider<MapSearchBloc>(
+              create: (_) => getIt<MapSearchBloc>(param1: centre),
+              child: const MapSearchPage(),
+            );
+          },
+        ),
+      ],
     ),
 
     // ---------- Map events ----------

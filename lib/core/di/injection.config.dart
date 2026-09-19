@@ -227,11 +227,14 @@ import '../../features/map/data/datasources/business_api_data_source.dart'
 import '../../features/map/data/datasources/device_location_data_source.dart'
     as _i178;
 import '../../features/map/data/repositories/map_repository_impl.dart' as _i457;
+import '../../features/map/domain/entities/geo_position.dart' as _i959;
 import '../../features/map/domain/repositories/map_repository.dart' as _i973;
 import '../../features/map/domain/usecases/get_business_detail.dart' as _i107;
 import '../../features/map/domain/usecases/get_current_position.dart' as _i958;
 import '../../features/map/domain/usecases/get_nearby_businesses.dart' as _i642;
+import '../../features/map/domain/usecases/search_businesses.dart' as _i566;
 import '../../features/map/presentation/bloc/map/bloc.dart' as _i465;
+import '../../features/map/presentation/bloc/map_search/bloc.dart' as _i554;
 import '../../features/map_events/data/datasources/create_event_draft_local_data_source.dart'
     as _i1064;
 import '../../features/map_events/data/datasources/map_event_contests_api_data_source.dart'
@@ -797,6 +800,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i642.GetNearbyBusinessesUseCase>(
       () => _i642.GetNearbyBusinessesUseCase(gh<_i973.MapRepository>()),
     );
+    gh.lazySingleton<_i566.SearchBusinessesUseCase>(
+      () => _i566.SearchBusinessesUseCase(gh<_i973.MapRepository>()),
+    );
     gh.factory<_i486.PostDetailBloc>(
       () => _i486.PostDetailBloc(
         getPost: gh<_i601.GetPostUseCase>(),
@@ -978,6 +984,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i997.GetNearbyMapEventsUseCase>(
       () => _i997.GetNearbyMapEventsUseCase(gh<_i365.MapEventsRepository>()),
+    );
+    gh.lazySingleton<_i997.SearchMapEventsUseCase>(
+      () => _i997.SearchMapEventsUseCase(gh<_i365.MapEventsRepository>()),
     );
     gh.lazySingleton<_i997.GetMapEventCategoriesUseCase>(
       () => _i997.GetMapEventCategoriesUseCase(gh<_i365.MapEventsRepository>()),
@@ -1233,6 +1242,14 @@ extension GetItInjectableX on _i174.GetIt {
         deletePost: gh<_i640.DeletePostUseCase>(),
       ),
     );
+    gh.factoryParam<_i554.MapSearchBloc, _i959.GeoPosition, dynamic>(
+      (centre, _) => _i554.MapSearchBloc(
+        searchEvents: gh<_i997.SearchMapEventsUseCase>(),
+        searchBusinesses: gh<_i566.SearchBusinessesUseCase>(),
+        centre: centre,
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
+    );
     gh.lazySingleton<_i355.GetContestCategoriesUseCase>(
       () => _i355.GetContestCategoriesUseCase(
         gh<_i537.MapEventContestsRepository>(),
@@ -1372,6 +1389,15 @@ extension GetItInjectableX on _i174.GetIt {
         getModificationUploadUrls: gh<_i2.GetModificationUploadUrlsUseCase>(),
         patchModification: gh<_i49.PatchModificationUseCase>(),
         imageService: gh<_i768.ImageService>(),
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
+    );
+    gh.factory<_i465.MapBloc>(
+      () => _i465.MapBloc(
+        getNearbyBusinesses: gh<_i642.GetNearbyBusinessesUseCase>(),
+        getBusinessDetail: gh<_i107.GetBusinessDetailUseCase>(),
+        getCurrentPosition: gh<_i958.GetCurrentPositionUseCase>(),
+        getNearbyEvents: gh<_i997.GetNearbyMapEventsUseCase>(),
         analytics: gh<_i726.AnalyticsService>(),
       ),
     );
@@ -1677,14 +1703,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i981.SupabaseAuthDataSource(
         gh<_i454.SupabaseClient>(),
         gh<_i892.PushRegistration>(),
-      ),
-    );
-    gh.factory<_i465.MapBloc>(
-      () => _i465.MapBloc(
-        getNearbyBusinesses: gh<_i642.GetNearbyBusinessesUseCase>(),
-        getBusinessDetail: gh<_i107.GetBusinessDetailUseCase>(),
-        getCurrentPosition: gh<_i958.GetCurrentPositionUseCase>(),
-        getNearbyEvents: gh<_i997.GetNearbyMapEventsUseCase>(),
       ),
     );
     gh.factory<_i797.OnboardingBloc>(

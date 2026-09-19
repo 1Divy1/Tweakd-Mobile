@@ -16,3 +16,8 @@ const kMapSearchLimit = 200;
 /// request is worth making. Roughly half the radius, so the rings overlap and
 /// the user never pans into an empty area.
 const kMapRefetchDistanceKm = 12.0;
+
+/// Camera zoom when landing on a search result: close enough to single out the
+/// one pin the user picked, with a few streets of context around it. The
+/// overview zoom (12.5) would drop it among everything else nearby.
+const kMapSearchResultZoom = 15.0;

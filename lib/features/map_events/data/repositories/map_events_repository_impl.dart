@@ -53,6 +53,30 @@ class MapEventsRepositoryImpl implements MapEventsRepository {
   }
 
   @override
+  Future<Either<Failure, MapEventPageEntity<MapEventPinEntity>>> searchEvents({
+    required String query,
+    required GeoPosition centre,
+    Set<MapEventStatus> statuses = const {},
+    String? cursor,
+    int? size,
+    CancelToken? cancelToken,
+  }) {
+    return _guard('searchEvents', () async {
+      final page = await api.search(
+        query: query,
+        lat: centre.lat,
+        lng: centre.lng,
+        // Sorted so one filter always produces the same URL.
+        statuses: [for (final s in statuses) s.apiValue]..sort(),
+        cursor: cursor,
+        size: size,
+        cancelToken: cancelToken,
+      );
+      return page.toEntity((p) => p.toEntity());
+    });
+  }
+
+  @override
   Future<Either<Failure, List<MapEventCategoryEntity>>> getCategories() {
     return _guard('getCategories', () async {
       final categories = await api.getCategories();

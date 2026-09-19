@@ -7,6 +7,7 @@ import '../../../../core/error/base_exceptions.dart';
 import '../../../../core/error/base_failures.dart';
 import '../../domain/entities/business_detail_entity.dart';
 import '../../domain/entities/business_pin_entity.dart';
+import '../../domain/entities/business_search_page.dart';
 import '../../domain/entities/geo_position.dart';
 import '../../domain/failures/map_failures.dart';
 import '../../domain/repositories/map_repository.dart';
@@ -51,6 +52,40 @@ class MapRepositoryImpl implements MapRepository {
       return Left(ServerFailure(e.message));
     } catch (e) {
       debugPrint('Unexpected error in getNearbyBusinesses: $e');
+      return const Left(UnknownFailure('An unexpected error occurred.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, BusinessSearchPageEntity>> searchBusinesses({
+    required String query,
+    required GeoPosition centre,
+    String? cursor,
+    int? size,
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      final page = await businessApiDataSource.search(
+        query: query,
+        lat: centre.lat,
+        lng: centre.lng,
+        cursor: cursor,
+        size: size,
+        cancelToken: cancelToken,
+      );
+      return Right(page.toEntity());
+    } on RequestCancelledException {
+      return const Left(RequestCancelledFailure());
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ApiException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('Unexpected error in searchBusinesses: $e');
       return const Left(UnknownFailure('An unexpected error occurred.'));
     }
   }

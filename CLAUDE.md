@@ -151,6 +151,8 @@ Implemented features with their key files. Read these first before exploring sub
 | `/profile` | ProfileBloc (+ FetchUserProfileData) | Own profile |
 | `/users/:username` | ProfileBloc + FollowStatusBloc | Redirects to `/profile` if own user |
 | `/search` | SearchBloc | SearchPage |
+| `/map` | MapBloc (+ MapStarted) + MapEventDetailBloc | MapPage |
+| `/map/search` | MapSearchBloc (`param1`: centre from `extra`) | MapSearchPage — pops a `MapSearchSelection` back to the map |
 | `/feed` | — | Stub, not implemented |
 
 ## Conventions worth knowing
