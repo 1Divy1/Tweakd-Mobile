@@ -63,6 +63,18 @@ class ShareLauncherService {
     await _share(ShareParams(text: body, sharePositionOrigin: origin));
   }
 
+  /// The OS share sheet for any public URL, with an optional line of [text]
+  /// above it. Used for shared events, which have no per-channel tiles and no
+  /// tags: nothing counts an event's views.
+  Future<void> shareLink({
+    required String url,
+    String? text,
+    Rect? origin,
+  }) async {
+    final body = text == null || text.isEmpty ? url : '$text\n\n$url';
+    await _share(ShareParams(text: body, sharePositionOrigin: origin));
+  }
+
   /// Rasterises [svg] to a PNG and opens the OS *save* dialog on it.
   ///
   /// PNG and not the SVG the backend serves, even though the vector is the

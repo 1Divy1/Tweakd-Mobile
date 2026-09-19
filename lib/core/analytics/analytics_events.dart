@@ -57,6 +57,9 @@ abstract final class AnalyticsEvents {
   static const contestVoteCast = 'contest_vote_cast';
   static const participantCardShared = 'participant_card_shared';
 
+  /// The share sheet was opened for an event's public link.
+  static const eventShareOpened = 'event_share_opened';
+
   // Other
   static const feedbackSubmitted = 'feedback_submitted';
   static const contentReported = 'content_reported';
