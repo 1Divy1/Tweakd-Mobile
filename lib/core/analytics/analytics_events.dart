@@ -45,6 +45,10 @@ abstract final class AnalyticsEvents {
   static const mapEventAttendanceSet = 'map_event_attendance_set';
   static const mapEventCarRegistered = 'map_event_car_registered';
   static const mapEventWithdrawn = 'map_event_withdrawn';
+  /// A settled map-search query's first page landed (one per result tab).
+  static const mapSearchPerformed = 'map_search_performed';
+  /// A map-search result was tapped and the map flew to it.
+  static const mapSearchResultOpened = 'map_search_result_opened';
 
   // Contests
   static const contestCreated = 'contest_created';

@@ -1,4 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:tweakd/features/map_events/domain/entities/map_event_pin.dart';
+
+import '../../../domain/entities/business_pin_entity.dart';
 
 import '../../../domain/entities/geo_position.dart';
 
@@ -48,6 +51,33 @@ class MapBusinessSelected extends MapEvent {
 
   @override
   List<Object?> get props => [businessId];
+}
+
+/// A business was picked on the search screen: fly there and open its popup.
+///
+/// The pin rides along because the map may not have loaded it — the result
+/// can be anywhere, not just inside the current ring.
+class MapSearchBusinessChosen extends MapEvent {
+  final BusinessPinEntity pin;
+
+  const MapSearchBusinessChosen(this.pin);
+
+  @override
+  List<Object?> get props => [pin];
+}
+
+/// An event was picked on the search screen: fly there and open its popup.
+///
+/// A past event is never part of the regular events layer, so the pin is kept
+/// as a temporary one until its popup is dismissed. Loading the event's detail
+/// stays `MapEventDetailBloc`'s job, exactly as for a tapped pin.
+class MapSearchEventChosen extends MapEvent {
+  final MapEventPinEntity pin;
+
+  const MapSearchEventChosen(this.pin);
+
+  @override
+  List<Object?> get props => [pin];
 }
 
 /// Whichever popup is open was dismissed (tap outside, close button, back).

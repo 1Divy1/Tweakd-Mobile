@@ -69,15 +69,17 @@ class _MapPageState extends State<MapPage> {
     // them into, and the map sits on its placeholder framing.
     final state = context.read<MapBloc>().state;
     final command = state.cameraCommand;
-    if (command != null) await layers.flyTo(command.target);
+    if (command != null) {
+      await layers.flyTo(command.target, zoom: command.zoom);
+    }
     await layers.setLocationPuckEnabled(state.hasDeviceLocation);
     await layers.setBusinesses(
-      state.businesses,
+      state.visibleBusinesses,
       selectedId: state.selectedBusinessId,
       centre: state.fetchCentre,
     );
     await layers.setEvents(
-      state.events,
+      state.visibleEvents,
       selectedId: state.selectedEventId,
       centre: state.fetchCentre,
     );
@@ -104,22 +106,29 @@ class _MapPageState extends State<MapPage> {
       body: MultiBlocListener(
         listeners: [
           // Trigger: if the list of businesses is different (a - old state, b - new state)
+          // or the searched-for business came or went
           // Action: update the list with b's state
-          // Notes: selectedBusinessId remains untouched; the listenWhen doesn't care about it
+          // Notes: selectedBusinessId remains untouched; the listenWhen doesn't care about it.
+          // Compares the inputs, not visibleBusinesses: that getter builds a
+          // fresh list whenever a search pin is set, so it never compares equal.
           BlocListener<MapBloc, MapState>(
-            listenWhen: (a, b) => a.businesses != b.businesses,
+            listenWhen: (a, b) =>
+                a.businesses != b.businesses ||
+                a.searchBusiness != b.searchBusiness,
             listener: (context, state) => _layers?.setBusinesses(
-              state.businesses,
+              state.visibleBusinesses,
               selectedId: state.selectedBusinessId,
               centre: state.fetchCentre,
             ),
           ),
-          // Trigger: the events layer changed (new fetch, or a popup action
-          // patched a pin's counters).
+          // Trigger: the events layer changed (new fetch, a popup action
+          // patched a pin's counters, or the searched-for event came or went —
+          // for a past event that's the only way it gets a pin).
           BlocListener<MapBloc, MapState>(
-            listenWhen: (a, b) => a.events != b.events,
+            listenWhen: (a, b) =>
+                a.events != b.events || a.searchEvent != b.searchEvent,
             listener: (context, state) => _layers?.setEvents(
-              state.events,
+              state.visibleEvents,
               selectedId: state.selectedEventId,
               centre: state.fetchCentre,
             ),
@@ -147,7 +156,9 @@ class _MapPageState extends State<MapPage> {
             listenWhen: (a, b) => a.cameraCommand != b.cameraCommand,
             listener: (context, state) {
               final command = state.cameraCommand;
-              if (command != null) _layers?.flyTo(command.target);
+              if (command != null) {
+                _layers?.flyTo(command.target, zoom: command.zoom);
+              }
             },
           ),
           // Trigger: hasDeviceLocation flips (fix granted/lost via MapStarted

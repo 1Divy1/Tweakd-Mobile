@@ -3612,7 +3612,45 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get mapSearchPlaceholder => 'Search meets, shops, cities…';
+  String get mapSearchPlaceholder => 'Search meets, shops…';
+
+  @override
+  String get mapSearchOpen => 'Search the map';
+
+  @override
+  String get mapSearchHint => 'Search events and businesses';
+
+  @override
+  String get mapSearchTabEvents => 'Events';
+
+  @override
+  String get mapSearchTabBusinesses => 'Businesses';
+
+  @override
+  String get mapSearchStatusLive => 'Live';
+
+  @override
+  String get mapSearchStatusUpcoming => 'Upcoming';
+
+  @override
+  String get mapSearchStatusPast => 'Past';
+
+  @override
+  String get mapSearchPrompt =>
+      'Find car events and businesses anywhere on the map.';
+
+  @override
+  String mapSearchNoEvents(String query) {
+    return 'No events match “$query”.';
+  }
+
+  @override
+  String mapSearchNoBusinesses(String query) {
+    return 'No businesses match “$query”.';
+  }
+
+  @override
+  String get mapSearchLoadMoreFailed => 'Couldn\'t load more results.';
 
   @override
   String get mapCreateEvent => 'Create an event';

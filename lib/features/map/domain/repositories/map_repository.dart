@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import '../../../../core/error/base_failures.dart';
 import '../entities/business_detail_entity.dart';
 import '../entities/business_pin_entity.dart';
+import '../entities/business_search_page.dart';
 import '../entities/geo_position.dart';
 
 abstract class MapRepository {
@@ -16,6 +17,17 @@ abstract class MapRepository {
     required double radiusKm,
     String? typeId,
     int? limit,
+    CancelToken? cancelToken,
+  });
+
+  /// The map's search box: businesses whose name or type contains [query],
+  /// nearest to [centre] first, anywhere on the map (no radius). Pass the
+  /// previous page's cursor — with the same [centre] — to continue.
+  Future<Either<Failure, BusinessSearchPageEntity>> searchBusinesses({
+    required String query,
+    required GeoPosition centre,
+    String? cursor,
+    int? size,
     CancelToken? cancelToken,
   });
 

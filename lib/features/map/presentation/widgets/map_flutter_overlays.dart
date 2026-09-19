@@ -50,9 +50,9 @@ class MapFlutterOverlays extends StatelessWidget {
               child: _MapPopupBackdrop(visible: state.isPopupOpen),
             ),
 
-            // Back button, search field and create-event button. The search
-            // is inert by design (see MapTopBar). On a tablet the row keeps a
-            // form-width measure so the buttons stay within thumb reach.
+            // Back button, search pill (opens /map/search, see MapTopBar) and
+            // create-event button. On a tablet the row keeps a form-width
+            // measure so the buttons stay within thumb reach.
             Positioned(
               top: topInset + 4,
               left: 12 + sideInset,

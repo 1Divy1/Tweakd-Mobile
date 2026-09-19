@@ -1603,7 +1603,28 @@
       "count": { "type": "int" }
     }
   },
-  "mapSearchPlaceholder": "Search meets, shops, cities…",
+  "mapSearchPlaceholder": "Search meets, shops…",
+  "mapSearchOpen": "Search the map",
+  "mapSearchHint": "Search events and businesses",
+  "mapSearchTabEvents": "Events",
+  "mapSearchTabBusinesses": "Businesses",
+  "mapSearchStatusLive": "Live",
+  "mapSearchStatusUpcoming": "Upcoming",
+  "mapSearchStatusPast": "Past",
+  "mapSearchPrompt": "Find car events and businesses anywhere on the map.",
+  "mapSearchNoEvents": "No events match “{query}”.",
+  "@mapSearchNoEvents": {
+    "placeholders": {
+      "query": { "type": "String" }
+    }
+  },
+  "mapSearchNoBusinesses": "No businesses match “{query}”.",
+  "@mapSearchNoBusinesses": {
+    "placeholders": {
+      "query": { "type": "String" }
+    }
+  },
+  "mapSearchLoadMoreFailed": "Couldn't load more results.",
   "mapCreateEvent": "Create an event",
   "mapEventsCopied": "Event details copied.",
   "mapEventsDateCardTitle": "When",
