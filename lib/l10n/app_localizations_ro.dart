@@ -3690,7 +3690,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mapCreateEvent => 'Creează un eveniment';
 
   @override
-  String get mapEventsCopied => 'Detaliile evenimentului au fost copiate.';
+  String mapEventsShareText(String title) {
+    return '$title pe Tweakd';
+  }
 
   @override
   String get mapEventsDateCardTitle => 'Când';

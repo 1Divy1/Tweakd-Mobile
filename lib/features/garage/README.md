@@ -269,7 +269,8 @@ JSON content types, so the default transformer hands back the string.
 
 `DeepLinkService` (`core/deeplinks/`) listens to `app_links` and maps
 `https://web.tweakdapp.com/c/{code}` and `tweakd://c/{code}` onto `/c/:code` via
-the pure `shareRouteFor`. **Flutter's built-in deep linking is deliberately
+the pure `shareRouteFor`. Shared events (`/e/{id}`) ride the same service via
+`eventRouteFor` — see the map_events README. **Flutter's built-in deep linking is deliberately
 off** (`FlutterDeepLinkingEnabled` / `flutter_deeplinking_enabled` are not
 set): turning it on would also route the `tweakd://signup-callback` and
 `tweakd://login-callback` URLs Supabase's PKCE and Android Sign-in-with-Apple

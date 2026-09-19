@@ -26,8 +26,8 @@ import 'share_link_route.dart';
 /// `flutter_deeplinking_enabled` in `AndroidManifest.xml`. If either goes
 /// missing the symptom is an app frozen on its launch screen whenever a link
 /// opens it. Reading the same stream Supabase reads costs one subscription and
-/// lets this class ignore everything that is not `/c/{code}` — see
-/// [shareRouteFor]. `AppLinks()` is a Dart-side singleton over one broadcast
+/// lets this class ignore everything that is not `/c/{code}` or `/e/{id}` —
+/// see [shareRouteFor] and [eventRouteFor]. `AppLinks()` is a Dart-side singleton over one broadcast
 /// stream, so subscribing here does not displace Supabase's listener.
 ///
 /// Holds no reference to the router (`app_router.dart` imports the pages,
@@ -120,15 +120,17 @@ class DeepLinkService {
   void _handle(Uri uri) {
     if (_isReplay(uri)) return;
 
-    final route = shareRouteFor(uri);
+    final carRoute = shareRouteFor(uri);
+    final route = carRoute ?? eventRouteFor(uri);
     // Not a share link: an auth callback, or something we don't own. Left
     // alone on purpose — Supabase is listening to the same stream.
     if (route == null) return;
 
-    // Only the kind of link and where it was shared from — never the code.
+    // Only the kind of link and where it was shared from — never the code or
+    // the event id.
     final source = uri.queryParameters['s'];
     _analytics.track(AnalyticsEvents.deepLinkOpened, {
-      'kind': 'car_share',
+      'kind': carRoute != null ? 'car_share' : 'event_share',
       if (source != null && source.isNotEmpty) 'source': source,
     });
 

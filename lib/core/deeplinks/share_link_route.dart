@@ -78,3 +78,53 @@ String? shareCodeFor(Uri uri) {
   if (trimmed.isEmpty || trimmed.length > 24) return null;
   return trimmed;
 }
+
+// ---------------------------------------------------------------------------
+// Shared events: `https://web.tweakdapp.com/e/{eventId}` and `tweakd://e/{eventId}`
+// ---------------------------------------------------------------------------
+
+/// The single path segment shared events live under: `/e/{eventId}`. Must
+/// match the Tweakd-Web-App Worker's `EVENT_PATH`, its `apple-app-site-
+/// association` claim and the `AndroidManifest` intent filters.
+const String eventLinkPathSegment = 'e';
+
+final RegExp _uuid = RegExp(
+  r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
+);
+
+/// The public URL anyone can open for an event, app or no app.
+///
+/// An event is shared by its plain id rather than a code like a car: an
+/// approved event is already visible to every user, so there is nothing to
+/// hide, mint, pause or count.
+String eventShareUrl(String eventId) =>
+    'https://$shareLinkHost/$eventLinkPathSegment/$eventId';
+
+/// The in-app route a shared event link opens — straight onto the event page,
+/// no resolve step — or null if [uri] is not one.
+///
+/// Unlike a car code, the id *is* validated: the app mints these links itself
+/// from real UUIDs, so anything else was mangled on the way and would only
+/// produce a "not found" page.
+String? eventRouteFor(Uri uri) {
+  final segments = uri.pathSegments;
+
+  final String? raw;
+  if (uri.scheme == 'https' || uri.scheme == 'http') {
+    raw = shareLinkHosts.contains(uri.host.toLowerCase()) &&
+            segments.length >= 2 &&
+            segments.first == eventLinkPathSegment
+        ? segments[1]
+        : null;
+  } else if (uri.scheme == shareLinkScheme &&
+      uri.host.toLowerCase() == eventLinkPathSegment) {
+    // `tweakd://e/{id}` — the host is the segment, the id is the path.
+    raw = segments.isNotEmpty ? segments.first : null;
+  } else {
+    raw = null;
+  }
+
+  if (raw == null) return null;
+  final id = raw.trim().toLowerCase();
+  return _uuid.hasMatch(id) ? '/map-events/$id' : null;
+}
