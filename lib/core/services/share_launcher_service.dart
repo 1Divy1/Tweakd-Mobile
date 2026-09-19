@@ -63,16 +63,29 @@ class ShareLauncherService {
     await _share(ShareParams(text: body, sharePositionOrigin: origin));
   }
 
-  /// The OS share sheet for any public URL, with an optional line of [text]
-  /// above it. Used for shared events, which have no per-channel tiles and no
-  /// tags: nothing counts an event's views.
+  /// The OS share sheet for a public URL — the link and nothing else.
+  ///
+  /// Shared as a `uri`, not as text, so the sheet's own "Copy" puts a bare URL
+  /// on the clipboard that pastes straight into a browser; a sentence in front
+  /// of it would break that. Nothing is lost: messaging apps build their
+  /// preview card (title, photo) from the page's og tags, and iOS shows the
+  /// page's title and icon at the top of the sheet. [title] is not part of the
+  /// payload — it only labels the chooser on Android and becomes the subject
+  /// when the user picks email.
+  ///
+  /// Used for shared events, which have no per-channel tags: nothing counts an
+  /// event's views.
   Future<void> shareLink({
     required String url,
-    String? text,
+    String? title,
     Rect? origin,
   }) async {
-    final body = text == null || text.isEmpty ? url : '$text\n\n$url';
-    await _share(ShareParams(text: body, sharePositionOrigin: origin));
+    await _share(ShareParams(
+      uri: Uri.parse(url),
+      title: title,
+      subject: title,
+      sharePositionOrigin: origin,
+    ));
   }
 
   /// Rasterises [svg] to a PNG and opens the OS *save* dialog on it.
