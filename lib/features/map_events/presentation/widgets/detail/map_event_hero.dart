@@ -1,10 +1,16 @@
+import 'package:tweakd/core/analytics/analytics_events.dart';
+import 'package:tweakd/core/analytics/analytics_service.dart';
+import 'package:tweakd/core/deeplinks/share_link_route.dart';
+import 'package:tweakd/core/di/injection.dart';
+import 'package:tweakd/core/services/share_launcher_service.dart';
 import 'package:tweakd/core/theme/app_colors.dart';
+import 'package:tweakd/features/garage/presentation/widgets/share/share_origin.dart';
 import 'package:tweakd/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show Clipboard, ClipboardData;
 import 'package:go_router/go_router.dart';
 
 import '../../../domain/entities/map_event.dart';
+import '../../../domain/entities/map_event_enums.dart';
 import '../shared/map_event_chips.dart';
 import '../shared/map_event_cover.dart';
 
@@ -41,11 +47,14 @@ class MapEventHero extends StatelessWidget {
                 ).backButtonTooltip,
                 onTap: () => context.pop(),
               ),
-              _HeroButton(
-                icon: Icons.ios_share_rounded,
-                semanticLabel: l10n.mapEventsShare,
-                onTap: () => _copyDetails(context),
-              ),
+              if (_isShareable)
+                Builder(
+                  builder: (buttonContext) => _HeroButton(
+                    icon: Icons.ios_share_rounded,
+                    semanticLabel: l10n.mapEventsShare,
+                    onTap: () => _share(buttonContext),
+                  ),
+                ),
             ],
           ),
         ),
@@ -108,31 +117,26 @@ class MapEventHero extends StatelessWidget {
     );
   }
 
-  /// Copies the event to the clipboard instead of opening the OS share sheet.
-  ///
-  /// Two reasons: the app has no share plugin (adding one is a platform-config
-  /// change, not a UI one), and — more to the point — there is no public URL to
-  /// share. Events live behind the app's own auth with no universal-link host,
-  /// so a link would be dead on arrival. Coordinates a maps app can open are
-  /// the useful thing to hand someone. See `MAP_EVENTS_NOTES.md` §4.4.
-  Future<void> _copyDetails(BuildContext context) async {
-    final l10n = AppLocalizations.of(context)!;
-    final messenger = ScaffoldMessenger.of(context);
+  /// Whether the public page would actually show this event. A pending or
+  /// rejected event is a 404 there and a cancelled one a 410, so an organizer
+  /// looking at their own submission gets no share button rather than a link
+  /// that is dead on arrival.
+  bool get _isShareable =>
+      event.approvalStatus == MapEventApproval.accepted &&
+      event.status != MapEventStatus.canceled &&
+      event.status != MapEventStatus.hidden;
 
-    await Clipboard.setData(
-      ClipboardData(
-        text:
-            '${event.title}\n${event.locationName}\n'
-            'https://maps.google.com/?q='
-            '${event.position.lat},${event.position.lng}',
-      ),
-    );
-
-    messenger.showSnackBar(
-      SnackBar(
-        content: Text(l10n.mapEventsCopied),
-        behavior: SnackBarBehavior.floating,
-      ),
+  /// Opens the OS share sheet (which includes Copy) with the event's public
+  /// link, `web.tweakdapp.com/e/{id}`. Someone without the app gets the event
+  /// page in the browser; someone with it lands straight on this screen.
+  Future<void> _share(BuildContext buttonContext) async {
+    final l10n = AppLocalizations.of(buttonContext)!;
+    final origin = shareOriginOf(buttonContext);
+    getIt<AnalyticsService>().track(AnalyticsEvents.eventShareOpened);
+    await getIt<ShareLauncherService>().shareLink(
+      url: eventShareUrl(event.id),
+      text: l10n.mapEventsShareText(event.title),
+      origin: origin,
     );
   }
 }

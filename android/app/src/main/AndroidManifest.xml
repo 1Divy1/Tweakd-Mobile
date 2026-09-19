@@ -79,6 +79,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="web.tweakdapp.com" android:pathPrefix="/c/" />
+                <!-- Shared events: https://web.tweakdapp.com/e/{eventId}. -->
+                <data android:scheme="https" android:host="web.tweakdapp.com" android:pathPrefix="/e/" />
             </intent-filter>
 
             <!-- The custom-scheme fallback the website's "Open in app" button
@@ -89,6 +91,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="tweakd" android:host="c" />
+                <data android:scheme="tweakd" android:host="e" />
             </intent-filter>
 
             <!-- Supabase auth deep link for the Android Sign in with Apple

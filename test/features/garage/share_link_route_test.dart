@@ -70,6 +70,49 @@ void main() {
     });
   });
 
+  group('eventRouteFor', () {
+    const id = '3f2a9c1e-7b4d-4e8a-9c2f-1a2b3c4d5e6f';
+
+    test('maps a shared event URL straight onto the event page', () {
+      expect(
+        eventRouteFor(Uri.parse('https://web.tweakdapp.com/e/$id')),
+        '/map-events/$id',
+      );
+      // A tag, if anything ever adds one, is not part of the route.
+      expect(
+        eventRouteFor(Uri.parse('https://web.tweakdapp.com/e/$id?s=app')),
+        '/map-events/$id',
+      );
+    });
+
+    test('accepts the custom-scheme fallback and uppercase ids', () {
+      expect(eventRouteFor(Uri.parse('tweakd://e/$id')), '/map-events/$id');
+      expect(
+        eventRouteFor(Uri.parse('https://web.tweakdapp.com/e/${id.toUpperCase()}')),
+        '/map-events/$id',
+      );
+    });
+
+    test('refuses anything that is not a UUID', () {
+      expect(eventRouteFor(Uri.parse('https://web.tweakdapp.com/e/nope')), isNull);
+      expect(eventRouteFor(Uri.parse('https://web.tweakdapp.com/e/')), isNull);
+      expect(eventRouteFor(Uri.parse('tweakd://e/7KQ3M9XA2F')), isNull);
+    });
+
+    test('does not claim car links, auth callbacks or other hosts', () {
+      expect(eventRouteFor(Uri.parse('https://web.tweakdapp.com/c/7KQ3M9XA2F')), isNull);
+      expect(eventRouteFor(Uri.parse('tweakd://signup-callback')), isNull);
+      expect(eventRouteFor(Uri.parse('https://tweakdapp.com/e/$id')), isNull);
+      // And the car matcher does not claim event links.
+      expect(shareRouteFor(Uri.parse('https://web.tweakdapp.com/e/$id')), isNull);
+    });
+
+    test('builds the public URL the web app serves', () {
+      expect(eventShareUrl(id), 'https://web.tweakdapp.com/e/$id');
+      expect(eventRouteFor(Uri.parse(eventShareUrl(id))), '/map-events/$id');
+    });
+  });
+
   group('CarShareEntity', () {
     const link = CarShareEntity(
       code: '7KQ3M9XA2F',

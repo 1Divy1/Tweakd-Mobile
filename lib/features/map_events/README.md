@@ -173,6 +173,20 @@ failure of both raises the banner.
 | Popup CTA | `/map-events/:id` |
 | Own profile → **Events** tab | `GET /map-events/mine` (lazy, like the Tags tab) |
 | Detail page → **Manage event** (organizers only) | `/map-events/:id/manage` |
+| Shared link `web.tweakdapp.com/e/{id}` / `tweakd://e/{id}` | `/map-events/:id` via `DeepLinkService` |
+
+### Sharing an event
+
+The hero's share button opens the OS share sheet (which includes Copy) with
+`https://web.tweakdapp.com/e/{eventId}` (`eventShareUrl` in
+`core/deeplinks/share_link_route.dart`). Anyone may share; the button is hidden
+while the event is pending, rejected, hidden or cancelled, because the public
+page would 404/410. Someone without the app gets the Tweakd-Web-App page
+(what, when, where, description, rules, organizers, head-counts — never
+attendee names); someone with it lands on this screen. Events are shared by
+their UUID, not a code — no per-channel tags, no view counters. Backend:
+`GET /public/v1/events/{id}` (mapevents README). Plan and decisions:
+`EVENT_SHARE_PROGRESS.md`.
 
 The map's search bar ("Search meets, shops, cities…") is **pure UI** — an owner
 call. It's a static row, not a disabled `TextField`, so it can't eat keystrokes
