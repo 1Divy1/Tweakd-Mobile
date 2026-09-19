@@ -6455,8 +6455,74 @@ abstract class AppLocalizations {
   /// No description provided for @mapSearchPlaceholder.
   ///
   /// In en, this message translates to:
-  /// **'Search meets, shops, cities…'**
+  /// **'Search meets, shops…'**
   String get mapSearchPlaceholder;
+
+  /// No description provided for @mapSearchOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Search the map'**
+  String get mapSearchOpen;
+
+  /// No description provided for @mapSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search events and businesses'**
+  String get mapSearchHint;
+
+  /// No description provided for @mapSearchTabEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Events'**
+  String get mapSearchTabEvents;
+
+  /// No description provided for @mapSearchTabBusinesses.
+  ///
+  /// In en, this message translates to:
+  /// **'Businesses'**
+  String get mapSearchTabBusinesses;
+
+  /// No description provided for @mapSearchStatusLive.
+  ///
+  /// In en, this message translates to:
+  /// **'Live'**
+  String get mapSearchStatusLive;
+
+  /// No description provided for @mapSearchStatusUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get mapSearchStatusUpcoming;
+
+  /// No description provided for @mapSearchStatusPast.
+  ///
+  /// In en, this message translates to:
+  /// **'Past'**
+  String get mapSearchStatusPast;
+
+  /// No description provided for @mapSearchPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Find car events and businesses anywhere on the map.'**
+  String get mapSearchPrompt;
+
+  /// No description provided for @mapSearchNoEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'No events match “{query}”.'**
+  String mapSearchNoEvents(String query);
+
+  /// No description provided for @mapSearchNoBusinesses.
+  ///
+  /// In en, this message translates to:
+  /// **'No businesses match “{query}”.'**
+  String mapSearchNoBusinesses(String query);
+
+  /// No description provided for @mapSearchLoadMoreFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load more results.'**
+  String get mapSearchLoadMoreFailed;
 
   /// No description provided for @mapCreateEvent.
   ///

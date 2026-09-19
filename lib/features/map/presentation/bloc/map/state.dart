@@ -23,10 +23,14 @@ class MapCameraCommand extends Equatable {
   final GeoPosition target;
   final int seq;
 
-  const MapCameraCommand({required this.target, required this.seq});
+  /// Null keeps the map's default overview zoom; a search result asks to land
+  /// closer in, on the one thing the user was looking for.
+  final double? zoom;
+
+  const MapCameraCommand({required this.target, required this.seq, this.zoom});
 
   @override
-  List<Object?> get props => [target, seq];
+  List<Object?> get props => [target, seq, zoom];
 }
 
 class MapState extends Equatable {
@@ -63,6 +67,16 @@ class MapState extends Equatable {
   /// the same state and actions.
   final String? selectedEventId;
 
+  /// The business picked on the search screen, drawn even if the nearby fetch
+  /// hasn't (or never will) include it. Lives exactly as long as the selection
+  /// it came with — dismissing the popup, or tapping another pin, drops it.
+  final BusinessPinEntity? searchBusiness;
+
+  /// The event picked on the search screen. Same lifetime as [searchBusiness];
+  /// for a past event this is the *only* way it gets a pin, since the nearby
+  /// query only returns upcoming and live ones.
+  final MapEventPinEntity? searchEvent;
+
   const MapState({
     this.status = MapStatus.initial,
     this.fetchCentre,
@@ -76,9 +90,29 @@ class MapState extends Equatable {
     this.selectedBusiness,
     this.detailErrorCode,
     this.selectedEventId,
+    this.searchBusiness,
+    this.searchEvent,
   });
 
   bool get isPopupOpen => selectedBusinessId != null || selectedEventId != null;
+
+  /// What the businesses layer draws: the nearby pins plus the searched-for
+  /// one, unless the nearby fetch already brought it in.
+  List<BusinessPinEntity> get visibleBusinesses {
+    final extra = searchBusiness;
+    if (extra == null || businesses.any((b) => b.id == extra.id)) {
+      return businesses;
+    }
+    return [...businesses, extra];
+  }
+
+  /// What the events layer draws: the nearby pins plus the searched-for one,
+  /// unless the nearby fetch already brought it in.
+  List<MapEventPinEntity> get visibleEvents {
+    final extra = searchEvent;
+    if (extra == null || events.any((e) => e.id == extra.id)) return events;
+    return [...events, extra];
+  }
 
   /// The tapped event, straight from the already-loaded pins, so the popup can
   /// show a cover, a title and the counts while `GET /map-events/{id}` is
@@ -86,7 +120,7 @@ class MapState extends Equatable {
   MapEventPinEntity? get selectedEventPin {
     final id = selectedEventId;
     if (id == null) return null;
-    for (final e in events) {
+    for (final e in visibleEvents) {
       if (e.id == id) return e;
     }
     return null;
@@ -97,7 +131,7 @@ class MapState extends Equatable {
   BusinessPinEntity? get selectedPin {
     final id = selectedBusinessId;
     if (id == null) return null;
-    for (final b in businesses) {
+    for (final b in visibleBusinesses) {
       if (b.id == id) return b;
     }
     return null;
@@ -117,6 +151,8 @@ class MapState extends Equatable {
     BusinessDetailEntity? selectedBusiness,
     MapErrorCode? detailErrorCode,
     String? selectedEventId,
+    BusinessPinEntity? searchBusiness,
+    MapEventPinEntity? searchEvent,
     bool clearSelection = false,
     bool clearDetail = false,
   }) {
@@ -140,6 +176,9 @@ class MapState extends Equatable {
           dropDetail ? detailErrorCode : (detailErrorCode ?? this.detailErrorCode),
       selectedEventId:
           clearSelection ? null : (selectedEventId ?? this.selectedEventId),
+      searchBusiness:
+          clearSelection ? null : (searchBusiness ?? this.searchBusiness),
+      searchEvent: clearSelection ? null : (searchEvent ?? this.searchEvent),
     );
   }
 
@@ -157,5 +196,7 @@ class MapState extends Equatable {
         selectedBusiness,
         detailErrorCode,
         selectedEventId,
+        searchBusiness,
+        searchEvent,
       ];
 }

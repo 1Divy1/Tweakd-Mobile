@@ -3645,7 +3645,46 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get mapSearchPlaceholder => 'Caută întâlniri, service-uri, orașe…';
+  String get mapSearchPlaceholder => 'Caută întâlniri, service-uri…';
+
+  @override
+  String get mapSearchOpen => 'Caută pe hartă';
+
+  @override
+  String get mapSearchHint => 'Caută evenimente și afaceri';
+
+  @override
+  String get mapSearchTabEvents => 'Evenimente';
+
+  @override
+  String get mapSearchTabBusinesses => 'Afaceri';
+
+  @override
+  String get mapSearchStatusLive => 'Live';
+
+  @override
+  String get mapSearchStatusUpcoming => 'Urmează';
+
+  @override
+  String get mapSearchStatusPast => 'Trecute';
+
+  @override
+  String get mapSearchPrompt =>
+      'Găsește evenimente auto și afaceri oriunde pe hartă.';
+
+  @override
+  String mapSearchNoEvents(String query) {
+    return 'Niciun eveniment pentru „$query”.';
+  }
+
+  @override
+  String mapSearchNoBusinesses(String query) {
+    return 'Nicio afacere pentru „$query”.';
+  }
+
+  @override
+  String get mapSearchLoadMoreFailed =>
+      'Nu am putut încărca mai multe rezultate.';
 
   @override
   String get mapCreateEvent => 'Creează un eveniment';

@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/network/abstract_http.dart';
 import '../models/business_detail_model.dart';
 import '../models/business_pin_model.dart';
+import '../models/business_search_page_model.dart';
 
 @lazySingleton
 class BusinessApiDataSource {
@@ -39,6 +40,31 @@ class BusinessApiDataSource {
     return list
         .map((e) => BusinessPinModel.fromJson(e as Map<String, dynamic>))
         .toList();
+  }
+
+  /// `GET /businesses/search` — the map's search box: name or type contains
+  /// [query], nearest to [lat]/[lng] first, one keyset page at a time. Send
+  /// the same centre with every page of one search.
+  Future<BusinessSearchPageModel> search({
+    required String query,
+    required double lat,
+    required double lng,
+    String? cursor,
+    int? size,
+    CancelToken? cancelToken,
+  }) async {
+    final data = await http.get(
+      '/businesses/search',
+      queryParameters: {
+        'q': query,
+        'lat': lat,
+        'lng': lng,
+        'cursor': ?cursor,
+        'size': ?size,
+      },
+      cancelToken: cancelToken,
+    );
+    return BusinessSearchPageModel.fromJson(data as Map<String, dynamic>);
   }
 
   /// `GET /businesses/{id}` — the full profile behind a pin.

@@ -55,6 +55,51 @@ class GetNearbyMapEventsUseCase
   }
 }
 
+// ── Search ─────────────────────────────────────────────────────────────────
+
+class SearchMapEventsParams {
+  final String query;
+  final GeoPosition centre;
+
+  /// Empty means the backend default: upcoming + live.
+  final Set<MapEventStatus> statuses;
+  final String? cursor;
+  final int? size;
+  final CancelToken? cancelToken;
+
+  const SearchMapEventsParams({
+    required this.query,
+    required this.centre,
+    this.statuses = const {},
+    this.cursor,
+    this.size,
+    this.cancelToken,
+  });
+}
+
+@lazySingleton
+class SearchMapEventsUseCase
+    implements
+        UseCase<MapEventPageEntity<MapEventPinEntity>, SearchMapEventsParams> {
+  final MapEventsRepository repository;
+
+  SearchMapEventsUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, MapEventPageEntity<MapEventPinEntity>>> call(
+    SearchMapEventsParams params,
+  ) {
+    return repository.searchEvents(
+      query: params.query,
+      centre: params.centre,
+      statuses: params.statuses,
+      cursor: params.cursor,
+      size: params.size,
+      cancelToken: params.cancelToken,
+    );
+  }
+}
+
 // ── Categories ─────────────────────────────────────────────────────────────
 
 @lazySingleton

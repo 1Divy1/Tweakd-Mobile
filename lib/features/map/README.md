@@ -475,9 +475,41 @@ popups compute their displayed distance the same way, in km.
 which the full `/map-events/:id` page shares, so RSVP and participation logic
 exists once.
 
-**Top bar.** A static search row (pure UI, owner's call — deliberately *not* a
-disabled `TextField`, which would eat keystrokes and look broken) plus the
-orange **+** that opens the create-event flow.
+**Top bar.** The search pill (opens `/map/search`, see §6.1c) plus the orange
+**+** that opens the create-event flow.
+
+### 6.1c Map search — as actually built
+
+The pill in `MapTopBar` pushes **`/map/search`** (`MapSearchPage`) *over* the
+map. That way the `MapWidget` below is never torn down, which matters because
+Mapbox bills per map load. The route's `extra` is the centre to rank results
+around (`MapState.fetchCentre`), and the page pops back with a
+`MapSearchSelection`.
+
+- **Backend**: `GET /businesses/search` and `GET /map-events/search`, both
+  keyset-paged, nearest to the centre first, with **no radius**. Each kind
+  pages separately, so there are two endpoints and not one combined response.
+  The event pins' `status` is the **clock-derived** phase: nothing ever stores
+  `live`. The contract lives in the Spring module READMEs (§ Map search).
+- **Data/domain**: `SearchBusinessesUseCase` (this feature, `MapRepository`)
+  and `SearchMapEventsUseCase` (`map_events`, `MapEventsRepository`). These
+  sit beside their `/nearby` counterparts, and both reuse the existing pin
+  models.
+- **`MapSearchBloc`**: a 300 ms debounce and a 2-character minimum. It keeps
+  two independent `MapSearchSection`s (events, businesses), and each has its
+  own cancel token, cursor, and failure. A new query, chip change, or clear
+  cancels the older request, and a late answer is dropped on arrival. The
+  *Live / Upcoming / Past* chips are multi-select, default to live +
+  upcoming, and the last one can't be turned off.
+- **Landing on a result**: `MapSearchBusinessChosen` or `MapSearchEventChosen`
+  selects the result, flies to it at `kMapSearchResultZoom`, and keeps the pin
+  as `MapState.searchBusiness` / `searchEvent`. The layers draw
+  `visibleBusinesses` / `visibleEvents` (the nearby list plus that pin, with no
+  duplicates). The pin is needed because the result can be outside the loaded
+  ring, and a **past event is never returned by `/nearby`**. The pin lives as
+  long as its selection: dismissing the popup or tapping another pin drops it.
+  An event result is also loaded into `MapEventDetailBloc`, the same way a
+  tapped pin is.
 
 ### 6.1b Clustering, if a layer ever needs it
 

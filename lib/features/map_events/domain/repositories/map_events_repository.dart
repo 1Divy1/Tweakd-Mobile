@@ -35,6 +35,23 @@ abstract class MapEventsRepository {
     CancelToken? cancelToken,
   });
 
+  /// The map's search box: approved events whose title, category or venue
+  /// contains [query], nearest to [centre] first, anywhere on the map.
+  ///
+  /// [statuses] picks the phases (`upcoming` / `live` / `previous` only —
+  /// anything else is refused by the backend); empty means upcoming + live.
+  /// Each returned pin's status is the *clock-derived* phase, so a meet that
+  /// started an hour ago comes back as live even though nothing ever stored
+  /// that. Continue with the previous page's cursor and the same inputs.
+  Future<Either<Failure, MapEventPageEntity<MapEventPinEntity>>> searchEvents({
+    required String query,
+    required GeoPosition centre,
+    Set<MapEventStatus> statuses,
+    String? cursor,
+    int? size,
+    CancelToken? cancelToken,
+  });
+
   /// Categories that can actually be created today — enabled ones only.
   Future<Either<Failure, List<MapEventCategoryEntity>>> getCategories();
 
