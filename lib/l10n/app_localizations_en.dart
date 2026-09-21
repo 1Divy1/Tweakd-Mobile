@@ -1076,6 +1076,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Mod saved, but sharing it to the feed didn\'t work.';
 
   @override
+  String get modShareFailedExisting =>
+      'Couldn\'t share that to the feed. Try again in a moment.';
+
+  @override
+  String get garageModShareToFeed => 'Share to the feed';
+
+  @override
+  String get garageModSharedToFeed => 'Shared to the feed';
+
+  @override
   String get modShareNewMod => 'New mod';
 
   @override

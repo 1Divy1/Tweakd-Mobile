@@ -43,6 +43,7 @@ class CarModificationModel {
   final bool isPricePublic;
   final int? mileageAtInstall;
   final DateTime createdAt;
+  final String? sharedPostId;
 
   const CarModificationModel({
     required this.id,
@@ -57,6 +58,7 @@ class CarModificationModel {
     this.isPricePublic = false,
     this.mileageAtInstall,
     required this.createdAt,
+    this.sharedPostId,
   });
 
   factory CarModificationModel.fromJson(Map<String, dynamic> json) {
@@ -76,6 +78,7 @@ class CarModificationModel {
       isPricePublic: json['is_price_public'] as bool? ?? false,
       mileageAtInstall: json['mileage_at_install'] as int?,
       createdAt: DateTime.parse(json['created_at'] as String),
+      sharedPostId: json['shared_post_id'] as String?,
     );
   }
 
@@ -93,6 +96,7 @@ class CarModificationModel {
       isPricePublic: isPricePublic,
       mileageAtInstall: mileageAtInstall,
       createdAt: createdAt,
+      sharedPostId: sharedPostId,
     );
   }
 }
