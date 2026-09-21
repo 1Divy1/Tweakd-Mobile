@@ -26,7 +26,14 @@ class CarModificationEntity extends Equatable {
   final String? description;
   final List<ModificationMediaEntity> media;
   final DateTime installationDate;
+
+  /// Null for a viewer who is not the owner while [isPricePublic] is false —
+  /// the backend leaves it out rather than the app hiding it.
   final double? price;
+
+  /// Whether the owner publishes [price] to other users. Always meaningful to
+  /// the owner; for anyone else it only explains why [price] is there.
+  final bool isPricePublic;
   final int? mileageAtInstall;
   final DateTime createdAt;
 
@@ -40,6 +47,7 @@ class CarModificationEntity extends Equatable {
     this.media = const [],
     required this.installationDate,
     this.price,
+    this.isPricePublic = false,
     this.mileageAtInstall,
     required this.createdAt,
   });
@@ -61,6 +69,7 @@ class CarModificationEntity extends Equatable {
         media,
         installationDate,
         price,
+        isPricePublic,
         mileageAtInstall,
         createdAt,
       ];

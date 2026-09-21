@@ -80,6 +80,26 @@ class PostsRepositoryImpl implements PostsRepository {
   }
 
   @override
+  Future<Either<Failure, PostEntity>> shareModification(
+      ShareModificationParams params) async {
+    try {
+      final model = await dataSource.shareModification(params.toJson());
+      return Right(model.toEntity());
+    } on UnauthenticatedException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('No internet connection.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on ApiException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      debugPrint('shareModification error: $e');
+      return const Left(UnknownFailure('An unexpected error occurred.'));
+    }
+  }
+
+  @override
   Future<Either<Failure, PostUploadUrlsResult>> getImageUploadUrls(
     String postId,
     int count,

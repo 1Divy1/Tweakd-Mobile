@@ -20,6 +20,7 @@ import '../widgets/register_car/mod_slot.dart';
 import '../widgets/register_car/register_car_chrome.dart';
 import '../widgets/register_car/register_car_fields.dart';
 import '../widgets/register_car/register_discard_dialog.dart';
+import '../widgets/register_car/register_toggle_tile.dart';
 
 enum _AddModStep { car, details }
 
@@ -48,6 +49,14 @@ class _AddModificationPageState extends State<AddModificationPage> {
 
   String? _pickedCarId;
   int _stepIndex = 0;
+
+  /// Whether the entry also goes to the feed. **On by default** — a build log
+  /// nobody sees is worth less to everyone than one that becomes something to
+  /// scroll, and the toggle is right there for anyone who would rather not.
+  bool _shareToFeed = true;
+
+  /// Whether [_shareToFeed] is still the default. Analytics only.
+  bool _shareUntouched = true;
 
   /// Which car the entry is for: the one the page was opened for, the only one
   /// in the garage, or the one picked on the car step.
@@ -88,7 +97,11 @@ class _AddModificationPageState extends State<AddModificationPage> {
             listener: (context, state) {
               if (state is LogModSuccess) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(l10n.garageLogModLogged)),
+                  SnackBar(
+                    content: Text(state.shareFailed
+                        ? l10n.modShareFailed
+                        : l10n.garageLogModLogged),
+                  ),
                 );
                 Navigator.of(context).pop(true);
               }
@@ -200,6 +213,18 @@ class _AddModificationPageState extends State<AddModificationPage> {
                           categories: categories,
                           imageService: _imageService,
                         ),
+                        const SizedBox(height: 20),
+                        RegisterToggleTile(
+                          icon: Icons.auto_awesome_outlined,
+                          title: l10n.modShareToFeedTitle,
+                          badge: l10n.modShareToFeedBadge,
+                          description: l10n.modShareToFeedBody,
+                          value: _shareToFeed,
+                          onChanged: (v) => setState(() {
+                            _shareToFeed = v;
+                            _shareUntouched = false;
+                          }),
+                        ),
                       ],
                     ),
                 }),
@@ -274,9 +299,12 @@ class _AddModificationPageState extends State<AddModificationPage> {
       _snack(context, l10n.garageModValidation);
       return;
     }
-    context
-        .read<LogModBloc>()
-        .add(SubmitModification(carId: carId, input: slot.input));
+    context.read<LogModBloc>().add(SubmitModification(
+          carId: carId,
+          input: slot.input,
+          shareToFeed: _shareToFeed,
+          shareIsDefault: _shareUntouched,
+        ));
   }
 
   /// Adding a car happens on top of this flow; coming back reloads the garage

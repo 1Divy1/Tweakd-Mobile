@@ -27,6 +27,10 @@ import 'package:tweakd/features/garage/presentation/bloc/event.dart';
 import 'package:tweakd/features/garage/presentation/bloc/log_mod/bloc.dart';
 import 'package:tweakd/features/garage/presentation/bloc/log_mod/event.dart';
 import 'package:tweakd/features/garage/presentation/pages/add_modification_page.dart';
+import 'package:tweakd/features/posts/domain/entities/post.dart';
+import 'package:tweakd/features/posts/domain/entities/post_params.dart';
+import 'package:tweakd/features/posts/domain/repositories/posts_repository.dart';
+import 'package:tweakd/features/posts/domain/usecases/share_modification.dart';
 import 'package:tweakd/l10n/app_localizations.dart';
 
 /// Answers the two reads the page makes; anything else would be a bug here.
@@ -55,6 +59,22 @@ class _FakeGarageRepo implements GarageRepository {
   dynamic noSuchMethod(Invocation invocation) => throw UnimplementedError();
 }
 
+/// Records what the feed share was asked to post, so a test can tell whether
+/// the toggle reached the backend call at all.
+class _FakePostsRepo implements PostsRepository {
+  final List<String> shared = [];
+
+  @override
+  Future<Either<Failure, PostEntity>> shareModification(
+      ShareModificationParams params) async {
+    shared.add(params.modificationId);
+    return Left(const ServerFailure('not needed by these tests'));
+  }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => throw UnimplementedError();
+}
+
 const _gt3 = CarSummaryEntity(
   id: 'c1',
   brand: 'Porsche',
@@ -73,8 +93,10 @@ Widget _app({
   required List<CarSummaryEntity> cars,
   String? carId,
   double textScale = 1,
+  PostsRepository? postsRepo,
 }) {
   final repo = _FakeGarageRepo(cars);
+  final posts = postsRepo ?? _FakePostsRepo();
 
   final logMod = BlocProvider<LogModBloc>(
     create: (_) => LogModBloc(
@@ -83,6 +105,7 @@ Widget _app({
       deleteModification: DeleteModificationUseCase(repo),
       getModificationUploadUrls: GetModificationUploadUrlsUseCase(repo),
       patchModification: PatchModificationUseCase(repo),
+      shareModification: ShareModificationUseCase(posts),
       imageService: ImageService(),
     )..add(const LoadModCategories()),
   );
@@ -136,13 +159,19 @@ void main() {
     String? carId,
     double width = 390,
     double textScale = 1,
+    PostsRepository? postsRepo,
   }) async {
     tester.view.physicalSize = Size(width * 3, 900 * 3);
     tester.view.devicePixelRatio = 3;
     addTearDown(tester.view.reset);
 
     await tester.pumpWidget(
-      _app(cars: cars, carId: carId, textScale: textScale),
+      _app(
+        cars: cars,
+        carId: carId,
+        textScale: textScale,
+        postsRepo: postsRepo,
+      ),
     );
     await tester.pumpAndSettle();
   }
@@ -205,6 +234,39 @@ void main() {
 
     expect(find.text('Category, title and date are required.'), findsOneWidget);
     expect(find.text('Add a build item'), findsOneWidget);
+  });
+
+  testWidgets('sharing to the feed is on by default, and can be turned off',
+      (tester) async {
+    await pump(tester, cars: const [_gt3]);
+
+    // With no price typed there is exactly one toggle on the form: this one.
+    bool shareValue() => tester.widget<Switch>(find.byType(Switch)).value;
+
+    // The default is what makes this feature work at all — an opt-in toggle
+    // would be a different, and much quieter, feature.
+    expect(shareValue(), isTrue);
+    expect(find.text('Recommended'), findsOneWidget);
+
+    // The whole row is the tap target, not just the thumb.
+    await tester.ensureVisible(find.text('Share to the feed'));
+    await tester.tap(find.text('Share to the feed'));
+    await tester.pumpAndSettle();
+
+    expect(shareValue(), isFalse);
+  });
+
+  testWidgets('the price-visibility toggle appears only once a price is typed',
+      (tester) async {
+    await pump(tester, cars: const [_gt3]);
+
+    // Nothing to decide about a price that has not been entered.
+    expect(find.text('Show the price'), findsNothing);
+
+    await tester.enterText(find.widgetWithText(TextField, '0.00'), '1200');
+    await tester.pumpAndSettle();
+
+    expect(find.text('Show the price'), findsOneWidget);
   });
 
   // 320 = iPhone SE 1st gen, 375 = iPhone 13 mini, 440 = 17 Pro Max,

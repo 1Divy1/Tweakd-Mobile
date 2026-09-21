@@ -1056,6 +1056,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get garageModValidation => 'Category, title and date are required.';
 
   @override
+  String get garageModPricePublicTitle => 'Show the price';
+
+  @override
+  String get garageModPricePublicBody => 'Off, only you see what it cost.';
+
+  @override
+  String get modShareToFeedTitle => 'Share to the feed';
+
+  @override
+  String get modShareToFeedBadge => 'Recommended';
+
+  @override
+  String get modShareToFeedBody =>
+      'Show this build update to everyone. You can delete the post any time.';
+
+  @override
+  String get modShareFailed =>
+      'Mod saved, but sharing it to the feed didn\'t work.';
+
+  @override
+  String get modShareNewMod => 'New mod';
+
+  @override
+  String modShareOnCar(String car) {
+    return 'on $car';
+  }
+
+  @override
   String get garageAboutTitle => 'About';
 
   @override

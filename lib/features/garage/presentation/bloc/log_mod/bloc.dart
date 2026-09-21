@@ -5,12 +5,16 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../../core/services/image_service.dart';
 import '../../../../../core/usecases/usecase.dart';
+import '../../../domain/entities/car_modification.dart';
 import '../../../domain/repositories/garage_repository.dart';
 import '../../../domain/usecases/add_modification.dart';
 import '../../../domain/usecases/delete_modification.dart';
 import '../../../domain/usecases/get_modification_upload_urls.dart';
 import '../../../domain/usecases/get_reference_data.dart';
 import '../../../domain/usecases/patch_modification.dart';
+import 'package:tweakd/features/posts/domain/entities/post_params.dart';
+import 'package:tweakd/features/posts/domain/usecases/share_modification.dart';
+
 import '../../utils/garage_error_mapper.dart';
 import 'event.dart';
 import 'state.dart';
@@ -24,6 +28,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
   final DeleteModificationUseCase deleteModification;
   final GetModificationUploadUrlsUseCase getModificationUploadUrls;
   final PatchModificationUseCase patchModification;
+  final ShareModificationUseCase shareModification;
   final ImageService imageService;
   final AnalyticsService analytics;
 
@@ -33,6 +38,7 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
     required this.deleteModification,
     required this.getModificationUploadUrls,
     required this.patchModification,
+    required this.shareModification,
     required this.imageService,
     this.analytics = const NoopAnalyticsService(),
   }) : super(const LogModInitial()) {
@@ -56,10 +62,34 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
     );
   }
 
-  void _trackAdded(int imageCount) {
+  void _trackAdded(int imageCount, {required bool shareToFeed}) {
     analytics.track(AnalyticsEvents.modificationAdded, {
       'source': 'log',
       'image_count': imageCount,
+      'shared_to_feed': shareToFeed,
+    });
+  }
+
+  /// Puts the finished entry in the feed. Runs only once the mod and all of its
+  /// photos are saved, so the card the feed derives is the finished one rather
+  /// than a half-uploaded mod.
+  ///
+  /// Returns whether it worked. A failure never undoes the mod: the entry is in
+  /// the build log, and the page says the share is what did not happen.
+  Future<bool> _shareToFeed(
+    CarModificationEntity mod, {
+    required bool isDefault,
+  }) async {
+    final result = await shareModification(
+      ShareModificationParams(modificationId: mod.id),
+    );
+    return result.fold((_) => false, (_) {
+      analytics.track(AnalyticsEvents.modificationShared, {
+        'source': 'log',
+        'auto': isDefault,
+        'image_count': mod.media.length,
+      });
+      return true;
     });
   }
 
@@ -103,8 +133,10 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
     final images = <CompressedImage>[...before, ...after];
 
     if (images.isEmpty) {
-      _trackAdded(images.length);
-      emit(LogModSuccess(modification));
+      _trackAdded(images.length, shareToFeed: event.shareToFeed);
+      final shareFailed = event.shareToFeed &&
+          !(await _shareToFeed(modification, isDefault: event.shareIsDefault));
+      emit(LogModSuccess(modification, shareFailed: shareFailed));
       return;
     }
 
@@ -155,13 +187,15 @@ class LogModBloc extends Bloc<LogModEvent, LogModState> {
         params: ModPatchParams(addMedia: addMedia),
       ));
 
-      patchResult.fold(
+      final updated = patchResult.fold(
         (f) => throw Exception('$f'),
-        (updated) {
-          _trackAdded(images.length);
-          emit(LogModSuccess(updated));
-        },
+        (mod) => mod,
       );
+      _trackAdded(images.length, shareToFeed: event.shareToFeed);
+      // Shared after the photos are attached, so the feed card has them.
+      final shareFailed = event.shareToFeed &&
+          !(await _shareToFeed(updated, isDefault: event.shareIsDefault));
+      emit(LogModSuccess(updated, shareFailed: shareFailed));
     } catch (_) {
       await deleteModification(DeleteModificationParams(
         carId: event.carId,

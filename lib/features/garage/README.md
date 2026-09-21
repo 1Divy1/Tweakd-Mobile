@@ -18,6 +18,7 @@ garage/
 │   │   ├── car_detail_model.dart
 │   │   ├── car_share_model.dart             # CarShareModel + CarShareResolutionModel
 │   │   ├── car_modification_model.dart      # + ModificationMediaItemModel
+│   │   ├── mod_share_card_model.dart        # `mod_share_card` on a post; tryParse, never throws
 │   │   ├── car_status_option_model.dart
 │   │   ├── car_summary_model.dart
 │   │   ├── create_car_response_model.dart   # + AddModificationResponseModel
@@ -29,7 +30,8 @@ garage/
 │   ├── entities/
 │   │   ├── car.dart                # CarEntity (+ coverImage, gallery, copyWith)
 │   │   ├── car_image_ref.dart      # CarImageRef { key, url } — cover & gallery items
-│   │   ├── car_modification.dart   # CarModificationEntity (+ media list w/ key, beforeMedia/afterMedia getters)
+│   │   ├── car_modification.dart   # CarModificationEntity (+ media list w/ key, beforeMedia/afterMedia getters, isPricePublic)
+│   │   ├── mod_share_card.dart     # ModShareCardEntity — a shared mod as the feed draws it
 │   │   ├── car_share.dart          # CarShareEntity, CarShareChannel (?s= tags), CarShareResolutionEntity
 │   │   ├── car_status_option.dart
 │   │   ├── car_summary.dart        # CarSummaryEntity (coverImage: CarImageRef? — garage-list cards)
@@ -199,9 +201,44 @@ then drop those refs from the local list. Backend deletes the R2 objects.
 | `GarageBloc` | `LoadMyGarage`, `LoadGarageByUsername`, `DeleteCar` | used by profile's `GarageSection` |
 | `AddCarBloc` | `LoadAddCarReferenceData`, `AddCarBrandSelected`, `SubmitNewCar` | creates car then orchestrates 3-step uploads for cover, gallery, and mod media; rolls back via `DELETE /garage/cars/{carId}` on failure |
 | `CarDetailBloc` | `LoadCar`, `DeleteCarFromDetail`, `DeleteGalleryImage`, `DeleteModificationFromDetail` | gallery is embedded in `CarEntity.gallery` (list of `{key, url}`); `DeleteGalleryImage` deletes by R2 key then drops the ref locally |
-| `LogModBloc` | `LoadModCategories`, `SubmitModification` | creates mod then requests batch upload URLs, uploads to R2, PATCHes with `addMedia`; rolls back via delete on failure |
+| `LogModBloc` | `LoadModCategories`, `SubmitModification` | creates mod then requests batch upload URLs, uploads to R2, PATCHes with `addMedia`; rolls back via delete on failure. With `shareToFeed` it then posts the finished entry to the feed (see *Sharing a mod to the feed*) — a failed share never undoes the mod |
 | `CarShareBloc` | `LoadShareLink`, `LoadShareQr`, `SetShareEnabled` | owns the whole share sheet: link, QR SVG and the pause switch. Created by `showShareBuildSheet`, not by a route, so the sheet and the QR modal share one bloc and one `POST …/share` |
 | `ShareResolveCubit` | `resolve(code, source:)` | one call, once: turns an incoming share code into a car id for `ShareLandingPage` |
+
+---
+
+## Sharing a mod to the feed
+
+A modification logged through `/garage/cars/:carId/modifications/add` can go
+straight to the feed. The toggle sits under the form in `AddModificationPage`
+and is **on by default**, labelled *Recommended*: the build log is where the
+app's content comes from, and an opt-in switch would be a much quieter feature.
+It is deliberately absent from the register-car wizard's mods step — a new car
+with six mods would post six cards at once.
+
+- **Order.** The mod and all of its photos are saved first; the share is a
+  second request (`POST /posts/mod-share`, the **posts** feature's
+  `ShareModificationUseCase`). So the card the feed derives is the finished
+  entry, and a share that fails leaves the mod in the build log and only
+  changes the closing snackbar (`LogModSuccess.shareFailed`).
+- **No caption.** The toggle is the whole interaction. The mod's own
+  description is what the card carries.
+- **The post is an ordinary post** that tags the car and stores the
+  modification's id. The card is re-derived on every read, so editing the mod
+  updates it everywhere and deleting the mod leaves a plain post behind, with
+  its likes and comments intact. Drawn by `PostModShareCardView`
+  (`features/posts/.../post_card/`) from `ModShareCardEntity`.
+- **One post per mod.** The backend returns the existing post instead of a
+  second one, so a retry cannot double-post.
+
+### Price visibility
+
+`car_modifications.is_price_public` is off by default: a price is recorded for
+the owner's own expense tracking unless they publish it. The toggle appears in
+`BuildLogEntryForm` only once a price has been typed, and the flag governs
+every non-owner read — the in-app car detail, the public car page and the feed
+card. The backend omits `price` entirely rather than the app hiding it, so
+there is nothing on this side to leak.
 
 ---
 

@@ -21,8 +21,22 @@ class SubmitModification extends LogModEvent {
   /// selection time.
   final NewModInput input;
 
-  const SubmitModification({required this.carId, required this.input});
+  /// Whether the finished entry also goes to the feed. On by default in the UI
+  /// — the share is what turns a private build log into content other people
+  /// see.
+  final bool shareToFeed;
+
+  /// Whether [shareToFeed] is still the default the user was shown. Analytics
+  /// only; it says how much of the sharing the default is responsible for.
+  final bool shareIsDefault;
+
+  const SubmitModification({
+    required this.carId,
+    required this.input,
+    this.shareToFeed = false,
+    this.shareIsDefault = true,
+  });
 
   @override
-  List<Object?> get props => [carId, input];
+  List<Object?> get props => [carId, input, shareToFeed, shareIsDefault];
 }
