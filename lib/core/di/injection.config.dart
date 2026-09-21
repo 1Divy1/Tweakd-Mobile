@@ -382,6 +382,7 @@ import '../../features/posts/domain/usecases/post_like.dart' as _i111;
 import '../../features/posts/domain/usecases/post_repost.dart' as _i912;
 import '../../features/posts/domain/usecases/post_save.dart' as _i584;
 import '../../features/posts/domain/usecases/save_image_keys.dart' as _i913;
+import '../../features/posts/domain/usecases/share_modification.dart' as _i474;
 import '../../features/posts/domain/usecases/share_participant_card.dart'
     as _i446;
 import '../../features/posts/domain/usecases/update_post.dart' as _i310;
@@ -767,6 +768,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i913.SaveImageKeysUseCase>(
       () => _i913.SaveImageKeysUseCase(gh<_i245.PostsRepository>()),
+    );
+    gh.lazySingleton<_i474.ShareModificationUseCase>(
+      () => _i474.ShareModificationUseCase(gh<_i245.PostsRepository>()),
     );
     gh.lazySingleton<_i446.ShareParticipantCardUseCase>(
       () => _i446.ShareParticipantCardUseCase(gh<_i245.PostsRepository>()),
@@ -1331,6 +1335,18 @@ extension GetItInjectableX on _i174.GetIt {
         submitOnboarding: gh<_i1055.SubmitOnboardingUseCase>(),
       ),
     );
+    gh.factory<_i375.LogModBloc>(
+      () => _i375.LogModBloc(
+        getModCategories: gh<_i408.GetModCategoriesUseCase>(),
+        addModification: gh<_i352.AddModificationUseCase>(),
+        deleteModification: gh<_i621.DeleteModificationUseCase>(),
+        getModificationUploadUrls: gh<_i2.GetModificationUploadUrlsUseCase>(),
+        patchModification: gh<_i49.PatchModificationUseCase>(),
+        shareModification: gh<_i474.ShareModificationUseCase>(),
+        imageService: gh<_i768.ImageService>(),
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
+    );
     gh.factory<_i236.FollowBloc>(
       () => _i236.FollowBloc(
         getFollowStatus: gh<_i28.GetFollowStatusUseCase>(),
@@ -1380,17 +1396,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i439.GarageCarsCubit>(
       () => _i439.GarageCarsCubit(getMyGarage: gh<_i391.GetMyGarageUseCase>()),
-    );
-    gh.factory<_i375.LogModBloc>(
-      () => _i375.LogModBloc(
-        getModCategories: gh<_i408.GetModCategoriesUseCase>(),
-        addModification: gh<_i352.AddModificationUseCase>(),
-        deleteModification: gh<_i621.DeleteModificationUseCase>(),
-        getModificationUploadUrls: gh<_i2.GetModificationUploadUrlsUseCase>(),
-        patchModification: gh<_i49.PatchModificationUseCase>(),
-        imageService: gh<_i768.ImageService>(),
-        analytics: gh<_i726.AnalyticsService>(),
-      ),
     );
     gh.factory<_i465.MapBloc>(
       () => _i465.MapBloc(

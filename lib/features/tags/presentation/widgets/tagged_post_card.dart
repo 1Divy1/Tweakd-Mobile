@@ -4,6 +4,7 @@ import 'package:tweakd/core/theme/app_icons.dart';
 import 'package:tweakd/features/posts/domain/entities/post.dart';
 import 'package:tweakd/features/posts/presentation/widgets/post_card/post_author_header.dart';
 import 'package:tweakd/features/posts/presentation/widgets/post_card/post_media_carousel.dart';
+import 'package:tweakd/features/posts/presentation/widgets/post_card/post_mod_share_card_view.dart';
 import 'package:tweakd/features/posts/presentation/widgets/post_card/post_participant_card_view.dart';
 import 'package:tweakd/features/posts/presentation/widgets/post_card/post_tags.dart';
 
@@ -39,6 +40,16 @@ class TaggedPostCard extends StatelessWidget {
             child: IgnorePointer(
               child: PostParticipantCardView(
                 card: post.participantCard!,
+                interactive: false,
+              ),
+            ),
+          )
+        else if (post.modShareCard != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: IgnorePointer(
+              child: PostModShareCardView(
+                card: post.modShareCard!,
                 interactive: false,
               ),
             ),

@@ -35,6 +35,10 @@ abstract final class AnalyticsEvents {
   // Garage
   static const carAdded = 'car_added';
   static const modificationAdded = 'modification_added';
+
+  /// A logged mod went to the feed. Carries `auto: true` when the user left the
+  /// on-by-default toggle alone, so the default's pull is measurable.
+  static const modificationShared = 'modification_shared_to_feed';
   /// The share sheet for a car loaded its link (created on first open).
   static const carShareOpened = 'car_share_opened';
 

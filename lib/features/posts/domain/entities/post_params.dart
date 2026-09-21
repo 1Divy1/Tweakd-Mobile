@@ -69,6 +69,17 @@ class UpdatePostParams {
 
 /// Shares one of the viewer's participant cards to the feed. It only names
 /// the card — the backend checks it is theirs and derives everything on it.
+/// Names the build-log modification to share to the feed. No caption: the
+/// share is a toggle inside the "log a mod" flow, and the mod's own description
+/// is what the card carries.
+class ShareModificationParams {
+  final String modificationId;
+
+  const ShareModificationParams({required this.modificationId});
+
+  Map<String, dynamic> toJson() => {'modification_id': modificationId};
+}
+
 class ShareParticipantCardParams {
   final String eventId;
   final String carId;

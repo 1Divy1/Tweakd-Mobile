@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import 'post_image.dart';
 import 'post_reposted_by.dart';
+import 'package:tweakd/features/garage/domain/entities/mod_share_card.dart';
 import 'package:tweakd/features/map_events/domain/entities/participant_card.dart';
 import 'post_tagged_car.dart';
 import 'post_user.dart';
@@ -42,6 +43,11 @@ class PostEntity extends Equatable {
   /// every ordinary post.
   final ParticipantCardEntity? participantCard;
 
+  /// The build-log modification this post shares, drawn in place of images.
+  /// Null on every ordinary post, and on one whose mod has since been deleted —
+  /// the post survives that as a plain one.
+  final ModShareCardEntity? modShareCard;
+
   const PostEntity({
     required this.id,
     required this.description,
@@ -64,6 +70,7 @@ class PostEntity extends Equatable {
     required this.createdAt,
     required this.updatedAt,
     this.participantCard,
+    this.modShareCard,
   });
 
   PostEntity copyWith({
@@ -106,6 +113,7 @@ class PostEntity extends Equatable {
       createdAt: createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       participantCard: participantCard,
+      modShareCard: modShareCard,
     );
   }
 
@@ -132,5 +140,6 @@ class PostEntity extends Equatable {
         createdAt,
         updatedAt,
         participantCard,
+        modShareCard,
       ];
 }
