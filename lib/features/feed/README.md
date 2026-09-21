@@ -53,6 +53,23 @@ shared `AuthInterceptor`).
     `features/posts/presentation/widgets/post_card/` and are also used by
     `PostDetailView`.
 
+## Cards in place of images
+
+Two kinds of post carry a card instead of their own photos, drawn in the same
+slot by `FeedPostCard`:
+
+- **`participant_card`** — a car's day at an event (the **map_events** feature).
+- **`mod_share_card`** — a build-log modification someone logged with "share to
+  the feed" on (the **garage** feature). `PostModShareCardView` draws the mod's
+  photos with a before/after switcher when both phases exist, then the mod's
+  title, its category and the car it went on, which opens the car page. A price
+  shows only when the owner published it; otherwise the backend does not send
+  one.
+
+Both are re-derived by the backend on every read, so an edited mod or a
+corrected placement updates in the feed without a repost. If the source is gone
+the key is null and the post renders as a plain one, keeping its engagement.
+
 ## Launch: cached first page
 
 The first feed of a session opens on the page saved last time and refreshes it in place.

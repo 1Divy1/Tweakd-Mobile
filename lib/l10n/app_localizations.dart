@@ -1988,6 +1988,54 @@ abstract class AppLocalizations {
   /// **'Category, title and date are required.'**
   String get garageModValidation;
 
+  /// No description provided for @garageModPricePublicTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the price'**
+  String get garageModPricePublicTitle;
+
+  /// No description provided for @garageModPricePublicBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Off, only you see what it cost.'**
+  String get garageModPricePublicBody;
+
+  /// No description provided for @modShareToFeedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share to the feed'**
+  String get modShareToFeedTitle;
+
+  /// No description provided for @modShareToFeedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended'**
+  String get modShareToFeedBadge;
+
+  /// No description provided for @modShareToFeedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Show this build update to everyone. You can delete the post any time.'**
+  String get modShareToFeedBody;
+
+  /// No description provided for @modShareFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Mod saved, but sharing it to the feed didn\'t work.'**
+  String get modShareFailed;
+
+  /// No description provided for @modShareNewMod.
+  ///
+  /// In en, this message translates to:
+  /// **'New mod'**
+  String get modShareNewMod;
+
+  /// No description provided for @modShareOnCar.
+  ///
+  /// In en, this message translates to:
+  /// **'on {car}'**
+  String modShareOnCar(String car);
+
   /// No description provided for @garageAboutTitle.
   ///
   /// In en, this message translates to:

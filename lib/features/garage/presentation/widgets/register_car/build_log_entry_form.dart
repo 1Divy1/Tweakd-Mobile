@@ -13,6 +13,7 @@ import '../../../domain/repositories/garage_repository.dart';
 import '../../bloc/add_car/event.dart';
 import 'mod_slot.dart';
 import 'register_car_fields.dart';
+import 'register_toggle_tile.dart';
 import 'reorderable_photo_tile.dart';
 
 const _monthsTitle = [
@@ -72,6 +73,10 @@ class BuildLogEntryFormState extends State<BuildLogEntryForm> {
   final _mileageCtrl = TextEditingController();
   DateTime? _date;
 
+  /// Whether other users may see the price. Off by default: a price is recorded
+  /// for the owner's own expense tracking unless they choose to publish it.
+  bool _isPricePublic = false;
+
   final List<_PhaseImage> _before = [];
   final List<_PhaseImage> _after = [];
 
@@ -100,6 +105,7 @@ class BuildLogEntryFormState extends State<BuildLogEntryForm> {
     if (mod.price != null) {
       _priceCtrl.text = mod.price!.toStringAsFixed(mod.price! % 1 == 0 ? 0 : 2);
     }
+    _isPricePublic = mod.isPricePublic;
     if (mod.mileageAtInstall != null) {
       _mileageCtrl.text = mod.mileageAtInstall.toString();
     }
@@ -109,9 +115,29 @@ class BuildLogEntryFormState extends State<BuildLogEntryForm> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // The price-visibility toggle appears only once a price is typed, so this
+    // field -- unlike the others -- has to rebuild the form as it changes.
+    _priceCtrl.removeListener(_onPriceChanged);
+    _priceCtrl.addListener(_onPriceChanged);
+  }
+
+  void _onPriceChanged() {
+    final hasPrice = _priceCtrl.text.trim().isNotEmpty;
+    if (hasPrice != _hadPrice) {
+      _hadPrice = hasPrice;
+      if (mounted) setState(() {});
+    }
+  }
+
+  bool _hadPrice = false;
+
+  @override
   void dispose() {
     _titleCtrl.dispose();
     _descCtrl.dispose();
+    _priceCtrl.removeListener(_onPriceChanged);
     _priceCtrl.dispose();
     _mileageCtrl.dispose();
     super.dispose();
@@ -126,6 +152,7 @@ class BuildLogEntryFormState extends State<BuildLogEntryForm> {
           _titleCtrl.text.trim() != mod.title ||
           _descCtrl.text.trim() != (mod.description ?? '') ||
           _date != mod.installationDate ||
+          _isPricePublic != mod.isPricePublic ||
           _removedKeys.isNotEmpty ||
           _before.any((i) => i is _NewPhaseImage) ||
           _after.any((i) => i is _NewPhaseImage);
@@ -162,6 +189,9 @@ class BuildLogEntryFormState extends State<BuildLogEntryForm> {
       description: _descCtrl.text.trim().isEmpty ? null : _descCtrl.text.trim(),
       installationDate: _date!,
       price: price,
+      // A price that was cleared cannot stay published -- the backend and the
+      // database both refuse that pair.
+      isPricePublic: price != null && _isPricePublic,
       mileageAtInstall: mileage,
     );
 
@@ -352,6 +382,17 @@ class BuildLogEntryFormState extends State<BuildLogEntryForm> {
             ),
           ],
         ),
+        // Nothing to decide until there is a price to publish.
+        if (_priceCtrl.text.trim().isNotEmpty) ...[
+          const SizedBox(height: 14),
+          RegisterToggleTile(
+            icon: Icons.sell_outlined,
+            title: l10n.garageModPricePublicTitle,
+            description: l10n.garageModPricePublicBody,
+            value: _isPricePublic,
+            onChanged: (v) => setState(() => _isPricePublic = v),
+          ),
+        ],
         const SizedBox(height: 20),
         // Before/after photos are optional, and deliberately not labelled as
         // such — they read as an invitation, not a field the user has to

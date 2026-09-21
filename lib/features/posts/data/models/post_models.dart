@@ -4,6 +4,7 @@ import '../../domain/entities/post_image.dart';
 import '../../domain/entities/post_pages.dart';
 import '../../domain/entities/post_tagged_car.dart';
 import '../../domain/entities/post_user.dart';
+import 'package:tweakd/features/garage/data/models/mod_share_card_model.dart';
 import 'package:tweakd/features/map_events/data/models/participant_card_model.dart';
 
 /// A minimal user reference: post author, tagged person, comment author, liker.
@@ -118,6 +119,7 @@ class PostModel {
   final DateTime createdAt;
   final DateTime updatedAt;
   final ParticipantCardModel? participantCard;
+  final ModShareCardModel? modShareCard;
 
   const PostModel({
     required this.id,
@@ -141,6 +143,7 @@ class PostModel {
     required this.createdAt,
     required this.updatedAt,
     this.participantCard,
+    this.modShareCard,
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
@@ -176,6 +179,7 @@ class PostModel {
       updatedAt: DateTime.parse(
           (json['updated_at'] ?? json['created_at']) as String),
       participantCard: ParticipantCardModel.tryParse(json['participant_card']),
+      modShareCard: ModShareCardModel.tryParse(json['mod_share_card']),
     );
   }
 
@@ -201,6 +205,7 @@ class PostModel {
         createdAt: createdAt,
         updatedAt: updatedAt,
         participantCard: participantCard?.toEntity(),
+        modShareCard: modShareCard?.toEntity(),
       );
 }
 

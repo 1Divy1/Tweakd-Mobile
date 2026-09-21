@@ -18,11 +18,15 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // A participant-card post carries no images; its car's cover stands in.
+    // A participant-card or shared-mod post carries no images of its own: the
+    // mod's photo, or failing that the car's cover, stands in on the grid.
     final card = post.participantCard;
+    final mod = post.modShareCard;
     final coverUrl = post.images.isNotEmpty
         ? post.images.first.imageUrl
-        : card?.car.coverImage?.url;
+        : (mod?.displayMedia.firstOrNull?.url ??
+            mod?.car.coverImage?.url ??
+            card?.car.coverImage?.url);
 
     return GestureDetector(
       onTap: onTap,

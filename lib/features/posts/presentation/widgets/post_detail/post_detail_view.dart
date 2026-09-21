@@ -6,6 +6,7 @@ import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/post.dart';
 import '../post_card/post_author_header.dart';
 import '../post_card/post_media_carousel.dart';
+import '../post_card/post_mod_share_card_view.dart';
 import '../post_card/post_participant_card_view.dart';
 import '../post_card/post_tags.dart';
 import 'post_time.dart';
@@ -42,6 +43,11 @@ class PostDetailView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: PostParticipantCardView(card: post.participantCard!),
+          )
+        else if (post.modShareCard != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: PostModShareCardView(card: post.modShareCard!),
           )
         else
           PostMediaCarousel(

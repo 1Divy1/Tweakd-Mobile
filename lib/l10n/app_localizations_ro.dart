@@ -1065,6 +1065,35 @@ class AppLocalizationsRo extends AppLocalizations {
       'Categoria, titlul și data sunt obligatorii.';
 
   @override
+  String get garageModPricePublicTitle => 'Arată prețul';
+
+  @override
+  String get garageModPricePublicBody =>
+      'Dezactivat, doar tu vezi cât a costat.';
+
+  @override
+  String get modShareToFeedTitle => 'Publică în feed';
+
+  @override
+  String get modShareToFeedBadge => 'Recomandat';
+
+  @override
+  String get modShareToFeedBody =>
+      'Arată-le tuturor noutatea de pe mașina ta. Poți șterge postarea oricând.';
+
+  @override
+  String get modShareFailed =>
+      'Modificarea a fost salvată, dar publicarea în feed nu a reușit.';
+
+  @override
+  String get modShareNewMod => 'Modificare nouă';
+
+  @override
+  String modShareOnCar(String car) {
+    return 'pe $car';
+  }
+
+  @override
   String get garageAboutTitle => 'Despre';
 
   @override

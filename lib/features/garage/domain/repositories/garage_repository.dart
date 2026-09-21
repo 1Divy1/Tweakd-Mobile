@@ -184,6 +184,10 @@ class ModRequestParams {
   final String? description;
   final DateTime installationDate;
   final double? price;
+
+  /// Whether other users may see [price]. False keeps it to the owner — a price
+  /// is recorded for one's own expense tracking unless deliberately published.
+  final bool isPricePublic;
   final int? mileageAtInstall;
 
   const ModRequestParams({
@@ -192,6 +196,7 @@ class ModRequestParams {
     this.description,
     required this.installationDate,
     this.price,
+    this.isPricePublic = false,
     this.mileageAtInstall,
   });
 
@@ -202,6 +207,7 @@ class ModRequestParams {
           'description': description,
         'installation_date': installationDate.toUtc().toIso8601String(),
         if (price != null) 'price': price,
+        'is_price_public': isPricePublic,
         if (mileageAtInstall != null) 'mileage_at_install': mileageAtInstall,
       };
 }
@@ -213,6 +219,7 @@ class ModPatchParams {
   final String? description;
   final DateTime? installationDate;
   final double? price;
+  final bool? isPricePublic;
   final int? mileageAtInstall;
   final List<ModMediaInput>? addMedia;
   final List<String>? removeMediaKeys;
@@ -222,6 +229,7 @@ class ModPatchParams {
     this.description,
     this.installationDate,
     this.price,
+    this.isPricePublic,
     this.mileageAtInstall,
     this.addMedia,
     this.removeMediaKeys,
@@ -233,6 +241,7 @@ class ModPatchParams {
         if (installationDate != null)
           'installation_date': installationDate!.toUtc().toIso8601String(),
         if (price != null) 'price': price,
+        if (isPricePublic != null) 'is_price_public': isPricePublic,
         if (mileageAtInstall != null) 'mileage_at_install': mileageAtInstall,
         if (addMedia != null && addMedia!.isNotEmpty)
           'add_media': addMedia!.map((m) => m.toJson()).toList(),

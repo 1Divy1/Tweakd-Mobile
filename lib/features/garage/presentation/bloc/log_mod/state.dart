@@ -49,10 +49,16 @@ class LogModSubmitting extends LogModState {
 class LogModSuccess extends LogModState {
   final CarModificationEntity mod;
 
-  const LogModSuccess(this.mod);
+  /// True when the user asked for the entry to go to the feed and that request
+  /// failed. The mod itself is saved either way — losing a build-log entry over
+  /// a feed post would be the wrong trade — so this only changes what the page
+  /// says on its way out.
+  final bool shareFailed;
+
+  const LogModSuccess(this.mod, {this.shareFailed = false});
 
   @override
-  List<Object?> get props => [mod];
+  List<Object?> get props => [mod, shareFailed];
 }
 
 class LogModError extends LogModState {

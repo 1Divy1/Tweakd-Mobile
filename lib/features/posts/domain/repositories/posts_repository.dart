@@ -20,6 +20,11 @@ abstract class PostsRepository {
   Future<Either<Failure, PostEntity>> shareParticipantCard(
       ShareParticipantCardParams params);
 
+  /// Shares a build-log modification to the feed. Idempotent on the backend:
+  /// a mod already shared returns its existing post rather than a second one.
+  Future<Either<Failure, PostEntity>> shareModification(
+      ShareModificationParams params);
+
   /// Requests [count] presigned R2 upload slots for a post's images.
   Future<Either<Failure, PostUploadUrlsResult>> getImageUploadUrls(
     String postId,

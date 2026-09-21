@@ -24,6 +24,13 @@ class PostsApiDataSource {
     return PostModel.fromJson(data as Map<String, dynamic>);
   }
 
+  /// `POST /posts/mod-share` — the backend creates the post (tagging the car)
+  /// and attaches the modification reference; nothing is uploaded.
+  Future<PostModel> shareModification(Map<String, dynamic> body) async {
+    final data = await http.post('/posts/mod-share', body: body);
+    return PostModel.fromJson(data as Map<String, dynamic>);
+  }
+
   Future<PostModel> saveImageKeys(String postId, List<String> keys) async {
     final data = await http.patch(
       '/posts/$postId/images',
