@@ -1164,7 +1164,48 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get garageDeleteMachineBody =>
-      'Aceasta va elimina definitiv mașina și toate modificările ei din garajul tău. Acțiunea nu poate fi anulată.';
+      'Ștergerea mașinii elimină și tot ce ține de ea:';
+
+  @override
+  String get garageDeleteLosesPhotos => 'Fotografia de copertă și galeria';
+
+  @override
+  String get garageDeleteLosesBuildLog =>
+      'Jurnalul de build: fiecare modificare și fotografiile ei';
+
+  @override
+  String get garageDeleteLosesPosts =>
+      'Modificările distribuite în feed, împreună cu aprecierile și comentariile lor';
+
+  @override
+  String get garageDeleteLosesEvents =>
+      'Participările la evenimente și istoricul concursurilor, inclusiv voturile și victoriile';
+
+  @override
+  String get garageDeleteLosesShareLink =>
+      'Linkul de distribuire și codul QR, care nu vor mai funcționa';
+
+  @override
+  String get garageDeleteLosesTags =>
+      'Etichetele acestei mașini din postări, discuții și mesaje';
+
+  @override
+  String get garageDeleteContinue => 'Continuă';
+
+  @override
+  String garageDeleteFinalTitle(String car) {
+    return 'Ștergi definitiv $car?';
+  }
+
+  @override
+  String get garageDeleteFinalBody =>
+      'Acțiunea este permanentă. Odată ștearsă, mașina și tot ce ține de ea nu mai pot fi recuperate.';
+
+  @override
+  String get garageDeleteFinalKeep => 'Păstrează mașina';
+
+  @override
+  String get garageDeleteFinalConfirm => 'Șterge definitiv';
 
   @override
   String get garageDialogCancel => 'Anulează';

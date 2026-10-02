@@ -13,6 +13,7 @@ import '../bloc/car_detail/state.dart';
 import '../utils/garage_error_mapper.dart';
 import '../widgets/car_events_section.dart';
 import '../widgets/car_image.dart';
+import '../widgets/delete_car/delete_car_dialogs.dart';
 import '../widgets/share/share_build_sheet.dart';
 import 'fullscreen_image_page.dart';
 import '../../../../core/shared/layout/app_layout.dart';
@@ -26,7 +27,18 @@ class AboutCarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<CarDetailBloc, CarDetailState>(
       listener: (context, state) {
-        if (state is CarDetailDeleted) context.pop();
+        // `true` tells the garage list to drop this car.
+        if (state is CarDetailDeleted) context.pop(true);
+        if (state is CarDetailLoaded && state.deleteFailedCode != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(garageErrorMessage(
+                AppLocalizations.of(context)!,
+                state.deleteFailedCode!,
+              )),
+            ),
+          );
+        }
         // The mod is untouched — only the post did not happen — so this is a
         // snackbar, not an error screen.
         if (state is CarDetailLoaded && state.shareFailedModId != null) {
@@ -340,66 +352,12 @@ class _TopBar extends StatelessWidget {
   }
 
   Future<void> _confirmDelete(BuildContext context, String carId) async {
-    final l10n = AppLocalizations.of(context)!;
     final bloc = context.read<CarDetailBloc>();
-    final confirmed = await showDialog<bool>(
-      context: context,
-      barrierColor: Colors.black54,
-      builder: (dialogContext) => Dialog(
-        backgroundColor: AppColors.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 22, 20, 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                l10n.garageDeleteMachineTitle,
-                style: TextStyle(
-                  color: AppColors.ink,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                l10n.garageDeleteMachineBody,
-                style: TextStyle(
-                  color: AppColors.mute,
-                  fontSize: 14,
-                  height: 1.4,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(height: 22),
-              Row(
-                children: [
-                  Expanded(
-                    child: _DialogButton(
-                      label: l10n.garageDialogCancel,
-                      onTap: () => Navigator.of(dialogContext).pop(false),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _DialogButton(
-                      label: l10n.garageDialogDelete,
-                      isDestructive: true,
-                      onTap: () => Navigator.of(dialogContext).pop(true),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+    final confirmed = await confirmCarDeletion(
+      context,
+      carTitle: car == null ? '' : '${car!.brandName} ${car!.modelName}',
     );
-
-    if (confirmed == true) {
-      bloc.add(DeleteCarFromDetail(carId));
-    }
+    if (confirmed) bloc.add(DeleteCarFromDetail(carId));
   }
 }
 

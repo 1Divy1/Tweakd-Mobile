@@ -2171,8 +2171,74 @@ abstract class AppLocalizations {
   /// No description provided for @garageDeleteMachineBody.
   ///
   /// In en, this message translates to:
-  /// **'This will permanently remove this car and all of its modifications from your garage. This action cannot be undone.'**
+  /// **'Deleting this car also removes everything attached to it:'**
   String get garageDeleteMachineBody;
+
+  /// No description provided for @garageDeleteLosesPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Its cover photo and gallery'**
+  String get garageDeleteLosesPhotos;
+
+  /// No description provided for @garageDeleteLosesBuildLog.
+  ///
+  /// In en, this message translates to:
+  /// **'The build log: every mod and its photos'**
+  String get garageDeleteLosesBuildLog;
+
+  /// No description provided for @garageDeleteLosesPosts.
+  ///
+  /// In en, this message translates to:
+  /// **'Mods you shared to the feed, along with their likes and comments'**
+  String get garageDeleteLosesPosts;
+
+  /// No description provided for @garageDeleteLosesEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Event attendance and contest history, including votes and wins'**
+  String get garageDeleteLosesEvents;
+
+  /// No description provided for @garageDeleteLosesShareLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Its share link and QR code, which stop working'**
+  String get garageDeleteLosesShareLink;
+
+  /// No description provided for @garageDeleteLosesTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags of this car in posts, threads and messages'**
+  String get garageDeleteLosesTags;
+
+  /// No description provided for @garageDeleteContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get garageDeleteContinue;
+
+  /// No description provided for @garageDeleteFinalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {car} for good?'**
+  String garageDeleteFinalTitle(String car);
+
+  /// No description provided for @garageDeleteFinalBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This is permanent. Once it\'s gone, the car and everything attached to it can\'t be recovered.'**
+  String get garageDeleteFinalBody;
+
+  /// No description provided for @garageDeleteFinalKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep car'**
+  String get garageDeleteFinalKeep;
+
+  /// No description provided for @garageDeleteFinalConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete forever'**
+  String get garageDeleteFinalConfirm;
 
   /// No description provided for @garageDialogCancel.
   ///
