@@ -2024,6 +2024,24 @@ abstract class AppLocalizations {
   /// **'Mod saved, but sharing it to the feed didn\'t work.'**
   String get modShareFailed;
 
+  /// No description provided for @modShareFailedExisting.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t share that to the feed. Try again in a moment.'**
+  String get modShareFailedExisting;
+
+  /// No description provided for @garageModShareToFeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Share to the feed'**
+  String get garageModShareToFeed;
+
+  /// No description provided for @garageModSharedToFeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared to the feed'**
+  String get garageModSharedToFeed;
+
   /// No description provided for @modShareNewMod.
   ///
   /// In en, this message translates to:

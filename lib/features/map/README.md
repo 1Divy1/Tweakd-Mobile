@@ -104,10 +104,12 @@ of `.env`/`dotenv` — that's fine (the token must be compile-time), but it mean
 `flutter run` **must** be given `--dart-define-from-file=dart_defines.dev.json`
 or the map silently fails. Wire it into `.vscode/launch.json` so nobody forgets.
 
-`pk.…` tokens are designed to ship inside apps, so committing
-`dart_defines.*.json` is not a credential leak — but add a **URL restriction** on
-the token in the Mapbox dashboard so it can't be scraped and used elsewhere, and
-never let an `sk.…` token near these files.
+`pk.…` tokens are designed to ship inside apps, but `dart_defines.*.json` is still
+gitignored so a public repo doesn't hand out tokens billed to our Mapbox account
+— copy `dart_defines.example.json` to `dart_defines.dev.json` / `.prod.json`
+locally. (Mapbox URL restrictions only apply to web referrers, not the native
+SDKs, so keeping the token out of the repo is the real protection.) Never let an
+`sk.…` token near these files.
 
 ### 2.3 Platform config
 

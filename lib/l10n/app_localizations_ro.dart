@@ -1086,6 +1086,16 @@ class AppLocalizationsRo extends AppLocalizations {
       'Modificarea a fost salvată, dar publicarea în feed nu a reușit.';
 
   @override
+  String get modShareFailedExisting =>
+      'Publicarea în feed nu a reușit. Încearcă din nou în câteva momente.';
+
+  @override
+  String get garageModShareToFeed => 'Publică în feed';
+
+  @override
+  String get garageModSharedToFeed => 'Publicat în feed';
+
+  @override
   String get modShareNewMod => 'Modificare nouă';
 
   @override

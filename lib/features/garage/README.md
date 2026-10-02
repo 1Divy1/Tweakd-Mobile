@@ -231,6 +231,22 @@ with six mods would post six cards at once.
 - **One post per mod.** The backend returns the existing post instead of a
   second one, so a retry cannot double-post.
 
+### The second way in: an existing mod
+
+Every mod in the build log carries an owner-only share row at its foot
+(`_ModShareRow` in `about_car_page.dart`). Unshared, it offers "Share to the
+feed" and fires `ShareModificationFromDetail` on `CarDetailBloc`; once shared it
+becomes a quiet "Shared to the feed" link to `/posts/{id}`, so the button is
+temporary and the log does not stay cluttered. Any mod qualifies whatever its
+age — existing build logs are the feature's whole backfill — and the post is
+dated now, not backdated.
+
+The row knows which state it is in because `CarModificationEntity.sharedPostId`
+comes down with the car. The backend resolves it in one batch per car through
+`garage.ModSharePostsProvider`, implemented in the posts module; on success the
+bloc writes the returned post id straight into the mod, so the row flips without
+re-fetching the car.
+
 ### Price visibility
 
 `car_modifications.is_price_public` is off by default: a price is recorded for

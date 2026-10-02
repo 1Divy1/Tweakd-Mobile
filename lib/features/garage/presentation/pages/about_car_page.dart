@@ -27,17 +27,32 @@ class AboutCarPage extends StatelessWidget {
     return BlocConsumer<CarDetailBloc, CarDetailState>(
       listener: (context, state) {
         if (state is CarDetailDeleted) context.pop();
+        // The mod is untouched — only the post did not happen — so this is a
+        // snackbar, not an error screen.
+        if (state is CarDetailLoaded && state.shareFailedModId != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.modShareFailedExisting),
+            ),
+          );
+        }
       },
       builder: (context, state) {
         return Scaffold(
           backgroundColor: AppColors.bg,
           body: switch (state) {
             CarDetailLoading() => const _LoadingView(),
-            CarDetailLoaded(:final car, :final isDeleting) => _AboutCarView(
-              car: car,
-              isOwner: isOwner,
-              isDeleting: isDeleting,
-            ),
+            CarDetailLoaded(
+              :final car,
+              :final isDeleting,
+              :final sharingModId,
+            ) =>
+              _AboutCarView(
+                car: car,
+                isOwner: isOwner,
+                isDeleting: isDeleting,
+                sharingModId: sharingModId,
+              ),
             CarDetailError(:final code) => _ErrorView(
               message: garageErrorMessage(AppLocalizations.of(context)!, code),
             ),
@@ -98,10 +113,13 @@ class _AboutCarView extends StatelessWidget {
   final bool isOwner;
   final bool isDeleting;
 
+  final String? sharingModId;
+
   const _AboutCarView({
     required this.car,
     required this.isOwner,
     required this.isDeleting,
+    this.sharingModId,
   });
 
   @override
@@ -153,6 +171,7 @@ class _AboutCarView extends StatelessWidget {
                     carId: car.id,
                     mods: car.modifications,
                     isOwner: isOwner,
+                    sharingModId: sharingModId,
                   ),
                 ],
                 const SizedBox(height: 32),
@@ -926,10 +945,14 @@ class _ModificationsList extends StatelessWidget {
   final List<CarModificationEntity> mods;
   final bool isOwner;
 
+  /// The mod whose share is in flight, if any.
+  final String? sharingModId;
+
   const _ModificationsList({
     required this.carId,
     required this.mods,
     required this.isOwner,
+    this.sharingModId,
   });
 
   @override
@@ -954,8 +977,79 @@ class _ModificationsList extends StatelessWidget {
               mod: mods[i],
               isOwner: isOwner,
               isLast: i == mods.length - 1,
+              isSharing: sharingModId == mods[i].id,
             ),
         ],
+      ),
+    );
+  }
+}
+
+/// The owner-only foot of a mod card: an offer to put the entry in the feed,
+/// or — once it is there — a quiet link to the post.
+///
+/// This is the second way a mod reaches the feed. The first is the toggle in
+/// the "log a mod" flow, which is on by default; this one catches everything
+/// logged before that existed, and everything the toggle was turned off for.
+class _ModShareRow extends StatelessWidget {
+  final CarModificationEntity mod;
+  final bool isSharing;
+
+  const _ModShareRow({required this.mod, required this.isSharing});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final postId = mod.sharedPostId;
+    final shared = postId != null;
+
+    return InkWell(
+      onTap: isSharing
+          ? null
+          : shared
+              ? () => context.push('/posts/$postId')
+              : () => context
+                  .read<CarDetailBloc>()
+                  .add(ShareModificationFromDetail(mod.id)),
+      borderRadius: BorderRadius.circular(10),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+        child: Row(
+          children: [
+            if (isSharing)
+              SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: AppColors.accent,
+                ),
+              )
+            else
+              Icon(
+                shared ? Icons.check_circle_outline : Icons.ios_share,
+                size: 17,
+                color: shared ? AppColors.mute : AppColors.accent,
+              ),
+            const SizedBox(width: 9),
+            Expanded(
+              child: Text(
+                shared ? l10n.garageModSharedToFeed : l10n.garageModShareToFeed,
+                style: TextStyle(
+                  color: shared ? AppColors.mute : AppColors.accent,
+                  fontSize: 13.5,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            if (shared && !isSharing)
+              Icon(
+                Icons.chevron_right_rounded,
+                size: 18,
+                color: AppColors.muteSoft,
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -968,12 +1062,14 @@ class _TimelineEntry extends StatelessWidget {
   final CarModificationEntity mod;
   final bool isOwner;
   final bool isLast;
+  final bool isSharing;
 
   const _TimelineEntry({
     required this.carId,
     required this.mod,
     required this.isOwner,
     required this.isLast,
+    this.isSharing = false,
   });
 
   @override
@@ -989,7 +1085,12 @@ class _TimelineEntry extends StatelessWidget {
           children: [
             const SizedBox(width: 32),
             Expanded(
-              child: _ModCard(carId: carId, mod: mod, isOwner: isOwner),
+              child: _ModCard(
+                carId: carId,
+                mod: mod,
+                isOwner: isOwner,
+                isSharing: isSharing,
+              ),
             ),
           ],
         ),
@@ -1024,10 +1125,15 @@ class _ModCard extends StatelessWidget {
   final String carId;
   final CarModificationEntity mod;
   final bool isOwner;
+
+  /// True while this mod's share request is in flight.
+  final bool isSharing;
+
   const _ModCard({
     required this.carId,
     required this.mod,
     required this.isOwner,
+    this.isSharing = false,
   });
 
   @override
@@ -1118,6 +1224,14 @@ class _ModCard extends StatelessWidget {
                   height: 1.4,
                 ),
               ),
+            ],
+            // Only the owner can publish their own build, and only their own
+            // page is the place to offer it.
+            if (isOwner) ...[
+              const SizedBox(height: 12),
+              Divider(height: 1, color: AppColors.line),
+              const SizedBox(height: 4),
+              _ModShareRow(mod: mod, isSharing: isSharing),
             ],
           ],
         ),

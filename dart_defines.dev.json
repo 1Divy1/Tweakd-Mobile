@@ -1,6 +1,0 @@
-{
-  "MAPBOX_ACCESS_TOKEN": "pk.eyJ1IjoidHdlYWtkIiwiYSI6ImNtc2RiMXBpdDFyZmYyeXNjeW9kcWk0NXEifQ.E3TRTmAA45FuaSS-EQSq3g",
-  "POSTHOG_PROJECT_TOKEN": "phc_CzZ83KxSoQnFeXxbWfMprTd2s94UCijH7jcPpTjMxoKu",
-  "POSTHOG_HOST": "https://eu.i.posthog.com",
-  "APP_ENVIRONMENT": "dev"
-}

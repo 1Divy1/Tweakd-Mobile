@@ -1494,14 +1494,6 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i67.WithdrawFeedbackVoteUseCase(gh<_i807.FeedbackFeedRepository>()),
     );
-    gh.factory<_i807.CarDetailBloc>(
-      () => _i807.CarDetailBloc(
-        getCarUseCase: gh<_i409.GetCarUseCase>(),
-        deleteCarUseCase: gh<_i287.DeleteCarUseCase>(),
-        deleteGalleryImagesUseCase: gh<_i631.DeleteGalleryImagesUseCase>(),
-        deleteModificationUseCase: gh<_i621.DeleteModificationUseCase>(),
-      ),
-    );
     gh.factory<_i337.ProfileRepostsBloc>(
       () => _i337.ProfileRepostsBloc(gh<_i846.GetRepostsByUsernameUseCase>()),
     );
@@ -1523,6 +1515,16 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i14.SearchUsersUseCase>(
       () => _i14.SearchUsersUseCase(gh<_i357.SearchRepository>()),
+    );
+    gh.factory<_i807.CarDetailBloc>(
+      () => _i807.CarDetailBloc(
+        getCarUseCase: gh<_i409.GetCarUseCase>(),
+        deleteCarUseCase: gh<_i287.DeleteCarUseCase>(),
+        deleteGalleryImagesUseCase: gh<_i631.DeleteGalleryImagesUseCase>(),
+        deleteModificationUseCase: gh<_i621.DeleteModificationUseCase>(),
+        shareModificationUseCase: gh<_i474.ShareModificationUseCase>(),
+        analytics: gh<_i726.AnalyticsService>(),
+      ),
     );
     gh.factory<_i959.LanguagePickerBloc>(
       () => _i959.LanguagePickerBloc(

@@ -37,6 +37,10 @@ class CarModificationEntity extends Equatable {
   final int? mileageAtInstall;
   final DateTime createdAt;
 
+  /// The feed post this mod was shared as, or null if it never was. Drives the
+  /// build log's share row: an offer to share, or a link to the post.
+  final String? sharedPostId;
+
   const CarModificationEntity({
     required this.id,
     required this.carId,
@@ -50,7 +54,27 @@ class CarModificationEntity extends Equatable {
     this.isPricePublic = false,
     this.mileageAtInstall,
     required this.createdAt,
+    this.sharedPostId,
   });
+
+  bool get isSharedToFeed => sharedPostId != null;
+
+  CarModificationEntity copyWith({String? sharedPostId}) =>
+      CarModificationEntity(
+        id: id,
+        carId: carId,
+        categoryId: categoryId,
+        categoryName: categoryName,
+        title: title,
+        description: description,
+        media: media,
+        installationDate: installationDate,
+        price: price,
+        isPricePublic: isPricePublic,
+        mileageAtInstall: mileageAtInstall,
+        createdAt: createdAt,
+        sharedPostId: sharedPostId ?? this.sharedPostId,
+      );
 
   List<ModificationMediaEntity> get beforeMedia =>
       media.where((m) => m.phase == 'before').toList();
@@ -72,5 +96,6 @@ class CarModificationEntity extends Equatable {
         isPricePublic,
         mileageAtInstall,
         createdAt,
+        sharedPostId,
       ];
 }
