@@ -1,0 +1,6 @@
+{
+  "MAPBOX_ACCESS_TOKEN": "pk.your-mapbox-public-token",
+  "POSTHOG_PROJECT_TOKEN": "phc_your-posthog-project-token",
+  "POSTHOG_HOST": "https://eu.i.posthog.com",
+  "APP_ENVIRONMENT": "dev"
+}

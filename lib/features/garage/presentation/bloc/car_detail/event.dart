@@ -34,6 +34,17 @@ class DeleteGalleryImage extends CarDetailEvent {
   List<Object?> get props => [carId, imageKey];
 }
 
+/// Posts an already-logged mod to the feed, from the build log's share row.
+/// The backend is idempotent, so a mod that somehow went twice comes back with
+/// the post it already had.
+class ShareModificationFromDetail extends CarDetailEvent {
+  final String modId;
+  const ShareModificationFromDetail(this.modId);
+
+  @override
+  List<Object?> get props => [modId];
+}
+
 class DeleteModificationFromDetail extends CarDetailEvent {
   final String carId;
   final String modId;
