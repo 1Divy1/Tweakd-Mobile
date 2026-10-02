@@ -59,10 +59,10 @@ class CarDetailBloc extends Bloc<CarDetailEvent, CarDetailState> {
     emit(current.copyWith(isDeleting: true));
     final result = await deleteCarUseCase(DeleteCarParams(carId: event.carId));
     result.fold(
-      (failure) {
-        emit(CarDetailError(code: GarageErrorMapper.getCode(failure)));
-        emit(current.copyWith(isDeleting: false));
-      },
+      (failure) => emit(current.copyWith(
+        isDeleting: false,
+        deleteFailedCode: GarageErrorMapper.getCode(failure),
+      )),
       (_) => emit(const CarDetailDeleted()),
     );
   }

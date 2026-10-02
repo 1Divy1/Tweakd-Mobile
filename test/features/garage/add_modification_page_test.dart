@@ -15,7 +15,6 @@ import 'package:tweakd/features/garage/domain/entities/garage.dart';
 import 'package:tweakd/features/garage/domain/entities/reference_data.dart';
 import 'package:tweakd/features/garage/domain/repositories/garage_repository.dart';
 import 'package:tweakd/features/garage/domain/usecases/add_modification.dart';
-import 'package:tweakd/features/garage/domain/usecases/delete_car.dart';
 import 'package:tweakd/features/garage/domain/usecases/delete_modification.dart';
 import 'package:tweakd/features/garage/domain/usecases/get_garage_by_username.dart';
 import 'package:tweakd/features/garage/domain/usecases/get_modification_upload_urls.dart';
@@ -123,7 +122,6 @@ Widget _app({
               create: (_) => GarageBloc(
                 getMyGarage: GetMyGarageUseCase(repo),
                 getGarageByUsername: GetGarageByUsernameUseCase(repo),
-                deleteCarUseCase: DeleteCarUseCase(repo),
               )..add(const LoadMyGarage()),
             ),
           ],

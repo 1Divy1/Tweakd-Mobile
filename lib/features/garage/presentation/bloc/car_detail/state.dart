@@ -26,11 +26,16 @@ class CarDetailLoaded extends CarDetailState {
   /// without a state that has to be cleared by hand.
   final String? shareFailedModId;
 
+  /// Set for one emission when deleting the car failed; the car is untouched,
+  /// so the page shows a snackbar rather than swapping to an error screen.
+  final GarageErrorCode? deleteFailedCode;
+
   const CarDetailLoaded({
     required this.car,
     this.isDeleting = false,
     this.sharingModId,
     this.shareFailedModId,
+    this.deleteFailedCode,
   });
 
   CarDetailLoaded copyWith({
@@ -38,19 +43,27 @@ class CarDetailLoaded extends CarDetailState {
     bool? isDeleting,
     String? sharingModId,
     String? shareFailedModId,
+    GarageErrorCode? deleteFailedCode,
   }) {
     return CarDetailLoaded(
       car: car ?? this.car,
       isDeleting: isDeleting ?? this.isDeleting,
-      // Both are transient, so copyWith clears them unless asked otherwise —
+      // All three are transient, so copyWith clears them unless asked otherwise —
       // a stale spinner or a repeated snackbar would be worse than a lost one.
       sharingModId: sharingModId,
       shareFailedModId: shareFailedModId,
+      deleteFailedCode: deleteFailedCode,
     );
   }
 
   @override
-  List<Object?> get props => [car, isDeleting, sharingModId, shareFailedModId];
+  List<Object?> get props => [
+        car,
+        isDeleting,
+        sharingModId,
+        shareFailedModId,
+        deleteFailedCode,
+      ];
 }
 
 class CarDetailError extends CarDetailState {

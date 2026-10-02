@@ -20,10 +20,11 @@ class LoadGarageByUsername extends GarageEvent {
   List<Object?> get props => [username];
 }
 
-class DeleteCar extends GarageEvent {
+/// A car deleted elsewhere (its detail page) that should leave the list.
+class CarRemovedFromGarage extends GarageEvent {
   final String carId;
 
-  const DeleteCar(this.carId);
+  const CarRemovedFromGarage(this.carId);
 
   @override
   List<Object?> get props => [carId];

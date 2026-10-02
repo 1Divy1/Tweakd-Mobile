@@ -62,7 +62,7 @@ garage/
 │       └── update_car.dart
 └── presentation/
     ├── bloc/
-    │   ├── bloc.dart, event.dart, state.dart      # GarageBloc (garage view + delete car)
+    │   ├── bloc.dart, event.dart, state.dart      # GarageBloc (garage view; drops a car deleted on its page)
     │   ├── add_car/                                # AddCarBloc (create + 3-step uploads)
     │   ├── car_detail/                             # CarDetailBloc (car + gallery delete via PATCH)
     │   ├── car_share/                              # CarShareBloc (link + QR + pause switch)
@@ -144,7 +144,7 @@ from a url.
 | GET | `/garage/cars/{carId}` | full CarDto (cover + gallery + mods with media) |
 | POST | `/garage/cars` | create car + mods (text only); media uploaded separately |
 | PUT | `/garage/cars/{carId}` | full replace of car specs |
-| DELETE | `/garage/cars/{carId}` | cascades mods + gallery; R2 objects cleaned up |
+| DELETE | `/garage/cars/{carId}` | cascades mods, gallery, event attendance and contest history; deletes the feed posts sharing its mods; R2 objects cleaned up. The app confirms in two steps (`widgets/delete_car/delete_car_dialogs.dart`) |
 | PATCH | `/garage/cars/{carId}/cover?key=...` | step 3 for cover — R2 key from the upload-url response |
 | DELETE | `/garage/cars/{carId}/cover` | no param/body — backend deletes the current cover by car id |
 | PATCH | `/garage/cars/{carId}/gallery` | `{ keys: [...] }` — full ordered list of R2 keys; diffs and deletes removed R2 objects |
@@ -198,7 +198,7 @@ then drop those refs from the local list. Backend deletes the R2 objects.
 
 | Bloc | Events | Notes |
 |---|---|---|
-| `GarageBloc` | `LoadMyGarage`, `LoadGarageByUsername`, `DeleteCar` | used by profile's `GarageSection` |
+| `GarageBloc` | `LoadMyGarage`, `LoadGarageByUsername`, `CarRemovedFromGarage` | used by profile's `GarageSection`; the car page pops `true` after a delete and the section drops the car locally |
 | `AddCarBloc` | `LoadAddCarReferenceData`, `AddCarBrandSelected`, `SubmitNewCar` | creates car then orchestrates 3-step uploads for cover, gallery, and mod media; rolls back via `DELETE /garage/cars/{carId}` on failure |
 | `CarDetailBloc` | `LoadCar`, `DeleteCarFromDetail`, `DeleteGalleryImage`, `DeleteModificationFromDetail` | gallery is embedded in `CarEntity.gallery` (list of `{key, url}`); `DeleteGalleryImage` deletes by R2 key then drops the ref locally |
 | `LogModBloc` | `LoadModCategories`, `SubmitModification` | creates mod then requests batch upload URLs, uploads to R2, PATCHes with `addMedia`; rolls back via delete on failure. With `shareToFeed` it then posts the finished entry to the feed (see *Sharing a mod to the feed*) — a failed share never undoes the mod |

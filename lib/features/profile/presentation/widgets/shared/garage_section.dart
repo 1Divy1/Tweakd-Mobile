@@ -41,10 +41,7 @@ class GarageSection extends StatelessWidget {
                       final car = garage.cars[index];
                       return GarageCarCard(
                         car: car,
-                        onTap: () => context.push(
-                          '/garage/cars/${car.id}',
-                          extra: isOwner,
-                        ),
+                        onTap: () => _openCar(context, car.id),
                       );
                     },
                   ),
@@ -67,6 +64,15 @@ class GarageSection extends StatelessWidget {
         );
       },
     );
+  }
+
+  /// Opens the car page; it pops `true` when the owner deleted the car there,
+  /// and the car leaves the list without a refetch.
+  Future<void> _openCar(BuildContext context, String carId) async {
+    final bloc = context.read<GarageBloc>();
+    final deleted =
+        await context.push<bool>('/garage/cars/$carId', extra: isOwner);
+    if (deleted == true) bloc.add(CarRemovedFromGarage(carId));
   }
 
   /// Opens the add-car wizard and reloads the garage on the way back, so a
