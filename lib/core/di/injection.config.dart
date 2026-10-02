@@ -1143,6 +1143,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i219.UpdateCarUseCase>(
       () => _i219.UpdateCarUseCase(gh<_i511.GarageRepository>()),
     );
+    gh.factory<_i121.GarageBloc>(
+      () => _i121.GarageBloc(
+        getMyGarage: gh<_i391.GetMyGarageUseCase>(),
+        getGarageByUsername: gh<_i543.GetGarageByUsernameUseCase>(),
+      ),
+    );
     gh.lazySingleton<_i75.GetMyReportsUseCase>(
       () => _i75.GetMyReportsUseCase(gh<_i23.ReportRepository>()),
     );
@@ -1641,13 +1647,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1068.UnblockUserUseCase>(
       () => _i1068.UnblockUserUseCase(gh<_i167.BlockRepository>()),
-    );
-    gh.factory<_i121.GarageBloc>(
-      () => _i121.GarageBloc(
-        getMyGarage: gh<_i391.GetMyGarageUseCase>(),
-        getGarageByUsername: gh<_i543.GetGarageByUsernameUseCase>(),
-        deleteCarUseCase: gh<_i287.DeleteCarUseCase>(),
-      ),
     );
     gh.factory<_i862.FeedbackBloc>(
       () => _i862.FeedbackBloc(

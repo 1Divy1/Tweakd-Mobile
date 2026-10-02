@@ -20,19 +20,11 @@ class GarageLoading extends GarageState {
 
 class GarageLoaded extends GarageState {
   final GarageEntity garage;
-  final bool isDeleting;
 
-  const GarageLoaded({required this.garage, this.isDeleting = false});
-
-  GarageLoaded copyWith({GarageEntity? garage, bool? isDeleting}) {
-    return GarageLoaded(
-      garage: garage ?? this.garage,
-      isDeleting: isDeleting ?? this.isDeleting,
-    );
-  }
+  const GarageLoaded({required this.garage});
 
   @override
-  List<Object?> get props => [garage, isDeleting];
+  List<Object?> get props => [garage];
 }
 
 class GarageError extends GarageState {

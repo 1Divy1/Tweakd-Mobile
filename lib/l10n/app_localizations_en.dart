@@ -1154,7 +1154,48 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get garageDeleteMachineBody =>
-      'This will permanently remove this car and all of its modifications from your garage. This action cannot be undone.';
+      'Deleting this car also removes everything attached to it:';
+
+  @override
+  String get garageDeleteLosesPhotos => 'Its cover photo and gallery';
+
+  @override
+  String get garageDeleteLosesBuildLog =>
+      'The build log: every mod and its photos';
+
+  @override
+  String get garageDeleteLosesPosts =>
+      'Mods you shared to the feed, along with their likes and comments';
+
+  @override
+  String get garageDeleteLosesEvents =>
+      'Event attendance and contest history, including votes and wins';
+
+  @override
+  String get garageDeleteLosesShareLink =>
+      'Its share link and QR code, which stop working';
+
+  @override
+  String get garageDeleteLosesTags =>
+      'Tags of this car in posts, threads and messages';
+
+  @override
+  String get garageDeleteContinue => 'Continue';
+
+  @override
+  String garageDeleteFinalTitle(String car) {
+    return 'Delete $car for good?';
+  }
+
+  @override
+  String get garageDeleteFinalBody =>
+      'This is permanent. Once it\'s gone, the car and everything attached to it can\'t be recovered.';
+
+  @override
+  String get garageDeleteFinalKeep => 'Keep car';
+
+  @override
+  String get garageDeleteFinalConfirm => 'Delete forever';
 
   @override
   String get garageDialogCancel => 'Cancel';
